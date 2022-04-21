@@ -396,7 +396,7 @@ namespace LookaheadBranching {
 
   template <class ModSpace>
   inline void post_la_branching(ModSpace& s, GC::IntVarArgs V,
-                                const OP::LAR lar, const OP::BHO)
+                                const OP::LAR lar, const GC::IntValBranch)
                                   noexcept {
     GC::Home home = s;
     assert(not home.failed());

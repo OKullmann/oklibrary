@@ -293,7 +293,7 @@ namespace Solvers {
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
                      const double threads = 1,
-                     std::ostream* const log = nullptr) {
+                     [[maybe_unused]]std::ostream* const log = nullptr) {
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, vrb, vlb);
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
@@ -301,7 +301,6 @@ namespace Solvers {
 
     GBasicSR res{rt};
     // XXX
-    *log << " ";
 
     return res;
   }
@@ -324,11 +323,15 @@ namespace Solvers {
   /*
     The solver with look-ahead -reduction and -branching
   */
-  GBasicSR lasolver(const EC::EncCond& enc, const RT rt,
-                    const Options::LAR lar, const Options::BHO bord,
-                    const LAB::vec_t wghts, const double threads = 1) {
+  GBasicSR lasolver(const EC::EncCond& enc,
+                    const RT rt,
+                    const OP::LAR lar,
+                    const GC::IntValBranch vlb,
+                    const LAB::vec_t wghts,
+                    const double threads = 1,
+                    [[maybe_unused]]std::ostream* const log = nullptr) {
     CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
-    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lar, bord);
+    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lar, vlb);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -359,12 +362,16 @@ namespace Solvers {
     return res;
   }
 
-  GBasicSR solver_la(const EC::EncCond& enc, const RT rt,
-                     const OP::LAR lar, const OP::BHO bord,
-                     const LAB::vec_t wghts, const double threads = 1) {
+  GBasicSR solver_la(const EC::EncCond& enc,
+                     const RT rt,
+                     const OP::LAR lar,
+                     const GC::IntValBranch vlb,
+                     const LAB::vec_t wghts,
+                     const double threads = 1,
+                     std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = lasolver(enc, rt, lar, bord, wghts, threads);
+    GBasicSR res = lasolver(enc, rt, lar, vlb, wghts, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

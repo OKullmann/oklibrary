@@ -92,24 +92,22 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "20.4.2022",
+        "0.3.2",
+        "21.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 9;
+  constexpr int commandline_args = 10;
 
-  namespace CO = Conditions;
-  namespace EC = Encoding;
-  namespace PS = PartialSquares;
-  namespace SO = Solvers;
-  namespace OP = Options;
-  namespace CL = CommandLine;
-  namespace LAB = LookaheadBranching;
-  namespace FP = FloatingPoint;
+  using namespace Conditions;
+  using namespace Encoding;
+  using namespace PartialSquares;
+  using namespace Solvers;
+  using namespace Options;
+  using namespace CommandLine;
 
   typedef EC::size_t size_t;
 
@@ -118,16 +116,16 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level la-type branchval la-weights"
+      " N file_cond file_ps run-type prop-level la-type branchvar branchval"
       " threads\n\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
-      " - run-type     : " << Environment::WRPO<OP::RT>{} << "\n" <<
-      " - prop-level   : " << Environment::WRPO<OP::PropO>{} << "\n" <<
-      " - la-reduction : " << Environment::WRPO<OP::LAR>{} << "\n" <<
-      " - branchval    : " << Environment::WRPO<OP::BHO>{} << "\n" <<
-      " - la-weights   : N-1 comma-separated weigths for calculating"
-      " the lookahead distance-function\n"
+      " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
+      " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
+      " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
+      " - la-weights   : N-1 comma-separated weigths for calculating" <<
+      " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
+      " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -152,24 +150,28 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const size_t N = CL::read_N(argc, argv);
-  const auto [ac, name_ac] = CL::read_ac(argc, argv);
-  const auto [ps, name_ps] = CL::read_ps(argc, argv, N);
-  const OP::RT rt = CL::read_rt(argc, argv);
-  const CL::list_propo_t pov = CL::read_opt<OP::PropO>(argc, argv, 5,
-                                                    "po", "propagation");
-  const CL::list_lar_t larv = CL::read_opt<OP::LAR>(argc, argv, 6,
-                                                   "la", "lookahead");
-  const CL::list_bho_t bordv = CL::read_opt<OP::BHO>(argc, argv, 7,
-                                                   "bord", "order-heuristics");
-  const LAB::vec_t wghts = CL::read_weights(argc, argv, N);
-  const double threads = CL::read_threads(argc, argv, 9);
+  const size_t N = read_N(argc, argv);
+  const auto [ac, name_ac] = read_ac(argc, argv);
+  const auto [ps, name_ps] = read_ps(argc, argv, N);
+  const RT rt = read_rt(argc, argv);
 
-  const std::string outfile = CL::output_filename(proginfo.prg, N);
+  const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
+                                           "propagation");
+  const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
+                                        "branching-type");
+  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 7, "gbo",
+                                        "gc-order-heuristics");
+  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N);
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+                                        "lookahead-reduction");
+  const size_t num_runs = brtv.size()*pov.size()*gbov.size()*larv.size();
+
+  const double threads = read_threads(argc, argv, 10);
+
+  const std::string outfile = output_filename(proginfo.prg, N);
 
   const bool with_output =
-    rt == OP::RT::sat_solving or rt == OP::RT::enumerate_solutions;
-  const size_t num_runs = pov.size() * larv.size() * bordv.size();
+    rt == RT::sat_solving or rt == RT::enumerate_solutions;
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -182,40 +184,39 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  // XXX use general facility (update above):
-  std::cout << "# N=" << N << "\n"
-               "# k=" << ac.k << " " << "total_num_sq=" <<
-               ac.num_squares() << "\n"
-               "# num_ps=" << ps.psqs.size() << "\n" <<
-               "# num_runs=" << num_runs << "\n"
-               "# threads=" << threads << "\n"
-               "# rt=" << rt << "\n"
-               "# propagation: ";
-  Environment::out_line(std::cout, pov);
-  std::cout << "\n# lookahead-type: ";
+  const bool with_log = Options::with_log(rt);
+  std::ostream* const log = with_log ? &std::cout : nullptr;
+
+  list_bhv_t bvarv; // this vector is needed to output info
+  info_output(std::cout,
+              N, ac, name_ac, ps, name_ps,
+              rt, pov, brtv, bvarv, gbov, num_runs, threads,
+              outfile, with_output);
+  std::cout << "#   la-reduction: ";
   Environment::out_line(std::cout, larv);
-  std::cout << "\n# order-heuristic: ";
-  Environment::out_line(std::cout, bordv);
   std::cout << "\n# lookahead-weights: ";
   Environment::out_line(std::cout, wghts);
-  if (with_output) std::cout << "\n# output-file " << outfile;
   std::cout << std::endl;
 
-  for (const OP::PropO po : pov) {
-    const EC::EncCond enc(ac, ps, prop_level(po));
-    for (const OP::LAR lar : larv)
-      for (const OP::BHO bord : bordv) {
-        const SO::GBasicSR res =
-          SO::solver_la(enc, rt, lar, bord, wghts, threads);
-        using Environment::W0;
-        std::cout << W0(po) << " " << W0(lar) << " " << W0(bord) << " "
-                  << res.b.sol_found << " ";
-        FP::out_fixed_width(std::cout, 3, res.ut);
-        std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
-          " " << res.gs.node << " " << res.gs.depth;
-        std::cout << std::endl;
-        if (with_output)
-          Environment::out_line(*out, res.b.list_sol, "\n");
+  for (const PropO po : pov) {
+    const EncCond enc(ac, ps, prop_level(po));
+    for (const BRT brt : brtv)
+      for (const GBO gbo : gbov) {
+        const BHO bord = translate(brt, gbo);
+        for (const LAR lar : larv) {
+          const GBasicSR res =
+            solver_la(enc, rt, lar, val_branch(bord), wghts, threads, log);
+          using Environment::W0;
+          if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
+          std::cout << W0(po) << " " << W0(brt) << " " << W0(gbo) << " "
+                    << W0(lar) << " " << res.b.sol_found << " ";
+          FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
+          std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
+            " " << res.gs.node << " " << res.gs.depth;
+          std::cout << std::endl;
+          if (with_output)
+            Environment::out_line(*out, res.b.list_sol, "\n");
+        }
       }
   }
   if (out) delete out;

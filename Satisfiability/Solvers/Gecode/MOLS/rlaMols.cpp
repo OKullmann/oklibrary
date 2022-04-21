@@ -54,7 +54,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "21.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -62,7 +62,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 9;
+  constexpr int commandline_args = 10;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -123,9 +123,10 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-variable-heuristics");
   const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
                                         "gc-order-heuristics");
-  const size_t num_runs = brtv.size()*pov.size()*bvarv.size()*gbov.size();
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
+  const size_t num_runs =
+    brtv.size()*pov.size()*bvarv.size()*gbov.size()*larv.size();
 
   const double threads = read_threads(argc, argv, 10);
 
