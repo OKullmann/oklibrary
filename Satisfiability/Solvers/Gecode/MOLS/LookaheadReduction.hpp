@@ -31,12 +31,13 @@ TODOS:
     - If a solution is found, it can not be just immediately returned. All
       remaining branches should be collected to not skip possible other
       solutions.
+    - Do not maintain dedicated functions for the sat-solving mode.
+      The reduction should work always for the enumerative mode, and here
+      sat-solving is just a special case.
 
 4. The following reduction functions should be implemented:
-    - DONE reduction_sat_eager - eager and super-eager sat-solving reduction.
-    - reduction_sat_lazy - lazy sat-solving reduction.
-    - reduction_enum_eager - eager and super-eager enumerative reduction.
-    - reduction_enum_lazy - lazy enumerative reduction.
+    - reduction_eager - eager and super-eager reduction.
+    - reduction_lazy  - lazy reduction.
 
 */
 
@@ -124,7 +125,7 @@ namespace LookaheadReduction {
   //     branching occurs, so everything is ready for calling a
   //     lookahead-branching.
   template<class ModSpace>
-  ReduceRes reduction_sat_eager(GC::Space& home, const IntViewArray x,
+  ReduceRes reduction_eager(GC::Space& home, const IntViewArray x,
                                 const int start) {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -197,7 +198,7 @@ namespace LookaheadReduction {
   }
 
   template<class ModSpace>
-  ReduceRes reduction_enum_eager() {
+  ReduceRes reduction_lazy() {
     ReduceRes res;
     // XXX
     return res;

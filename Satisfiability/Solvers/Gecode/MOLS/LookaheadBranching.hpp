@@ -13,19 +13,15 @@ BUGS:
 
 TODOS:
 
-0. DONE (BinLookahead is a customised brancher inherited from BaseBrancher.
-   It chooses the best binary branching via the tau function.)
-   A Gecode brancher for Binary Lookahead.
+0. A customised Gecode brancher for Enumerative Lookahead.
 
-1. A Gecode brancher for Enumerative Lookahead.
-
-2. Return a vector of branchings after the reduction.
+1. Return a vector of branchings after the reduction.
    - Possible return values: UNSAT, SAT, or vector of branchings.
    - Given the vector, the tau function is called for each of them.
 
-3. Maintain branching-order given from laMols.
+2. Maintain branching-order.
 
-4. Extend Node class.
+3. Extend Node class.
    - Maintain node id and parent node id.
    - Check correctness of node id and parent node id.
 
@@ -311,7 +307,7 @@ namespace LookaheadBranching {
     virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      LR::ReduceRes res = LR::reduction_sat_eager<ModSpace>(home, x, start);
+      LR::ReduceRes res = LR::reduction_eager<ModSpace>(home, x, start);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}

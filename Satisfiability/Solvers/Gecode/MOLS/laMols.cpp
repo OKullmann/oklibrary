@@ -17,7 +17,7 @@ Examples:
     - the default branching-type (binary branching)
     - and the default branching-order:
 
-  ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 1
+MOLS> ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 1
 
 */
 
@@ -97,8 +97,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "21.4.2022",
+        "0.3.4",
+        "22.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
