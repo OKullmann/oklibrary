@@ -53,6 +53,9 @@ License, or any later version. */
     - indexing_strings(Iterator, Iterator, bool ignore_duplicates)
       -> indstr_t.
 
+    - out_line(ostream&, RAN R, sep)
+    - out_lines(ostream& RAN R, sep1, sep2)
+
 
 TODOS:
 
