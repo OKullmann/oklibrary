@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "21.4.2022",
+        "0.1.5",
+        "23.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -25,6 +25,10 @@ namespace {
 
   using namespace Verification;
 
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -77,6 +81,64 @@ int main(const int argc, const char* const argv[]) {
   {assert(sqprop({}));
    assert(sqprop({{0}}));
    assert(sqprop({{0,0},{1,1}}));
+  }
+
+  {assert(eqp(extract_diagonal({}), {}));
+   assert(eqp(extract_diagonal({{1}}), {1}));
+   assert(eqp(extract_diagonal({{1},{},{3,4,5}}), {1,5}));
+   assert(eqp(extract_diagonal({{1,2,3},{4,5,6},{7,8,9}}), {1,5,9}));
+  }
+  {assert(eqp(extract_antidiagonal({}), {}));
+   assert(eqp(extract_antidiagonal({{1}}), {1}));
+   assert(eqp(extract_antidiagonal({{1},{},{3,4,5}}), {3}));
+   assert(eqp(extract_antidiagonal({{1,2,3},{4,5,6},{7,8,9}}), {3,5,7}));
+  }
+
+  {assert(diagonal({}));
+   assert(diagonal({{0}}));
+   assert(diagonal({{0,0}}));
+   assert(diagonal({{0},{0,1}}));
+   assert(not diagonal({{0},{1,0}}));
+  }
+  {assert(antidiagonal({}));
+   assert(antidiagonal({{0}}));
+   assert(antidiagonal({{0,0}}));
+   assert(antidiagonal({{0},{0,1}}));
+   assert(antidiagonal({{0},{1,0}}));
+   assert(antidiagonal({{0,0},{1}}));
+   assert(not antidiagonal({{0,0},{0}}));
+  }
+
+  {assert(unipotent({}));
+   assert(unipotent({{0}}));
+   assert(unipotent({{0,0}}));
+   assert(unipotent({{0},{1,0}}));
+   assert(not unipotent({{0},{0,1}}));
+  }
+  {assert(antiunipotent({}));
+   assert(antiunipotent({{0}}));
+   assert(antiunipotent({{0,0}}));
+   assert(antiunipotent({{0},{0,1}}));
+   assert(antiunipotent({{0},{1,0}}));
+   assert(not antiunipotent({{0,1},{0}}));
+   assert(antiunipotent({{1,0},{0}}));
+  }
+
+  {assert(idempotent({}));
+   assert(idempotent({{0}}));
+   assert(not idempotent({{1}}));
+   assert(idempotent({{0,0}}));
+   assert(idempotent({{0},{0,1}}));
+   assert(not idempotent({{0},{1,0}}));
+  }
+  {assert(antiidempotent({}));
+   assert(antiidempotent({{0}}));
+   assert(antiidempotent({{0,0}}));
+   assert(not antiidempotent({{0},{0,1}}));
+   assert(not antiidempotent({{0},{1,0}}));
+   assert(not antiidempotent({{0,1},{0}}));
+   assert(not antiidempotent({{1,0},{0}}));
+   assert(antiidempotent({{1,0},{1}}));
   }
 
   {assert(orthogonal({},{}));

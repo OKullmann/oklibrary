@@ -23,6 +23,9 @@ License, or any later version. */
    - alldiffelement(RAN v) : whether all elements of v are different
    - constant(const RAN& v) : whether all elements of v are equal
 
+     Extracting diagonal elements (arbitrary ls_t):
+   - extract_(anti)diagonal(ls_t) -> ls_row_t
+
   Various properties of ls_t:
 
    - alldiffrows(const ls_t& S) : whether all rows of S fulfil alldiff
@@ -37,6 +40,17 @@ License, or any later version. */
      the number of rows.
    - sqprop(const ls_t& S): both conditions together.
      All three tests make no assumptions on S.
+
+   - diagonal, antidiagonal: whether the existing elements on the (anti-)
+     diagonal fulfil alldiff (no restrictions on S)
+   - unipotent, antiunipotent: whether the existing elements on the (anti-)
+     diagonal are all equal (no restrictions on S).
+
+   - idempotent(S): for N the number of rows of S, check whether all N diagonal
+     elements are there and have the values 0, ..., N-1
+   - antiidempotent(S): same condition, but the columns start at the right end
+     (not at the left end, like for the diagonal).
+     Again, no restrictions on S are made.
 
 */
 
@@ -115,33 +129,54 @@ namespace Verification {
   }
 
 
-  bool diagonal(const ls_t& S) noexcept {
-    assert(sqshape(S));
+  ls_row_t extract_diagonal(const ls_t& S) {
     const size_t N = S.size();
-    ls_row_t d; d.reserve(N);
-    for (size_t i = 0; i < N; ++i) d.push_back(S[i][i]);
-    return alldiffelem(d);
+    ls_row_t d;
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      if (i < r.size()) d.push_back(r[i]);
+    }
+    return d;
   }
-  bool antidiagonal(const ls_t& S) noexcept {
-    assert(sqshape(S));
+  ls_row_t extract_antidiagonal(const ls_t& S) {
+    if (S.empty()) return {};
     const size_t N = S.size();
-    ls_row_t ad; ad.reserve(N);
-    for (size_t i = 0; i < N; ++i) ad.push_back(S[i][N-i-1]);
-    return alldiffelem(ad);
+    ls_row_t ad;
+    for (size_t i = 0, j = N-1; i < N; ++i, --j) {
+      const ls_row_t& r = S[i];
+      if (j < r.size()) ad.push_back(r[j]);
+    }
+    return ad;
   }
-  bool unipotent(const ls_t& S) noexcept {
-    assert(sqshape(S));
-    const size_t N = S.size();
-    ls_row_t d; d.reserve(N);
-    for (size_t i = 0; i < N; ++i) d.push_back(S[i][i]);
-    return constant(d);
+
+  bool diagonal(const ls_t& S) {
+    return alldiffelem(extract_diagonal(S));
   }
-  bool antiunipotent(const ls_t& S) noexcept {
-    assert(sqshape(S));
+  bool antidiagonal(const ls_t& S) {
+    return alldiffelem(extract_antidiagonal(S));
+  }
+  bool unipotent(const ls_t& S) {
+    return constant(extract_diagonal(S));
+  }
+  bool antiunipotent(const ls_t& S) {
+    return constant(extract_antidiagonal(S));
+  }
+
+  bool idempotent(const ls_t& S) {
     const size_t N = S.size();
-    ls_row_t ad; ad.reserve(N);
-    for (size_t i = 0; i < N; ++i) ad.push_back(S[i][N-i-1]);
-    return constant(ad);
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      if (i >= r.size() or r[i] != i) return false;
+    }
+    return true;
+  }
+  bool antiidempotent(const ls_t& S) {
+    const size_t N = S.size();
+    for (size_t i = 0, j = N-1; i < N; ++i, --j) {
+      const ls_row_t& r = S[i];
+      if (j >= r.size() or r[j] != i) return false;
+    }
+    return true;
   }
 
   bool rreduced(const ls_t& S) noexcept {
