@@ -24,6 +24,8 @@ License, or any later version. */
    - ls_t (a vector of rows)
    - LS_t (wrapper for ls_t)
 
+   Here the values are 0, ..., N-1, while value N indicates an "empty cell".
+
      2) The array-representation ("lsa"):
    - triple_t (an array of indices)
    - ls_array_t (a vector of triples)
@@ -175,8 +177,8 @@ License, or any later version. */
    - jm_next(ls_ip_t&, RandGen)
    - jm_rounds(ls_dim_t, RandGen)
 
-   - jm(ls_dim_t, RandGen)
-   - jm(ls_t, RandGen)
+   - jm(ls_dim_t, RandGen) -> ls_ip_t
+   - jm(ls_t, RandGen) -> ls_ip_t
 
 
   Sub-latin-squares:
