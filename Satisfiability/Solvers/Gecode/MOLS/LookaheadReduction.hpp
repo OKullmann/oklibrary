@@ -13,31 +13,33 @@ BUGS:
 
 TODOS:
 
-0. Super-eager reduction:
-    - Restart the main loop (over all variables) after finding any
-      single-child branching (that leads to assinging the variable).
+0. Do not find single-child branchings of the kind var=val.
+    - Only var!=val are collected and applied.
+    - If all values but one (say, val) for a variable var are inconsistent,
+      then var=val will be assigned automatically during a Gecode propagation.
+
+1. Super-eager reduction.
+    - Restart the main loop (over all variables) after any propagation.
     - It is very similar to the eager reduction - an additional break in the
       main loop is needed. So maybe add a Boolean variable that will switch
       between the eager and super-eager reductions.
 
-1. Lazy reduction.
-    - Collect all single-child branchings in the main loop, then apply
-      them in one batch.
+2. Lookahead-reduction statistics.
+    - An object is created in the choice() function of a customised brancher
+      and passed to a reduction function.
+    - In a reduction function, all main data should be collected
+      and saved to the object.
+    - The object is returned to the choice() function.
 
-2. Transfer pruning from Euler's Lookahead.hpp.
+3. Find all solutions in a lookahead reduction function.
+    - All solutions which are found during the reduction, are collected
+      and saved to the local statistics' object.
+    - The corresponding branches are cut off so Gecode is now aware of any
+      found solutions.
+
+4. Pruning.
     - Should work in all types of reductions.
 
-3. Reduction for the enumerative mode.
-    - If a solution is found, it can not be just immediately returned. All
-      remaining branches should be collected to not skip possible other
-      solutions.
-    - Do not maintain dedicated functions for the sat-solving mode.
-      The reduction should work always for the enumerative mode, and here
-      sat-solving is just a special case.
-
-4. The following reduction functions should be implemented:
-    - reduction_eager - eager and super-eager reduction.
-    - reduction_lazy  - lazy reduction.
 
 */
 
@@ -109,21 +111,10 @@ namespace LookaheadReduction {
   // It is applied when either sat-decision or sat-solving mode is active
   // (Run-Type is 0 or 1, see Options.hpp).
   // Consider a variable var and its domain {val1, ..., valk}.
-  // If for some i var==vali is inconsistent, then var!=vali is collected and
-  // then (after the loop for all i) the corresponding constraints are applied
-  // and a Gecode propagation is performed. In such a way, all impossible
-  // values of a variable are removed.
-  // If after excluding all impossible values for varialbe var it turns out,
-  // that the domain has size 1, say {vali}, then a single-child branching of
-  // the kind var==vali is found. The assignment is immediately applied and a
-  // Gecode propagation is performed.
-  //
-  // Possible results are:
-  //  1) a solution is found (SAT).
-  //  2) the unsatisfiability of the whole problem is proven (UNSAT);
-  //  3) the backtracking tree is reduced in such a way, that no single-child
-  //     branching occurs, so everything is ready for calling a
-  //     lookahead-branching.
+  // For all i, if var==vali is inconsistent, then these constraints
+  // are collected and then (after the loop for all i) the corresponding
+  // constraints are applied and a Gecode propagation is performed.
+  // In such a way, all impossible values of a variable are removed.
   template<class ModSpace>
   ReduceRes reduction_eager(GC::Space& home, const IntViewArray x,
                                 const int start) {
