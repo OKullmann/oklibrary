@@ -14,17 +14,36 @@ License, or any later version. */
    - ls_row_t : vector of size_t
    - ls_t     : vector of ls_row_t
 
+  Via
+   - out(ostream&, ls_row_t, sep)
+   - out(ostream&, ls_t, sep)
+  one has simple line-oriented output, with "sep" separating the row-entries.
+
+  Generators:
+   - random_sq(N, RandGen_t&) produces a random NxN square with uniformly
+     distributed entries from 0, ..., N-1.
+
   As far as it is relatively easily done, the various functions treat these
   types according to their most general form, as concrete types, without
   further conditions: "ls" just announces the most important application.
 
-  Helper function (taking a range RAN):
+  Helper functions (taking a range RAN):
 
    - alldiffelement(RAN v) : whether all elements of v are different
-   - constant(const RAN& v) : whether all elements of v are equal
+   - constant(const RAN& v) : whether all elements of v are equal.
 
-     Extracting diagonal elements (arbitrary ls_t):
-   - extract_(anti)diagonal(ls_t) -> ls_row_t
+  Extracting diagonal elements (arbitrary ls_t):
+
+   - extract_diagonal(ls_t) -> ls_row_t
+   - extract_antidiagonal(ls_t) -> ls_row_t.
+
+  Coordinate handling:
+
+   - refl(i, N) : horizontal (i is row) resp. vertical reflextion (i is column)
+   - struct coord, holding x, y of size_t
+   - apply(ls_t, coord), applym(ls_t&, coord)
+   - refl_d(v) : reflection at diagonal for coordinate-vector v
+   - refl_ad(v, N) : reflection at antidiagonal.
 
   Various properties of ls_t:
 
@@ -57,10 +76,21 @@ License, or any later version. */
    - reduced(S): both conditions together.
      No restrictions on S are made.
 
-   For forms of latin squares, without sqprop(S) false is returned:
+   - symmetric(S): false for not square-shaped S
+   - antisymmetric(S): false for not square-shaped S.
+
+   Three versions of latin squares, where without sqprop(S) false is returned:
+
    - rls: all rows are permutations
    - cls: all columns are permuations
    - ls: rls and cls.
+
+   Transformations:
+
+    - transpositionm(ls_t&)
+    - transpositionm(ls_t) -> ls_t
+    - antitranspositionm(ls_t&)
+    - antitransposition(ls_t) -> ls_t.
 
 */
 
@@ -74,6 +104,9 @@ License, or any later version. */
 
 #include <cassert>
 
+#include <ProgramOptions/Strings.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
+#include <Transformers/Generators/Random/Distributions.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
 
 #include "Conditions.hpp"
@@ -87,6 +120,25 @@ namespace Verification {
 
   typedef std::vector<size_t> ls_row_t;
   typedef std::vector<ls_row_t> ls_t;
+
+
+  void out(std::ostream& out, const ls_row_t& r, const std::string& sep = " ") {
+    Environment::out_line(out, r, sep);
+  }
+  void out(std::ostream& out, const ls_t& S, const std::string& sep = " ") {
+    Environment::out_lines(out, S, "\n", sep);
+  }
+
+
+  ls_t random_sq(const size_t N, RG::RandGen_t& g) {
+    ls_t S(N, ls_row_t(N));
+    RandGen::UniformRange u(g, N);
+    for (size_t i = 0; i < N; ++i) {
+      ls_row_t& r = S[i];
+      for (size_t& x : r) x = u();
+    }
+    return S;
+  }
 
 
   template <class RAN>
@@ -221,16 +273,51 @@ namespace Verification {
   }
 
 
+  struct coord {
+    size_t x, y;
+    bool operator ==(const coord&) const noexcept = default;
+    auto operator <=>(const coord&) const noexcept = default;
+  };
+  size_t apply(const ls_t& S, const coord v) noexcept {
+    assert(v.x < S.size()); assert(v.y < S[v.x].size());
+    return S[v.x][v.y];
+  }
+  size_t& applym(ls_t& S, const coord v) noexcept {
+    assert(v.x < S.size()); assert(v.y < S[v.x].size());
+    return S[v.x][v.y];
+  }
+
+  // Horizontal resp. vertical reflection:
+  constexpr size_t refl(const size_t i, const size_t N) noexcept {
+    assert(i < N);
+    return (N-1) - i;
+  }
+  constexpr coord refl_d(const coord v) noexcept {
+    return {v.y, v.x};
+  }
+  constexpr coord refl_ad(const coord v, const size_t N) noexcept {
+    return {refl(v.y, N), refl(v.x, N)};
+  }
+
+
   bool symmetric(const ls_t& S) noexcept {
-    const size_t N = S.size();
-    if (N == 0) return true;
     if (not sqshape(S)) return false;
-    if (N == 1) return true;
+    const size_t N = S.size();
+    if (N <= 1) return true;
     for (size_t i = 0; i < N-1; ++i) {
       const auto& r = S[i];
       for (size_t j = i+1; j < N; ++j)
         if (r[j] != S[j][i]) return false;
     }
+    return true;
+  }
+  bool antisymmetric(const ls_t& S) noexcept {
+    if (not sqshape(S)) return false;
+    const size_t N = S.size();
+    if (N <= 1) return true;
+    for (size_t i = 0; i < N-1; ++i)
+      for (size_t j = 0; j < refl(i, N); ++j)
+        if (apply(S, {i,j}) != apply(S, refl_ad({i,j}, N))) return false;
     return true;
   }
 
@@ -246,6 +333,18 @@ namespace Verification {
   }
   ls_t transposition(ls_t S) {
     transpositionm(S);
+    return S;
+  }
+  void antitranspositionm(ls_t& S) noexcept {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    if (N <= 1) return;
+    for (size_t i = 0; i < N-1; ++i)
+      for (size_t j = 0; j < refl(i, N); ++j)
+        std::swap(applym(S, {i,j}), applym(S, refl_ad({i,j}, N)));
+  }
+  ls_t antitransposition(ls_t S) {
+    antitranspositionm(S);
     return S;
   }
 

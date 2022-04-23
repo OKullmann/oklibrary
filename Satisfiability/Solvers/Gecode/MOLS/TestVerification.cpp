@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "23.4.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -176,6 +176,90 @@ int main(const int argc, const char* const argv[]) {
    assert(ls({{0,1},{1,0}}));
    assert(not ls({{0,1},{1,1}}));
    assert(not ls({{0,1},{0,1}}));
+  }
+
+  {assert(apply({{7}},{0,0}) == 7);
+   assert(apply({{7,8,9},{0,1}},{1,1}) == 1);
+  }
+  {ls_t S{{3}};
+   auto& e = applym(S, {0,0});
+   assert(e == 3);
+   e = 2;
+   assert(S == ls_t{{2}});
+  }
+
+  {static_assert(refl(0,1) == 0);
+   static_assert(refl(0,2) == 1);
+   static_assert(refl(1,2) == 0);
+  }
+  {static_assert(eqp(refl_d({3,4}), {4,3}));
+   static_assert(eqp(refl_ad({3,4}, 5), {0,1}));
+  }
+
+  {assert(symmetric({}));
+   assert(symmetric({{0}}));
+   assert(not symmetric({{0,0},{0}}));
+   assert(symmetric({{0,0},{0,0}}));
+   assert(symmetric({{1,0},{0,2}}));
+   assert(not symmetric({{1,0},{1,2}}));
+   assert(symmetric({{1,2,3},{2,4,5},{3,5,6}}));
+  }
+  {assert(antisymmetric({}));
+   assert(antisymmetric({{0}}));
+   assert(not antisymmetric({{0,0},{0}}));
+   assert(antisymmetric({{0,0},{0,0}}));
+   assert(antisymmetric({{0,1},{2,0}}));
+   assert(not antisymmetric({{1,1},{2,0}}));
+   const ls_t S{{1,2,3},{4,5,2},{6,4,1}};
+   assert(antisymmetric(S));
+   assert(antitransposition(S) == S);
+   const ls_t S2{{1,2,3},{4,5,2},{6,7,1}};
+   assert(not antisymmetric(S2));
+   assert(antitransposition(S2) != S2);
+  }
+
+  {ls_t S;
+   transpositionm(S);
+   assert(S == ls_t{});
+   S = {{1,2,3},{4,5,6},{7,8,9}};
+   transpositionm(S);
+   assert(eqp(S, {{1,4,7},{2,5,8},{3,6,9}}));
+  }
+  {ls_t S;
+   antitranspositionm(S);
+   assert(S == ls_t{});
+   S = {{1,2},{3,4},};
+   antitranspositionm(S);
+   assert(eqp(S, {{4,2},{3,1}}));
+   S = {{1,2,3},{4,5,6},{7,8,9}};
+   antitranspositionm(S);
+   assert(eqp(S, {{9,6,3},{8,5,2},{7,4,1}}));
+  }
+
+  {const ls_t S{{1,2,3},{4,5,6},{7,8,9}};
+   const ls_t St = transposition(S);
+   const ls_t Sr = antitransposition(St);
+   assert((Sr == ls_t{{9,8,7},{6,5,4},{3,2,1}}));
+  }
+  {RG::RandGen_t g({unsigned(123)});
+   for (size_t i = 0; i < 1000; ++i) {
+     const ls_t S = random_sq(3,g);
+     assert(symmetric(S) == (transposition(S) == S));
+     assert(antisymmetric(S) == (antitransposition(S) == S));
+     assert(transposition(transposition(S)) == S);
+     assert(antitransposition(antitransposition(S)) == S);
+     assert(transposition(antitransposition(S)) ==
+            antitransposition(transposition(S)));
+   }
+   for (size_t i = 0; i < 1000; ++i) {
+     const ls_t S = random_sq(4,g);
+     assert(symmetric(S) == (transposition(S) == S));
+     assert(antisymmetric(S) == (antitransposition(S) == S));
+     assert(transposition(transposition(S)) == S);
+     assert(antitransposition(antitransposition(S)) == S);
+     assert(transposition(antitransposition(S)) ==
+            antitransposition(transposition(S)));
+   }
   }
 
   {assert(orthogonal({},{}));
