@@ -52,6 +52,16 @@ License, or any later version. */
      (not at the left end, like for the diagonal).
      Again, no restrictions on S are made.
 
+   - rreduced(S): whether the first row of S is standardised.
+   - whether the first column is standardised (which may not exist)
+   - reduced(S): both conditions together.
+     No restrictions on S are made.
+
+   For forms of latin squares, without sqprop(S) false is returned:
+   - rls: all rows are permutations
+   - cls: all columns are permuations
+   - ls: rls and cls.
+
 */
 
 #ifndef VERIFICATION_CewvYixXoa
@@ -180,7 +190,7 @@ namespace Verification {
   }
 
   bool rreduced(const ls_t& S) noexcept {
-    if (S.empty()) return true;
+    if (S.empty()) return false;
     const auto& r = S[0];
     const size_t N = r.size();
     for (size_t i = 0; i < N; ++i)

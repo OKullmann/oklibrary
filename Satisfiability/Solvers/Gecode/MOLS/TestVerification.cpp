@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "23.4.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -139,6 +139,43 @@ int main(const int argc, const char* const argv[]) {
    assert(not antiidempotent({{0,1},{0}}));
    assert(not antiidempotent({{1,0},{0}}));
    assert(antiidempotent({{1,0},{1}}));
+  }
+
+  {assert(not rreduced({}));
+   assert(rreduced({{}}));
+   assert(rreduced({{0,1,2}}));
+   assert(rreduced({{0,1,2},{},{4,4}}));
+   assert(not rreduced({{0,1,3}}));
+  }
+  {assert(creduced({}));
+   assert(not creduced({{}}));
+   assert(creduced({{0,1,2}}));
+   assert(creduced({{0,1,2},{1},{2,4}}));
+   assert(not creduced({{0,1,3},{2}}));
+  }
+  {assert(not reduced({}));
+   assert(not reduced({{}}));
+   assert(reduced({{0,1,2}}));
+   assert(reduced({{0,1,2},{1},{2,4}}));
+   assert(not reduced({{0,1,3}}));
+   assert(not reduced({{0,1,2},{2}}));
+  }
+
+  {assert(rls({}));
+   assert(not rls({{0},{0}}));
+   assert(rls({{0,1,2},{0,2,1},{0,1,2}}));
+   assert(not rls({{0,1,2},{0,2,1},{0,1,3}}));
+  }
+  {assert(cls({}));
+   assert(not cls({{0},{1}}));
+   assert(cls({{0,0,0},{1,1,1},{2,2,2}}));
+   assert(not cls({{0,0,0},{1,1,1},{2,2,3}}));
+  }
+  {assert(ls({}));
+   assert(ls({{0}}));
+   assert(ls({{0,1},{1,0}}));
+   assert(not ls({{0,1},{1,1}}));
+   assert(not ls({{0,1},{0,1}}));
   }
 
   {assert(orthogonal({},{}));
