@@ -392,18 +392,14 @@ namespace LookaheadBranching {
 
   template <class ModSpace>
   inline void post_la_branching(ModSpace& s, GC::IntVarArgs V,
-                                const OP::LAR lar, const GC::IntValBranch)
-                                  noexcept {
+                                const OP::BRT brt) noexcept {
     GC::Home home = s;
     assert(not home.failed());
     const IntViewArray x(home, V);
-    if (lar == OP::LAR::supeager) {
-      // XXX
-    }
-    else if (lar == OP::LAR::eager) {
+    if (brt == OP::BRT::binbr) {
       BinLookahead<ModSpace>::post(home, x);
     }
-    else if (lar == OP::LAR::lazy) {
+    else if (brt == OP::BRT::enumbr) {
       // XXX
     }
   }

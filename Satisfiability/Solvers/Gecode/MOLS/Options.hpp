@@ -145,11 +145,10 @@ namespace Options {
 
   // Type of lookahead-reduction:
   enum class LAR {
-    supeager = 0, // supereager lookahead reduction
-    eager = 1, //  eager lookahead reduction
-    lazy = 2, // lazy lookahead reduction
+    eager = 0, //  eager lookahead reduction
+    supeager = 1 // supereager lookahead reduction
   };
-  constexpr int LARsize = int(LAR::lazy) + 1;
+  constexpr int LARsize = int(LAR::supeager) + 1;
 
 }
 namespace Environment {
@@ -203,9 +202,9 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
-      string {"supeag", "eag", "lazy"};
+      string {"eag", "supeag"};
     static constexpr std::array<const char*, size>
-      estring {"super-eager", "eager", "lazy"};
+      estring {"eager", "super-eager"};
   };
 }
 namespace Options {

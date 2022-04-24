@@ -327,13 +327,14 @@ namespace Solvers {
   */
   GBasicSR lasolver(const EC::EncCond& enc,
                     const RT rt,
-                    const OP::LAR lar,
-                    const GC::IntValBranch vlb,
+                    const OP::BRT brt,
+                    [[maybe_unused]]const OP::GBO gbo,
+                    [[maybe_unused]]const OP::LAR lar,
                     const LAB::vec_t wghts,
                     const double threads = 1,
                     [[maybe_unused]]std::ostream* const log = nullptr) {
     CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
-    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), lar, vlb);
+    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), brt);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -366,14 +367,15 @@ namespace Solvers {
 
   GBasicSR solver_la(const EC::EncCond& enc,
                      const RT rt,
+                     const OP::BRT brt,
+                     const OP::GBO gbo,
                      const OP::LAR lar,
-                     const GC::IntValBranch vlb,
                      const LAB::vec_t wghts,
                      const double threads = 1,
                      std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = lasolver(enc, rt, lar, vlb, wghts, threads, log);
+    GBasicSR res = lasolver(enc, rt, brt, gbo, lar, wghts, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

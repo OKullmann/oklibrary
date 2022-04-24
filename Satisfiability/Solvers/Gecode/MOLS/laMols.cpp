@@ -207,10 +207,9 @@ int main(const int argc, const char* const argv[]) {
     const EncCond enc(ac, ps, prop_level(po));
     for (const BRT brt : brtv)
       for (const GBO gbo : gbov) {
-        const BHO bord = translate(brt, gbo);
         for (const LAR lar : larv) {
           const GBasicSR res =
-            solver_la(enc, rt, lar, val_branch(bord), wghts, threads, log);
+            solver_la(enc, rt,  brt, gbo, lar, wghts, threads, log);
           using Environment::W0;
           if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
           std::cout << W0(po) << " " << W0(brt) << " " << W0(gbo) << " "
