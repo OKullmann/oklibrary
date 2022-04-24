@@ -13,28 +13,29 @@ BUGS:
 
 TODOS:
 
-0. Do not find single-child branchings of the kind var=val.
+0. DONE (Only var!=val are applied)
+   Do not find single-child branchings of the kind var=val.
     - Only var!=val are collected and applied.
     - If all values but one (say, val) for a variable var are inconsistent,
       then var=val will be assigned automatically during a Gecode propagation.
 
 1. Super-eager reduction.
     - Restart the main loop (over all variables) after any propagation.
+      Only after the variable is finished.
     - It is very similar to the eager reduction - an additional break in the
       main loop is needed. So maybe add a Boolean variable that will switch
       between the eager and super-eager reductions.
 
 2. Lookahead-reduction statistics.
-    - An object is created in the choice() function of a customised brancher
-      and passed to a reduction function.
-    - In a reduction function, all main data should be collected
-      and saved to the object.
-    - The object is returned to the choice() function.
+    - All reduction-statistics should be collected.
+    - This is a return value of the reduction function.
+    - The reduction-statistics is used in the choice() function of a customised
+      brancher to update the global statistics.
 
 3. Find all solutions in a lookahead reduction function.
     - All solutions which are found during the reduction, are collected
-      and saved to the local statistics' object.
-    - The corresponding branches are cut off so Gecode is now aware of any
+      and saved to the local statistics'.
+    - The corresponding branches are cut off so Gecode is not aware of any
       found solutions.
 
 4. Pruning.

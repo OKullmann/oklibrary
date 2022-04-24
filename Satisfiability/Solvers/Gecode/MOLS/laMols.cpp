@@ -61,16 +61,11 @@ The problem seems "binary-super-eager".
 
 /* TODOS:
 
-0. DONE (like in rlaMols, but branching-variable is replaced by the weights)
-   Update to the new standard (see gcMols and rlaMols)
-    - Compared to rlaMols, the option on the branching-variable is
-      replaced by the weights.
-
-1. Provide the two branching orders as in our paper (using the distance,
+0. Provide the two branching orders as in our paper (using the distance,
     ascending and descending):
       ascdist, descdist.
 
-2. It is important that here our own precise and complete statistics
+1. It is important that here our own precise and complete statistics
     are used.
     - This is addition to the gecode-statistics.
 
