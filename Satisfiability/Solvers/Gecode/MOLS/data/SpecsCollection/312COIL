@@ -3,7 +3,9 @@
 # Also known as "QG2".
 # Unsatisfiabiblity for N=10 shown by [Dubois, Dequen, 2001] (this is
 # the only unsatisfiable case for N >= 7).
-# This is an interesting testcase.
+# This is an interesting testcase:
+# MOLS> ./gcMols 9 data/SpecsCollection/312COIL "" +count dom binbr mindom desc 12
+# aborted after 105 hours wall-clock.
 
 # Question: are there better representations of orthogonality here?
 

@@ -4,6 +4,9 @@
 #
 # Far best seems dom+binbr+maxdom+desc
 # N=13 seems a hard sat-decision case.
+# N=11 is the first case where the box-condition means a restriction
+# (compare "Pandiagonal").
+# For N=12 there are queens-solutions (see "SudokoQueen").
 
 # A really interesting case is N=25.
 
