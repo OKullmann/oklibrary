@@ -46,7 +46,7 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 -1. As an option: output the count resp. the solutions immediately when
    obtained.
-    - Enumeration also should include the count.
+    - DONE Enumeration also should include the count.
     - Additionally, when catching SIGUSR1, output the current results.
 
 0. R-header
@@ -111,8 +111,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "19.4.2022",
+        "0.9.1",
+        "24.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",

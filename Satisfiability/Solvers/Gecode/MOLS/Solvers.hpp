@@ -263,8 +263,10 @@ namespace Solvers {
       assert(log);
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
-        *log << enc.decode(leaf->V) << std::endl;
-        ++res.b.sol_found; delete leaf;
+        ++res.b.sol_found;
+        *log << res.b.sol_found << "\n"
+             << enc.decode(leaf->V) << std::endl;
+        delete leaf;
       }
       res.gs = s.statistics(); break;
     }}
