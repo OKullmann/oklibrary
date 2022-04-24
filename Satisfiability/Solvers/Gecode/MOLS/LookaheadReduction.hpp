@@ -107,17 +107,15 @@ namespace LookaheadReduction {
     BranchingStatus status() const noexcept { assert(valid()); return st; }
   };
 
-  // A sat-solving-oriented eager lookahead-reduction.
-  // It is applied when either sat-decision or sat-solving mode is active
-  // (Run-Type is 0 or 1, see Options.hpp).
+  // Lookahead-reduction.
   // Consider a variable var and its domain {val1, ..., valk}.
   // For all i, if var==vali is inconsistent, then these constraints
-  // are collected and then (after the loop for all i) the corresponding
-  // constraints are applied and a Gecode propagation is performed.
-  // In such a way, all impossible values of a variable are removed.
+  // (var==vali) are collected and then (after the loop for all i) the
+  // corresponding constraints are applied and a Gecode propagation is
+  // performed. In such a way, all impossible values of a variable are removed.
   template<class ModSpace>
-  ReduceRes reduction_eager(GC::Space& home, const IntViewArray x,
-                                const int start) {
+  ReduceRes lareduction(GC::Space& home, const IntViewArray x,
+                        const int start) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
@@ -186,13 +184,6 @@ namespace LookaheadReduction {
     } while (reduction);
 
     return ReduceRes(BranchingStatus::branching);
-  }
-
-  template<class ModSpace>
-  ReduceRes reduction_lazy() {
-    ReduceRes res;
-    // XXX
-    return res;
   }
 
 }
