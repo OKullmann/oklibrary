@@ -154,15 +154,6 @@ namespace LookaheadReduction {
         if (values.empty()) {
           return ReduceRes(BranchingStatus::unsat);
         }
-        // If single-child branching:
-        else if (values.size() == 1) {
-          reduction = true;
-          GC::rel(home, x[var], GC::IRT_EQ, values[0], GC::IPL_DOM);
-          const auto status = home.status();
-          if (status == GC::SS_FAILED) return ReduceRes(BranchingStatus::unsat);
-          else if (status == GC::SS_SOLVED) return ReduceRes(BranchingStatus::sat, var, values);
-        }
-        // None from above - non-sat, non-unsat, at least 2 branches.
         // Apply all var!=val assignments in one batch:
        if (not noteqvalues.empty()) {
           reduction = true;
