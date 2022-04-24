@@ -46,26 +46,7 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 -1. As an option: output the count resp. the solutions immediately when
    obtained.
-    - DONE
-      So that one has results when the whole computation needs to be aborted.
-    - DONE Best then to supply an optional argument logout, which is a pointer
-      to std::ostream, with default nullptr.
-
-    - DONE One can activate this by using "+count" for counting with log.
-    - DONE And "+enum" for enumeration with immediate output (no storing).
-    - DONE These should likely go to Options::RT.
-    - DONE (with other choices)
-      Perhaps three functions "is_sat, is_count, is_enum" for RTs are
-      then helpful.
-    - DONE Should the solvers in Solvers.hpp use a switch-statement for the RT?
-      Seems best, since likely for all variants the code is different, and
-      if a further return-type is added, then with using switch the compiler
-      issues a warning for non-handled cases.
-    - DONE
-      The basic test-solver ("solver0") should ignore the logging.
-      Perhaps that means for the switch-statement, actually throwing an
-      exception?
-
+    - Enumeration also should include the count.
     - Additionally, when catching SIGUSR1, output the current results.
 
 0. R-header
@@ -76,7 +57,14 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - +- computation
 
 1. Output:
-    - DONE The information on the conditions should include the filename.
+    - More statistics on conditions should be output:
+       - number of unary, equality- and prod-conditions.
+    - More statistics on the partial squares given should be output:
+       - total number of removed values.
+    - Solution-output:
+       - hex-output as an option; perhaps as "+-hex"
+       - setting the field-width to the maximum reached, and always output
+         right-aligned in this fixed field-width.
     - Perhaps the output-filename should contain a hash of the parameters.
 
 2. Defaults:
