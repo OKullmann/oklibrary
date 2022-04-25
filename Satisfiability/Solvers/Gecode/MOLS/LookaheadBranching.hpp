@@ -307,7 +307,8 @@ namespace LookaheadBranching {
     virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
-      LR::ReduceRes res = LR::lareduction<ModSpace>(home, x, start);
+      const auto lar = m->laredtype();
+      LR::ReduceRes res = LR::lareduction<ModSpace>(home, x, start, lar);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}

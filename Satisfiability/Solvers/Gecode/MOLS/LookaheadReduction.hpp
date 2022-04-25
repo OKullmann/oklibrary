@@ -14,7 +14,7 @@ BUGS:
 TODOS:
 
 0. Pass parameters to the la-reduction function.
-    - Eagerness.
+    - DONE Eagerness.
     - Propagation level.
     - Run-type.
 
@@ -55,10 +55,13 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include "Options.hpp"
+
 namespace LookaheadReduction {
 
   //namespace FP = FloatingPoint;
   namespace GC = Gecode;
+  namespace OP = Options;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -114,8 +117,10 @@ namespace LookaheadReduction {
   // corresponding constraints are applied and a Gecode propagation is
   // performed. In such a way, all impossible values of a variable are removed.
   template<class ModSpace>
-  ReduceRes lareduction(GC::Space& home, const IntViewArray x,
-                        const int start) noexcept {
+  ReduceRes lareduction(GC::Space& home,
+                        const IntViewArray x,
+                        const int start,
+                        [[maybe_unused]]OP::LAR lar) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
