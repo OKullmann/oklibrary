@@ -60,6 +60,9 @@ namespace PartialSquares {
       if (first == end) return false;
       return std::find(first+1, end, 0) == end;
     }
+    size_t first() const noexcept {
+      return std::ranges::find(c, 0) - c.begin();
+    }
 
     bool operator ==(const Cell&) const noexcept = default;
     auto operator <=>(const Cell&) const noexcept = default;

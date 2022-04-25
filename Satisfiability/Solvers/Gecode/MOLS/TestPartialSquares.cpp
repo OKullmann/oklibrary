@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "2.4.2022",
+        "0.2.3",
+        "25.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -53,11 +53,16 @@ int main(const int argc, const char* const argv[]) {
    assert(Cell{{}} == Cell());
    assert(Cell({0}) == Cell());
    assert(Cell({0,0}) == Cell(2));
+   assert(Cell({1,1}).first() == 2);
+   assert(Cell({1,0}).first() == 1);
+   assert(Cell({0,1}).first() == 0);
+
    for (unsigned n = 0; n <= 5; ++n) {
      assert(Cell(n).size() == n);
      assert(Cell(cell_t{bool(n)}).size() == 1);
      assert(Cell(n).consistent() == (n != 0));
      assert(Cell(n).unit() == (n == 1));
+     assert(Cell(n).first() == 0);
    }
    assert(Cell(1) == Cell(cell_t{0}));
    assert(Cell(1) == Cell({1}));
