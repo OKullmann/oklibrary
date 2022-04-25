@@ -384,12 +384,12 @@ namespace Solvers {
   GBasicSR lasolver(const EC::EncCond& enc,
                     const RT rt,
                     const OP::BRT brt,
-                    [[maybe_unused]]const OP::GBO gbo,
-                    [[maybe_unused]]const OP::LAR lar,
+                    OP::GBO gbo,
+                    OP::LAR lar,
                     const LAB::vec_t wghts,
                     const double threads = 1,
                     [[maybe_unused]]std::ostream* const log = nullptr) {
-    CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, wghts);
+    CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, gbo, lar, wghts);
     LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), brt);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));

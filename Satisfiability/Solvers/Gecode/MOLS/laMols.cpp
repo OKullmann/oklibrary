@@ -92,8 +92,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "24.4.2022",
+        "0.3.6",
+        "25.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -204,7 +204,7 @@ int main(const int argc, const char* const argv[]) {
       for (const GBO gbo : gbov) {
         for (const LAR lar : larv) {
           const GBasicSR res =
-            solver_la(enc, rt,  brt, gbo, lar, wghts, threads, log);
+            solver_la(enc, rt, brt, gbo, lar, wghts, threads, log);
           using Environment::W0;
           if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
           std::cout << W0(po) << " " << W0(brt) << " " << W0(gbo) << " "
