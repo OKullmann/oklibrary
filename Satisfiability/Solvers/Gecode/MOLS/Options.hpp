@@ -56,6 +56,10 @@ namespace Options {
     return rt == RT::count_solutions or rt == RT::count_with_log
       or rt == RT::enumerate_with_log;
   }
+  constexpr bool with_output(const RT rt) noexcept {
+    return rt == RT::sat_solving or rt == RT::unique_solving
+      or rt == RT::enumerate_solutions;
+  }
   constexpr bool with_log(const RT rt) noexcept {
     return rt == RT::unique_s_with_log or rt == RT::unique_d_with_log or
       rt == RT::count_with_log or rt == RT::enumerate_with_log;
