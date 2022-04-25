@@ -33,9 +33,9 @@ TODOS:
       brancher to update the global statistics.
 
 3. Find all solutions in a lookahead reduction function.
-    - All solutions which are found during the reduction, are collected
-      and saved to the local statistics'.
-    - The corresponding branches are cut off so Gecode is not aware of any
+    - All solutions which are found during the reduction, are collected and
+      saved to the local statistics.
+    - DONE The corresponding branches are cut off so Gecode is not aware of any
       found solutions.
 
 4. Pruning.
@@ -126,9 +126,8 @@ namespace LookaheadReduction {
       // Iterate over all unassigned variables:
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
-        const int viewsize = view.size();
         if (view.assigned()) continue;
-        assert(viewsize >= 2);
+        assert(view.size() >= 2);
         // All such val that var!=val:</font>
         values_t noteqvalues;
 
@@ -140,18 +139,25 @@ namespace LookaheadReduction {
           const auto subm = subproblem<ModSpace>(m, var, val, true);
           // Call Gecode propagation:
           const auto status = subm->status();
-          // If a solution if found, return it immediately:
-          if (status == GC::SS_SOLVED) {
-            // XXX
+          // If either a SAT leaf or an UNSAT leaf is found:
+          if (status != GC::SS_BRANCH) {
+            assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
+            // In either case the branch must be excluded,
+            // so Gecode will not be aware of UNSAT or SAT leaves.
+            noteqvalues.push_back(val);
+            // SAT leaf:
+            if (status == GC::SS_SOLVED) {
+              // Add a SAT leaf to the statistics:
+              // XXX
+            }
+            // UNSAT leaf - if var==val is inconsistent, then var!=val:
+            else if (status == GC::SS_FAILED) {
+              // Add an UNSAT leaf to the statistics:
+              // XXX
+            }
           }
-          // If the assignment var==val is inconsistent, then var!=val:
-          else if (status == GC::SS_FAILED) noteqvalues.push_back(val);
         }
 
-        // All values are excluded, so an UNSAT leaf is found:
-        if (noteqvalues.size() == viewsize) {
-          return ReduceRes(BranchingStatus::unsat);
-        }
         // Apply all var!=val assignments in one batch:
        if (not noteqvalues.empty()) {
           reduction = true;
