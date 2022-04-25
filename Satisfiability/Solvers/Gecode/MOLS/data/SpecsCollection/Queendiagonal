@@ -1,15 +1,27 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0
-# >= 1
+# 8
 
 # Best seems dom+binbr+maxdom+desc.
-# N=11 seems a hard (satisfiable) decision problem.
-# As for Pandiagonal, decision without rred seems easier.
 
-# The current data is identical with Pandiagonal -- does this hold in general?
+# MOLS> ./gcMols 11 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
+# dom binbr maxdom desc 8 89292.987 105040080300 1515904270 3031808555 72
+# Observation: it seems for all solutions all rows are cyclic shifts of the
+# first (standardised) line.
+# All solutions are pandiagonal.
+
+# MOLS> ./gcMols 12 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
+# aborted after 90min wall-clock.
+
+# As for Pandiagonal, decision without rred might be easier.
+
+# The current data is identical with Pandiagonal, but for N=12 there exist
+# even sudoku-queens-solutions (which are apparently easier to find -- and
+# pandiagonal solutions are even much easier to find).
+# SudokuQueen is different for N=11.
 
 squares A
-rred A
+#rred A
 ls A
 queendiag A
 queenantidiag A

@@ -1,11 +1,18 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 12, 0, >= 1, 0, 0, 0
+# 8, 0, >= 68, 0, 0, 0
 # Remark: count != 0 iff gcd(N,6) = 1.
 
 # Apparently not on OEIS.
 
 # Far best seems dom+binbr+maxdom.
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom binbr maxdom desc 12
+# dom binbr maxdom desc 8 4.079 3546754 64206 128427 45
+# MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +count dom binbr maxdom desc 12
+# XXX
+# Visual inspection indicates that there are no Sudokus.
+
 # N=17 seems a hard satisfiable instance.
 # Decision for 13 <= N <= 16 much easier without rred (also the unsatisfiable
 # cases!); something special is going on here, as indicated also by "maxdom".
