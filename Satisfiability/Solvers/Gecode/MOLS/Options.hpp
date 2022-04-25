@@ -39,10 +39,14 @@ namespace Options {
   enum class RT {
     sat_solving = 0,
     sat_decision = 1,
-    count_solutions = 2,
-    count_with_log = 3,
-    enumerate_solutions = 4,
-    enumerate_with_log = 5
+    unique_solving = 2,
+    unique_s_with_log = 3,
+    unique_decision = 4,
+    unique_d_with_log = 5,
+    count_solutions = 6,
+    count_with_log = 7,
+    enumerate_solutions = 8,
+    enumerate_with_log = 9
   };
   constexpr int RTsize = int(RT::enumerate_with_log) + 1;
   constexpr bool valid(const RT rt) noexcept {
@@ -53,7 +57,12 @@ namespace Options {
       or rt == RT::enumerate_with_log;
   }
   constexpr bool with_log(const RT rt) noexcept {
-    return rt == RT::count_with_log or rt == RT::enumerate_with_log;
+    return rt == RT::unique_s_with_log or rt == RT::unique_d_with_log or
+      rt == RT::count_with_log or rt == RT::enumerate_with_log;
+  }
+  constexpr bool test_unique(const RT rt) noexcept {
+    return rt == RT::unique_solving or rt == RT::unique_s_with_log or
+      rt == RT::unique_decision or rt == RT::unique_d_with_log;
   }
 
 
@@ -155,9 +164,14 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
-      string {"sats", "satd", "count", "+count", "enum", "+enum"};
+      string {"sats", "satd",
+        "uniques", "+uniques", "uniqued", "+uniqued",
+        "count", "+count",
+        "enum", "+enum"};
     static constexpr std::array<const char*, size>
       estring {"sat-solving", "sat-decision",
+        "unique-solving", "unique-sol-with-log",
+        "unique-decision", "unique-dec-with-log",
         "count-solutions", "count-sols-with-log",
         "enumerate-solutions", "enum-sols-with-log"};
   };

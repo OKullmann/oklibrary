@@ -132,6 +132,12 @@ namespace Solvers {
       return sr.sol_found <= 1 and sr.list_sol.empty();
     else if (sr.rt == RT::sat_solving)
       return sr.sol_found <= 1 and sr.list_sol.size() == sr.sol_found;
+    else if (test_unique(sr.rt)) {
+      if (sr.sol_found > 2) return false;
+      if (sr.rt == RT::unique_decision or sr.rt == RT::unique_d_with_log)
+        return sr.list_sol.empty();
+      else return sr.sol_found == sr.list_sol.size();
+    }
     else if (count_only(sr.rt))
       return sr.list_sol.empty();
     else return sr.sol_found == sr.list_sol.size();
@@ -159,7 +165,10 @@ namespace Solvers {
     delete gm;
 
     BasicSR res{rt};
-    if (rt == RT::sat_decision) {
+    if (with_log(rt))
+      throw std::runtime_error("ERROR[Solvers]::solver_basis: wrong rt-code="
+                               + std::to_string(int(rt)));
+    else if (rt == RT::sat_decision) {
       if (CT::GenericMols0* const leaf=s.next()){res.sol_found=1;delete leaf;}
     }
     else if (rt == RT::sat_solving) {
@@ -167,6 +176,17 @@ namespace Solvers {
         assert(EC::EncCond::unit(leaf->V));
         res.list_sol.push_back(enc.decode(leaf->V));
         res.sol_found = 1; delete leaf;
+      }
+    }
+    else if (test_unique(rt)) {
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.sol_found;
+        if (rt == RT::unique_solving) {
+          assert(EC::EncCond::unit(leaf->V));
+          res.list_sol.push_back(enc.decode(leaf->V));
+        }
+        delete leaf;
+        if (res.sol_found == 2) break;
       }
     }
     else if (rt == RT::count_solutions) {
@@ -182,8 +202,7 @@ namespace Solvers {
       }
     }
     else
-      throw std::runtime_error("ERROR[Solvers]::solver_basis: wrong rt-code="
-                               + std::to_string(int(rt)));
+      assert(0 == 1);
     return res;
   }
 
@@ -234,6 +253,43 @@ namespace Solvers {
         assert(EC::EncCond::unit(leaf->V));
         res.b.list_sol.push_back(enc.decode(leaf->V));
         res.b.sol_found = 1; delete leaf;
+      }
+      res.gs = s.statistics(); break;
+    }
+    case RT::unique_solving: {
+      while (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        res.b.list_sol.push_back(enc.decode(leaf->V));
+        ++res.b.sol_found; delete leaf;
+        if (res.b.sol_found == 2) break;
+      }
+      res.gs = s.statistics(); break;
+    }
+    case RT::unique_decision: {
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.b.sol_found; delete leaf;
+        if (res.b.sol_found == 2) break;
+      }
+      res.gs = s.statistics(); break;
+    }
+    case RT::unique_s_with_log: {
+      assert(log);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        assert(EC::EncCond::unit(leaf->V));
+        ++res.b.sol_found;
+        *log << res.b.sol_found << "\n"
+             << enc.decode(leaf->V) << std::endl;
+        delete leaf;
+        if (res.b.sol_found == 2) break;
+      }
+      res.gs = s.statistics(); break;
+    }
+    case RT::unique_d_with_log: {
+      assert(log);
+      while (CT::GenericMols0* const leaf = s.next()) {
+        ++res.b.sol_found; delete leaf;
+        *log << " " << res.b.sol_found; log->flush();
+        if (res.b.sol_found == 2) break;
       }
       res.gs = s.statistics(); break;
     }

@@ -111,8 +111,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "24.4.2022",
+        "0.9.2",
+        "25.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -216,7 +216,9 @@ int main(const int argc, const char* const argv[]) {
         const GBasicSR res =
           solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads, log);
         using Environment::W0;
-        if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
+        if (with_log and
+            rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+          std::cout << "\n";
         std::cout << W0(po) << " "
                   << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
                   << res.b.sol_found << " ";
