@@ -126,9 +126,9 @@ namespace LookaheadReduction {
       // Iterate over all unassigned variables:
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
+        const int viewsize = view.size();
         if (view.assigned()) continue;
-        assert(view.size() >= 2);
-        values_t values;
+        assert(viewsize >= 2);
         // All such val that var!=val:</font>
         values_t noteqvalues;
 
@@ -142,34 +142,30 @@ namespace LookaheadReduction {
           const auto status = subm->status();
           // If a solution if found, return it immediately:
           if (status == GC::SS_SOLVED) {
-            return ReduceRes(BranchingStatus::sat, var, {val});
+            // XXX
           }
           // If the assignment var==val is inconsistent, then var!=val:
           else if (status == GC::SS_FAILED) noteqvalues.push_back(val);
-          // The assignment var==val is relatively inconsistent,
-          // i.e. it is not clear whether it is inconsistent or not:
-          else values.push_back(val);
         }
 
-        // No branches, so the problem is unsatisfiable:
-        if (values.empty()) {
+        // All values are excluded, so an UNSAT leaf is found:
+        if (noteqvalues.size() == viewsize) {
           return ReduceRes(BranchingStatus::unsat);
         }
         // Apply all var!=val assignments in one batch:
        if (not noteqvalues.empty()) {
           reduction = true;
-          for (auto& noteqval : noteqvalues) {
-            GC::rel(home, x[var], GC::IRT_NQ, noteqval, GC::IPL_DOM);
+          for (auto& val : noteqvalues) {
+            GC::rel(home, x[var], GC::IRT_NQ, val, GC::IPL_DOM);
           }
           // Call a propagation:
           const auto status = home.status();
           // Check if the problem is solved:
           if (status == GC::SS_FAILED) {
-            return ReduceRes(BranchingStatus::unsat);
+            // XXX
           }
           else if (status == GC::SS_SOLVED) {
-            assert(not values.empty());
-            return ReduceRes(BranchingStatus::sat, var, {values[0]});
+            // XXX
           }
         }
       } // for (int var = start; var < x.size(); ++var) {
