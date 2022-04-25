@@ -130,9 +130,11 @@ namespace LookaheadReduction {
         // All such val that var!=val:</font>
         values_t noteqvalues;
 
+        // Collect all values of the variable to a vector:
+        std::vector<int> values;
+        for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
         // Iterate over all values of the current variable:
-        for (IntVarValues j(view); j(); ++j) {
-          const int val = j.val();
+        for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
           // Make a copy of the current problem, and assign var==val:
           const auto subm = subproblem<ModSpace>(m, var, val, true);
