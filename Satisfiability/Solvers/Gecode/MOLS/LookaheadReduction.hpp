@@ -13,11 +13,10 @@ BUGS:
 
 TODOS:
 
-0. DONE (Only var!=val are applied)
-   Do not find single-child branchings of the kind var=val.
-    - Only var!=val are collected and applied.
-    - If all values but one (say, val) for a variable var are inconsistent,
-      then var=val will be assigned automatically during a Gecode propagation.
+0. Pass parameters to the la-reduction function.
+    - Eagerness.
+    - Propagation level.
+    - Run-type.
 
 1. Super-eager reduction.
     - Restart the main loop (over all variables) after any propagation.
