@@ -16,7 +16,7 @@ TODOS:
 0. Pass parameters to the la-reduction function.
     - DONE Eagerness.
     - Propagation level.
-    - Run-type.
+    - DONE Run-type.
 
 1. Super-eager reduction.
     - Restart the main loop (over all variables) after any propagation.
@@ -120,7 +120,8 @@ namespace LookaheadReduction {
   ReduceRes lareduction(GC::Space& home,
                         const IntViewArray x,
                         const int start,
-                        [[maybe_unused]]OP::LAR lar) noexcept {
+                        [[maybe_unused]]const OP::RT& rt,
+                        [[maybe_unused]]const OP::LAR& lar) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);

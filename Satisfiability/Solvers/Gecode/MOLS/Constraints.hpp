@@ -51,21 +51,23 @@ namespace Constraints {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
+    OP::RT rt;
     OP::GBO gbo;
     OP::LAR lar;
     LAB::vec_t wghts;
-    LookaheadMols(LookaheadMols& gm) :
-      LAB::Node(gm), V(gm.V), gbo(gm.gbo), lar(gm.lar), wghts(gm.wghts) {
+    LookaheadMols(LookaheadMols& gm) : LAB::Node(gm), V(gm.V), rt(gm.rt),
+      gbo(gm.gbo), lar(gm.lar), wghts(gm.wghts) {
       V.update(*this, gm.V);
       assert(valid());
     }
     GC::Space* copy() { return new LookaheadMols(*this); }
   public :
     LookaheadMols(const EC::EncCond& enc,
+                  const OP::RT& rt_,
                   const OP::GBO& gbo_,
                   OP::LAR& lar_,
                   const LAB::vec_t wghts_) :
-      gbo(gbo_), lar(lar_), wghts(wghts_) {
+      rt(rt_), gbo(gbo_), lar(lar_), wghts(wghts_) {
       assert(wghts.size() == enc.N-1);
       V = enc.post<VarVec, Var>(this);
       assert(valid());
@@ -79,6 +81,7 @@ namespace Constraints {
       assert(valid()); return V[i];
     }
     GC::IntVarArray var() const noexcept { assert(valid()); return V; }
+    OP::RT runtype() const noexcept { assert(valid()); return rt; }
     OP::GBO brorder() const noexcept { assert(valid()); return gbo; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
     LAB::vec_t weights() const noexcept { assert(valid()); return wghts; }
