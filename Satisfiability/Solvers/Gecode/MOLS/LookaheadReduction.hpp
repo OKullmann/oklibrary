@@ -13,6 +13,12 @@ BUGS:
 
 TODOS:
 
+-2. We don't use double, but float80 (except at places where forced
+    by other software).
+
+-1. For all unsigned types just size_t is to be used, nothing else.
+    And for signed types, signed_t.
+
 0. DONE (one reduction function is used for both eager and super-eager,
          the difference is how the variables-loop is processed)
    Super-eager reduction.
@@ -57,7 +63,6 @@ TODOS:
 #include <memory>
 
 #include <cassert>
-
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -108,7 +113,8 @@ namespace LookaheadReduction {
     values_t values;
     bool valid() const noexcept { return var >= 0; }
     ReduceRes() : st(BranchingStatus::branching), var(0), values{} {}
-    ReduceRes(const BranchingStatus st=BranchingStatus::branching, const int var=0,
+    ReduceRes(const BranchingStatus st=BranchingStatus::branching,
+              const int var=0,
               const values_t values={}) :
       st(st), var(var), values(values) {}
 
