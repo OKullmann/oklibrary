@@ -530,6 +530,23 @@ namespace Verification {
     return {A, cproduct(random_ls(N,g), A)};
   }
 
+
+  // Testing whether the format of the alleged solution is correct:
+  bool valid(const CD::AConditions& ac, const PS::PSquares& sol) noexcept {
+    assert(sol.valid());
+    const size_t K = ac.num_squares();
+    if (sol.size() != K) return false;
+    if (not sol.unit()) return false;
+    for (size_t i = 0; i < K; ++i) {
+      const PS::PSquare& sq = sol.psqs[i];
+      const CD::Square s = sq.s;
+      assert(ac.valid(s));
+      assert(is_main_rep(s.v));
+      if (ac.index(s) != i) return false;
+    }
+    return true;
+  }
+
 }
 
 #endif

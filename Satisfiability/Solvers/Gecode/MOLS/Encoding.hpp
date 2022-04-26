@@ -164,6 +164,7 @@ Indeed quite obvious that
 
 #include "Conditions.hpp"
 #include "PartialSquares.hpp"
+#include "Verification.hpp"
 
 namespace Encoding {
 
@@ -510,6 +511,7 @@ namespace Encoding {
           }
         }
       assert(v == num_vars);
+      assert(Verification::valid(ac, res));
       return res;
     }
 
