@@ -71,7 +71,7 @@ namespace LookaheadReduction {
 
   // Make a copy of a given problem and assign either var==val or var!=val:
   template<class ModSpace>
-  std::unique_ptr<ModSpace> child_node(ModSpace* const m, 
+  std::unique_ptr<ModSpace> child_node(ModSpace* const m,
                                        const int v, const int val,
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
