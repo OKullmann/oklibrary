@@ -3,7 +3,11 @@
 # 4, 0
 #
 # Far best seems dom+binbr+maxdom+desc
-# N=13 seems a hard sat-decision case.
+# N=13 seems a hard sat-decision case; results in Pandiagonal suggest
+# it is unsatisfiable:
+# MOLS> ./gcMols 13 data/SpecsCollection/SudokuPandiagonal "" +enum dom binbr maxdom desc 12
+# XXX
+
 # N=11 is the first case where the box-condition means a restriction
 # (compare "Pandiagonal").
 # For N=12 there are queens-solutions (see "SudokoQueen").

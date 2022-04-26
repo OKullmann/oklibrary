@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 8, 0, >= 68, 0, 0, 0
+# 8, 0, >= 129, 0, 0, 0
 # Remark: count != 0 iff gcd(N,6) = 1.
 
 # Apparently not on OEIS.
@@ -9,8 +9,9 @@
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom binbr maxdom desc 12
 # dom binbr maxdom desc 8 4.079 3546754 64206 128427 45
-# MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +count dom binbr maxdom desc 12
-# XXX
+
+# MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +enum dom binbr maxdom desc 12
+# aborted after 40h wall-clock and 129 solutions found.
 # Visual inspection indicates that there are no Sudokus.
 
 # N=17 seems a hard satisfiable instance.
