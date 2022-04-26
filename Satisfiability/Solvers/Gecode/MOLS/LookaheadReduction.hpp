@@ -13,26 +13,28 @@ BUGS:
 
 TODOS:
 
-1. Super-eager reduction.
+0. DONE (one reduction function is used for both eager and super-eager,
+         the difference is how the variables-loop is processed)
+   Super-eager reduction.
     - Restart the main loop (over all variables) after any propagation.
       Only after the variable is finished.
     - It is very similar to the eager reduction - an additional break in the
       main loop is needed. So maybe add a Boolean variable that will switch
       between the eager and super-eager reductions.
 
-2. Lookahead-reduction statistics.
+1. Lookahead-reduction statistics.
     - All reduction-statistics should be collected.
     - This is a return value of the reduction function.
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
 
-3. Find all solutions in a lookahead reduction function.
+2. Find all solutions in a lookahead reduction function.
     - All solutions which are found during the reduction, are collected and
       saved to the local statistics.
     - DONE The corresponding branches are cut off so Gecode is not aware of any
       found solutions.
 
-4. Pruning.
+3. Pruning.
     - Should work in all types of reductions.
 
 
@@ -116,15 +118,15 @@ namespace LookaheadReduction {
   ReduceRes lareduction(GC::Space& home,
                         const IntViewArray x,
                         const int start,
-                        [[maybe_unused]]const OP::RT& rt,
+                        [[maybe_unused]]const OP::RT rt,
                         const GC::IntPropLevel pl,
-                        [[maybe_unused]]const OP::LAR& lar) noexcept {
+                        const OP::LAR lar) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
-    bool reduction = false;
+    bool repeat = false;
     do {
-      reduction = false;
+      repeat = false;
       // Iterate over all unassigned variables:
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
@@ -162,9 +164,8 @@ namespace LookaheadReduction {
           }
         }
 
-        // Apply all var!=val assignments in one batch:
+        // Apply all var!=val assignments for the variable in one batch:
        if (not noteqvalues.empty()) {
-          reduction = true;
           for (auto& val : noteqvalues) {
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           }
@@ -177,9 +178,19 @@ namespace LookaheadReduction {
           else if (status == GC::SS_SOLVED) {
             // XXX
           }
+          // If super-eager, and any propagation was done in the
+          // variables-loop, then restart the variables-loop immediately
+          // after processing the variable. If no propagation was done during
+          // variables-loop, finish the reduction. Do not update the flag
+          // repeatred, so it is remains false.
+          // If eager, and any propagation was done during variables-loop,
+          // set the flag repeatred to true, process the variables-loop
+          // entirely, and then repeat the variables-loop.
+          if (lar == OP::LAR::supeager) { assert(not repeat); break; } 
+          else if (lar == OP::LAR::eager) repeat = true;
         }
       } // for (int var = start; var < x.size(); ++var) {
-    } while (reduction);
+    } while (repeat);
 
     return ReduceRes(BranchingStatus::branching);
   }

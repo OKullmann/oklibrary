@@ -92,7 +92,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
+        "0.3.10",
         "26.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
