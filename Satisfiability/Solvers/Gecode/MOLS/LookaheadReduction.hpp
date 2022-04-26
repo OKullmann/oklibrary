@@ -23,10 +23,20 @@ TODOS:
       between the eager and super-eager reductions.
 
 1. Lookahead-reduction statistics.
-    - All reduction-statistics should be collected.
     - This is a return value of the reduction function.
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
+    - Statistics collected here (the "important events"):
+      - the propagation-counter
+      - the number of eliminated values
+      - the quotient eliminated-values / all-values
+      - the number of successful prunings
+      - the number of probings
+      - the quotient prunings/probings
+      - the number of rounds
+      - the final size of the pruning-map
+      - the total time for the reduction
+      - the number of satisfying assignments found.
 
 2. Find all solutions in a lookahead reduction function.
     - All solutions which are found during the reduction, are collected and
