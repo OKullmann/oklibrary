@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,7 +12,7 @@ License, or any later version. */
 BUGS:
 
 0. DONE Due to the proginfo-object located in file ProgramInfo.hpp, the macro
-   __FILE__ can no longer be used (since no the program-name is wrong).
+   __FILE__ can no longer be used (since now the program-name is wrong).
    - Doesn't seem a problem to hardcode the filename.
 
 1. Variables enc(i,0,i,p) -> false, i != 0, p != 0
@@ -108,6 +108,8 @@ TODOS:
  - InputOutput.hpp.
 
 3. Establish relation to Random/LatinSquares.
+
+4. Establish relation to Gecode/MOLS.
 
 */
 

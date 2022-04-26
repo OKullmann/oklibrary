@@ -1,6 +1,6 @@
 // Oliver Kullmann, 19.5.2018 (Swansea)
 // Copyright 2011 Haiou Shen
-// Copyright 2018 Oliver Kullmann
+// Copyright 2018, 2022 Oliver Kullmann
 // Started as a copy of the site
 // https://sites.google.com/site/haioushen/search-algorithm/solvean-queensproblemusingsatsolver
 
@@ -162,6 +162,11 @@ This variation is not on OEIS, the counts for 1 <= N <= 10 are:
 1. Update to the new standard
 
 2. Provide the modular versions MQ, MB, MBR
+
+3. Provide the option of using the short AMO-conditions (see module
+   LatinSquares).
+
+4. Provide the box condition (see MOLS/Encoding.hpp).
 
 */
 

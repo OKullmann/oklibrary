@@ -146,6 +146,12 @@ Indeed quite obvious that
    for N=7 we have 3*3=9 2x2 boxes, and the upper and right edge-cell are not
    covered.
 
+5. Provide SAT-encoding
+
+    - With a global option for using the linear-size AMO-condition (see
+      module LatinSquares, there in Mols.cpp).
+    - Compare with NQueens.cpp and LatinSquares/Encoding.hpp.
+
 */
 
 #ifndef ENCODING_HqEmYk6s0p
