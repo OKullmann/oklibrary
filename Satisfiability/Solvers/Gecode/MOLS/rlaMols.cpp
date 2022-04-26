@@ -47,8 +47,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "21.4.2022",
+        "0.1.6",
+        "26.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -125,8 +125,7 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string outfile = output_filename(proginfo.prg, N);
 
-  const bool with_output =
-    rt == RT::sat_solving or rt == RT::enumerate_solutions;
+  const bool with_output = Options::with_output(rt);
   if (with_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
