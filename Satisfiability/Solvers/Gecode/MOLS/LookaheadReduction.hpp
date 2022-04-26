@@ -13,11 +13,6 @@ BUGS:
 
 TODOS:
 
-0. Pass parameters to the la-reduction function.
-    - DONE Eagerness.
-    - DONE Propagation level.
-    - DONE Run-type.
-
 1. Super-eager reduction.
     - Restart the main loop (over all variables) after any propagation.
       Only after the variable is finished.
