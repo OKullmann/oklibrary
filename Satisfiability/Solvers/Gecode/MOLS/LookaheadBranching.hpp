@@ -308,7 +308,7 @@ namespace LookaheadBranching {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       const OP::LAR lar = m->laredtype();
-      const OP::RT rt = m->runtype(); 
+      const OP::RT rt = m->runtype();
       LR::ReduceRes res = LR::lareduction<ModSpace>(home, x, start, rt, lar);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
