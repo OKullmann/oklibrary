@@ -186,7 +186,7 @@ namespace LookaheadReduction {
           // If eager, and any propagation was done during variables-loop,
           // set the flag repeatred to true, process the variables-loop
           // entirely, and then repeat the variables-loop.
-          if (lar == OP::LAR::supeager) { assert(not repeat); break; } 
+          if (lar == OP::LAR::supeager) { assert(not repeat); break; }
           else if (lar == OP::LAR::eager) repeat = true;
         }
       } // for (int var = start; var < x.size(); ++var) {
