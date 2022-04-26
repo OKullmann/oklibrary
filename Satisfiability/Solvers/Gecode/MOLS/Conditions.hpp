@@ -145,9 +145,8 @@ namespace Conditions {
   }
 
 
-  // Versions of a square (in the basic encoding, every version is presented
-  // as an extra square, connected to the original square via equality- and
-  // elementship-relations):
+  // Versions of a square, with versions 0, 4, 8 the main representatives
+  // (only these are materially represented):
   enum class VS : size_t {
     id = 0, // c123
       c213 = 1,   // t circ id (transposed); row-inversion

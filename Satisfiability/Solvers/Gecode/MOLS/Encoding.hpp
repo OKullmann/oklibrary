@@ -16,7 +16,7 @@ License, or any later version. */
 
 TODOS:
 
-1. DIBE Complete the encoding of the unary conditions:
+1. DONE Complete the encoding of the unary conditions:
 
   The following Gecode constraints are enough for encoding all
   LS-MOLS-conditions parsed in Conditions.hpp:
