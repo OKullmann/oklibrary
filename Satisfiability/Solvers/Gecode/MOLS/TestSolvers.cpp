@@ -14,12 +14,13 @@ License, or any later version. */
 
 #include "PartialSquares.hpp"
 #include "Solvers.hpp"
+#include "Verification.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "18.4.2022",
+        "0.3.0",
+        "25.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestSolvers.cpp",
@@ -27,6 +28,7 @@ namespace {
 
   using namespace Solvers;
   using namespace PartialSquares;
+  using namespace Verification;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -67,6 +69,54 @@ int main(const int argc, const char* const argv[]) {
    assert(valid(BasicSR{RT::enumerate_solutions,1,{ps}}));
    assert(not valid(BasicSR{RT::enumerate_solutions,2,{ps}}));
    assert(valid(BasicSR{RT::enumerate_solutions,2,{2,ps}}));
+  }
+
+  {std::istringstream cd("squares A\n");
+   std::istringstream ps;
+   {const auto res = solver0(RT::unique_decision, 2, cd, ps);
+    assert(valid(res));
+    assert((eqp(res, {RT::unique_decision, 2, {}})));
+   }
+   cd.clear(); cd.str("squares A\n");
+   ps.clear(); ps.str("A\n1 1\n1 1\n");
+   {const auto res = solver0(RT::unique_decision, 2, cd, ps);
+    assert(valid(res));
+    assert((eqp(res, {RT::unique_decision, 1, {}})));
+   }
+   cd.clear(); cd.str("squares A\nls A\n");
+   ps.clear(); ps.str("A\n1 1\n1 1\n");
+   {const auto res = solver0(RT::unique_decision, 2, cd, ps);
+    assert(valid(res));
+    assert((eqp(res, {RT::unique_decision, 0, {}})));
+   }
+  }
+  {std::istringstream cd("squares A\n");
+   std::istringstream ps;
+   {const auto res = solver0(RT::unique_solving, 2, cd, ps);
+    assert(valid(res));
+    assert(res.rt == RT::unique_solving);
+    assert(res.sol_found == 2);
+    assert(eqp(extract(res.list_sol), {
+               {{{0,0},{0,0}}},
+               {{{0,0},{0,1}}}
+             }));
+   }
+   cd.clear(); cd.str("squares A\n");
+   ps.clear(); ps.str("A\n1 1\n1 1\n");
+   {const auto res = solver0(RT::unique_solving, 2, cd, ps);
+    assert(valid(res));
+    assert(res.rt == RT::unique_solving);
+    assert(res.sol_found == 1);
+    assert(eqp(extract(res.list_sol), {
+               {{{1,1},{1,1}}}
+             }));
+   }
+   cd.clear(); cd.str("squares A\nls A\n");
+   ps.clear(); ps.str("A\n1 1\n1 1\n");
+   {const auto res = solver0(RT::unique_solving, 2, cd, ps);
+    assert(valid(res));
+    assert((eqp(res, {RT::unique_solving, 0, {}})));
+   }
   }
 
 }
