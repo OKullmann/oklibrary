@@ -66,6 +66,14 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - setting the field-width to the maximum reached, and always output
          right-aligned in this fixed field-width.
     - Perhaps the output-filename should contain a hash of the parameters.
+    - Progress-bar:
+     - As the OKsolver has it, but now using float80; compare there.
+     - Only with laMols.
+     - The total number of total assignments is the starting point:
+         N^(N^2 * k).
+     - Whenever a leaf is reached, the number of covered total assignments
+       is subtracted.
+     - Alternatively one could have a monitoring-depth (see also the OKsolver).
 
 2. Defaults:
     - We have for propagation-level the strongest, and for variable-choice
