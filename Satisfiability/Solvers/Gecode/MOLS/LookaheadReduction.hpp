@@ -15,7 +15,7 @@ TODOS:
 
 0. Pass parameters to the la-reduction function.
     - DONE Eagerness.
-    - Propagation level.
+    - DONE Propagation level.
     - DONE Run-type.
 
 1. Super-eager reduction.
@@ -121,6 +121,7 @@ namespace LookaheadReduction {
                         const IntViewArray x,
                         const int start,
                         [[maybe_unused]]const OP::RT& rt,
+                        [[maybe_unused]]const GC::IntPropLevel& pl,
                         [[maybe_unused]]const OP::LAR& lar) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));

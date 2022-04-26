@@ -52,6 +52,7 @@ namespace Constraints {
     typedef GC::IntVar Var;
     VarVec V;
     OP::RT rt;
+    GC::IntPropLevel pl;
     OP::GBO gbo;
     OP::LAR lar;
     LAB::vec_t wghts;
@@ -70,6 +71,7 @@ namespace Constraints {
       rt(rt_), gbo(gbo_), lar(lar_), wghts(wghts_) {
       assert(wghts.size() == enc.N-1);
       V = enc.post<VarVec, Var>(this);
+      pl = enc.pl;
       assert(valid());
     }
     bool valid () const noexcept {return V.size() > 0 and not wghts.empty();}
@@ -82,6 +84,7 @@ namespace Constraints {
     }
     GC::IntVarArray var() const noexcept { assert(valid()); return V; }
     OP::RT runtype() const noexcept { assert(valid()); return rt; }
+    GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
     OP::GBO brorder() const noexcept { assert(valid()); return gbo; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
     LAB::vec_t weights() const noexcept { assert(valid()); return wghts; }
