@@ -118,7 +118,7 @@ namespace LookaheadReduction {
     BranchingStatus status() const noexcept { assert(valid()); return st; }
   };
 
-  // Statistics of the main lookahead-reduction actions: 
+  // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
     typedef std::uint64_t count_t;
     typedef double float_t;
@@ -163,7 +163,7 @@ namespace LookaheadReduction {
     count_t rounds() const noexcept { return rounds_; }
     count_t prunsetsize() const noexcept { return prunsetsize_; }
     float_t time() const noexcept { return time_; }
-    count_t sols() const noexcept { return sols_; } 
+    count_t sols() const noexcept { return sols_; }
   };
 
   // Lookahead-reduction.
