@@ -64,9 +64,9 @@ namespace Constraints {
     GC::Space* copy() { return new LookaheadMols(*this); }
   public :
     LookaheadMols(const EC::EncCond& enc,
-                  const OP::RT& rt_,
-                  const OP::GBO& gbo_,
-                  OP::LAR& lar_,
+                  const OP::RT rt_,
+                  const OP::GBO gbo_,
+                  const OP::LAR lar_,
                   const LAB::vec_t wghts_) :
       rt(rt_), gbo(gbo_), lar(lar_), wghts(wghts_) {
       assert(wghts.size() == enc.N-1);

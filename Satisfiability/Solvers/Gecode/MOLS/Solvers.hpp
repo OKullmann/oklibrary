@@ -346,7 +346,8 @@ namespace Solvers {
   /*
     The solver with look-ahead-reduction and gecode-branching
   */
-  GBasicSR rlasolver(const EC::EncCond& enc, const RT rt,
+  GBasicSR rlasolver(const EC::EncCond& enc,
+                     const OP::RT rt,
                      const OP::LAR,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
@@ -363,7 +364,8 @@ namespace Solvers {
     return res;
   }
 
-  GBasicSR solver_rla(const EC::EncCond& enc, const RT rt,
+  GBasicSR solver_rla(const EC::EncCond& enc,
+                      const OP::RT rt,
                       const OP::LAR lar,
                       const GC::IntVarBranch vrb,
                       const GC::IntValBranch vlb,

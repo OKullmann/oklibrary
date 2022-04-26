@@ -78,6 +78,7 @@ namespace LookaheadReduction {
   template<class ModSpace>
   std::unique_ptr<ModSpace> subproblem(ModSpace* const m, 
                                        const int v, const int val,
+                                       const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
     assert(m->valid());
     assert(m->valid(v));
@@ -88,8 +89,8 @@ namespace LookaheadReduction {
     assert(c->valid(v));
     assert(c->status() == GC::SS_BRANCH);
     // Add an equality constraint for the given variable and its value:
-    if (eq) GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_EQ, val, GC::IPL_DOM);
-    else GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_NQ, val, GC::IPL_DOM);
+    if (eq) GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_EQ, val, pl);
+    else GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_NQ, val, pl);
     return c;
   }
 
@@ -121,7 +122,7 @@ namespace LookaheadReduction {
                         const IntViewArray x,
                         const int start,
                         [[maybe_unused]]const OP::RT& rt,
-                        [[maybe_unused]]const GC::IntPropLevel& pl,
+                        const GC::IntPropLevel pl,
                         [[maybe_unused]]const OP::LAR& lar) noexcept {
     assert(start < x.size());
     ModSpace* m = &(static_cast<ModSpace&>(home));
@@ -144,7 +145,7 @@ namespace LookaheadReduction {
         for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
           // Make a copy of the current problem, and assign var==val:
-          const auto subm = subproblem<ModSpace>(m, var, val, true);
+          const auto subm = subproblem<ModSpace>(m, var, val, pl, true);
           // Call Gecode propagation:
           const auto status = subm->status();
           // If either a SAT leaf or an UNSAT leaf is found:
@@ -170,7 +171,7 @@ namespace LookaheadReduction {
        if (not noteqvalues.empty()) {
           reduction = true;
           for (auto& val : noteqvalues) {
-            GC::rel(home, x[var], GC::IRT_NQ, val, GC::IPL_DOM);
+            GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           }
           // Call a propagation:
           const auto status = home.status();

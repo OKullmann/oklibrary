@@ -343,12 +343,14 @@ namespace LookaheadBranching {
           assert(view.size() >= 2);
           for (IntVarValues j(view); j(); ++j) {
             const int val = j.val();
-            const auto subm_eq = LR::subproblem<ModSpace>(m, var, val, true);
+            const auto subm_eq =
+              LR::subproblem<ModSpace>(m, var, val, pl, true);
             [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
             assert(subm_eq_st == GC::SS_BRANCH);
             const float_t dist1 = distance(m->var(), subm_eq->var(), wghts, dpth);
             assert(dist1 > 0);
-            const auto subm_neq = LR::subproblem<ModSpace>(m, var, val, false);
+            const auto subm_neq =
+              LR::subproblem<ModSpace>(m, var, val, pl, false);
             [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
             assert(subm_neq_st == GC::SS_BRANCH);
             const float_t dist2 = distance(m->var(), subm_neq->var(), wghts, dpth);
