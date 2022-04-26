@@ -34,7 +34,7 @@ TODOS:
       - the number of probings
       - the quotient prunings/probings
       - the number of rounds
-      - the final size of the pruning-map
+      - the final size of the pruning-set
       - the total time for the reduction
       - the number of satisfying assignments found.
 
@@ -116,6 +116,54 @@ namespace LookaheadReduction {
       st = st_; assert(valid());
     };
     BranchingStatus status() const noexcept { assert(valid()); return st; }
+  };
+
+  // Statistics of the main lookahead-reduction actions: 
+  struct ReductionStatistics {
+    typedef std::uint64_t count_t;
+    typedef double float_t;
+  private :
+    count_t props_ = 0; // the propagation-counter
+    count_t vals_ = 0; // the number of all-values
+    count_t elimvals_ = 0; // the number of eliminated values
+    float_t quotelimvals_ = 0.0; // the quotient eliminated-values / all-values
+    count_t pruns_ = 0; // the number of successful prunings
+    count_t probes_ = 0; // the number of probings
+    float_t quotprun_ = 0.0; // the quotient prunings / probings
+    count_t rounds_ = 0; // the number of rounds
+    count_t prunsetsize_ = 0; // the final size of the pruning-set
+    float_t time_ = 0.0; // the total time for the reduction
+    count_t sols_ = 0; // the number of satisfying assignments found.
+    void update_quotelimvals() noexcept {
+      quotelimvals_ = (float_t)elimvals_ / (float_t)vals_;
+    }
+    void update_quotprun() noexcept {
+      quotprun_ = (float_t)pruns_ / (float_t)probes_;
+    }
+  public:
+    void increment_props() noexcept { ++props_; }
+    void update_allvalues(const count_t v) noexcept {
+      vals_ = v;
+    }
+    void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
+    void increment_pruns() noexcept { ++pruns_; update_quotprun();}
+    void increment_probes() noexcept { ++probes_; update_quotprun();}
+    void increment_rounds() noexcept { ++rounds_; }
+    void update_prunsetsize(const count_t size) noexcept {
+      prunsetsize_ = size;
+    }
+    void update_time(const float_t t) noexcept { time_ = t; }
+    void increment_sols() noexcept { ++sols_; }
+    count_t props() const noexcept { return props_; }
+    count_t elimvals() const noexcept { return elimvals_; }
+    float_t quotelimvals() const noexcept { return quotelimvals_;}
+    count_t pruns() const noexcept { return pruns_; }
+    count_t probes() const noexcept { return probes_; }
+    float_t quotprun() const noexcept { return quotprun_; }
+    count_t rounds() const noexcept { return rounds_; }
+    count_t prunsetsize() const noexcept { return prunsetsize_; }
+    float_t time() const noexcept { return time_; }
+    count_t sols() const noexcept { return sols_; } 
   };
 
   // Lookahead-reduction.
