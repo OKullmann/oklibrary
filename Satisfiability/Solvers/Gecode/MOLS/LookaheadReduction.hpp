@@ -71,7 +71,7 @@ namespace LookaheadReduction {
 
   // Make a copy of a given problem and assign either var==val or var!=val:
   template<class ModSpace>
-  std::unique_ptr<ModSpace> subproblem(ModSpace* const m, 
+  std::unique_ptr<ModSpace> child_node(ModSpace* const m, 
                                        const int v, const int val,
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
@@ -140,7 +140,7 @@ namespace LookaheadReduction {
         for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
           // Make a copy of the current problem, and assign var==val:
-          const auto subm = subproblem<ModSpace>(m, var, val, pl, true);
+          const auto subm = child_node<ModSpace>(m, var, val, pl, true);
           // Call Gecode propagation:
           const auto status = subm->status();
           // If either a SAT leaf or an UNSAT leaf is found:
