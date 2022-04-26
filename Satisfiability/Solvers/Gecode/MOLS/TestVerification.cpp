@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
-        "23.4.2022",
+        "0.2.0",
+        "26.4.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
@@ -34,6 +34,26 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(eqp(sls2bls({}), {}));
+   assert(eqp(sls2bls({{0}}), {{0}}));
+   assert(eqp(sls2bls({{0},{1,2}}), {{0},{1,2}}));
+  }
+
+  {assert(extract(PS::Cell(0)) == 0);
+   assert(extract(PS::Cell(1)) == 0);
+   assert(extract(PS::Cell({1,1,0,1})) == 2);
+  }
+  {assert(eqp(extract(PS::prow_t{}), {}));
+   assert(eqp(extract(PS::prow_t{{{1,1,0,1}},{{1,0}}}), {2,1}));
+  }
+  {assert(eqp(extract(PS::psquare_t{}), {}));
+   assert(eqp(extract(PS::psquare_t{{},{}}), {{},{}}));
+   assert(eqp(extract(PS::psquare_t{
+                        PS::prow_t{{{1,1,0,1}},{{1,0}}},
+                        PS::prow_t{{{1,0,1,0}},{{1,1,0}}}}),
+              {{2,1},{1,2}}));
+  }
 
   {assert(alldiffelem(ls_row_t{}));
    assert(alldiffelem(ls_row_t{1}));
@@ -300,5 +320,49 @@ int main(const int argc, const char* const argv[]) {
     assert(rproduct(tA, L) == A);
     assert(rls(L));
     assert(not cls(L));
+  }
+
+  {assert(eqp(rproduct({}, {}), {}));
+   assert(eqp(cproduct({}, {}), {}));
+  }
+
+  {RG::RandGen_t g({1234});
+   for (size_t N = 1; N <= 6; ++N)
+     for (size_t i = 0; i < 100; ++i) {
+       const ls_t A = random_sq(N, g), B = random_sq(N, g),
+         tA = transposition(A), tB = transposition(B) ;
+       assert(sqprop(A)); assert(sqprop(B)); assert(sqprop(tA));
+       assert(sqprop(tB));
+       assert(cproduct(A,B) == transposition(rproduct(tA, tB)));
+       assert(rproduct(A,B) == transposition(cproduct(tA, tB)));
+       const ls_t C = random_rls(N, g), D = random_rls(N, g),
+         iC = rinverse(C), iD = rinverse(D);
+       assert(rls(C)); assert(rls(D)); assert(rls(iC)); assert(rls(iD));
+       assert(rls(rproduct(C,D)));
+       assert(rproduct(C, iC) == neutral_rls(N));
+       assert(rproduct(iC, C) == neutral_rls(N));
+       assert(rproduct(D, iD) == neutral_rls(N));
+       assert(rproduct(iD, D) == neutral_rls(N));
+       const ls_t E = random_cls(N, g), F = random_cls(N, g),
+         iE = cinverse(E), iF = cinverse(F);
+       assert(cls(E)); assert(cls(F)); assert(cls(iE)); assert(cls(iF));
+       assert(cls(cproduct(E,F)));
+       assert(cproduct(E, iE) == neutral_cls(N));
+       assert(cproduct(iE, E) == neutral_cls(N));
+       assert(cproduct(F, iF) == neutral_cls(N));
+       assert(cproduct(iF, F) == neutral_cls(N));
+     }
+   for (size_t N = 1; N <= 5; ++N)
+     for (size_t i = 0; i < 10; ++i) {
+       const ls_t L = random_ls(N, g);
+       assert(ls(L));
+       assert(ls(rinverse(L))); assert(ls(cinverse(L)));
+       const auto [S1, S2] = random_ortho_rls(N, g);
+       assert(rls(S1)); assert(rls(S2));
+       assert(orthogonal(S1,S2));
+       const auto [S3, S4] = random_ortho_cls(N, g);
+       assert(cls(S3)); assert(cls(S4));
+       assert(orthogonal(S3,S4));
+     }
   }
 }

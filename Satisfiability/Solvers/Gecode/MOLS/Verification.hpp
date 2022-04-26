@@ -19,9 +19,35 @@ License, or any later version. */
    - out(ostream&, ls_t, sep)
   one has simple line-oriented output, with "sep" separating the row-entries.
 
+  Conversions:
+
+   - sls2bls translates from LatinSquares::ls_t to ls_t
+   - the extract-functions translate from partial squares, first producing
+     (single) ls_t:
+    - extract(PS::Cell)
+    - extract(PS::prow_t)
+    - extract(PS::psquare_t)
+    - extract(PS::PSquare)
+   - producing a std::vector<ls_t> from a "solution":
+    - extract(PS::PSquares)
+   - finally a std::vector<std::vector<ls_t>> (a list of "solutions"):
+    - extract(std::vector<PS::PSquares>).
+
   Generators:
+
    - random_sq(N, RandGen_t&) produces a random NxN square with uniformly
-     distributed entries from 0, ..., N-1.
+     distributed entries from 0, ..., N-1
+   - neutral_rls(N) has 0, ..., N-1 in its rows
+   - neutral_cls(N) has 0, ..., N-1 in its columns
+   - random_rls(N, RandGen_t&) produces a random row-ls's, with each
+     row-permutation uniformly distributed
+   - random_cls(N, RandGen_t&) accordingly for column-ls's
+   - random_ls(N, RG::RandGen_t&, LS::StRLS) imports the main function
+     from module LatinSquares, with LS::StRLS offering "row-reduced"
+     and "reduced"
+   - random_ortho_rls(N, g) produces a pair of random orthogonal rls's
+   - random_ortho_cls(N, g) produces a pair of random orthogonal cls's.
+
 
   As far as it is relatively easily done, the various functions treat these
   types according to their most general form, as concrete types, without
@@ -77,12 +103,15 @@ License, or any later version. */
      No restrictions on S are made.
 
    - symmetric(S): false for not square-shaped S
-   - antisymmetric(S): false for not square-shaped S.
+   - antisymmetric(S): false for not square-shaped S
+
+   - orthogonal(S1, S2): checks whether the superposition of S1, S2 has
+     all entries different; false of S1, S2 are not of the same shape.
 
    Three versions of latin squares, where without sqprop(S) false is returned:
 
    - rls: all rows are permutations
-   - cls: all columns are permuations
+   - cls: all columns are permutations
    - ls: rls and cls.
 
    Transformations:
@@ -91,6 +120,13 @@ License, or any later version. */
     - transpositionm(ls_t) -> ls_t
     - antitranspositionm(ls_t&)
     - antitransposition(ls_t) -> ls_t.
+
+   Algebra:
+
+    - rproduct(ls_t, ls_t) : row-product; assumes sqprop(A, B)
+    - cproduct(ls_t, ls_t) : column-product; assumes sqprop(A, B)
+    - rinverse(ls_t): row-inverse; assumes rls(A)
+    - cinverse(ls_t): column-inverse; assumes cls(A).
 
 */
 
@@ -107,22 +143,66 @@ License, or any later version. */
 #include <ProgramOptions/Strings.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/LatinSquares.hpp>
+#include <Transformers/Generators/Random/LSRG.hpp>
 
 #include "Conditions.hpp"
+#include "PartialSquares.hpp"
 
 namespace Verification {
 
   namespace RG = RandGen;
+  namespace LS = LatinSquares;
+
   namespace CD = Conditions;
+  namespace PS = PartialSquares;
 
   typedef Conditions::size_t size_t;
 
   typedef std::vector<size_t> ls_row_t;
   typedef std::vector<ls_row_t> ls_t;
 
+  // Conversion from LS::ls_t to ls_t, that is,
+  // "small" ls_t to big ls_t (LS::ls_t uses 32-bits for the cells):
+  ls_t sls2bls(const LS::ls_t& S) {
+    const size_t N = S.size();
+    ls_t res(N);
+    for (size_t i = 0; i < N ; ++i)
+      res[i].assign(S[i].begin(), S[i].end());
+    return res;
+  }
 
-  void out(std::ostream& out, const ls_row_t& r, const std::string& sep = " ") {
+  // Conversion from partial squares to ls_t:
+  size_t extract(const PS::Cell& c) noexcept {
+    return c.first();
+  }
+  ls_row_t extract(const PS::prow_t& r) {
+    ls_row_t res; res.reserve(r.size());
+    for (const PS::Cell& c : r) res.push_back(extract(c));
+    return res;
+  }
+  ls_t extract(const PS::psquare_t& s) {
+    ls_t res; res.reserve(s.size());
+    for (const PS::prow_t& r : s) res.push_back(extract(r));
+    return res;
+  }
+  ls_t extract(const PS::PSquare& s) {
+    return extract(s.ps);
+  }
+  std::vector<ls_t> extract(const PS::PSquares& S) {
+    std::vector<ls_t> res; res.reserve(S.psqs.size());
+    for (const PS::PSquare& s : S.psqs) res.push_back(extract(s));
+    return res;
+  }
+  std::vector<std::vector<ls_t>> extract(const std::vector<PS::PSquares>& V) {
+    std::vector<std::vector<ls_t>> res; res.reserve(V.size());
+    for (const PS::PSquares& S : V) res.push_back(extract(S));
+    return res;
+  }
+
+
+  void out(std::ostream& out, const ls_row_t& r, const std::string& sep=" ") {
     Environment::out_line(out, r, sep);
   }
   void out(std::ostream& out, const ls_t& S, const std::string& sep = " ") {
@@ -138,6 +218,33 @@ namespace Verification {
       for (size_t& x : r) x = u();
     }
     return S;
+  }
+  ls_t neutral_rls(const size_t N) {
+    ls_t S(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      ls_row_t& r = S[i];
+      for (size_t j = 1; j < N; ++j) r[j] = j;
+    }
+    return S;
+  }
+  ls_t neutral_cls(const size_t N) {
+    ls_t S(N, ls_row_t(N));
+    for (size_t i = 1; i < N; ++i) {
+      ls_row_t& r = S[i];
+      for (size_t j = 0; j < N; ++j) r[j] = i;
+    }
+    return S;
+  }
+  ls_t random_rls(const size_t N, RG::RandGen_t& g) {
+    ls_t S = neutral_rls(N);
+    for (ls_row_t& r : S) RG::shuffle(r.begin(), r.end(), g);
+    return S;
+  }
+  ls_t random_cls(const size_t, RG::RandGen_t&);
+
+  ls_t random_ls(const size_t N, RG::RandGen_t& g,
+                 const LS::StRLS s = LS::StRLS::none) {
+    return sls2bls(LSRG::random_ls(N, N, LSRG::GenO::majm, s, g));
   }
 
 
@@ -349,6 +456,11 @@ namespace Verification {
   }
 
 
+  ls_t random_cls(const size_t N, RG::RandGen_t& g) {
+    return transposition(random_rls(N,g));
+  }
+
+
   bool orthogonal(const ls_t& S1, const ls_t& S2) {
     const size_t N = S1.size();
     if (S2.size() != N) return false;
@@ -369,13 +481,24 @@ namespace Verification {
 
   // A * B row-wise (first B, then A):
   ls_t rproduct(const ls_t& A, const ls_t& B) {
-    assert(rls(A) and rls(B));
+    assert(sqprop(A) and sqprop(B));
     const size_t N = A.size();
+    assert(B.size() == N);
     ls_t res(N, ls_row_t(N));
     for (size_t i = 0; i < N; ++i) {
       ls_row_t& resr = res[i], Ar = A[i], Br = B[i];
       for (size_t j = 0; j < N; ++j) resr[j] = Ar[Br[j]];
     }
+    return res;
+  }
+  // A * B column-wise (first B, then A):
+  ls_t cproduct(const ls_t& A, const ls_t& B) {
+    assert(sqprop(A) and sqprop(B));
+    const size_t N = A.size();
+    assert(B.size() == N);
+    ls_t res(N, ls_row_t(N));
+    for (size_t j = 0; j < N; ++j)
+      for (size_t i = 0; i < N; ++i) res[i][j] = A[B[i][j]][j];
     return res;
   }
 
@@ -388,6 +511,23 @@ namespace Verification {
       for (size_t j = 0; j < N; ++j) resr[Ar[j]] = j;
     }
     return res;
+  }
+  ls_t cinverse(const ls_t& A) {
+    assert(cls(A));
+    const size_t N = A.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t j = 0; j < N; ++j)
+      for (size_t i = 0; i < N; ++i) res[A[i][j]][j] = i;
+    return res;
+  }
+
+  std::pair<ls_t,ls_t> random_ortho_rls(const size_t N, RG::RandGen_t& g) {
+    const ls_t A = random_rls(N,g);
+    return {A, rproduct(random_ls(N,g), A)};
+  }
+  std::pair<ls_t,ls_t> random_ortho_cls(const size_t N, RG::RandGen_t& g) {
+    const ls_t A = random_cls(N,g);
+    return {A, cproduct(random_ls(N,g), A)};
   }
 
 }
