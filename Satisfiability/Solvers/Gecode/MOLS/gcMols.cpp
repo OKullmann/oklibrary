@@ -58,8 +58,12 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 1. Output:
     - More statistics on conditions should be output:
-       - number of unary, equality- and prod-conditions.
+       - number of unary, equality- and prod-conditions
+       - perhaps by default actually the complete conditions are reported,
+         using options "+-cond".
     - More statistics on the partial squares given should be output:
+       - total number of squares involved
+       - total number of cells involved
        - total number of removed values.
     - Solution-output:
        - hex-output as an option; perhaps as "+-hex"
