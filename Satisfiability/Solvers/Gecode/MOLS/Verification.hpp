@@ -164,7 +164,7 @@ namespace Verification {
   namespace CD = Conditions;
   namespace PS = PartialSquares;
 
-  typedef Conditions::size_t size_t;
+  typedef CD::size_t size_t;
 
   typedef std::vector<size_t> ls_row_t;
   typedef std::vector<ls_row_t> ls_t;
