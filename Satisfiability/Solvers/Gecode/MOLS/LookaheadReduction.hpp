@@ -141,14 +141,17 @@ namespace LookaheadReduction {
     float_t time_ = 0.0; // the total time for the reduction
     count_t sols_ = 0; // the number of satisfying assignments found.
     void update_quotelimvals() noexcept {
+      assert(vals_ > 0);
       quotelimvals_ = (float_t)elimvals_ / (float_t)vals_;
     }
     void update_quotprun() noexcept {
+      assert(probes_ > 0);
       quotprun_ = (float_t)pruns_ / (float_t)probes_;
     }
   public:
     void increment_props() noexcept { ++props_; }
     void update_allvalues(const count_t v) noexcept {
+      assert(v > 0);
       vals_ = v;
     }
     void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
