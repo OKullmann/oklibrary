@@ -53,8 +53,10 @@ License, or any later version. */
     - indexing_strings(Iterator, Iterator, bool ignore_duplicates)
       -> indstr_t.
 
-    - out_line(ostream&, RAN R, sep)
-    - out_lines(ostream& RAN R, sep1, sep2)
+    - out_line(ostream&, RAN R, sep, width)
+    - out_lines(ostream& RAN R, sep1, sep2, width)
+
+    - printsize(ostream&, X x): number of characters printed with x
 
 
 TODOS:
@@ -426,22 +428,42 @@ namespace Environment {
 
   // Output range R, separated by sep
   template <class RAN>
-  void out_line(std::ostream& out, const RAN& R, const std::string& sep = " ") {
+  void out_line(std::ostream& out, const RAN& R,
+                const std::string& sep = " ",
+                const std::streamsize w = 0) {
     if (R.empty()) return;
     auto it = R.begin(); const auto end = R.end();
-    out << *it; ++it;
-    for (; it != end; ++it) out << sep << *it;
+    if (w == 0) {
+      out << *it; ++it;
+      for (; it != end; ++it) out << sep << *it;
+    }
+    else {
+      out.width(w);
+      out << *it; ++it;
+      for (; it != end; ++it) {
+        out << sep; out.width(w); out << *it;
+      }
+    }
   }
   // Output a nested range:
   template <class RAN>
   void out_lines(std::ostream& out, const RAN& R,
                  const std::string& sep1 = "\n",
-                 const std::string& sep2 = " ") {
+                 const std::string& sep2 = " ",
+                 const std::streamsize w = 0) {
     const auto end = R.end();
     for (auto it = R.begin(); it != end; ++it) {
-      out_line(out, *it, sep2);
+      out_line(out, *it, sep2, w);
       out << sep1;
     }
+  }
+
+
+  template <typename X>
+  std::string::size_type printsize(std::ostream& out, const X& x) {
+    std::ostringstream ss; ss.flags(out.flags());
+    ss << x;
+    return ss.str().size();
   }
 
 
