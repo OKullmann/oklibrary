@@ -13,10 +13,12 @@ BUGS:
 
 TODOS:
 
--2. We don't use double, but float80 (except at places where forced
+-2. DONE (double was replace by FloatingPoint::float80)
+    We don't use double, but float80 (except at places where forced
     by other software).
 
--1. For all unsigned types just size_t is to be used, nothing else.
+-1. DONE (Conditions::size_t is used)
+    For all unsigned types just size_t is to be used, nothing else.
     And for signed types, signed_t.
 
 0. DONE (one reduction function is used for both eager and super-eager,
@@ -67,13 +69,20 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <Numerics/FloatingPoint.hpp>
+
+#include "Conditions.hpp"
 #include "Options.hpp"
 
 namespace LookaheadReduction {
 
-  //namespace FP = FloatingPoint;
+  namespace FP = FloatingPoint;
   namespace GC = Gecode;
   namespace OP = Options;
+  namespace CD = Conditions;
+
+  using size_t = CD::size_t;
+  typedef FP::float80 float_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -126,20 +135,18 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
-    typedef std::uint64_t count_t;
-    typedef double float_t;
   private :
-    count_t props_ = 0; // the propagation-counter
-    count_t vals_ = 0; // the number of all-values
-    count_t elimvals_ = 0; // the number of eliminated values
+    size_t props_ = 0; // the propagation-counter
+    size_t vals_ = 0; // the number of all-values
+    size_t elimvals_ = 0; // the number of eliminated values
     float_t quotelimvals_ = 0.0; // the quotient eliminated-values / all-values
-    count_t pruns_ = 0; // the number of successful prunings
-    count_t probes_ = 0; // the number of probings
+    size_t pruns_ = 0; // the number of successful prunings
+    size_t probes_ = 0; // the number of probings
     float_t quotprun_ = 0.0; // the quotient prunings / probings
-    count_t rounds_ = 0; // the number of rounds
-    count_t prunsetsize_ = 0; // the final size of the pruning-set
+    size_t rounds_ = 0; // the number of rounds
+    size_t prunsetsize_ = 0; // the final size of the pruning-set
     float_t time_ = 0.0; // the total time for the reduction
-    count_t sols_ = 0; // the number of satisfying assignments found.
+    size_t sols_ = 0; // the number of satisfying assignments found.
     void update_quotelimvals() noexcept {
       assert(vals_ > 0);
       quotelimvals_ = (float_t)elimvals_ / (float_t)vals_;
@@ -150,7 +157,7 @@ namespace LookaheadReduction {
     }
   public:
     void increment_props() noexcept { ++props_; }
-    void update_allvalues(const count_t v) noexcept {
+    void update_allvalues(const size_t v) noexcept {
       assert(v > 0);
       vals_ = v;
     }
@@ -158,21 +165,21 @@ namespace LookaheadReduction {
     void increment_pruns() noexcept { ++pruns_; update_quotprun();}
     void increment_probes() noexcept { ++probes_; update_quotprun();}
     void increment_rounds() noexcept { ++rounds_; }
-    void update_prunsetsize(const count_t size) noexcept {
+    void update_prunsetsize(const size_t size) noexcept {
       prunsetsize_ = size;
     }
     void update_time(const float_t t) noexcept { time_ = t; }
     void increment_sols() noexcept { ++sols_; }
-    count_t props() const noexcept { return props_; }
-    count_t elimvals() const noexcept { return elimvals_; }
+    size_t props() const noexcept { return props_; }
+    size_t elimvals() const noexcept { return elimvals_; }
     float_t quotelimvals() const noexcept { return quotelimvals_;}
-    count_t pruns() const noexcept { return pruns_; }
-    count_t probes() const noexcept { return probes_; }
+    size_t pruns() const noexcept { return pruns_; }
+    size_t probes() const noexcept { return probes_; }
     float_t quotprun() const noexcept { return quotprun_; }
-    count_t rounds() const noexcept { return rounds_; }
-    count_t prunsetsize() const noexcept { return prunsetsize_; }
+    size_t rounds() const noexcept { return rounds_; }
+    size_t prunsetsize() const noexcept { return prunsetsize_; }
     float_t time() const noexcept { return time_; }
-    count_t sols() const noexcept { return sols_; }
+    size_t sols() const noexcept { return sols_; }
   };
 
   // Lookahead-reduction.
