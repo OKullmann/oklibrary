@@ -12,7 +12,8 @@
 
 # MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 40h wall-clock and 129 solutions found.
-# Visual inspection indicates that there are no Sudokus.
+# Visual inspection indicates that there are no Sudokus, but there are
+# (see SodukuPandiagonal).
 
 # N=17 seems a hard satisfiable instance.
 # Decision for 13 <= N <= 16 much easier without rred (also the unsatisfiable
