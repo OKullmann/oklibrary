@@ -144,7 +144,11 @@ namespace PartialSquares {
   };
   std::ostream& operator <<(std::ostream& out, const PSquare& ps) {
     out << ps.s << "\n";
-    Environment::out_lines(out, ps.ps);
+    const size_t N = ps.ps.size();
+    if (N >= 1) {
+      const size_t max_width = Environment::printsize(out, N-1);
+      Environment::out_lines(out, ps.ps, "\n", " ", max_width);
+    }
     return out;
   }
 

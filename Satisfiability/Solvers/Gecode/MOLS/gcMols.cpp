@@ -63,7 +63,8 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - total number of removed values.
     - Solution-output:
        - hex-output as an option; perhaps as "+-hex"
-       - setting the field-width to the maximum reached, and always output
+       - DONE
+         setting the field-width to the maximum reached, and always output
          right-aligned in this fixed field-width.
     - Perhaps the output-filename should contain a hash of the parameters.
     - Progress-bar:
@@ -119,8 +120,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.3",
-        "25.4.2022",
+        "0.9.4",
+        "27.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
