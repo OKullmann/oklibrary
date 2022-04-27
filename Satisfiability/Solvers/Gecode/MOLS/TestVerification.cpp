@@ -16,11 +16,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "26.4.2022",
+        "0.2.1",
+        "27.4.2022",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestVerification.cpp",
         "GPL v3"};
 
   using namespace Verification;

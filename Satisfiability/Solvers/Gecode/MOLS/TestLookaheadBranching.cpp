@@ -17,11 +17,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "31.3.2022",
+        "0.0.2",
+        "27.4.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
         "GPL v3"};
 
   namespace LAB = LookaheadBranching;

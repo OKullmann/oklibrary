@@ -18,11 +18,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "25.4.2022",
+        "0.2.4",
+        "27.4.2022",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
         "GPL v3"};
 
   using namespace PartialSquares;

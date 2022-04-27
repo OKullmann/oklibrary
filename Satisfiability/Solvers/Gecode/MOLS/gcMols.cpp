@@ -124,11 +124,11 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.4",
+        "0.9.5",
         "27.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";

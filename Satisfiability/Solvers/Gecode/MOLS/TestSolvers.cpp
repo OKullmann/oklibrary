@@ -19,11 +19,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "25.4.2022",
+        "0.3.1",
+        "27.4.2022",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/OKlib-MOLS/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestSolvers.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestSolvers.cpp",
         "GPL v3"};
 
   using namespace Solvers;
