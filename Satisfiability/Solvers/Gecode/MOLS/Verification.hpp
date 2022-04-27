@@ -14,6 +14,12 @@ License, or any later version. */
    - ls_row_t : vector of size_t
    - ls_t     : vector of ls_row_t
 
+  These three types are "concrete alias types" for the whole directory
+  Gecode/MOLS:
+   - all values allowed in general
+   - these are by definitions typedefs, and thus don't need to be
+     imported, but can be redefined.
+
   Via
    - out(ostream&, ls_row_t, sep)
    - out(ostream&, ls_t, sep)

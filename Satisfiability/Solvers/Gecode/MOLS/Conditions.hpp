@@ -10,7 +10,7 @@ License, or any later version. */
 
   Helper-components:
 
-   - typedef size_t
+   - typedef size_t (64-bit unsigned; a concrete alias type for Gecode/MOLS)
 
    - scoped enum UC (unary conditions)
    - constant maxUC
