@@ -13,9 +13,11 @@ BUGS:
 
 TODOS:
 
-0. DONE (Conditions::size_t is used)
-   For all unsigned types just size_t is to be used, nothing else.
-   And for signed types, signed_t.
+0. DONE (If one solution is enough, the statistics is returned after
+     processing of the variable where the solution was found)
+   Use the run-type parameter.
+    - If sat-decision or sat-solving, return when a solutions if found.
+    - If count or enumeration, collect all soluitons.
 
 1. Lookahead-reduction statistics.
     - DONE This is a return value of the reduction function.
@@ -166,7 +168,7 @@ namespace LookaheadReduction {
   ReductionStatistics lareduction(GC::Space& home,
                         const IntViewArray x,
                         const int start,
-                        [[maybe_unused]]const OP::RT rt,
+                        const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
     assert(start < x.size());
@@ -220,7 +222,7 @@ namespace LookaheadReduction {
         }
 
         // Apply all var!=val assignments for the variable in one batch:
-       if (not noteqvalues.empty()) {
+        if (not noteqvalues.empty()) {
           for (auto& val : noteqvalues) {
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           }
@@ -244,6 +246,12 @@ namespace LookaheadReduction {
           // entirely, and then repeat the variables-loop.
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
           else if (lar == OP::LAR::eager) repeat = true;
+        }
+
+        // If one solution is enough, do not process other variables:
+        if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
+          assert(stat.sols() > 0);
+          return stat;
         }
       } // for (int var = start; var < x.size(); ++var) {
     } while (repeat);
