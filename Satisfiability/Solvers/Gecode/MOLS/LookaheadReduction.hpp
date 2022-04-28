@@ -22,15 +22,15 @@ TODOS:
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
     - Statistics collected here (the "important events"):
-      - the propagation-counter
+      - DONE the propagation-counter
       - the number of eliminated values
       - the quotient eliminated-values / all-values
       - the number of successful prunings
-      - the number of probings
+      - DONE the number of probings
       - the quotient prunings/probings
-      - the number of rounds
+      - DONE the number of rounds
       - the final size of the pruning-set
-      - the total time for the reduction
+      - DONE the total time for the reduction
       - the number of satisfying assignments found.
 
 2. Find all solutions in a lookahead reduction function.
@@ -56,6 +56,7 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <SystemSpecifics/Timing.hpp>
 #include <Numerics/FloatingPoint.hpp>
 
 #include "Conditions.hpp"
@@ -169,8 +170,11 @@ namespace LookaheadReduction {
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
     do {
       repeat = false;
+      stat.increment_rounds();
       // Iterate over all unassigned variables:
       for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
@@ -187,8 +191,10 @@ namespace LookaheadReduction {
           assert(m->status() == GC::SS_BRANCH);
           // Make a copy of the current problem, and assign var==val:
           const auto subm = child_node<ModSpace>(m, var, val, pl, true);
+          stat.increment_probes();
           // Call Gecode propagation:
           const auto status = subm->status();
+          stat.increment_props();
           // If either a SAT leaf or an UNSAT leaf is found:
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
@@ -215,6 +221,7 @@ namespace LookaheadReduction {
           }
           // Call a propagation:
           const auto status = home.status();
+          stat.increment_props();
           // Check if the problem is solved:
           if (status == GC::SS_FAILED) {
             // XXX
@@ -235,6 +242,10 @@ namespace LookaheadReduction {
         }
       } // for (int var = start; var < x.size(); ++var) {
     } while (repeat);
+
+    const Timing::Time_point t1 = timing();
+    float_t t = t1 - t0;
+    stat.update_time(t);
 
     return stat;
   }

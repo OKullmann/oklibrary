@@ -310,7 +310,7 @@ namespace LookaheadBranching {
       const OP::RT rt = m->runtype();
       const GC::IntPropLevel pl = m->proplevel();
       const OP::LAR lar = m->laredtype();
-      LR::ReductionStatistics reduct_stat =
+      [[maybe_unused]]LR::ReductionStatistics reduct_stat =
         LR::lareduction<ModSpace>(home, x, start, rt, pl, lar);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
