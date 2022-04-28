@@ -167,11 +167,9 @@ namespace LookaheadReduction {
   template<class ModSpace>
   ReductionStatistics lareduction(GC::Space& home,
                         const IntViewArray x,
-                        const int start,
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
-    assert(start < x.size());
     ReductionStatistics stat;
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
@@ -183,7 +181,7 @@ namespace LookaheadReduction {
       repeat = false;
       stat.increment_rounds();
       // Iterate over all unassigned variables:
-      for (int var = start; var < x.size(); ++var) {
+      for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
