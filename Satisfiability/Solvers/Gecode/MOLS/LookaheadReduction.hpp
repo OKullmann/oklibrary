@@ -23,19 +23,19 @@ TODOS:
       brancher to update the global statistics.
     - Statistics collected here (the "important events"):
       - DONE the propagation-counter
-      - the number of eliminated values
-      - the quotient eliminated-values / all-values
+      - DONE the number of eliminated values
+      - DONE the quotient eliminated-values / all-values
       - the number of successful prunings
       - DONE the number of probings
       - the quotient prunings/probings
       - DONE the number of rounds
       - the final size of the pruning-set
       - DONE the total time for the reduction
-      - the number of satisfying assignments found.
+      - DONE the number of satisfying assignments found.
 
 2. Find all solutions in a lookahead reduction function.
-    - All solutions which are found during the reduction, are collected and
-      saved to the local statistics.
+    - DONE All solutions which are found during the reduction, are counted.
+    - If it is needed, save the solutions to the local statistics.
     - DONE The corresponding branches are cut off so Gecode is not aware of any
       found solutions.
 
@@ -71,6 +71,7 @@ namespace LookaheadReduction {
 
   using size_t = CD::size_t;
   typedef FP::float80 float_t;
+  typedef std::int64_t signed_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -127,9 +128,12 @@ namespace LookaheadReduction {
     }
   public:
     void increment_props() noexcept { ++props_; }
-    void update_allvalues(const size_t v) noexcept {
-      assert(v > 0);
-      vals_ = v;
+    void update_allvalues(const IntViewArray x) noexcept {
+      assert(x.size() > 0);
+      size_t sum = 0;
+      for (signed_t var = 0; var < x.size(); ++var) sum += x[var].size();
+      assert(sum > 0);
+      vals_ = sum;
     }
     void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
     void increment_pruns() noexcept { ++pruns_; update_quotprun();}
@@ -170,6 +174,7 @@ namespace LookaheadReduction {
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
+    stat.update_allvalues(x);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     do {
@@ -204,12 +209,12 @@ namespace LookaheadReduction {
             // SAT leaf:
             if (status == GC::SS_SOLVED) {
               // Add a SAT leaf to the statistics:
-              // XXX
+              stat.increment_sols();
             }
             // UNSAT leaf - if var==val is inconsistent, then var!=val:
             else if (status == GC::SS_FAILED) {
               // Add an UNSAT leaf to the statistics:
-              // XXX
+              stat.increment_elimvals();
             }
           }
         }
