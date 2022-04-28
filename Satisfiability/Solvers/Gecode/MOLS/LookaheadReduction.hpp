@@ -244,7 +244,7 @@ namespace LookaheadReduction {
     } while (repeat);
 
     const Timing::Time_point t1 = timing();
-    float_t t = t1 - t0;
+    const Timing::Time_point t = t1 - t0;
     stat.update_time(t);
 
     return stat;
