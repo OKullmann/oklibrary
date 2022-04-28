@@ -130,7 +130,7 @@ namespace LookaheadReduction {
     }
   public:
     void increment_props() noexcept { ++props_; }
-    void update_allvalues(const IntViewArray x) noexcept {
+    void update_allvalues(const IntViewArray& x) noexcept {
       assert(x.size() > 0);
       size_t sum = 0;
       for (signed_t var = 0; var < x.size(); ++var) sum += x[var].size();
@@ -166,7 +166,6 @@ namespace LookaheadReduction {
   // performed. In such a way, all impossible values of a variable are removed.
   template<class ModSpace>
   ReductionStatistics lareduction(GC::Space& home,
-                        const IntViewArray x,
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
@@ -174,12 +173,14 @@ namespace LookaheadReduction {
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
-    stat.update_allvalues(x);
+    stat.update_allvalues(m->var());
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     do {
       repeat = false;
       stat.increment_rounds();
+      // Get current array of variables:
+      const IntViewArray x = m->var();
       // Iterate over all unassigned variables:
       for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
