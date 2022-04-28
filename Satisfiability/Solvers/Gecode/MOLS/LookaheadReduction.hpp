@@ -13,22 +13,9 @@ BUGS:
 
 TODOS:
 
--2. DONE (double was replace by FloatingPoint::float80)
-    We don't use double, but float80 (except at places where forced
-    by other software).
-
--1. DONE (Conditions::size_t is used)
-    For all unsigned types just size_t is to be used, nothing else.
-    And for signed types, signed_t.
-
-0. DONE (one reduction function is used for both eager and super-eager,
-         the difference is how the variables-loop is processed)
-   Super-eager reduction.
-    - Restart the main loop (over all variables) after any propagation.
-      Only after the variable is finished.
-    - It is very similar to the eager reduction - an additional break in the
-      main loop is needed. So maybe add a Boolean variable that will switch
-      between the eager and super-eager reductions.
+0. DONE (Conditions::size_t is used)
+   For all unsigned types just size_t is to be used, nothing else.
+   And for signed types, signed_t.
 
 1. Lookahead-reduction statistics.
     - DONE This is a return value of the reduction function.
