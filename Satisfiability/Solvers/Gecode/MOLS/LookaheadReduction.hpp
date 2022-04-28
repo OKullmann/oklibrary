@@ -31,7 +31,7 @@ TODOS:
       between the eager and super-eager reductions.
 
 1. Lookahead-reduction statistics.
-    - This is a return value of the reduction function.
+    - DONE This is a return value of the reduction function.
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
     - Statistics collected here (the "important events"):
@@ -115,24 +115,6 @@ namespace LookaheadReduction {
     return c;
   }
 
-  // Result of lookahead-reduction:
-  struct ReduceRes {
-    BranchingStatus st;
-    int var;
-    values_t values;
-    bool valid() const noexcept { return var >= 0; }
-    ReduceRes() : st(BranchingStatus::branching), var(0), values{} {}
-    ReduceRes(const BranchingStatus st=BranchingStatus::branching,
-              const int var=0,
-              const values_t values={}) :
-      st(st), var(var), values(values) {}
-
-    void update_status(const BranchingStatus st_) noexcept {
-      st = st_; assert(valid());
-    };
-    BranchingStatus status() const noexcept { assert(valid()); return st; }
-  };
-
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
   private :
@@ -189,13 +171,14 @@ namespace LookaheadReduction {
   // corresponding constraints are applied and a Gecode propagation is
   // performed. In such a way, all impossible values of a variable are removed.
   template<class ModSpace>
-  ReduceRes lareduction(GC::Space& home,
+  ReductionStatistics lareduction(GC::Space& home,
                         const IntViewArray x,
                         const int start,
                         [[maybe_unused]]const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
     assert(start < x.size());
+    ReductionStatistics stat;
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
@@ -266,7 +249,7 @@ namespace LookaheadReduction {
       } // for (int var = start; var < x.size(); ++var) {
     } while (repeat);
 
-    return ReduceRes(BranchingStatus::branching);
+    return stat;
   }
 
 }

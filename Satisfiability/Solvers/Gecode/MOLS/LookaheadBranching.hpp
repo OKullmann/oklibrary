@@ -310,29 +310,18 @@ namespace LookaheadBranching {
       const OP::RT rt = m->runtype();
       const GC::IntPropLevel pl = m->proplevel();
       const OP::LAR lar = m->laredtype();
-      LR::ReduceRes res =
+      LR::ReductionStatistics reduct_stat =
         LR::lareduction<ModSpace>(home, x, start, rt, pl, lar);
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
       BinBranching best_br;
-      // Reduction found an UNSAT leaf:
-      if (res.status() == BrStatus::unsat) {
-        BinBranching unsat_br(start);
-        assert(unsat_br.status() == BrStatus::unsat);
-        best_br = unsat_br;
-        assert(best_br.status() == BrStatus::unsat);
-      }
-      // Reduction found a SAT leaf:
-      else if (res.status() == BrStatus::sat) {
-        assert(res.values.size() == 1);
-        best_br = BinBranching(res.var, res.values[0], {true,false});
-        assert(best_br.status() == BrStatus::sat);
-      }
-      // Neither UNSAT nor SAT is found, choose the best branching:
-      else {
-        assert(res.status() == BrStatus::branching);
-        assert(m->status() == GC::SS_BRANCH);
+
+      assert(m->status() != GC::SS_SOLVED);
+      // If the problems is solved, no more branching is needed, and
+      // m->status() == GC::SS_FAILED.
+      // Otherwise, choose the best branching:
+      if (m->status() == GC::SS_BRANCH) {
         std::vector<BinBranching> tau_brs;
         const vec_t wghts = m->weights();
         const count_t dpth = m->depth();
@@ -367,7 +356,7 @@ namespace LookaheadBranching {
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start);
-      assert(not x[var].assigned() or best_br.status() == BrStatus::unsat);
+      assert(not x[var].assigned() or m->status() == GC::SS_FAILED);
       return new BinBranchingChoice<BinLookahead>(*this, best_br);
     }
 
