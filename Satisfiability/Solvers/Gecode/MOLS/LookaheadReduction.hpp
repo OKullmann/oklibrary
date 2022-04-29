@@ -209,7 +209,7 @@ namespace LookaheadReduction {
             noteqvalues.push_back(val);
             // SAT leaf:
             if (status == GC::SS_SOLVED) {
-              // Add a SAT leaf to the statistics:
+              // SAT leaf, add the solution to the statistics:
               stat.increment_sols();
             }
             // UNSAT leaf - if var==val is inconsistent, then var!=val:
@@ -229,10 +229,12 @@ namespace LookaheadReduction {
           const auto status = home.status();
           stat.increment_props();
           // Check if the problem is solved:
-          if (status == GC::SS_FAILED) {
-            // XXX
+          if (status == GC::SS_SOLVED) {
+            // Add the solution to the statistics:
+            stat.increment_sols();
           }
-          else if (status == GC::SS_SOLVED) {
+          else if (status == GC::SS_FAILED) {
+            // The problem is solved and the answer is UNSAT:
             // XXX
           }
           // If super-eager, and any propagation was done in the
