@@ -40,8 +40,12 @@
 # Nice for N=12 is that it is divisible by the box-size.
 
 # Rerunning without "rred A":
-MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
+# MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
 # After 80 min wall-clock aborted; perhaps not better.
+
+# MOLS> ./gcMols 13 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
+# XXX
+
 
 # Really interesting cases are N=16, 25.
 

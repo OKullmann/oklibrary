@@ -9,9 +9,9 @@
 # aborted after 20h wall-clock and 5 solutions found.
 
 # Unsatisfiability-decision for 14 <= N <= 16 much easier with "rred A"
-# disabled (as with "Pandiagonal")! Enabling this also for N=17:
+# disabled (as with "Pandiagonal")! Disabling this also for N=17:
 # MOLS> ./gcMols 17 data/SpecsCollection/SudokuPandiagonal "" sats dom binbr maxdom desc 12
-# XXX
+# Aborted after 41h wall-clock (without finding a solution).
 
 # Unsatisfiable at least on the cases where Pandiagonal is unsatisfiable,
 # that is, where gcd(N,6) != 1; for N <= 16 there are no further cases
@@ -23,7 +23,7 @@
 # A really interesting case is N=25.
 
 squares A
-#rred A
+rred A
 ls A
 box A
 moddiag A
