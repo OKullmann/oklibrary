@@ -15,6 +15,8 @@ License, or any later version. */
     - factorial(n), lfactorial(n)
     - Sfactorial(n), lSfactorial(n)
     - binomial_coeff(n,k), fbinomial_coeff(n,k), lbinomial_coeff(n,k)
+      (computation of all k-subsets of {0,...,n-1} is done in
+       Satisfiability/Solvers/Gecode/MOLS/OrthogonalArrays::subsets(n,k))
     - cbinomial_coeff(n), fcbinomial_coeff(n), inv_fcbinomial_coeff(n)
       (central binomial coefficient and inverse).
 

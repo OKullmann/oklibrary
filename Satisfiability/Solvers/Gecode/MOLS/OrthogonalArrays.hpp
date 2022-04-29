@@ -21,9 +21,16 @@ License, or any later version. */
 
 #include <vector>
 #include <set>
+#include <algorithm>
+#include <sstream>
+#include <utility>
+#include <exception>
+#include <type_traits>
 
 #include <cassert>
 #include <cmath>
+
+#include "Numerics/FloatingPoint.hpp"
 
 #include "Conditions.hpp"
 
@@ -40,21 +47,140 @@ namespace OrthogonalArrays {
   typedef std::set<oa_row_t> oa_t; // underlying concrete alias type of oa's
 
 
+  size_t max(const oa_row_t& r) noexcept {
+    if (r.empty()) return 0;
+    else return *std::ranges::max_element(r);
+  }
+  size_t max(const oa_t& oa) noexcept {
+    size_t res = 0;
+    for (const oa_row_t& r : oa) res = std::max(res, max(r));
+    return res;
+  }
+
+
+  ls_t projection(const oa_t& oa, const ls_row_t& indices) {
+    if (indices.empty()) {
+      if (oa.empty()) return ls_t(0);
+      else return ls_t(1);
+    }
+    const size_t k = indices.size();
+    const size_t m = max(indices);
+    ls_t res;
+    for (const oa_row_t& r : oa) {
+      if (m >= r.size()) continue;
+      ls_row_t p; p.reserve(k);
+      for (const size_t i : indices) p.push_back(r[i]);
+      res.push_back(p);
+    }
+    return res;
+  }
+
+
+  std::vector<ls_row_t> subsets(const size_t N, const size_t k) {
+    if (k > N) return {};
+    if (k == 0) return {1,ls_row_t{}};
+    if (k == N) {
+      std::vector<ls_row_t> res(1); res[0].reserve(N);
+      for (size_t i = 0; i < N; ++i) res[0].push_back(i);
+      return res;
+    }
+    if (k == 1) {
+      std::vector<ls_row_t> res(N);
+      for (size_t i = 0; i < N; ++i) res[i].push_back(i);
+      return res;
+    }
+    const auto size0 = FloatingPoint::fbinomial_coeff(N, k);
+    if (size0 >= FloatingPoint::P264) {
+      std::ostringstream ss;
+      using W = FloatingPoint::Wrap;
+      ss << "OrthogonalArrays::subsets: N=" << N << ", k=" << k <<
+        " yields size=" << W(size0) << " >= 2^64=" << W(FloatingPoint::P264);
+      throw std::runtime_error(ss.str());
+    }
+    const size_t size = size0;
+    std::vector<ls_row_t> res; res.reserve(size);
+    res = subsets(N-1, k);
+    std::vector<ls_row_t> res2 = subsets(N-1, k-1);
+    for (ls_row_t& r : res2) {
+      res.push_back(std::move(r));
+      res.back().push_back(N-1);
+    }
+    assert(res.size() == size);
+    return res;
+  }
+
+
+  template <size_t N>
+  struct GenLS {
+    typedef std::vector<typename GenLS<N-1>::type> type;
+    static type create(const size_t M) {
+      return type(M, GenLS<N-1>::create(M));
+    }
+  };
+  template <>
+  struct GenLS<0> {
+    typedef size_t type;
+    static type create(const size_t M) noexcept { return M; }
+  };
+  template <size_t N>
+  using GLS = typename GenLS<N>::type;
+  static_assert(std::is_same_v<GLS<0>, size_t>);
+  static_assert(std::is_same_v<GLS<1>, ls_row_t>);
+  static_assert(std::is_same_v<GLS<2>, ls_t>);
+  static_assert(std::is_same_v<GLS<3>, std::vector<ls_t>>);
+
+
+  // A "possible str-(N,k,rep) orthogonal array" ("str" means "strength"):
+  template <size_t str0 = 2>
   struct OrthArr {
+    static constexpr size_t str = str0;
     oa_t oa;
 
     const size_t N; // the number of "levels" or "values": 0, ..., N-1
     const size_t k; // number of "factors" (columns)
-
-    const size_t str = 2; // strength
     const size_t rep = 1; // repetitions ("index")
 
-    const size_t trows = rep * std::pow(N, str);
+    const size_t nblocks = std::pow(N, str), trows = rep * nblocks;
     // total number of rows ("number of experimental runs")
 
     OrthArr(const size_t N, const size_t k) noexcept : N(N), k(k) {}
-    OrthArr(const size_t N, const size_t k, const size_t s, const size_t r)
-      noexcept : N(N), k(k), str(s), rep(r) {}
+    OrthArr(const size_t N, const size_t k, const size_t r)
+      noexcept : N(N), k(k), rep(r) {}
+
+    bool noval() const noexcept {
+      if (oa.empty()) return true;
+      if (oa.size() == 1 and oa.contains({})) return true;
+      return false;
+    }
+    bool propval() const noexcept {
+      if (noval()) return true;
+      else return max(oa) < N;
+    }
+
+    bool propfactors() const noexcept {
+      return std::ranges::all_of(oa,
+               [this](const oa_row_t& r){return r.size() == k;});
+    }
+
+    bool valid() const {
+      if (not propval() or not propfactors() or oa.size() != trows)
+        return false;
+      if (N <= 1) return true;
+      if (rep == 0) return true;
+      if (str >= k) return true;
+      for (const ls_row_t& s : subsets(N,k)) {
+        const ls_t p = projection(oa, s);
+        assert(std::ranges::is_sorted(p));
+        assert(p.size() == trows);
+        size_t curr = 0;
+        for (size_t i = 0; i < nblocks; ++i) {
+          for (size_t j = 0; j < rep; ++j, ++curr)
+            if (j+1 < rep and p[curr] != p[curr+1]) return false;
+          if (i+1 < nblocks and p[curr] <= p[curr-1]) return false;
+        }
+      }
+      return true;
+    }
 
   };
 
