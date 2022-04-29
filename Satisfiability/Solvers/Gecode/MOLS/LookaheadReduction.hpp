@@ -120,6 +120,7 @@ namespace LookaheadReduction {
     size_t prunsetsize_ = 0; // the final size of the pruning-set
     float_t time_ = 0.0; // the total time for the reduction
     size_t sols_ = 0; // the number of satisfying assignments found.
+    size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
     void update_quotelimvals() noexcept {
       assert(vals_ > 0);
       quotelimvals_ = float_t(elimvals_)/vals_;
@@ -146,6 +147,7 @@ namespace LookaheadReduction {
     }
     void update_time(const float_t t) noexcept { time_ = t; }
     void increment_sols() noexcept { ++sols_; }
+    void increment_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     float_t quotelimvals() const noexcept { return quotelimvals_;}
@@ -156,6 +158,7 @@ namespace LookaheadReduction {
     size_t prunsetsize() const noexcept { return prunsetsize_; }
     float_t time() const noexcept { return time_; }
     size_t sols() const noexcept { return sols_; }
+    size_t leafcount() const noexcept { return leafcount_; }
   };
 
   // Lookahead-reduction.
@@ -224,15 +227,17 @@ namespace LookaheadReduction {
           // Call a propagation:
           const auto status = home.status();
           stat.increment_props();
-          // Check if the problem is solved:
-          if (status == GC::SS_SOLVED) {
-            // Add the solution to the statistics:
-            stat.increment_sols();
+          // If a solution if found, then a SAT leaf is formed,
+          // if UNSAT is proved, an UNSAT leaf is formed.
+          if (status != GC::SS_BRANCH) {
+            assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
+            stat.increment_leafcount();
+            if (status == GC::SS_SOLVED) {
+              // Add the solution to the statistics:
+              stat.increment_sols();
+            }
           }
-          else if (status == GC::SS_FAILED) {
-            // The problem is solved and the answer is UNSAT:
-            // XXX
-          }
+
           // If super-eager, and any propagation was done in the
           // variables-loop, then restart the variables-loop immediately
           // after processing the variable. If no propagation was done during
