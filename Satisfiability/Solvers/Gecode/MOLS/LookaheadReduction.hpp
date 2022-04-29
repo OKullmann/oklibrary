@@ -206,16 +206,12 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             // In either case the branch must be excluded,
             // so Gecode will not be aware of UNSAT or SAT leaves.
+            stat.increment_elimvals();
             noteqvalues.push_back(val);
             // SAT leaf:
             if (status == GC::SS_SOLVED) {
-              // SAT leaf, add the solution to the statistics:
+              // Add a solution to the statistics:
               stat.increment_sols();
-            }
-            // UNSAT leaf - if var==val is inconsistent, then var!=val:
-            else if (status == GC::SS_FAILED) {
-              // Add an UNSAT leaf to the statistics:
-              stat.increment_elimvals();
             }
           }
         }
