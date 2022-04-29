@@ -110,20 +110,51 @@ namespace OrthogonalArrays {
   }
 
 
-  template <size_t N>
+  template <size_t k>
+  using index_t = std::array<size_t, k>;
+  template <size_t k>
+  constexpr index_t<k-1> rest(const index_t<k>& v) noexcept {
+    static_assert(k >= 1);
+    index_t<k-1> res;
+    std::copy(v.begin()+1, v.end(), res.begin());
+    return res;
+  }
+
+
+  template <size_t D>
   struct GenLS {
-    typedef std::vector<typename GenLS<N-1>::type> type;
-    static type create(const size_t M) {
-      return type(M, GenLS<N-1>::create(M));
+    typedef std::vector<typename GenLS<D-1>::type> type;
+    static constexpr type create(const size_t N) {
+      return type(N, GenLS<D-1>::create(N));
+    }
+    template <size_t k>
+    static constexpr typename GenLS<D-k>::type
+    apply(const typename GenLS::type& A,
+          const index_t<k>& v) noexcept {
+      static_assert(k <= D);
+      if constexpr (k == 0) return A;
+      else if constexpr (k == 1) {
+        assert(v[0] < A.size());
+        return A[v[0]];
+      }
+      else {
+        assert(v[0] < A.size());
+        const index_t<k-1> nv = rest(v);
+        return GenLS<D-1>::template apply<k-1>(A[v[0]], nv);
+      }
     }
   };
   template <>
   struct GenLS<0> {
     typedef size_t type;
-    static type create(const size_t M) noexcept { return M; }
+    static constexpr type create(const size_t N) noexcept { return N; }
+    static constexpr size_t apply(const size_t A,
+                                  const index_t<0>&) noexcept {
+      return A;
+    }
   };
-  template <size_t N>
-  using GLS = typename GenLS<N>::type;
+  template <size_t D>
+  using GLS = typename GenLS<D>::type;
   static_assert(std::is_same_v<GLS<0>, size_t>);
   static_assert(std::is_same_v<GLS<1>, ls_row_t>);
   static_assert(std::is_same_v<GLS<2>, ls_t>);
