@@ -9,17 +9,35 @@ License, or any later version. */
 
 Look-ahead reduction for the Gecode library.
 
+1. A loop over all variables v is run.
+2. If the domain of v is unit, the variable is skipped, otherwise a loop over
+its values eps is run.
+3. The assignment v=eps is probed, that is, the given propagation is performed
+(in a "clone"), if pruning is not applicable.
+4. There are three possible outcomes of this probing:
+   (a) a satisfying assigment was found;
+   (b) a contradiction was reached;
+   (c) none of these two.
+5. In case of sat-decision/solving, in case (a) the computation is
+appropriately stopped (but with statistics completed). Otherwise for (a) the
+assignment found is stored in a queue.
+6. For both (a) and (b), the constraint v != eps is posted.
+7. For (c), one inspects the propagation and determines all assignments
+v'=eps', and enters them into the pruning-set (with the current counter-value).
+8. However, if for v already one case of excluded value ((a) or (b)) happened,
+then this is skipped (since superfluous).
+9. Once v is completed, and at least one case of (a) or (b) was found, the
+counter is incremented, and propagation is triggered.
+10. If one reaches the end of the loop over all variables, in case of
+super-eager that concludes the reduction, while otherwise one needs to check
+whether the counter is larger than its previous value (for the last round), and
+if so, repeating the loop.
+
 BUGS:
 
 TODOS:
 
-0. DONE (If one solution is enough, the statistics is returned after
-     processing of the variable where the solution was found)
-   Use the run-type parameter.
-    - If sat-decision or sat-solving, return when a solutions if found.
-    - If count or enumeration, collect all soluitons.
-
-1. Lookahead-reduction statistics.
+0. Lookahead-reduction statistics.
     - DONE This is a return value of the reduction function.
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
@@ -34,16 +52,17 @@ TODOS:
       - the final size of the pruning-set
       - DONE the total time for the reduction
       - DONE the number of satisfying assignments found.
+    - satisfying assignments.
 
-2. Find all solutions in a lookahead reduction function.
-    - DONE All solutions which are found during the reduction, are counted.
-    - If it is needed, save the solutions to the local statistics.
-    - DONE The corresponding branches are cut off so Gecode is not aware of any
-      found solutions.
+2. Collect satisfying assignments, if needed.
+    - Use a queue.
 
 3. Pruning.
-    - Should work in all types of reductions.
-
+     - type PLit ("positive literal"), a pair (var,val), meaning "var=val".
+     - Maintain std::set<PLit>, where in case (c) one enters the literals
+       "v'=eps'" (and the check for pruning is just the check whether the set
+       contains the literal v=eps), while in case of propagation the set is
+       just cleared.
 
 */
 
