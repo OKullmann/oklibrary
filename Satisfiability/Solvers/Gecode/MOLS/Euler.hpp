@@ -48,7 +48,7 @@ BUGS:
 namespace Euler {
 
   namespace GC = Gecode;
-  namespace LS = LatinSquares;
+  namespace LaS = LatinSquares;
   namespace RG = RandGen;
   namespace LA = Lookahead;
 
@@ -58,8 +58,8 @@ namespace Euler {
   typedef std::vector<GC::IntVar> gecode_intvarvec_t;
   typedef std::vector<std::string> partial_ls_t;
 
-  constexpr LS::ls_dim_t N_default = 0;
-  constexpr LS::ls_dim_t k_default = 2;
+  constexpr LaS::ls_dim_t N_default = 0;
+  constexpr LaS::ls_dim_t k_default = 2;
 
   enum class HeO {show=0, noshow=1};
   constexpr int HeOsize = 2;
@@ -105,42 +105,42 @@ namespace Euler {
   }
 
 
-  LS::ls_dim_t read_N(const std::string& s, const std::string& error) noexcept {
+  LaS::ls_dim_t read_N(const std::string& s, const std::string& error) noexcept {
     if (s.empty()) return N_default;
-    const LS::ls_dim_t N = FloatingPoint::touint(s);
-    if (not LS::valid(N) and N != 0) {
+    const LaS::ls_dim_t N = FloatingPoint::touint(s);
+    if (not LaS::valid(N) and N != 0) {
       std::cerr << error << "N must be a nonnegative integer in [0,"
-                << LS::max_dim-1 << "]" << ", but N=" << N << ".\n";
+                << LaS::max_dim-1 << "]" << ", but N=" << N << ".\n";
       std::exit(int(RG::Error::domain));
     }
     return N;
   }
-  LS::ls_dim_t read_N(const std::string& error) noexcept {
+  LaS::ls_dim_t read_N(const std::string& error) noexcept {
     std::string s;
     std::cin >> s;
     return read_N(s, error);
   }
 
-  LS::ls_dim_t read_k(const std::string& s,
+  LaS::ls_dim_t read_k(const std::string& s,
                       const std::string& error) noexcept {
     if (s.empty()) return k_default;
-    const LS::ls_dim_t k = FloatingPoint::touint(s);
-    if (not LS::valid(k) and k != 0) {
+    const LaS::ls_dim_t k = FloatingPoint::touint(s);
+    if (not LaS::valid(k) and k != 0) {
       std::cerr << error << "k must be a nonnegative integer in [0,"
-                << LS::max_dim-1 << "]" << ", but k=" << k << ".\n";
+                << LaS::max_dim-1 << "]" << ", but k=" << k << ".\n";
       std::exit(int(RG::Error::domain));
     }
     return k;
   }
-  LS::ls_dim_t read_k(const std::string& error) noexcept {
+  LaS::ls_dim_t read_k(const std::string& error) noexcept {
     std::string s;
     std::cin >> s;
     return read_k(s, error);
   }
 
-  gecode_intvec_t read_partial_ls(const LS::ls_dim_t N) noexcept {
+  gecode_intvec_t read_partial_ls(const LaS::ls_dim_t N) noexcept {
     assert(N > 0);
-    const LS::ls_dim_t size = N*N;
+    const LaS::ls_dim_t size = N*N;
     gecode_intvec_t partial_ls(size);
     std::string s;
     partial_ls_t ls_s;
@@ -151,7 +151,7 @@ namespace Euler {
       else for (auto c : s) ls_s.push_back(std::string(1,c));
       assert(ls_s.size() <= size);
     } while (ls_s.size() != size);
-    for (LS::ls_dim_t i=0; i < size; ++i) {
+    for (LaS::ls_dim_t i=0; i < size; ++i) {
       assert(i < partial_ls.size() and i < ls_s.size());
       partial_ls[i] = (ls_s[i] == "*") ? -1 : std::stoi(ls_s[i]);
     }
@@ -159,8 +159,8 @@ namespace Euler {
   }
 
 
-  LS::ls_dim_t given_cells(const gecode_intvec_t ls_partial) {
-    LS::ls_dim_t res = 0;
+  LaS::ls_dim_t given_cells(const gecode_intvec_t ls_partial) {
+    LaS::ls_dim_t res = 0;
     for (auto x : ls_partial) res += x==-1 ? 0 : 1;
     return res;
   }
@@ -172,8 +172,8 @@ namespace Euler {
       << "wghts prog vers\n";
   }
 
-  void print_stat(const LS::ls_dim_t N, const LS::ls_dim_t k,
-                  const LS::ls_dim_t m1, const LS::ls_dim_t m2,
+  void print_stat(const LaS::ls_dim_t N, const LaS::ls_dim_t k,
+                  const LaS::ls_dim_t m1, const LaS::ls_dim_t m2,
                   const double reading_time, const double solving_time,
                   const LA::option_t alg_options,
                   const gecode_option_t gc_options,
@@ -232,28 +232,28 @@ namespace Euler {
 
   // Post Latin square conditions on row and columns of a square:
   void post_latin(const GC::Home& m,
-                  const LS::ls_dim_t N, const GC::IntVarArray x,
+                  const LaS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntPropLevel prop_lvl) noexcept {
     assert(not m.failed());
     assert(N > 0);
     assert(LA::tr(x.size()) == N*N);
     // Latin property in rows:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
+    for (LaS::ls_dim_t i = 0; i < N; ++i) {
       gecode_intvarvec_t rows_x;
-      for (LS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
+      for (LaS::ls_dim_t j = 0; j < N; ++j) rows_x.push_back(x[i*N + j]);
       GC::distinct(m, rows_x, prop_lvl);
     }
     // Latin property in cols:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
+    for (LaS::ls_dim_t i = 0; i < N; ++i) {
       gecode_intvarvec_t cols_x;
-      for (LS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
+      for (LaS::ls_dim_t j = 0; j < N; ++j) cols_x.push_back(x[j*N + i]);
       GC::distinct(m, cols_x, prop_lvl);
     }
   }
 
   // Post orthogonality conditions via an additional Latin square:
   void post_ortho(const GC::Home& m,
-                  const LS::ls_dim_t N, const GC::IntVarArray x,
+                  const LaS::ls_dim_t N, const GC::IntVarArray x,
                   const GC::IntVarArray y, const GC::IntVarArray z,
                   const GC::IntPropLevel prop_lvl) noexcept {
     assert(not m.failed());
@@ -262,10 +262,10 @@ namespace Euler {
     assert(x.size() == y.size());
     assert(x.size() == z.size());
     // Element constraints on Z, X, Y:
-    for (LS::ls_dim_t i = 0; i < N; ++i) {
+    for (LaS::ls_dim_t i = 0; i < N; ++i) {
       gecode_intvarvec_t Zvec_i;
-      for (LS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
-      for (LS::ls_dim_t j = 0; j < N; ++j) {
+      for (LaS::ls_dim_t j = 0; j < N; ++j) Zvec_i.push_back(z[i*N + j]);
+      for (LaS::ls_dim_t j = 0; j < N; ++j) {
         GC::element(m, GC::IntVarArgs(Zvec_i), x[i*N + j],
                     y[i*N + j], prop_lvl);
       }
@@ -274,7 +274,7 @@ namespace Euler {
 
 
   class TwoMOLS : public LA::Node {
-    const LS::ls_dim_t N;
+    const LaS::ls_dim_t N;
     const LA::option_t alg_options;
     const gecode_option_t gecode_options;
     const LA::weights_t wghts;
@@ -292,7 +292,7 @@ namespace Euler {
       return Options::prop_level(std::get<PropO>(gco));
     }
   public:
-    TwoMOLS(const LS::ls_dim_t N, const LA::option_t alg_options,
+    TwoMOLS(const LaS::ls_dim_t N, const LA::option_t alg_options,
             const gecode_option_t gecode_options,
             const gecode_intvec_t ls1_partial = {},
             const gecode_intvec_t ls2_partial = {},
@@ -328,8 +328,8 @@ namespace Euler {
       // Known cells of partially filled Latin squares:
       if (not ls1_partial.empty() and not ls2_partial.empty()) {
         assert(ls1_partial.size() == N*N and ls2_partial.size() == N*N);
-        for(LS::ls_dim_t i = 0; i < N; ++i) {
-          for(LS::ls_dim_t j = 0; j < N; ++j) {
+        for(LaS::ls_dim_t i = 0; i < N; ++i) {
+          for(LaS::ls_dim_t j = 0; j < N; ++j) {
             assert(i*N + j < ls1_partial.size());
             if (ls1_partial[i*N + j] >= 0) {
               dom(*this, x[i*N + j], ls1_partial[i*N + j],
@@ -390,16 +390,16 @@ namespace Euler {
 
     void print() {
       assert(valid());
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
+      for (LaS::ls_dim_t i = 0; i < N; ++i) {
+        for (LaS::ls_dim_t j = 0; j < N; ++j) {
           std::cout << x[i*N + j];
           if (j < N-1) std::cout << " ";
         }
         std::cout << "\n";
       }
       std::cout << "\n";
-      for (LS::ls_dim_t i = 0; i < N; ++i) {
-        for (LS::ls_dim_t j = 0; j < N; ++j) {
+      for (LaS::ls_dim_t i = 0; i < N; ++i) {
+        for (LaS::ls_dim_t j = 0; j < N; ++j) {
           std::cout << y[i*N + j];
           if (j < N-1) std::cout << " ";
         }
