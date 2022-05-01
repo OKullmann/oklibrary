@@ -195,14 +195,23 @@ namespace LookaheadReduction {
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
-    stat.update_allvalues(m->var());
+    // stat.update_allvalues(m->var()); ERROR
+    /*
+LookaheadReduction.hpp:198:26: error: cannot convert -F¡Gecode::IntVarArray¢ to ¡const IntViewArray&¢ {aka ¡const Gecode::ViewArray<Gecode::Int::IntView>&¢}-A
+  198 |     stat.update_allvalues(m->var());
+    */
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     do {
       repeat = false;
       stat.increment_rounds();
       // Get current array of variables:
-      const IntViewArray x = m->var();
+      // const IntViewArray x = m->var(); ERROR
+      /*
+LookaheadReduction.hpp:209:26: error: conversion from -F¡Gecode::IntVarArray¢ to non-scalar type ¡const IntViewArray¢ {aka ¡const Gecode::ViewArray<Gecode::Int::IntView>¢} requested-A
+  209 |       const IntViewArray x = m->var();
+      */
+      const IntViewArray x; // TEMPORARY REPLACEMENT
       // Iterate over all unassigned variables:
       for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
