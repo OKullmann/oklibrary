@@ -31,6 +31,7 @@ License, or any later version. */
 #include <cmath>
 
 #include "Numerics/FloatingPoint.hpp"
+#include <ProgramOptions/Strings.hpp>
 
 #include "Conditions.hpp"
 
@@ -45,6 +46,21 @@ namespace OrthogonalArrays {
 
   using oa_row_t = ls_row_t; // the rows of the orthogonal array
   typedef std::set<oa_row_t> oa_t; // underlying concrete alias type of oa's
+
+
+  void out(std::ostream& out, const ls_row_t& r, const std::string& sep=" ") {
+    Environment::out_line(out, r, sep);
+  }
+  void out(std::ostream& out, const ls_t& S, const std::string& sep = " ") {
+    Environment::out_lines(out, S, "\n", sep);
+  }
+  void out(std::ostream& out, const oa_t& A, const std::string& sep = " ") {
+    Environment::out_lines(out, A, "\n", sep);
+  }
+
+
+  oa_t ls2oa(const ls_t& S) { return oa_t(S.begin(), S.end()); }
+  ls_t oa2ls(const oa_t& A) { return ls_t(A.begin(), A.end()); }
 
 
   size_t maxval(const oa_row_t& r) noexcept {
