@@ -47,13 +47,13 @@ namespace OrthogonalArrays {
   typedef std::set<oa_row_t> oa_t; // underlying concrete alias type of oa's
 
 
-  size_t max(const oa_row_t& r) noexcept {
+  size_t maxval(const oa_row_t& r) noexcept {
     if (r.empty()) return 0;
     else return *std::ranges::max_element(r);
   }
-  size_t max(const oa_t& oa) noexcept {
+  size_t maxval(const oa_t& oa) noexcept {
     size_t res = 0;
-    for (const oa_row_t& r : oa) res = std::max(res, max(r));
+    for (const oa_row_t& r : oa) res = std::max(res, maxval(r));
     return res;
   }
 
@@ -64,7 +64,7 @@ namespace OrthogonalArrays {
       else return ls_t(1);
     }
     const size_t k = indices.size();
-    const size_t m = max(indices);
+    const size_t m = maxval(indices);
     ls_t res;
     for (const oa_row_t& r : oa) {
       if (m >= r.size()) continue;
@@ -185,7 +185,7 @@ namespace OrthogonalArrays {
     }
     bool propval() const noexcept {
       if (noval()) return true;
-      else return max(oa) < N;
+      else return maxval(oa) < N;
     }
 
     bool propfactors() const noexcept {

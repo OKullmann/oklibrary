@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "29.4.2022",
+        "0.1.2",
+        "1.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -42,10 +42,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(max(ls_row_t{}) == 0);
-   assert(max(ls_row_t{0,7,4}) == 7);
-   assert(max(oa_t{}) == 0);
-   assert(max(oa_t{{0,4,2},{7,2}}) == 7);
+  {assert(maxval(ls_row_t{}) == 0);
+   assert(maxval(ls_row_t{0,7,4}) == 7);
+   assert(maxval(oa_t{}) == 0);
+   assert(maxval(oa_t{{0,4,2},{7,2}}) == 7);
   }
 
   {// projection XXX
