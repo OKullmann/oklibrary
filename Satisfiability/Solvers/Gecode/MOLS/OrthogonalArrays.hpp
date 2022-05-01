@@ -167,7 +167,7 @@ namespace OrthogonalArrays {
 
 
   // A "possible str-(N,k,rep) orthogonal array" ("str" means "strength"):
-  template <size_t str0 = 2>
+  template <size_t str0>
   struct OrthArr {
     static constexpr size_t str = str0;
     oa_t oa;
