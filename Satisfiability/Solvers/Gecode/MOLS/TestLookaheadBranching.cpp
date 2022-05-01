@@ -5,6 +5,17 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+TODOS:
+
+1. Urgently unit-tests are needed, for all components.
+   Same for the reduction-components.
+
+2. Urgently Makefile needs to be updated to include all dependencies.
+
+*/
+
 #include <iostream>
 #include <sstream>
 
