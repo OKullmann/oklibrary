@@ -23,7 +23,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "1.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -36,6 +36,14 @@ namespace {
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
   }
+
+  const oa_t example1 = {{0,0,0},{1,1,0},{0,1,1},{1,0,1}};
+  const oa_t example2 = {
+    {0,0,0,0,0}, {0,1,1,1,1}, {0,2,2,2,2}, {0,3,3,3,3},
+    {1,0,3,1,2}, {1,1,2,0,3}, {1,2,1,3,0}, {1,3,0,2,1},
+    {2,0,1,2,3}, {2,1,0,3,2}, {2,2,3,0,1}, {2,3,2,1,0},
+    {3,0,2,3,1}, {3,1,3,2,0}, {3,2,0,1,3}, {3,3,1,0,2}};
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -112,8 +120,24 @@ int main(const int argc, const char* const argv[]) {
    assert(G::apply(S, index_t<3>{2,3,0}) == 4);
   }
 
-  {// OrthArr XXX
-
+  {const OrthArr2 oa(example1);
+   static_assert(OrthArr2::str == 2);
+   assert(oa.oa == example1);
+   assert(oa.N == 2);
+   assert(oa.nblocks == 4);
+   assert(oa.k == 3);
+   assert(oa.rep == 1);
+   assert(oa.trows == 4);
+   assert(oa.valid());
+  }
+  {const OrthArr2 oa(example2);
+   assert(oa.oa == example2);
+   assert(oa.N == 4);
+   assert(oa.nblocks == 16);
+   assert(oa.k == 5);
+   assert(oa.rep == 1);
+   assert(oa.trows == 16);
+   assert(oa.valid());
   }
 
 }

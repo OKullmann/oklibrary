@@ -56,6 +56,11 @@ namespace OrthogonalArrays {
     for (const oa_row_t& r : oa) res = std::max(res, maxval(r));
     return res;
   }
+  size_t maxsize(const oa_t& oa) noexcept {
+    size_t res = 0;
+    for (const oa_row_t& r : oa) res = std::max(res, r.size());
+    return res;
+  }
 
 
   ls_t projection(const oa_t& oa, const ls_row_t& indices) {
@@ -168,15 +173,28 @@ namespace OrthogonalArrays {
     oa_t oa;
 
     const size_t N; // the number of "levels" or "values": 0, ..., N-1
+    const size_t nblocks = std::pow(N, str);
     const size_t k; // number of "factors" (columns)
     const size_t rep = 1; // repetitions ("index")
-
-    const size_t nblocks = std::pow(N, str), trows = rep * nblocks;
+    const size_t trows = rep * nblocks;
     // total number of rows ("number of experimental runs")
 
+    OrthArr(const oa_t oa) :
+      oa(oa), N(detN()), k(maxsize(oa)), rep(detrep()) {}
     OrthArr(const size_t N, const size_t k) noexcept : N(N), k(k) {}
     OrthArr(const size_t N, const size_t k, const size_t r)
       noexcept : N(N), k(k), rep(r) {}
+
+    size_t detN() const noexcept {
+      if (noval()) return 0;
+      else return maxval(oa) + 1;
+    }
+    size_t detrep() const noexcept {
+      if (nblocks == 0) return 0;
+      const size_t s = oa.size();
+      if (s % nblocks == 0) return s / nblocks;
+      else return s / nblocks + 1;
+    }
 
     bool noval() const noexcept {
       if (oa.empty()) return true;
@@ -214,6 +232,8 @@ namespace OrthogonalArrays {
     }
 
   };
+
+  typedef OrthArr<2> OrthArr2;
 
 }
 
