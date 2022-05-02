@@ -28,6 +28,7 @@ License, or any later version. */
 #include <utility>
 #include <exception>
 #include <type_traits>
+#include <map>
 
 #include <cassert>
 #include <cmath>
@@ -95,6 +96,7 @@ namespace OrthogonalArrays {
       for (const size_t i : indices) p.push_back(r[i]);
       res.push_back(p);
     }
+    std::ranges::sort(res);
     return res;
   }
 
@@ -135,12 +137,41 @@ namespace OrthogonalArrays {
 
   template <size_t k>
   using index_t = std::array<size_t, k>;
+
   template <size_t k>
   constexpr index_t<k-1> rest(const index_t<k>& v) noexcept {
     static_assert(k >= 1);
     index_t<k-1> res;
     std::copy(v.begin()+1, v.end(), res.begin());
     return res;
+  }
+
+
+  typedef std::map<index_t<2>, ls_row_t> ragged_array_t;
+  oa_t rarr2oa(const ragged_array_t& ra) {
+    oa_t res;
+    for (const auto& [x,y] : ra) {
+      ls_row_t r; r.reserve(y.size() + 2);
+      r.push_back(x[0]); r.push_back(x[1]);
+      for (const size_t yi : y) r.push_back(yi);
+      res.insert(std::move(r));
+    }
+    return res;
+  }
+  ragged_array_t lls2rarr(const std::vector<ls_t>& L) {
+    ragged_array_t res;
+    for (const ls_t& S : L) {
+      const size_t N = S.size();
+      for (size_t i = 0; i < N; ++i) {
+        const ls_row_t& r = S[i];
+        for (size_t j = 0; j < r.size(); ++j)
+          res[{i,j}].push_back(r[j]);
+      }
+    }
+    return res;
+  }
+  oa_t lls2oa(const std::vector<ls_t>& L) {
+    return rarr2oa(lls2rarr(L));
   }
 
 
@@ -235,7 +266,7 @@ namespace OrthogonalArrays {
       if (N <= 1) return true;
       if (rep == 0) return true;
       if (str >= k) return true;
-      for (const ls_row_t& s : subsets(N,k)) {
+      for (const ls_row_t& s : subsets(k,str)) {
         const ls_t p = projection(oa, s);
         assert(std::ranges::is_sorted(p));
         assert(p.size() == trows);

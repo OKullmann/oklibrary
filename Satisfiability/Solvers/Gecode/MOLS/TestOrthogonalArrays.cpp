@@ -24,8 +24,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "2.5.2022",
+        "0.1.5",
+        "3.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -100,6 +100,25 @@ int main(const int argc, const char* const argv[]) {
    static_assert(eqp(rest<3>({0,1,2}), {1,2}));
   }
 
+  {assert(eqp(rarr2oa({}), {}));
+   assert(eqp(rarr2oa({{{1,3},{5,7,9}}}), {{1,3,5,7,9}}));
+   assert(eqp(rarr2oa({{{1,3},{5,7,9}},{{0,0},{}},{{1,4},{77}}}),
+              {{1,3,5,7,9},{0,0},{1,4,77}}));
+  }
+  {assert(eqp(lls2rarr({}), {}));
+   assert(eqp(lls2rarr({{},{}}), {}));
+   assert(eqp(lls2rarr({{{0,1},{2,3,4}},{}}),
+              {{{0,0},{0}},{{0,1},{1}},{{1,0},{2}},{{1,1},{3}},{{1,2},{4}}}));
+   assert(eqp(lls2rarr({{{0,1},{2,3,4}},{{5},{6,7},{8}}}),
+              {{{0,0},{0,5}},{{0,1},{1}},
+               {{1,0},{2,6}},{{1,1},{3,7}},{{1,2},{4}},
+               {{2,0},{8}}}));
+   assert(eqp(lls2rarr({{{0,1},{2,3,4}},{{5},{6,7},{8}},{{9,10,11}}}),
+              {{{0,0},{0,5,9}},{{0,1},{1,10}},{{0,2},{11}},
+               {{1,0},{2,6}},{{1,1},{3,7}},{{1,2},{4}},
+               {{2,0},{8}}}));
+  }
+
   {assert(GenLS<0>::create(3) == 3);
    assert(GenLS<1>::create(5) == ls_row_t(5,5));
    assert(GenLS<2>::create(7) == ls_t(7,ls_row_t(7,7)));
@@ -154,6 +173,36 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.rep == 3);
    assert(oa.trows == 27);
    assert(oa.valid());
+  }
+
+  {RG::RandGen_t g({1,2});
+   for (size_t N = 1; N <= 6; ++N)
+     for (size_t i = 0; i < N*N; ++i) {
+       const ls_t L = random_ls(N,g);
+       const oa_t oa = lls2oa({L});
+       assert(oa.size() == N*N);
+       const OrthArr2 O(oa);
+       assert(O.oa == oa);
+       assert(O.str == 2);
+       assert(O.N == N);
+       assert(O.k == 3);
+       assert(O.rep == 1);
+       assert(O.nblocks == N*N);
+       assert(O.valid());
+
+       ls_t L2(L);
+       if (L2[0][0] == 0) L2[0][0] = 1;
+       else L2[0][0] = 0;
+       assert(not rls(L2)); assert(not cls(L2));
+       const OrthArr2 O2(lls2oa({L2}));
+       assert(O2.str == 2);
+       const size_t nN = std::max(size_t(2),N);
+       assert(O2.N == nN);
+       assert(O2.k == 3);
+       assert(O2.rep == 1);
+       assert(O2.nblocks == nN*nN);
+       assert(not O2.valid());
+     }
   }
 
 }
