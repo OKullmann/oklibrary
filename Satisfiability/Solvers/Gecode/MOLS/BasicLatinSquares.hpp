@@ -72,10 +72,11 @@ License, or any later version. */
 
    - sqshape(const ls_t& S): whether all rows of S have size N, where N
      is the number of rows.
+   - rcshape(S): more generally, whether S's shape is rectangular.
    - sqval(const ls_t& S): whether all values are < N, where N is (again)
      the number of rows.
    - sqprop(const ls_t& S): both conditions together.
-     All three tests make no assumptions on S.
+     All found tests make no assumptions on S.
 
   Three versions of latin squares, where without sqprop(S) false is returned:
 
@@ -94,10 +95,11 @@ License, or any later version. */
 
    Transformations:
 
-    - transpositionm(ls_t&)
-    - transposition(ls_t) -> ls_t
-    - antitranspositionm(ls_t&)
-    - antitransposition(ls_t) -> ls_t.
+    - transpositionm(ls_t& S) for sqshape(S)
+    - transposition(ls_t) -> ls_t (using transpositionm)
+    - gtransposition(ls_t) -> ls_t, assuming only rcshape(S)
+    - antitranspositionm(ls_t&) for sqshape(S)
+    - antitransposition(ls_t) -> ls_t for sqshape(S).
 
    Algebra:
 
@@ -253,10 +255,17 @@ namespace BasicLatinSquares {
   }
 
 
+  bool rcshape(const ls_t& S) noexcept {
+    if (S.empty()) return true;
+    const size_t N = S[0].size();
+    return std::all_of(S.begin()+1, S.end(),
+                       [&N](const auto& r){return r.size()==N;});
+  }
   bool sqshape(const ls_t& S) noexcept {
     const size_t N = S.size();
     return std::ranges::all_of(S, [&N](const auto& r){return r.size()==N;});
   }
+
   bool sqval(const ls_t& S) noexcept {
     const size_t N = S.size();
     return std::ranges::all_of(S, [&N](const auto& r){
@@ -318,6 +327,20 @@ namespace BasicLatinSquares {
   ls_t transposition(ls_t S) {
     transpositionm(S);
     return S;
+  }
+  // Transposition for rectangular shapges:
+  ls_t gtransposition(const ls_t& S) {
+    assert(rcshape(S));
+    if (S.empty()) return {};
+    const size_t M = S[0].size();
+    const size_t N = S.size();
+    ls_t res(M, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < M; ++j)
+        res[j][i] = r[j];
+    }
+    return res;
   }
   void antitranspositionm(ls_t& S) noexcept {
     assert(sqshape(S));

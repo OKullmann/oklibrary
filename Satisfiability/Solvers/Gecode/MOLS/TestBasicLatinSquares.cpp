@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "2.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -85,6 +85,12 @@ int main(const int argc, const char* const argv[]) {
    assert(sqshape({{0}}));
    assert(not sqshape({{0,0}}));
    assert(not sqshape({{0},{0}}));
+  }
+  {assert(rcshape({}));
+   assert(rcshape({{0}}));
+   assert(rcshape({{0,0}}));
+   assert(rcshape({{0},{0}}));
+   assert(not rcshape({{0,0},{0}}));
   }
   {assert(sqval({}));
    assert(sqval({{0}}));
@@ -155,8 +161,14 @@ int main(const int argc, const char* const argv[]) {
 
   {const ls_t S{{1,2,3},{4,5,6},{7,8,9}};
    const ls_t St = transposition(S);
+   assert(St == gtransposition(S));
    const ls_t Sr = antitransposition(St);
    assert((Sr == ls_t{{9,8,7},{6,5,4},{3,2,1}}));
+  }
+  {assert(eqp(gtransposition({}), {}));
+   assert(eqp(gtransposition({{},{}}), {}));
+   assert(eqp(gtransposition({{0,1,2}}), {{0},{1},{2}}));
+   assert(eqp(gtransposition({{0},{5},{7}}), {{0,5,7}}));
   }
 
   {assert(eqp(rproduct({}, {}), {}));

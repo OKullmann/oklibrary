@@ -19,18 +19,20 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "OrthogonalArrays.hpp"
+#include "BasicLatinSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "1.5.2022",
+        "0.1.4",
+        "2.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
         "GPL v3"};
 
   using namespace OrthogonalArrays;
+  using namespace BasicLatinSquares;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -143,6 +145,14 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.k == 5);
    assert(oa.rep == 1);
    assert(oa.trows == 16);
+   assert(oa.valid());
+  }
+  {const OrthArr2 oa(ls2oa(gtransposition(example3)));
+   assert(oa.N == 3);
+   assert(oa.nblocks == 9);
+   assert(oa.k == 5);
+   assert(oa.rep == 3);
+   assert(oa.trows == 27);
    assert(oa.valid());
   }
 
