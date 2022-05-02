@@ -9,6 +9,8 @@ License, or any later version. */
 
   Tools for handling orthogonal arrays
 
+  Namespace OrthogonalArrays, abbreviated "OA".
+
   For basic definitions see
   https://en.wikipedia.org/wiki/Orthogonal_array
 
@@ -30,19 +32,19 @@ License, or any later version. */
 #include <cassert>
 #include <cmath>
 
-#include "Numerics/FloatingPoint.hpp"
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
 #include "Conditions.hpp"
+#include "BasicLatinSquares.hpp"
 
 namespace OrthogonalArrays {
 
+  namespace BS = BasicLatinSquares;
+
   typedef Conditions::size_t size_t;
-
-  // As in Verification.hpp:
-  typedef std::vector<size_t> ls_row_t;
-  typedef std::vector<ls_row_t> ls_t;
-
+  typedef BS::ls_row_t ls_row_t;
+  typedef BS::ls_t ls_t;
 
   using oa_row_t = ls_row_t; // the rows of the orthogonal array
   typedef std::set<oa_row_t> oa_t; // underlying concrete alias type of oa's

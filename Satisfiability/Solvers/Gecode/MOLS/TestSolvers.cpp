@@ -15,12 +15,13 @@ License, or any later version. */
 #include "PartialSquares.hpp"
 #include "Solvers.hpp"
 #include "Verification.hpp"
+#include "BasicLatinSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "27.4.2022",
+        "0.3.2",
+        "2.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestSolvers.cpp",
@@ -29,6 +30,7 @@ namespace {
   using namespace Solvers;
   using namespace PartialSquares;
   using namespace Verification;
+  using namespace BasicLatinSquares;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
