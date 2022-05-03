@@ -150,12 +150,11 @@ namespace LookaheadReduction {
     }
   public:
     void increment_props() noexcept { ++props_; }
-    void update_allvalues(const IntViewArray& x) noexcept {
+    void update_allvalues(const GC::IntVarArray& x) noexcept {
       assert(x.size() > 0);
-      size_t sum = 0;
-      for (signed_t var = 0; var < x.size(); ++var) sum += x[var].size();
-      assert(sum > 0);
-      vals_ = sum;
+      vals_ = 0;
+      for (signed_t var = 0; var < x.size(); ++var) vals_ += x[var].size();
+      assert(vals_ > 0);
     }
     void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
     void increment_pruns() noexcept { ++pruns_; update_quotprun();}
@@ -195,23 +194,14 @@ namespace LookaheadReduction {
     ModSpace* m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
-    // stat.update_allvalues(m->var()); ERROR
-    /*
-LookaheadReduction.hpp:198:26: error: cannot convert -F¡Gecode::IntVarArray¢ to ¡const IntViewArray&¢ {aka ¡const Gecode::ViewArray<Gecode::Int::IntView>&¢}-A
-  198 |     stat.update_allvalues(m->var());
-    */
+    stat.update_allvalues(m->var());
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     do {
       repeat = false;
       stat.increment_rounds();
       // Get current array of variables:
-      // const IntViewArray x = m->var(); ERROR
-      /*
-LookaheadReduction.hpp:209:26: error: conversion from -F¡Gecode::IntVarArray¢ to non-scalar type ¡const IntViewArray¢ {aka ¡const Gecode::ViewArray<Gecode::Int::IntView>¢} requested-A
-  209 |       const IntViewArray x = m->var();
-      */
-      const IntViewArray x; // TEMPORARY REPLACEMENT
+      const GC::IntVarArray x = m->var();
       // Iterate over all unassigned variables:
       for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
