@@ -48,24 +48,24 @@ Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp
 
 laMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 laMols : Optimisation_plus = -fwhole-program
-laMols : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
+laMols : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 laMols_debug : Optimisation_plus = -fwhole-program
-laMols_debug : laMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
+laMols_debug : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
 rlaMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 rlaMols : Optimisation_plus = -fwhole-program
-rlaMols : rlaMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
+rlaMols : rlaMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 rlaMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 rlaMols_debug : Optimisation_plus = -fwhole-program
-rlaMols_debug : rlaMols.cpp Conditions.hpp Parsing.hpp Solvers.hpp Options.hpp CommandLine.hpp
+rlaMols_debug : rlaMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
 gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 gcMols : Optimisation_plus = -fwhole-program
-gcMols : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
+gcMols : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 gcMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 gcMols_debug : Optimisation_plus = -fwhole-program
-gcMols_debug : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
+gcMols_debug : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
 # -------------------------
 
@@ -74,14 +74,14 @@ TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
 
 TestEncoding_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
-TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp  PartialSquares.hpp Verification.hpp LookaheadBranching.hpp BasicLatinSquares.hpp
+TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp  PartialSquares.hpp Verification.hpp LookaheadBranching.hpp LookaheadReduction.hpp BasicLatinSquares.hpp
 
 TestConstraints_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
-TestConstraints_debug : TestConstraints.cpp Constraints.hpp Encoding.hpp Conditions.hpp LookaheadBranching.hpp
+TestConstraints_debug : TestConstraints.cpp Constraints.hpp Encoding.hpp Conditions.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
 TestSolvers_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestSolvers_debug : Optimisation_plus = -fwhole-program
-TestSolvers_debug : TestSolvers.cpp Solvers.hpp Constraints.hpp Encoding.hpp Conditions.hpp LookaheadBranching.hpp BasicLatinSquares.hpp Verification.hpp
+TestSolvers_debug : TestSolvers.cpp Solvers.hpp Constraints.hpp Encoding.hpp Conditions.hpp LookaheadBranching.hpp LookaheadReduction.hpp BasicLatinSquares.hpp Verification.hpp
 
 TestPartialSquares_debug : TestPartialSquares.cpp PartialSquares.hpp Conditions.hpp
 
@@ -91,11 +91,11 @@ TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
 
 TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
-TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp
+TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp Conditions.hpp Options.hpp
 
 TestLookaheadBranching_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadBranching_debug : Optimisation_plus = -fwhole-program
-TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp
+TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp LookaheadReduction.hpp Conditions.hpp Options.hpp
 
 TestVerification_debug : TestVerification.cpp Verification.hpp BasicLatinSquares.hpp
 

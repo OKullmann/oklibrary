@@ -12,7 +12,7 @@ TODOS:
 1. Urgently unit-tests are needed, for all components.
    Same for the reduction-components.
 
-2. Urgently Makefile needs to be updated to include all dependencies.
+2. DONE Urgently Makefile needs to be updated to include all dependencies.
 
 */
 
@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "27.4.2022",
+        "0.0.3",
+        "3.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
