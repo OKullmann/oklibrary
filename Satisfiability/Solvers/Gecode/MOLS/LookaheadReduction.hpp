@@ -105,26 +105,6 @@ namespace LookaheadReduction {
 
   enum class BranchingStatus { unsat=0, sat=1, single=2, branching=3 };
 
-  // Make a copy of a given problem and assign either var==val or var!=val:
-  template<class ModSpace>
-  std::unique_ptr<ModSpace> child_node(ModSpace* const m,
-                                       const int v, const int val,
-                                       const GC::IntPropLevel pl,
-                                       const bool eq = true) noexcept {
-    assert(m->valid());
-    assert(m->valid(v));
-    assert(m->status() == GC::SS_BRANCH);
-    // Clone space:
-    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
-    assert(c->valid());
-    assert(c->valid(v));
-    assert(c->status() == GC::SS_BRANCH);
-    // Add an equality constraint for the given variable and its value:
-    if (eq) GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_EQ, val, pl);
-    else GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_NQ, val, pl);
-    return c;
-  }
-
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
   private :
@@ -179,6 +159,38 @@ namespace LookaheadReduction {
     size_t leafcount() const noexcept { return leafcount_; }
   };
 
+  // Make a copy of a given problem and assign either var==val or var!=val:
+  template<class ModSpace>
+  std::unique_ptr<ModSpace> child_node(ModSpace* const m,
+                                       const int v, const int val,
+                                       const GC::IntPropLevel pl,
+                                       const bool eq = true) noexcept {
+    assert(m->valid());
+    assert(m->valid(v));
+    assert(m->status() == GC::SS_BRANCH);
+    // Clone space:
+    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
+    assert(c->valid());
+    assert(c->valid(v));
+    assert(c->status() == GC::SS_BRANCH);
+    // Add an equality constraint for the given variable and its value:
+    if (eq) GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_EQ, val, pl);
+    else GC::rel(*(c.get()), (c.get())->var(v), GC::IRT_NQ, val, pl);
+    return c;
+  }
+
+  template<class ModSpace>
+  GC::SpaceStatus probe(ModSpace* const m,
+                        const signed_t var,
+                        const signed_t val,
+                        const GC::IntPropLevel pl)
+  {
+    // Make a copy of the current node, and assign var==val:
+    const auto chnode = child_node<ModSpace>(m, var, val, pl, true);
+    // Call Gecode propagation:
+    return chnode->status();
+  }
+
   // Lookahead-reduction.
   // Consider a variable var and its domain {val1, ..., valk}.
   // For all i, if var==vali is inconsistent, then these constraints
@@ -211,16 +223,12 @@ namespace LookaheadReduction {
         values_t noteqvalues;
 
         // Collect all values of the variable to a vector:
-        std::vector<int> values;
+        std::vector<signed_t> values;
         for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
         // Iterate over all values of the current variable:
         for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
-          // Make a copy of the current problem, and assign var==val:
-          const auto subm = child_node<ModSpace>(m, var, val, pl, true);
-          stat.increment_probes();
-          // Call Gecode propagation:
-          const auto status = subm->status();
+          const auto status = probe(m, var, val, pl);
           stat.increment_props();
           // If either a SAT leaf or an UNSAT leaf is found:
           if (status != GC::SS_BRANCH) {
