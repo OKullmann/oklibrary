@@ -46,12 +46,13 @@ Euler_BBOpt_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekerne
 Euler_BBOpt_debug : Euler_BBOpt.cpp Euler.hpp ../Lookahead.hpp ../Statistics.hpp Options.hpp
 
 
-laMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-laMols : Optimisation_plus = -fwhole-program
-laMols : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
-laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-laMols_debug : Optimisation_plus = -fwhole-program
-laMols_debug : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
+gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+gcMols : Optimisation_plus = -fwhole-program
+gcMols : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
+gcMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+gcMols_debug : Optimisation_plus = -fwhole-program
+gcMols_debug : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
+
 
 rlaMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 rlaMols : Optimisation_plus = -fwhole-program
@@ -60,12 +61,13 @@ rlaMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -l
 rlaMols_debug : Optimisation_plus = -fwhole-program
 rlaMols_debug : rlaMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
-gcMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-gcMols : Optimisation_plus = -fwhole-program
-gcMols : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
-gcMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-gcMols_debug : Optimisation_plus = -fwhole-program
-gcMols_debug : gcMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp
+
+laMols : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+laMols : Optimisation_plus = -fwhole-program
+laMols : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
+laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+laMols_debug : Optimisation_plus = -fwhole-program
+laMols_debug : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp
 
 # -------------------------
 
