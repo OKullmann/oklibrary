@@ -20,12 +20,13 @@ License, or any later version. */
 
 #include "OrthogonalArrays.hpp"
 #include "BasicLatinSquares.hpp"
+#include "Verification.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "3.5.2022",
+        "0.1.6",
+        "4.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -33,6 +34,7 @@ namespace {
 
   using namespace OrthogonalArrays;
   using namespace BasicLatinSquares;
+  using namespace Verification;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -117,6 +119,30 @@ int main(const int argc, const char* const argv[]) {
               {{{0,0},{0,5,9}},{{0,1},{1,10}},{{0,2},{11}},
                {{1,0},{2,6}},{{1,1},{3,7}},{{1,2},{4}},
                {{2,0},{8}}}));
+  }
+  {assert(eqp(oa2rarr({{0,0,0}}), {{{0,0},{0}}}));
+   assert(eqp(rarr2lls({{{0,0},{0}}}), {{{0}}}));
+  }
+  {RG::RandGen_t g({1,2,66});
+   for (size_t N = 1; N <= 6; ++N)
+     for (size_t i = 0; i < N*N; ++i) {
+       const ls_t L1 = random_ls(N,g), L2 = random_ls(N,g);
+       {const oa_t oa = lls2oa({L1});
+        const OrthArr2 O(oa);
+        assert(O.valid());
+        const auto L = oa2lls(oa);
+        assert(L.size() == 1);
+        assert(L[0] == L1);
+       }
+       {const oa_t oa = lls2oa({L1,L2});
+        const OrthArr2 O(oa);
+        assert(O.valid() == orthogonal(L1,L2));
+        const auto L = oa2lls(oa);
+        assert(L.size() == 2);
+        assert(L[0] == L1); assert(L[1] == L2);
+       }
+     }
+
   }
 
   {assert(GenLS<0>::create(3) == 3);

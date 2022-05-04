@@ -190,7 +190,8 @@ namespace OrthogonalArrays {
       max = std::max({max, N, maxval(y)});
       k = std::max(k, y.size());
     }
-    std::vector<ls_t> res(k, ls_t(N, ls_row_t(N,max+1)));
+    ++N, ++max;
+    std::vector<ls_t> res(k, ls_t(N, ls_row_t(N,max)));
     for (const auto& [x,y] : ra)
       for (size_t i = 0; i < y.size(); ++i)
         res[i][x[0]][x[1]] = y[i];
