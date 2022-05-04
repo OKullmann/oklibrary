@@ -147,6 +147,7 @@ namespace OrthogonalArrays {
   }
 
 
+  // Transformation especially for strength = 2:
   typedef std::map<index_t<2>, ls_row_t> ragged_array_t;
   oa_t rarr2oa(const ragged_array_t& ra) {
     oa_t res;
@@ -155,6 +156,17 @@ namespace OrthogonalArrays {
       r.push_back(x[0]); r.push_back(x[1]);
       for (const size_t yi : y) r.push_back(yi);
       res.insert(std::move(r));
+    }
+    return res;
+  }
+  ragged_array_t oa2rarr(const oa_t& oa) {
+    ragged_array_t res;
+    for (const oa_row_t& r : oa) {
+      const size_t k = r.size();
+      if (k < 2) continue;
+      const index_t<2> x{r[0], r[1]};
+      const ls_row_t y(r.begin()+2, r.end());
+      res[x] = y;
     }
     return res;
   }
@@ -170,8 +182,25 @@ namespace OrthogonalArrays {
     }
     return res;
   }
+  std::vector<ls_t> rarr2lls(const ragged_array_t& ra) {
+    if (ra.empty()) return {};
+    size_t N = 0, k = 0, max = 0;
+    for (const auto& [x,y] : ra) {
+      N = std::max({N, x[0], x[1]});
+      max = std::max({max, N, maxval(y)});
+      k = std::max(k, y.size());
+    }
+    std::vector<ls_t> res(k, ls_t(N, ls_row_t(N,max+1)));
+    for (const auto& [x,y] : ra)
+      for (size_t i = 0; i < y.size(); ++i)
+        res[i][x[0]][x[1]] = y[i];
+    return res;
+  }
   oa_t lls2oa(const std::vector<ls_t>& L) {
     return rarr2oa(lls2rarr(L));
+  }
+  std::vector<ls_t> oa2lls(const oa_t& oa) {
+    return rarr2lls(oa2rarr(oa));
   }
 
 
