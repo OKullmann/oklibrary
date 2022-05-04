@@ -76,10 +76,10 @@ TestParsing_debug : TestParsing.cpp Parsing.hpp Conditions.hpp
 TestConditions_debug : TestConditions.cpp Conditions.hpp Parsing.hpp
 
 TestEncoding_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
-TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp  PartialSquares.hpp Verification.hpp LookaheadBranching.hpp LookaheadReduction.hpp BasicLatinSquares.hpp
+TestEncoding_debug : TestEncoding.cpp Encoding.hpp Conditions.hpp  PartialSquares.hpp Verification.hpp BasicLatinSquares.hpp
 
 TestConstraints_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
-TestConstraints_debug : TestConstraints.cpp Constraints.hpp Encoding.hpp Conditions.hpp LookaheadBranching.hpp LookaheadReduction.hpp
+TestConstraints_debug : TestConstraints.cpp Constraints.hpp Encoding.hpp Conditions.hpp
 
 TestSolvers_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestSolvers_debug : Optimisation_plus = -fwhole-program
