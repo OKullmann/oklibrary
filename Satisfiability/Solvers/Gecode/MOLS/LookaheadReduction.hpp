@@ -185,6 +185,9 @@ namespace LookaheadReduction {
                         const signed_t val,
                         const GC::IntPropLevel pl)
   {
+    assert(m->valid());
+    assert(m->valid(v));
+    assert(m->status() == GC::SS_BRANCH);
     // Make a copy of the current node, and assign var==val:
     const auto chnode = child_node<ModSpace>(m, var, val, pl, true);
     // Call Gecode propagation:
@@ -228,6 +231,7 @@ namespace LookaheadReduction {
         // Iterate over all values of the current variable:
         for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
+          // Probe var==val:
           const auto status = probe(m, var, val, pl);
           stat.increment_props();
           // If either a SAT leaf or an UNSAT leaf is found:
