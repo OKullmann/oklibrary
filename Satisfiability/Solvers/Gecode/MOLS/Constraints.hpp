@@ -28,6 +28,7 @@ namespace Constraints {
   namespace LAB = LookaheadBranching;
 
   typedef EC::size_t size_t;
+  typedef std::int64_t signed_t;
 
 
   // Pure Gecode-version:
@@ -88,6 +89,21 @@ namespace Constraints {
     OP::GBO brorder() const noexcept { assert(valid()); return gbo; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
     LAB::vec_t weights() const noexcept { assert(valid()); return wghts; }
+
+    size_t assignedvars() const noexcept {
+      assert(valid());
+      size_t assigned = 0;
+      for (signed_t var = 0; var < V.size(); ++var) {
+        if (V[var].size() == 1) ++assigned;
+      }
+      return assigned;
+    };
+    size_t sumdomsizes() const noexcept {
+      assert(valid());
+      size_t sum = 0;
+      for (signed_t var = 0; var < V.size(); ++var) sum += V[var].size();
+      return sum;
+    }
   };
 
 }
