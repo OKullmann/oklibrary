@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "5.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -43,13 +43,16 @@ namespace {
   using namespace Constraints;
 
   namespace GC = Gecode;
+
+  typedef std::int64_t signed_t;
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {std::istringstream in_cond("squares A\n");
+  {// N==2, four variables, domains are {{0,1}, {0,1}, {0,1}, {0,1}}:
+   std::istringstream in_cond("squares A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
    const PSquares ps = PSquares(2, in_ps);
@@ -67,6 +70,7 @@ int main(const int argc, const char* const argv[]) {
    assert(not m->valid(4));
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 8);
+   // Post X[0] == 0:
    std::unique_ptr<LookaheadMols> ch =
      child_node<LookaheadMols>(m, 0, 0, pl, true);
    assert(ch->valid());
@@ -75,6 +79,27 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->var().size() == m->var().size());
    assert(ch->assignedvars() == 1);
    assert(ch->sumdomsizes() == 7);
+   // Check X[0] == 0:
+   GC::Int::IntView view = ch->var()[0];
+   assert(view.assigned());
+   GC::IntVarValues j(view);
+   signed_t val = j.val();
+   assert(val == 0);
+   // Post X[0] != 0, so X[0] == 1:
+   std::unique_ptr<LookaheadMols> ch2 =
+     child_node<LookaheadMols>(m, 0, 0, pl, false);
+   assert(ch2->valid());
+   assert(ch2->status() == Gecode::SS_BRANCH);
+   assert(ch2->valid());
+   assert(ch2->var().size() == m->var().size());
+   assert(ch2->assignedvars() == 1);
+   assert(ch2->sumdomsizes() == 7);
+   // Check X[0] == 1:
+   GC::Int::IntView view2 = ch2->var()[0];
+   assert(view2.assigned());
+   GC::IntVarValues j2(view2);
+   signed_t val2 = j2.val();
+   assert(val2 == 1);
   }
 
 }
