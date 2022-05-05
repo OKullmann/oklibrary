@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <sstream>
+#include <memory>
 
 #include <cassert>
 
@@ -26,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "5.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -40,25 +41,34 @@ namespace {
   using namespace Encoding;
   using namespace Options;
   using namespace Constraints;
+
+  namespace GC = Gecode;
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {std::istringstream ss_cond("squares A\n");
-   const AConditions ac = ReadAC()(ss_cond);
-   const PSquares ps = PSquares(2,{});
-   const EncCond enc(ac, ps, Gecode::IPL_VAL);
+  {//std::istringstream in_cond("squares A B aux\nred A\nrred B aux\nls A B aux\nrprod A aux B\n");
+   std::istringstream in_cond("squares A\n");
+   std::istringstream in_ps("");
+   const AConditions ac = ReadAC()(in_cond);
+   const PSquares ps = PSquares(2, in_ps);
+   const GC::IntPropLevel pl = GC::IPL_VAL;
+   const EncCond enc(ac, ps, pl);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0});
+   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->var().size() == 4);
    assert(m->valid(0));
-   assert(m->valid(1));
-   assert(m->valid(2));
    assert(m->valid(3));
    assert(not m->valid(4));
+   assert(m->status() == Gecode::SS_BRANCH);
+   std::unique_ptr<LookaheadMols> chnode =
+     child_node<LookaheadMols>(m, 0, 0, pl, true);
+   assert(chnode->valid());
+   assert(chnode->var().size() == m->var().size());
   }
 
 }
