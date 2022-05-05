@@ -44,7 +44,12 @@
 # After 80 min wall-clock aborted; perhaps not better.
 
 # MOLS> ./gcMols 13 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
-# XXX
+# aborted after 50h wall-clock without a solution found (while finding a
+# solution for SudokuPandiagonal is rather easy)>
+# Running without "rred A":
+# MOLS> ./gcMols 13 data/SpecsCollection/SudokuQueen "" sats dom binbr maxdom desc 12
+# aborted after 37h wall-clock without a solution found.
+# For checking, "dom enumbr mindom" was run for nearly 60h wall-clock without finding a solution (with rred).
 
 
 # Really interesting cases are N=16, 25.
