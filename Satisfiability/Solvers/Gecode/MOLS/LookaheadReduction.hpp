@@ -186,7 +186,7 @@ namespace LookaheadReduction {
                         const GC::IntPropLevel pl)
   {
     assert(m->valid());
-    //assert(m->valid(v)); ERROR
+    assert(m->valid(var));
     assert(m->status() == GC::SS_BRANCH);
     // Make a copy of the current node, and assign var==val:
     const auto chnode = child_node<ModSpace>(m, var, val, pl, true);
