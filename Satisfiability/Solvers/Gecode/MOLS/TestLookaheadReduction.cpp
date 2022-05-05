@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "5.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -51,7 +51,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {// N==2, four variables, domains are {{0,1}, {0,1}, {0,1}, {0,1}}:
+  {// N==2, four variables, each with domain {0,1}:
    std::istringstream in_cond("squares A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
@@ -100,6 +100,53 @@ int main(const int argc, const char* const argv[]) {
    GC::IntVarValues j2(view2);
    signed_t val2 = j2.val();
    assert(val2 == 1);
+  }
+
+  {// N==3, nine variables, each with domain {0,1,2}:
+   std::istringstream in_cond("squares A\n");
+   std::istringstream in_ps("");
+   const AConditions ac = ReadAC()(in_cond);
+   const PSquares ps = PSquares(3, in_ps);
+   const GC::IntPropLevel pl = GC::IPL_VAL;
+   const EncCond enc(ac, ps, pl);
+   LookaheadMols* const m =
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m->valid());
+   assert(m->status() == Gecode::SS_BRANCH);
+   assert(m->valid());
+   assert(m->var().size() == 9);
+   assert(m->valid(0));
+   assert(m->valid(8));
+   assert(not m->valid(10));
+   assert(m->assignedvars() == 0);
+   assert(m->sumdomsizes() == 27);
+   // Post X[0] == 0:
+   std::unique_ptr<LookaheadMols> ch =
+     child_node<LookaheadMols>(m, 0, 0, pl, true);
+   assert(ch->valid());
+   assert(ch->status() == Gecode::SS_BRANCH);
+   assert(ch->valid());
+   assert(ch->var().size() == m->var().size());
+   assert(ch->assignedvars() == 1);
+   assert(ch->sumdomsizes() == 25);
+   // Check X[0] == 0:
+   GC::Int::IntView view = ch->var()[0];
+   assert(view.assigned());
+   GC::IntVarValues j(view);
+   signed_t val = j.val();
+   assert(val == 0);
+   // Post X[0] != 0:
+   std::unique_ptr<LookaheadMols> ch2 =
+     child_node<LookaheadMols>(m, 0, 0, pl, false);
+   assert(ch2->valid());
+   assert(ch2->status() == Gecode::SS_BRANCH);
+   assert(ch2->valid());
+   assert(ch2->var().size() == m->var().size());
+   assert(ch2->assignedvars() == 0);
+   assert(ch2->sumdomsizes() == 26);
+   // Check that X[0] has domain of size 2:
+   assert(ch2->var()[0].size() == 2);
   }
 
 }
