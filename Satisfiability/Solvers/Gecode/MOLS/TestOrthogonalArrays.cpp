@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "4.5.2022",
+        "0.1.7",
+        "5.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -53,6 +53,9 @@ namespace {
     {0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2},
     {0,0,0,1,1,1,2,2,2,2,2,2,0,0,0,1,1,1,1,1,1,2,2,2,0,0,0},
     {0,1,2,1,2,0,2,0,1,0,1,2,1,2,0,2,0,1,0,1,2,1,2,0,2,0,1}};
+  const oa_t example4 = {
+    {0,0,0,0},{0,0,1,1},{0,1,0,1},{0,1,1,0},
+    {1,0,0,1},{1,0,1,0},{1,1,0,0},{1,1,1,1}};
 
 }
 
@@ -142,7 +145,6 @@ int main(const int argc, const char* const argv[]) {
         assert(L[0] == L1); assert(L[1] == L2);
        }
      }
-
   }
 
   {assert(GenLS<0>::create(3) == 3);
@@ -198,6 +200,15 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.k == 5);
    assert(oa.rep == 3);
    assert(oa.trows == 27);
+   assert(oa.valid());
+  }
+  {const OrthArr3 oa(example4);
+   assert(oa.oa == example4);
+   assert(oa.N == 2);
+   assert(oa.nblocks == 8);
+   assert(oa.k == 4);
+   assert(oa.rep == 1);
+   assert(oa.trows == 8);
    assert(oa.valid());
   }
 

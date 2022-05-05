@@ -313,6 +313,7 @@ namespace OrthogonalArrays {
   };
 
   typedef OrthArr<2> OrthArr2;
+  typedef OrthArr<3> OrthArr3;
 
 }
 
