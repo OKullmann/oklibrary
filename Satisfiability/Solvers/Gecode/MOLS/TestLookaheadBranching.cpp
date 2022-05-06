@@ -10,9 +10,16 @@ License, or any later version. */
 TODOS:
 
 1. Urgently unit-tests are needed, for all components.
-   Same for the reduction-components.
-
-2. DONE Urgently Makefile needs to be updated to include all dependencies.
+   - distance() function.
+   - best_branching() function.
+   - best_branchings() function.
+   - post_la_branching() function.
+   - Node class.
+   - BinBranching class.
+   - EnumBranching class.
+   - BaseBrancher class.
+   - BinLookahead class;
+   - EnumLookahead class;
 
 */
 
