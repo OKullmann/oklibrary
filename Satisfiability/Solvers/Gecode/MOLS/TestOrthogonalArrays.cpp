@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "6.5.2022",
+        "0.2.1",
+        "7.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -56,6 +56,20 @@ namespace {
   const oa_t example4 = {
     {0,0,0,0},{0,0,1,1},{0,1,0,1},{0,1,1,0},
     {1,0,0,1},{1,0,1,0},{1,1,0,0},{1,1,1,1}};
+
+  template <size_t k>
+  constexpr void test_allcombinations(const size_t N) {
+    using OA = OrthArr<k>;
+    for (size_t i = 1; i <= N; ++i) {
+      OA oa(ls2oa(allcombinations(N,k)));
+      assert(oa.N == N);
+      assert(oa.nblocks == std::pow(N,k));
+      assert(oa.k == k);
+      assert(oa.rep == 1);
+      assert(oa.trows == oa.nblocks);
+      assert(oa.valid());
+    }
+  }
 
 }
 
@@ -145,6 +159,24 @@ int main(const int argc, const char* const argv[]) {
         assert(L[0] == L1); assert(L[1] == L2);
        }
      }
+  }
+
+  {assert(eqp(allcombinations(0,0), {}));
+   assert(eqp(allcombinations(1,0), {}));
+   assert(eqp(allcombinations(1,1), {{0}}));
+   assert(eqp(allcombinations(3,1), {{0},{1},{2}}));
+   assert(eqp(allcombinations(1,2), {{0,0}}));
+   assert(eqp(allcombinations(2,2), {{0,0},{0,1},{1,0},{1,1}}));
+   assert(eqp(allcombinations(3,2), {{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}}));
+   assert(eqp(allcombinations(1,3), {{0,0,0}}));
+   assert(eqp(allcombinations(2,3), {{0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1}}));
+
+   test_allcombinations<1>(10);
+   test_allcombinations<2>(10);
+   test_allcombinations<3>(8);
+   test_allcombinations<4>(6);
+   test_allcombinations<5>(5);
+   test_allcombinations<6>(4);
   }
 
   {assert(GenLS<0>::create(3) == 3);

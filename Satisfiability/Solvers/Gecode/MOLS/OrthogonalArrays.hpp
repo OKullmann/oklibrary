@@ -202,6 +202,33 @@ namespace OrthogonalArrays {
   }
 
 
+  // For the creation of the trivial orthogonal arrays:
+  ls_t allcombinations(const size_t N, const size_t k) {
+    if (k == 0) return {};
+    assert(N >= 1);
+    if (k == 1) {
+      ls_t res(N, ls_row_t(1));
+      for (size_t i = 1; i < N; ++i) res[i][0] = i;
+      return res;
+    }
+    else {
+      const ls_t res0 = allcombinations(N,k-1);
+      ls_t res(N*res0.size(), ls_row_t(k));
+      size_t i = 0;
+      for (size_t b = 0; b < N; ++b) {
+        for (const ls_row_t& r0 : res0) {
+          ls_row_t& r = res[i];
+          r[0] = b;
+          for (size_t j = 0; j < r0.size(); ++j) r[j+1] = r0[j];
+          ++i;
+        }
+      }
+      assert(i == res.size());
+      return res;
+    }
+  }
+
+
   template <size_t D>
   struct GenLS {
     typedef std::vector<typename GenLS<D-1>::type> type;
