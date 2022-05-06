@@ -266,12 +266,10 @@ namespace LookaheadBranching {
       assert(valid(start, x));
     }
 
-    // Update start - the first unassigned variable:
     virtual bool status(const GC::Space&) const noexcept {
       assert(valid(start, x));
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; return true; }
-      assert(valid(start, x));
       return false;
     }
 
@@ -305,23 +303,34 @@ namespace LookaheadBranching {
       return new (home) BinLookahead(home, *this);
     }
 
-    virtual GC::Choice* choice(GC::Space& home) noexcept {
+    // Apply lookahead-reduction:
+    virtual bool status(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->valid());
       assert(m->status() == GC::SS_BRANCH);
+      assert(valid(start, x));
+      //for (auto i = start; i < x.size(); ++i)
+      //  if (not x[i].assigned()) { start = i; return true; }
       const OP::RT rt = m->runtype();
       const GC::IntPropLevel pl = m->proplevel();
       const OP::LAR lar = m->laredtype();
-      [[maybe_unused]]LR::ReductionStatistics reduct_stat =
+      LR::ReductionStatistics reduct_stat =
         LR::lareduction<ModSpace>(home, rt, pl, lar);
+      // A leaf was found during the la-reduction, no branching is needed:
+      if (reduct_stat.leafcount() > 0) return false;
+      return true;
+    }
+
+    virtual GC::Choice* choice(GC::Space& home) noexcept {
+      ModSpace* m = &(static_cast<ModSpace&>(home));
+      assert(m->status() == GC::SS_BRANCH);
+      const GC::IntPropLevel pl = m->proplevel();
       // Update the start (first unassigned) variable:
       for (auto i = start; i < x.size(); ++i)
         if (not x[i].assigned()) { start = i; break;}
       BinBranching best_br;
-
-      assert(m->status() != GC::SS_SOLVED);
-      // If the problems is solved, no more branching is needed, and
-      // m->status() == GC::SS_FAILED.
-      // Otherwise, choose the best branching:
+      assert(m->status() == GC::SS_BRANCH);
+      // For all branching and choose the best one:
       if (m->status() == GC::SS_BRANCH) {
         std::vector<BinBranching> tau_brs;
         const vec_t wghts = m->weights();
