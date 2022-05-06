@@ -27,8 +27,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
-        "5.5.2022",
+        "0.0.8",
+        "6.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -100,6 +100,14 @@ int main(const int argc, const char* const argv[]) {
    GC::IntVarValues j2(view2);
    signed_t val2 = j2.val();
    assert(val2 == 1);
+   // Check probing:
+   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
+   // Check that the original space has not been changed:
+   assert(m->assignedvars() == 0);
+   assert(m->sumdomsizes() == 8);
   }
 
   {// N==3, nine variables, each with domain {0,1,2}:
@@ -118,7 +126,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->var().size() == 9);
    assert(m->valid(0));
    assert(m->valid(8));
-   assert(not m->valid(10));
+   assert(not m->valid(9));
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 27);
    // Post X[0] == 0:
@@ -147,6 +155,20 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->sumdomsizes() == 26);
    // Check that X[0] has domain of size 2:
    assert(ch2->var()[0].size() == 2);
+   // Check probing:
+   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 0, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
+   assert(m->assignedvars() == 0);
+   assert(m->sumdomsizes() == 27);
   }
+
+
 
 }
