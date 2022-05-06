@@ -15,9 +15,10 @@ TODOS:
 
 0. A customised Gecode brancher for Enumerative Lookahead.
 
-1. Return a vector of branchings after the reduction.
-   - Possible return values: UNSAT, SAT, or vector of branchings.
-   - Given the vector, the tau function is called for each of them.
+1. Apply la-reduction in the status() function of customised branchers.
+   - As a result, no redundant nodes are needed when la-reduction finds a leaf.
+   - In the choice() function, where the the branching is chosen, no leafs
+     are possible - and it should be checked.
 
 2. Maintain branching-order.
 

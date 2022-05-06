@@ -5,6 +5,16 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+Testing of look-ahead reduction for the Gecode library.
+
+TODOS:
+
+0. Testing of the lareduction() function.
+
+*/
+
 #include <iostream>
 #include <sstream>
 #include <memory>
