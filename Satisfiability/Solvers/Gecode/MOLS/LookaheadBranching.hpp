@@ -60,6 +60,7 @@ namespace LookaheadBranching {
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
   typedef LR::BranchingStatus BrStatus;
+  typedef std::int64_t signed_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -325,44 +326,38 @@ namespace LookaheadBranching {
       ModSpace* m = &(static_cast<ModSpace&>(home));
       assert(m->status() == GC::SS_BRANCH);
       const GC::IntPropLevel pl = m->proplevel();
-      // Update the start (first unassigned) variable:
-      for (auto i = start; i < x.size(); ++i)
-        if (not x[i].assigned()) { start = i; break;}
+      const vec_t wghts = m->weights();
+      const count_t dpth = m->depth();
+      std::vector<BinBranching> tau_brs;
       BinBranching best_br;
-      assert(m->status() == GC::SS_BRANCH);
-      // For all branching and choose the best one:
-      if (m->status() == GC::SS_BRANCH) {
-        std::vector<BinBranching> tau_brs;
-        const vec_t wghts = m->weights();
-        const count_t dpth = m->depth();
-        // Find all branchings:
-        for (int var = start; var < x.size(); ++var) {
-          const IntView view = x[var];
-          if (view.assigned()) continue;
-          assert(view.size() >= 2);
-          for (IntVarValues j(view); j(); ++j) {
-            const int val = j.val();
-            const auto subm_eq =
-              LR::child_node<ModSpace>(m, var, val, pl, true);
-            [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
-            assert(subm_eq_st == GC::SS_BRANCH);
-            const float_t dist1 = distance(m->var(), subm_eq->var(), wghts, dpth);
-            assert(dist1 > 0);
-            const auto subm_neq =
-              LR::child_node<ModSpace>(m, var, val, pl, false);
-            [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
-            assert(subm_neq_st == GC::SS_BRANCH);
-            const float_t dist2 = distance(m->var(), subm_neq->var(), wghts, dpth);
-            assert(dist2 > 0);
-            BinBranching br(var, val, {true,false}, {dist1,dist2});
-            assert(br.status() == BrStatus::branching);
-            tau_brs.push_back(br);
-          }
+      // Form all branchings:
+      assert(valid(start, x));
+      for (signed_t var = start; var < x.size(); ++var) {
+        const IntView view = x[var];
+        if (view.assigned()) continue;
+        assert(view.size() >= 2);
+        for (IntVarValues j(view); j(); ++j) {
+          const signed_t val = j.val();
+          const auto subm_eq =
+            LR::child_node<ModSpace>(m, var, val, pl, true);
+          [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
+          assert(subm_eq_st == GC::SS_BRANCH);
+          const float_t dist1 = distance(m->var(), subm_eq->var(), wghts, dpth);
+          assert(dist1 > 0);
+          const auto subm_neq =
+            LR::child_node<ModSpace>(m, var, val, pl, false);
+          [[maybe_unused]] const auto subm_neq_st = subm_neq->status();
+          assert(subm_neq_st == GC::SS_BRANCH);
+          const float_t dist2 = distance(m->var(), subm_neq->var(), wghts, dpth);
+          assert(dist2 > 0);
+          BinBranching br(var, val, {true,false}, {dist1,dist2});
+          assert(br.status() == BrStatus::branching);
+          tau_brs.push_back(br);
         }
-        assert(not tau_brs.empty());
-        // Choose the best branchibg:
-        best_br = best_branching<BinBranching>(tau_brs);
       }
+      assert(not tau_brs.empty());
+      // Choose the best branchibg:
+      best_br = best_branching<BinBranching>(tau_brs);
 
       [[maybe_unused]] const auto var = best_br.var;
       assert(var >= 0 and var >= start);
