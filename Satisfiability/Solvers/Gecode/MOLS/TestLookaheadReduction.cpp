@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "6.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -273,6 +273,64 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_FAILED);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
+   assert(m->assignedvars() == 1);
+   assert(m->sumdomsizes() == 21);
+  }
+
+  {// A Latin square of order 3 with A[1,1] == 1:
+   std::istringstream in_cond("squares A\nls A\n");
+   std::istringstream in_ps("A\n* * *\n* 1 *\n* * *\n");
+   const AConditions ac = ReadAC()(in_cond);
+   const PSquares ps = PSquares(3, in_ps);
+   const GC::IntPropLevel pl = GC::IPL_VAL;
+   const EncCond enc(ac, ps, pl);
+   LookaheadMols* const m =
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m->valid());
+   assert(m->status() == Gecode::SS_BRANCH);
+   assert(m->valid());
+   assert(m->var().size() == 9);
+   assert(m->valid(0));
+   assert(m->valid(8));
+   assert(not m->valid(9));
+   assert(m->assignedvars() == 1);
+   assert(m->sumdomsizes() == 21);
+   // Check X[4] == 1:
+   assert(assigned_var_value<LookaheadMols>(m,4) == 1);
+   // Post X[0] == 0:
+   std::unique_ptr<LookaheadMols> ch =
+     child_node<LookaheadMols>(m, 0, 0, pl, true);
+   assert(ch->valid());
+   assert(ch->status() == Gecode::SS_SOLVED);
+   assert(ch->valid());
+   assert(ch->var().size() == m->var().size());
+   assert(ch->assignedvars() == 9);
+   assert(ch->sumdomsizes() == 9);
+   // Check X[0] == 0, X[4] == 1:
+   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
+   assert(assigned_var_value<LookaheadMols>(ch.get(),4) == 1);
+   // Post X[0] != 0:
+   std::unique_ptr<LookaheadMols> ch2 =
+     child_node<LookaheadMols>(m, 0, 0, pl, false);
+   assert(ch2->valid());
+   assert(ch2->status() == Gecode::SS_BRANCH);
+   assert(ch2->valid());
+   assert(ch2->var().size() == m->var().size());
+   assert(ch2->assignedvars() == 1);
+   assert(ch2->sumdomsizes() == 20);
+   // Check X[4] == 1:
+   assert(assigned_var_value<LookaheadMols>(ch2.get(),4) == 1);
+   // Check probing:
+   assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 0, 2, pl) == Gecode::SS_SOLVED);
+   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 1, pl) == Gecode::SS_FAILED);
+   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
    assert(m->assignedvars() == 1);
    assert(m->sumdomsizes() == 21);
   }
