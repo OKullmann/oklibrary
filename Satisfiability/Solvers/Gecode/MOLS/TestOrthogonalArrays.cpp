@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
-        "5.5.2022",
+        "0.2.0",
+        "6.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -175,8 +175,140 @@ int main(const int argc, const char* const argv[]) {
    assert(G::apply(S, index_t<3>{2,3,0}) == 4);
   }
 
-  {const OrthArr2 oa(example1);
+  {const OrthArr0 oa({});
+   static_assert(OrthArr0::str == 0);
+   assert(oa.oa == oa_t{});
+   assert(oa.N == 0);
+   assert(oa.nblocks == 1);
+   assert(oa.k == 0);
+   assert(oa.rep == 0);
+   assert(oa.trows == 0);
+   assert(oa.valid());
+  }
+  {for (size_t k = 0; k < 10; ++k) {
+     const OrthArr0 oa({oa_row_t(k,0)});
+     assert(oa.N == (k==0 ? 0 : 1));
+     assert(oa.nblocks == 1);
+     assert(oa.k == k);
+     assert(oa.rep == 1);
+     assert(oa.trows == 1);
+     assert(oa.valid());
+   }
+  }
+  {const OrthArr0 oa({{0,0},{0,1},{0,2}});
+   assert(oa.N == 3);
+   assert(oa.nblocks == 1);
+   assert(oa.k == 2);
+   assert(oa.rep == 3);
+   assert(oa.trows == 3);
+   assert(oa.valid());
+  }
+  {const OrthArr0 oa({{0,0},{0,1},{0}});
+   assert(oa.N == 2);
+   assert(oa.nblocks == 1);
+   assert(oa.k == 2);
+   assert(oa.rep == 3);
+   assert(oa.trows == 3);
+   assert(not oa.propfactors());
+   assert(not oa.valid());
+  }
+
+  {const OrthArr1 oa({});
+   static_assert(OrthArr1::str == 1);
+   assert(oa.oa == oa_t{});
+   assert(oa.N == 0);
+   assert(oa.nblocks == 0);
+   assert(oa.k == 0);
+   assert(oa.rep == 0);
+   assert(oa.trows == 0);
+   assert(oa.valid());
+  }
+  {for (size_t k = 0; k < 10; ++k) {
+     const OrthArr1 oa({oa_row_t(k,0)});
+     assert(oa.N == (k==0 ? 0 : 1));
+     assert(oa.nblocks == (k==0 ? 0 : 1));
+     assert(oa.k == k);
+     assert(oa.rep == (k==0 ? 0 : 1));
+     assert(oa.trows == 1);
+     assert(oa.valid() == (k != 0));
+    }
+  }
+  {for (size_t k = 1; k <= 10; ++k)
+     for (size_t v = 1; v <= 10; ++v) {
+       ls_t S(v);
+       for (size_t i = 0; i < v; ++i) S[i] = ls_row_t(k, i);
+       const OrthArr1 oa(ls2oa(S));
+       assert(oa.N == v);
+       assert(oa.nblocks == v);
+       assert(oa.k == k);
+       assert(oa.rep == 1);
+       assert(oa.trows == v);
+       assert(oa.valid());
+     }
+  }
+  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,1,0,1},{0,1,1,0}})));
+   assert(oa.N == 2);
+   assert(oa.nblocks == 2);
+   assert(oa.k == 2);
+   assert(oa.rep == 2);
+   assert(oa.trows == 4);
+   assert(oa.valid());
+  }
+  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,1,0,1},{0,1,0,1}})));
+   assert(oa.N == 2);
+   assert(oa.nblocks == 2);
+   assert(oa.k == 2);
+   assert(oa.rep == 1);
+   assert(oa.trows == 2);
+   assert(oa.valid());
+  }
+  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,2}})));
+   assert(oa.N == 3);
+   assert(oa.nblocks == 3);
+   assert(oa.k == 1);
+   assert(oa.rep == 1);
+   assert(oa.trows == 2);
+   assert(not oa.valid());
+  }
+  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,3,2,1},{3,2,1,0}})));
+   assert(oa.N == 4);
+   assert(oa.nblocks == 4);
+   assert(oa.k == 2);
+   assert(oa.rep == 1);
+   assert(oa.trows == 4);
+   assert(oa.valid());
+  }
+  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,3,2,1},{3,2,1,3}})));
+   assert(oa.N == 4);
+   assert(oa.nblocks == 4);
+   assert(oa.k == 2);
+   assert(oa.rep == 1);
+   assert(oa.trows == 4);
+   assert(not oa.valid());
+  }
+
+  {const OrthArr2 oa({});
    static_assert(OrthArr2::str == 2);
+   assert(oa.oa == oa_t{});
+   assert(oa.N == 0);
+   assert(oa.nblocks == 0);
+   assert(oa.k == 0);
+   assert(oa.rep == 0);
+   assert(oa.trows == 0);
+   assert(oa.valid());
+  }
+  {for (size_t k = 0; k < 10; ++k) {
+     const OrthArr2 oa({oa_row_t(k,0)});
+     assert(oa.N == (k==0 ? 0 : 1));
+     assert(oa.nblocks == (k==0 ? 0 : 1));
+     assert(oa.k == k);
+     assert(oa.rep == (k==0 ? 0 : 1));
+     assert(oa.trows == 1);
+     assert(oa.valid() == (k != 0));
+   }
+  }
+
+  {const OrthArr2 oa(example1);
    assert(oa.oa == example1);
    assert(oa.N == 2);
    assert(oa.nblocks == 4);

@@ -83,10 +83,7 @@ namespace OrthogonalArrays {
 
 
   ls_t projection(const oa_t& oa, const ls_row_t& indices) {
-    if (indices.empty()) {
-      if (oa.empty()) return ls_t(0);
-      else return ls_t(1);
-    }
+    if (indices.empty()) return ls_t(oa.size());
     const size_t k = indices.size();
     const size_t m = maxval(indices);
     ls_t res;
@@ -259,7 +256,7 @@ namespace OrthogonalArrays {
     // total number of rows ("number of experimental runs")
 
     OrthArr(const oa_t oa) :
-      oa(oa), N(detN()), k(maxsize(oa)), rep(detrep()) {}
+      oa(oa), N(detN()), k(maxsize(oa)), rep(detrep()), trows(oa.size()) {}
     OrthArr(const size_t N, const size_t k) noexcept : N(N), k(k) {}
     OrthArr(const size_t N, const size_t k, const size_t r)
       noexcept : N(N), k(k), rep(r) {}
@@ -293,6 +290,7 @@ namespace OrthogonalArrays {
     bool valid() const {
       if (not propval() or not propfactors() or oa.size() != trows)
         return false;
+      if (trows != rep * nblocks) return false;
       if (N <= 1) return true;
       if (rep == 0) return true;
       if (str >= k) return true;
@@ -312,6 +310,8 @@ namespace OrthogonalArrays {
 
   };
 
+  typedef OrthArr<0> OrthArr0;
+  typedef OrthArr<1> OrthArr1;
   typedef OrthArr<2> OrthArr2;
   typedef OrthArr<3> OrthArr3;
 
