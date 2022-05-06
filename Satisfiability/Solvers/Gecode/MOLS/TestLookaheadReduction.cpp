@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
+        "0.1.0",
         "6.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -45,13 +45,25 @@ namespace {
   namespace GC = Gecode;
 
   typedef std::int64_t signed_t;
+
+  template<class ModSpace>
+  signed_t assigned_var_value(ModSpace* const m,
+                              const signed_t var) noexcept
+  {
+    assert(m->valid());
+    assert(m->valid(var));
+    GC::Int::IntView view = m->var()[var];
+    assert(view.assigned());
+    GC::IntVarValues j(view);
+    return j.val();
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {// One square, N==2, four variables, each with domain {0,1}:
+  {// An empty square or order 2, four variables, each with domain {0,1}:
    std::istringstream in_cond("squares A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
@@ -80,11 +92,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->assignedvars() == 1);
    assert(ch->sumdomsizes() == 7);
    // Check X[0] == 0:
-   GC::Int::IntView view = ch->var()[0];
-   assert(view.assigned());
-   GC::IntVarValues j(view);
-   signed_t val = j.val();
-   assert(val == 0);
+   assert(assigned_var_value<LookaheadMols>(ch.get(), 0) == 0);
    // Post X[0] != 0, so X[0] == 1:
    std::unique_ptr<LookaheadMols> ch2 =
      child_node<LookaheadMols>(m, 0, 0, pl, false);
@@ -95,11 +103,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->assignedvars() == 1);
    assert(ch2->sumdomsizes() == 7);
    // Check X[0] == 1:
-   GC::Int::IntView view2 = ch2->var()[0];
-   assert(view2.assigned());
-   GC::IntVarValues j2(view2);
-   signed_t val2 = j2.val();
-   assert(val2 == 1);
+   assert(assigned_var_value<LookaheadMols>(ch2.get(), 0) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
@@ -110,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->sumdomsizes() == 8);
   }
 
-  {// One Latin square, N==2, four variables, each with domain {0,1}:
+  {// An empty Latin square or order 2:
    std::istringstream in_cond("squares A\nls A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
@@ -139,11 +143,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->assignedvars() == 4);
    assert(ch->sumdomsizes() == 4);
    // Check X[0] == 0:
-   GC::Int::IntView view = ch->var()[0];
-   assert(view.assigned());
-   GC::IntVarValues j(view);
-   signed_t val = j.val();
-   assert(val == 0);
+   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
    // Post X[0] != 0, so X[0] == 1:
    std::unique_ptr<LookaheadMols> ch2 =
      child_node<LookaheadMols>(m, 0, 0, pl, false);
@@ -154,11 +154,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->assignedvars() == 4);
    assert(ch2->sumdomsizes() == 4);
    // Check X[0] == 1:
-   GC::Int::IntView view2 = ch2->var()[0];
-   assert(view2.assigned());
-   GC::IntVarValues j2(view2);
-   signed_t val2 = j2.val();
-   assert(val2 == 1);
+   assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 0, 1, pl) == Gecode::SS_SOLVED);
@@ -169,7 +165,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->sumdomsizes() == 8);
   }
 
-  {// One square, N==3, nine variables, each with domain {0,1,2}:
+  {// An empty square of order 3:
    std::istringstream in_cond("squares A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
@@ -198,11 +194,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->assignedvars() == 1);
    assert(ch->sumdomsizes() == 25);
    // Check X[0] == 0:
-   GC::Int::IntView view = ch->var()[0];
-   assert(view.assigned());
-   GC::IntVarValues j(view);
-   signed_t val = j.val();
-   assert(val == 0);
+   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
    // Post X[0] != 0:
    std::unique_ptr<LookaheadMols> ch2 =
      child_node<LookaheadMols>(m, 0, 0, pl, false);
@@ -226,6 +218,63 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 27);
+  }
+
+  {// A Latin square of order 3 with A[0,0] == 0:
+   std::istringstream in_cond("squares A\nls A\n");
+   std::istringstream in_ps("A\n0 * *\n* * *\n* * *\n");
+   const AConditions ac = ReadAC()(in_cond);
+   const PSquares ps = PSquares(3, in_ps);
+   const GC::IntPropLevel pl = GC::IPL_VAL;
+   const EncCond enc(ac, ps, pl);
+   LookaheadMols* const m =
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m->valid());
+   assert(m->status() == Gecode::SS_BRANCH);
+   assert(m->valid());
+   assert(m->var().size() == 9);
+   assert(m->valid(0));
+   assert(m->valid(8));
+   assert(not m->valid(9));
+   assert(m->assignedvars() == 1);
+   assert(m->sumdomsizes() == 21);
+   // Check X[0] == 0:
+   assert(assigned_var_value<LookaheadMols>(m,0) == 0);
+   // Post X[0] == 0:
+   std::unique_ptr<LookaheadMols> ch =
+     child_node<LookaheadMols>(m, 0, 0, pl, true);
+   assert(ch->valid());
+   assert(ch->status() == Gecode::SS_BRANCH);
+   assert(ch->valid());
+   assert(ch->var().size() == m->var().size());
+   assert(ch->assignedvars() == 1);
+   assert(ch->sumdomsizes() == 21);
+   // Check X[0] == 0:
+   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
+   // Post X[0] != 0:
+   std::unique_ptr<LookaheadMols> ch2 =
+     child_node<LookaheadMols>(m, 0, 0, pl, false);
+   assert(ch2->valid());
+   assert(ch2->status() == Gecode::SS_FAILED);
+   assert(ch2->valid());
+   assert(ch2->var().size() == m->var().size());
+   assert(ch2->assignedvars() == 1);
+   assert(ch2->sumdomsizes() == 21);
+   // Check X[0] == 0:
+   assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 0);
+   // Check probing:
+   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 0, 1, pl) == Gecode::SS_FAILED);
+   assert(probe(m, 0, 2, pl) == Gecode::SS_FAILED);
+   assert(probe(m, 1, 0, pl) == Gecode::SS_FAILED);
+   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 0, pl) == Gecode::SS_FAILED);
+   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
+   assert(m->assignedvars() == 1);
+   assert(m->sumdomsizes() == 21);
   }
 
 }
