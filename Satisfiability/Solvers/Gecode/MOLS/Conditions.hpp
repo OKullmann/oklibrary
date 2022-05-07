@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Conditions on sets of latin squares
 
+  Namespace Conditions, abbreviated "CD".
+
   Helper-components:
 
    - typedef size_t (64-bit unsigned; a concrete alias type for Gecode/MOLS)

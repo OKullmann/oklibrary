@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Partial squares
 
+  Namespace PartialSquares, abbreviated "PS".
+
   Internally and for input and output the numbers are 0, ..., N-1.
 
 TODOS:

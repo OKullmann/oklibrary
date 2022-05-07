@@ -70,12 +70,14 @@ License, or any later version. */
 #include "Conditions.hpp"
 #include "PartialSquares.hpp"
 #include "BasicLatinSquares.hpp"
+#include "OrthogonalArrays.hpp"
 
 namespace Verification {
 
   namespace CD = Conditions;
   namespace PS = PartialSquares;
   namespace BS = BasicLatinSquares;
+  namespace OA = OrthogonalArrays;
 
   typedef CD::size_t size_t;
   typedef BS::ls_row_t ls_row_t;
