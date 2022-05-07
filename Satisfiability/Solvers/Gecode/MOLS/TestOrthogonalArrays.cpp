@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "7.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -41,27 +41,27 @@ namespace {
     return lhs == rhs;
   }
 
-  const oa_t example1 = {{0,0,0},{1,1,0},{0,1,1},{1,0,1}};
-  const oa_t example2 = {
+  const soa_t example1 = {{0,0,0},{1,1,0},{0,1,1},{1,0,1}};
+  const soa_t example2 = {
     {0,0,0,0,0}, {0,1,1,1,1}, {0,2,2,2,2}, {0,3,3,3,3},
     {1,0,3,1,2}, {1,1,2,0,3}, {1,2,1,3,0}, {1,3,0,2,1},
     {2,0,1,2,3}, {2,1,0,3,2}, {2,2,3,0,1}, {2,3,2,1,0},
     {3,0,2,3,1}, {3,1,3,2,0}, {3,2,0,1,3}, {3,3,1,0,2}};
-  const ls_t example3 = {
+  const oa_t example3 = {
     {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2},
     {0,0,0,1,1,1,2,2,2,0,0,0,1,1,1,2,2,2,0,0,0,1,1,1,2,2,2},
     {0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2},
     {0,0,0,1,1,1,2,2,2,2,2,2,0,0,0,1,1,1,1,1,1,2,2,2,0,0,0},
     {0,1,2,1,2,0,2,0,1,0,1,2,1,2,0,2,0,1,0,1,2,1,2,0,2,0,1}};
-  const oa_t example4 = {
+  const soa_t example4 = {
     {0,0,0,0},{0,0,1,1},{0,1,0,1},{0,1,1,0},
     {1,0,0,1},{1,0,1,0},{1,1,0,0},{1,1,1,1}};
 
   template <size_t k>
   constexpr void test_allcombinations(const size_t N) {
-    using OA = OrthArr<k>;
+    using OA = SOrthArr<k>;
     for (size_t i = 1; i <= N; ++i) {
-      OA oa(ls2oa(allcombinations(N,k)));
+      OA oa(oa2soa(allcombinations(N,k)));
       assert(oa.N == N);
       assert(oa.nblocks == std::pow(N,k));
       assert(oa.k == k);
@@ -77,14 +77,33 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(maxval(ls_row_t{}) == 0);
-   assert(maxval(ls_row_t{0,7,4}) == 7);
+  {assert(maxval(oa_row_t{}) == 0);
+   assert(maxval(oa_row_t{0,7,4}) == 7);
+   assert(maxval(soa_t{}) == 0);
    assert(maxval(oa_t{}) == 0);
-   assert(maxval(oa_t{{0,4,2},{7,2}}) == 7);
+   assert(maxval(soa_t{{0,4,2},{7,2}}) == 7);
+   assert(maxval(oa_t{{11,4,2},{7,2}}) == 11);
+   assert(maxsize(soa_t{}) == 0);
+   assert(maxsize(oa_t{}) == 0);
+   assert(maxsize(soa_t{{0,4,2},{7,2}}) == 3);
+   assert(maxsize(oa_t{{4,2},{7,2,100}}) == 3);
   }
 
-  {// projection XXX
-
+  {assert(eqp(projection(oa_t{}, {}), {}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{6,7,8},{}}, {}), {{},{},{},{}}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{},{6,7,8}}, {0,0}),
+              {{1,1},{4,4},{6,6}}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{},{6,7,8}}, {2,1,0,1}),
+              {{3,2,1,2},{8,7,6,7}}));
+   assert(eqp(projection(oa_t{}, {}, true), {}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{6,7,8},{}}, {}, true),
+              {{},{},{},{}}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{},{6,7,8}}, {0,0}, true),
+              {{1,1},{4,4},{6,6}}));
+   assert(eqp(projection(oa_t{{1,2,3},{4,5},{},{6,7,8}}, {2,1,0,1}, true),
+              {{3,2,1,2},{8,7,6,7}}));
+   assert(eqp(projection(oa_t{{6,7,8},{4,5},{},{1,2,3}}, {2,1,0,1}, true),
+              {{3,2,1,2},{8,7,6,7}}));
   }
 
   {assert(eqp(subsets(0,0), {{}}));
@@ -119,10 +138,18 @@ int main(const int argc, const char* const argv[]) {
    static_assert(eqp(rest<3>({0,1,2}), {1,2}));
   }
 
-  {assert(eqp(rarr2oa({}), {}));
-   assert(eqp(rarr2oa({{{1,3},{5,7,9}}}), {{1,3,5,7,9}}));
-   assert(eqp(rarr2oa({{{1,3},{5,7,9}},{{0,0},{}},{{1,4},{77}}}),
+  {assert(eqp(rarr2soa({}), {}));
+   assert(eqp(rarr2soa({{{1,3},{5,7,9}}}), {{1,3,5,7,9}}));
+   assert(eqp(rarr2soa({{{1,3},{5,7,9}},{{0,0},{}},{{1,4},{77}}}),
               {{1,3,5,7,9},{0,0},{1,4,77}}));
+   assert(eqp(rarr2oa({{{1,3},{5,7,9}},{{0,0},{}},{{1,4},{77}}}),
+              {{0,0},{1,3,5,7,9},{1,4,77}}));
+  }
+  {assert(eqp(oa2rarr<oa_t>({}), {}));
+   assert(eqp(oa2rarr<oa_t>({{0}}), {}));
+   assert(eqp(oa2rarr<oa_t>({{0,0}}), {{{0,0},{}}}));
+   assert(eqp(oa2rarr<oa_t>({{1,3,5,7,9},{0,0},{1,4,77},{0,0,88}}),
+              {{{1,3},{5,7,9}},{{0,0},{88}},{{1,4},{77}}}));
   }
   {assert(eqp(lls2rarr({}), {}));
    assert(eqp(lls2rarr({{},{}}), {}));
@@ -137,27 +164,64 @@ int main(const int argc, const char* const argv[]) {
                {{1,0},{2,6}},{{1,1},{3,7}},{{1,2},{4}},
                {{2,0},{8}}}));
   }
-  {assert(eqp(oa2rarr({{0,0,0}}), {{{0,0},{0}}}));
+  {assert(eqp(oa2rarr(oa_t{{0,0,0}}), {{{0,0},{0}}}));
    assert(eqp(rarr2lls({{{0,0},{0}}}), {{{0}}}));
   }
   {RG::RandGen_t g({1,2,66});
    for (size_t N = 1; N <= 6; ++N)
      for (size_t i = 0; i < N*N; ++i) {
        const ls_t L1 = random_ls(N,g), L2 = random_ls(N,g);
-       {const oa_t oa = lls2oa({L1});
-        const OrthArr2 O(oa);
+       {const soa_t oa = lls2soa({L1});
+        const SOrthArr2 O(oa);
         assert(O.valid());
         const auto L = oa2lls(oa);
         assert(L.size() == 1);
         assert(L[0] == L1);
        }
-       {const oa_t oa = lls2oa({L1,L2});
-        const OrthArr2 O(oa);
+       {const soa_t oa = lls2soa({L1,L2});
+        const SOrthArr2 O(oa);
         assert(O.valid() == orthogonal(L1,L2));
         const auto L = oa2lls(oa);
         assert(L.size() == 2);
         assert(L[0] == L1); assert(L[1] == L2);
        }
+     }
+  }
+
+  {RG::RandGen_t g({9,11});
+   for (size_t N = 1; N <= 6; ++N)
+     for (size_t i = 0; i < N*N; ++i) {
+       const ls_t L = random_ls(N,g);
+       {const auto LL123 = project_lls({L}, {0,1,2});
+        assert(LL123.size() == 1);
+        const ls_t& L123 = LL123[0];
+        assert(ls(L123));
+        assert(L123 == L);}
+       {const auto LL213 = project_lls({L}, {1,0,2});
+        assert(LL213.size() == 1);
+        const ls_t& L213 = LL213[0];
+        assert(ls(L213));
+        assert(L213 == transposition(L));}
+       {const auto LL132 = project_lls({L}, {0,2,1});
+        assert(LL132.size() == 1);
+        const ls_t& L132 = LL132[0];
+        assert(ls(L132));
+        assert(L132 == rinverse(L));}
+       {const auto LL312 = project_lls({L}, {2,0,1});
+        assert(LL312.size() == 1);
+        const ls_t& L312 = LL312[0];
+        assert(ls(L312));
+        assert(L312 == transposition(rinverse(L)));}
+       {const auto LL321 = project_lls({L}, {2,1,0});
+        assert(LL321.size() == 1);
+        const ls_t& L321 = LL321[0];
+        assert(ls(L321));
+        assert(L321 == cinverse(L));}
+       {const auto LL231 = project_lls({L}, {1,2,0});
+        assert(LL231.size() == 1);
+        const ls_t& L231 = LL231[0];
+        assert(ls(L231));
+        assert(L231 == transposition(cinverse(L)));}
      }
   }
 
@@ -207,9 +271,9 @@ int main(const int argc, const char* const argv[]) {
    assert(G::apply(S, index_t<3>{2,3,0}) == 4);
   }
 
-  {const OrthArr0 oa({});
-   static_assert(OrthArr0::str == 0);
-   assert(oa.oa == oa_t{});
+  {const SOrthArr0 oa({});
+   static_assert(SOrthArr0::str == 0);
+   assert(oa.oa == soa_t{});
    assert(oa.N == 0);
    assert(oa.nblocks == 1);
    assert(oa.k == 0);
@@ -218,7 +282,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.valid());
   }
   {for (size_t k = 0; k < 10; ++k) {
-     const OrthArr0 oa({oa_row_t(k,0)});
+     const SOrthArr0 oa({oa_row_t(k,0)});
      assert(oa.N == (k==0 ? 0 : 1));
      assert(oa.nblocks == 1);
      assert(oa.k == k);
@@ -227,7 +291,7 @@ int main(const int argc, const char* const argv[]) {
      assert(oa.valid());
    }
   }
-  {const OrthArr0 oa({{0,0},{0,1},{0,2}});
+  {const SOrthArr0 oa({{0,0},{0,1},{0,2}});
    assert(oa.N == 3);
    assert(oa.nblocks == 1);
    assert(oa.k == 2);
@@ -235,7 +299,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 3);
    assert(oa.valid());
   }
-  {const OrthArr0 oa({{0,0},{0,1},{0}});
+  {const SOrthArr0 oa({{0,0},{0,1},{0}});
    assert(oa.N == 2);
    assert(oa.nblocks == 1);
    assert(oa.k == 2);
@@ -245,9 +309,9 @@ int main(const int argc, const char* const argv[]) {
    assert(not oa.valid());
   }
 
-  {const OrthArr1 oa({});
-   static_assert(OrthArr1::str == 1);
-   assert(oa.oa == oa_t{});
+  {const SOrthArr1 oa({});
+   static_assert(SOrthArr1::str == 1);
+   assert(oa.oa == soa_t{});
    assert(oa.N == 0);
    assert(oa.nblocks == 0);
    assert(oa.k == 0);
@@ -256,7 +320,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.valid());
   }
   {for (size_t k = 0; k < 10; ++k) {
-     const OrthArr1 oa({oa_row_t(k,0)});
+     const SOrthArr1 oa({oa_row_t(k,0)});
      assert(oa.N == (k==0 ? 0 : 1));
      assert(oa.nblocks == (k==0 ? 0 : 1));
      assert(oa.k == k);
@@ -267,9 +331,9 @@ int main(const int argc, const char* const argv[]) {
   }
   {for (size_t k = 1; k <= 10; ++k)
      for (size_t v = 1; v <= 10; ++v) {
-       ls_t S(v);
-       for (size_t i = 0; i < v; ++i) S[i] = ls_row_t(k, i);
-       const OrthArr1 oa(ls2oa(S));
+       oa_t S(v);
+       for (size_t i = 0; i < v; ++i) S[i] = oa_row_t(k, i);
+       const SOrthArr1 oa(oa2soa(S));
        assert(oa.N == v);
        assert(oa.nblocks == v);
        assert(oa.k == k);
@@ -278,7 +342,7 @@ int main(const int argc, const char* const argv[]) {
        assert(oa.valid());
      }
   }
-  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,1,0,1},{0,1,1,0}})));
+  {const SOrthArr1 oa(oa2soa(gtransposition(oa_t{{0,1,0,1},{0,1,1,0}})));
    assert(oa.N == 2);
    assert(oa.nblocks == 2);
    assert(oa.k == 2);
@@ -286,7 +350,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 4);
    assert(oa.valid());
   }
-  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,1,0,1},{0,1,0,1}})));
+  {const SOrthArr1 oa(oa2soa(gtransposition(oa_t{{0,1,0,1},{0,1,0,1}})));
    assert(oa.N == 2);
    assert(oa.nblocks == 2);
    assert(oa.k == 2);
@@ -294,7 +358,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 2);
    assert(oa.valid());
   }
-  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,2}})));
+  {const SOrthArr1 oa(oa2soa(gtransposition(oa_t{{0,2}})));
    assert(oa.N == 3);
    assert(oa.nblocks == 3);
    assert(oa.k == 1);
@@ -302,7 +366,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 2);
    assert(not oa.valid());
   }
-  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,3,2,1},{3,2,1,0}})));
+  {const SOrthArr1 oa(oa2soa(gtransposition(oa_t{{0,3,2,1},{3,2,1,0}})));
    assert(oa.N == 4);
    assert(oa.nblocks == 4);
    assert(oa.k == 2);
@@ -310,7 +374,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 4);
    assert(oa.valid());
   }
-  {const OrthArr1 oa(ls2oa(gtransposition(ls_t{{0,3,2,1},{3,2,1,3}})));
+  {const SOrthArr1 oa(oa2soa(gtransposition(oa_t{{0,3,2,1},{3,2,1,3}})));
    assert(oa.N == 4);
    assert(oa.nblocks == 4);
    assert(oa.k == 2);
@@ -319,9 +383,9 @@ int main(const int argc, const char* const argv[]) {
    assert(not oa.valid());
   }
 
-  {const OrthArr2 oa({});
-   static_assert(OrthArr2::str == 2);
-   assert(oa.oa == oa_t{});
+  {const SOrthArr2 oa({});
+   static_assert(SOrthArr2::str == 2);
+   assert(oa.oa == soa_t{});
    assert(oa.N == 0);
    assert(oa.nblocks == 0);
    assert(oa.k == 0);
@@ -330,7 +394,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.valid());
   }
   {for (size_t k = 0; k < 10; ++k) {
-     const OrthArr2 oa({oa_row_t(k,0)});
+     const SOrthArr2 oa({oa_row_t(k,0)});
      assert(oa.N == (k==0 ? 0 : 1));
      assert(oa.nblocks == (k==0 ? 0 : 1));
      assert(oa.k == k);
@@ -340,7 +404,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const OrthArr2 oa(example1);
+  {const SOrthArr2 oa(example1);
    assert(oa.oa == example1);
    assert(oa.N == 2);
    assert(oa.nblocks == 4);
@@ -349,7 +413,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 4);
    assert(oa.valid());
   }
-  {const OrthArr2 oa(example2);
+  {const SOrthArr2 oa(example2);
    assert(oa.oa == example2);
    assert(oa.N == 4);
    assert(oa.nblocks == 16);
@@ -358,7 +422,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 16);
    assert(oa.valid());
   }
-  {const OrthArr2 oa(ls2oa(gtransposition(example3)));
+  {const SOrthArr2 oa(oa2soa(gtransposition(example3)));
    assert(oa.N == 3);
    assert(oa.nblocks == 9);
    assert(oa.k == 5);
@@ -366,7 +430,7 @@ int main(const int argc, const char* const argv[]) {
    assert(oa.trows == 27);
    assert(oa.valid());
   }
-  {const OrthArr3 oa(example4);
+  {const SOrthArr3 oa(example4);
    assert(oa.oa == example4);
    assert(oa.N == 2);
    assert(oa.nblocks == 8);
@@ -380,9 +444,9 @@ int main(const int argc, const char* const argv[]) {
    for (size_t N = 1; N <= 6; ++N)
      for (size_t i = 0; i < N*N; ++i) {
        const ls_t L = random_ls(N,g);
-       const oa_t oa = lls2oa({L});
+       const soa_t oa = lls2soa({L});
        assert(oa.size() == N*N);
-       const OrthArr2 O(oa);
+       const SOrthArr2 O(oa);
        assert(O.oa == oa);
        assert(O.str == 2);
        assert(O.N == N);
@@ -395,7 +459,7 @@ int main(const int argc, const char* const argv[]) {
        if (L2[0][0] == 0) L2[0][0] = 1;
        else L2[0][0] = 0;
        assert(not rls(L2)); assert(not cls(L2));
-       const OrthArr2 O2(lls2oa({L2}));
+       const SOrthArr2 O2(lls2soa({L2}));
        assert(O2.str == 2);
        const size_t nN = std::max(size_t(2),N);
        assert(O2.N == nN);

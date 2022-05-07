@@ -48,66 +48,71 @@ namespace OrthogonalArrays {
   typedef BS::ls_t ls_t;
 
   using oa_row_t = ls_row_t; // the rows of the orthogonal array
-  typedef std::set<oa_row_t> oa_t; // underlying concrete alias type of oa's
+  using oa_t = ls_t; // orthogonal arrays as vectors of vectors
+  typedef std::set<oa_row_t> soa_t; // simple oa's
 
 
-  void out(std::ostream& out, const ls_row_t& r, const std::string& sep=" ") {
+  void out(std::ostream& out, const oa_row_t& r, const std::string& sep=" ") {
     Environment::out_line(out, r, sep);
   }
-  void out(std::ostream& out, const ls_t& S, const std::string& sep = " ") {
+  void out(std::ostream& out, const oa_t& S, const std::string& sep = " ") {
     Environment::out_lines(out, S, "\n", sep);
   }
-  void out(std::ostream& out, const oa_t& A, const std::string& sep = " ") {
+  void out(std::ostream& out, const soa_t& A, const std::string& sep = " ") {
     Environment::out_lines(out, A, "\n", sep);
   }
 
 
-  oa_t ls2oa(const ls_t& S) { return oa_t(S.begin(), S.end()); }
-  ls_t oa2ls(const oa_t& A) { return ls_t(A.begin(), A.end()); }
+  soa_t oa2soa(const oa_t& S) { return soa_t(S.begin(), S.end()); }
+  oa_t soa2oa(const soa_t& A) { return ls_t(A.begin(), A.end()); }
 
 
   size_t maxval(const oa_row_t& r) noexcept {
     if (r.empty()) return 0;
     else return *std::ranges::max_element(r);
   }
-  size_t maxval(const oa_t& oa) noexcept {
+  template <class OAT>
+  size_t maxval(const OAT& oa) noexcept {
     size_t res = 0;
     for (const oa_row_t& r : oa) res = std::max(res, maxval(r));
     return res;
   }
-  size_t maxsize(const oa_t& oa) noexcept {
+  template <class OAT>
+  size_t maxsize(const OAT& oa) noexcept {
     size_t res = 0;
     for (const oa_row_t& r : oa) res = std::max(res, r.size());
     return res;
   }
 
 
-  ls_t projection(const oa_t& oa, const ls_row_t& indices) {
+  template <class OAT>
+  oa_t projection(const OAT& oa, const oa_row_t& indices,
+                  const bool sorting = false) {
     if (indices.empty()) return ls_t(oa.size());
     const size_t k = indices.size();
     const size_t m = maxval(indices);
-    ls_t res;
+    oa_t res;
     for (const oa_row_t& r : oa) {
       if (m >= r.size()) continue;
       ls_row_t p; p.reserve(k);
       for (const size_t i : indices) p.push_back(r[i]);
       res.push_back(p);
     }
-    std::ranges::sort(res);
+    if (sorting) std::ranges::sort(res);
     return res;
   }
 
 
-  std::vector<ls_row_t> subsets(const size_t N, const size_t k) {
+  std::vector<oa_row_t> subsets(const size_t N, const size_t k) {
     if (k > N) return {};
     if (k == 0) return {1,ls_row_t{}};
     if (k == N) {
-      std::vector<ls_row_t> res(1); res[0].reserve(N);
+      std::vector<oa_row_t> res(1); res[0].reserve(N);
       for (size_t i = 0; i < N; ++i) res[0].push_back(i);
       return res;
     }
     if (k == 1) {
-      std::vector<ls_row_t> res(N);
+      std::vector<oa_row_t> res(N);
       for (size_t i = 0; i < N; ++i) res[i].push_back(i);
       return res;
     }
@@ -120,10 +125,10 @@ namespace OrthogonalArrays {
       throw std::runtime_error(ss.str());
     }
     const size_t size = size0;
-    std::vector<ls_row_t> res; res.reserve(size);
+    std::vector<oa_row_t> res; res.reserve(size);
     res = subsets(N-1, k);
-    std::vector<ls_row_t> res2 = subsets(N-1, k-1);
-    for (ls_row_t& r : res2) {
+    std::vector<oa_row_t> res2 = subsets(N-1, k-1);
+    for (oa_row_t& r : res2) {
       res.push_back(std::move(r));
       res.back().push_back(N-1);
     }
@@ -144,25 +149,36 @@ namespace OrthogonalArrays {
   }
 
 
-  // Transformation especially for strength = 2:
-  typedef std::map<index_t<2>, ls_row_t> ragged_array_t;
-  oa_t rarr2oa(const ragged_array_t& ra) {
-    oa_t res;
+  // Transformations especially for strength = 2:
+  typedef std::map<index_t<2>, oa_row_t> ragged_array_t;
+  soa_t rarr2soa(const ragged_array_t& ra) {
+    soa_t res;
     for (const auto& [x,y] : ra) {
-      ls_row_t r; r.reserve(y.size() + 2);
+      oa_row_t r; r.reserve(y.size() + 2);
       r.push_back(x[0]); r.push_back(x[1]);
       for (const size_t yi : y) r.push_back(yi);
       res.insert(std::move(r));
     }
     return res;
   }
-  ragged_array_t oa2rarr(const oa_t& oa) {
+  oa_t rarr2oa(const ragged_array_t& ra) {
+    oa_t res;
+    for (const auto& [x,y] : ra) {
+      oa_row_t r; r.reserve(y.size() + 2);
+      r.push_back(x[0]); r.push_back(x[1]);
+      for (const size_t yi : y) r.push_back(yi);
+      res.push_back(std::move(r));
+    }
+    return res;
+  }
+  template <class OAT>
+  ragged_array_t oa2rarr(const OAT& oa) {
     ragged_array_t res;
     for (const oa_row_t& r : oa) {
       const size_t k = r.size();
       if (k < 2) continue;
       const index_t<2> x{r[0], r[1]};
-      const ls_row_t y(r.begin()+2, r.end());
+      const oa_row_t y(r.begin()+2, r.end());
       res[x] = y;
     }
     return res;
@@ -194,30 +210,39 @@ namespace OrthogonalArrays {
         res[i][x[0]][x[1]] = y[i];
     return res;
   }
+  soa_t lls2soa(const std::vector<ls_t>& L) {
+    return rarr2soa(lls2rarr(L));
+  }
   oa_t lls2oa(const std::vector<ls_t>& L) {
     return rarr2oa(lls2rarr(L));
   }
-  std::vector<ls_t> oa2lls(const oa_t& oa) {
+  template <class OAT>
+  std::vector<ls_t> oa2lls(const OAT& oa) {
     return rarr2lls(oa2rarr(oa));
+  }
+
+  std::vector<ls_t> project_lls(const std::vector<ls_t>& L,
+                                const ls_row_t& indices) {
+    return oa2lls(projection(lls2oa(L), indices));
   }
 
 
   // For the creation of the trivial orthogonal arrays:
-  ls_t allcombinations(const size_t N, const size_t k) {
+  oa_t allcombinations(const size_t N, const size_t k) {
     if (k == 0) return {};
     assert(N >= 1);
     if (k == 1) {
-      ls_t res(N, ls_row_t(1));
+      oa_t res(N, ls_row_t(1));
       for (size_t i = 1; i < N; ++i) res[i][0] = i;
       return res;
     }
     else {
-      const ls_t res0 = allcombinations(N,k-1);
-      ls_t res(N*res0.size(), ls_row_t(k));
+      const oa_t res0 = allcombinations(N,k-1);
+      oa_t res(N*res0.size(), ls_row_t(k));
       size_t i = 0;
       for (size_t b = 0; b < N; ++b) {
-        for (const ls_row_t& r0 : res0) {
-          ls_row_t& r = res[i];
+        for (const oa_row_t& r0 : res0) {
+          oa_row_t& r = res[i];
           r[0] = b;
           for (size_t j = 0; j < r0.size(); ++j) r[j+1] = r0[j];
           ++i;
@@ -271,9 +296,9 @@ namespace OrthogonalArrays {
 
   // A "possible str-(N,k,rep) orthogonal array" ("str" means "strength"):
   template <size_t str0>
-  struct OrthArr {
+  struct SOrthArr {
     static constexpr size_t str = str0;
-    oa_t oa;
+    soa_t oa;
 
     const size_t N; // the number of "levels" or "values": 0, ..., N-1
     const size_t nblocks = std::pow(N, str);
@@ -282,10 +307,10 @@ namespace OrthogonalArrays {
     const size_t trows = rep * nblocks;
     // total number of rows ("number of experimental runs")
 
-    OrthArr(const oa_t oa) :
+    SOrthArr(const soa_t oa) :
       oa(oa), N(detN()), k(maxsize(oa)), rep(detrep()), trows(oa.size()) {}
-    OrthArr(const size_t N, const size_t k) noexcept : N(N), k(k) {}
-    OrthArr(const size_t N, const size_t k, const size_t r)
+    SOrthArr(const size_t N, const size_t k) noexcept : N(N), k(k) {}
+    SOrthArr(const size_t N, const size_t k, const size_t r)
       noexcept : N(N), k(k), rep(r) {}
 
     size_t detN() const noexcept {
@@ -321,8 +346,8 @@ namespace OrthogonalArrays {
       if (N <= 1) return true;
       if (rep == 0) return true;
       if (str >= k) return true;
-      for (const ls_row_t& s : subsets(k,str)) {
-        const ls_t p = projection(oa, s);
+      for (const oa_row_t& s : subsets(k,str)) {
+        const oa_t p = projection(oa, s, true);
         assert(std::ranges::is_sorted(p));
         assert(p.size() == trows);
         size_t curr = 0;
@@ -337,10 +362,10 @@ namespace OrthogonalArrays {
 
   };
 
-  typedef OrthArr<0> OrthArr0;
-  typedef OrthArr<1> OrthArr1;
-  typedef OrthArr<2> OrthArr2;
-  typedef OrthArr<3> OrthArr3;
+  typedef SOrthArr<0> SOrthArr0;
+  typedef SOrthArr<1> SOrthArr1;
+  typedef SOrthArr<2> SOrthArr2;
+  typedef SOrthArr<3> SOrthArr3;
 
 }
 
