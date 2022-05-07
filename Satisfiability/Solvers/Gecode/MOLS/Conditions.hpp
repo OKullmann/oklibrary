@@ -151,7 +151,7 @@ namespace Conditions {
   // (only these are materially represented):
   enum class VS : size_t {
     id = 0, // c123
-      c213 = 1,   // t circ id (transposed); row-inversion
+      c213 = 1,   // t circ id (transposed)
       at = 2,    // at circ id (antitransposed)
       atc213 = 3, // t circ at circ id = p circ id (point-reflection)
     c231 = 4,
@@ -159,7 +159,7 @@ namespace Conditions {
       atc231 = 6, // at circ c231
       atc321 = 7,  // p circ c231
     c312 = 8,
-      c132 = 9,    // t circ c312
+      c132 = 9,    // t circ c312; row-inversion
       atc312 = 10,// at circ c312
       atc132 = 11  // p circ c312
   };
