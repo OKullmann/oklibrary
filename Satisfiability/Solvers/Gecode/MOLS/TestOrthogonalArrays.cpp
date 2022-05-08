@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "7.5.2022",
+        "0.2.3",
+        "8.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestOrthogonalArrays.cpp",
@@ -188,6 +188,20 @@ int main(const int argc, const char* const argv[]) {
      }
   }
 
+  {assert(is_permutation(ls_row_t{}));
+   assert(is_permutation(ls_row_t{0}));
+   assert(is_permutation(ls_row_t{1,0}));
+   assert(is_permutation(ls_row_t{0,2,1}));
+   assert(not is_permutation(ls_row_t{0,2,3}));
+   assert(not is_permutation(ls_row_t{0,2,1,2}));
+   assert(not is_permutation(ls_row_t{1}));
+   assert(is_permutation(ls_row_t{1}, 1));
+   assert(is_permutation(ls_row_t{1,4,3,2}, 1));
+   assert(not is_permutation(ls_row_t{1,5,3,2}, 1));
+   assert(not is_permutation(ls_row_t{1,4,3,0}, 1));
+   assert(not is_permutation(ls_row_t{1,4,3,2,4}, 1));
+  }
+
   {RG::RandGen_t g({9,11});
    for (size_t N = 1; N <= 6; ++N)
      for (size_t i = 0; i < N*N; ++i) {
@@ -196,31 +210,43 @@ int main(const int argc, const char* const argv[]) {
         assert(LL123.size() == 1);
         const ls_t& L123 = LL123[0];
         assert(ls(L123));
+        assert(L123 == conjugate_ls(L, {1,2,3}, 1));
+        assert(L123 == conjugate_ls(L, {0,1,2}, 0));
         assert(L123 == L);}
        {const auto LL213 = project_lls({L}, {1,0,2});
         assert(LL213.size() == 1);
         const ls_t& L213 = LL213[0];
         assert(ls(L213));
+        assert(L213 == conjugate_ls(L, {2,1,3}, 1));
+        assert(L213 == conjugate_ls(L, {1,0,2}, 0));
         assert(L213 == transposition(L));}
        {const auto LL132 = project_lls({L}, {0,2,1});
         assert(LL132.size() == 1);
         const ls_t& L132 = LL132[0];
         assert(ls(L132));
+        assert(L132 == conjugate_ls(L, {1,3,2}, 1));
+        assert(L132 == conjugate_ls(L, {0,2,1}, 0));
         assert(L132 == rinverse(L));}
        {const auto LL312 = project_lls({L}, {2,0,1});
         assert(LL312.size() == 1);
         const ls_t& L312 = LL312[0];
         assert(ls(L312));
+        assert(L312 == conjugate_ls(L, {3,1,2}, 1));
+        assert(L312 == conjugate_ls(L, {2,0,1}, 0));
         assert(L312 == transposition(rinverse(L)));}
        {const auto LL321 = project_lls({L}, {2,1,0});
         assert(LL321.size() == 1);
         const ls_t& L321 = LL321[0];
         assert(ls(L321));
+        assert(L321 == conjugate_ls(L, {3,2,1}, 1));
+        assert(L321 == conjugate_ls(L, {2,1,0}, 0));
         assert(L321 == cinverse(L));}
        {const auto LL231 = project_lls({L}, {1,2,0});
         assert(LL231.size() == 1);
         const ls_t& L231 = LL231[0];
         assert(ls(L231));
+        assert(L231 == conjugate_ls(L, {2,3,1}, 1));
+        assert(L231 == conjugate_ls(L, {1,2,0}, 0));
         assert(L231 == transposition(cinverse(L)));}
      }
   }

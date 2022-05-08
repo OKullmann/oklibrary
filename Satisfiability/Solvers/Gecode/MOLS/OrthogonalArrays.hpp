@@ -226,6 +226,25 @@ namespace OrthogonalArrays {
     return oa2lls(projection(lls2oa(L), indices));
   }
 
+  template <class ROW>
+  bool is_permutation(const ROW& r, const bool one_based = 0) noexcept {
+    if (r.empty()) return true;
+    const size_t N = r.size();
+    std::vector<bool> occ(N);
+    for (const size_t x : r)
+      if (not one_based) { if (x >= N or occ[x]) return false; occ[x] = true; }
+      else { if (x == 0 or x > N or occ[x-1]) return false; occ[x-1] = true; }
+    return true;
+  }
+  ls_t conjugate_ls(const ls_t& L, ls_row_t p, const bool one_based = 0) {
+    assert(p.size() == 3);
+    assert(is_permutation(p, one_based));
+    if (one_based) for (size_t& x : p) --x;
+    const auto res = project_lls({L}, p);
+    assert(res.size() == 1);
+    return res[0];
+  }
+
 
   // For the creation of the trivial orthogonal arrays:
   oa_t allcombinations(const size_t N, const size_t k) {
