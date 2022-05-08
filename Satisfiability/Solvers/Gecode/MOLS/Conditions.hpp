@@ -89,6 +89,7 @@ TODOS:
 namespace Conditions {
 
   typedef std::uint64_t size_t;
+  typedef std::int64_t signed_t;
 
   // Unary conditions:
   enum class UC : size_t {
