@@ -254,7 +254,7 @@ namespace LookaheadBranching {
 
     static bool valid(const IntViewArray x) noexcept { return x.size() > 0; }
     static bool valid(const int s, const IntViewArray x) noexcept {
-      return s >= 0 and valid(x) and s < x.size();
+      return s >= 0 and valid(x) and s < x.size() and x[s].size() >= 2;
     }
   public:
     bool valid() const noexcept { return valid(start, x); }
@@ -332,6 +332,8 @@ namespace LookaheadBranching {
 
     virtual GC::Choice* choice(GC::Space& home) noexcept {
       ModSpace* m = &(static_cast<ModSpace&>(home));
+      // Since la-reduction was called beforehand in the status() function,
+      // no leaves can be found here, so only branching is chosen:
       assert(m->status() == GC::SS_BRANCH);
       const GC::IntPropLevel pl = m->proplevel();
       const vec_t wghts = m->weights();
@@ -349,6 +351,7 @@ namespace LookaheadBranching {
           const auto subm_eq =
             LR::child_node<ModSpace>(m, var, val, pl, true);
           [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
+          // A leaf (SAT or UNSAT) is impossible here:
           assert(subm_eq_st == GC::SS_BRANCH);
           const float_t dist1 = distance(m->var(), subm_eq->var(), wghts, dpth);
           assert(dist1 > 0);
