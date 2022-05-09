@@ -311,15 +311,22 @@ namespace LookaheadBranching {
       assert(m->valid());
       assert(m->status() == GC::SS_BRANCH);
       assert(valid(start, x));
-      //for (auto i = start; i < x.size(); ++i)
-      //  if (not x[i].assigned()) { start = i; return true; }
+      // Find the first unassigned variable, if exists:
+      bool issolved = true;
+      for (auto i = start; i < x.size(); ++i)
+        if (not x[i].assigned()) { start = i; issolved = false; break; }
+      // If all variables are assigned, no branching is needed:
+      if (issolved) return false;
+      // La-reduction parameters:
       const OP::RT rt = m->runtype();
       const GC::IntPropLevel pl = m->proplevel();
       const OP::LAR lar = m->laredtype();
+      // Lookahead-reduction:
       LR::ReductionStatistics reduct_stat =
         LR::lareduction<ModSpace>(home, rt, pl, lar);
-      // A leaf was found during the la-reduction, no branching is needed:
+      // A leaf was found during the la-reduction, so no branching is needed:
       if (reduct_stat.leafcount() > 0) return false;
+      // At least one unassigned variable, la-reduction hasn't found a leaf:
       return true;
     }
 
