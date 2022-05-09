@@ -397,7 +397,7 @@ namespace Encoding {
           case UC::box : {
             if (N <= 3) break;
             const size_t b = std::sqrt(N);
-            assert(b*b <= N and (b+1)*(b+1) > N);
+            assert(1 <= b and b*b <= N and (b+1)*(b+1) > N);
             const size_t q = N / b;
             for (size_t i = 0; i < q; ++i) {
               const size_t x = i*b;
@@ -410,6 +410,35 @@ namespace Encoding {
                 assert(vv.size() == b*b);
                 distinct(s, vv);
               }
+            }
+            const size_t r = N % b;
+            if (r == 0) break;
+            for (size_t i = 0; i < q; ++i) {
+              const size_t x = i*b, y = q*b;
+              vv_t vv;
+              for (size_t i1 = 0; i1 < b; ++i1)
+                for (size_t j1 = 0; j1 < r; ++j1)
+                  vv.push_back(va[index(sq,x+i1,y+j1)]);
+              assert(vv.size() == b*r);
+              distinct(s, vv);
+            }
+            for (size_t j = 0; j < q; ++j) {
+              const size_t x = q*b, y = j*b;
+              vv_t vv;
+              for (size_t i1 = 0; i1 < r; ++i1)
+                for (size_t j1 = 0; j1 < b; ++j1)
+                  vv.push_back(va[index(sq,x+i1,y+j1)]);
+              assert(vv.size() == b*r);
+              distinct(s, vv);
+            }
+            if (r == 1) break;
+            {const size_t x = q*b, y = q*b;
+             vv_t vv;
+             for (size_t i1 = 0; i1 < r; ++i1)
+               for (size_t j1 = 0; j1 < r; ++j1)
+                 vv.push_back(va[index(sq,x+i1,y+j1)]);
+             assert(vv.size() == r*r);
+             distinct(s, vv);
             }
             break; }
           case UC::symm : {
@@ -517,7 +546,7 @@ namespace Encoding {
           }
         }
       assert(v == num_vars);
-      assert(Verification::valid(ac, res));
+      assert(Verification::correct(ac, res));
       return res;
     }
 

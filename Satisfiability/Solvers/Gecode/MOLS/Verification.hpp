@@ -11,7 +11,7 @@ License, or any later version. */
   Namespace Verification, abbreviated "VR".
 
   Using
-   - size_t = Conditions::size_t.
+   - size_t = Conditions::size_t, signed_t = Conditions::signed_t
    - ls_row_t = BS::ls_row_t
    - ls_t = BS::ls_t
 
@@ -80,6 +80,7 @@ namespace Verification {
   namespace OA = OrthogonalArrays;
 
   typedef CD::size_t size_t;
+  typedef CD::signed_t signed_t;
   typedef BS::ls_row_t ls_row_t;
   typedef BS::ls_t ls_t;
 
@@ -147,7 +148,15 @@ namespace Verification {
 
   bool rreduced(const ls_t& S) noexcept {
     if (S.empty()) return false;
-    const auto& r = S[0];
+    const auto& r = S.front();
+    const size_t N = r.size();
+    for (size_t i = 0; i < N; ++i)
+      if (r[i] != i) return false;
+    return true;
+  }
+  bool orreduced(const ls_t& S) noexcept {
+    if (S.empty()) return false;
+    const auto& r = S.back();
     const size_t N = r.size();
     for (size_t i = 0; i < N; ++i)
       if (r[i] != i) return false;
@@ -157,12 +166,98 @@ namespace Verification {
     const size_t N = S.size();
     for (size_t i = 0; i < N; ++i) {
       const auto& r = S[i];
-      if (r.empty() or r[0] != i) return false;
+      if (r.empty() or r.front() != i) return false;
+    }
+    return true;
+  }
+  bool ocreduced(const ls_t& S) noexcept {
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const auto& r = S[i];
+      if (r.size() < N or r.back() != i) return false;
     }
     return true;
   }
   bool reduced(const ls_t& S) noexcept {
     return rreduced(S) and creduced(S);
+  }
+  bool oreduced(const ls_t& S) noexcept {
+    return orreduced(S) and ocreduced(S);
+  }
+
+
+  size_t mdiff_equiv(const size_t i, const size_t j, const size_t N) {
+    assert(i < N and j < N);
+    return ((N + i) - j) % N;
+  }
+  size_t msum_equiv(const size_t i, const size_t j, const size_t N) {
+    assert(i < N and j < N);
+    return (i + j) % N;
+  }
+  bool moddiagonal(const ls_t& S) {
+    std::map<size_t, std::set<size_t>> equiv_classes;
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j)
+        if (not equiv_classes[mdiff_equiv(i,j,N)].insert(r[j]).second)
+          return false;
+    }
+    return true;
+  }
+  bool modantidiagonal(const ls_t& S) {
+    std::map<size_t, std::set<size_t>> equiv_classes;
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j)
+        if (not equiv_classes[msum_equiv(i,j,N)].insert(r[j]).second)
+          return false;
+    }
+    return true;
+  }
+  signed_t diff_equiv(const size_t i, const size_t j) {
+    return signed_t(i) - signed_t(j);
+  }
+  size_t sum_equiv(const size_t i, const size_t j) {
+    return i + j;
+  }
+  bool queendiagonal(const ls_t& S) {
+    std::map<size_t, std::set<signed_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j)
+        if (not equiv_classes[diff_equiv(i,j)].insert(r[j]).second)
+          return false;
+    }
+    return true;
+  }
+  bool queenantidiagonal(const ls_t& S) {
+    std::map<size_t, std::set<size_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j)
+        if (not equiv_classes[sum_equiv(i,j)].insert(r[j]).second)
+          return false;
+    }
+    return true;
+  }
+
+  std::array<size_t, 2> box_index(const size_t i, const size_t j,
+                                  const size_t N) noexcept {
+    const size_t b = std::sqrt(N);
+    return {i / b, j / b};
+  }
+  bool is_boxed(const ls_t& S) {
+    std::map<std::array<size_t,2>, std::set<size_t>> equiv_classes;
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j)
+        if (not equiv_classes[box_index(i,j,N)].insert(r[j]).second)
+          return false;
+    }
+    return true;
   }
 
 
@@ -219,6 +314,90 @@ namespace Verification {
       assert(ac.valid(s));
       assert(is_main_rep(s.v));
       if (ac.index(s) != i) return false;
+    }
+    return true;
+  }
+
+  ls_t extract(const CD::AConditions& ac, const PS::PSquares& sol,
+               const CD::Square s) {
+    assert(valid(ac, sol));
+    assert(ac.valid(s));
+    ls_t L = BS::extract(sol.psqs[ac.index(s)]);
+    const CD::VS v = s.v;
+    if (with_t(v)) BS::transpositionm(L);
+    if (with_at(v)) BS::antitranspositionm(L);
+    return L;
+  }
+
+  bool correct(const CD::AConditions& ac, const PS::PSquares& sol) {
+    assert(valid(ac, sol));
+    using CD::Square;
+    for (size_t i = 0; i < ac.k; ++i) {
+      for (CD::VS v : ac.versions()[i].choices()) {
+        assert(CD::is_main_rep(v));
+        if (v == CD::VS::c231) {
+          if (extract(ac,sol,{i,v}) !=
+              OA::conjugate_ls(extract(ac,sol,{i,CD::VS::id}), {2,3,1}, 1))
+            return false;
+        }
+        else if (v == CD::VS::c312) {
+          if (extract(ac,sol,{i,v}) !=
+              OA::conjugate_ls(extract(ac,sol,{i,CD::VS::id}), {3,1,2}, 1))
+            return false;
+        }
+      }
+    }
+    for (const auto& [uc, Sqs] : ac.map()) {
+      for (const Square s : Sqs.sqs()) {
+        const ls_t L = extract(ac, sol, s);
+        switch (uc) {
+        case CD::UC::rls : if (not BS::rls(L)) return false; break;
+        case CD::UC::cls : if (not BS::cls(L)) return false; break;
+        case CD::UC::ls : if (not BS::ls(L)) return false; break;
+        case CD::UC::diag : if (not diagonal(L)) return false; break;
+        case CD::UC::antidiag : if (not antidiagonal(L)) return false; break;
+        case CD::UC::uni : if (not unipotent(L)) return false; break;
+        case CD::UC::antiuni : if (not antiunipotent(L)) return false; break;
+        case CD::UC::idem : if (not idempotent(L)) return false; break;
+        case CD::UC::antiidem : if (not antiidempotent(L)) return false; break;
+        case CD::UC::moddiag : if (not moddiagonal(L)) return false; break;
+        case CD::UC::modantidiag :
+          if (not modantidiagonal(L)) return false; else break;
+        case CD::UC::queendiag :
+          if (not queendiagonal(L)) return false; else break;
+        case CD::UC::queenantidiag :
+          if (not queenantidiagonal(L)) return false; else break;
+        case CD::UC::rred : if (not rreduced(L)) return false; break;
+        case CD::UC::orred : if (not orreduced(L)) return false; break;
+        case CD::UC::cred : if (not creduced(L)) return false; break;
+        case CD::UC::ocred : if (not ocreduced(L)) return false; break;
+        case CD::UC::red : if (not reduced(L)) return false; break;
+        case CD::UC::ored : if (not oreduced(L)) return false; break;
+        case CD::UC::box : if (not is_boxed(L)) return false; break;
+        case CD::UC::symm : if (not symmetric(L)) return false; break;
+        case CD::UC::antisymm : if (not antisymmetric(L)) return false; break;
+        default : throw std::runtime_error("Verification::correct: uc=" +
+                                           std::to_string(int(uc)));
+        }
+      }
+    }
+    for (const auto& E : ac.eq()) {
+      const Square l = E.lhs(), r = E.rhs();
+      if (extract(ac, sol, l) != extract(ac, sol, r)) return false;
+    }
+    for (const auto& P : ac.peq()) {
+      const Square r = P.r(), f1 = P.f1(), f2 = P.f2();
+      const auto pt = P.pt();
+      if (pt == CD::PT::rprod) {
+        if (extract(ac,sol,r)
+            != BS::rproduct(extract(ac,sol,f2), extract(ac,sol,f1)))
+          return false;
+      }
+      else {
+        if (extract(ac,sol,r)
+            != BS::cproduct(extract(ac,sol,f2), extract(ac,sol,f1)))
+          return false;
+      }
     }
     return true;
   }
