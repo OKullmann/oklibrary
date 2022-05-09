@@ -128,6 +128,10 @@ namespace Solvers {
       Environment::out_line(out, sr.list_sol, "");
       return out;
     }
+    static void rh(std::ostream& out) { out << "rt sat"; }
+    void rs(std::ostream& out) const {
+      using Environment::W0;
+      out << W0(rt) << " " << sol_found; }
   };
   inline bool valid(const BasicSR sr) noexcept {
     if (sr.rt == RT::sat_decision)
@@ -151,6 +155,17 @@ namespace Solvers {
     gc_stats_t gs;
     double ut = 0;
     bool operator ==(const GBasicSR&) const noexcept = default;
+    static void rh(std::ostream& out) {
+      BasicSR::rh(out);
+      out << " t prop flvs nds h";
+    }
+    void rs(std::ostream& out) const {
+      b.rs(out); out << " ";
+      FloatingPoint::out_fixed_width(std::cout, 3, ut);
+      out << " " << gs.propagate << " " << gs.fail <<
+        " " << gs.node << " " << gs.depth;
+    }
+
   };
 
 
