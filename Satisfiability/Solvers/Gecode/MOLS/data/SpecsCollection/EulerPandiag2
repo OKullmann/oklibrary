@@ -1,0 +1,20 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 12, 0, 0, ?
+# >= 2
+
+# For N=9 dom+mindom seems best.
+# N=10 known to be unsatisfiable (see Pandiagonal), but seems a hard instance
+# here (mindom seems needed for "rprod", while maxdom seems needed for
+# "moddiag"?).
+# For N=11 dom+maxdom+desc seems best.
+
+# Question: it seems that the box-condition does not make much of a further
+# restriction to EulerPandiag?!?
+
+squares A B aux
+rred A B aux
+ls A B aux
+rprod A aux B
+moddiag A B
+modantidiag A B
+box A B

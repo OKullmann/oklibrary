@@ -1,0 +1,19 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 4, 0, 0, ?,
+# ?
+
+# These are essentially pairs of orthogonal Queens-Sudokus.
+
+# For N=9 dom+mindom seems best.
+# N=10 known to be unsatisfiable (see SudokuQueen), but seems a hard instance.
+
+# MOLS> ./gcMols_debug 11 data/SpecsCollection/EulerQueendiag2 "" +count dom "" maxdom desc 12
+# didn't find a solution after 5h wall-clock.
+
+squares A B aux
+rred A B aux
+ls A B aux
+rprod A aux B
+queendiag A B
+queenantidiag A B
+box A B

@@ -1,7 +1,18 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 6, >= 73, ?
+# 0, 0, 0, 0, 0, 6, >= 76, ?
 
 # The motivation here is to have "as much propagation as possible".
+# Perhaps a better name is "pairs of orthogonal X-Sudokus";
+# "rred A B" should be "w.l.o.g.", and "rred aux" follows.
+
+# Question: do "diag aux" and "antidiag aux" also follow? Would be surprising.
+# The count for N=7 (6) is the same when removing them, but for N=8 we
+# seem to get many more solutions.
+# Same question for "box aux": here no change is visible, so perhaps it is
+# implied?
+
+# Question: every pair (if we don't have A=B, which is impossible)
+# is enumerated twice -- how can this symmetry be broken here?
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 6 3.708 13765067 61090 122191 22
