@@ -42,8 +42,9 @@ TODOS:
 #include <Numerics/FloatingPoint.hpp>
 #include <Numerics/Tau.hpp>
 
-#include "LookaheadReduction.hpp"
+#include "Conditions.hpp"
 #include "Options.hpp"
+#include "LookaheadReduction.hpp"
 
 namespace LookaheadBranching {
 
@@ -51,8 +52,10 @@ namespace LookaheadBranching {
   namespace GC = Gecode;
   namespace LR = LookaheadReduction;
   namespace OP = Options;
+  namespace CD = Conditions;
 
-  typedef std::uint64_t count_t;
+  using size_t = CD::size_t;
+  using signed_t = CD::signed_t;
   typedef std::vector<int> values_t;
   typedef std::vector<bool> binvalues_t;
   typedef FP::float80 float_t;
@@ -60,7 +63,6 @@ namespace LookaheadBranching {
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
   typedef LR::BranchingStatus BrStatus;
-  typedef std::int64_t signed_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -72,7 +74,6 @@ namespace LookaheadBranching {
   // size_t is used for sizes of Gecode arrays.
   // For a Gecode array, size() returns int, so the function
   // size_t tr(int size) was introduced to convert int to size_t.
-  typedef unsigned size_t;
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
     assert(size >= int(bound));
@@ -81,7 +82,7 @@ namespace LookaheadBranching {
 
   // lookahead-distance.
   inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                          const vec_t wghts, const count_t depth) noexcept {
+                          const vec_t wghts, const size_t depth) noexcept {
     assert(not wghts.empty());
     float_t s = 0;
     const int N = V.size();
@@ -128,22 +129,22 @@ namespace LookaheadBranching {
   // (like TwoMOLS) should be inherited from this class.
   class Node : public GC::Space {
     // Node's id:
-    //count_t ndid;
+    //size_t ndid;
     // Parent node's id. For the root node, id is 1, while parent id == 0.
-    //count_t prntid;
+    //size_t prntid;
     // Node's depth in the backtracking tree:
-    count_t dpth;
+    size_t dpth;
 
   public:
     //Node() : ndid(1), prntid(0), dpth(0) { assert(valid()); }
     Node() : dpth(0) {}
 
-    count_t depth() const noexcept { return dpth; }
-    //count_t id() const noexcept { assert(valid()); return ndid; }
-    //count_t parentid() const noexcept { assert(valid()); return prntid; }
+    size_t depth() const noexcept { return dpth; }
+    //size_t id() const noexcept { assert(valid()); return ndid; }
+    //size_t parentid() const noexcept { assert(valid()); return prntid; }
 
     /*
-    void update_id(const count_t id, const count_t pid) noexcept {
+    void update_id(const size_t id, const size_t pid) noexcept {
       ndid = id;
       prntid = pid;
       assert(valid());
@@ -230,11 +231,11 @@ namespace LookaheadBranching {
   template <class CustomisedBinBrancher>
   struct BinBranchingChoice : public GC::Choice {
     BinBranching br;
-    count_t parentid;
+    size_t parentid;
     bool valid() const noexcept { return br.valid(); }
     BinBranchingChoice(const CustomisedBinBrancher& b,
                        const BinBranching& br = BinBranching(),
-                       const count_t parentid = 0)
+                       const size_t parentid = 0)
       : GC::Choice(b, br.branches_num()), br(br), parentid(parentid) {
         assert(valid());
       }
@@ -327,7 +328,7 @@ namespace LookaheadBranching {
       assert(m->status() == GC::SS_BRANCH);
       const GC::IntPropLevel pl = m->proplevel();
       const vec_t wghts = m->weights();
-      const count_t dpth = m->depth();
+      const size_t dpth = m->depth();
       std::vector<BinBranching> tau_brs;
       BinBranching best_br;
       // Form all branchings:

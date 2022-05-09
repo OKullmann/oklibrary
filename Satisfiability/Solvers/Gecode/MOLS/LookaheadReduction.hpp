@@ -91,8 +91,8 @@ namespace LookaheadReduction {
   namespace CD = Conditions;
 
   using size_t = CD::size_t;
+  using signed_t = CD::signed_t;
   typedef FP::float80 float_t;
-  typedef std::int64_t signed_t;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
