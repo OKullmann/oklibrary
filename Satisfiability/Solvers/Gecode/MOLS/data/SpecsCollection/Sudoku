@@ -1,5 +1,8 @@
 # Counts for N >= 2:
 # 1, 2, 12, 240, 43648
+
+# dom+mindom seems best.
+
 squares A
 rred A
 ls A

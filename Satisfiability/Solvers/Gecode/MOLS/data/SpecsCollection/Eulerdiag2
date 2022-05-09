@@ -1,17 +1,16 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 6, XXX
+# 0, 0, 0, 0, 0, 6, >= 73, ?
+
+# The motivation here is to have "as much propagation as possible".
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 6 3.708 13765067 61090 122191 22
-# The case N=8 is very hard for counting:
-# MOLS> time ./gcMols 8 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 4
-# running for over 25h wall-clock, without result. XXX
-
-# TODO: Update to being the inverse case, and having the non-inverse case also.
+# The case N=8 for SAT-decision: "desc" seems best.
 
 squares A B aux
 rred A B aux
 ls A B aux
-rprod A B aux
+rprod A aux B
 diag A B aux
 antidiag A B aux
 box A B aux
