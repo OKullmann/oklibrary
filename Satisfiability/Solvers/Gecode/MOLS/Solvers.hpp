@@ -97,6 +97,7 @@ TODOS:
 #include "PartialSquares.hpp"
 #include "Options.hpp"
 #include "LookaheadBranching.hpp"
+#include "Verification.hpp"
 
 namespace Solvers {
 
@@ -108,6 +109,7 @@ namespace Solvers {
   namespace PS = PartialSquares;
   namespace OP = Options;
   namespace LAB = LookaheadBranching;
+  namespace VR = Verification;
 
   using size_t = CD::size_t;
 
@@ -154,6 +156,9 @@ namespace Solvers {
 
   /*
     The solver for the testing of encodings etc.
+
+    This solver is assumed to run with asserts enabled, and thus no need
+    for explicit testing of the results.
   */
 
   BasicSR solver_basis(const EC::EncCond& enc, const RT rt,
@@ -244,30 +249,58 @@ namespace Solvers {
     switch (rt) {
     case RT::sat_decision: {
       if (CT::GenericMols0* const leaf=s.next()) {
-        res.b.sol_found = 1; delete leaf;
+        res.b.sol_found = 1;
+        assert(EC::EncCond::unit(leaf->V));
+        const auto sol = enc.decode(leaf->V);
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution:\n" << sol << "\n";
+        }
+        delete leaf;
       }
       res.gs = s.statistics(); break;
     }
     case RT::sat_solving: {
       if (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
-        res.b.list_sol.push_back(enc.decode(leaf->V));
-        res.b.sol_found = 1; delete leaf;
+        const auto sol = enc.decode(leaf->V);
+        res.b.list_sol.push_back(sol);
+        res.b.sol_found = 1;
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution:\n" << sol << "\n";
+        }
+        delete leaf;
       }
       res.gs = s.statistics(); break;
     }
     case RT::unique_solving: {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
-        res.b.list_sol.push_back(enc.decode(leaf->V));
-        ++res.b.sol_found; delete leaf;
+        const auto sol = enc.decode(leaf->V);
+        res.b.list_sol.push_back(sol);
+        ++res.b.sol_found;
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
+        delete leaf;
         if (res.b.sol_found == 2) break;
       }
       res.gs = s.statistics(); break;
     }
     case RT::unique_decision: {
       while (CT::GenericMols0* const leaf = s.next()) {
-        ++res.b.sol_found; delete leaf;
+        ++res.b.sol_found;
+        assert(EC::EncCond::unit(leaf->V));
+        const auto sol = enc.decode(leaf->V);
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
+        delete leaf;
         if (res.b.sol_found == 2) break;
       }
       res.gs = s.statistics(); break;
@@ -277,8 +310,13 @@ namespace Solvers {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         ++res.b.sol_found;
-        *log << res.b.sol_found << "\n"
-             << enc.decode(leaf->V) << std::endl;
+        const auto sol = enc.decode(leaf->V);
+        *log << res.b.sol_found << "\n" << sol << std::endl;
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
@@ -287,7 +325,15 @@ namespace Solvers {
     case RT::unique_d_with_log: {
       assert(log);
       while (CT::GenericMols0* const leaf = s.next()) {
-        ++res.b.sol_found; delete leaf;
+        ++res.b.sol_found;
+        assert(EC::EncCond::unit(leaf->V));
+        const auto sol = enc.decode(leaf->V);
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
+        delete leaf;
         *log << " " << res.b.sol_found; log->flush();
         if (res.b.sol_found == 2) break;
       }
@@ -310,8 +356,15 @@ namespace Solvers {
     case RT::enumerate_solutions: {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
-        res.b.list_sol.push_back(enc.decode(leaf->V));
-        ++res.b.sol_found; delete leaf;
+        const auto sol = enc.decode(leaf->V);
+        res.b.list_sol.push_back(sol);
+        ++res.b.sol_found;
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
+        delete leaf;
       }
       res.gs = s.statistics(); break;
     }
@@ -320,8 +373,13 @@ namespace Solvers {
       while (CT::GenericMols0* const leaf = s.next()) {
         assert(EC::EncCond::unit(leaf->V));
         ++res.b.sol_found;
-        *log << res.b.sol_found << "\n"
-             << enc.decode(leaf->V) << std::endl;
+        const auto sol = enc.decode(leaf->V);
+        *log << res.b.sol_found << "\n" << sol << std::endl;
+        if (not VR::correct(enc.ac, sol)) {
+          std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
+            "correctness-checking failed for solution " << res.b.sol_found
+                    << ":\n" << sol << "\n";
+        }
         delete leaf;
       }
       res.gs = s.statistics(); break;
