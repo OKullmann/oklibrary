@@ -340,15 +340,15 @@ int main(const int argc, const char* const argv[]) {
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == FP::pow(FP::factorial(3), 3));
   }
-{std::istringstream ss_cond("squares A\nqueendiag A\n");
+  {std::istringstream ss_cond("squares A\nqueendiag A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 3*3 * 3*2 * 3*2 *6);
+   assert(res.sol_found == 3*3 * 3*2 * 3*2 * 6);
   }
   {std::istringstream ss_cond("squares A\nqueenantidiag A\n");
    std::istringstream ss_ps("");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
-   assert(res.sol_found == 3*3 * 3*2 * 3*2 *6);
+   assert(res.sol_found == 3*3 * 3*2 * 3*2 * 6);
   }
 
 }
