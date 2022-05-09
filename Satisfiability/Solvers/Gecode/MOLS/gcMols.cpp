@@ -44,6 +44,9 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 /* TODOS:
 
+-2. OZ: Specify precisely the four statistics-outputs of Gecode
+        ("prop flvs nds h").
+
 -1. As an option: output the count resp. the solutions immediately when
    obtained.
     - DONE Enumeration also should include the count.
