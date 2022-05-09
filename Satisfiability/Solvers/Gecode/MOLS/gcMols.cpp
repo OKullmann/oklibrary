@@ -101,6 +101,16 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
       (that for a large number of solutions it becomes inefficient, since
       only one counting/output-instance (bottleneck)).
 
+5. Cutoff-time
+    - Specify a cutoff-time, after which computation is stopped.
+    - Especially useful for scanning (searching for the best possibility).
+    - One needs some form of polling (or does Gecode support something spedial
+      here?).
+    - Using the (generic) stop-function should do that.
+
+6. Perhaps also for the N-parameter a range of values should be possible.
+
+
 BUGS:
 
 
