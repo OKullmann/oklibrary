@@ -37,11 +37,26 @@ License, or any later version. */
      (not at the left end, like for the diagonal).
      Again, no restrictions on S are made.
 
-   - rreduced(S): whether the first row of S is standardised.
+   - rreduced(S): whether the first row of S is standardised
+   - orreduced(S): whether the last row of S is standardised
    - credcued(S): whether the first column is standardised
      (which may not exist)
-   - reduced(S): both conditions together.
+   - ocredcued(S): whether the N-column is standardised, where N is
+     the number of rows
+   - reduced(S): both conditions together
+   - oreduced(S): both o-forms together.
      No restrictions on S are made.
+
+   - helper-functions for equivalence-classes of cells:
+     - mdiff_equiv, msum_equiv
+     - diff_equiv, sum_equiv
+   - moddiagonal(S), modantidiagonal(S): where all modular diagonals resp.
+     antidiagonals fulfil alldiff
+   - queendiagonal(S), queenantidiagonal(S): same for ordinary diagonals
+     resp. antidiagonals.
+
+   - helper-function box_index(i,j,N)
+   - is_boxed(S): whether all boxes fulfil alldiff.
 
    - symmetric(S): false for not square-shaped S
    - antisymmetric(S): false for not square-shaped S
@@ -52,6 +67,9 @@ License, or any later version. */
   Testing solutions:
 
    - valid(AConditions, PSquares): formal fitting
+   - extract(AConditions, PSquares, Square): compute all squares
+   - valid(AConditions, PSquares): checking the conditions (asserting
+     formal fitting).
 
 */
 
