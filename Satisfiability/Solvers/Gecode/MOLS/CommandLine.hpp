@@ -194,6 +194,8 @@ namespace CommandLine {
     out << "# N=" << N << "\n"
       "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() <<
         ": \"" << name_ac << "\"\n"
+      "#   num_uc=" << ac.num_ucs() << " num_eq=" << ac.eq().size() <<
+      " num_peq=" << ac.peq().size() << "\n"
       "# num_ps=" << ps.psqs.size() << ": \"" << name_ps << "\"\n" <<
       "# num_runs=" << num_runs << "\n"
       "# threads=" << threads << "\n"

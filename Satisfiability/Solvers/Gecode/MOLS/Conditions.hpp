@@ -431,6 +431,12 @@ namespace Conditions {
       return sum + versions_[s.i].index(s.v);
     }
 
+    size_t num_ucs() const noexcept {
+      size_t sum = 0;
+      for (const auto& [uc,S] : m_) sum += S.size();
+      return sum;
+    }
+
     bool insert(const Square s) {
       assert(valid(s));
       return versions_[s.i].insert(s.v);

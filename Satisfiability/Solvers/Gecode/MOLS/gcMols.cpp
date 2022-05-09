@@ -48,6 +48,13 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
    obtained.
     - DONE Enumeration also should include the count.
     - Additionally, when catching SIGUSR1, output the current results.
+     - However, according to
+       https://en.cppreference.com/w/cpp/utility/program/signal
+       the signal-handler must not access "an object with thread storage
+       duration", and thus we couldn't have (easily) parallelisation for
+       scanning.
+     - One could be relying for scanning, if needed, on external parallelism
+       (as with BBOpt).
 
 0. R-header
     - Can't hurt for now if always output?
@@ -55,10 +62,11 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - +- header
        - +- comments
        - +- computation
+       - +- cond
 
 1. Output:
     - More statistics on conditions should be output:
-       - number of unary, equality- and prod-conditions
+       - DONE number of unary, equality- and prod-conditions
        - perhaps by default actually the complete conditions are reported,
          using options "+-cond".
     - More statistics on the partial squares given should be output:
@@ -134,7 +142,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
+        "0.10.2",
         "9.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
