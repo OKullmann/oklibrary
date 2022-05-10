@@ -8,6 +8,17 @@ License, or any later version. */
 /*
   The Gecode-constraint-classes
 
+  Namespace Constraints, abbreviated "CT".
+
+TODOS:
+
+1. OZ It seems a dedicated class used in rlaMols is needed.
+  - LookaheadMols contains e.g. wghts, which is not needed
+    in rlaMols.
+  - Likely this class should not be derived from LB::Node, but
+    from GC::Space itself (the facilities in LB::Node shouldn't be
+    needed).
+
 */
 
 #ifndef CONSTRAINTS_hBa0Xe3nKA
