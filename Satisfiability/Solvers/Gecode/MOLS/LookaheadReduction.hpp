@@ -122,7 +122,7 @@ namespace LookaheadReduction {
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
     size_t prunsetsize_ = 0; // the final size of the pruning-set
-    float_t time_ = 0.0; // the total time for the reduction
+    Timing::Time_point time_ = 0; // the total time for the reduction
     size_t sols_ = 0; // the number of satisfying assignments found.
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
@@ -151,7 +151,7 @@ namespace LookaheadReduction {
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t prunsetsize() const noexcept { return prunsetsize_; }
-    float_t time() const noexcept { return time_; }
+    Timing::Time_point time() const noexcept { return time_; }
     size_t sols() const noexcept { return sols_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
@@ -253,8 +253,7 @@ namespace LookaheadReduction {
     } while (repeat);
 
     const Timing::Time_point t1 = timing();
-    const Timing::Time_point t = t1 - t0;
-    stat.update_time(t);
+    stat.update_time(t1 - t0);
 
     return stat;
   }
