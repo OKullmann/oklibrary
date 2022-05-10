@@ -247,6 +247,8 @@ namespace LookaheadReduction {
             if (status == GC::SS_SOLVED) {
               if (with_solutions(rt)) stat.sollist(m->var());
               stat.inc_solc();
+              if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving)
+                goto END;
             }
           }
         }
@@ -267,11 +269,6 @@ namespace LookaheadReduction {
           }
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
           else { assert(lar == OP::LAR::eager); repeat = true; }
-        }
-
-        if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
-          assert(stat.solc() > 0); // XXX BUG this assert makes no sense XXX
-          return stat;
         }
       }
     } while (repeat);
