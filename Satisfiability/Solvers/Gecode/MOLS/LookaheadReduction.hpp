@@ -51,35 +51,40 @@ TODOS:
       - DONE the propagation-counter
       - DONE the number of eliminated values
       - DONE the quotient eliminated-values / all-values
-      - the number of successful prunings
+      - DONE the number of successful prunings
       - DONE the number of probings
-      - the quotient prunings/probings
+      - DONE the quotient prunings/probings
       - DONE the number of rounds
-      - the final size of the pruning-set
+      - DONE (not "final", but maximal) the final size of the pruning-set
       - DONE the total time for the reduction
       - DONE the number of satisfying assignments found.
-    - satisfying assignments.
+    - DONE satisfying assignments.
 
-3. Collect satisfying assignments, if needed.
+3. DONE Collect satisfying assignments, if needed.
     - Use a queue.
 
-4. Pruning:
-     - Type PLit ("positive literal"), a pair (var,val), meaning "var=val",
+4. DONE Pruning:
+     - DONE
+       Type PLit ("positive literal"), a pair (var,val), meaning "var=val",
        should be basic here.
-     - Maintain std::set<PLit>, where in case of probing without decision
+     - DONE
+       Maintain std::set<PLit>, where in case of probing without decision
        one enters the literals "v'=eps'" (and the check for pruning is just
        the check whether the set contains the literal v=eps), while in case of
        propagation the set is just cleared.
-     - So the function probe(m,v,val,pl) needs to determine the positive
+     - DONE
+       So the function probe(m,v,val,pl) needs to determine the positive
        literals v=eps derived by the probing.
-     - probe should store the current variable-restriction on entry, and
+     - DONE
+       probe should store the current variable-restriction on entry, and
        compare that with the variable-restriction in case chnode->status()
        did not yield a decision.
-     - How to return the set of positive literals? Perhaps best providing
+     - DONE
+       How to return the set of positive literals? Perhaps best providing
        the set of positive literals as reference-parameter.
-     - After one branch found a restriction, for this variable there is no
-       point in updating further the pruning-set; this is handled by
-       "update_pruning".
+     - DONE
+       After one branch found a restriction, for this variable there is no
+       point in updating further the pruning-set.
 
 */
 
@@ -90,6 +95,7 @@ TODOS:
 #include <memory>
 #include <queue>
 #include <set>
+#include <algorithm>
 
 #include <cassert>
 
@@ -132,13 +138,14 @@ namespace LookaheadReduction {
     size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
 
-    size_t props_ = 0; // the propagation-counter
-    size_t elimvals_ = 0; // the number of eliminated values
-    size_t probes_ = 0; // the number of probings
-    size_t rounds_ = 0; // the number of rounds
-    size_t prunes_ = 0; // the number of successful prunings
-    size_t solc_ = 0; // the number of solutions found
-    size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
+    size_t props_ = 0; // propagation-call-counter
+    size_t elimvals_ = 0; // number of eliminated values
+    size_t probes_ = 0; // number of probings
+    size_t rounds_ = 0; // number of rounds
+    size_t prunes_ = 0; // number of successful prunings
+    size_t maxprune_ = 0; // maximal size of pruning-set
+    size_t solc_ = 0; // number of solutions found
+    size_t leafcount_ = 0; // number of leafs as a result of reduction (0 or 1)
 
     sollist_t sollist_; // list of solutions found
 
@@ -160,9 +167,11 @@ namespace LookaheadReduction {
     void inc_rounds() noexcept { ++rounds_; }
     void inc_solc() noexcept { ++solc_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
+
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     size_t prunes() const noexcept { return prunes_; }
+    size_t maxprune() const noexcept { return maxprune_; }
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t solc() const noexcept { return solc_; }
@@ -171,6 +180,9 @@ namespace LookaheadReduction {
     void sollist(const GC::IntVarArray& x) { sollist_.push(x); }
     const sollist_t& sollist() const noexcept { return sollist_; }
 
+    void maxprune(const size_t size) noexcept {
+      maxprune_ = std::max(maxprune_, size);
+    }
     void time(const Timing::Time_point t) noexcept { time_ = t; }
     Timing::Time_point time() const noexcept { return time_; }
 
@@ -273,8 +285,8 @@ namespace LookaheadReduction {
         }
 
         if (not elimvals.empty()) {
-          PT.clear();
-          for (auto& val : elimvals)
+          stat.maxprune(PT.size()); PT.clear();
+          for (const int val : elimvals)
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           const auto status = home.status();
           stat.inc_props();
