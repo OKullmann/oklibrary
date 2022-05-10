@@ -182,7 +182,7 @@ namespace LookaheadReduction {
   template<class ModSpace>
   GC::SpaceStatus probe(ModSpace* const m,
                         const signed_t var, const signed_t val,
-                        const GC::IntPropLevel pl) {
+                        const GC::IntPropLevel pl) noexcept {
     assert(m->valid() and m->valid(var)); assert(m->status() == GC::SS_BRANCH);
     const auto chnode = child_node<ModSpace>(m, var, val, pl, true);
     return chnode->status();
