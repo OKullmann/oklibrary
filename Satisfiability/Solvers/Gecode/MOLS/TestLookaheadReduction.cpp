@@ -11,7 +11,8 @@ Testing of look-ahead reduction for the Gecode library.
 
 TODOS:
 
-0. Testing of the lareduction() function.
+0. Tests should mostly used enumeration-modes:
+  - So that also the satisfying assignments can be tested.
 
 */
 
@@ -127,7 +128,7 @@ int main(const int argc, const char* const argv[]) {
    delete m0;
   }
 
-  {// An empty Latin square or order 2:
+  {// An empty Latin square of order 2:
    std::istringstream in_cond("squares A\nls A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
