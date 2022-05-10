@@ -37,6 +37,13 @@ BUGS:
 
 TODOS:
 
+-1. What is the point of BranchingStatus::single?
+     - This shouldn't be needed.
+     - The class BranchingStatus altogether seems superfluous; at least it
+       is not used in this module, so it should be moved to
+       LookaheadBranching.hpp.
+     - There "single" is not used.
+
 0. Lookahead-reduction statistics.
     - DONE This is a return value of the reduction function.
     - The reduction-statistics is used in the choice() function of a customised
