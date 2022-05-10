@@ -85,8 +85,8 @@ namespace Constraints {
       assert(valid());
     }
 
-    bool valid () const noexcept { return V.size() > 0; }
-    bool valid (const size_t i) const noexcept {
+    bool valid() const noexcept { return V.size() > 0; }
+    bool valid(const size_t i) const noexcept {
       assert(valid());
       return i<LB::tr(V.size());
     }
@@ -146,8 +146,8 @@ namespace Constraints {
       pl = enc.pl;
       assert(valid());
     }
-    bool valid () const noexcept { return V.size() > 0 and not wghts.empty(); }
-    bool valid (const size_t i) const noexcept {
+    bool valid() const noexcept { return V.size() > 0 and not wghts.empty(); }
+    bool valid(const size_t i) const noexcept {
       assert(valid());
       return i<LB::tr(V.size());
     }
