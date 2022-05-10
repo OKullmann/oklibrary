@@ -89,6 +89,7 @@ TODOS:
 #include <vector>
 #include <memory>
 #include <queue>
+#include <set>
 
 #include <cassert>
 
@@ -191,9 +192,12 @@ namespace LookaheadReduction {
     return c;
   }
 
+  typedef std::pair<int, int> plit_t;
+  typedef std::set<plit_t> pruning_table_t;
+
   template<class ModSpace>
   GC::SpaceStatus probe(ModSpace* const m,
-                        const signed_t v, const signed_t val,
+                        const int v, const int val,
                         const GC::IntPropLevel pl,
                         const bool update_pruning = true) noexcept {
     assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
@@ -227,7 +231,7 @@ namespace LookaheadReduction {
       repeat = false;
       stat.inc_rounds();
       const GC::IntVarArray x = m->var();
-      for (signed_t var = 0; var < x.size(); ++var) {
+      for (int var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
