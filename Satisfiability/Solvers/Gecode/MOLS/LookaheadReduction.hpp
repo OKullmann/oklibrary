@@ -245,25 +245,14 @@ namespace LookaheadReduction {
               stat.increment_sols();
             }
           }
-
-          // If super-eager, and any propagation was done in the
-          // variables-loop, then restart the variables-loop immediately
-          // after processing the variable. If no propagation was done during
-          // variables-loop, finish the reduction. Do not update the flag
-          // repeatred, so it is remains false.
-          // If eager, and any propagation was done during variables-loop,
-          // set the flag repeatred to true, process the variables-loop
-          // entirely, and then repeat the variables-loop.
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
           else if (lar == OP::LAR::eager) repeat = true;
         }
 
-        // If one solution is enough, do not process other variables:
         if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
-          assert(stat.sols() > 0);
-          return stat;
+          assert(stat.sols() > 0); return stat;
         }
-      } // for (int var = start; var < x.size(); ++var) {
+      }
     } while (repeat);
 
     const Timing::Time_point t1 = timing();
