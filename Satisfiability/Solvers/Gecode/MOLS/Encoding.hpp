@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Encoding the LS-MOLS-conditions, for Gecode
 
+  Namespace Encoding, abbreviated "EC".
+
   Contains the class EncCond for providing encoding-services.
 
 */
@@ -494,8 +496,8 @@ namespace Encoding {
     }
 
 
-    // The VA is default-constructed in the calling-class, and updated
-    // by the result obtained from post:
+    // Return the variable-vector, with constraints imbued, to be used
+    // in the node-class (derived frm GC::Space):
     template <class VAV, class VAR, typename SP>
     VAV post(const SP s) const {
       assert(s);

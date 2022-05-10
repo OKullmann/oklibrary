@@ -25,7 +25,7 @@ namespace Constraints {
   namespace GC = Gecode;
   namespace EC = Encoding;
   namespace OP = Options;
-  namespace LAB = LookaheadBranching;
+  namespace LB = LookaheadBranching;
 
   typedef EC::size_t size_t;
   typedef std::int64_t signed_t;
@@ -48,7 +48,7 @@ namespace Constraints {
   };
 
   // Lookahead-version:
-  class LookaheadMols : public LAB::Node {
+  class LookaheadMols : public LB::Node {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
@@ -56,8 +56,8 @@ namespace Constraints {
     GC::IntPropLevel pl;
     OP::GBO gbo;
     OP::LAR lar;
-    LAB::vec_t wghts;
-    LookaheadMols(LookaheadMols& gm) : LAB::Node(gm), V(gm.V), rt(gm.rt),
+    LB::vec_t wghts;
+    LookaheadMols(LookaheadMols& gm) : LB::Node(gm), V(gm.V), rt(gm.rt),
       gbo(gm.gbo), lar(gm.lar), wghts(gm.wghts) {
       V.update(*this, gm.V);
       assert(valid());
@@ -68,7 +68,7 @@ namespace Constraints {
                   const OP::RT rt_,
                   const OP::GBO gbo_,
                   const OP::LAR lar_,
-                  const LAB::vec_t wghts_) :
+                  const LB::vec_t wghts_) :
       rt(rt_), gbo(gbo_), lar(lar_), wghts(wghts_) {
       assert(wghts.size() == enc.N-1);
       V = enc.post<VarVec, Var>(this);
@@ -78,7 +78,7 @@ namespace Constraints {
     bool valid () const noexcept { return V.size() > 0 and not wghts.empty(); }
     bool valid (const size_t i) const noexcept {
       assert(valid());
-      return i<LAB::tr(V.size());
+      return i<LB::tr(V.size());
     }
     GC::IntVar var(const size_t i) const noexcept {
       assert(valid()); return V[i];
@@ -88,7 +88,7 @@ namespace Constraints {
     GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
     OP::GBO brorder() const noexcept { assert(valid()); return gbo; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
-    LAB::vec_t weights() const noexcept { assert(valid()); return wghts; }
+    LB::vec_t weights() const noexcept { assert(valid()); return wghts; }
 
     size_t assignedvars() const noexcept {
       assert(valid());

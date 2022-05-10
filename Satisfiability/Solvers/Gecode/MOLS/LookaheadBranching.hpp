@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*
 
-Look-ahead branching for the Gecode library.
+  Look-ahead branching for the Gecode library
+
+  Namespace LookaheadBranching, abbreviated "LB".
 
 BUGS:
 

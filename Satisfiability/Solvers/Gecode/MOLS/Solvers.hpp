@@ -108,7 +108,7 @@ namespace Solvers {
   namespace PR = Parsing;
   namespace PS = PartialSquares;
   namespace OP = Options;
-  namespace LAB = LookaheadBranching;
+  namespace LB = LookaheadBranching;
   namespace VR = Verification;
 
   using size_t = CD::size_t;
@@ -461,11 +461,11 @@ namespace Solvers {
                     const OP::BRT brt,
                     OP::GBO gbo,
                     OP::LAR lar,
-                    const LAB::vec_t wghts,
+                    const LB::vec_t wghts,
                     const double threads = 1,
                     [[maybe_unused]]std::ostream* const log = nullptr) {
     CT::LookaheadMols* const gm = new CT::LookaheadMols(enc, rt, gbo, lar, wghts);
-    LAB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), brt);
+    LB::post_la_branching<CT::LookaheadMols>(*gm, gm->var(), brt);
 
     GC::DFS<CT::LookaheadMols> s(gm, make_options(threads));
     delete gm;
@@ -501,7 +501,7 @@ namespace Solvers {
                      const OP::BRT brt,
                      const OP::GBO gbo,
                      const OP::LAR lar,
-                     const LAB::vec_t wghts,
+                     const LB::vec_t wghts,
                      const double threads = 1,
                      std::ostream* const log = nullptr) {
     Timing::UserTime timing;
