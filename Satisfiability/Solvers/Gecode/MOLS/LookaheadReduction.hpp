@@ -127,6 +127,7 @@ namespace LookaheadReduction {
     float_t time_ = 0.0; // the total time for the reduction
     size_t sols_ = 0; // the number of satisfying assignments found.
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
+
     void update_quotelimvals() noexcept {
       assert(vals_ > 0);
       quotelimvals_ = float_t(elimvals_)/vals_;
@@ -135,7 +136,9 @@ namespace LookaheadReduction {
       assert(probes_ > 0);
       quotprun_ = float_t(pruns_)/probes_;
     }
+
   public:
+
     void increment_props() noexcept { ++props_; }
     void update_allvalues(const GC::IntVarArray& x) noexcept {
       assert(x.size() > 0);
