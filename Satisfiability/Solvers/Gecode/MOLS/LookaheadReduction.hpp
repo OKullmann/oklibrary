@@ -37,15 +37,14 @@ BUGS:
 
 TODOS:
 
--1. What is the point of BranchingStatus::single?
+1. What is the point of BranchingStatus::single?
      - This shouldn't be needed.
      - The class BranchingStatus altogether seems superfluous; at least it
        is not used in this module, so it should be moved to
        LookaheadBranching.hpp.
      - There "single" is not used.
 
-0. Lookahead-reduction statistics.
-    - DONE This is a return value of the reduction function.
+2. Lookahead-reduction statistics.
     - The reduction-statistics is used in the choice() function of a customised
       brancher to update the global statistics.
     - Statistics collected here (the "important events"):
@@ -61,10 +60,10 @@ TODOS:
       - DONE the number of satisfying assignments found.
     - satisfying assignments.
 
-2. Collect satisfying assignments, if needed.
+3. Collect satisfying assignments, if needed.
     - Use a queue.
 
-3. Pruning.
+4. Pruning.
      - type PLit ("positive literal"), a pair (var,val), meaning "var=val".
      - Maintain std::set<PLit>, where in case (c) one enters the literals
        "v'=eps'" (and the check for pruning is just the check whether the set
