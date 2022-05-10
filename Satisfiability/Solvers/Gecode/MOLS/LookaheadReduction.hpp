@@ -232,21 +232,16 @@ namespace LookaheadReduction {
           }
         }
 
-        // Apply all var!=val assignments for the variable in one batch:
         if (not noteqvalues.empty()) {
-          for (auto& val : noteqvalues) {
+          for (auto& val : noteqvalues)
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
-          }
-          // Call a propagation:
           const auto status = home.status();
           stat.increment_props();
-          // If a solution if found, then a SAT leaf is formed,
-          // if UNSAT is proved, an UNSAT leaf is formed.
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.increment_leafcount();
             if (status == GC::SS_SOLVED) {
-              // Add the solution to the statistics:
+              // XXX URGENT: the solution needs to be added!
               stat.increment_sols();
             }
           }
