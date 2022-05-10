@@ -12,10 +12,13 @@ License, or any later version. */
 
   Remarks on the statistics output:
    - "t" is the solver-time.
-   - "prop" is the number of propagations.
-   - "flvs" is the number of unsatisfiable leaves in the backtracking tree.
-   - "nds" is the number of nodes in the backtracking tree.
-   - "h" is the depth of the backtracking tree.
+   - "prop" is the number of propagations -- but what does that mean?
+   - "flvs" is the number of unsatisfiable leaves in the backtracking tree
+     -- but what is the "backtracking tree"?
+   - "nds" is the number of nodes in the backtracking tree
+     -- again, what is the "backtracking tree"?
+   - "h" is the depth of the backtracking tree
+     -- again, what is the precise definition?
 
 Examples:
 
