@@ -191,7 +191,10 @@ namespace LookaheadReduction {
                         const bool update_pruning = true) noexcept {
     assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
-    return chnode->status();
+    const auto status = chnode->status();
+    if (status != GC::SS_BRANCH or not update_pruning) return status;
+    // find prunings
+    return status;
   }
 
 
