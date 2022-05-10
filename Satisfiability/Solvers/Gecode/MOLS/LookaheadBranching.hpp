@@ -57,7 +57,6 @@ namespace LookaheadBranching {
   namespace CD = Conditions;
 
   using size_t = CD::size_t;
-  using signed_t = CD::signed_t;
   typedef std::vector<int> values_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
@@ -310,12 +309,12 @@ namespace LookaheadBranching {
       BinBranching best_br;
       // Form all branchings:
       assert(valid(start, x));
-      for (signed_t var = start; var < x.size(); ++var) {
+      for (int var = start; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
         for (IntVarValues j(view); j(); ++j) {
-          const signed_t val = j.val();
+          const int val = j.val();
           const auto subm_eq =
             LR::child_node<ModSpace>(m, var, val, pl, true);
           [[maybe_unused]] const auto subm_eq_st = subm_eq->status();
