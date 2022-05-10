@@ -10,6 +10,13 @@ License, or any later version. */
   A Gecode-based solver for general MOLS-LS-related problems.
   using (only) branching strategies as provided by Gecode itself
 
+  Remarks on the statistics output:
+   - "t" is the solver-time.
+   - "prop" is the number of propagations.
+   - "flvs" is the number of unsatisfiable leaves in the backtracking tree.
+   - "nds" is the number of nodes in the backtracking tree.
+   - "h" is the depth of the backtracking tree.
+
 Examples:
 
 1. Counting reduced ls's for N=7
@@ -44,7 +51,8 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 /* TODOS:
 
--2. OZ: Specify precisely the four statistics-outputs of Gecode
+-2. DONE (Was specified at the beginning of this file.)
+    OZ: Specify precisely the four statistics-outputs of Gecode
         ("prop flvs nds h").
 
 -1. As an option: output the count resp. the solutions immediately when
