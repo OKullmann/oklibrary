@@ -37,7 +37,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "10.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -54,12 +54,9 @@ namespace {
 
   namespace GC = Gecode;
 
-  typedef std::int64_t signed_t;
-
   template<class ModSpace>
-  signed_t assigned_var_value(ModSpace* const m,
-                              const signed_t var) noexcept
-  {
+  int assigned_var_value(ModSpace* const m,
+                         const int var) noexcept {
     assert(m->valid());
     assert(m->valid(var));
     GC::Int::IntView view = m->var()[var];
