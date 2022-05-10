@@ -12,7 +12,8 @@ License, or any later version. */
 
 TODOS:
 
-1. OZ It seems a dedicated class used in rlaMols is needed.
+1. DONE (LookaheadReductionMols class was added)
+   OZ It seems a dedicated class used in rlaMols is needed.
   - LookaheadMols contains e.g. wghts, which is not needed
     in rlaMols.
   - Likely this class should not be derived from LB::Node, but
@@ -56,6 +57,57 @@ namespace Constraints {
     }
     // Pure virtual function inherited from GC::Space:
     GC::Space* copy() { return new GenericMols0(*this); }
+  };
+
+  // Lookahead-reduction version:
+  class LookaheadReductionMols : public GC::Space {
+    typedef GC::IntVarArray VarVec;
+    typedef GC::IntVar Var;
+    VarVec V;
+    OP::RT rt;
+    GC::IntPropLevel pl;
+    OP::LAR lar;
+    LookaheadReductionMols(LookaheadReductionMols& gm) :
+      GC::Space(gm), V(gm.V), rt(gm.rt), lar(gm.lar) {
+      V.update(*this, gm.V);
+      assert(valid());
+    }
+    GC::Space* copy() { return new LookaheadReductionMols(*this); }
+  public :
+    LookaheadReductionMols(const EC::EncCond& enc,
+                  const OP::RT rt_,
+                  const OP::LAR lar_) : rt(rt_), lar(lar_) {
+      V = enc.post<VarVec, Var>(this);
+      pl = enc.pl;
+      assert(valid());
+    }
+    bool valid () const noexcept { return V.size() > 0; }
+    bool valid (const size_t i) const noexcept {
+      assert(valid());
+      return i<LB::tr(V.size());
+    }
+    GC::IntVar var(const size_t i) const noexcept {
+      assert(valid()); return V[i];
+    }
+    GC::IntVarArray var() const noexcept { assert(valid()); return V; }
+    OP::RT runtype() const noexcept { assert(valid()); return rt; }
+    GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
+    OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
+
+    size_t assignedvars() const noexcept {
+      assert(valid());
+      size_t assigned = 0;
+      for (signed_t var = 0; var < V.size(); ++var) {
+        if (V[var].size() == 1) ++assigned;
+      }
+      return assigned;
+    };
+    size_t sumdomsizes() const noexcept {
+      assert(valid());
+      size_t sum = 0;
+      for (signed_t var = 0; var < V.size(); ++var) sum += V[var].size();
+      return sum;
+    }
   };
 
   // Lookahead-version:
