@@ -222,8 +222,11 @@ namespace LookaheadReduction {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
 
-        values_t elimvals, values;
-        for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
+        const values_t values = [&view]
+          {values_t res;
+           for (IntVarValues j(view); j(); ++j) res.push_back(j.val());
+           return res;}();
+        values_t elimvals;
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
           const auto status = probe(m, var, val, pl, elimvals.empty());
