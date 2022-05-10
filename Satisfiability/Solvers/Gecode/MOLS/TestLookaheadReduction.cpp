@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "10.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -92,7 +92,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(3));
    assert(not m->valid(4));
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 8);
    // Post X[0] == 0:
    std::unique_ptr<LookaheadMols> ch =
@@ -101,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->valid());
    assert(ch->var().size() == m->var().size());
-   assert(ch->assignedvars() == 1);
+   assert(assignedvars(ch->var()) == 1);
    assert(ch->sumdomsizes() == 7);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(ch.get(), 0) == 0);
@@ -112,7 +112,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->valid());
    assert(ch2->var().size() == m->var().size());
-   assert(ch2->assignedvars() == 1);
+   assert(assignedvars(ch2->var()) == 1);
    assert(ch2->sumdomsizes() == 7);
    // Check X[0] == 1:
    assert(assigned_var_value<LookaheadMols>(ch2.get(), 0) == 1);
@@ -122,7 +122,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
    // Check that the original space has not been changed:
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 8);
    delete m;
    delete m0;
@@ -149,7 +149,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(3));
    assert(not m->valid(4));
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 8);
    // Post X[0] == 0:
    std::unique_ptr<LookaheadMols> ch =
@@ -158,7 +158,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->valid());
    assert(ch->var().size() == m->var().size());
-   assert(ch->assignedvars() == 4);
+   assert(assignedvars(ch->var()) == 4);
    assert(ch->sumdomsizes() == 4);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
@@ -169,7 +169,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->status() == Gecode::SS_SOLVED);
    assert(ch2->valid());
    assert(ch2->var().size() == m->var().size());
-   assert(ch2->assignedvars() == 4);
+   assert(assignedvars(ch2->var()) == 4);
    assert(ch2->sumdomsizes() == 4);
    // Check X[0] == 1:
    assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 1);
@@ -179,7 +179,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 1, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 1, 1, pl) == Gecode::SS_SOLVED);
    // Check that the original space has not been changed:
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 8);
    delete m;
    delete m0;
@@ -206,7 +206,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(8));
    assert(not m->valid(9));
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 27);
    // Post X[0] == 0:
    std::unique_ptr<LookaheadMols> ch =
@@ -215,7 +215,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->valid());
    assert(ch->var().size() == m->var().size());
-   assert(ch->assignedvars() == 1);
+   assert(assignedvars(ch->var()) == 1);
    assert(ch->sumdomsizes() == 25);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
@@ -226,7 +226,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->valid());
    assert(ch2->var().size() == m->var().size());
-   assert(ch2->assignedvars() == 0);
+   assert(assignedvars(ch2->var()) == 0);
    assert(ch2->sumdomsizes() == 26);
    // Check that X[0] has domain of size 2:
    assert(ch2->var()[0].size() == 2);
@@ -240,7 +240,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
-   assert(m->assignedvars() == 0);
+   assert(assignedvars(m->var()) == 0);
    assert(m->sumdomsizes() == 27);
    delete m;
    delete m0;
@@ -267,7 +267,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(8));
    assert(not m->valid(9));
-   assert(m->assignedvars() == 1);
+   assert(assignedvars(m->var()) == 1);
    assert(m->sumdomsizes() == 21);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(m,0) == 0);
@@ -278,7 +278,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->valid());
    assert(ch->var().size() == m->var().size());
-   assert(ch->assignedvars() == 1);
+   assert(assignedvars(ch->var()) == 1);
    assert(ch->sumdomsizes() == 21);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
@@ -289,7 +289,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->status() == Gecode::SS_FAILED);
    assert(ch2->valid());
    assert(ch2->var().size() == m->var().size());
-   assert(ch2->assignedvars() == 1);
+   assert(assignedvars(ch2->var()) == 1);
    assert(ch2->sumdomsizes() == 21);
    // Check X[0] == 0:
    assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 0);
@@ -303,7 +303,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_FAILED);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
-   assert(m->assignedvars() == 1);
+   assert(assignedvars(m->var()) == 1);
    assert(m->sumdomsizes() == 21);
    delete m;
    delete m0;
@@ -330,7 +330,7 @@ int main(const int argc, const char* const argv[]) {
    assert(m->valid(0));
    assert(m->valid(8));
    assert(not m->valid(9));
-   assert(m->assignedvars() == 1);
+   assert(assignedvars(m->var()) == 1);
    assert(m->sumdomsizes() == 21);
    // Check X[4] == 1:
    assert(assigned_var_value<LookaheadMols>(m,4) == 1);
@@ -341,7 +341,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->valid());
    assert(ch->var().size() == m->var().size());
-   assert(ch->assignedvars() == 9);
+   assert(assignedvars(ch->var()) == 9);
    assert(ch->sumdomsizes() == 9);
    // Check X[0] == 0, X[4] == 1:
    assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
@@ -353,7 +353,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->valid());
    assert(ch2->var().size() == m->var().size());
-   assert(ch2->assignedvars() == 1);
+   assert(assignedvars(ch2->var()) == 1);
    assert(ch2->sumdomsizes() == 20);
    // Check X[4] == 1:
    assert(assigned_var_value<LookaheadMols>(ch2.get(),4) == 1);
@@ -367,7 +367,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
-   assert(m->assignedvars() == 1);
+   assert(assignedvars(m->var()) == 1);
    assert(m->sumdomsizes() == 21);
    delete m;
    delete m0;

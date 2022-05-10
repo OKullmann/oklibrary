@@ -99,13 +99,6 @@ namespace Constraints {
     GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
 
-    size_t assignedvars() const noexcept {
-      assert(valid());
-      size_t assigned = 0;
-      for (int var = 0; var < V.size(); ++var)
-        if (V[var].size() == 1) ++assigned;
-      return assigned;
-    };
     size_t sumdomsizes() const noexcept {
       assert(valid());
       size_t sum = 0;
@@ -162,13 +155,6 @@ namespace Constraints {
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
     LB::vec_t weights() const noexcept { assert(valid()); return wghts; }
 
-    size_t assignedvars() const noexcept {
-      assert(valid());
-      size_t assigned = 0;
-      for (int var = 0; var < V.size(); ++var)
-        if (V[var].size() == 1) ++assigned;
-      return assigned;
-    };
     size_t sumdomsizes() const noexcept {
       assert(valid());
       size_t sum = 0;
@@ -176,6 +162,14 @@ namespace Constraints {
       return sum;
     }
   };
+
+
+  size_t assignedvars(const GC::IntVarArray& V) noexcept {
+    size_t assigned = 0;
+    for (int var = 0; var < V.size(); ++var)
+      if (V[var].size() == 1) ++assigned;
+    return assigned;
+  }
 
 }
 
