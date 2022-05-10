@@ -226,7 +226,7 @@ namespace LookaheadReduction {
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
           const auto status = probe(m, var, val, pl);
-          stat.increment_props();
+          stat.increment_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.increment_elimvals();
