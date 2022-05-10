@@ -123,7 +123,7 @@ namespace LookaheadReduction {
     size_t rounds_ = 0; // the number of rounds
     size_t prunsetsize_ = 0; // the final size of the pruning-set
     Timing::Time_point time_ = 0; // the total time for the reduction
-    size_t sols_ = 0; // the number of satisfying assignments found.
+    size_t sols_ = 0; // the number of satisfying assignments found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
   public:
@@ -134,17 +134,17 @@ namespace LookaheadReduction {
       for (signed_t var = 0; var < x.size(); ++var) vals_ += x[var].size();
       assert(vals_ > 0);
     }
-    void increment_props() noexcept { ++props_; }
-    void increment_elimvals() noexcept { ++elimvals_; }
-    void increment_pruns() noexcept { ++pruns_; ;}
-    void increment_probes() noexcept { ++probes_; }
-    void increment_rounds() noexcept { ++rounds_; }
+    void inc_props() noexcept { ++props_; }
+    void inc_elimvals() noexcept { ++elimvals_; }
+    void inc_pruns() noexcept { ++pruns_; ;}
+    void inc_probes() noexcept { ++probes_; }
+    void inc_rounds() noexcept { ++rounds_; }
     void update_prunsetsize(const size_t size) noexcept {
       prunsetsize_ = size;
     }
     void update_time(const float_t t) noexcept { time_ = t; }
-    void increment_sols() noexcept { ++sols_; }
-    void increment_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
+    void inc_sols() noexcept { ++sols_; }
+    void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     size_t pruns() const noexcept { return pruns_; }
@@ -204,7 +204,7 @@ namespace LookaheadReduction {
     bool repeat = false;
     do {
       repeat = false;
-      stat.increment_rounds();
+      stat.inc_rounds();
       const GC::IntVarArray x = m->var();
       for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
@@ -216,14 +216,14 @@ namespace LookaheadReduction {
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
           const auto status = probe(m, var, val, pl);
-          stat.increment_probes();
+          stat.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            stat.increment_elimvals();
+            stat.inc_elimvals();
             noteqvalues.push_back(val);
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
-              stat.increment_sols();
+              stat.inc_sols();
             }
           }
         }
@@ -232,13 +232,13 @@ namespace LookaheadReduction {
           for (auto& val : noteqvalues)
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           const auto status = home.status();
-          stat.increment_props();
+          stat.inc_props();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            stat.increment_leafcount();
+            stat.inc_leafcount();
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
-              stat.increment_sols();
+              stat.inc_sols();
             }
           }
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
