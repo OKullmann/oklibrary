@@ -59,12 +59,10 @@ namespace LookaheadBranching {
   using size_t = CD::size_t;
   using signed_t = CD::signed_t;
   typedef std::vector<int> values_t;
-  typedef std::vector<bool> binvalues_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
-  typedef LR::BranchingStatus BrStatus;
 
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
@@ -110,7 +108,6 @@ namespace LookaheadBranching {
     assert(not branchings.empty());
     CustomBranching best_br;
     for (auto& br : branchings) {
-      assert(br.status() == BrStatus::branching);
       br.calc_ltau();
       best_br = std::min(best_br, br);
     }
@@ -162,58 +159,31 @@ namespace LookaheadBranching {
     }*/
   };
 
-  // Binary branching: for a given variable var at most two branches of the
-  // kind var==val and var!=val.
+  // Binary branching: for a given variable var and its value val, two branches
+  // of the kind var==val and var!=val are formed.
   //  - var : variable.
   //  - value : variable value.
-  //  - binvalues : a Boolean array of branches: true means var==value, false
-  //    means var!=value. Possible arrays are: {}, {false}, {true},
-  //    {false, true}.
   //  - tuple : branching tuple, where each element corresponds to the
   //    branch-distance.
   //  - ltau :  value of the ltau function for the branching tuple.
   struct BinBranching {
     int var;
     int value;
-    binvalues_t binvalues;
     bt_t tuple;
     float_t ltau;
-    LR::BranchingStatus brstatus;
 
-    BinBranching(const int v=0, const int val=0,
-                const binvalues_t binvls={}, const bt_t tpl={})
-      : var(v), value(val), binvalues(binvls), tuple(tpl),
-        ltau(FP::pinfinity) {
-        assert(valid());
-        // If branching of width 0, the problem is UNSAT:
-        if (tuple.empty() and binvalues.empty()) {
-          brstatus = LR::BranchingStatus::unsat;
-        }
-        // If at least one child-node problem is satisfiable:
-        else if (tuple.size() != binvalues.size()) {
-          brstatus = LR::BranchingStatus::sat;
-        }
-        // If branching of width 1:
-        else if (tuple.size() == 1 and binvalues.size() == 1) {
-          brstatus = LR::BranchingStatus::single;
-        }
-        // Two branches, neither unsat or sat:
-        else brstatus = LR::BranchingStatus::branching;
-        assert(valid());
+    BinBranching(const int v=0, const int val=0, const bt_t tpl={})
+      : var(v), value(val), tuple(tpl), ltau(FP::pinfinity) {
+      assert(valid());
     }
 
    bool valid() const noexcept {
-      return var >= 0 and binvalues.size() <= 2 and ltau >= 0 and
-      (binvalues.empty() or binvalues.size() == 1 or
-       binvalues[0] != binvalues[1]) and
-      tuple.size() <= binvalues.size();
-    }
+     return var >= 0 and not tuple.empty() and ltau >= 0;
+   }
 
     bool operator <(const BinBranching& a) const noexcept {
       return ltau < a.ltau;
     }
-
-    LR::BranchingStatus status() const noexcept { return brstatus; }
 
     void calc_ltau() noexcept {
       assert(valid());
@@ -222,11 +192,7 @@ namespace LookaheadBranching {
       assert(valid());
     }
 
-    size_t branches_num() const noexcept {
-      assert(valid());
-      if (brstatus == LR::BranchingStatus::unsat) return 1;
-      else return binvalues.size();
-    }
+    size_t branches_num() const noexcept { assert(valid()); return 2; }
 
   };
 
@@ -363,8 +329,7 @@ namespace LookaheadBranching {
           assert(subm_neq_st == GC::SS_BRANCH);
           const float_t dist2 = distance(m->var(), subm_neq->var(), wghts, dpth);
           assert(dist2 > 0);
-          BinBranching br(var, val, {true,false}, {dist1,dist2});
-          assert(br.status() == BrStatus::branching);
+          BinBranching br(var, val, {dist1,dist2});
           tau_brs.push_back(br);
         }
       }
@@ -386,16 +351,12 @@ namespace LookaheadBranching {
       typedef BinBranchingChoice<BinLookahead> BrChoice;
       const BrChoice& brc = static_cast<const BrChoice&>(c);
       const BinBranching& br = brc.br;
-      if (br.status() == BrStatus::unsat) return GC::ES_FAILED;
-      const auto var = br.var;
+      const auto& var = br.var;
       const auto& val = br.value;
-      const auto& binvalues = br.binvalues;
       assert(var >= 0);
-      assert(binvalues.size() == 1 or binvalues.size() == 2);
       assert(branch == 0 or branch == 1);
-      assert(branch < binvalues.size());
-      if ( (binvalues[branch] == true and GC::me_failed(x[var].eq(home, val))) or
-           (binvalues[branch] == false and GC::me_failed(x[var].nq(home, val))) ) {
+      if ( (branch == 0 and GC::me_failed(x[var].eq(home, val))) or
+           (branch == 1 and GC::me_failed(x[var].nq(home, val))) ) {
         return GC::ES_FAILED;
       }
       return GC::ES_OK;

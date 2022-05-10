@@ -37,7 +37,8 @@ BUGS:
 
 TODOS:
 
-1. What is the point of BranchingStatus::single?
+1. DONE (The class BranchingStatus was deleted)
+   What is the point of BranchingStatus::single?
      - This shouldn't be needed.
      - The class BranchingStatus altogether seems superfluous; at least it
        is not used in this module, so it should be moved to
@@ -126,9 +127,6 @@ namespace LookaheadReduction {
   typedef GC::IntVarValues IntVarValues;
 
   typedef std::vector<int> values_t;
-
-  enum class BranchingStatus { unsat=0, sat=1, single=2, branching=3 };
-
 
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
