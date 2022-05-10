@@ -118,24 +118,13 @@ namespace LookaheadReduction {
     size_t vals_ = 0; // the total number of values
     size_t props_ = 0; // the propagation-counter
     size_t elimvals_ = 0; // the number of eliminated values
-    float_t quotelimvals_ = 0.0; // the quotient eliminated-values / all-values
     size_t pruns_ = 0; // the number of successful prunings
     size_t probes_ = 0; // the number of probings
-    float_t quotprun_ = 0.0; // the quotient prunings / probings
     size_t rounds_ = 0; // the number of rounds
     size_t prunsetsize_ = 0; // the final size of the pruning-set
     float_t time_ = 0.0; // the total time for the reduction
     size_t sols_ = 0; // the number of satisfying assignments found.
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
-
-    void update_quotelimvals() noexcept {
-      assert(vals_ > 0);
-      quotelimvals_ = float_t(elimvals_)/vals_;
-    }
-    void update_quotprun() noexcept {
-      assert(probes_ > 0);
-      quotprun_ = float_t(pruns_)/probes_;
-    }
 
   public:
 
@@ -146,9 +135,9 @@ namespace LookaheadReduction {
       assert(vals_ > 0);
     }
     void increment_props() noexcept { ++props_; }
-    void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
-    void increment_pruns() noexcept { ++pruns_; update_quotprun();}
-    void increment_probes() noexcept { ++probes_; update_quotprun();}
+    void increment_elimvals() noexcept { ++elimvals_; }
+    void increment_pruns() noexcept { ++pruns_; ;}
+    void increment_probes() noexcept { ++probes_; }
     void increment_rounds() noexcept { ++rounds_; }
     void update_prunsetsize(const size_t size) noexcept {
       prunsetsize_ = size;
@@ -158,15 +147,16 @@ namespace LookaheadReduction {
     void increment_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
-    float_t quotelimvals() const noexcept { return quotelimvals_;}
     size_t pruns() const noexcept { return pruns_; }
     size_t probes() const noexcept { return probes_; }
-    float_t quotprun() const noexcept { return quotprun_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t prunsetsize() const noexcept { return prunsetsize_; }
     float_t time() const noexcept { return time_; }
     size_t sols() const noexcept { return sols_; }
     size_t leafcount() const noexcept { return leafcount_; }
+
+    float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
+    float_t quotprun() const noexcept { return float_t(pruns_)/probes_; }
   };
 
 
