@@ -136,7 +136,7 @@ namespace LookaheadReduction {
     size_t elimvals_ = 0; // the number of eliminated values
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
-    size_t pruns_ = 0; // the number of successful prunings
+    size_t prunes_ = 0; // the number of successful prunings
     size_t solc_ = 0; // the number of solutions found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
@@ -155,14 +155,14 @@ namespace LookaheadReduction {
 
     void inc_props() noexcept { ++props_; }
     void inc_elimvals() noexcept { ++elimvals_; }
-    void inc_pruns() noexcept { ++pruns_; ;}
+    void inc_prunes() noexcept { ++prunes_; ;}
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
     void inc_solc() noexcept { ++solc_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
-    size_t pruns() const noexcept { return pruns_; }
+    size_t prunes() const noexcept { return prunes_; }
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t solc() const noexcept { return solc_; }
@@ -175,7 +175,7 @@ namespace LookaheadReduction {
     Timing::Time_point time() const noexcept { return time_; }
 
     float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
-    float_t quotprun() const noexcept {return float_t(pruns_)/probes_;}
+    float_t quotprun() const noexcept {return float_t(prunes_)/probes_;}
   };
 
 
@@ -198,16 +198,23 @@ namespace LookaheadReduction {
   template<class ModSpace>
   GC::SpaceStatus probe(ModSpace* const m,
                         const int v, const int val,
+                        const GC::IntPropLevel pl) noexcept {
+    assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
+    const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
+    return chnode->status();
+  }
+  template<class ModSpace>
+  GC::SpaceStatus probe(ModSpace* const m,
+                        const int v, const int val,
                         const GC::IntPropLevel pl,
-                        const bool update_pruning = true) noexcept {
+                        pruning_table_t& PT) noexcept {
     assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     const auto status = chnode->status();
-    if (status != GC::SS_BRANCH or not update_pruning) return status;
-    // find prunings
+    if (status != GC::SS_BRANCH) return status;
+    // update PT XXX
     return status;
   }
-
 
   // Lookahead-reduction:
   // Consider a variable var and its domain {val1, ..., valk}.
@@ -227,6 +234,7 @@ namespace LookaheadReduction {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     bool repeat = false;
+    pruning_table_t PT;
     do {
       repeat = false;
       stat.inc_rounds();
@@ -243,7 +251,9 @@ namespace LookaheadReduction {
         values_t elimvals;
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
-          const auto status = probe(m, var, val, pl, elimvals.empty());
+          if (PT.contains({var,val})) { stat.inc_prunes(); continue; }
+          const auto status = elimvals.empty() ?
+            probe(m, var, val, pl, PT) : probe(m, var, val, pl);
           stat.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
@@ -258,6 +268,7 @@ namespace LookaheadReduction {
         }
 
         if (not elimvals.empty()) {
+          PT.clear();
           for (auto& val : elimvals)
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           const auto status = home.status();
