@@ -40,8 +40,6 @@ namespace Constraints {
   namespace LB = LookaheadBranching;
 
   typedef EC::size_t size_t;
-  typedef std::int64_t signed_t;
-
 
   // Pure Gecode-version:
   struct GenericMols0 : GC::Space {
@@ -97,7 +95,7 @@ namespace Constraints {
     size_t assignedvars() const noexcept {
       assert(valid());
       size_t assigned = 0;
-      for (signed_t var = 0; var < V.size(); ++var) {
+      for (int var = 0; var < V.size(); ++var) {
         if (V[var].size() == 1) ++assigned;
       }
       return assigned;
@@ -105,7 +103,7 @@ namespace Constraints {
     size_t sumdomsizes() const noexcept {
       assert(valid());
       size_t sum = 0;
-      for (signed_t var = 0; var < V.size(); ++var) sum += V[var].size();
+      for (int var = 0; var < V.size(); ++var) sum += V[var].size();
       return sum;
     }
   };
@@ -156,15 +154,14 @@ namespace Constraints {
     size_t assignedvars() const noexcept {
       assert(valid());
       size_t assigned = 0;
-      for (signed_t var = 0; var < V.size(); ++var) {
+      for (int var = 0; var < V.size(); ++var)
         if (V[var].size() == 1) ++assigned;
-      }
       return assigned;
     };
     size_t sumdomsizes() const noexcept {
       assert(valid());
       size_t sum = 0;
-      for (signed_t var = 0; var < V.size(); ++var) sum += V[var].size();
+      for (int var = 0; var < V.size(); ++var) sum += V[var].size();
       return sum;
     }
   };
