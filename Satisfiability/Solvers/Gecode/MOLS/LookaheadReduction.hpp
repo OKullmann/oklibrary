@@ -88,6 +88,7 @@ TODOS:
 
 #include <vector>
 #include <memory>
+#include <queue>
 
 #include <cassert>
 
@@ -125,6 +126,7 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
+    typedef std::queue<GC::IntVarArray> sollist_t;
   private :
     size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
@@ -134,8 +136,10 @@ namespace LookaheadReduction {
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
     size_t pruns_ = 0; // the number of successful prunings
-    size_t solc_ = 0; // the number of satisfying assignments found
+    size_t solc_ = 0; // the number of solutions found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
+
+    sollist_t sollist_; // list of solutions found
 
   public:
 
@@ -162,6 +166,9 @@ namespace LookaheadReduction {
     size_t rounds() const noexcept { return rounds_; }
     size_t solc() const noexcept { return solc_; }
     size_t leafcount() const noexcept { return leafcount_; }
+
+    void sollist(const GC::IntVarArray& x) { sollist_.push(x); }
+    const sollist_t& sollist() const noexcept { return sollist_; }
 
     void time(const Timing::Time_point t) noexcept { time_ = t; }
     Timing::Time_point time() const noexcept { return time_; }
@@ -238,7 +245,7 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.inc_elimvals(); elimvals.push_back(val);
             if (status == GC::SS_SOLVED) {
-              // XXX URGENT: the solution needs to be added!
+              if (with_solutions(rt)) stat.sollist(m->var());
               stat.inc_solc();
             }
           }
