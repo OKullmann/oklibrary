@@ -236,8 +236,7 @@ namespace LookaheadReduction {
           stat.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            stat.inc_elimvals();
-            elimvals.push_back(val);
+            stat.inc_elimvals(); elimvals.push_back(val);
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
               stat.inc_sols();
@@ -257,6 +256,7 @@ namespace LookaheadReduction {
               // XXX URGENT: the solution needs to be added!
               stat.inc_sols();
             }
+            goto END;
           }
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
           else { assert(lar == OP::LAR::eager); repeat = true; }
@@ -269,9 +269,7 @@ namespace LookaheadReduction {
       }
     } while (repeat);
 
-    const Timing::Time_point t1 = timing();
-    stat.time(t1 - t0);
-
+    END: const Timing::Time_point t1 = timing(); stat.time(t1 - t0);
     return stat;
   }
 
