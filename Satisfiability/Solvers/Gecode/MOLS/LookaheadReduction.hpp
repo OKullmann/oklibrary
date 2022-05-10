@@ -277,7 +277,8 @@ namespace LookaheadReduction {
             if (status == GC::SS_SOLVED) {
               if (with_solutions(rt)) stat.sollist(m->var());
               stat.inc_solc();
-              if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving)
+              if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
+                  or (test_unique(rt) and stat.solc() >= 2))
                 goto END;
             }
           }
