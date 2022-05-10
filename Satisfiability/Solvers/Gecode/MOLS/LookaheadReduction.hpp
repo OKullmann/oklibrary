@@ -209,10 +209,15 @@ namespace LookaheadReduction {
                         const GC::IntPropLevel pl,
                         pruning_table_t& PT) noexcept {
     assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
+    const auto V0 = m->var();
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     const auto status = chnode->status();
     if (status != GC::SS_BRANCH) return status;
-    // update PT XXX
+    const auto V1 = chnode->var();
+    assert(V0.size() == V1.size());
+    for (int v = 0; v < V1.size(); ++v)
+      if (V1[v].size() == 1 and V0[v].size() > 1)
+        for (GC::IntVarValues i(V1[v]); i(); ++i) PT.insert({v, i.val()});
     return status;
   }
 
