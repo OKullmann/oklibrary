@@ -37,7 +37,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "10.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -126,6 +126,8 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 8);
+   delete m;
+   delete m0;
   }
 
   {// An empty Latin square or order 2:
@@ -181,6 +183,8 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 8);
+   delete m;
+   delete m0;
   }
 
   {// An empty square of order 3:
@@ -240,6 +244,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 27);
+   delete m;
+   delete m0;
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
@@ -301,6 +307,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(m->assignedvars() == 1);
    assert(m->sumdomsizes() == 21);
+   delete m;
+   delete m0;
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
@@ -363,6 +371,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
    assert(m->assignedvars() == 1);
    assert(m->sumdomsizes() == 21);
+   delete m;
+   delete m0;
   }
 
 }
