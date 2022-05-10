@@ -134,7 +134,7 @@ namespace LookaheadReduction {
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
     size_t pruns_ = 0; // the number of successful prunings
-    size_t sols_ = 0; // the number of satisfying assignments found
+    size_t solc_ = 0; // the number of satisfying assignments found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
   public:
@@ -153,14 +153,14 @@ namespace LookaheadReduction {
     void inc_pruns() noexcept { ++pruns_; ;}
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
-    void inc_sols() noexcept { ++sols_; }
+    void inc_solc() noexcept { ++solc_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     size_t pruns() const noexcept { return pruns_; }
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
-    size_t sols() const noexcept { return sols_; }
+    size_t solc() const noexcept { return solc_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
     void time(const Timing::Time_point t) noexcept { time_ = t; }
@@ -239,7 +239,7 @@ namespace LookaheadReduction {
             stat.inc_elimvals(); elimvals.push_back(val);
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
-              stat.inc_sols();
+              stat.inc_solc();
             }
           }
         }
@@ -254,7 +254,7 @@ namespace LookaheadReduction {
             stat.inc_leafcount();
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
-              stat.inc_sols();
+              stat.inc_solc();
             }
             goto END;
           }
@@ -263,7 +263,7 @@ namespace LookaheadReduction {
         }
 
         if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
-          assert(stat.sols() > 0); // XXX BUG this assert makes no sense XXX
+          assert(stat.solc() > 0); // XXX BUG this assert makes no sense XXX
           return stat;
         }
       }
