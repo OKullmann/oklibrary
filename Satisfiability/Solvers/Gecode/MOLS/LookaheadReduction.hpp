@@ -209,35 +209,24 @@ namespace LookaheadReduction {
     do {
       repeat = false;
       stat.increment_rounds();
-      // Get current array of variables:
       const GC::IntVarArray x = m->var();
-      // Iterate over all unassigned variables:
       for (signed_t var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
-        // All such val that var!=val:</font>
-        values_t noteqvalues;
 
-        // Collect all values of the variable to a vector:
-        std::vector<signed_t> values;
+        values_t noteqvalues, values;
         for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
-        // Iterate over all values of the current variable:
         for (auto const& val : values) {
           assert(m->status() == GC::SS_BRANCH);
-          // Probe var==val:
           const auto status = probe(m, var, val, pl);
           stat.increment_props();
-          // If either a SAT leaf or an UNSAT leaf is found:
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            // In either case the branch must be excluded,
-            // so Gecode will not be aware of UNSAT or SAT leaves.
             stat.increment_elimvals();
             noteqvalues.push_back(val);
-            // SAT leaf:
             if (status == GC::SS_SOLVED) {
-              // Add a solution to the statistics:
+              // XXX URGENT: the solution needs to be added!
               stat.increment_sols();
             }
           }
