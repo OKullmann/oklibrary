@@ -206,10 +206,10 @@ namespace LookaheadReduction {
     ReductionStatistics stat;
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
-    bool repeat = false;
     stat.update_allvalues(m->var());
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
+    bool repeat = false;
     do {
       repeat = false;
       stat.increment_rounds();
@@ -221,7 +221,7 @@ namespace LookaheadReduction {
 
         values_t noteqvalues, values;
         for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
-        for (auto const& val : values) {
+        for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
           const auto status = probe(m, var, val, pl);
           stat.increment_props();
@@ -250,7 +250,7 @@ namespace LookaheadReduction {
             }
           }
           if (lar == OP::LAR::supeager) { assert(not repeat); break; }
-          else if (lar == OP::LAR::eager) repeat = true;
+          else { assert(lar == OP::LAR::eager); repeat = true; }
         }
 
         if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
