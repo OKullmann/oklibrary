@@ -63,12 +63,23 @@ TODOS:
 3. Collect satisfying assignments, if needed.
     - Use a queue.
 
-4. Pruning.
-     - type PLit ("positive literal"), a pair (var,val), meaning "var=val".
-     - Maintain std::set<PLit>, where in case (c) one enters the literals
-       "v'=eps'" (and the check for pruning is just the check whether the set
-       contains the literal v=eps), while in case of propagation the set is
-       just cleared.
+4. Pruning:
+     - Type PLit ("positive literal"), a pair (var,val), meaning "var=val",
+       should be basic here.
+     - Maintain std::set<PLit>, where in case of probing without decision
+       one enters the literals "v'=eps'" (and the check for pruning is just
+       the check whether the set contains the literal v=eps), while in case of
+       propagation the set is just cleared.
+     - So the function probe(m,v,val,pl) needs to determine the positive
+       literals v=eps derived by the probing.
+     - probe should store the current variable-restriction on entry, and
+       compare that with the variable-restriction in case chnode->status()
+       did not yield a decision.
+     - How to return the set of positive literals? Perhaps best providing
+       the set of positive literals as reference-parameter.
+     - After one branch found a restriction, for this variable there is no
+       point in updating further the pruning-set; this is handled by
+       "update_pruning".
 
 */
 
@@ -175,10 +186,11 @@ namespace LookaheadReduction {
 
   template<class ModSpace>
   GC::SpaceStatus probe(ModSpace* const m,
-                        const signed_t var, const signed_t val,
-                        const GC::IntPropLevel pl) noexcept {
-    assert(m->valid() and m->valid(var)); assert(m->status() == GC::SS_BRANCH);
-    const auto chnode = child_node<ModSpace>(m, var, val, pl, true);
+                        const signed_t v, const signed_t val,
+                        const GC::IntPropLevel pl,
+                        const bool update_pruning = true) noexcept {
+    assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
+    const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     return chnode->status();
   }
 
@@ -210,16 +222,16 @@ namespace LookaheadReduction {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
 
-        values_t noteqvalues, values;
+        values_t elimvals, values;
         for (IntVarValues j(view); j(); ++j) values.push_back(j.val());
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
-          const auto status = probe(m, var, val, pl);
+          const auto status = probe(m, var, val, pl, elimvals.empty());
           stat.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.inc_elimvals();
-            noteqvalues.push_back(val);
+            elimvals.push_back(val);
             if (status == GC::SS_SOLVED) {
               // XXX URGENT: the solution needs to be added!
               stat.inc_sols();
@@ -227,8 +239,8 @@ namespace LookaheadReduction {
           }
         }
 
-        if (not noteqvalues.empty()) {
-          for (auto& val : noteqvalues)
+        if (not elimvals.empty()) {
+          for (auto& val : elimvals)
             GC::rel(home, x[var], GC::IRT_NQ, val, pl);
           const auto status = home.status();
           stat.inc_props();
