@@ -260,7 +260,7 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.inc_leafcount();
             if (status == GC::SS_SOLVED) {
-              // XXX URGENT: the solution needs to be added!
+              if (with_solutions(rt)) stat.sollist(m->var());
               stat.inc_solc();
             }
             goto END;
