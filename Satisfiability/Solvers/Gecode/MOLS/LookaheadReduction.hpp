@@ -116,13 +116,14 @@ namespace LookaheadReduction {
   struct ReductionStatistics {
   private :
     size_t vals_; // the total number of values
+    Timing::Time_point time_; // the total time for the reduction
+
     size_t props_ = 0; // the propagation-counter
     size_t elimvals_ = 0; // the number of eliminated values
     size_t pruns_ = 0; // the number of successful prunings
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
     size_t prunsetsize_ = 0; // the final size of the pruning-set
-    Timing::Time_point time_ = 0; // the total time for the reduction
     size_t sols_ = 0; // the number of satisfying assignments found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
@@ -145,7 +146,6 @@ namespace LookaheadReduction {
     void update_prunsetsize(const size_t size) noexcept {
       prunsetsize_ = size;
     }
-    void update_time(const float_t t) noexcept { time_ = t; }
     void inc_sols() noexcept { ++sols_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
@@ -154,12 +154,14 @@ namespace LookaheadReduction {
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t prunsetsize() const noexcept { return prunsetsize_; }
-    Timing::Time_point time() const noexcept { return time_; }
     size_t sols() const noexcept { return sols_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
+    void time(const Timing::Time_point t) noexcept { time_ = t; }
+    Timing::Time_point time() const noexcept { return time_; }
+
     float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
-    float_t quotprun() const noexcept { return float_t(pruns_)/probes_; }
+    float_t quotprun() const noexcept {return float_t(pruns_)/probes_;}
   };
 
 
@@ -255,7 +257,7 @@ namespace LookaheadReduction {
     } while (repeat);
 
     const Timing::Time_point t1 = timing();
-    stat.update_time(t1 - t0);
+    stat.time(t1 - t0);
 
     return stat;
   }
