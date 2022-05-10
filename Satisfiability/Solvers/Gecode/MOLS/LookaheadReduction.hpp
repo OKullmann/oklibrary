@@ -115,8 +115,8 @@ namespace LookaheadReduction {
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
   private :
+    size_t vals_ = 0; // the total number of values
     size_t props_ = 0; // the propagation-counter
-    size_t vals_ = 0; // the number of all-values
     size_t elimvals_ = 0; // the number of eliminated values
     float_t quotelimvals_ = 0.0; // the quotient eliminated-values / all-values
     size_t pruns_ = 0; // the number of successful prunings
@@ -139,13 +139,13 @@ namespace LookaheadReduction {
 
   public:
 
-    void increment_props() noexcept { ++props_; }
-    void update_allvalues(const GC::IntVarArray& x) noexcept {
+    void set_values(const GC::IntVarArray& x) noexcept {
       assert(x.size() > 0);
       vals_ = 0;
       for (signed_t var = 0; var < x.size(); ++var) vals_ += x[var].size();
       assert(vals_ > 0);
     }
+    void increment_props() noexcept { ++props_; }
     void increment_elimvals() noexcept { ++elimvals_; update_quotelimvals(); }
     void increment_pruns() noexcept { ++pruns_; update_quotprun();}
     void increment_probes() noexcept { ++probes_; update_quotprun();}
@@ -208,7 +208,7 @@ namespace LookaheadReduction {
     ReductionStatistics stat;
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
-    stat.update_allvalues(m->var());
+    stat.set_values(m->var());
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     bool repeat = false;
