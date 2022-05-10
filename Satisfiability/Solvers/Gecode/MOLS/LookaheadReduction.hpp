@@ -200,7 +200,7 @@ namespace LookaheadReduction {
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
     ReductionStatistics stat;
-    ModSpace* m = &(static_cast<ModSpace&>(home));
+    ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     bool repeat = false;
     stat.update_allvalues(m->var());
