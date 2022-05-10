@@ -41,6 +41,7 @@ namespace Constraints {
 
   typedef EC::size_t size_t;
 
+
   // Pure Gecode-version:
   struct GenericMols0 : GC::Space {
     typedef GC::IntVarArray VarVec;
@@ -56,6 +57,7 @@ namespace Constraints {
     // Pure virtual function inherited from GC::Space:
     GC::Space* copy() { return new GenericMols0(*this); }
   };
+
 
   // Lookahead-reduction version:
   class LookaheadReductionMols : public GC::Space {
@@ -107,6 +109,7 @@ namespace Constraints {
       return sum;
     }
   };
+
 
   // Lookahead-version:
   class LookaheadMols : public LB::Node {
