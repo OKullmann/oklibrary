@@ -116,7 +116,6 @@ namespace LookaheadReduction {
   namespace CD = Conditions;
 
   using size_t = CD::size_t;
-  using signed_t = CD::signed_t;
   typedef FP::float80 float_t;
 
   // Array of values of an integer variable:
@@ -156,7 +155,7 @@ namespace LookaheadReduction {
     static size_t count_values(const GC::IntVarArray& x) noexcept {
       assert(x.size() > 0);
       size_t sum = 0;
-      for (signed_t v = 0; v < x.size(); ++v) sum += x[v].size();
+      for (int v = 0; v < x.size(); ++v) sum += x[v].size();
       assert(sum > 0); return sum;
     }
 
