@@ -37,8 +37,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "6.5.2022",
+        "0.1.3",
+        "10.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -80,12 +80,16 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
+   LookaheadReductionMols* const m0 =
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m0->valid());
+   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->valid());
    assert(m->var().size() == 4);
    assert(m->valid(0));
    assert(m->valid(3));
@@ -122,6 +126,8 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 8);
+   delete m;
+   delete m0;
   }
 
   {// An empty Latin square or order 2:
@@ -131,12 +137,16 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
+   LookaheadReductionMols* const m0 =
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m0->valid());
+   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->valid());
    assert(m->var().size() == 4);
    assert(m->valid(0));
    assert(m->valid(3));
@@ -173,6 +183,8 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 8);
+   delete m;
+   delete m0;
   }
 
   {// An empty square of order 3:
@@ -182,12 +194,16 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
+   LookaheadReductionMols* const m0 =
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m0->valid());
+   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->valid());
    assert(m->var().size() == 9);
    assert(m->valid(0));
    assert(m->valid(8));
@@ -228,6 +244,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(m->assignedvars() == 0);
    assert(m->sumdomsizes() == 27);
+   delete m;
+   delete m0;
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
@@ -237,12 +255,16 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
+   LookaheadReductionMols* const m0 =
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m0->valid());
+   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->valid());
    assert(m->var().size() == 9);
    assert(m->valid(0));
    assert(m->valid(8));
@@ -285,6 +307,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(m->assignedvars() == 1);
    assert(m->sumdomsizes() == 21);
+   delete m;
+   delete m0;
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
@@ -294,12 +318,16 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
+   LookaheadReductionMols* const m0 =
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   assert(m0->valid());
+   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->valid());
    assert(m->var().size() == 9);
    assert(m->valid(0));
    assert(m->valid(8));
@@ -343,6 +371,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
    assert(m->assignedvars() == 1);
    assert(m->sumdomsizes() == 21);
+   delete m;
+   delete m0;
   }
 
 }
