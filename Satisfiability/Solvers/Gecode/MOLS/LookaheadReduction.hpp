@@ -112,6 +112,7 @@ namespace LookaheadReduction {
 
   enum class BranchingStatus { unsat=0, sat=1, single=2, branching=3 };
 
+
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
   private :
@@ -166,6 +167,7 @@ namespace LookaheadReduction {
     size_t leafcount() const noexcept { return leafcount_; }
   };
 
+
   // Make a copy of a given problem and assign either var==val or var!=val:
   template<class ModSpace>
   std::unique_ptr<ModSpace> child_node(ModSpace* const m,
@@ -188,12 +190,14 @@ namespace LookaheadReduction {
     return chnode->status();
   }
 
-  // Lookahead-reduction.
+
+  // Lookahead-reduction:
   // Consider a variable var and its domain {val1, ..., valk}.
-  // For all i, if var==vali is inconsistent, then these constraints
-  // (var==vali) are collected and then (after the loop for all i) the
-  // corresponding constraints are applied and a Gecode propagation is
-  // performed. In such a way, all impossible values of a variable are removed.
+  // For all i, the constraints (var!=vali), where var==vali leads to a
+  // decision (via propagation), are collected. After the loop over all i,
+  // these constraints are applied and the Gecode propagation is
+  // performed. So all immediate decisions of all variable are
+  // removed.
   template<class ModSpace>
   ReductionStatistics lareduction(GC::Space& home,
                         const OP::RT rt,
