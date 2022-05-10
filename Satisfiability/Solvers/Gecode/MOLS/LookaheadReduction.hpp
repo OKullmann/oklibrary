@@ -254,7 +254,8 @@ namespace LookaheadReduction {
         }
 
         if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving) {
-          assert(stat.sols() > 0); return stat;
+          assert(stat.sols() > 0); // XXX BUG this assert makes no sense XXX
+          return stat;
         }
       }
     } while (repeat);
