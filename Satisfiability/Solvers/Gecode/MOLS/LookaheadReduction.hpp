@@ -120,10 +120,9 @@ namespace LookaheadReduction {
 
     size_t props_ = 0; // the propagation-counter
     size_t elimvals_ = 0; // the number of eliminated values
-    size_t pruns_ = 0; // the number of successful prunings
     size_t probes_ = 0; // the number of probings
     size_t rounds_ = 0; // the number of rounds
-    size_t prunsetsize_ = 0; // the final size of the pruning-set
+    size_t pruns_ = 0; // the number of successful prunings
     size_t sols_ = 0; // the number of satisfying assignments found
     size_t leafcount_ = 0; // the number of leafs as a result of reduction (0 or 1)
 
@@ -143,9 +142,6 @@ namespace LookaheadReduction {
     void inc_pruns() noexcept { ++pruns_; ;}
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
-    void update_prunsetsize(const size_t size) noexcept {
-      prunsetsize_ = size;
-    }
     void inc_sols() noexcept { ++sols_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
     size_t props() const noexcept { return props_; }
@@ -153,7 +149,6 @@ namespace LookaheadReduction {
     size_t pruns() const noexcept { return pruns_; }
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
-    size_t prunsetsize() const noexcept { return prunsetsize_; }
     size_t sols() const noexcept { return sols_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
