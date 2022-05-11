@@ -48,7 +48,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.8",
+        "0.1.9",
         "11.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -129,47 +129,38 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0});
-   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m->valid());
+   GenericMols0* const m = new GenericMols0(enc);
+   GC::branch(*m, m->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->var().size() == 4);
-   assert(m->valid(0));
-   assert(m->valid(3));
-   assert(not m->valid(4));
-   assert(assignedvars(m->var()) == 0);
-   assert(sumdomsizes(m->var()) == 8);
+   assert(m->V.size() == 4);
+   assert(assignedvars(m->V) == 0);
+   assert(sumdomsizes(m->V) == 8);
    // Post X[0] == 0:
-   std::unique_ptr<LookaheadMols> ch =
-     child_node<LookaheadMols>(m, 0, 0, pl, true);
-   assert(ch->valid());
+   std::unique_ptr<GenericMols0> ch =
+     child_node<GenericMols0>(m, 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
-   assert(ch->valid());
-   assert(ch->var().size() == m->var().size());
-   assert(assignedvars(ch->var()) == 4);
-   assert(sumdomsizes(ch->var()) == 4);
+   assert(ch->V.size() == m->V.size());
+   assert(assignedvars(ch->V) == 4);
+   assert(sumdomsizes(ch->V) == 4);
    // Check X[0] == 0:
-   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
+   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
    // Post X[0] != 0, so X[0] == 1:
-   std::unique_ptr<LookaheadMols> ch2 =
-     child_node<LookaheadMols>(m, 0, 0, pl, false);
-   assert(ch2->valid());
+   std::unique_ptr<GenericMols0> ch2 =
+     child_node<GenericMols0>(m, 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_SOLVED);
-   assert(ch2->valid());
-   assert(ch2->var().size() == m->var().size());
-   assert(assignedvars(ch2->var()) == 4);
-   assert(sumdomsizes(ch2->var()) == 4);
+   assert(ch2->V.size() == m->V.size());
+   assert(assignedvars(ch2->V) == 4);
+   assert(sumdomsizes(ch2->V) == 4);
    // Check X[0] == 1:
-   assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 1);
+   assert(assigned_var_value<GenericMols0>(ch2.get(),0) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 0, 1, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 1, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 1, 1, pl) == Gecode::SS_SOLVED);
    // Check that the original space has not been changed:
-   assert(assignedvars(m->var()) == 0);
-   assert(sumdomsizes(m->var()) == 8);
+   assert(assignedvars(m->V) == 0);
+   assert(sumdomsizes(m->V) == 8);
    delete m;
   }
 
@@ -180,39 +171,30 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
-   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m->valid());
+   GenericMols0* const m = new GenericMols0(enc);
+   GC::branch(*m, m->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->var().size() == 9);
-   assert(m->valid(0));
-   assert(m->valid(8));
-   assert(not m->valid(9));
-   assert(assignedvars(m->var()) == 0);
-   assert(sumdomsizes(m->var()) == 27);
+   assert(m->V.size() == 9);
+   assert(assignedvars(m->V) == 0);
+   assert(sumdomsizes(m->V) == 27);
    // Post X[0] == 0:
-   std::unique_ptr<LookaheadMols> ch =
-     child_node<LookaheadMols>(m, 0, 0, pl, true);
-   assert(ch->valid());
+   std::unique_ptr<GenericMols0> ch =
+     child_node<GenericMols0>(m, 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
-   assert(ch->valid());
-   assert(ch->var().size() == m->var().size());
-   assert(assignedvars(ch->var()) == 1);
-   assert(sumdomsizes(ch->var()) == 25);
+   assert(ch->V.size() == m->V.size());
+   assert(assignedvars(ch->V) == 1);
+   assert(sumdomsizes(ch->V) == 25);
    // Check X[0] == 0:
-   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
+   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
    // Post X[0] != 0:
-   std::unique_ptr<LookaheadMols> ch2 =
-     child_node<LookaheadMols>(m, 0, 0, pl, false);
-   assert(ch2->valid());
+   std::unique_ptr<GenericMols0> ch2 =
+     child_node<GenericMols0>(m, 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
-   assert(ch2->valid());
-   assert(ch2->var().size() == m->var().size());
-   assert(assignedvars(ch2->var()) == 0);
-   assert(sumdomsizes(ch2->var()) == 26);
+   assert(ch2->V.size() == m->V.size());
+   assert(assignedvars(ch2->V) == 0);
+   assert(sumdomsizes(ch2->V) == 26);
    // Check that X[0] has domain of size 2:
-   assert(ch2->var()[0].size() == 2);
+   assert(ch2->V[0].size() == 2);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
@@ -223,8 +205,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
-   assert(assignedvars(m->var()) == 0);
-   assert(sumdomsizes(m->var()) == 27);
+   assert(assignedvars(m->V) == 0);
+   assert(sumdomsizes(m->V) == 27);
    delete m;
   }
 
@@ -235,41 +217,32 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
-   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m->valid());
+   GenericMols0* const m = new GenericMols0(enc);
+   GC::branch(*m, m->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->var().size() == 9);
-   assert(m->valid(0));
-   assert(m->valid(8));
-   assert(not m->valid(9));
-   assert(assignedvars(m->var()) == 1);
-   assert(sumdomsizes(m->var()) == 21);
+   assert(m->V.size() == 9);
+   assert(assignedvars(m->V) == 1);
+   assert(sumdomsizes(m->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<LookaheadMols>(m,0) == 0);
+   assert(assigned_var_value<GenericMols0>(m,0) == 0);
    // Post X[0] == 0:
-   std::unique_ptr<LookaheadMols> ch =
-     child_node<LookaheadMols>(m, 0, 0, pl, true);
-   assert(ch->valid());
+   std::unique_ptr<GenericMols0> ch =
+     child_node<GenericMols0>(m, 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
-   assert(ch->valid());
-   assert(ch->var().size() == m->var().size());
-   assert(assignedvars(ch->var()) == 1);
-   assert(sumdomsizes(ch->var()) == 21);
+   assert(ch->V.size() == m->V.size());
+   assert(assignedvars(ch->V) == 1);
+   assert(sumdomsizes(ch->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
+   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
    // Post X[0] != 0:
-   std::unique_ptr<LookaheadMols> ch2 =
-     child_node<LookaheadMols>(m, 0, 0, pl, false);
-   assert(ch2->valid());
+   std::unique_ptr<GenericMols0> ch2 =
+     child_node<GenericMols0>(m, 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_FAILED);
-   assert(ch2->valid());
-   assert(ch2->var().size() == m->var().size());
-   assert(assignedvars(ch2->var()) == 1);
-   assert(sumdomsizes(ch2->var()) == 21);
+   assert(ch2->V.size() == m->V.size());
+   assert(assignedvars(ch2->V) == 1);
+   assert(sumdomsizes(ch2->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<LookaheadMols>(ch2.get(),0) == 0);
+   assert(assigned_var_value<GenericMols0>(ch2.get(),0) == 0);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 0, 1, pl) == Gecode::SS_FAILED);
@@ -280,8 +253,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_FAILED);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
-   assert(assignedvars(m->var()) == 1);
-   assert(sumdomsizes(m->var()) == 21);
+   assert(assignedvars(m->V) == 1);
+   assert(sumdomsizes(m->V) == 21);
    delete m;
   }
 
@@ -292,43 +265,34 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
-   GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   GenericMols0* const m = new GenericMols0(enc);
+   GC::branch(*m, m->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    // XXX what is GC::branch doing? it seems inconsistent with GBO::asc ?
-   assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
-   assert(m->var().size() == 9);
-   assert(m->valid(0));
-   assert(m->valid(8));
-   assert(not m->valid(9));
-   assert(assignedvars(m->var()) == 1);
-   assert(sumdomsizes(m->var()) == 21);
+   assert(m->V.size() == 9);
+   assert(assignedvars(m->V) == 1);
+   assert(sumdomsizes(m->V) == 21);
    // Check X[4] == 1:
-   assert(assigned_var_value<LookaheadMols>(m,4) == 1);
+   assert(assigned_var_value<GenericMols0>(m,4) == 1);
    // Post X[0] == 0:
-   std::unique_ptr<LookaheadMols> ch =
-     child_node<LookaheadMols>(m, 0, 0, pl, true);
-   assert(ch->valid());
+   std::unique_ptr<GenericMols0> ch =
+     child_node<GenericMols0>(m, 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
-   assert(ch->valid());
-   assert(ch->var().size() == m->var().size());
-   assert(assignedvars(ch->var()) == 9);
-   assert(sumdomsizes(ch->var()) == 9);
+   assert(ch->V.size() == m->V.size());
+   assert(assignedvars(ch->V) == 9);
+   assert(sumdomsizes(ch->V) == 9);
    // Check X[0] == 0, X[4] == 1:
-   assert(assigned_var_value<LookaheadMols>(ch.get(),0) == 0);
-   assert(assigned_var_value<LookaheadMols>(ch.get(),4) == 1);
+   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
+   assert(assigned_var_value<GenericMols0>(ch.get(),4) == 1);
    // Post X[0] != 0:
-   std::unique_ptr<LookaheadMols> ch2 =
-     child_node<LookaheadMols>(m, 0, 0, pl, false);
-   assert(ch2->valid());
+   std::unique_ptr<GenericMols0> ch2 =
+     child_node<GenericMols0>(m, 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
-   assert(ch2->valid());
-   assert(ch2->var().size() == m->var().size());
-   assert(assignedvars(ch2->var()) == 1);
-   assert(sumdomsizes(ch2->var()) == 20);
+   assert(ch2->V.size() == m->V.size());
+   assert(assignedvars(ch2->V) == 1);
+   assert(sumdomsizes(ch2->V) == 20);
    // Check X[4] == 1:
-   assert(assigned_var_value<LookaheadMols>(ch2.get(),4) == 1);
+   assert(assigned_var_value<GenericMols0>(ch2.get(),4) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
@@ -339,8 +303,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
-   assert(assignedvars(m->var()) == 1);
-   assert(sumdomsizes(m->var()) == 21);
+   assert(assignedvars(m->V) == 1);
+   assert(sumdomsizes(m->V) == 21);
    delete m;
   }
 
