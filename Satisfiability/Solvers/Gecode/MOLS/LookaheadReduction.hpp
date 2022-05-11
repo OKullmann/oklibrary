@@ -194,10 +194,12 @@ namespace LookaheadReduction {
                                        const int v, const int val,
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
-    assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
+    assert(m->V.size() > 0 and v < m->V.size());
+    assert(m->status() == GC::SS_BRANCH);
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
-    assert(c->valid() and c->valid(v)); assert(c->status() == GC::SS_BRANCH);
-    GC::rel(*c.get(), c.get()->var(v), eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
+    assert(c->V.size() > 0 and v < c->V.size());
+    assert(c->status() == GC::SS_BRANCH);
+    GC::rel(*c.get(), c.get()->V[v], eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
     return c;
   }
 
