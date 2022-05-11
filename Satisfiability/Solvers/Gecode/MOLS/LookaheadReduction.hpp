@@ -187,10 +187,8 @@ namespace LookaheadReduction {
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    assert(m->status() == GC::SS_BRANCH);
     std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
     assert(c->V.size() > 0 and v < c->V.size());
-    assert(c->status() == GC::SS_BRANCH);
     GC::rel(*c.get(), c.get()->V[v], eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
     return c;
   }
@@ -203,7 +201,6 @@ namespace LookaheadReduction {
                         const int v, const int val,
                         const GC::IntPropLevel pl) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    assert(m->status() == GC::SS_BRANCH);
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     return chnode->status();
   }
@@ -213,7 +210,6 @@ namespace LookaheadReduction {
                         const GC::IntPropLevel pl,
                         pruning_table_t& PT) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    assert(m->status() == GC::SS_BRANCH);
     const auto V0 = m->V;
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     const auto status = chnode->status();
@@ -238,7 +234,6 @@ namespace LookaheadReduction {
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
-    assert(m->status() == GC::SS_BRANCH);
     ReductionStatistics stat(m->V);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
@@ -259,7 +254,6 @@ namespace LookaheadReduction {
            return res;}();
         values_t elimvals;
         for (const auto val : values) {
-          assert(m->status() == GC::SS_BRANCH);
           if (pruning(lar) and PT.contains({var,val})) {
             stat.inc_prunes(); continue;
           }
