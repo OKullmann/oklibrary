@@ -37,6 +37,14 @@ namespace GcVariables {
     return sum;
   }
 
+  int assignedval(const GC::IntVarArray& V, const int var) noexcept {
+    assert(V.size() > 0 and var < V.size());
+    GC::Int::IntView view = V[var];
+    assert(view.assigned());
+    GC::IntVarValues j(view);
+    return j.val();
+  }
+
   [[deprecated]] bool valid(const GC::IntVarArray& x) noexcept {
     return x.size() > 0;
   }

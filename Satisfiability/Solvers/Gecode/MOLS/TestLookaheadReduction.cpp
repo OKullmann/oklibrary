@@ -50,7 +50,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.9",
+        "0.1.10",
         "11.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -68,15 +68,6 @@ namespace {
 
   namespace GC = Gecode;
 
-  template<class ModSpace>
-  int assigned_var_value(ModSpace* const m,
-                         const int var) noexcept {
-    assert(m->V.size() > 0 and var < m->V.size());
-    GC::Int::IntView view = m->V[var];
-    assert(view.assigned());
-    GC::IntVarValues j(view);
-    return j.val();
-  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -104,7 +95,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 7);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(ch.get(), 0) == 0);
+   assert(assignedval(ch->V, 0) == 0);
    // Post X[0] != 0, so X[0] == 1:
    std::unique_ptr<GenericMols0> ch2 =
      child_node<GenericMols0>(m, 0, 0, pl, false);
@@ -113,7 +104,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 7);
    // Check X[0] == 1:
-   assert(assigned_var_value<GenericMols0>(ch2.get(), 0) == 1);
+   assert(assignedval(ch2->V, 0) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
@@ -146,7 +137,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch->V) == 4);
    assert(sumdomsizes(ch->V) == 4);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
+   assert(assignedval(ch->V,0) == 0);
    // Post X[0] != 0, so X[0] == 1:
    std::unique_ptr<GenericMols0> ch2 =
      child_node<GenericMols0>(m, 0, 0, pl, false);
@@ -155,7 +146,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 4);
    assert(sumdomsizes(ch2->V) == 4);
    // Check X[0] == 1:
-   assert(assigned_var_value<GenericMols0>(ch2.get(),0) == 1);
+   assert(assignedval(ch2->V,0) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 0, 1, pl) == Gecode::SS_SOLVED);
@@ -188,7 +179,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 25);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
+   assert(assignedval(ch->V,0) == 0);
    // Post X[0] != 0:
    std::unique_ptr<GenericMols0> ch2 =
      child_node<GenericMols0>(m, 0, 0, pl, false);
@@ -227,7 +218,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(m,0) == 0);
+   assert(assignedval(m->V,0) == 0);
    // Post X[0] == 0:
    std::unique_ptr<GenericMols0> ch =
      child_node<GenericMols0>(m, 0, 0, pl, true);
@@ -236,7 +227,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
+   assert(assignedval(ch->V,0) == 0);
    // Post X[0] != 0:
    std::unique_ptr<GenericMols0> ch2 =
      child_node<GenericMols0>(m, 0, 0, pl, false);
@@ -245,7 +236,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 21);
    // Check X[0] == 0:
-   assert(assigned_var_value<GenericMols0>(ch2.get(),0) == 0);
+   assert(assignedval(ch2->V,0) == 0);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
    assert(probe(m, 0, 1, pl) == Gecode::SS_FAILED);
@@ -276,7 +267,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    // Check X[4] == 1:
-   assert(assigned_var_value<GenericMols0>(m,4) == 1);
+   assert(assignedval(m->V,4) == 1);
    // Post X[0] == 0:
    std::unique_ptr<GenericMols0> ch =
      child_node<GenericMols0>(m, 0, 0, pl, true);
@@ -285,8 +276,8 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch->V) == 9);
    assert(sumdomsizes(ch->V) == 9);
    // Check X[0] == 0, X[4] == 1:
-   assert(assigned_var_value<GenericMols0>(ch.get(),0) == 0);
-   assert(assigned_var_value<GenericMols0>(ch.get(),4) == 1);
+   assert(assignedval(ch->V,0) == 0);
+   assert(assignedval(ch->V,4) == 1);
    // Post X[0] != 0:
    std::unique_ptr<GenericMols0> ch2 =
      child_node<GenericMols0>(m, 0, 0, pl, false);
@@ -295,7 +286,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 20);
    // Check X[4] == 1:
-   assert(assigned_var_value<GenericMols0>(ch2.get(),4) == 1);
+   assert(assignedval(ch2->V,4) == 1);
    // Check probing:
    assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
    assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
