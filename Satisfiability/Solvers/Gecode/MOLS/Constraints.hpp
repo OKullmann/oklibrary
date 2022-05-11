@@ -104,18 +104,6 @@ namespace Constraints {
     GC::Space* copy() { return new LookaheadMols(*this); }
   };
 
-  size_t assignedvars(const GC::IntVarArray& V) noexcept {
-    size_t assigned = 0;
-    for (int var = 0; var < V.size(); ++var)
-      if (V[var].size() == 1) ++assigned;
-    return assigned;
-  }
-  size_t sumdomsizes(const GC::IntVarArray& V) noexcept {
-    size_t sum = 0;
-    for (int var = 0; var < V.size(); ++var) sum += V[var].size();
-    return sum;
-  }
-
 }
 
 #endif

@@ -45,6 +45,7 @@ TODOS:
 #include "Encoding.hpp"
 #include "Options.hpp"
 #include "Constraints.hpp"
+#include "GcVariables.hpp"
 
 namespace {
 
@@ -63,6 +64,7 @@ namespace {
   using namespace Encoding;
   using namespace Options;
   using namespace Constraints;
+  using namespace GcVariables;
 
   namespace GC = Gecode;
 
