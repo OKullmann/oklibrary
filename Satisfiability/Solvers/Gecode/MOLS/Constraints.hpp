@@ -62,23 +62,13 @@ namespace Constraints {
 
 
   // Lookahead-reduction version:
-  class LookaheadReductionMols : public GC::Space {
+  struct LookaheadReductionMols : GC::Space {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
     const OP::RT rt;
     const OP::LAR lar;
     GC::IntPropLevel pl;
-
-    LookaheadReductionMols(LookaheadReductionMols& gm) :
-      GC::Space(gm), V(gm.V), rt(gm.rt), lar(gm.lar) {
-      V.update(*this, gm.V);
-      assert(valid());
-    }
-    GC::Space* copy() { return new LookaheadReductionMols(*this); }
-
-  public :
-
     LookaheadReductionMols(const EC::EncCond& enc,
                   const OP::RT rt_,
                   const OP::LAR lar_) : rt(rt_), lar(lar_) {
@@ -86,13 +76,11 @@ namespace Constraints {
       pl = enc.pl;
       assert(valid());
     }
-
     bool valid() const noexcept { return V.size() > 0; }
     bool valid(const size_t i) const noexcept {
       assert(valid());
       return i<LB::tr(V.size());
     }
-
     GC::IntVar var(const size_t i) const noexcept {
       assert(valid()); return V[i];
     }
@@ -100,12 +88,18 @@ namespace Constraints {
     OP::RT runtype() const noexcept { assert(valid()); return rt; }
     GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
-
+  protected :
+    LookaheadReductionMols(LookaheadReductionMols& gm) :
+      GC::Space(gm), V(gm.V), rt(gm.rt), lar(gm.lar) {
+      V.update(*this, gm.V);
+      assert(valid());
+    }
+    GC::Space* copy() { return new LookaheadReductionMols(*this); }
   };
 
 
   // Lookahead-version:
-  class LookaheadMols : public LB::Node {
+  struct LookaheadMols : LB::Node {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
@@ -114,16 +108,6 @@ namespace Constraints {
     const OP::LAR lar;
     const LB::vec_t wghts;
     GC::IntPropLevel pl;
-
-    LookaheadMols(LookaheadMols& gm) : LB::Node(gm), V(gm.V), rt(gm.rt),
-      gbo(gm.gbo), lar(gm.lar), wghts(gm.wghts) {
-      V.update(*this, gm.V);
-      assert(valid());
-    }
-    GC::Space* copy() { return new LookaheadMols(*this); }
-
-  public :
-
     LookaheadMols(const EC::EncCond& enc,
                   const OP::RT rt_,
                   const OP::GBO gbo_,
@@ -140,7 +124,6 @@ namespace Constraints {
       assert(valid());
       return i<LB::tr(V.size());
     }
-
     GC::IntVar var(const size_t i) const noexcept {
       assert(valid()); return V[i];
     }
@@ -150,9 +133,14 @@ namespace Constraints {
     OP::GBO brorder() const noexcept { assert(valid()); return gbo; }
     OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
     LB::vec_t weights() const noexcept { assert(valid()); return wghts; }
-
+  protected :
+    LookaheadMols(LookaheadMols& gm) : LB::Node(gm), V(gm.V), rt(gm.rt),
+      gbo(gm.gbo), lar(gm.lar), wghts(gm.wghts) {
+      V.update(*this, gm.V);
+      assert(valid());
+    }
+    GC::Space* copy() { return new LookaheadMols(*this); }
   };
-
 
   size_t assignedvars(const GC::IntVarArray& V) noexcept {
     size_t assigned = 0;
