@@ -12,13 +12,15 @@ License, or any later version. */
 
 TODOS:
 
-1. DONE (LookaheadReductionMols class was added)
-   OZ It seems a dedicated class used in rlaMols is needed.
-  - LookaheadMols contains e.g. wghts, which is not needed
-    in rlaMols.
-  - Likely this class should not be derived from LB::Node, but
-    from GC::Space itself (the facilities in LB::Node shouldn't be
-    needed).
+1. Why does LookaheadReductionMols contain rt?
+    - Only the "solver" needs to know this?
+    - And why pl?
+    - What is this class doing anyway ? It seems to have no purpose
+      compared to GenericMols0?
+      If it is yet incomplete, then this needs to be stated clearly in the
+      code.
+    - At the same time when providing this class, its use in Solvers.hpp
+      should have been given (otherwise it might be just plain wrong).
 
 */
 
