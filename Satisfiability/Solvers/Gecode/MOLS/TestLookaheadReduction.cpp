@@ -48,7 +48,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "11.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -88,11 +88,6 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
-   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m0->valid());
-   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
@@ -135,7 +130,6 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->var()) == 0);
    assert(sumdomsizes(m->var()) == 8);
    delete m;
-   delete m0;
   }
 
   {// An empty Latin square of order 2:
@@ -145,11 +139,6 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
-   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m0->valid());
-   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
@@ -192,7 +181,6 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->var()) == 0);
    assert(sumdomsizes(m->var()) == 8);
    delete m;
-   delete m0;
   }
 
   {// An empty square of order 3:
@@ -202,11 +190,6 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
-   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m0->valid());
-   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
@@ -253,7 +236,6 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->var()) == 0);
    assert(sumdomsizes(m->var()) == 27);
    delete m;
-   delete m0;
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
@@ -263,11 +245,6 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
-   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m0->valid());
-   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
@@ -316,7 +293,6 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->var()) == 1);
    assert(sumdomsizes(m->var()) == 21);
    delete m;
-   delete m0;
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
@@ -326,11 +302,6 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
-   GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
-   assert(m0->valid());
-   assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
@@ -381,7 +352,6 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->var()) == 1);
    assert(sumdomsizes(m->var()) == 21);
    delete m;
-   delete m0;
   }
 
 }
