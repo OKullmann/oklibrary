@@ -24,11 +24,11 @@ namespace GcVariables {
 
   namespace GC = Gecode;
 
-  bool valid(const GC::IntVarArray& x) noexcept {
+  [[deprecated]] bool valid(const GC::IntVarArray& x) noexcept {
     return x.size() > 0;
   }
   bool valid(const GC::IntVarArray& x, const int i) noexcept {
-    assert(valid(x) and i>=0);
+    assert(i >= 0);
     return i<x.size();
   }
 
