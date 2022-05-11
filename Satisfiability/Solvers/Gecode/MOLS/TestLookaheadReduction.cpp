@@ -11,14 +11,18 @@ Testing of look-ahead reduction for the Gecode library.
 
 TODOS:
 
+-1.Testing lareduction is URGENTLY needed:
+  - The space provided should be just GenericMols0.
+  - The functions are to be tested exactly as they are.
+  - The parameters of lareduction are *exactly* appropriate -- global variables
+    must be avoided (and class-variables are just global variables).
+
 0. Tests should mostly used enumeration-modes:
   - So that also the satisfying assignments can be tested.
 
 1. What is LookaheadReductionMols doing here? It belongs to
    Constraints.hpp
 
-2. Testing lareduction is URGENTLY needed:
-  - The space provided should be just GenericMols0.
 
 */
 
