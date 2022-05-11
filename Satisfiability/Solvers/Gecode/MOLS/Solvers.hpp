@@ -421,16 +421,15 @@ namespace Solvers {
   */
   GBasicSR rlasolver(const EC::EncCond& enc,
                      const OP::RT rt,
-                     const OP::LAR lar,
+                     const OP::LAR,
                      const GC::IntVarBranch,
                      const GC::IntValBranch,
                      const double threads = 1,
                      [[maybe_unused]]std::ostream* const log = nullptr) {
-    CT::LookaheadReductionMols* const m =
-      new CT::LookaheadReductionMols(enc, rt, lar);
+    CT::GenericMols0* const m = new CT::GenericMols0(enc);
     // Post branching:
     // XXX
-    GC::DFS<CT::LookaheadReductionMols> s(m, make_options(threads));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads));
     delete m;
 
     GBasicSR res{rt};

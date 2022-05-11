@@ -60,44 +60,6 @@ namespace Constraints {
     GC::Space* copy() { return new GenericMols0(*this); }
   };
 
-
-  // Lookahead-reduction version:
-  struct LookaheadReductionMols : GC::Space {
-    typedef GC::IntVarArray VarVec;
-    typedef GC::IntVar Var;
-    VarVec V;
-    const OP::RT rt;
-    const OP::LAR lar;
-    GC::IntPropLevel pl;
-    LookaheadReductionMols(const EC::EncCond& enc,
-                  const OP::RT rt_,
-                  const OP::LAR lar_) : rt(rt_), lar(lar_) {
-      V = enc.post<VarVec, Var>(this);
-      pl = enc.pl;
-      assert(valid());
-    }
-    bool valid() const noexcept { return V.size() > 0; }
-    bool valid(const size_t i) const noexcept {
-      assert(valid());
-      return i<LB::tr(V.size());
-    }
-    GC::IntVar var(const size_t i) const noexcept {
-      assert(valid()); return V[i];
-    }
-    GC::IntVarArray var() const noexcept { assert(valid()); return V; }
-    OP::RT runtype() const noexcept { assert(valid()); return rt; }
-    GC::IntPropLevel proplevel() const noexcept { assert(valid()); return pl; }
-    OP::LAR laredtype() const noexcept { assert(valid()); return lar; }
-  protected :
-    LookaheadReductionMols(LookaheadReductionMols& gm) :
-      GC::Space(gm), V(gm.V), rt(gm.rt), lar(gm.lar) {
-      V.update(*this, gm.V);
-      assert(valid());
-    }
-    GC::Space* copy() { return new LookaheadReductionMols(*this); }
-  };
-
-
   // Lookahead-version:
   struct LookaheadMols : LB::Node {
     typedef GC::IntVarArray VarVec;
