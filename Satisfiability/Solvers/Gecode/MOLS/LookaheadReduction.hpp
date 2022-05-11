@@ -267,8 +267,10 @@ namespace LookaheadReduction {
         values_t elimvals;
         for (const auto val : values) {
           assert(m->status() == GC::SS_BRANCH);
-          if (PT.contains({var,val})) { stat.inc_prunes(); continue; }
-          const auto status = elimvals.empty() ?
+          if (pruning(lar) and PT.contains({var,val})) {
+            stat.inc_prunes(); continue;
+          }
+          const auto status = pruning(lar) and elimvals.empty() ?
             probe(m, var, val, pl, PT) : probe(m, var, val, pl);
           stat.inc_probes();
           if (status != GC::SS_BRANCH) {
@@ -299,8 +301,8 @@ namespace LookaheadReduction {
             }
             goto END;
           }
-          if (lar == OP::LAR::supeager) { assert(not repeat); break; }
-          else { assert(lar == OP::LAR::eager); repeat = true; }
+          if (eager(lar)) { assert(not repeat); break; }
+          else repeat = true;
         }
       }
     } while (repeat);

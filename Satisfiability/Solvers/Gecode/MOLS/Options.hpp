@@ -160,12 +160,17 @@ namespace Options {
     }
   }
 
-  // Type of lookahead-reduction:
+  // Algorithmic options for lookahead-reduction, in two dimensions:
+  // relaxed vs eager and pruning vs nonpruning
   enum class LAR {
-    eager = 0, //  eager lookahead reduction
-    supeager = 1 // supereager lookahead reduction
+    rel_pr = 0,
+    rel_npr = 1,
+    eag_pr = 2,
+    eag_npr = 3
   };
-  constexpr int LARsize = int(LAR::supeager) + 1;
+  constexpr int LARsize = int(LAR::eag_npr) + 1;
+  constexpr bool eager(const LAR lar) noexcept { return int(lar) >= 2; }
+  constexpr bool pruning(const LAR lar) noexcept { return int(lar) % 2 == 0; }
 
 }
 namespace Environment {
@@ -224,9 +229,10 @@ namespace Environment {
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
-      string {"eag", "supeag"};
+      string {"relpr", "relnpr", "eagpr", "eagnpr"};
     static constexpr std::array<const char*, size>
-      estring {"eager", "super-eager"};
+      estring {"relaxed-pruning", "relaxed-nonpruning",
+        "eager-pruning", "eager-nonpruning"};
   };
 }
 namespace Options {

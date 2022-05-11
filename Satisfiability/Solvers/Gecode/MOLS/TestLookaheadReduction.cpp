@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "10.5.2022",
+        "0.1.7",
+        "11.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -79,12 +79,12 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
    LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
    GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m0->valid());
    assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0});
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
@@ -136,12 +136,12 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
    LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
    GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m0->valid());
    assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0});
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
@@ -193,12 +193,12 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
    LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
    GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m0->valid());
    assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
@@ -254,12 +254,12 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
    LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
    GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m0->valid());
    assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
@@ -317,12 +317,12 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
    LookaheadReductionMols* const m0 =
-     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eager);
+     new LookaheadReductionMols(enc, RT::sat_decision, LAR::eag_npr);
    GC::branch(*m0, m0->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m0->valid());
    assert(m0->status() == Gecode::SS_BRANCH);
    LookaheadMols* const m =
-     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eager, {0,2});
+     new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
