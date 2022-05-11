@@ -14,6 +14,12 @@ TODOS:
 0. Tests should mostly used enumeration-modes:
   - So that also the satisfying assignments can be tested.
 
+1. What is LookaheadReductionMols doing here? It belongs to
+   Constraints.hpp
+
+2. Testing lareduction is URGENTLY needed:
+  - The space provided should be just GenericMols0.
+
 */
 
 #include <iostream>
