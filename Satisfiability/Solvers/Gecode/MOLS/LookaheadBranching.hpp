@@ -106,10 +106,7 @@ namespace LookaheadBranching {
     std::vector<CustomBranching>& branchings) noexcept {
     assert(not branchings.empty());
     CustomBranching best_br;
-    for (auto& br : branchings) {
-      br.calc_ltau();
-      best_br = std::min(best_br, br);
-    }
+    for (auto& br : branchings) best_br = std::min(best_br, br);
     return best_br;
   }
 
@@ -174,6 +171,7 @@ namespace LookaheadBranching {
     BinBranching(const int v=0, const int val=0, const bt_t tpl={})
       : var(v), value(val), tuple(tpl), ltau(FP::pinfinity) {
       assert(valid());
+      calc_ltau();
     }
 
    bool valid() const noexcept {
