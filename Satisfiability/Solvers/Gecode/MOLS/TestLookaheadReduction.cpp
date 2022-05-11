@@ -13,6 +13,15 @@ TODOS:
 
 -1.Testing lareduction is URGENTLY needed:
   - DONE The space provided should be just GenericMols0.
+  - More precisely, a class say "GenericMolsNB" should be derived from
+    GenericMols0, with "NB" for "no branching", which posts a brancher
+    which immediately throws an exception -- this class is only to be
+    used for testing.
+
+    The first trial in this direction is
+      GC::branch(*m, [](GC::Space&)->void{;});
+    but then apparently solutions are no longer recognised?
+    Perhaps the brancher must somehow recognise when the problem is solved?
   - The functions are to be tested exactly as they are.
   - The parameters of lareduction are *exactly* appropriate -- global variables
     must be avoided (and class-variables are just global variables).
@@ -125,6 +134,7 @@ int main(const int argc, const char* const argv[]) {
    const EncCond enc(ac, ps, pl);
    GenericMols0* const m = new GenericMols0(enc);
    GC::branch(*m, m->V, GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   //GC::branch(*m, [](GC::Space&)->void{;}); // XXX ???
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
    assert(assignedvars(m->V) == 0);
