@@ -240,7 +240,7 @@ namespace LookaheadReduction {
                         const OP::LAR lar) noexcept {
     ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
-    ReductionStatistics stat(m->var());
+    ReductionStatistics stat(m->V);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     bool repeat = false;
@@ -248,7 +248,7 @@ namespace LookaheadReduction {
     do {
       repeat = false;
       stat.inc_rounds();
-      const GC::IntVarArray x = m->var();
+      const GC::IntVarArray x = m->V;
       for (int var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
         if (view.assigned()) continue;
@@ -271,7 +271,7 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.inc_elimvals(); elimvals.push_back(val);
             if (status == GC::SS_SOLVED) {
-              if (with_solutions(rt)) stat.sollist(m->var());
+              if (with_solutions(rt)) stat.sollist(m->V);
               stat.inc_solc();
               if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
                   or (test_unique(rt) and stat.solc() >= 2))
@@ -290,7 +290,7 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stat.inc_leafcount();
             if (status == GC::SS_SOLVED) {
-              if (with_solutions(rt)) stat.sollist(m->var());
+              if (with_solutions(rt)) stat.sollist(m->V);
               stat.inc_solc();
             }
             goto END;
