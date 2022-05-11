@@ -50,7 +50,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.10",
+        "0.2.0",
         "11.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -155,6 +155,17 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
+   ReductionStatistics stat =
+     lareduction<GenericMols0>(m, RT::enumerate_solutions, GC::IPL_VAL,
+       LAR::eag_npr);
+   assert(stat.props() == 1);
+   assert(stat.elimvals() == 2);
+   assert(stat.prunes() == 0);
+   assert(stat.maxprune() == 0);
+   assert(stat.probes() == 2);
+   assert(stat.rounds() == 1);
+   assert(stat.solc() == 2);
+   assert(stat.leafcount() == 1);
    delete m;
   }
 

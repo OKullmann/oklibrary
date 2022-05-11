@@ -288,7 +288,7 @@ namespace LookaheadBranching {
       const OP::LAR lar = m->laredtype();
       // Lookahead-reduction:
       LR::ReductionStatistics reduct_stat =
-        LR::lareduction<ModSpace>(home, rt, pl, lar);
+        LR::lareduction<ModSpace>(m, rt, pl, lar);
       // A leaf was found during the la-reduction, so no branching is needed:
       if (reduct_stat.leafcount() > 0) return false;
       // At least one unassigned variable, la-reduction hasn't found a leaf:

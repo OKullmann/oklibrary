@@ -234,11 +234,10 @@ namespace LookaheadReduction {
   // performed. So all immediate decisions of all variable are
   // removed.
   template<class ModSpace>
-  ReductionStatistics lareduction(GC::Space& home,
+  ReductionStatistics lareduction(ModSpace* const m,
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
-    ModSpace* const m = &(static_cast<ModSpace&>(home));
     assert(m->status() == GC::SS_BRANCH);
     ReductionStatistics stat(m->V);
     Timing::UserTime timing;
@@ -283,8 +282,8 @@ namespace LookaheadReduction {
         if (not elimvals.empty()) {
           stat.maxprune(PT.size()); PT.clear();
           for (const int val : elimvals)
-            GC::rel(home, x[var], GC::IRT_NQ, val, pl);
-          const auto status = home.status();
+            GC::rel(*m, x[var], GC::IRT_NQ, val, pl);
+          const auto status = m->status();
           stat.inc_props();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
