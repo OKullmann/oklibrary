@@ -324,6 +324,7 @@ int main(const int argc, const char* const argv[]) {
    LookaheadMols* const m =
      new LookaheadMols(enc, RT::sat_decision, GBO::asc, LAR::eag_npr, {0,2});
    GC::branch(*m, m->var(), GC::INT_VAR_SIZE_MIN(), GC::INT_VAL_MIN());
+   // XXX what is GC::branch doing? it seems inconsistent with GBO::asc ?
    assert(m->valid());
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->var().size() == 9);
