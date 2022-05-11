@@ -10,6 +10,11 @@ License, or any later version. */
 
 TODOS:
 
+BUGS:
+
+1. The current test are misplaced here -- they do not test the
+   simple functions from GcVariables.
+
 */
 
 #include <iostream>
