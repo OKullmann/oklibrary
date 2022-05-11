@@ -210,7 +210,8 @@ namespace LookaheadReduction {
   GC::SpaceStatus probe(ModSpace* const m,
                         const int v, const int val,
                         const GC::IntPropLevel pl) noexcept {
-    assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
+    assert(m->V.size() > 0 and v < m->V.size());
+    assert(m->status() == GC::SS_BRANCH);
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     return chnode->status();
   }
@@ -219,12 +220,13 @@ namespace LookaheadReduction {
                         const int v, const int val,
                         const GC::IntPropLevel pl,
                         pruning_table_t& PT) noexcept {
-    assert(m->valid() and m->valid(v)); assert(m->status() == GC::SS_BRANCH);
-    const auto V0 = m->var();
+    assert(m->V.size() > 0 and v < m->V.size());
+    assert(m->status() == GC::SS_BRANCH);
+    const auto V0 = m->V;
     const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
     const auto status = chnode->status();
     if (status != GC::SS_BRANCH) return status;
-    const auto V1 = chnode->var();
+    const auto V1 = chnode->V;
     assert(V0.size() == V1.size());
     for (int v = 0; v < V1.size(); ++v)
       if (V1[v].size() == 1 and V0[v].size() > 1)
