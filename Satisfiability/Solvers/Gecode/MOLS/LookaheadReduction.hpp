@@ -40,6 +40,11 @@ TODOS:
 1. What is "ModSpace" ??
      - "mod" means "modular", but that apparently is not meant?
      - What are the requirements on this template-parameter?
+   Comment:
+   1. ModSpace stands for Modified Space. This is a template-parameter
+   to allow one use any class, inherited from Gecode::Space.
+   2. For clearness, this template-parameter can be deleted,
+      and GenericMols0 then can be used instead of that.
 
 */
 
