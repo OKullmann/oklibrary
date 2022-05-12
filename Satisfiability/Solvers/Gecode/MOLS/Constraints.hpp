@@ -12,15 +12,9 @@ License, or any later version. */
 
 TODOS:
 
-1. Why does LookaheadReductionMols contain rt?
-    - Only the "solver" needs to know this?
-    - And why pl?
-    - What is this class doing anyway ? It seems to have no purpose
-      compared to GenericMols0?
-      If it is yet incomplete, then this needs to be stated clearly in the
-      code.
-    - At the same time when providing this class, its use in Solvers.hpp
-      should have been given (otherwise it might be just plain wrong).
+0. Remove LookaheadMols
+    - This module does not include any look-ahead stuff (it is the other way
+      around!).
 
 */
 
@@ -61,7 +55,7 @@ namespace Constraints {
   };
 
   // Lookahead-version:
-  struct LookaheadMols : LB::Node {
+  struct [[deprecated]] LookaheadMols : LB::Node {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
     VarVec V;
