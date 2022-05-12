@@ -37,47 +37,9 @@ BUGS:
 
 TODOS:
 
-0. Lookahead-reduction statistics.
-    - The reduction-statistics is used in the choice() function of a customised
-      brancher to update the global statistics.
-    - Statistics collected here (the "important events"):
-      - DONE the propagation-counter
-      - DONE the number of eliminated values
-      - DONE the quotient eliminated-values / all-values
-      - DONE the number of successful prunings
-      - DONE the number of probings
-      - DONE the quotient prunings/probings
-      - DONE the number of rounds
-      - DONE (not "final", but maximal) the final size of the pruning-set
-      - DONE the total time for the reduction
-      - DONE the number of satisfying assignments found.
-    - DONE satisfying assignments.
-
-1. DONE Collect satisfying assignments, if needed.
-    - Use a queue.
-
-2. DONE Pruning:
-     - DONE
-       Type PLit ("positive literal"), a pair (var,val), meaning "var=val",
-       should be basic here.
-     - DONE
-       Maintain std::set<PLit>, where in case of probing without decision
-       one enters the literals "v'=eps'" (and the check for pruning is just
-       the check whether the set contains the literal v=eps), while in case of
-       propagation the set is just cleared.
-     - DONE
-       So the function probe(m,v,val,pl) needs to determine the positive
-       literals v=eps derived by the probing.
-     - DONE
-       probe should store the current variable-restriction on entry, and
-       compare that with the variable-restriction in case chnode->status()
-       did not yield a decision.
-     - DONE
-       How to return the set of positive literals? Perhaps best providing
-       the set of positive literals as reference-parameter.
-     - DONE
-       After one branch found a restriction, for this variable there is no
-       point in updating further the pruning-set.
+1. What is "ModSpace" ??
+     - "mod" means "modular", but that apparently is not meant?
+     - What are the requirements on this template-parameter?
 
 */
 
