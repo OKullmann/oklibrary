@@ -29,16 +29,6 @@ TODOS:
 0. Tests should mostly used enumeration-modes:
   - So that also the satisfying assignments can be tested.
 
-1. DONE (GenericMoldNB class with the trivial brancher is used now)
-   Use a trivial brancher in unit tests.
-  - Since in Gecode branching must be posted to apply the status() function
-    of a Space, a trivial customised brancher should be used to be sure
-    that no branching is really done.
-  - The status() function of the customised brancher must return true if there
-    is at least one unassigned variable in the array.
-  - Gecode must not call the choice() function of the customised brancher,
-    This must be checked.
-
 */
 
 #include <iostream>
