@@ -12,9 +12,9 @@ Testing of look-ahead reduction for the Gecode library.
 TODOS:
 
 -1.Testing lareduction is URGENTLY needed:
-  - DONE The space provided should be just GenericMolsNB.
+  - DONE The space provided should be just GenericMols0.
   - DONE More precisely, a class say "GenericMolsNB" should be derived from
-    GenericMolsNB, with "NB" for "no branching", which posts a brancher
+    GenericMols0, with "NB" for "no branching", which posts a brancher
     which immediately throws an exception -- this class is only to be
     used for testing.
 
