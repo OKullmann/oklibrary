@@ -54,8 +54,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "12.5.2022",
+        "0.2.2",
+        "13.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -72,42 +72,32 @@ namespace {
 
   namespace GC = Gecode;
 
-  // A trivial customised brancher that performs no branching.
-  // It is needed for testing propagation, since Gecode::Space::status()
-  // after propagation finds a brancher which status() function
-  // returns true. Here status() returns true if there is at least
-  // one unassigned variable.
   struct VoidBrancher : GC::Brancher {
     VoidBrancher(const GC::Home home) : GC::Brancher(home) {}
-    VoidBrancher(GC::Space& home, VoidBrancher& b)
-      : GC::Brancher(home,b) {}
-    static void post(GC::Home home) { new (home) VoidBrancher(home); }
+    VoidBrancher(GC::Space& home, VoidBrancher& b) : GC::Brancher(home,b) {}
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) VoidBrancher(home, *this);
     }
+
+    static void post(GC::Home home) { new (home) VoidBrancher(home); }
     virtual bool status(const GC::Space& s) const noexcept {
       const GC::IntVarArray& V(static_cast<const GenericMols0&>(s).V);
       for (int i = 0; i < V.size(); ++i)
         if (not V[i].assigned()) return true;
       return false;
     }
+
     struct Choice : public GC::Choice {
       Choice(const VoidBrancher& b)
         : GC::Choice(b, 0) {}
     };
-    // No branching is done, so neither choice() nor commit() are called:
-    virtual GC::Choice* choice(GC::Space&) {
-      assert(false);
-      return nullptr;
-    }
+    virtual GC::Choice* choice(GC::Space&) { assert(false); return nullptr; }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-      assert(false);
-      return nullptr;
+      assert(false); return nullptr;
     }
     virtual GC::ExecStatus commit(GC::Space&, const GC::Choice&,
                                   const unsigned) {
-      assert(false);
-      return GC::ES_OK;
+      assert(false); return GC::ES_OK;
     }
   };
 
