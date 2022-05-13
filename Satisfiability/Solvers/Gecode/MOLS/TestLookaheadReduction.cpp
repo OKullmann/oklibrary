@@ -78,13 +78,13 @@ namespace {
   // returns true. Here status() returns true if there is at least
   // one unassigned variable.
   class VoidBrancher : public GC::Brancher {
-    IntViewArray x;
+    GC::IntVarArray x;
   public:
-    VoidBrancher(const GC::Home home, const IntViewArray& x) :
+    VoidBrancher(const GC::Home home, const GC::IntVarArray& x) :
       GC::Brancher(home), x(x) {}
     VoidBrancher(GC::Space& home, VoidBrancher& b)
       : GC::Brancher(home,b) { x.update(home, b.x); }
-    static void post(GC::Home home, const IntViewArray& x) {
+    static void post(GC::Home home, const GC::IntVarArray& x) {
       new (home) VoidBrancher(home, x);
     }
     virtual GC::Brancher* copy(GC::Space& home) {
@@ -115,15 +115,9 @@ namespace {
     }
   };
 
-  inline void post_void_branching(GC::Home home, const GC::IntVarArgs& V)
-    noexcept {
-    const IntViewArray y(home, V);
-    VoidBrancher::post(home, y);
-  }
-
   struct GenericMolsNB : GenericMols0 {
     GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
-      post_void_branching(*this, V);
+      VoidBrancher::post(*this, V);
     }
   };
 
