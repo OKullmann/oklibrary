@@ -79,14 +79,11 @@ namespace {
   // one unassigned variable.
   class VoidBrancher : public GC::Brancher {
     IntViewArray x;
-    mutable int firstunassign;
   public:
     VoidBrancher(const GC::Home home, const IntViewArray& x) :
-      GC::Brancher(home), x(x), firstunassign(0) {}
+      GC::Brancher(home), x(x) {}
     VoidBrancher(GC::Space& home, VoidBrancher& b)
-      : GC::Brancher(home,b), firstunassign(b.firstunassign) {
-      x.update(home, b.x);
-    }
+      : GC::Brancher(home,b) { x.update(home, b.x); }
     static void post(GC::Home home, const IntViewArray& x) {
       new (home) VoidBrancher(home, x);
     }
@@ -94,22 +91,22 @@ namespace {
       return new (home) VoidBrancher(home, *this);
     }
     virtual bool status(const GC::Space&) const noexcept {
-      for (auto i = firstunassign; i < x.size(); ++i)
-        if (not x[i].assigned()) { firstunassign = i; return true; }
+      for (int i = 0; i < x.size(); ++i)
+        if (not x[i].assigned()) return true;
       return false;
     }
-    struct ModChoice : public GC::Choice {
-      ModChoice(const VoidBrancher& b)
+    struct Choice : public GC::Choice {
+      Choice(const VoidBrancher& b)
         : GC::Choice(b, 0) {}
     };
     // No branching is done, so neither choice() nor commit() are called:
     virtual GC::Choice* choice(GC::Space&) {
       assert(false);
-      return new ModChoice(*this);
+      return nullptr;
     }
     virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
       assert(false);
-      return new ModChoice(*this);
+      return nullptr;
     }
     virtual GC::ExecStatus commit(GC::Space&, const GC::Choice&,
                                   const unsigned) {
