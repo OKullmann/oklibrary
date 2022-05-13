@@ -72,7 +72,7 @@ namespace {
 
   namespace GC = Gecode;
 
-  struct GenericMolsNB : GenericMols0 {
+  class GenericMolsNB : public GenericMols0 {
     struct Void : GC::Brancher {
       Void(const GC::Home home) : GC::Brancher(home) {}
       Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
@@ -85,9 +85,10 @@ namespace {
         assert(0); return nullptr;
       }
       GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
-        assert(0); return GC::ES_FAILED;
+        assert(0); return GC::ExecStatus(0);
       }
     };
+  public :
     GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
       new (*this) Void(*this);
     }
