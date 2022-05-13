@@ -54,7 +54,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "13.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -82,11 +82,8 @@ namespace {
       bool status(const GC::Space& s) const noexcept {
         return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
       }
-      struct Choice : public GC::Choice {
-        Choice(const VoidBrancher& b) : GC::Choice(b, 0) {}
-      };
       GC::Choice* choice(GC::Space&) { assert(0); return nullptr; }
-      GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      GC::Choice* choice(const GC::Space&,GC::Archive&) {
         assert(0); return nullptr;
       }
       GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
