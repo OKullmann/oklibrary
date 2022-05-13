@@ -101,7 +101,7 @@ TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp
 
 TestGcVariables_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestGcVariables_debug : Optimisation_plus = -fwhole-program
-TestGcVariables_debug : TestGcVariables.cpp GcVariables.hpp Conditions.hpp Parsing.hpp PartialSquares.hpp Encoding.hpp Options.hpp Constraints.hpp
+TestGcVariables_debug : TestGcVariables.cpp GcVariables.hpp
 
 TestVerification_debug : TestVerification.cpp Verification.hpp BasicLatinSquares.hpp
 

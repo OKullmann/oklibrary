@@ -15,8 +15,6 @@ TODOS:
 #ifndef GCVARIABLES_FQM6cOCEcZ
 #define GCVARIABLES_FQM6cOCEcZ
 
-#include <vector>
-
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
@@ -48,14 +46,6 @@ namespace GcVariables {
     assert(view.assigned());
     GC::IntVarValues j(view);
     return j.val();
-  }
-
-  [[deprecated]] bool valid(const GC::IntVarArray& x) noexcept {
-    return x.size() > 0;
-  }
-  bool valid(const GC::IntVarArray& x, const int i) noexcept {
-    assert(i >= 0);
-    return i<x.size();
   }
 
 }
