@@ -76,21 +76,21 @@ namespace {
     struct VoidBrancher : GC::Brancher {
       VoidBrancher(const GC::Home home) : GC::Brancher(home) {}
       VoidBrancher(GC::Space& home, VoidBrancher& b) : GC::Brancher(home,b) {}
-      virtual GC::Brancher* copy(GC::Space& home) {
+      GC::Brancher* copy(GC::Space& home) {
         return new (home) VoidBrancher(home, *this);
       }
-      virtual bool status(const GC::Space& s) const noexcept {
+      bool status(const GC::Space& s) const noexcept {
         return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
       }
       struct Choice : public GC::Choice {
         Choice(const VoidBrancher& b) : GC::Choice(b, 0) {}
       };
-      virtual GC::Choice* choice(GC::Space&) { assert(false); return nullptr; }
-      virtual GC::Choice* choice(const GC::Space&, GC::Archive&) {
-        assert(false); return nullptr;
+      GC::Choice* choice(GC::Space&) { assert(0); return nullptr; }
+      GC::Choice* choice(const GC::Space&, GC::Archive&) {
+        assert(0); return nullptr;
       }
-      virtual GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
-        assert(false); return GC::ES_FAILED;
+      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
+        assert(0); return GC::ES_FAILED;
       }
     };
     GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
