@@ -24,6 +24,11 @@ namespace GcVariables {
 
   namespace GC = Gecode;
 
+  bool empty(const GC::IntVarArray& V) noexcept {
+    for (int i = 0; i < V.size(); ++i) if (not V[i].assigned()) return false;
+    return true;
+  }
+
   size_t assignedvars(const GC::IntVarArray& V) noexcept {
     size_t assigned = 0;
     for (int var = 0; var < V.size(); ++var)
