@@ -77,22 +77,18 @@ namespace {
   // after propagation finds a brancher which status() function
   // returns true. Here status() returns true if there is at least
   // one unassigned variable.
-  class VoidBrancher : public GC::Brancher {
-    GC::IntVarArray x;
-  public:
-    VoidBrancher(const GC::Home home, const GC::IntVarArray& x) :
-      GC::Brancher(home), x(x) {}
+  struct VoidBrancher : GC::Brancher {
+    VoidBrancher(const GC::Home home) : GC::Brancher(home) {}
     VoidBrancher(GC::Space& home, VoidBrancher& b)
-      : GC::Brancher(home,b) { x.update(home, b.x); }
-    static void post(GC::Home home, const GC::IntVarArray& x) {
-      new (home) VoidBrancher(home, x);
-    }
+      : GC::Brancher(home,b) {}
+    static void post(GC::Home home) { new (home) VoidBrancher(home); }
     virtual GC::Brancher* copy(GC::Space& home) {
       return new (home) VoidBrancher(home, *this);
     }
-    virtual bool status(const GC::Space&) const noexcept {
-      for (int i = 0; i < x.size(); ++i)
-        if (not x[i].assigned()) return true;
+    virtual bool status(const GC::Space& s) const noexcept {
+      const GC::IntVarArray& V(static_cast<const GenericMols0&>(s).V);
+      for (int i = 0; i < V.size(); ++i)
+        if (not V[i].assigned()) return true;
       return false;
     }
     struct Choice : public GC::Choice {
@@ -117,7 +113,7 @@ namespace {
 
   struct GenericMolsNB : GenericMols0 {
     GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
-      VoidBrancher::post(*this, V);
+      VoidBrancher::post(*this);
     }
   };
 
