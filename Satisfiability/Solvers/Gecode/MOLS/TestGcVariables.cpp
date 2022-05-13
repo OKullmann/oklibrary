@@ -10,10 +10,15 @@ License, or any later version. */
 
 TODOS:
 
-BUGS:
+1. Test functions from GcVariables
+  - A class must be intoduced that contains an array of
+    Gecode variables and a trivial Gecode space.
+  - Constructor parameters: array size and domains size.
+    As a result, constructor must create the space and the array.
+  - The class must provide public access to the array for testing
+    all functions from GcVariables.
 
-1. The current test are misplaced here -- they do not test the
-   simple functions from GcVariables.
+BUGS:
 
 */
 
