@@ -45,14 +45,6 @@ BUGS:
 
 TODOS:
 
-1. What is "ModSpace" ??
-     - "mod" means "modular", but that apparently is not meant?
-     - What are the requirements on this template-parameter?
-   Comment:
-   1. ModSpace stands for Modified Space. This is a template-parameter
-   to allow one use any class, inherited from Gecode::Space.
-   2. For clearness, this template-parameter can be deleted,
-      and GenericMols0 then can be used instead of that.
 
 */
 
@@ -156,13 +148,13 @@ namespace LookaheadReduction {
 
 
   // Make a copy of a given problem and assign either var==val or var!=val:
-  template<class ModSpace>
-  std::unique_ptr<ModSpace> child_node(ModSpace* const m,
+  template <class SPA>
+  std::unique_ptr<SPA> child_node(SPA* const m,
                                        const int v, const int val,
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    std::unique_ptr<ModSpace> c(static_cast<ModSpace*>(m->clone()));
+    std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     assert(c->V.size() > 0 and v < c->V.size());
     GC::rel(*c.get(), c.get()->V[v], eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
     return c;
@@ -171,22 +163,22 @@ namespace LookaheadReduction {
   typedef std::pair<int, int> plit_t;
   typedef std::set<plit_t> pruning_table_t;
 
-  template<class ModSpace>
-  GC::SpaceStatus probe(ModSpace* const m,
+  template <class SPA>
+  GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
                         const GC::IntPropLevel pl) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
+    const auto chnode = child_node<SPA>(m, v, val, pl, true);
     return chnode->status();
   }
-  template<class ModSpace>
-  GC::SpaceStatus probe(ModSpace* const m,
+  template <class SPA>
+  GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
                         const GC::IntPropLevel pl,
                         pruning_table_t& PT) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
     const auto V0 = m->V;
-    const auto chnode = child_node<ModSpace>(m, v, val, pl, true);
+    const auto chnode = child_node<SPA>(m, v, val, pl, true);
     const auto status = chnode->status();
     if (status != GC::SS_BRANCH) return status;
     const auto V1 = chnode->V;
@@ -204,8 +196,8 @@ namespace LookaheadReduction {
   // these constraints are applied and the Gecode propagation is
   // performed. So all immediate decisions of all variable are
   // removed.
-  template<class ModSpace>
-  ReductionStatistics lareduction(ModSpace* const m,
+  template <class SPA>
+  ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
