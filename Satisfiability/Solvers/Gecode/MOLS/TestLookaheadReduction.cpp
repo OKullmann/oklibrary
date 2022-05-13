@@ -54,7 +54,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
+        "0.2.7",
         "13.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -235,6 +235,17 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
+   ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+       LAR::eag_npr);
+   assert(stat.props() == 0);
+   assert(stat.elimvals() == 0);
+   assert(stat.prunes() == 0);
+   assert(stat.maxprune() == 0);
+   assert(stat.probes() == 27);
+   assert(stat.rounds() == 1);
+   assert(stat.solc() == 0);
+   assert(stat.leafcount() == 0);
    delete m;
   }
 
@@ -282,6 +293,17 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
+   ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+       LAR::eag_npr);
+   assert(stat.props() == 1);
+   assert(stat.elimvals() == 2);
+   assert(stat.prunes() == 0);
+   assert(stat.maxprune() == 0);
+   assert(stat.probes() == 9);
+   assert(stat.rounds() == 1);
+   assert(stat.solc() == 2);
+   assert(stat.leafcount() == 0);
    delete m;
   }
 
@@ -330,6 +352,17 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
+   ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+       LAR::eag_npr);
+   assert(stat.props() == 1);
+   assert(stat.elimvals() == 2);
+   assert(stat.prunes() == 0);
+   assert(stat.maxprune() == 0);
+   assert(stat.probes() == 3);
+   assert(stat.rounds() == 1);
+   assert(stat.solc() == 2);
+   assert(stat.leafcount() == 0);
    delete m;
   }
 
