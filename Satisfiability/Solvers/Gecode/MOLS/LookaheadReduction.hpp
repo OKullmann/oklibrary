@@ -35,6 +35,14 @@ if so, repeating the loop.
 
 BUGS:
 
+1. Collecting solutions.
+  - Now in lareduction() values of variables of an original (unmodified) space
+    is added as a solution:
+    stat.sollist(m->V)
+  - Rather, values of variables of a modified (in a probe) space should be
+    added.
+  - It seems that probe() should return a pair <status, solution>.
+
 TODOS:
 
 1. What is "ModSpace" ??
