@@ -54,7 +54,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "13.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -79,7 +79,6 @@ namespace {
       virtual GC::Brancher* copy(GC::Space& home) {
         return new (home) VoidBrancher(home, *this);
       }
-      static void post(GC::Home home) { new (home) VoidBrancher(home); }
       virtual bool status(const GC::Space& s) const noexcept {
         return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
       }
@@ -95,7 +94,7 @@ namespace {
       }
     };
     GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
-      VoidBrancher::post(*this);
+      new (*this) VoidBrancher(*this);
     }
   };
 
