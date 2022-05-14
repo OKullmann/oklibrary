@@ -234,6 +234,18 @@ namespace Encoding {
       GC::distinct(*s, v, pl);
     }
 
+    template <class VAV>
+    std::vector<size_t> values(const VAV& v, const size_t i) const {
+      std::vector<size_t> res;
+      assert(v.size() >= 0 and i < size_t(v.size()));
+      for (GC::IntVarValues eps(v[i]); eps(); ++eps) {
+        const int val = eps.val();
+        assert(val >= 0);
+        res.push_back(val);
+      }
+      return res;
+    }
+
 
     template <class VAV, typename SP>
     void post_psquares(const VAV& va, const SP s) const {
@@ -543,8 +555,7 @@ namespace Encoding {
           PS::prow_t& row = s.ps[i];
           for (size_t j = 0; j < N; ++j, ++v) {
             PS::Cell& c = row[j];
-            for (GC::IntVarValues eps(va[v]); eps(); ++eps)
-              c.c[eps.val()] = 0;
+            for (const size_t val : values(va, v)) c.c[val] = 0;
           }
         }
       assert(v == num_vars);
