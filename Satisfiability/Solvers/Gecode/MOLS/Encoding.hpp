@@ -206,6 +206,8 @@ namespace Encoding {
     }
 
 
+    /* The inteface to Gecode-constraints */
+
     template <class VAR, typename SP>
     void not_equal(const SP s, const VAR& v, const size_t k) const {
       GC::rel(*s, v, GC::IRT_NQ, k, pl);
@@ -246,6 +248,8 @@ namespace Encoding {
       return res;
     }
 
+
+    /* Translating the constraints to Gecode-constraints */
 
     template <class VAV, typename SP>
     void post_psquares(const VAV& va, const SP s) const {
@@ -523,6 +527,8 @@ namespace Encoding {
     }
 
 
+    // The encoding of variables */
+
     size_t index(const Square s) const noexcept {
       assert(ac.valid(s));
       return ac.index(s) * N2;
@@ -533,6 +539,8 @@ namespace Encoding {
       return index(s) + ti * N + tj;
     }
 
+
+    /* Decoding solutions */
 
     // The initial domain-restriction:
     PS::PSquares full_tass() const {
