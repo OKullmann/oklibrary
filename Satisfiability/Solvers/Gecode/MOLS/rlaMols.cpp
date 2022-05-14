@@ -47,8 +47,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "11.4.2022",
+        "0.2.1",
+        "14.4.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -138,9 +138,6 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const bool with_log = Options::with_log(rt);
-  std::ostream* const log = with_log ? &std::cout : nullptr;
-
   info_output(std::cout,
               N, ac, name_ac, ps, name_ps,
               rt, pov, brtv, bvarv, gbov, num_runs, threads,
@@ -149,29 +146,4 @@ int main(const int argc, const char* const argv[]) {
   Environment::out_line(std::cout, larv);
   std::cout << std::endl;
 
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const BRT brt : brtv)
-      for (const BHV bvar : bvarv)
-        for (const GBO gbo : gbov) {
-          const BHO bord = translate(brt, gbo);
-          for (const LAR lar : larv) {
-            const GBasicSR res =
-              solver_rla(enc, rt, lar, var_branch(bvar), val_branch(bord),
-                threads, log);
-            using Environment::W0;
-            if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
-            std::cout << W0(po) << " "
-                      << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
-                      << res.b.sol_found << " ";
-            FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
-            std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
-              " " << res.gs.node << " " << res.gs.depth;
-            std::cout << std::endl;
-            if (with_output)
-              Environment::out_line(*out, res.b.list_sol, "\n");
-          }
-      }
-  }
-  if (out) delete out;
 }

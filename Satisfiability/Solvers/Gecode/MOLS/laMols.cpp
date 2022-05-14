@@ -92,8 +92,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "11.5.2022",
+        "0.4.1",
+        "14.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -183,9 +183,6 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const bool with_log = Options::with_log(rt);
-  std::ostream* const log = with_log ? &std::cout : nullptr;
-
   list_bhv_t bvarv; // this vector is needed to output info
   info_output(std::cout,
               N, ac, name_ac, ps, name_ps,
@@ -197,25 +194,4 @@ int main(const int argc, const char* const argv[]) {
   Environment::out_line(std::cout, wghts);
   std::cout << std::endl;
 
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const BRT brt : brtv)
-      for (const GBO gbo : gbov) {
-        for (const LAR lar : larv) {
-          const GBasicSR res =
-            solver_la(enc, rt, brt, gbo, lar, wghts, threads, log);
-          using Environment::W0;
-          if (with_log and rt != RT::enumerate_with_log) std::cout << "\n";
-          std::cout << W0(po) << " " << W0(brt) << " " << W0(gbo) << " "
-                    << W0(lar) << " " << res.b.sol_found << " ";
-          FloatingPoint::out_fixed_width(std::cout, 3, res.ut);
-          std::cout << " " << res.gs.propagate << " " << res.gs.fail <<
-            " " << res.gs.node << " " << res.gs.depth;
-          std::cout << std::endl;
-          if (with_output)
-            Environment::out_line(*out, res.b.list_sol, "\n");
-        }
-      }
-  }
-  if (out) delete out;
 }
