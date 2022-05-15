@@ -412,6 +412,11 @@ namespace Encoding {
             for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,t(0),i)], i);
             for (size_t i = 0; i < N; ++i) equal(s, va[index(sq,i,t(0))], i);
             break; }
+          case UC::wcred : {
+            for (size_t i = 0; i < N-2; ++i)
+              for (size_t e = i+2; e < N; ++e)
+                not_equal(s, va[index(sq,i,0)], e);
+            break; }
           case UC::box : {
             if (N <= 3) break;
             const size_t b = std::sqrt(N);

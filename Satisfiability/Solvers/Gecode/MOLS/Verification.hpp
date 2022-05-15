@@ -202,6 +202,14 @@ namespace Verification {
   bool oreduced(const ls_t& S) noexcept {
     return orreduced(S) and ocreduced(S);
   }
+  bool wcreduced(const ls_t& S) noexcept {
+    const size_t N = S.size();
+    for (size_t i = 0; i < N; ++i) {
+      const auto& r = S[i];
+      if (not r.empty() and r[0] > i+1) return false;
+    }
+    return true;
+  }
 
 
   size_t mdiff_equiv(const size_t i, const size_t j, const size_t N) {
@@ -391,6 +399,7 @@ namespace Verification {
         case CD::UC::ocred : if (not ocreduced(L)) return false; break;
         case CD::UC::red : if (not reduced(L)) return false; break;
         case CD::UC::ored : if (not oreduced(L)) return false; break;
+        case CD::UC::wcred : if (not wcreduced(L)) return false; break;
         case CD::UC::box : if (not is_boxed(L)) return false; break;
         case CD::UC::symm : if (not symmetric(L)) return false; break;
         case CD::UC::antisymm : if (not antisymmetric(L)) return false; break;

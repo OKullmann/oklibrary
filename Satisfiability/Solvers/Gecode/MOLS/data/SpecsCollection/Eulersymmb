@@ -1,0 +1,16 @@
+# Counts for N >= 2:
+# 0, 1, 1, 4, 0, 6236, >= 1073, >= 1
+
+# This is the search for Euler-squares with the strongest known symmetry-breaking.
+
+# dom+enumbr+maxdegdom+desc should be a generally good combination.
+# MOLS> ./gcMols_debug 7 data/SpecsCollection/Eulersymmb "" +count dom enumbr maxdegdom desc 1
+# pl bt bh bo 	rt sat t prop flvs nds h
+# dom enumbr maxdegdom desc 	+count 6236 1620.793 3194632064 29038037 53916452 29
+
+squares A B aux
+red A
+rred B aux
+wcred B
+ls A B aux
+rprod A aux B

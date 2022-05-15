@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "8.5.2022",
+        "0.3.6",
+        "14.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
@@ -222,6 +222,11 @@ int main(const int argc, const char* const argv[]) {
    std::istringstream ss_ps("");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 0);
+  }
+  {std::istringstream ss_cond("squares A\nwcred A\nrls A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 216*2/3);
   }
   {for (size_t n = 2; n <= 3; ++n) {
      std::istringstream ss_cond("squares A\nrls A\n");

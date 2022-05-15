@@ -112,9 +112,10 @@ namespace Conditions {
     ocred = 17,
     red = 18,
     ored = 19,
-    box = 20, // generalised Sudoku constraint
-    symm = 21,
-    antisymm = 22
+    wcred = 20, // weakly column-reduced
+    box = 21, // generalised Sudoku constraint
+    symm = 22,
+    antisymm = 23
   };
   constexpr size_t maxUC = size_t(UC::antisymm);
 
@@ -122,7 +123,7 @@ namespace Conditions {
     strUC{"UNDEF", "rls", "cls", "ls",
       "diag", "antidiag", "uni", "antiuni", "idem", "antiidem",
       "moddiag", "modantidiag", "queendiag", "queenantidiag",
-      "rred", "orred", "cred", "ocred", "red", "ored",
+      "rred", "orred", "cred", "ocred", "red", "ored", "wcred",
       "box", "symm", "antisymm"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) {

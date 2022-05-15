@@ -1,0 +1,13 @@
+# Counts for N >= 2:
+# 0, 0, 1, 8, 0
+
+# QUESTION: also for C there should be additional symmetry-breaking?
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+red A
+rred B C
+wcred B
+rprod B AB A
+rprod C AC A
+rprod C BC B
