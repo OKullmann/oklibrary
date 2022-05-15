@@ -2,6 +2,10 @@
 # 0, 0, 1, 8, 0
 
 # QUESTION: also for C there should be additional symmetry-breaking?
+# "wcred C" is wrong (unsolvable for N=4).
+
+# MOLS> ./gcMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enumbr maxdegdom desc 12
+# aborted after 6h wallclock.
 
 squares A B C AB AC BC
 ls A B C AB AC BC

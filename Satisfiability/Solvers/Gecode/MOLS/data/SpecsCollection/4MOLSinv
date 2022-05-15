@@ -1,19 +1,19 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0
+# 0, 0, 0, 36, 0, 7200
 # Apparently not in OEIS.
 #
-# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS "" count dom binbr maxdegdom "" 12
+# For example:
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS "" count dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 7200 347530.189 775976950125 1571962541 3143939481 44
 # real	527m31.099s user	5792m10.193s sys	41m17.576s
-# Possibly don+enumbr+mindeg is better (at least for N=6).
 
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD
 red A
 rred B C D
-rprod B AB A
-rprod C AC A
-rprod D AD A
-rprod C BC B
-rprod D BD B
-rprod D CD C
+rprod B A AB
+rprod C A AC
+rprod D A AD
+rprod C B BC
+rprod D B BD
+rprod D C CD

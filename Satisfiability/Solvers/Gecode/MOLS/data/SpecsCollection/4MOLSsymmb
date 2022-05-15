@@ -1,0 +1,17 @@
+# Counts for N >= 2:
+# 0, 0, 0, 8, 0
+#
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enumbr maxdegdom asc 12
+# XXX
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+red A
+rred B C D
+wcred B
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C
