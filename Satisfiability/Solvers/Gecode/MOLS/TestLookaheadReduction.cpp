@@ -9,6 +9,10 @@ License, or any later version. */
 
 Testing of look-ahead reduction for the Gecode library.
 
+BUG:
+
+1. Correct and update XXX.
+
 TODOS:
 
 -1.Testing lareduction is URGENTLY needed:
@@ -56,7 +60,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
+        "0.2.10",
         "16.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -118,39 +122,31 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   GenericMolsNB* const m = new GenericMolsNB(enc);
+   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
-   // Post X[0] == 0:
-   std::unique_ptr<GenericMolsNB> ch =
-     child_node<GenericMolsNB>(m, 0, 0, pl, true);
+   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 7);
-   // Check X[0] == 0:
    assert(assignedval(ch->V, 0) == 0);
-   // Post X[0] != 0, so X[0] == 1:
-   std::unique_ptr<GenericMolsNB> ch2 =
-     child_node<GenericMolsNB>(m, 0, 0, pl, false);
+   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 7);
-   // Check X[0] == 1:
    assert(assignedval(ch2->V, 0) == 1);
-   // Check probing:
-   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
-   // Check that the original space has not been changed:
+   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
-   ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+   const ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
        LAR::eag_npr);
    assert(stat.props() == 0);
    assert(stat.elimvals() == 0);
@@ -161,7 +157,6 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solc() == 0);
    assert(stat.leafcount() == 0);
    assert(stat.sollist().empty());
-   delete m;
   }
 
   {// An empty Latin square of order 2:
@@ -171,39 +166,31 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   GenericMolsNB* const m = new GenericMolsNB(enc);
+   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
-   // Post X[0] == 0:
-   std::unique_ptr<GenericMolsNB> ch =
-     child_node<GenericMolsNB>(m, 0, 0, pl, true);
+   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->V.size() == m->V.size());
    assert(assignedvars(ch->V) == 4);
    assert(sumdomsizes(ch->V) == 4);
-   // Check X[0] == 0:
    assert(assignedval(ch->V,0) == 0);
-   // Post X[0] != 0, so X[0] == 1:
-   std::unique_ptr<GenericMolsNB> ch2 =
-     child_node<GenericMolsNB>(m, 0, 0, pl, false);
+   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_SOLVED);
    assert(ch2->V.size() == m->V.size());
    assert(assignedvars(ch2->V) == 4);
    assert(sumdomsizes(ch2->V) == 4);
-   // Check X[0] == 1:
    assert(assignedval(ch2->V,0) == 1);
-   // Check probing:
-   assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 0, 1, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 1, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 1, 1, pl) == Gecode::SS_SOLVED);
-   // Check that the original space has not been changed:
+   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_SOLVED);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
-   ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+   const ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
@@ -213,14 +200,13 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
-   /*
+   /* XXX
    const listsol_t list_sol = enc.ldecode(stat.sollist());
    assert(eqp(extract(list_sol), {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}
             }));
    */
-   delete m;
   }
 
   {// An empty square of order 3:
@@ -230,43 +216,36 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   GenericMolsNB* const m = new GenericMolsNB(enc);
+   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
-   // Post X[0] == 0:
-   std::unique_ptr<GenericMolsNB> ch =
-     child_node<GenericMolsNB>(m, 0, 0, pl, true);
+   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 25);
-   // Check X[0] == 0:
    assert(assignedval(ch->V,0) == 0);
-   // Post X[0] != 0:
-   std::unique_ptr<GenericMolsNB> ch2 =
-     child_node<GenericMolsNB>(m, 0, 0, pl, false);
+   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
    assert(assignedvars(ch2->V) == 0);
    assert(sumdomsizes(ch2->V) == 26);
-   // Check that X[0] has domain of size 2:
    assert(ch2->V[0].size() == 2);
-   // Check probing:
-   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 0, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
-   ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+   const ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
        LAR::eag_npr);
    assert(stat.props() == 0);
    assert(stat.elimvals() == 0);
@@ -276,7 +255,6 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 0);
    assert(stat.leafcount() == 0);
-   delete m;
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
@@ -286,45 +264,37 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   GenericMolsNB* const m = new GenericMolsNB(enc);
+   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
-   // Check X[0] == 0:
    assert(assignedval(m->V,0) == 0);
-   // Post X[0] == 0:
-   std::unique_ptr<GenericMolsNB> ch =
-     child_node<GenericMolsNB>(m, 0, 0, pl, true);
+   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
    assert(assignedvars(ch->V) == 1);
    assert(sumdomsizes(ch->V) == 21);
-   // Check X[0] == 0:
    assert(assignedval(ch->V,0) == 0);
-   // Post X[0] != 0:
-   std::unique_ptr<GenericMolsNB> ch2 =
-     child_node<GenericMolsNB>(m, 0, 0, pl, false);
+   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_FAILED);
    assert(ch2->V.size() == m->V.size());
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 21);
-   // Check X[0] == 0:
    assert(assignedval(ch2->V,0) == 0);
-   // Check probing:
-   assert(probe(m, 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 0, 1, pl) == Gecode::SS_FAILED);
-   assert(probe(m, 0, 2, pl) == Gecode::SS_FAILED);
-   assert(probe(m, 1, 0, pl) == Gecode::SS_FAILED);
-   assert(probe(m, 1, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 0, pl) == Gecode::SS_FAILED);
-   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
-   ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+   const ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
@@ -334,7 +304,6 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 0);
-   delete m;
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
@@ -344,46 +313,38 @@ int main(const int argc, const char* const argv[]) {
    const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc(ac, ps, pl);
-   GenericMolsNB* const m = new GenericMolsNB(enc);
+   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
-   // Check X[4] == 1:
    assert(assignedval(m->V,4) == 1);
-   // Post X[0] == 0:
-   std::unique_ptr<GenericMolsNB> ch =
-     child_node<GenericMolsNB>(m, 0, 0, pl, true);
+   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->V.size() == m->V.size());
    assert(assignedvars(ch->V) == 9);
    assert(sumdomsizes(ch->V) == 9);
-   // Check X[0] == 0, X[4] == 1:
    assert(assignedval(ch->V,0) == 0);
    assert(assignedval(ch->V,4) == 1);
-   // Post X[0] != 0:
-   std::unique_ptr<GenericMolsNB> ch2 =
-     child_node<GenericMolsNB>(m, 0, 0, pl, false);
+   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 20);
-   // Check X[4] == 1:
    assert(assignedval(ch2->V,4) == 1);
-   // Check probing:
-   assert(probe(m, 0, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 0, 2, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 1, 1, pl) == Gecode::SS_FAILED);
-   assert(probe(m, 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m, 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m, 2, 2, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_SOLVED);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
-   ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+   const ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
@@ -393,7 +354,6 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 0);
-   delete m;
   }
 
 }
