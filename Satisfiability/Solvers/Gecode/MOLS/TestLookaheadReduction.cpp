@@ -11,7 +11,10 @@ Testing of look-ahead reduction for the Gecode library.
 
 BUG:
 
-1. Correct and update XXX.
+1. Correct and update XXX:
+  - The problem is that "chnode" in function probe is lost, and then
+    V from that "space" is overwritten.
+  - And thus we get the second solution twice.
 
 TODOS:
 
@@ -60,7 +63,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.10",
+        "0.2.11",
         "16.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -139,10 +142,11 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 7);
    assert(assignedval(ch2->V, 0) == 1);
-   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
+   ReductionStatistics stat0(m->V);
+   assert(probe(m.get(), 0, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
@@ -159,7 +163,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.sollist().empty());
   }
 
-  {// An empty Latin square of order 2:
+  {// All Latin square of order 2:
    std::istringstream in_cond("squares A\nls A\n");
    std::istringstream in_ps("");
    const AConditions ac = ReadAC()(in_cond);
@@ -183,10 +187,11 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 4);
    assert(sumdomsizes(ch2->V) == 4);
    assert(assignedval(ch2->V,0) == 1);
-   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_SOLVED);
+   ReductionStatistics stat0(m->V);
+   assert(probe(m.get(), 0, 0, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_SOLVED);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
@@ -200,12 +205,12 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
-   /* XXX
-   const listsol_t list_sol = enc.ldecode(stat.sollist());
-   assert(eqp(extract(list_sol), {
+   const auto list_sol = extract(enc.ldecode(stat.sollist()));
+   // ERROR XXX
+   /*
+   assert(eqp(list_sol, {
               {{{0,1},{1,0}}},
-              {{{1,0},{0,1}}}
-            }));
+              {{{1,0},{0,1}}}}));
    */
   }
 
@@ -233,15 +238,16 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 0);
    assert(sumdomsizes(ch2->V) == 26);
    assert(ch2->V[0].size() == 2);
-   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_BRANCH);
+   ReductionStatistics stat0(m->V);
+   assert(probe(m.get(), 0, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
    const ReductionStatistics stat =
@@ -282,15 +288,16 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 21);
    assert(assignedval(ch2->V,0) == 0);
-   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_BRANCH);
+   ReductionStatistics stat0(m->V);
+   assert(probe(m.get(), 0, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 0, 2, pl, stat0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =
@@ -332,15 +339,16 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(ch2->V) == 1);
    assert(sumdomsizes(ch2->V) == 20);
    assert(assignedval(ch2->V,4) == 1);
-   assert(probe(m.get(), 0, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 0, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 2, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 1, 0, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 2, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 2, 1, pl) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl) == Gecode::SS_SOLVED);
+   ReductionStatistics stat0(m->V);
+   assert(probe(m.get(), 0, 0, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_SOLVED);
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =

@@ -165,20 +165,31 @@ namespace LookaheadReduction {
   template <class SPA>
   GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
-                        const GC::IntPropLevel pl) noexcept {
+                        const GC::IntPropLevel pl,
+                        ReductionStatistics& stats,
+                        const bool with_sols) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
     const auto chnode = child_node<SPA>(m, v, val, pl, true);
-    return chnode->status();
+    const auto status = chnode->status();
+    if (status == GC::SS_SOLVED) {
+      stats.inc_solc(); if (with_sols) stats.sollist(chnode->V);
+    }
+    return status;
   }
   template <class SPA>
   GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
                         const GC::IntPropLevel pl,
-                        pruning_table_t& PT) noexcept {
+                        pruning_table_t& PT,
+                        ReductionStatistics& stats,
+                        const bool with_sols) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
     const auto V0 = m->V;
     const auto chnode = child_node<SPA>(m, v, val, pl, true);
     const auto status = chnode->status();
+    if (status == GC::SS_SOLVED) {
+      stats.inc_solc(); if (with_sols) stats.sollist(chnode->V);
+    }
     if (status != GC::SS_BRANCH) return status;
     const auto V1 = chnode->V;
     assert(V0.size() == V1.size());
@@ -200,14 +211,14 @@ namespace LookaheadReduction {
                         const OP::RT rt,
                         const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
-    ReductionStatistics stat(m->V);
+    ReductionStatistics stats(m->V);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     bool repeat = false;
     pruning_table_t PT;
     do {
       repeat = false;
-      stat.inc_rounds();
+      stats.inc_rounds();
       const GC::IntVarArray x = m->V;
       for (int var = 0; var < x.size(); ++var) {
         const IntView view = x[var];
@@ -221,36 +232,33 @@ namespace LookaheadReduction {
         values_t elimvals;
         for (const auto val : values) {
           if (pruning(lar) and PT.contains({var,val})) {
-            stat.inc_prunes(); continue;
+            stats.inc_prunes(); continue;
           }
           const auto status = pruning(lar) and elimvals.empty() ?
-            probe(m, var, val, pl, PT) : probe(m, var, val, pl);
-          stat.inc_probes();
+            probe(m, var, val, pl, PT, stats, with_solutions(rt)) :
+            probe(m, var, val, pl,     stats, with_solutions(rt));
+          stats.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            stat.inc_elimvals(); elimvals.push_back(val);
-            if (status == GC::SS_SOLVED) {
-              if (with_solutions(rt)) stat.sollist(m->V);
-              stat.inc_solc();
-              if (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
-                  or (test_unique(rt) and stat.solc() >= 2))
-                goto END;
-            }
+            stats.inc_elimvals(); elimvals.push_back(val);
+            if (status == GC::SS_SOLVED and
+                (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
+                 or (test_unique(rt) and stats.solc() >= 2)))
+              goto END;
           }
         }
 
         if (not elimvals.empty()) {
-          stat.maxprune(PT.size()); PT.clear();
+          stats.maxprune(PT.size()); PT.clear();
           for (const int val : elimvals)
             GC::rel(*m, x[var], GC::IRT_NQ, val, pl);
           const auto status = m->status();
-          stat.inc_props();
+          stats.inc_props();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
-            stat.inc_leafcount();
+            stats.inc_leafcount();
             if (status == GC::SS_SOLVED) {
-              if (with_solutions(rt)) stat.sollist(m->V);
-              stat.inc_solc();
+              stats.inc_solc(); if (with_solutions(rt)) stats.sollist(m->V);
             }
             goto END;
           }
@@ -260,8 +268,8 @@ namespace LookaheadReduction {
       }
     } while (repeat);
 
-    END: const Timing::Time_point t1 = timing(); stat.time(t1 - t0);
-    return stat;
+    END: const Timing::Time_point t1 = timing(); stats.time(t1 - t0);
+    return stats;
   }
 
 }
