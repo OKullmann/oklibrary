@@ -256,13 +256,11 @@ namespace LookaheadReduction {
             GC::rel(*m, x[var], GC::IRT_NQ, val, pl);
           const auto status = m->status();
           stats.inc_props();
+          assert(status != GC::SS_SOLVED);
           if (status != GC::SS_BRANCH) {
-            assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
+            assert(status == GC::SS_FAILED);
+            assert(elimvals.size() == values.size());
             stats.inc_leafcount();
-            if (status == GC::SS_SOLVED) {
-              stats.inc_solc();
-              if (with_solutions(rt)) stats.sollist(GV::extract(m->V));
-            }
             goto END;
           }
           if (eager(lar)) { assert(not repeat); break; }
