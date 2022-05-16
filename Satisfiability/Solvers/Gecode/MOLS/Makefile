@@ -91,9 +91,9 @@ TestCommandLine_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestCommandLine_debug : Optimisation_plus = -fwhole-program
 TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
 
-TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
-TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp Conditions.hpp Parsing.hpp PartialSquares.hpp Encoding.hpp Options.hpp Constraints.hpp GcVariables.hpp
+TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp Conditions.hpp Parsing.hpp PartialSquares.hpp Encoding.hpp Options.hpp Constraints.hpp Solvers.hpp BasicLatinSquares.hpp GcVariables.hpp
 
 TestLookaheadBranching_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadBranching_debug : Optimisation_plus = -fwhole-program

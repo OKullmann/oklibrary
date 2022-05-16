@@ -49,13 +49,15 @@ TODOS:
 #include "Encoding.hpp"
 #include "Options.hpp"
 #include "Constraints.hpp"
+#include "Solvers.hpp"
+#include "BasicLatinSquares.hpp"
 #include "GcVariables.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
-        "13.5.2022",
+        "0.2.8",
+        "16.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -68,9 +70,13 @@ namespace {
   using namespace Encoding;
   using namespace Options;
   using namespace Constraints;
+  using namespace BasicLatinSquares;
   using namespace GcVariables;
 
   namespace GC = Gecode;
+
+  typedef Options::RT RT;
+  using listsol_t = Solvers::listsol_t;
 
   class GenericMolsNB : public GenericMols0 {
     struct Void : GC::Brancher {
@@ -93,6 +99,11 @@ namespace {
       new (*this) Void(*this);
     }
   };
+
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 
 }
 
@@ -138,6 +149,18 @@ int main(const int argc, const char* const argv[]) {
    // Check that the original space has not been changed:
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
+   ReductionStatistics stat =
+     lareduction<GenericMolsNB>(m, RT::enumerate_solutions, GC::IPL_VAL,
+       LAR::eag_npr);
+   assert(stat.props() == 0);
+   assert(stat.elimvals() == 0);
+   assert(stat.prunes() == 0);
+   assert(stat.maxprune() == 0);
+   assert(stat.probes() == 8);
+   assert(stat.rounds() == 1);
+   assert(stat.solc() == 0);
+   assert(stat.leafcount() == 0);
+   assert(stat.sollist().empty());
    delete m;
   }
 
@@ -190,6 +213,16 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
+   auto sollist = stat.sollist();
+   listsol_t list_sol;
+   while (not sollist.empty()) {
+     list_sol.push_back(enc.decode(sollist.front()));
+     sollist.pop();
+   }
+   assert(eqp(extract(list_sol), {
+              {{{0,1},{1,0}}},
+              {{{1,0},{0,1}}}
+            }));
    delete m;
   }
 
