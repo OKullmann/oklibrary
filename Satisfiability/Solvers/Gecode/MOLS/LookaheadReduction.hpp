@@ -53,7 +53,6 @@ TODOS:
 
 #include <vector>
 #include <memory>
-#include <queue>
 #include <set>
 #include <algorithm>
 
@@ -89,7 +88,7 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
-    typedef std::queue<GC::IntVarArray> sollist_t;
+    typedef std::vector<GC::IntVarArray> sollist_t;
   private :
     size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
@@ -133,7 +132,7 @@ namespace LookaheadReduction {
     size_t solc() const noexcept { return solc_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
-    void sollist(const GC::IntVarArray& x) { sollist_.push(x); }
+    void sollist(const GC::IntVarArray& x) { sollist_.push_back(x); }
     const sollist_t& sollist() const noexcept { return sollist_; }
 
     void maxprune(const size_t size) noexcept {

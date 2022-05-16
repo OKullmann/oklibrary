@@ -575,6 +575,12 @@ namespace Encoding {
       assert(Verification::correct(ac, res));
       return res;
     }
+    template <class LIST>
+    std::vector<PS::PSquares> ldecode(const LIST& lva) const {
+      std::vector<PS::PSquares> res;
+      for (const auto& va : lva) res.push_back(decode(va));
+      return res;
+    }
 
     template <class VAV>
     static bool unit(const VAV& va) noexcept {

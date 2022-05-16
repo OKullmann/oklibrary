@@ -213,13 +213,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
-   auto sollist = stat.sollist();
    /*
-   listsol_t list_sol;
-   while (not sollist.empty()) {
-     list_sol.push_back(enc.decode(sollist.front()));
-     sollist.pop();
-   }
+   const listsol_t list_sol = enc.ldecode(stat.sollist());
    assert(eqp(extract(list_sol), {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}
