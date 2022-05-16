@@ -3,6 +3,8 @@
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr maxdegdom desc 12
 # 2 solutions found after 6h wallclock.
+# MOLS> time ./gcMols 11 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr maxdegdom desc 12
+# XXX
 
 squares A B aux
 red A

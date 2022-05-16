@@ -6,7 +6,8 @@
 # dom enumbr maxdegdom desc 	+count 6236 1795.794 3517274942 31939000 59519461 32
 # real	3m3.885s user	29m55.801s sys	1m58.221s
 # time ./gcMols 10 data/SpecsCollection/Eulerinvsymmb "" +count dom enumbr maxdegdom desc 12
-# XXX
+# aborted after 8h wallclock without finding a solution; so
+# the alt-version ("Eulerinvsymmbalt") seems superior.
 
 squares A B aux
 red A
