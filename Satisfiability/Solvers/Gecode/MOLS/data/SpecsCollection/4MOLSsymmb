@@ -2,12 +2,12 @@
 # 0, 0, 0, 8, 0
 #
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enumbr maxdegdom asc 12
-# XXX
+# Seems very hard just to find a single solution?!?
 
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD
 red A
-rred B C D
+rred B C D AB AC AD BC BD CD
 wcred B
 rprod B AB A
 rprod C AC A

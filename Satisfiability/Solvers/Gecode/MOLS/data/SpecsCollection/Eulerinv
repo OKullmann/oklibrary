@@ -1,14 +1,17 @@
 # Counts for N >= 2:
-# 0, 1, 2, 18, 0
+# 0, 1, 2, 18, 0, >= 6000, >= 6, >= 1
 
-# Should be the same as "Euler".
+# Should be the same count as "Euler".
 
-# The case N=7 is very hard for counting:
-# MOLS> time ./gcMols 7 data/SpecsCollection/Euler "" count dom mindom "" 4
-# running for over 32h wall-clock, without result.
+# MOLS> time ./gcMols 7 data/SpecsCollection/Eulerinv "" +count dom binbr maxdegdom "" 12
+# After 2min30s wallclock more than 6000 solutions found.
+MOLS> time ./gcMols 9 data/SpecsCollection/Eulerinv "" +count dom binbr maxdegdom desc 12
+# quickly found one solution.
+MOLS> time ./gcMols 10 data/SpecsCollection/Eulerinv "" satd dom enumbr maxdegdom desc 12
+# aborted after 23min wallclock.
 
 squares A B aux
 red A
 rred B aux
 ls A B aux
-rprod A B aux # or "rprod B A aux" ?!
+rprod A B aux
