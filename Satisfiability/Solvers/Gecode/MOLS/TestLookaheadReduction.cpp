@@ -11,11 +11,6 @@ Testing of look-ahead reduction for the Gecode library.
 
 BUG:
 
-1. Correct and update XXX:
-  - The problem is that "chnode" in function probe is lost, and then
-    V from that "space" is overwritten.
-  - And thus we get the second solution twice.
-
 TODOS:
 
 -1.Testing lareduction is URGENTLY needed:
@@ -35,6 +30,7 @@ TODOS:
 
 0. Tests should mostly used enumeration-modes:
   - So that also the satisfying assignments can be tested.
+  - The various modes of function probe need to be tested.
 
 */
 
@@ -63,7 +59,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.11",
+        "0.3.0",
         "16.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -206,12 +202,9 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
    const auto list_sol = extract(enc.ldecode(stat.sollist()));
-   // ERROR XXX
-   /*
    assert(eqp(list_sol, {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}}));
-   */
   }
 
   {// An empty square of order 3:

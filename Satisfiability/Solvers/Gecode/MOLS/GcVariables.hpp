@@ -6,7 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Helper functions for dealing with Gecode variables.
+  Helper functions for dealing with Gecode variables
+
+  Namespace GcVariables, abbreviated "GV".
 
 TODOS:
 
@@ -50,10 +52,22 @@ namespace GcVariables {
 
   int assignedval(const GC::IntVarArray& V, const int v) noexcept {
     assert(V.size() > 0 and v < V.size());
-    GC::Int::IntView view = V[v];
+    const GC::Int::IntView view = V[v];
     assert(view.assigned());
-    GC::IntVarValues j(view);
+    const GC::IntVarValues j(view);
     return j.val();
+  }
+  typedef std::vector<int> solutions_t;
+  solutions_t extract(const GC::IntVarArray& V) {
+    const size_t N = V.size();
+    solutions_t res; res.reserve(N);
+    for (size_t v = 0; v < N; ++v) {
+      const GC::Int::IntView view = V[v];
+      assert(view.assigned());
+      const GC::IntVarValues j(view);
+      res.push_back(j.val());
+    }
+    return res;
   }
 
 }

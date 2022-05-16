@@ -173,12 +173,14 @@ Indeed quite obvious that
 #include "Conditions.hpp"
 #include "PartialSquares.hpp"
 #include "Verification.hpp"
+#include "GcVariables.hpp"
 
 namespace Encoding {
 
   namespace GC = Gecode;
   namespace CD = Conditions;
   namespace PS = PartialSquares;
+  namespace GV = GcVariables;
 
   typedef CD::size_t size_t;
 
@@ -569,6 +571,24 @@ namespace Encoding {
           for (size_t j = 0; j < N; ++j, ++v) {
             PS::Cell& c = row[j];
             for (const size_t val : values(va, v)) c.c[val] = 0;
+          }
+        }
+      assert(v == num_vars);
+      assert(Verification::correct(ac, res));
+      return res;
+    }
+    PS::PSquares decode(const GV::solutions_t& va) const {
+      assert(size_t(va.size()) == num_vars);
+      PS::PSquares res = full_tass();
+      size_t v = 0; // index for va
+      for (PS::PSquare& s : res.psqs)
+        for (size_t i = 0; i < N; ++i) {
+          PS::prow_t& row = s.ps[i];
+          for (size_t j = 0; j < N; ++j, ++v) {
+            PS::Cell& c = row[j];
+            const int val = va[v];
+            assert(val >= 0);
+            c.c[val] = 0;
           }
         }
       assert(v == num_vars);

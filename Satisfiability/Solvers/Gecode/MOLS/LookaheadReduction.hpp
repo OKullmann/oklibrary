@@ -66,6 +66,7 @@ TODOS:
 
 #include "Conditions.hpp"
 #include "Options.hpp"
+#include "GcVariables.hpp"
 
 namespace LookaheadReduction {
 
@@ -73,6 +74,7 @@ namespace LookaheadReduction {
   namespace GC = Gecode;
   namespace OP = Options;
   namespace CD = Conditions;
+  namespace GV = GcVariables;
 
   using size_t = CD::size_t;
   typedef FP::float80 float_t;
@@ -88,7 +90,7 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
-    typedef std::vector<GC::IntVarArray> sollist_t;
+    typedef std::vector<GV::solutions_t> sollist_t;
   private :
     size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
@@ -132,7 +134,7 @@ namespace LookaheadReduction {
     size_t solc() const noexcept { return solc_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
-    void sollist(const GC::IntVarArray& x) { sollist_.push_back(x); }
+    void sollist(const GV::solutions_t x) { sollist_.push_back(x); }
     const sollist_t& sollist() const noexcept { return sollist_; }
 
     void maxprune(const size_t size) noexcept {
@@ -172,7 +174,7 @@ namespace LookaheadReduction {
     const auto chnode = child_node<SPA>(m, v, val, pl, true);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
-      stats.inc_solc(); if (with_sols) stats.sollist(chnode->V);
+      stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));
     }
     return status;
   }
@@ -188,7 +190,7 @@ namespace LookaheadReduction {
     const auto chnode = child_node<SPA>(m, v, val, pl, true);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
-      stats.inc_solc(); if (with_sols) stats.sollist(chnode->V);
+      stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));
     }
     if (status != GC::SS_BRANCH) return status;
     const auto V1 = chnode->V;
@@ -258,7 +260,8 @@ namespace LookaheadReduction {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stats.inc_leafcount();
             if (status == GC::SS_SOLVED) {
-              stats.inc_solc(); if (with_solutions(rt)) stats.sollist(m->V);
+              stats.inc_solc();
+              if (with_solutions(rt)) stats.sollist(GV::extract(m->V));
             }
             goto END;
           }
