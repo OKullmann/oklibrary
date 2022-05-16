@@ -149,6 +149,14 @@ namespace BasicLatinSquares {
   void out(std::ostream& out, const ls_t& S, const std::string& sep = " ") {
     Environment::out_lines(out, S, "\n", sep);
   }
+  void out(std::ostream& o, const std::vector<ls_t>& S,
+           const std::string& sep = " ") {
+    for (const ls_t& L : S) out(o, L, sep);
+  }
+  void out(std::ostream& o, const std::vector<std::vector<ls_t>>& V,
+           const std::string& sep = " ") {
+    for (const auto& S : V) {out(o, S, sep); o << "\n";}
+  }
 
 
   // Conversion from LS::ls_t to ls_t, that is,

@@ -22,6 +22,14 @@ namespace GcVariables {
 
   namespace GC = Gecode;
 
+  void out(std::ostream& o, const GC::IntVarArray& V) {
+    for (int v = 0; v < V.size(); ++v) {
+      o << v << ":";
+      for (GC::IntVarValues j(V[v]); j(); ++j) o << " " << j.val();
+      o << "\n";
+    }
+  }
+
   bool empty(const GC::IntVarArray& V) noexcept {
     for (int i = 0; i < V.size(); ++i) if (not V[i].assigned()) return false;
     return true;
@@ -29,20 +37,20 @@ namespace GcVariables {
 
   size_t assignedvars(const GC::IntVarArray& V) noexcept {
     size_t assigned = 0;
-    for (int var = 0; var < V.size(); ++var)
-      if (V[var].size() == 1) ++assigned;
+    for (int v = 0; v < V.size(); ++v)
+      if (V[v].size() == 1) ++assigned;
     return assigned;
   }
 
   size_t sumdomsizes(const GC::IntVarArray& V) noexcept {
     size_t sum = 0;
-    for (int var = 0; var < V.size(); ++var) sum += V[var].size();
+    for (int v = 0; v < V.size(); ++v) sum += V[v].size();
     return sum;
   }
 
-  int assignedval(const GC::IntVarArray& V, const int var) noexcept {
-    assert(V.size() > 0 and var < V.size());
-    GC::Int::IntView view = V[var];
+  int assignedval(const GC::IntVarArray& V, const int v) noexcept {
+    assert(V.size() > 0 and v < V.size());
+    GC::Int::IntView view = V[v];
     assert(view.assigned());
     GC::IntVarValues j(view);
     return j.val();
