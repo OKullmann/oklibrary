@@ -56,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
+        "0.2.9",
         "16.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -214,6 +214,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 1);
    auto sollist = stat.sollist();
+   /*
    listsol_t list_sol;
    while (not sollist.empty()) {
      list_sol.push_back(enc.decode(sollist.front()));
@@ -223,6 +224,7 @@ int main(const int argc, const char* const argv[]) {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}
             }));
+   */
    delete m;
   }
 
