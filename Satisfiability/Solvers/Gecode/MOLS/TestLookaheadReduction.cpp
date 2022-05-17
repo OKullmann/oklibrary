@@ -24,9 +24,10 @@ TODOS:
   - DONE The parameters of lareduction are *exactly* appropriate -- global
     variables must be avoided (and class-variables are just global variables).
 
-0. Tests should mostly used enumeration-modes:
+0. DONE (enumeration-modes are used)
+   Tests should mostly used enumeration-modes:
   - DONE So that also the satisfying assignments can be tested.
-  - The various modes of function probe need to be tested.
+  - DONE The various modes of function probe need to be tested.
 
 */
 
@@ -55,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -141,10 +142,12 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    pruning_table_t PT;
    assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}}));
    assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}}));
    assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
    assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
-   assert(PT.size() == 4);
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
@@ -191,6 +194,15 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_SOLVED);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
@@ -244,6 +256,25 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}}));
+   assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}}));
+   assert(probe(m.get(), 0, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}}));
+   assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}}));
+   assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}}));
+   assert(probe(m.get(), 1, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}}));
+   assert(probe(m.get(), 2, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}}));
+   assert(probe(m.get(), 2, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
+   assert(probe(m.get(), 2, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}, {2,2}}));
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
    const ReductionStatistics stat =
@@ -295,6 +326,25 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_FAILED);
    assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_BRANCH);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 2, pl, PT, stat0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {2,2}}));
+   assert(probe(m.get(), 1, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2, 0, pl, PT, stat0, false) == Gecode::SS_FAILED);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =
@@ -350,6 +400,25 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 0, pl, stat0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 2, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stat0, false) == Gecode::SS_SOLVED);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 0, 2, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_FAILED);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1, 2, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 0, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 2, pl, PT, stat0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =
