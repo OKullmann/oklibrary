@@ -195,7 +195,7 @@ namespace LookaheadReduction {
     ReductionStatistics stats(m->V);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    bool repeat = false;
+    bool repeat;
     pruning_table_t PT;
     do {
       repeat = false;
