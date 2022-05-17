@@ -56,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
+        "0.3.6",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -163,16 +163,19 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solc() == 0);
    assert(stat.leafcount() == 0);
    assert(stat.sollist().empty());
+   const std::unique_ptr<GenericMolsNB> m2(new GenericMolsNB(enc));
    const ReductionStatistics stat2 =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
    assert(stat2 == stat);
+   const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
    const ReductionStatistics stat3 =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
    assert(stat3 == stat);
+   const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
    const ReductionStatistics stat4 =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
    assert(stat4 == stat);
   }
@@ -232,6 +235,21 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(list_sol, {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}}));
+   const std::unique_ptr<GenericMolsNB> m2(new GenericMolsNB(enc));
+   const ReductionStatistics stat2 =
+     lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
+       LAR::eag_pr);
+   assert(stat2 == stat);
+   const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
+   const ReductionStatistics stat3 =
+     lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
+       LAR::rel_npr);
+   assert(stat3 == stat);
+   const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
+   const ReductionStatistics stat4 =
+     lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
+       LAR::rel_pr);
+   assert(stat4 == stat);
   }
 
   {// An empty square of order 3:
