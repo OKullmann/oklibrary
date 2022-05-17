@@ -14,10 +14,10 @@ License, or any later version. */
 
 BUGS:
 
-1. Superfluous test for eager mode:
+1. DONE Superfluous test for eager mode:
     - The variable which had the reduction does not need to be probed again.
 
-2. Superfluous tests for relaxed mode:
+2. DONE Superfluous tests for relaxed mode:
     - When we reach the variable which in the previous round had the
       reduction, then the whole computation can be finished.
 
@@ -206,13 +206,16 @@ namespace LookaheadReduction {
     ReductionStatistics stats(m->V);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    bool repeat;
     pruning_table_t PT;
-    do {
-      repeat = false;
+
+    for (int last_red = -1; last_red >= 0;) {
       stats.inc_rounds();
       const GC::IntVarArray x = m->V;
       for (int v = 0; v < x.size(); ++v) {
+        if (v == last_red) {
+          if (eager(lar)) {last_red = -1; continue;}
+          else goto END;
+        }
         const IntView view = x[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
@@ -222,6 +225,7 @@ namespace LookaheadReduction {
            for (IntVarValues j(view); j(); ++j) res.push_back(j.val());
            return res;}();
         values_t elimvals;
+
         for (const auto val : values) {
           if (pruning(lar) and PT.contains({v,val})) {
             stats.inc_prunes(); continue;
@@ -241,6 +245,7 @@ namespace LookaheadReduction {
         }
 
         if (not elimvals.empty()) {
+          last_red = v;
           stats.maxprune(PT.size()); PT.clear();
           for (const int val : elimvals)
             GC::rel(*m, x[v], GC::IRT_NQ, val, pl);
@@ -253,14 +258,13 @@ namespace LookaheadReduction {
             stats.inc_leafcount();
             goto END;
           }
-          repeat = true;
           if (eager(lar)) break;
         }
       }
-    } while (repeat);
+    }
 
-    END: const Timing::Time_point t1 = timing(); stats.time(t1 - t0);
-    return stats;
+    END: const Timing::Time_point t1 = timing();
+    return stats.time(t1 - t0);
   }
 
 }

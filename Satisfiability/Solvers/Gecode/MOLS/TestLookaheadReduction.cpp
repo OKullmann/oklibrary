@@ -14,6 +14,8 @@ BUG:
 1. Wrong tests for eager reduction
     - If a reduction was found, then obviously at least two rounds are needed.
 
+2. A complete revision regarding rounds etc. is needed.
+
 TODOS:
 
 -1.DONE (lareduction is tested, including satysfying assignments)
@@ -59,7 +61,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.4.0",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -161,8 +163,8 @@ int main(const int argc, const char* const argv[]) {
    assert(stats.elimvals() == 0);
    assert(stats.prunes() == 0);
    assert(stats.maxprune() == 0);
-   assert(stats.probes() == 8);
-   assert(stats.rounds() == 1);
+   // assert(stats.probes() == 8); XXX needs revision
+   // assert(stats.rounds() == 1); XXX needs revision
    assert(stats.solc() == 0);
    assert(stats.leafcount() == 0);
    assert(stats.sollist().empty());
@@ -226,12 +228,13 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
-   assert(stats.props() == 1);
-   assert(stats.elimvals() == 2);
+   // assert(stats.props() == 1); XXX needs revision
+   // assert(stats.elimvals() == 2); XXX needs revision
    assert(stats.prunes() == 0);
    assert(stats.maxprune() == 0);
-   assert(stats.probes() == 2);
-   assert(stats.rounds() == 1);
+   // assert(stats.probes() == 2); XXX needs revision
+   // assert(stats.rounds() == 1); XXX needs revision
+   /* needs complete revision XXX
    assert(stats.solc() == 2);
    assert(stats.leafcount() == 1);
    const auto list_sol = extract(enc.ldecode(stats.sollist()));
@@ -253,6 +256,7 @@ int main(const int argc, const char* const argv[]) {
      lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
    assert(eqwt(stats4, stats));
+   */
   }
 
   {// An empty square of order 3:
@@ -317,11 +321,13 @@ int main(const int argc, const char* const argv[]) {
    assert(stats.elimvals() == 0);
    assert(stats.prunes() == 0);
    assert(stats.maxprune() == 0);
+   /* needs complete revision XXX
    assert(stats.probes() == 27);
    assert(stats.rounds() == 1);
    assert(stats.solc() == 0);
    assert(stats.leafcount() == 0);
    assert(stats.sollist().empty());
+   */
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
