@@ -55,7 +55,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -139,6 +139,13 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 0, 1, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 1, 0, pl, stat0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 1, 1, pl, stat0, false) == Gecode::SS_BRANCH);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, pl, PT, stat0, false) == Gecode::SS_BRANCH);
+   assert(PT.size() == 4);
+   assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
