@@ -56,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.3.4",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -152,7 +152,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stat.props() == 0);
    assert(stat.elimvals() == 0);
@@ -206,7 +206,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
@@ -278,7 +278,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 0);
    assert(sumdomsizes(m->V) == 27);
    const ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stat.props() == 0);
    assert(stat.elimvals() == 0);
@@ -348,7 +348,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
@@ -422,7 +422,7 @@ int main(const int argc, const char* const argv[]) {
    assert(assignedvars(m->V) == 1);
    assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stat =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, GC::IPL_VAL,
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stat.props() == 1);
    assert(stat.elimvals() == 2);
