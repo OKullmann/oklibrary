@@ -35,14 +35,6 @@ if so, repeating the loop.
 
 BUGS:
 
-1. Collecting solutions.
-  - Currently in lareduction() the current domain-restriction is added
-      stat.sollist(m->V)
-  - But this is not the solution as found in probe.
-  - First, we need a unit-test for this.
-  - Simplest seem to add stat as a reference-parameter, but (somehow)
-    only when with_solutions(rt) holds.
-
 TODOS:
 
 
