@@ -163,6 +163,42 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.solc() == 0);
    assert(stat.leafcount() == 0);
    assert(stat.sollist().empty());
+   const ReductionStatistics stat2 =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+       LAR::eag_pr);
+   assert(stat2.props() == 0);
+   assert(stat2.elimvals() == 0);
+   assert(stat2.prunes() == 0);
+   assert(stat2.maxprune() == 0);
+   assert(stat2.probes() == 8);
+   assert(stat2.rounds() == 1);
+   assert(stat2.solc() == 0);
+   assert(stat2.leafcount() == 0);
+   assert(stat2.sollist().empty());
+   const ReductionStatistics stat3 =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+       LAR::rel_npr);
+   assert(stat3.props() == 0);
+   assert(stat3.elimvals() == 0);
+   assert(stat3.prunes() == 0);
+   assert(stat3.maxprune() == 0);
+   assert(stat3.probes() == 8);
+   assert(stat3.rounds() == 1);
+   assert(stat3.solc() == 0);
+   assert(stat3.leafcount() == 0);
+   assert(stat3.sollist().empty());
+   const ReductionStatistics stat4 =
+     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+       LAR::rel_pr);
+   assert(stat4.props() == 0);
+   assert(stat4.elimvals() == 0);
+   assert(stat4.prunes() == 0);
+   assert(stat4.maxprune() == 0);
+   assert(stat4.probes() == 8);
+   assert(stat4.rounds() == 1);
+   assert(stat4.solc() == 0);
+   assert(stat4.leafcount() == 0);
+   assert(stat4.sollist().empty());
   }
 
   {// All Latin square of order 2:
