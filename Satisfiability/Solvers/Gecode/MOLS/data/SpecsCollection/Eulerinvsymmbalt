@@ -1,10 +1,13 @@
 # Counts for N >= 2:
 # 0, 1, 1, 4, 0, 6236, >= 27, >= 1, >= 2
+# >= 1
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr maxdegdom desc 12
 # 2 solutions found after 6h wallclock.
 # MOLS> time ./gcMols 11 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr maxdegdom desc 12
-# XXX
+# pl bt bh bo 	rt sat t prop flvs nds h
+# dom enumbr maxdegdom desc 	satd 1 1008076.556 1387642038551 9480287163 17871790739 104
+# real	1531m11.511s user	16801m16.566s sys	368m37.636s
 
 squares A B aux
 red A
