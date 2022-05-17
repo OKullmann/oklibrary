@@ -14,6 +14,17 @@ License, or any later version. */
 
 BUGS:
 
+1. Superfluous test for eager mode:
+    - The variable which had the reduction does not need to be probed again.
+
+2. Superfluous tests for relaxed mode:
+    - When we reach the variable which in the previous round had the
+      reduction, then the whole computation can be finished.
+
+3. Insufficient pruning:
+    - When for variable v some eliminated values have been found, then
+      all the pruning for this variable is valid for the new round.
+
 TODOS:
 
 
@@ -201,8 +212,8 @@ namespace LookaheadReduction {
       repeat = false;
       stats.inc_rounds();
       const GC::IntVarArray x = m->V;
-      for (int var = 0; var < x.size(); ++var) {
-        const IntView view = x[var];
+      for (int v = 0; v < x.size(); ++v) {
+        const IntView view = x[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
 
@@ -212,12 +223,12 @@ namespace LookaheadReduction {
            return res;}();
         values_t elimvals;
         for (const auto val : values) {
-          if (pruning(lar) and PT.contains({var,val})) {
+          if (pruning(lar) and PT.contains({v,val})) {
             stats.inc_prunes(); continue;
           }
           const auto status = pruning(lar) and elimvals.empty() ?
-            probe(m, var, val, pl, PT, stats, with_solutions(rt)) :
-            probe(m, var, val, pl,     stats, with_solutions(rt));
+            probe(m, v, val, pl, PT, stats, with_solutions(rt)) :
+            probe(m, v, val, pl,     stats, with_solutions(rt));
           stats.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
@@ -232,7 +243,7 @@ namespace LookaheadReduction {
         if (not elimvals.empty()) {
           stats.maxprune(PT.size()); PT.clear();
           for (const int val : elimvals)
-            GC::rel(*m, x[var], GC::IRT_NQ, val, pl);
+            GC::rel(*m, x[v], GC::IRT_NQ, val, pl);
           const auto status = m->status();
           stats.inc_props();
           assert(status != GC::SS_SOLVED);
