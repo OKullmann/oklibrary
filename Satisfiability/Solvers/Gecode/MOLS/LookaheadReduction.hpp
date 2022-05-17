@@ -7,31 +7,10 @@ License, or any later version. */
 
 /*
 
-Look-ahead reduction for the Gecode library.
+  Look-ahead reduction for the Gecode library
 
-1. A loop over all variables v is run.
-2. If the domain of v is unit, the variable is skipped, otherwise a loop over
-its values eps is run.
-3. The assignment v=eps is probed, that is, the given propagation is performed
-(in a "clone"), if pruning is not applicable.
-4. There are three possible outcomes of this probing:
-   (a) a satisfying assigment was found;
-   (b) a contradiction was reached;
-   (c) none of these two.
-5. In case of sat-decision/solving, in case (a) the computation is
-appropriately stopped (but with statistics completed). Otherwise for (a) the
-assignment found is stored in a queue.
-6. For both (a) and (b), the constraint v != eps is posted.
-7. For (c), one inspects the propagation and determines all assignments
-v'=eps', and enters them into the pruning-set (with the current counter-value).
-8. However, if for v already one case of excluded value ((a) or (b)) happened,
-then this is skipped (since superfluous).
-9. Once v is completed, and at least one case of (a) or (b) was found, the
-counter is incremented, and propagation is triggered.
-10. If one reaches the end of the loop over all variables, in case of
-super-eager that concludes the reduction, while otherwise one needs to check
-whether the counter is larger than its previous value (for the last round), and
-if so, repeating the loop.
+  Namespace LookaheadReduction, abbreviated "LR".
+
 
 BUGS:
 

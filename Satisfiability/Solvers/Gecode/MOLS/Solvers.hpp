@@ -8,7 +8,10 @@ License, or any later version. */
 /*
   Solvers for the LS-MOLS-conditions, for Gecode
 
-  Types for handling of solver-results
+  Namespace Solvers, abbreviated "SV".
+
+
+  Types for handling of solver-results:
 
    - import of Options::RT
    - typedef listsol_t for a vector of PSquares
