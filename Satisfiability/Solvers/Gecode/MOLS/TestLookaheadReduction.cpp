@@ -13,23 +13,19 @@ BUG:
 
 TODOS:
 
--1.Testing lareduction is URGENTLY needed:
+-1.DONE (lareduction is tested, including satysfying assignments)
+   Testing lareduction is URGENTLY needed:
   - DONE The space provided should be just GenericMols0.
   - DONE More precisely, a class say "GenericMolsNB" should be derived from
     GenericMols0, with "NB" for "no branching", which posts a brancher
     which immediately throws an exception -- this class is only to be
     used for testing.
-
-    The first trial in this direction is
-      GC::branch(*m, [](GC::Space&)->void{;});
-    but then apparently solutions are no longer recognised?
-    Perhaps the brancher must somehow recognise when the problem is solved?
-  - The functions are to be tested exactly as they are.
-  - The parameters of lareduction are *exactly* appropriate -- global variables
-    must be avoided (and class-variables are just global variables).
+  - DONE The functions are to be tested exactly as they are.
+  - DONE The parameters of lareduction are *exactly* appropriate -- global
+    variables must be avoided (and class-variables are just global variables).
 
 0. Tests should mostly used enumeration-modes:
-  - So that also the satisfying assignments can be tested.
+  - DONE So that also the satisfying assignments can be tested.
   - The various modes of function probe need to be tested.
 
 */
@@ -59,8 +55,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "16.5.2022",
+        "0.3.1",
+        "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -254,6 +250,7 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 0);
    assert(stat.leafcount() == 0);
+   assert(stat.sollist().empty());
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
@@ -304,6 +301,10 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 0);
+   const auto list_sol = extract(enc.ldecode(stat.sollist()));
+   assert(eqp(list_sol, {
+              {{{0,2,1},{2,1,0},{1,0,2}}},
+              {{{0,1,2},{1,2,0},{2,0,1}}}}));
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
@@ -355,6 +356,10 @@ int main(const int argc, const char* const argv[]) {
    assert(stat.rounds() == 1);
    assert(stat.solc() == 2);
    assert(stat.leafcount() == 0);
+   const auto list_sol = extract(enc.ldecode(stat.sollist()));
+   assert(eqp(list_sol, {
+              {{{0,2,1},{2,1,0},{1,0,2}}},
+              {{{2,0,1},{0,1,2},{1,2,0}}}}));
   }
 
 }
