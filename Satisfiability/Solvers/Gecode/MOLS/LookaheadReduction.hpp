@@ -21,7 +21,7 @@ BUGS:
     - When we reach the variable which in the previous round had the
       reduction, then the whole computation can be finished.
 
-3. Insufficient pruning:
+3. DONE Insufficient pruning:
     - When for variable v some eliminated values have been found, then
       all the pruning for this variable is valid for the new round.
 
@@ -226,12 +226,13 @@ namespace LookaheadReduction {
            return res;}();
         values_t elimvals;
 
+        pruning_table_t PV;
         for (const auto val : values) {
           if (pruning(lar) and PT.contains({v,val})) {
             stats.inc_prunes(); continue;
           }
-          const auto status = pruning(lar) and elimvals.empty() ?
-            probe(m, v, val, pl, PT, stats, with_solutions(rt)) :
+          const auto status = pruning(lar) ?
+            probe(m, v, val, pl, PV, stats, with_solutions(rt)) :
             probe(m, v, val, pl,     stats, with_solutions(rt));
           stats.inc_probes();
           if (status != GC::SS_BRANCH) {
@@ -258,12 +259,16 @@ namespace LookaheadReduction {
             stats.inc_leafcount();
             goto END;
           }
+          PT.merge(PV);
           if (eager(lar)) break;
         }
+        else PT.merge(PV);
       }
     }
 
-    END: const Timing::Time_point t1 = timing();
+    END:
+    stats.maxprune(PT.size());
+    const Timing::Time_point t1 = timing();
     return stats.time(t1 - t0);
   }
 
