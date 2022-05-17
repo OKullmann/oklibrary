@@ -56,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.3.7",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -167,17 +167,17 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics stat2 =
      lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
-   assert(stat2 == stat);
+   assert(eqwt(stat2, stat));
    const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
    const ReductionStatistics stat3 =
      lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
-   assert(stat3 == stat);
+   assert(eqwt(stat3, stat));
    const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
    const ReductionStatistics stat4 =
      lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
-   assert(stat4 == stat);
+   assert(eqwt(stat4, stat));
   }
 
   {// All Latin square of order 2:
@@ -239,17 +239,17 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics stat2 =
      lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
-   assert(stat2 == stat);
+   assert(eqwt(stat2, stat));
    const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
    const ReductionStatistics stat3 =
      lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
-   assert(stat3 == stat);
+   assert(eqwt(stat3, stat));
    const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
    const ReductionStatistics stat4 =
      lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
-   assert(stat4 == stat);
+   assert(eqwt(stat4, stat));
   }
 
   {// An empty square of order 3:

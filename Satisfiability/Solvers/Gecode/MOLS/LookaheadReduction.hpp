@@ -132,22 +132,18 @@ namespace LookaheadReduction {
     void maxprune(const size_t size) noexcept {
       maxprune_ = std::max(maxprune_, size);
     }
-    void time(const Timing::Time_point t) noexcept { time_ = t; }
+    ReductionStatistics& time(const Timing::Time_point t) noexcept {
+      time_ = t; return *this;
+    }
     Timing::Time_point time() const noexcept { return time_; }
 
     float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
     float_t quotprun() const noexcept {return float_t(prunes_)/probes_;}
 
-    bool operator==(const ReductionStatistics& s) const noexcept {
-        return props() == s.props() and
-               elimvals() == s.elimvals() and
-               prunes() == s.prunes() and
-               maxprune() == s.maxprune() and
-               probes() == s.probes() and
-               rounds() == s.rounds() and
-               solc() == s.solc() and
-               leafcount() == s.leafcount() and
-               sollist() == s.sollist();
+    bool operator ==(const ReductionStatistics&) const noexcept = default;
+    // Equality without time:
+    friend bool eqwt(ReductionStatistics lhs, ReductionStatistics rhs) noexcept {
+      return lhs.time(0) == rhs.time(0);
     }
   };
 
