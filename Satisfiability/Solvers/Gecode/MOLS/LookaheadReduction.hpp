@@ -242,8 +242,8 @@ namespace LookaheadReduction {
             stats.inc_leafcount();
             goto END;
           }
-          if (eager(lar)) { assert(not repeat); break; }
-          else repeat = true;
+          repeat = true;
+          if (eager(lar)) break;
         }
       }
     } while (repeat);
