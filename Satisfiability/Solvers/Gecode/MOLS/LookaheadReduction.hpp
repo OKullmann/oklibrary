@@ -137,6 +137,18 @@ namespace LookaheadReduction {
 
     float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
     float_t quotprun() const noexcept {return float_t(prunes_)/probes_;}
+
+    bool operator==(const ReductionStatistics& s) const noexcept {
+        return props() == s.props() and
+               elimvals() == s.elimvals() and
+               prunes() == s.prunes() and
+               maxprune() == s.maxprune() and
+               probes() == s.probes() and
+               rounds() == s.rounds() and
+               solc() == s.solc() and
+               leafcount() == s.leafcount() and
+               sollist() == s.sollist();
+    }
   };
 
 

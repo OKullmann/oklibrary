@@ -56,7 +56,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
+        "0.3.5",
         "17.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -166,39 +166,15 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics stat2 =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
-   assert(stat2.props() == 0);
-   assert(stat2.elimvals() == 0);
-   assert(stat2.prunes() == 0);
-   assert(stat2.maxprune() == 0);
-   assert(stat2.probes() == 8);
-   assert(stat2.rounds() == 1);
-   assert(stat2.solc() == 0);
-   assert(stat2.leafcount() == 0);
-   assert(stat2.sollist().empty());
+   assert(stat2 == stat);
    const ReductionStatistics stat3 =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
-   assert(stat3.props() == 0);
-   assert(stat3.elimvals() == 0);
-   assert(stat3.prunes() == 0);
-   assert(stat3.maxprune() == 0);
-   assert(stat3.probes() == 8);
-   assert(stat3.rounds() == 1);
-   assert(stat3.solc() == 0);
-   assert(stat3.leafcount() == 0);
-   assert(stat3.sollist().empty());
+   assert(stat3 == stat);
    const ReductionStatistics stat4 =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
-   assert(stat4.props() == 0);
-   assert(stat4.elimvals() == 0);
-   assert(stat4.prunes() == 0);
-   assert(stat4.maxprune() == 0);
-   assert(stat4.probes() == 8);
-   assert(stat4.rounds() == 1);
-   assert(stat4.solc() == 0);
-   assert(stat4.leafcount() == 0);
-   assert(stat4.sollist().empty());
+   assert(stat4 == stat);
   }
 
   {// All Latin square of order 2:
