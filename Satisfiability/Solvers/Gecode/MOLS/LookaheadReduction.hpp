@@ -151,6 +151,7 @@ namespace LookaheadReduction {
     return c;
   }
 
+
   typedef std::pair<int, int> plit_t;
   typedef std::set<plit_t> pruning_table_t;
 
@@ -190,6 +191,7 @@ namespace LookaheadReduction {
         for (GC::IntVarValues i(V1[v]); i(); ++i) PT.insert({v, i.val()});
     return status;
   }
+
 
   // Lookahead-reduction:
   // Consider a variable var and its domain {val1, ..., valk}.

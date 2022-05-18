@@ -18,21 +18,24 @@ BUG:
 
 TODOS:
 
--1.DONE (lareduction is tested, including satysfying assignments)
-   Testing lareduction is URGENTLY needed:
-  - DONE The space provided should be just GenericMols0.
-  - DONE More precisely, a class say "GenericMolsNB" should be derived from
-    GenericMols0, with "NB" for "no branching", which posts a brancher
-    which immediately throws an exception -- this class is only to be
-    used for testing.
-  - DONE The functions are to be tested exactly as they are.
-  - DONE The parameters of lareduction are *exactly* appropriate -- global
-    variables must be avoided (and class-variables are just global variables).
+1, Clear structure of tests
+    - A test should always test *one thing*.
+    - That means, exactly *one of "child_node" or "probe" or "lareduction".
+    - The current copy-and-pasting of some "child_node" and some "probe" seems
+      to make little sense (not much care is spent on each candidate to be
+      tested, and there are interferences).
+    - The order of tests usually follows the order in the code to be tested;
+      here that means first one establishes that child_node is correct, then
+      one establishes that probe is correct, and finally one establishes that
+      lareduction is correct.
 
-0. DONE (enumeration-modes are used)
-   Tests should mostly used enumeration-modes:
-  - DONE So that also the satisfying assignments can be tested.
-  - DONE The various modes of function probe need to be tested.
+2. Loop over the four possibilities of LAR (for lareduction):
+    - Most cases should test all four possibilities -- it makes no sense to
+      test only one of them, and not the others, on the same example.
+    - Most testcases will have all these four possibilites different.
+
+3. All possibilities of RT need testing (for lareduction):
+    - Possibly also a loop should be used, for each testcase.
 
 */
 
