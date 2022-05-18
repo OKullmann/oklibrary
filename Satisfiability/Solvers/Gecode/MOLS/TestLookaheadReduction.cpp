@@ -24,6 +24,10 @@ TODOS:
     - So that it becomes easy to construct them (again and again in different
       test-environments, for testing *one* single function).
     - Properties are discussed of these cases, and possibly explained in text.
+    - But best to have functions computing the various numbers.
+    - At least the simpler cases should have N as parameter; possibly also
+      additional parameters (so that a range of possibilities can be examined
+      in loops).
 
 1, Clear structure of tests
     - A test should always test *one thing*.
