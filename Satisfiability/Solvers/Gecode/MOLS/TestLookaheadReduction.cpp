@@ -18,16 +18,23 @@ BUG:
 
 TODOS:
 
+0. Collection of test-scenarios
+    - Some general structure is needed, which supports some kind of "database"
+      of testcases.
+    - So that it becomes easy to construct them (again and again in different
+      test-environments, for testing *one* single function).
+    - Properties are discussed of these cases, and possibly explained in text.
+
 1, Clear structure of tests
     - A test should always test *one thing*.
-    - That means, exactly *one of "child_node" or "probe" or "lareduction".
+    - That means, exactly *one* of "child_node" or "probe" or "lareduction".
     - The current copy-and-pasting of some "child_node" and some "probe" seems
       to make little sense (not much care is spent on each candidate to be
       tested, and there are interferences).
-    - The order of tests usually follows the order in the code to be tested;
-      here that means first one establishes that child_node is correct, then
-      one establishes that probe is correct, and finally one establishes that
-      lareduction is correct.
+    - The order of tests usually should follow the order in the code to be
+      tested; here that means *first* one establishes that child_node is
+      correct, *then* one establishes that probe is correct, and finally one
+      establishes that lareduction is correct.
 
 2. Loop over the four possibilities of LAR (for lareduction):
     - Most cases should test all four possibilities -- it makes no sense to
