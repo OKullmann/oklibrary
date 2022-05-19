@@ -22,6 +22,14 @@ TODOS:
 
 2. What is the point of IntView ?
     - It seems we never need this?
+    Comment: In Gecode, variables only offer operations for accessing but not
+    removing values. In opposite, variable views provide both operations. Views
+    are used e.g. in propagators, where some variables' values can be removed.
+    In our circumstances, it seems that variables views can be avoided, because
+    no direct removal happens. Values of variables can be accessed in similar
+    way as for view, i.e. via IntVarValues, for example
+    for (IntVarValues j(x[var]); j(); ++j)
+    where x[var] is IntVar but not IntView.
 
 3. Why does "new_vars" use a *vector* of weights?
     - Now using a pointer; the whole concept needs revision, once
