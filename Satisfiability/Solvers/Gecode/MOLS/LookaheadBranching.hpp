@@ -52,6 +52,7 @@ TODOS:
 #include "Conditions.hpp"
 #include "Options.hpp"
 #include "Constraints.hpp"
+#include "GcVariables.hpp"
 #include "LookaheadReduction.hpp"
 
 namespace LookaheadBranching {
@@ -62,6 +63,7 @@ namespace LookaheadBranching {
   namespace OP = Options;
   namespace CD = Conditions;
   namespace CT = Constraints;
+  namespace GV = GcVariables;
 
   using size_t = CD::size_t;
   typedef std::vector<int> values_t;
@@ -121,7 +123,48 @@ namespace LookaheadBranching {
 
   class RlaMols : public CT::GenericMols0 {
     struct B : GC::Brancher {
+      B(const GC::Home home) : GC::Brancher(home) {}
+      B(GC::Space& home, B& b) : GC::Brancher(home,b) {}
+      GC::Brancher* copy(GC::Space& home) {return new (home) B(home,*this);}
+      bool status(const GC::Space& s) const noexcept {
+        return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
+      }
 
+      struct C : GC::Choice {
+        typedef GV::values_t values_t;
+        values_t br; // br[0] is the variable (if existent)
+        C(const B& b, const values_t branching) noexcept :
+        GC::Choice(b, width(branching)), br(branching) {}
+        static unsigned width(const values_t& br) noexcept {
+          const unsigned size = br.size();
+          if (size == 0) return 1;
+          assert(size >= 2);
+          return size == 2 ? 2 : size-1;
+        }
+      };
+
+      GC::Choice* choice(GC::Space&) {
+        return nullptr; // XXX
+      }
+      GC::Choice* choice(const GC::Space&, GC::Archive&) {
+        return nullptr; // XXX
+      }
+      GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0, const unsigned a) {
+        const C& c = static_cast<const C&>(c0);
+        const size_t w = c.br.size();
+        if (w == 0) return GC::ExecStatus::ES_FAILED;
+        const int v = c.br[0];
+        assert(v >= 0);
+        RlaMols* const node = &(static_cast<RlaMols&>(s));
+        assert(v < node->V.size());
+        if (w == 2)
+          GC::rel(s, node->V[v], a==0 ? GC::IRT_EQ : GC::IRT_NQ, c.br[1]);
+        else {
+          assert(a+1 < w);
+          GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
+        }
+        return GC::ES_OK;
+      }
     };
   };
 
