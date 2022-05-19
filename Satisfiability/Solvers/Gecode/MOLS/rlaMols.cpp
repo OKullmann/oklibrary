@@ -20,6 +20,13 @@ Examples:
 0. Additional to the gecode-statistics, our statistics on the reduction
    need to be provided.
 
+1. A customised brancher with Gecode's default branching strategies.
+   - A function is needed, that given a variable of the type Options::BHV
+     chooses a branching variable in a way similar to Gecode::branch().
+   - A customised brancher that uses the function in choice().
+   - A solver based on the customisied brancher.
+   - Check via unit tests that the solver and gcMols give equal results.
+
 */
 
 /*
