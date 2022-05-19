@@ -19,12 +19,29 @@ TODOS:
     - Perhaps it's better to just use GenericMols0, and to put
       all informaton in the branching-class?
     - Having pointers and ints in there seems harmless.
+    Comment: Sure, all information can be stored in a branching-class,
+    so GenericMols0 is enough.
 
 0. What is GC::me_failed good for?
     - What does it mean to "fail" here??
+      Answer: it means that the operation can not be executed.
+      For example, if val is *not* in domain of Gecode variable var, then
+      GC::me_failed(var.eq(home, val))
+      will return ES_FAILED, otherwise ES_OK.
+      In this case the function eq() just checks whether val in domain of var,
+      i.e. the equality constraint in fact is not posted here - just the
+      possibility of this posting is checked.
     - Is status called by that function?
+      Answer: No. Neither the operation nor propagation is perormed.
     - It seems conceptually cleaner to just use GC::rel (as in "probe").
     - We can also call "status" in there if needed.
+      Answer: if the operation is possible (me_failed() returns ES_OK), then
+      then *after* the commit() function a space is cloned, the operation
+      is performed, and finally propagation is performed. All these actions
+      are done outside the brancher-class.
+      If la-reduction is used in commit(), then once SAT or UNSAT leaf is
+      formed (and taken into account in own statistics), ES_FAILED can be
+      returned, so no child-node will be created.
 
 1. Likely all the old classes here should be abondoned.
     - Exactly two classes are needed, for rla and la, and that should
