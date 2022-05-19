@@ -12,10 +12,6 @@ License, or any later version. */
 
 TODOS:
 
-0. Remove LookaheadMols
-    - This module does not include any look-ahead stuff (it is the other way
-      around!).
-
 */
 
 #ifndef CONSTRAINTS_hBa0Xe3nKA
@@ -26,14 +22,12 @@ TODOS:
 
 #include "Encoding.hpp"
 #include "Options.hpp"
-#include "LookaheadBranching.hpp"
 
 namespace Constraints {
 
   namespace GC = Gecode;
   namespace EC = Encoding;
   namespace OP = Options;
-  namespace LB = LookaheadBranching;
 
   typedef EC::size_t size_t;
 

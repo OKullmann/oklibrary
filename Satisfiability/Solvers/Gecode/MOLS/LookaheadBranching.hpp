@@ -51,6 +51,7 @@ TODOS:
 
 #include "Conditions.hpp"
 #include "Options.hpp"
+#include "Constraints.hpp"
 #include "LookaheadReduction.hpp"
 
 namespace LookaheadBranching {
@@ -60,6 +61,7 @@ namespace LookaheadBranching {
   namespace LR = LookaheadReduction;
   namespace OP = Options;
   namespace CD = Conditions;
+  namespace CT = Constraints;
 
   using size_t = CD::size_t;
   typedef std::vector<int> values_t;
@@ -110,11 +112,18 @@ namespace LookaheadBranching {
     for (size_t i = 0; i < n; ++i) {
       const size_t ds = tr(V[i].size(), 1);
       assert(ds >= 1);
-      assert(dsn-1 < wghts->size());
-      s += (*wghts)[dsn-1];
+      assert(ds-1 < wghts->size());
+      s += (*wghts)[ds-1];
     }
     return s;
   }
+
+
+  class RlaMols : public CT::GenericMols0 {
+    struct B : GC::Brancher {
+
+    };
+  };
 
 
   /* DEPRECATED from here on */
