@@ -132,7 +132,7 @@ namespace LookaheadBranching {
 
       struct C : GC::Choice {
         typedef GV::values_t values_t;
-        values_t br; // br[0] is the variable (if existent)
+        const values_t br; // br[0] is the variable (if existent)
         C(const B& b, const values_t branching) noexcept :
         GC::Choice(b, width(branching)), br(branching) {}
         static unsigned width(const values_t& br) noexcept {
@@ -147,7 +147,7 @@ namespace LookaheadBranching {
         return nullptr; // XXX
       }
       GC::Choice* choice(const GC::Space&, GC::Archive&) {
-        return nullptr; // XXX
+        throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
       }
       GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0, const unsigned a) {
         const C& c = static_cast<const C&>(c0);
