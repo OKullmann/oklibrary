@@ -68,9 +68,7 @@ namespace LookaheadBranching {
   // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
 
-  // size_t is used for sizes of Gecode arrays.
-  // For a Gecode array, size() returns int, so the function
-  // size_t tr(int size) was introduced to convert int to size_t.
+  // Converting int to size_t:
   inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
     assert(size >= int(bound));
@@ -79,23 +77,25 @@ namespace LookaheadBranching {
 
 
   inline float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                          const vec_t wghts, const size_t depth) noexcept {
-    assert(not wghts.empty());
-    const size_t N = tr(V.size(), 1);
+                          const vec_t* const wghts, const size_t depth) noexcept {
+    const size_t n = tr(V.size(), 1);
     float_t s = 0;
-    for (size_t i = 0; i < N; ++i) {
+    const float_t w1 = FP::exp((*wghts)[0] * depth);
+    for (size_t i = 0; i < n; ++i) {
       const size_t ds = tr(V[i].size(), 1), dsn = tr(Vn[i].size(), 1);
       if (dsn == ds) continue;
       assert(1 <= dsn and dsn < ds);
-      if (dsn == 1) s += FP::exp(wghts[0] * depth);
+      if (dsn == 1) s += w1;
       else {
-        assert(dsn-1 < wghts.size());
-        s += wghts[dsn-1];
+        assert(dsn-1 < wghts->size());
+        s += (*wghts)[dsn-1];
       }
     }
     return s;
   }
 
+
+  /* DEPRECATED from here on */
 
   template<class CustomBranching>
   CustomBranching best_branching(
