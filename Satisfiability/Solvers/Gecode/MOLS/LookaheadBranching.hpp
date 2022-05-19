@@ -23,6 +23,9 @@ TODOS:
 2. What is the point of IntView ?
     - It seems we never need this?
 
+3. Why does "new_vars" use a *vector* of weights??
+    - It should be a *pointer* to a fixed vector.
+
 */
 
 #ifndef LOOKAHEADBRANCHING_wXJWMxXz3R
@@ -75,20 +78,17 @@ namespace LookaheadBranching {
   }
 
 
-  inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+  inline float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
                           const vec_t wghts, const size_t depth) noexcept {
     assert(not wghts.empty());
+    const size_t N = tr(V.size(), 1);
     float_t s = 0;
-    const int N = V.size();
-    for (int i = 0; i < N; ++i) {
-      const auto ds = tr(V[i].size(), 1);
-      const auto dsn = tr(Vn[i].size(), 1);
+    for (size_t i = 0; i < N; ++i) {
+      const size_t ds = tr(V[i].size(), 1), dsn = tr(Vn[i].size(), 1);
       if (dsn == ds) continue;
-      assert(dsn < ds);
-      if (dsn == 1) { // smaller domain has size 1, take depth into account:
-        s += exp(wghts[0] * (float_t)depth);
-      }
-      else { // smaller domain has size >= 2:
+      assert(1 <= dsn and dsn < ds);
+      if (dsn == 1) s += FP::exp(wghts[0] * depth);
+      else {
         assert(dsn-1 < wghts.size());
         s += wghts[dsn-1];
       }
