@@ -34,6 +34,7 @@ TODOS:
 3. Why does "new_vars" use a *vector* of weights?
     - Now using a pointer; the whole concept needs revision, once
       one sees the whole approach.
+    Comment: sure, a pointer is proper.
 
 4. Measure-based distances
     - The number of eliminated values is Delta GV::sumdomsizes.
