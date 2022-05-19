@@ -37,6 +37,7 @@ TODOS:
 #include <memory>
 #include <set>
 #include <algorithm>
+#include <utility>
 
 #include <cassert>
 
@@ -144,9 +145,9 @@ namespace LookaheadReduction {
                                        const int v, const int val,
                                        const GC::IntPropLevel pl,
                                        const bool eq = true) noexcept {
-    assert(m->V.size() > 0 and v < m->V.size());
+    assert(v >= 0 and v < m->V.size());
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
-    assert(c->V.size() > 0 and v < c->V.size());
+    assert(c->V.size() == m->V.size());
     GC::rel(*c.get(), c.get()->V[v], eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
     return c;
   }
@@ -173,10 +174,10 @@ namespace LookaheadReduction {
   GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
                         const GC::IntPropLevel pl,
-                        pruning_table_t& PT,
+                        pruning_table_t& PV,
                         ReductionStatistics& stats,
                         const bool with_sols) noexcept {
-    assert(m->V.size() > 0 and v < m->V.size());
+    assert(v >= 0 and v < m->V.size());
     const auto V0 = m->V;
     const auto chnode = child_node<SPA>(m, v, val, pl, true);
     const auto status = chnode->status();
@@ -188,7 +189,7 @@ namespace LookaheadReduction {
     assert(V0.size() == V1.size());
     for (int v = 0; v < V1.size(); ++v)
       if (V1[v].size() == 1 and V0[v].size() > 1)
-        for (GC::IntVarValues i(V1[v]); i(); ++i) PT.insert({v, i.val()});
+        for (GC::IntVarValues i(V1[v]); i(); ++i) PV.insert({v, i.val()});
     return status;
   }
 
@@ -212,13 +213,13 @@ namespace LookaheadReduction {
 
     for (int last_red = -1; last_red >= 0;) {
       stats.inc_rounds();
-      const GC::IntVarArray x = m->V;
-      for (int v = 0; v < x.size(); ++v) {
+      const GC::IntVarArray V = m->V;
+      for (int v = 0; v < V.size(); ++v) {
         if (v == last_red) {
           if (eager(lar)) {last_red = -1; continue;}
           else goto END;
         }
-        const IntView view = x[v];
+        const IntView view = V[v];
         if (view.assigned()) continue;
         assert(view.size() >= 2);
 
@@ -229,7 +230,7 @@ namespace LookaheadReduction {
         values_t elimvals;
 
         pruning_table_t PV;
-        for (const auto val : values) {
+        for (const int val : values) {
           if (pruning(lar) and PT.contains({v,val})) {
             stats.inc_prunes(); continue;
           }
@@ -249,9 +250,7 @@ namespace LookaheadReduction {
 
         if (not elimvals.empty()) {
           last_red = v;
-          stats.maxprune(PT.size()); PT.clear();
-          for (const int val : elimvals)
-            GC::rel(*m, x[v], GC::IRT_NQ, val, pl);
+          for (const int val : elimvals) GC::rel(*m,V[v],GC::IRT_NQ,val,pl);
           const auto status = m->status();
           stats.inc_props();
           assert(status != GC::SS_SOLVED);
@@ -261,7 +260,8 @@ namespace LookaheadReduction {
             stats.inc_leafcount();
             goto END;
           }
-          PT.merge(PV);
+          stats.maxprune(PT.size());
+          PT = std::move(PV);
           if (eager(lar)) break;
         }
         else PT.merge(PV);
