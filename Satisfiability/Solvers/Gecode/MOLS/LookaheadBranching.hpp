@@ -15,6 +15,17 @@ BUGS:
 
 TODOS:
 
+-1. Do we need RlaMols?
+    - Perhaps it's better to just use GenericMols0, and to put
+      all informaton in the branching-class?
+    - Having pointers and ints in there seems harmless.
+
+0. What is GC::me_failed good for?
+    - What does it mean to "fail" here??
+    - Is status called by that function?
+    - It seems conceptually cleaner to just use GC::rel (as in "probe").
+    - We can also call "status" in there if needed.
+
 1. Likely all the old classes here should be abondoned.
     - Exactly two classes are needed, for rla and la, and that should
       be all.
