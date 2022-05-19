@@ -15,7 +15,7 @@ BUGS:
 
 TODOS:
 
-1. Likely all the classes here should be abondoned.
+1. Likely all the old classes here should be abondoned.
     - Exactly two classes are needed, for rla and la, and that should
       be all.
     - All the existing classes seem to lack focus.
@@ -23,8 +23,15 @@ TODOS:
 2. What is the point of IntView ?
     - It seems we never need this?
 
-3. Why does "new_vars" use a *vector* of weights??
-    - It should be a *pointer* to a fixed vector.
+3. Why does "new_vars" use a *vector* of weights?
+    - Now using a pointer; the whole concept needs revision, once
+      one sees the whole approach.
+
+4. Measure-based distances
+    - The number of eliminated values is Delta GV::sumdomsizes.
+    - More generally Delta domsizes is used.
+    - The weight for dom-size 1 is zero; this is part of the initialisation of
+      the weight-vector (from the parameters).
 
 */
 
@@ -76,8 +83,12 @@ namespace LookaheadBranching {
   }
 
 
-  inline float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                          const vec_t* const wghts, const size_t depth) noexcept {
+  /* Distance and measure functions
+
+     PRELIMINARY
+  */
+  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+                   const vec_t* const wghts, const size_t depth) noexcept {
     const size_t n = tr(V.size(), 1);
     float_t s = 0;
     const float_t w1 = FP::exp((*wghts)[0] * depth);
@@ -90,6 +101,17 @@ namespace LookaheadBranching {
         assert(dsn-1 < wghts->size());
         s += (*wghts)[dsn-1];
       }
+    }
+    return s;
+  }
+  float_t domsizes(const GC::IntVarArray& V, const vec_t* const wghts) noexcept {
+    const size_t n = tr(V.size(), 1);
+    float_t s = 0;
+    for (size_t i = 0; i < n; ++i) {
+      const size_t ds = tr(V[i].size(), 1);
+      assert(ds >= 1);
+      assert(dsn-1 < wghts->size());
+      s += (*wghts)[dsn-1];
     }
     return s;
   }
