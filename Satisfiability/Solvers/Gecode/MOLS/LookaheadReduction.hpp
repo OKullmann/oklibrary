@@ -69,8 +69,6 @@ namespace LookaheadReduction {
   // Value iterator for an integer variable:
   typedef GC::IntVarValues IntVarValues;
 
-  typedef std::vector<int> values_t;
-
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
     typedef std::vector<GV::solutions_t> sollist_t;
@@ -223,11 +221,11 @@ namespace LookaheadReduction {
         if (view.assigned()) continue;
         assert(view.size() >= 2);
 
-        const values_t values = [&view]
-          {values_t res;
+        const GV::values_t values = [&view]
+          {GV::values_t res;
            for (IntVarValues j(view); j(); ++j) res.push_back(j.val());
            return res;}();
-        values_t elimvals;
+        GV::values_t elimvals;
 
         pruning_table_t PV;
         for (const int val : values) {
@@ -248,7 +246,8 @@ namespace LookaheadReduction {
           }
         }
 
-        if (not elimvals.empty()) {
+        if (elimvals.empty()) PT.merge(PV);
+        else {
           last_red = v;
           for (const int val : elimvals) GC::rel(*m,V[v],GC::IRT_NQ,val,pl);
           const auto status = m->status();
@@ -264,14 +263,12 @@ namespace LookaheadReduction {
           PT = std::move(PV);
           if (eager(lar)) break;
         }
-        else PT.merge(PV);
       }
     }
 
     END:
     stats.maxprune(PT.size());
-    const Timing::Time_point t1 = timing();
-    return stats.time(t1 - t0);
+    return stats.time(timing() - t0);
   }
 
 }

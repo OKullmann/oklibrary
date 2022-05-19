@@ -57,6 +57,7 @@ namespace GcVariables {
     const GC::IntVarValues j(view);
     return j.val();
   }
+  typedef std::vector<int> values_t;
   typedef std::vector<int> solutions_t;
   solutions_t extract(const GC::IntVarArray& V) {
     const size_t N = V.size();
