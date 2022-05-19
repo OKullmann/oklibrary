@@ -15,18 +15,13 @@ BUGS:
 
 TODOS:
 
-0. A customised Gecode brancher for Enumerative Lookahead.
+1. Likely all the classes here should be abondoned.
+    - Exactly two classes are needed, for rla and la, and that should
+      be all.
+    - All the existing classes seem to lack focus.
 
-1. Apply la-reduction in the status() function of customised branchers.
-   - As a result, no redundant nodes are needed when la-reduction finds a leaf.
-   - In the choice() function, where the the branching is chosen, no leafs
-     are possible - and it should be checked.
-
-2. Maintain branching-order.
-
-3. Extend Node class.
-   - Maintain node id and parent node id.
-   - Check correctness of node id and parent node id.
+2. What is the point of IntView ?
+    - It seems we never need this?
 
 */
 
@@ -79,7 +74,7 @@ namespace LookaheadBranching {
     return size;
   }
 
-  // lookahead-distance.
+
   inline float_t distance(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
                           const vec_t wghts, const size_t depth) noexcept {
     assert(not wghts.empty());
@@ -100,6 +95,7 @@ namespace LookaheadBranching {
     }
     return s;
   }
+
 
   template<class CustomBranching>
   CustomBranching best_branching(
