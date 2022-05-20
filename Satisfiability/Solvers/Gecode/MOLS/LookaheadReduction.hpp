@@ -62,13 +62,6 @@ namespace LookaheadReduction {
   using size_t = CD::size_t;
   typedef FP::float80 float_t;
 
-  // Array of values of an integer variable:
-  typedef GC::Int::IntView IntView;
-  // Array of array of values of Gecode integer variables:
-  typedef GC::ViewArray<IntView> IntViewArray;
-  // Value iterator for an integer variable:
-  typedef GC::IntVarValues IntVarValues;
-
   // Statistics of the main lookahead-reduction actions:
   struct ReductionStatistics {
     typedef std::vector<GV::solutions_t> sollist_t;
@@ -217,14 +210,9 @@ namespace LookaheadReduction {
           if (eager(lar)) {last_red = -1; continue;}
           else goto END;
         }
-        const IntView view = V[v];
-        if (view.assigned()) continue;
-        assert(view.size() >= 2);
+        if (V[v].size() == 1) continue;
 
-        const GV::values_t values = [&view]
-          {GV::values_t res;
-           for (IntVarValues j(view); j(); ++j) res.push_back(j.val());
-           return res;}();
+        const GV::values_t values = GV::values(V, v);
         GV::values_t elimvals;
 
         pruning_table_t PV;

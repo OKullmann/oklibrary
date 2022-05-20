@@ -20,23 +20,12 @@ TODOS:
       be all.
     - All the existing classes seem to lack focus.
 
-2. What is the point of IntView ?
-    - It seems we never need this?
-    Comment: In Gecode, variables only offer operations for accessing but not
-    removing values. In opposite, variable views provide both operations. Views
-    are used e.g. in propagators, where some variables' values can be removed.
-    In our circumstances, it seems that variables views can be avoided, because
-    no direct removal happens. Values of variables can be accessed in similar
-    way as for view, i.e. via IntVarValues, for example
-    for (IntVarValues j(x[var]); j(); ++j)
-    where x[var] is IntVar but not IntView.
-
-3. Why does "new_vars" use a *vector* of weights?
+2. Why does "new_vars" use a *vector* of weights?
     - Now using a pointer; the whole concept needs revision, once
       one sees the whole approach.
     Comment: sure, a pointer is proper.
 
-4. Measure-based distances
+3. Measure-based distances
     - The number of eliminated values is Delta GV::sumdomsizes.
     - More generally Delta domsizes is used.
     - The weight for dom-size 1 is zero; this is part of the initialisation of
@@ -143,9 +132,10 @@ namespace LookaheadBranching {
       return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
     }
 
+  private :
     struct C : GC::Choice {
       typedef GV::values_t values_t;
-      const values_t br; // br[0] is the variable (if existent)
+      const values_t br; // br[0] is the variable (if br is not empty)
       C(const RlaBranching& b, const values_t branching) noexcept :
       GC::Choice(b, width(branching)), br(branching) {}
       static unsigned width(const values_t& br) noexcept {
@@ -155,6 +145,7 @@ namespace LookaheadBranching {
         return size == 2 ? 2 : size-1;
       }
     };
+  public :
 
     GC::Choice* choice(GC::Space&) {
       return nullptr; // XXX

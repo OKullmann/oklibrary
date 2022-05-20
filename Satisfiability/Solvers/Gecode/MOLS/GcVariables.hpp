@@ -58,6 +58,12 @@ namespace GcVariables {
     return j.val();
   }
   typedef std::vector<int> values_t;
+  values_t values(const GC::IntVarArray& V, const int v) {
+    assert(v >= 0 and v < V.size());
+    values_t res;
+    for (GC::IntVarValues j(V[v]); j(); ++j) res.push_back(j.val());
+    return res;
+  }
   typedef std::vector<int> solutions_t;
   solutions_t extract(const GC::IntVarArray& V) {
     const size_t N = V.size();
