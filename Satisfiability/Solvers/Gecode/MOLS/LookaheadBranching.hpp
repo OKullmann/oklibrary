@@ -38,6 +38,7 @@ TODOS:
 
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 #include <cassert>
 #include <cstdlib>
@@ -45,7 +46,7 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
-#include <Numerics/FloatingPoint.hpp>
+#include <Numerics/NumTypes.hpp>
 #include <Numerics/Tau.hpp>
 
 #include "Conditions.hpp"
@@ -120,9 +121,23 @@ namespace LookaheadBranching {
   }
 
 
-  struct RlaBranching : GC::Brancher {
-    RlaBranching(const GC::Home home) : GC::Brancher(home) {}
-    RlaBranching(GC::Space& home, RlaBranching& b) : GC::Brancher(home,b) {}
+  struct rlaParams {
+    const OP::RT rt;
+    const GC::IntPropLevel pl;
+    const OP::LAR lar;
+    const OP::BHV bv;
+    const OP::BRT bt;
+    const OP::GBO bo;
+  };
+
+
+  class RlaBranching : public GC::Brancher {
+    const rlaParams P;
+    RlaBranching(GC::Space& home, RlaBranching& b)
+      : GC::Brancher(home,b), P(b.P) {}
+  public :
+    RlaBranching(const GC::Home home, const rlaParams P)
+      : GC::Brancher(home), P(P) {}
     GC::Brancher* copy(GC::Space& home) {
       return new (home) RlaBranching(home,*this);
     }
@@ -136,8 +151,8 @@ namespace LookaheadBranching {
     struct C : GC::Choice {
       typedef GV::values_t values_t;
       const values_t br; // br[0] is the variable (if br is not empty)
-      C(const RlaBranching& b, const values_t branching) noexcept :
-      GC::Choice(b, width(branching)), br(branching) {}
+      C(const RlaBranching& b, const values_t branching) noexcept
+        : GC::Choice(b, width(branching)), br(branching) {}
       static unsigned width(const values_t& br) noexcept {
         const unsigned size = br.size();
         if (size == 0) return 1;
@@ -147,8 +162,88 @@ namespace LookaheadBranching {
     };
   public :
 
-    GC::Choice* choice(GC::Space&) {
-      return nullptr; // XXX
+    static int bv(const CT::GenericMols0& s, const OP::BHV bv) noexcept {
+      const auto V(s.V);
+      const auto size = V.size();
+      switch (bv) {
+      case OP::BHV::first :
+        for (int v = 0; v < size; ++v) if (V[v].size() != 1) return v;
+        assert(false);
+      case OP::BHV::mindeg : {
+        int min = std::numeric_limits<int>::max(), opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const int deg = V[v].degree();
+          if (deg < min) { min = deg; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      case OP::BHV::maxdeg : {
+        int max = -1, opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const int deg = V[v].degree();
+          if (deg > max) { max = deg; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      case OP::BHV::mindom : {
+        int min = std::numeric_limits<int>::max(), opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const int dom = V[v].size();
+          if (dom < min) { min = dom; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      case OP::BHV::maxdom : {
+        int max = -1, opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const int dom = V[v].size();
+          if (dom > max) { max = dom; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      case OP::BHV::mindegdom : {
+        float_t min = FP::pinfinity; int opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const float_t q = float_t(V[v].degree()) / V[v].size();
+          if (q < min) { min = q; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      case OP::BHV::maxdegdom : {
+        float_t max = FP::minfinity; int opt=-1;
+        for (int v = 0; v < size; ++v) {
+          if (V[v].size() == 1) continue;
+          const float_t q = float_t(V[v].degree()) / V[v].size();
+          if (q > max) { max = q; opt = v; }
+        }
+        assert(opt >= 0); return opt;
+      }
+      }
+    }
+
+    GC::Choice* choice(GC::Space& s0) {
+      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      const auto S = LR::lareduction(&s, P.rt, P.pl, P.lar);
+      // transfer S XXX
+      if (S.leafcount()) return new C(*this, {});
+      const int v = bv(s, P.bv);
+      GV::values_t values = GV::values(s.V, v);
+      switch (P.bt) {
+      case OP::BRT::binbr :
+        return new C(*this,
+                     {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
+      case OP::BRT::enumbr : {
+        GV::values_t br; br.reserve(values.size()+1);
+        if (P.bo == OP::GBO::asc) br = std::move(values);
+        else br.assign(values.rbegin(), values.rend());
+        br.insert(br.begin(), v);
+        return new C(*this, br);
+      }}
     }
     GC::Choice* choice(const GC::Space&, GC::Archive&) {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
