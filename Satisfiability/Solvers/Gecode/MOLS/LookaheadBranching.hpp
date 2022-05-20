@@ -39,6 +39,7 @@ TODOS:
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <mutex>
 
 #include <cassert>
 #include <cstdlib>
@@ -128,16 +129,29 @@ namespace LookaheadBranching {
     const OP::BHV bv;
     const OP::BRT bt;
     const OP::GBO bo;
+    const bool parallel;
+  };
+
+
+  struct rlaStats {
+    size_t rla_calls = 0;
+    void add(const LR::ReductionStatistics& s) noexcept {
+      ++rla_calls;
+      // XXX
+    }
   };
 
 
   class RlaBranching : public GC::Brancher {
     const rlaParams P;
+    rlaStats* const S;
+    static std::mutex stats_mutex;
+
     RlaBranching(GC::Space& home, RlaBranching& b)
-      : GC::Brancher(home,b), P(b.P) {}
+      : GC::Brancher(home,b), P(b.P), S(b.S) {}
   public :
-    RlaBranching(const GC::Home home, const rlaParams P)
-      : GC::Brancher(home), P(P) {}
+    RlaBranching(const GC::Home home, const rlaParams P, rlaStats* const S)
+      : GC::Brancher(home), P(P), S(S) { assert(S); }
     GC::Brancher* copy(GC::Space& home) {
       return new (home) RlaBranching(home,*this);
     }
@@ -146,6 +160,8 @@ namespace LookaheadBranching {
     bool status(const GC::Space& s) const noexcept {
       return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
     }
+
+    const rlaStats& stats() const noexcept { return *S; }
 
   private :
     struct C : GC::Choice {
@@ -222,15 +238,18 @@ namespace LookaheadBranching {
           if (q > max) { max = q; opt = v; }
         }
         assert(opt >= 0); return opt;
-      }
-      }
+      }}
     }
 
     GC::Choice* choice(GC::Space& s0) {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
-      const auto S = LR::lareduction(&s, P.rt, P.pl, P.lar);
-      // transfer S XXX
-      if (S.leafcount()) return new C(*this, {});
+      {const auto stats = LR::lareduction(&s, P.rt, P.pl, P.lar);
+       if (P.parallel) {
+         std::lock_guard<std::mutex> lock(stats_mutex); S->add(stats);
+       }
+       else S->add(stats);
+       if (stats.leafcount()) return new C(*this, {});
+      }
       const int v = bv(s, P.bv);
       GV::values_t values = GV::values(s.V, v);
       switch (P.bt) {
