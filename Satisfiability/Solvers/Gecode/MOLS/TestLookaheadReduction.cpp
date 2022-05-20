@@ -34,12 +34,13 @@ TODOS:
       in loops).
 
 1, Clear structure of tests
-    - A test should always test *one thing*.
-    - That means, exactly *one* of "child_node" or "probe" or "lareduction".
+    - DONE A test should always test *one thing*.
+    - DONE That means, exactly *one* of "child_node" or "probe" or "lareduction".
     - The current copy-and-pasting of some "child_node" and some "probe" seems
       to make little sense (not much care is spent on each candidate to be
       tested, and there are interferences).
-    - The order of tests usually should follow the order in the code to be
+    - DONE (First, child_node is tested, then probe, and finally, lareduction)
+      The order of tests usually should follow the order in the code to be
       tested; here that means *first* one establishes that child_node is
       correct, *then* one establishes that probe is correct, and finally one
       establishes that lareduction is correct.
@@ -80,7 +81,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "20.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -273,23 +274,169 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
+  {const EncCond enc = encoding("squares A\n", "", 2, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+  }
+  {const EncCond enc = encoding("squares A\n", "", 2, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}}));
+   assert(probe(m.get(), 0,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}}));
+   assert(probe(m.get(), 1,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
+   assert(probe(m.get(), 1,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
+  }
+
+  {const EncCond enc = encoding("squares A\nls A\n", "", 2, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 1, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+  }
+  {const EncCond enc = encoding("squares A\nls A\n", "", 2, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0,0, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0,1, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1,0, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1,1, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+  }
+
+  {const EncCond enc = encoding("squares A\n", "", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+  }
+  {const EncCond enc = encoding("squares A\n", "", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}}));
+   assert(probe(m.get(), 0,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}}));
+   assert(probe(m.get(), 0,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}}));
+   assert(probe(m.get(), 1,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}}));
+   assert(probe(m.get(), 1,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}}));
+   assert(probe(m.get(), 1,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}}));
+   assert(probe(m.get(), 2,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}}));
+   assert(probe(m.get(), 2,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
+   assert(probe(m.get(), 2,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1},
+     {2,2}}));
+  }
+
+  {const EncCond enc = encoding("squares A\nls A\n",
+     "A\n0 * *\n* * *\n* * *\n", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, enc.pl, stats0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 0, 2, enc.pl, stats0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 0, enc.pl, stats0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, enc.pl, stats0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 2, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+  }
+  {const EncCond enc = encoding("squares A\nls A\n",
+     "A\n0 * *\n* * *\n* * *\n", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(PT.empty());
+   assert(probe(m.get(), 0,1, enc.pl, PT, stats0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0,2, enc.pl, PT, stats0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1,0, enc.pl, PT, stats0, false) == Gecode::SS_FAILED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {2,2}}));
+   assert(probe(m.get(), 1,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2,0, enc.pl, PT, stats0, false) == Gecode::SS_FAILED);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+   assert(probe(m.get(), 2,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
+  }
+
+  {const EncCond enc = encoding("squares A\nls A\n",
+     "A\n* * *\n* 1 *\n* * *\n", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, enc.pl, stats0, false) == Gecode::SS_FAILED);
+   assert(probe(m.get(), 1, 2, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+   assert(probe(m.get(), 2, 1, enc.pl, stats0, false) == Gecode::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, enc.pl, stats0, false) == Gecode::SS_SOLVED);
+  }
+  {const EncCond enc = encoding("squares A\nls A\n",
+     "A\n* * *\n* 1 *\n* * *\n", 3, GC::IPL_VAL);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0,0, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 0,2, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 1,0, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1,1, enc.pl, PT, stats0, false) == Gecode::SS_FAILED);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1,2, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2,0, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2,1, enc.pl, PT, stats0, false) == Gecode::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2,2, enc.pl, PT, stats0, false) == Gecode::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
+  }
+
   {const auto pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\n", "", 2, pl);
    const std::unique_ptr<GenericMolsNB> m = space(enc);
-   ReductionStatistics stats0(m->V);
-   assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   pruning_table_t PT;
-   assert(probe(m.get(), 0, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}}));
-   assert(probe(m.get(), 0, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}}));
-   assert(probe(m.get(), 1, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
-   assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -322,20 +469,6 @@ int main(const int argc, const char* const argv[]) {
  {const GC::IntPropLevel pl = GC::IPL_VAL;
   const EncCond enc = encoding("squares A\nls A\n", "", 2, pl);
   const std::unique_ptr<GenericMolsNB> m = space(enc);
-  ReductionStatistics stats0(m->V);
-  assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
-  assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_SOLVED);
-  assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_SOLVED);
-  assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_SOLVED);
-  pruning_table_t PT;
-  assert(probe(m.get(), 0, 0, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-  assert(PT.empty());
-  assert(probe(m.get(), 0, 1, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-  assert(PT.empty());
-  assert(probe(m.get(), 1, 0, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-  assert(PT.empty());
-  assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-  assert(PT.empty());
   const ReductionStatistics stats =
     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
       LAR::eag_npr);
@@ -370,39 +503,9 @@ int main(const int argc, const char* const argv[]) {
    */
   }
 
-  {// An empty square of order 3:
-   const GC::IntPropLevel pl = GC::IPL_VAL;
+  {const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\n", "", 3, pl);
    const std::unique_ptr<GenericMolsNB> m = space(enc);
-   ReductionStatistics stats0(m->V);
-   assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   pruning_table_t PT;
-   assert(probe(m.get(), 0, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}}));
-   assert(probe(m.get(), 0, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}}));
-   assert(probe(m.get(), 0, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}}));
-   assert(probe(m.get(), 1, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}}));
-   assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}}));
-   assert(probe(m.get(), 1, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}}));
-   assert(probe(m.get(), 2, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}}));
-   assert(probe(m.get(), 2, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
-   assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}, {2,2}}));
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -419,40 +522,10 @@ int main(const int argc, const char* const argv[]) {
    */
   }
 
-  {// A Latin square of order 3 with A[0,0] == 0:
-   const GC::IntPropLevel pl = GC::IPL_VAL;
+  {const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\nls A\n",
      "A\n0 * *\n* * *\n* * *\n", 3, pl);
    const std::unique_ptr<GenericMolsNB> m = space(enc);
-   ReductionStatistics stats0(m->V);
-   assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 0, 2, pl, stats0, false) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl, stats0, false) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   pruning_table_t PT;
-   assert(probe(m.get(), 0, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(PT.empty());
-   assert(probe(m.get(), 0, 1, pl, PT, stats0, false) == Gecode::SS_FAILED);
-   assert(PT.empty());
-   assert(probe(m.get(), 0, 2, pl, PT, stats0, false) == Gecode::SS_FAILED);
-   assert(PT.empty());
-   assert(probe(m.get(), 1, 0, pl, PT, stats0, false) == Gecode::SS_FAILED);
-   assert(PT.empty());
-   assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{1,1}, {2,2}}));
-   assert(probe(m.get(), 1, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-   assert(probe(m.get(), 2, 0, pl, PT, stats0, false) == Gecode::SS_FAILED);
-   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-   assert(probe(m.get(), 2, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-   assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -476,35 +549,6 @@ int main(const int argc, const char* const argv[]) {
    const EncCond enc = encoding("squares A\nls A\n",
      "A\n* * *\n* 1 *\n* * *\n", 3, pl);
    const std::unique_ptr<GenericMolsNB> m = space(enc);
-   ReductionStatistics stats0(m->V);
-   assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 0, 2, pl, stats0, false) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_FAILED);
-   assert(probe(m.get(), 1, 2, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 0, pl, stats0, false) == Gecode::SS_SOLVED);
-   assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
-   assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_SOLVED);
-   pruning_table_t PT;
-   assert(probe(m.get(), 0, 0, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-   assert(PT.empty());
-   assert(probe(m.get(), 0, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,1}}));
-   assert(probe(m.get(), 0, 2, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-   assert(eqp(PT, {{0,1}}));
-   assert(probe(m.get(), 1, 0, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
-   assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_FAILED);
-   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
-   assert(probe(m.get(), 1, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
-   assert(probe(m.get(), 2, 0, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
-   assert(probe(m.get(), 2, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
-   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
-   assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_SOLVED);
-   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
