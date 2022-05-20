@@ -80,7 +80,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.4.3",
         "20.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -208,8 +208,7 @@ int main(const int argc, const char* const argv[]) {
   {// All Latin square of order 2:
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\nls A\n", "", 2, pl);
-   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
-   assert(m->status() == Gecode::SS_BRANCH);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
    assert(m->V.size() == 4);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
@@ -268,8 +267,7 @@ int main(const int argc, const char* const argv[]) {
   {// An empty square of order 3:
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\n", "", 3, pl);
-   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
-   assert(m->status() == Gecode::SS_BRANCH);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
    assert(m->V.size() == 9);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
@@ -327,8 +325,7 @@ int main(const int argc, const char* const argv[]) {
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\nls A\n",
      "A\n0 * *\n* * *\n* * *\n", 3, pl);
-   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
-   assert(m->status() == Gecode::SS_BRANCH);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
    assert(m->V.size() == 9);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
