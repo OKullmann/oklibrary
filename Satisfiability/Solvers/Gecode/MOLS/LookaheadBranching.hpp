@@ -161,8 +161,6 @@ namespace LookaheadBranching {
       return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
     }
 
-    const rlaStats& stats() const noexcept { return *S; }
-
   private :
     struct C : GC::Choice {
       typedef GV::values_t values_t;
