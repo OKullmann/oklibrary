@@ -242,13 +242,11 @@ namespace LookaheadReduction {
           stats.inc_props();
           assert(status != GC::SS_SOLVED);
           if (status != GC::SS_BRANCH) {
-            assert(status == GC::SS_FAILED);
-            assert(elimvals.size() == values.size());
+            assert(status==GC::SS_FAILED and elimvals.size()==values.size());
             stats.inc_leafcount();
             goto END;
           }
-          stats.maxprune(PT.size());
-          PT = std::move(PV);
+          stats.maxprune(PT.size()); PT = std::move(PV);
           if (eager(lar)) break;
         }
       }
