@@ -44,7 +44,9 @@ License, or any later version. */
    - ocredcued(S): whether the N-column is standardised, where N is
      the number of rows
    - reduced(S): both conditions together
-   - oreduced(S): both o-forms together.
+   - oreduced(S): both o-forms together
+   - wcreduced(S): whether the first column is "weakly standardised", i.e.,
+     has in row i values {0, ..., i+1}
      No restrictions on S are made.
 
    - helper-functions for equivalence-classes of cells:
@@ -68,8 +70,11 @@ License, or any later version. */
 
    - valid(AConditions, PSquares): formal fitting
    - extract(AConditions, PSquares, Square): compute all squares
-   - valid(AConditions, PSquares): checking the conditions (asserting
-     formal fitting).
+   - correct(AConditions, PSquares): checking the conditions (asserting
+     formal fitting)
+   - lcorrect(AConditions, vector<PSquares>): calls "correct" on each element
+     of the vector, and additionally checks that all elements of the vector
+     are different.
 
 */
 
@@ -427,6 +432,15 @@ namespace Verification {
       }
     }
     return true;
+  }
+
+  bool lcorrect(const CD::AConditions& ac,
+                std::vector<PS::PSquares> Lsol) {
+    if (not std::ranges::all_of(Lsol, [&ac](const PS::PSquares& sol){
+                                  return correct(ac, sol);}))
+      return false;
+    std::ranges::sort(Lsol);
+    return std::ranges::adjacent_find(Lsol) == Lsol.end();
   }
 
 }
