@@ -15,13 +15,6 @@ BUGS:
 
 TODOS:
 
--1. Do we need RlaMols?
-    - Perhaps it's better to just use GenericMols0, and to put
-      all informaton in the branching-class?
-    - Having pointers and ints in there seems harmless.
-    Comment: Sure, all information can be stored in a branching-class,
-    so GenericMols0 is enough.
-
 0. What is GC::me_failed good for?
     - What does it mean to "fail" here??
       Answer: it means that the operation can not be executed.
@@ -79,6 +72,7 @@ TODOS:
 #include <algorithm>
 
 #include <cassert>
+#include <cstdlib>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -158,51 +152,53 @@ namespace LookaheadBranching {
   }
 
 
-  class RlaMols : public CT::GenericMols0 {
-    struct B : GC::Brancher {
-      B(const GC::Home home) : GC::Brancher(home) {}
-      B(GC::Space& home, B& b) : GC::Brancher(home,b) {}
-      GC::Brancher* copy(GC::Space& home) {return new (home) B(home,*this);}
-      bool status(const GC::Space& s) const noexcept {
-        return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
-      }
+  struct RlaBranching : GC::Brancher {
+    RlaBranching(const GC::Home home) : GC::Brancher(home) {}
+    RlaBranching(GC::Space& home, RlaBranching& b) : GC::Brancher(home,b) {}
+    GC::Brancher* copy(GC::Space& home) {
+      return new (home) RlaBranching(home,*this);
+    }
+    std::size_t dispose(GC::Space&) noexcept { return sizeof(*this); }
 
-      struct C : GC::Choice {
-        typedef GV::values_t values_t;
-        const values_t br; // br[0] is the variable (if existent)
-        C(const B& b, const values_t branching) noexcept :
-        GC::Choice(b, width(branching)), br(branching) {}
-        static unsigned width(const values_t& br) noexcept {
-          const unsigned size = br.size();
-          if (size == 0) return 1;
-          assert(size >= 2);
-          return size == 2 ? 2 : size-1;
-        }
-      };
+    bool status(const GC::Space& s) const noexcept {
+      return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
+    }
 
-      GC::Choice* choice(GC::Space&) {
-        return nullptr; // XXX
-      }
-      GC::Choice* choice(const GC::Space&, GC::Archive&) {
-        throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
-      }
-      GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0, const unsigned a) {
-        const C& c = static_cast<const C&>(c0);
-        const size_t w = c.br.size();
-        if (w == 0) return GC::ExecStatus::ES_FAILED;
-        const int v = c.br[0];
-        assert(v >= 0);
-        RlaMols* const node = &(static_cast<RlaMols&>(s));
-        assert(v < node->V.size());
-        if (w == 2)
-          GC::rel(s, node->V[v], a==0 ? GC::IRT_EQ : GC::IRT_NQ, c.br[1]);
-        else {
-          assert(a+1 < w);
-          GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
-        }
-        return GC::ES_OK;
+    struct C : GC::Choice {
+      typedef GV::values_t values_t;
+      const values_t br; // br[0] is the variable (if existent)
+      C(const RlaBranching& b, const values_t branching) noexcept :
+      GC::Choice(b, width(branching)), br(branching) {}
+      static unsigned width(const values_t& br) noexcept {
+        const unsigned size = br.size();
+        if (size == 0) return 1;
+        assert(size >= 2);
+        return size == 2 ? 2 : size-1;
       }
     };
+
+    GC::Choice* choice(GC::Space&) {
+      return nullptr; // XXX
+    }
+    GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
+    }
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0, const unsigned a) {
+      const C& c = static_cast<const C&>(c0);
+      const size_t w = c.br.size();
+      if (w == 0) return GC::ExecStatus::ES_FAILED;
+      const int v = c.br[0];
+      assert(v >= 0);
+      CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      assert(v < node->V.size());
+      if (w == 2)
+        GC::rel(s, node->V[v], a==0 ? GC::IRT_EQ : GC::IRT_NQ, c.br[1]);
+      else {
+        assert(a+1 < w);
+        GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
+      }
+      return GC::ES_OK;
+    }
   };
 
 
