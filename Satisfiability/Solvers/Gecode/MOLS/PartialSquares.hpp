@@ -76,6 +76,10 @@ namespace PartialSquares {
     auto operator <=>(const Cell&) const noexcept = default;
   };
   void swap(Cell& c1, Cell& c2) noexcept { c1.swap(c2); }
+  static_assert(std::is_move_assignable_v<Cell>);
+  static_assert(std::is_move_constructible_v<Cell>);
+  static_assert(std::is_swappable_v<Cell>);
+
   std::ostream& operator <<(std::ostream& out, const Cell& c) {
     std::vector<size_t> content;
     for (size_t i = 0; i < c.size(); ++i) if (not c.c[i]) content.push_back(i);
@@ -117,7 +121,7 @@ namespace PartialSquares {
     return std::ranges::all_of(ps, [](const prow_t& r){return unit(r);});
   }
 
-  prow_t empty_prow(const size_t N) {
+  prow_t empty_prow(const size_t N) { // "empty" = "all open"
     return prow_t(N, cell_t(N));
   }
   prow_t full_prow(const size_t N) {
@@ -133,8 +137,14 @@ namespace PartialSquares {
   void flipm(prow_t& pr) noexcept {
     for (Cell& c : pr) c.flip();
   }
+  prow_t flip(prow_t pr) {
+    flipm(pr); return pr;
+  }
   void flipm(psquare_t& ps) noexcept {
     for (prow_t& pr : ps) flipm(pr);
+  }
+  psquare_t flip(psquare_t ps) {
+    flipm(ps); return ps;
   }
 
 
@@ -156,6 +166,10 @@ namespace PartialSquares {
     auto operator <=>(const PSquare&) const noexcept = default;
   };
   void swap(PSquare& p1, PSquare& p2) noexcept { p1.swap(p2); }
+  static_assert(std::is_move_assignable_v<PSquare>);
+  static_assert(std::is_move_constructible_v<PSquare>);
+  static_assert(std::is_swappable_v<PSquare>);
+
   std::ostream& operator <<(std::ostream& out, const PSquare& ps) {
     out << ps.s << "\n";
     const size_t N = ps.ps.size();

@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "20.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -97,12 +97,43 @@ int main(const int argc, const char* const argv[]) {
    assert(Cell(cell_t{1}) == Cell(1).flip());
   }
 
+  {for (size_t N = 0; N <= 3; ++N) {
+     const prow_t er = empty_prow(N);
+     assert(consistent(er));
+     assert(unit(er) == (N <= 1));
+     const prow_t fr = full_prow(N);
+     assert((er < fr) == (N != 0));
+     assert(consistent(fr) == (N == 0));
+     assert(unit(fr) == (N == 0));
+     assert(flip(er) == fr);
+     assert(flip(fr) == er);
+
+     const psquare_t es = empty_psquare(N);
+     assert(consistent(es));
+     assert(unit(es) == (N <= 1));
+     const psquare_t fs = full_psquare(N);
+     assert((es < fs) == (N != 0));
+     assert(consistent(fs) == (N == 0));
+     assert(unit(fs) == (N == 0));
+     assert(flip(es) == fs);
+     assert(flip(fs) == es);
+   }
+  }
+
   {assert(eqp(empty_prow(0), {}));
    assert(eqp(empty_prow(1), {Cell(1)}));
    assert(eqp(empty_prow(2), {Cell(2),Cell(2)}));
    assert(eqp(empty_psquare(0), {}));
    assert(eqp(empty_psquare(1), {{Cell(1)}}));
    assert(eqp(empty_psquare(2), {{Cell(2),Cell(2)}, {Cell(2),Cell(2)}}));
+  }
+  {assert(eqp(full_prow(0), {}));
+   assert(eqp(full_prow(1), {Cell(1).flip()}));
+   assert(eqp(full_prow(2), {Cell(2).flip(),Cell(2).flip()}));
+   assert(eqp(full_psquare(0), {}));
+   assert(eqp(full_psquare(1), {{Cell(1).flip()}}));
+   const Cell c2 = Cell(2).flip();
+   assert(eqp(full_psquare(2), {{c2,c2}, {c2,c2}}));
   }
 
   {std::istringstream ss;
