@@ -18,6 +18,10 @@ BUG:
 
 TODOS:
 
+-1. Move some functionality to proper place.
+    - The helper function encoding() should be moved from here.
+      Perhaps, TestEncoding.hpp or a new header TestCases.hpp.
+
 0. Collection of test-scenarios
     - Some general structure is needed, which supports some kind of "database"
       of testcases.
