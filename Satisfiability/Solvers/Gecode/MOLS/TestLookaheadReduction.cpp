@@ -80,7 +80,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "20.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -151,20 +151,12 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 8);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
-   assert(assignedvars(ch->V) == 1);
-   assert(sumdomsizes(ch->V) == 7);
-   assert(assignedval(ch->V, 0) == 0);
    const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
-   assert(assignedvars(ch2->V) == 1);
-   assert(sumdomsizes(ch2->V) == 7);
-   assert(assignedval(ch2->V, 0) == 1);
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -179,8 +171,6 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
    assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_BRANCH);
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -216,20 +206,12 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 8);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->V.size() == m->V.size());
-   assert(assignedvars(ch->V) == 4);
-   assert(sumdomsizes(ch->V) == 4);
-   assert(assignedval(ch->V,0) == 0);
    const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_SOLVED);
    assert(ch2->V.size() == m->V.size());
-   assert(assignedvars(ch2->V) == 4);
-   assert(sumdomsizes(ch2->V) == 4);
-   assert(assignedval(ch2->V,0) == 1);
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_SOLVED);
@@ -244,8 +226,6 @@ int main(const int argc, const char* const argv[]) {
    assert(PT.empty());
    assert(probe(m.get(), 1, 1, pl, PT, stats0, false) == Gecode::SS_SOLVED);
    assert(PT.empty());
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 8);
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -286,19 +266,12 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 27);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
-   assert(assignedvars(ch->V) == 1);
-   assert(sumdomsizes(ch->V) == 25);
-   assert(assignedval(ch->V,0) == 0);
    const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
-   assert(assignedvars(ch2->V) == 0);
-   assert(sumdomsizes(ch2->V) == 26);
    assert(ch2->V[0].size() == 2);
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -329,8 +302,6 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
    assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
    assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}, {2,2}}));
-   assert(assignedvars(m->V) == 0);
-   assert(sumdomsizes(m->V) == 27);
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -354,21 +325,12 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
-   assert(assignedvars(m->V) == 1);
-   assert(sumdomsizes(m->V) == 21);
-   assert(assignedval(m->V,0) == 0);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
    assert(ch->V.size() == m->V.size());
-   assert(assignedvars(ch->V) == 1);
-   assert(sumdomsizes(ch->V) == 21);
-   assert(assignedval(ch->V,0) == 0);
    const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_FAILED);
    assert(ch2->V.size() == m->V.size());
-   assert(assignedvars(ch2->V) == 1);
-   assert(sumdomsizes(ch2->V) == 21);
-   assert(assignedval(ch2->V,0) == 0);
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_FAILED);
@@ -398,8 +360,6 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
    assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_BRANCH);
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-   assert(assignedvars(m->V) == 1);
-   assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -426,22 +386,12 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
-   assert(assignedvars(m->V) == 1);
-   assert(sumdomsizes(m->V) == 21);
-   assert(assignedval(m->V,4) == 1);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_SOLVED);
    assert(ch->V.size() == m->V.size());
-   assert(assignedvars(ch->V) == 9);
-   assert(sumdomsizes(ch->V) == 9);
-   assert(assignedval(ch->V,0) == 0);
-   assert(assignedval(ch->V,4) == 1);
    const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(ch2->status() == Gecode::SS_BRANCH);
    assert(ch2->V.size() == m->V.size());
-   assert(assignedvars(ch2->V) == 1);
-   assert(sumdomsizes(ch2->V) == 20);
-   assert(assignedval(ch2->V,4) == 1);
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 0, 1, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -471,8 +421,6 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
    assert(probe(m.get(), 2, 2, pl, PT, stats0, false) == Gecode::SS_SOLVED);
    assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
-   assert(assignedvars(m->V) == 1);
-   assert(sumdomsizes(m->V) == 21);
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
