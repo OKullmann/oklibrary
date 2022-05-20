@@ -29,6 +29,8 @@ TODOS:
 #include <algorithm>
 #include <istream>
 #include <exception>
+#include <type_traits>
+#include <utility>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -66,9 +68,14 @@ namespace PartialSquares {
       return std::ranges::find(c, 0) - c.begin();
     }
 
+    void swap(Cell& other) noexcept {
+      c.swap(other.c);
+    }
+
     bool operator ==(const Cell&) const noexcept = default;
     auto operator <=>(const Cell&) const noexcept = default;
   };
+  void swap(Cell& c1, Cell& c2) noexcept { c1.swap(c2); }
   std::ostream& operator <<(std::ostream& out, const Cell& c) {
     std::vector<size_t> content;
     for (size_t i = 0; i < c.size(); ++i) if (not c.c[i]) content.push_back(i);
@@ -141,9 +148,14 @@ namespace PartialSquares {
     bool consistent() const noexcept { return PartialSquares::consistent(ps); }
     bool unit() const noexcept { return PartialSquares::unit(ps); }
 
+    void swap(PSquare& other) noexcept {
+      ps.swap(other.ps); std::swap(s, other.s);
+    }
+
     bool operator ==(const PSquare&) const noexcept = default;
     auto operator <=>(const PSquare&) const noexcept = default;
   };
+  void swap(PSquare& p1, PSquare& p2) noexcept { p1.swap(p2); }
   std::ostream& operator <<(std::ostream& out, const PSquare& ps) {
     out << ps.s << "\n";
     const size_t N = ps.ps.size();
@@ -179,6 +191,21 @@ namespace PartialSquares {
     bool valid() const noexcept {
       return std::ranges::all_of(psqs, [this](const auto& s){
                                    return PartialSquares::valid(s,N);});
+    }
+    PSquares(const PSquares&) = default;
+    PSquares(PSquares&& rhs) :
+      psqs(std::move(rhs.psqs)), N(rhs.N) {
+      assert(N == rhs.N);
+    }
+    PSquares& operator =(const PSquares& rhs) {
+      assert(N == rhs.N);
+      psqs = rhs.psqs;
+      return *this;
+    }
+    PSquares& operator =(PSquares&& rhs) {
+      assert(N == rhs.N);
+      psqs = std::move(rhs.psqs);
+      return *this;
     }
 
     size_t size() const noexcept { return psqs.size(); }
@@ -275,8 +302,18 @@ namespace PartialSquares {
       return res;
     }
 
+    void swap(PSquares& other) noexcept {
+      assert(N == other.N);
+      psqs.swap(other.psqs);
+    }
+
     bool operator ==(const PSquares&) const noexcept = default;
+    auto operator <=>(const PSquares&) const noexcept = default;
   };
+  static_assert(std::is_move_assignable_v<PSquares>);
+  static_assert(std::is_move_constructible_v<PSquares>);
+  void swap(PSquares& p1, PSquares& p2) noexcept { p1.swap(p2); }
+  static_assert(std::is_swappable_v<PSquares>);
 
   std::ostream& operator <<(std::ostream& out, const PSquares& psqs) {
     Environment::out_line(out, psqs.psqs, "");
