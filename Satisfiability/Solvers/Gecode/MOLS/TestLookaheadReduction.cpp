@@ -52,6 +52,7 @@ TODOS:
 
 #include <iostream>
 #include <sstream>
+#include <string>
 #include <memory>
 
 #include <cassert>
@@ -75,8 +76,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "17.5.2022",
+        "0.4.1",
+        "20.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -119,6 +120,16 @@ namespace {
     }
   };
 
+  EncCond encoding(const std::string condstr, const std::string psstr,
+    const size_t N, const GC::IntPropLevel pl) noexcept {
+    std::istringstream in_cond(condstr);
+    std::istringstream in_ps(psstr);
+    const AConditions ac = ReadAC()(in_cond);
+    const PSquares ps = PSquares(N, in_ps);
+    const EncCond enc(ac, ps, pl);
+    return enc;
+  }
+
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
@@ -131,12 +142,8 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {// An empty square or order 2, four variables, each with domain {0,1}:
-   std::istringstream in_cond("squares A\n");
-   std::istringstream in_ps("");
-   const AConditions ac = ReadAC()(in_cond);
-   const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc(ac, ps, pl);
+   const EncCond enc = encoding("squares A\n", "", 2, pl);
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
@@ -200,12 +207,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {// All Latin square of order 2:
-   std::istringstream in_cond("squares A\nls A\n");
-   std::istringstream in_ps("");
-   const AConditions ac = ReadAC()(in_cond);
-   const PSquares ps = PSquares(2, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc(ac, ps, pl);
+   const EncCond enc = encoding("squares A\nls A\n", "", 2, pl);
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 4);
@@ -274,12 +277,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {// An empty square of order 3:
-   std::istringstream in_cond("squares A\n");
-   std::istringstream in_ps("");
-   const AConditions ac = ReadAC()(in_cond);
-   const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc(ac, ps, pl);
+   const EncCond enc = encoding("squares A\n", "", 3, pl);
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
@@ -345,12 +344,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {// A Latin square of order 3 with A[0,0] == 0:
-   std::istringstream in_cond("squares A\nls A\n");
-   std::istringstream in_ps("A\n0 * *\n* * *\n* * *\n");
-   const AConditions ac = ReadAC()(in_cond);
-   const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc(ac, ps, pl);
+   const EncCond enc = encoding("squares A\nls A\n",
+     "A\n0 * *\n* * *\n* * *\n", 3, pl);
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
@@ -420,12 +416,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {// A Latin square of order 3 with A[1,1] == 1:
-   std::istringstream in_cond("squares A\nls A\n");
-   std::istringstream in_ps("A\n* * *\n* 1 *\n* * *\n");
-   const AConditions ac = ReadAC()(in_cond);
-   const PSquares ps = PSquares(3, in_ps);
    const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc(ac, ps, pl);
+   const EncCond enc = encoding("squares A\nls A\n",
+     "A\n* * *\n* 1 *\n* * *\n", 3, pl);
    const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
    assert(m->status() == Gecode::SS_BRANCH);
    assert(m->V.size() == 9);
