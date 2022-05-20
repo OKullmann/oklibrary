@@ -51,7 +51,7 @@ namespace PartialSquares {
 
     Cell() noexcept = default;
     Cell(const cell_t c) : c(c) {}
-    Cell(const size_t N) : c(N) {}
+    Cell(const size_t N) : c(N) {} // all N positions enabled
 
     size_t size() const noexcept { return c.size(); }
     Cell& flip() noexcept { c.flip(); return *this; }

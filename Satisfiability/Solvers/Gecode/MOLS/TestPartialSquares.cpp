@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "27.4.2022",
+        "0.2.5",
+        "20.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -48,6 +48,13 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {const cell_t c1{0,0,0}, c2{1,0,0};
+   assert(c1 != c2);
+   assert(c1 < c2);
+   assert(not c1[0]);
+   assert(c2[0]);
+  }
+
   {assert(Cell() == Cell(0));
    assert(Cell{} == Cell());
    assert(Cell{{}} == Cell());
@@ -63,6 +70,26 @@ int main(const int argc, const char* const argv[]) {
      assert(Cell(n).consistent() == (n != 0));
      assert(Cell(n).unit() == (n == 1));
      assert(Cell(n).first() == 0);
+     Cell C(n);
+     assert(C == Cell(n));
+     assert(C.first() == 0);
+     assert(C.consistent() == (n != 0));
+     Cell C2(C);
+     assert(C2 == C);
+     C2.flip();
+     assert(C2 == Cell(n).flip());
+     assert((C2 == C) == (n == 0));
+     assert(C2.first() == n);
+     assert(not C2.unit());
+     assert(not C2.consistent());
+     assert((C < C2) == (n != 0));
+     swap(C, C2);
+     assert(C2 == Cell(n));
+     assert(C == Cell(n).flip());
+     assert((C > C2) == (n != 0));
+     C.swap(C2);
+     assert(C == Cell(n));
+     assert(C2 == Cell(n).flip());
    }
    assert(Cell(1) == Cell(cell_t{0}));
    assert(Cell(1) == Cell({1}));
