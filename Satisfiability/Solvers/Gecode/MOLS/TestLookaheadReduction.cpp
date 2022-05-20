@@ -134,6 +134,12 @@ namespace {
     return enc;
   }
 
+  std::unique_ptr<GenericMolsNB> space(const EncCond enc) noexcept {
+    std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
+    m->status();
+    return m;
+  }
+
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
@@ -148,8 +154,7 @@ int main(const int argc, const char* const argv[]) {
   {// An empty square or order 2, four variables, each with domain {0,1}:
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const EncCond enc = encoding("squares A\n", "", 2, pl);
-   const std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
-   assert(m->status() == Gecode::SS_BRANCH);
+   const std::unique_ptr<GenericMolsNB> m = space(enc);
    assert(m->V.size() == 4);
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(ch->status() == Gecode::SS_BRANCH);
@@ -183,17 +188,17 @@ int main(const int argc, const char* const argv[]) {
    assert(stats.solc() == 0);
    assert(stats.leafcount() == 0);
    assert(stats.sollist().empty());
-   const std::unique_ptr<GenericMolsNB> m2(new GenericMolsNB(enc));
+   const std::unique_ptr<GenericMolsNB> m2 = space(enc);
    const ReductionStatistics stats2 =
      lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
    assert(eqwt(stats2, stats));
-   const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
+   const std::unique_ptr<GenericMolsNB> m3 = space(enc);
    const ReductionStatistics stats3 =
      lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
    assert(eqwt(stats3, stats));
-   const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
+   const std::unique_ptr<GenericMolsNB> m4 = space(enc);
    const ReductionStatistics stats4 =
      lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
