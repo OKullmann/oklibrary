@@ -143,11 +143,15 @@ namespace LookaheadBranching {
   struct rlaStats {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
     typedef LR::ReductionStatistics::sollist_t sollist_t;
-    sollist_t sols;
-    stats_t S;
-    size_t sol_counter = 0;
-    std::ostream* const log;
-    const EC::EncCond* const enc;
+
+    rlaStats(std::ostream* const log, const EC::EncCond* const enc) noexcept :
+      sol_counter(0), log(log), enc(enc) {
+      assert(not enc or log);
+    }
+
+    size_t sol_count() const noexcept { return sol_counter; }
+    const stats_t& stats() const noexcept { return S; }
+    const sollist_t& sols() const noexcept { return sols_; }
 
     void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
@@ -172,11 +176,19 @@ namespace LookaheadBranching {
         }
       }
       else if (not s.sollist().empty()) {
-        sols.reserve(sols.size() + solc);
-        for (auto& sol : s.sollist()) sols.push_back(std::move(sol));
+        assert(s.sollist().size() == solc);
+        sols_.reserve(sols_.size() + solc);
+        for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
         sol_counter += solc;
       }
     }
+
+  private :
+    sollist_t sols_;
+    stats_t S;
+    size_t sol_counter;
+    std::ostream* const log;
+    const EC::EncCond* const enc;
   };
 
 
