@@ -112,6 +112,7 @@ namespace LookaheadReduction {
 
     void sollist(const GV::solutions_t x) { sollist_.push_back(x); }
     const sollist_t& sollist() const noexcept { return sollist_; }
+    sollist_t& sollist() noexcept { return sollist_; }
 
     void maxprune(const size_t size) noexcept {
       maxprune_ = std::max(maxprune_, size);

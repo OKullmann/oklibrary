@@ -40,6 +40,7 @@ TODOS:
 #include <algorithm>
 #include <limits>
 #include <mutex>
+#include <utility>
 
 #include <cassert>
 #include <cstdlib>
@@ -136,9 +137,13 @@ namespace LookaheadBranching {
 
   struct rlaStats {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
+    typedef LR::ReductionStatistics::sollist_t sollist_t;
+    sollist_t sols;
     stats_t S;
-    void add(const LR::ReductionStatistics& s) noexcept {
+    void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
+      sols.reserve(sols.size() + s.sollist().size());
+      for (auto& sol : s.sollist()) sols.push_back(std::move(sol));
     }
   };
 
@@ -242,7 +247,7 @@ namespace LookaheadBranching {
 
     GC::Choice* choice(GC::Space& s0) {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
-      {const auto stats = LR::lareduction(&s, P.rt, P.pl, P.lar);
+      {auto stats = LR::lareduction(&s, P.rt, P.pl, P.lar);
        if (P.parallel) {
          std::lock_guard<std::mutex> lock(stats_mutex); S->add(stats);
        }
