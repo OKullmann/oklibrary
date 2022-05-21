@@ -195,7 +195,7 @@ namespace LookaheadBranching {
   class RlaBranching : public GC::Brancher {
     const rlaParams P;
     rlaStats* const S;
-    static std::mutex stats_mutex;
+    inline static std::mutex stats_mutex;
 
     RlaBranching(GC::Space& home, RlaBranching& b)
       : GC::Brancher(home,b), P(b.P), S(b.S) {}
@@ -232,7 +232,7 @@ namespace LookaheadBranching {
       switch (bv) {
       case OP::BHV::first :
         for (int v = 0; v < size; ++v) if (V[v].size() != 1) return v;
-        assert(false);
+        assert(false); [[fallthrough]];
       case OP::BHV::mindeg : {
         int min = std::numeric_limits<int>::max(), opt=-1;
         for (int v = 0; v < size; ++v) {
@@ -286,7 +286,8 @@ namespace LookaheadBranching {
           if (q > max) { max = q; opt = v; }
         }
         assert(opt >= 0); return opt;
-      }}
+      }
+      default : assert(false); return -1;}
     }
 
     GC::Choice* choice(GC::Space& s0) {
@@ -310,7 +311,8 @@ namespace LookaheadBranching {
         else br.assign(values.rbegin(), values.rend());
         br.insert(br.begin(), v);
         return new C(*this, br);
-      }}
+      }
+      default : assert(false); return nullptr;}
     }
     GC::Choice* choice(const GC::Space&, GC::Archive&) {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
