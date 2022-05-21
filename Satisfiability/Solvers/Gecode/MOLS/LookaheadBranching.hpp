@@ -41,6 +41,7 @@ TODOS:
 #include <limits>
 #include <mutex>
 #include <utility>
+#include <ostream>
 
 #include <cassert>
 #include <cstdlib>
@@ -57,6 +58,8 @@ TODOS:
 #include "Constraints.hpp"
 #include "GcVariables.hpp"
 #include "LookaheadReduction.hpp"
+#include "Encoding.hpp"
+#include "Verification.hpp"
 
 namespace LookaheadBranching {
 
@@ -67,6 +70,8 @@ namespace LookaheadBranching {
   namespace CD = Conditions;
   namespace CT = Constraints;
   namespace GV = GcVariables;
+  namespace EC = Encoding;
+  namespace VR = Verification;
 
   using size_t = CD::size_t;
   typedef std::vector<int> values_t;
@@ -140,10 +145,37 @@ namespace LookaheadBranching {
     typedef LR::ReductionStatistics::sollist_t sollist_t;
     sollist_t sols;
     stats_t S;
+    size_t sol_counter = 0;
+    std::ostream* const log;
+    const EC::EncCond* const enc;
+
     void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
-      sols.reserve(sols.size() + s.sollist().size());
-      for (auto& sol : s.sollist()) sols.push_back(std::move(sol));
+      const size_t solc = s.solc();
+      if (solc == 0) return;
+      if (log) {
+        if (enc) {
+          assert(solc == s.sollist().size());
+          for (auto& sol : s.sollist()) {
+            ++sol_counter;
+            const auto dsol = enc->decode(std::move(sol));
+            *log << sol_counter << "\n" << dsol << std::endl;
+            if (not VR::correct(enc->ac, dsol))
+              std::cerr << "\nERROR[LABranching::rlaStats]: "
+                "correctness-checking failed for solution " << sol_counter
+                        << ":\n" << dsol << "\n";
+          }
+        }
+        else {
+          assert(s.sollist().empty());
+          *log << " " << solc; log -> flush(); sol_counter += solc;
+        }
+      }
+      else if (not s.sollist().empty()) {
+        sols.reserve(sols.size() + solc);
+        for (auto& sol : s.sollist()) sols.push_back(std::move(sol));
+        sol_counter += solc;
+      }
     }
   };
 
