@@ -19,6 +19,7 @@ License, or any later version. */
 
     - helper class CoreStats<IN> for sum, sum-of-squares, min and max
     - class BasicStats<IN, OUT>: complete class for one quantity
+    - typedef StdStats for BasicStats with float80
 
     - function median<OUT, V>(V v)
     - class StatsStore<IN, OUT> (keeps the data, providing median)
@@ -127,6 +128,16 @@ namespace GenStats {
     sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
       assert(sum_sq_ >= 0);
     }
+    CoreStats& operator +=(const input_t x) noexcept {
+      sum_ += x; sum_sq_ += x*x;
+      min_ = std::min(min_, x); max_ = std::max(max_, x);
+      return *this;
+    }
+    CoreStats& operator +=(const CoreStats& s) noexcept {
+      sum_ += s.sum_; sum_sq_ += s.sum_sq_;
+      min_ = std::min(min_, s.min_); max_ = std::max(max_, s.max_);
+      return *this;
+    }
     friend bool operator ==(const CoreStats&,
                             const CoreStats&) noexcept = default;
   };
@@ -156,19 +167,12 @@ namespace GenStats {
     }
 
     BasicStats& operator +=(const input_t x) noexcept {
-      ++N_;
-      sum_ += x;
-      sum_sq_ += x*x;
-      min_ = std::min(min_, x);
-      max_ = std::max(max_, x);
+      ++N_; static_cast<base_t&>(*this) += x;
       return *this;
     }
     BasicStats& operator +=(const BasicStats& s) noexcept {
       N_ += s.N_;
-      sum_ += s.sum_;
-      sum_sq_ += s.sum_sq_;
-      min_ = std::min(min_, s.min_);
-      max_ = std::max(max_, s.max_);
+      static_cast<base_t&>(*this) += s;
       return *this;
     }
     friend BasicStats operator +(const BasicStats& s1, const BasicStats& s2) {
@@ -230,6 +234,8 @@ namespace GenStats {
                  << s.max() << "; " << s.sd_corrected();
     }
   };
+
+  using StdStats = BasicStats<FloatingPoint::float80, FloatingPoint::float80>;
 
 
   template <typename OUT, class V>
