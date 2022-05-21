@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.3.0",
         "21.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -278,4 +278,89 @@ int main(const int argc, const char* const argv[]) {
    }
    assert((FS.extract2() == stats_t{{4,1,1.5,2,FP::sqrt(1.0L/3)},1.5}));
   }
+
+  {typedef GStdStats<0> ST;
+   static_assert(ST::k == 0);
+   ST s;
+   static_assert(s.k == 0);
+   assert(s == ST{});
+   assert(s.N() == 0);
+   assert(eqp(s.min(), {}));
+   assert(eqp(s.max(), {}));
+   assert(eqp(s.sum(), {}));
+   assert(eqp(s.sum_sq(), {}));
+   assert(eqp(s.amean(), {}));
+   assert(eqp(s.var_population(), {}));
+   assert(eqp(s.var_unbiased(), {}));
+   assert(eqp(s.sd_population(), {}));
+   assert(eqp(s.sd_corrected(), {}));
+   s += ST::vec_t{};
+   assert(s.N() == 1);
+   s += s;
+   assert(s.N() == 2);
+   s = s + s;
+   assert(s.N() == 4);
+  }
+
+  {typedef GStdStats<2> ST;
+   static_assert(ST::k == 2);
+   ST s;
+   static_assert(s.k == 2);
+   assert(s == ST{});
+   assert(s.N() == 0);
+   assert(eqp(s.sum(), {0,0}));
+   assert(eqp(s.sum_sq(), {0,0}));
+   assert(eqp(s.min(), {FP::pinfinity,FP::pinfinity}));
+   assert(eqp(s.max(), {FP::minfinity,FP::minfinity}));
+   assert(eqp(s.amean(), {0,0}));
+   assert(eqp(s.var_population(), {0,0}));
+   assert(eqp(s.var_unbiased(), {0,0}));
+   assert(eqp(s.sd_population(), {0,0}));
+   assert(eqp(s.sd_corrected(), {0,0}));
+   s += s;
+   assert(s.N() == 0);
+   assert(eqp(s.sum(), {0,0}));
+   assert(eqp(s.sum_sq(), {0,0}));
+   assert(eqp(s.min(), {FP::pinfinity,FP::pinfinity}));
+   assert(eqp(s.max(), {FP::minfinity,FP::minfinity}));
+   assert(eqp(s.amean(), {0,0}));
+   assert(eqp(s.var_population(), {0,0}));
+   assert(eqp(s.var_unbiased(), {0,0}));
+   assert(eqp(s.sd_population(), {0,0}));
+   assert(eqp(s.sd_corrected(), {0,0}));
+   s += ST::vec_t{1,2};
+   assert(s.N() == 1);
+   assert(eqp(s.sum(), {1,2}));
+   assert(eqp(s.sum_sq(), {1,4}));
+   assert(eqp(s.min(), {1,2}));
+   assert(eqp(s.max(), {1,2}));
+   assert(eqp(s.amean(), {1,2}));
+   assert(eqp(s.var_population(), {0,0}));
+   assert(eqp(s.var_unbiased(), {0,0}));
+   assert(eqp(s.sd_population(), {0,0}));
+   assert(eqp(s.sd_corrected(), {0,0}));
+   s += s;
+   assert(s.N() == 2);
+   assert(eqp(s.sum(), {2,4}));
+   assert(eqp(s.sum_sq(), {2,8}));
+   assert(eqp(s.min(), {1,2}));
+   assert(eqp(s.max(), {1,2}));
+   assert(eqp(s.amean(), {1,2}));
+   assert(eqp(s.var_population(), {0,0}));
+   assert(eqp(s.var_unbiased(), {0,0}));
+   assert(eqp(s.sd_population(), {0,0}));
+   assert(eqp(s.sd_corrected(), {0,0}));
+   s += ST::vec_t{};
+   assert(s.N() == 3);
+   assert(eqp(s.sum(), {2,4}));
+   assert(eqp(s.sum_sq(), {2,8}));
+   assert(eqp(s.min(), {0,0}));
+   assert(eqp(s.max(), {1,2}));
+   assert(eqp(s.amean(), {2.0L/3, 4.0L/3}));
+   assert(FP::accuracymax(s.var_population(), {2.0L/9, 8.0L/9}) <= 1);
+   assert(FP::accuracymax(s.var_unbiased(), {1.0L/3, 4.0L/3}) <= 1);
+   assert(eqp(s.sd_population(), {FP::Sqr2/3, 2*FP::Sqr2/3}));
+   assert(eqp(s.sd_corrected(), {1/FP::Sqr3, 2/FP::Sqr3}));
+  }
+
 }

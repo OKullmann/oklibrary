@@ -21,11 +21,15 @@ License, or any later version. */
     - class BasicStats<IN, OUT>: complete class for one quantity
     - typedef StdStats for BasicStats with float80
 
-    - function median<OUT, V>(V v)
-    - class StatsStore<IN, OUT> (keeps the data, providing median)
+    - generalised to k quantities:
+        GBasicStats<k,IN,OUT> and GStdStats<k>
 
-    - class FreqStats<IN, OUT> (also keeps the data and providing median, in
-      the form of a frequency-table).
+    - function median<OUT, V>(V v)
+    - class StatsStore<IN, OUT> (as BasicStats, but keeps the data, and
+      providing the median)
+
+    - class FreqStats<IN, OUT> (also keeps the data and providing median, now
+      in the form of a frequency-table).
 
    Sequences of points (pairs of x/y-values):
 
@@ -121,13 +125,23 @@ namespace GenStats {
     typedef IN input_t;
     input_t sum_, sum_sq_, min_, max_;
     constexpr CoreStats() noexcept :
-      sum_(0), sum_sq_(0), min_(std::numeric_limits<input_t>::max()),
-      max_(std::numeric_limits<input_t>::lowest()) {}
+      sum_(0), sum_sq_(0), min_(max()), max_(min()) {}
+    static constexpr input_t max() noexcept {
+      if constexpr (std::numeric_limits<input_t>::has_infinity)
+        return std::numeric_limits<input_t>::infinity();
+      else return std::numeric_limits<input_t>::max();
+    }
+    static constexpr input_t min() noexcept {
+      if constexpr (std::numeric_limits<input_t>::has_infinity)
+        return -std::numeric_limits<input_t>::infinity();
+      else return std::numeric_limits<input_t>::lowest();
+    }
     constexpr CoreStats(const input_t sum0, const input_t sum_sq0,
                         const input_t min0, const input_t max0) noexcept :
     sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
       assert(sum_sq_ >= 0);
     }
+
     CoreStats& operator +=(const input_t x) noexcept {
       sum_ += x; sum_sq_ += x*x;
       min_ = std::min(min_, x); max_ = std::max(max_, x);
@@ -175,9 +189,9 @@ namespace GenStats {
       static_cast<base_t&>(*this) += s;
       return *this;
     }
-    friend BasicStats operator +(const BasicStats& s1, const BasicStats& s2) {
-      BasicStats res(s1);
-      res += s2;
+    friend constexpr BasicStats operator +(const BasicStats& s1,
+                                           const BasicStats& s2) {
+      BasicStats res(s1); res += s2;
       return res;
     }
 
@@ -193,14 +207,13 @@ namespace GenStats {
     }
     constexpr output_t var_population() const noexcept {
       if (N_ <= 1) return 0;
-      const output_t s = sum_;
-      const output_t n = N_;
-      return (output_t(sum_sq_) - s*s / n) / n;
+      const output_t s = sum_, ss = sum_sq_, n = N_;
+      return (ss - s*s / n) / n;
     }
     constexpr output_t var_unbiased() const noexcept {
       if (N_ <= 1) return 0;
-      const output_t s = sum_;
-      return (output_t(sum_sq_) - s*s / output_t(N_)) / output_t(N_-1);
+      const output_t s = sum_, ss = sum_sq_, n = N_, nm1 = N_-1;
+      return (ss - s*s / n) / nm1;
     }
     constexpr output_t sd_population() const noexcept {
       return std::sqrt(var_population());
@@ -236,6 +249,102 @@ namespace GenStats {
   };
 
   using StdStats = BasicStats<FloatingPoint::float80, FloatingPoint::float80>;
+
+  // More generally than BasicStats, for k quantities:
+  template <std::uint64_t K, typename IN, typename OUT>
+  struct GBasicStats {
+    typedef IN input_t;
+    typedef OUT output_t;
+    typedef std::uint64_t count_t;
+    static constexpr count_t k = K;
+
+    typedef std::array<input_t, k> vec_t;
+    typedef std::array<output_t, k> ovec_t;
+
+    constexpr GBasicStats() noexcept : N_(0) {};
+
+    GBasicStats& operator +=(const vec_t& x) noexcept {
+      ++N_;
+      for (count_t i = 0; i < k; ++i) S[i] += x[i];
+      return *this;
+    }
+    GBasicStats& operator +=(const GBasicStats& s) noexcept {
+      N_ += s.N_;
+      for (count_t i = 0; i < k; ++i) S[i] += s.S[i];
+      return *this;
+    }
+    friend constexpr GBasicStats operator +(const GBasicStats& s1,
+                                  const GBasicStats& s2) {
+      GBasicStats res(s1); res += s2;
+      return res;
+    }
+
+    constexpr count_t N() const noexcept { return N_; }
+    constexpr vec_t min() const noexcept {
+      vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].min_;
+      return res;
+    }
+    constexpr vec_t max() const noexcept {
+      vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].max_;
+      return res;
+    }
+    constexpr vec_t sum() const noexcept {
+      vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_;
+      return res;
+    }
+    constexpr vec_t sum_sq() const noexcept {
+      vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_sq_;
+      return res;
+    }
+
+    constexpr ovec_t amean() const noexcept {
+      if (N_ == 0) return {};
+      ovec_t res;
+      for (count_t i = 0; i < k; ++i)
+        res[i] = output_t(S[i].sum_) / output_t(N_);
+      return res;
+    }
+    constexpr ovec_t var_population() const noexcept {
+      if (N_ <= 1) return {};
+      ovec_t res;
+      for (count_t i = 0; i < k; ++i) {
+        const output_t s = S[i].sum_, ss = S[i].sum_sq_, n = N_;
+        res[i] = (ss - s*s / n) / n;
+      }
+      return res;
+    }
+    constexpr ovec_t var_unbiased() const noexcept {
+      if (N_ <= 1) return {};
+      ovec_t res;
+      for (count_t i = 0; i < k; ++i) {
+        const output_t s = S[i].sum_, ss = S[i].sum_sq_, n = N_, nm1 = N_-1;
+        res[i] = (ss - s*s / n) / nm1;
+      }
+      return res;
+    }
+    static constexpr ovec_t sqrt(ovec_t x) noexcept {
+      for (count_t i = 0; i < k; ++i) x[i] = std::sqrt(x[i]);
+      return x;
+    }
+    constexpr ovec_t sd_population() const noexcept {
+      return sqrt(var_population());
+    }
+    constexpr ovec_t sd_corrected() const noexcept {
+      return sqrt(var_unbiased());
+    }
+
+    friend bool operator ==(const GBasicStats&,
+                            const GBasicStats&) noexcept = default;
+  private :
+    count_t N_;
+    typedef CoreStats<IN> core_t;
+    typedef std::array<core_t, k> stats_t;
+    stats_t S;
+  };
+
+  template <std::uint64_t K>
+  using GStdStats = GBasicStats<K,
+                                FloatingPoint::float80,FloatingPoint::float80>;
 
 
   template <typename OUT, class V>
