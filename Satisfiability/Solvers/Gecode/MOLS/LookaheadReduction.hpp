@@ -38,6 +38,7 @@ TODOS:
 #include <set>
 #include <algorithm>
 #include <utility>
+#include <array>
 
 #include <cassert>
 
@@ -99,6 +100,7 @@ namespace LookaheadReduction {
     void inc_solc() noexcept { ++solc_; }
     void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
 
+    size_t vals() const noexcept { return vals_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     size_t prunes() const noexcept { return prunes_; }
@@ -121,6 +123,17 @@ namespace LookaheadReduction {
 
     float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
     float_t quotprun() const noexcept {return float_t(prunes_)/probes_;}
+
+    static constexpr size_t num_stats = 12;
+    typedef std::array<float_t, num_stats> export_t;
+    export_t extract() const noexcept {
+      export_t res;
+      res[0] = vals_; res[1] = props_; res[2] = elimvals_;
+      res[3] = prunes_; res[4] = maxprune_; res[5] = probes_;
+      res[6] = rounds_; res[7] = solc_; res[8] = leafcount_;
+      res[9] = time_; res[10] = quotelimvals(); res[11] = quotprun();
+      return res;
+    }
 
     bool operator ==(const ReductionStatistics&) const noexcept = default;
     // Equality without time:

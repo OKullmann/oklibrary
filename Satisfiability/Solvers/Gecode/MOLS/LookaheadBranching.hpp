@@ -48,6 +48,7 @@ TODOS:
 #include <gecode/search.hh>
 
 #include <Numerics/NumTypes.hpp>
+#include <Numerics/Statistics.hpp>
 #include <Numerics/Tau.hpp>
 
 #include "Conditions.hpp"
@@ -134,10 +135,10 @@ namespace LookaheadBranching {
 
 
   struct rlaStats {
-    size_t rla_calls = 0;
+    typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
+    stats_t S;
     void add(const LR::ReductionStatistics& s) noexcept {
-      ++rla_calls;
-      // XXX
+      S += s.extract();
     }
   };
 
