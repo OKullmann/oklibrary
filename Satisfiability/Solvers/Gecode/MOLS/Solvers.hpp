@@ -168,7 +168,6 @@ namespace Solvers {
       out << " " << gs.propagate << " " << gs.fail <<
         " " << gs.node << " " << gs.depth;
     }
-
   };
 
 
@@ -424,20 +423,29 @@ namespace Solvers {
   */
   GBasicSR rlasolver(const EC::EncCond& enc,
                      const OP::RT rt,
-                     const OP::LAR,
-                     const GC::IntVarBranch,
-                     const GC::IntValBranch,
-                     const double threads = 1,
-                     [[maybe_unused]]std::ostream* const log = nullptr) {
+                     const OP::LAR lar,
+                     const OP::BHV bv,
+                     const OP::BRT bt,
+                     const OP::GBO bo,
+                     const double threads,
+                     std::ostream* const log) {
+    assert(valid(rt));
+    assert(not with_log(rt) or log);
+
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
     CT::GenericMols0* const m = new CT::GenericMols0(enc);
-    // Post branching:
-    // XXX
+    const LB::rlaParams P{rt, enc.pl, lar, bv, bt, bo, threads != 1};
+    std::unique_ptr<LB::rlaStats> stats(
+      new LB::rlaStats(log, log and OP::with_solutions(rt) ? &enc : nullptr));
+    new (*m) LB::RlaBranching(*m, P, stats.get());
     GC::DFS<CT::GenericMols0> s(m, make_options(threads));
     delete m;
 
     GBasicSR res{rt};
     // XXX
 
+    res.ut = timing() - t0;
     return res;
   }
 
