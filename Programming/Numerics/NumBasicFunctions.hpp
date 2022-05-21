@@ -213,6 +213,8 @@ namespace FloatingPoint {
   STATIC_ASSERT(sqrt(3*3+4*4) == 5);
   constexpr float80 Sqr2 = 1.4142135623730950488016887242L;
   STATIC_ASSERT(Sqr2 == sqrt(2));
+  constexpr float80 Sqr3 = 1.7320508075688772935274463415L;
+  STATIC_ASSERT(Sqr3 == sqrt(3));
   // STATIC_ASSERT(isnan(sqrt(-1))); // bug with gcc 10.2
   STATIC_ASSERT(sqrt(P264) == pow(2,32));
   STATIC_ASSERT(sqrt(sqrt(P264)) == pow(2,16));
