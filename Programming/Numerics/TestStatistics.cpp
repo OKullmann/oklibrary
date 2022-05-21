@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "20.3.2022",
+        "0.2.3",
+        "21.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -85,6 +85,7 @@ int main(const int argc, const char* const argv[]) {
    assert(S.N() == 4);
    assert(S.sum() == 6);
    assert(S.sum_sq() == 14);
+   assert((S.base() == bst::base_t{6,14,0,3}));
    assert(S.amean() == 1.5L);
    assert(S.var_population() == 1.25L);
    assert(S.var_unbiased() == 5.0L / 3.0L);

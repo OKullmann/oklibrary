@@ -10,14 +10,21 @@ License, or any later version. */
    One-dimensional sequences (count, min, max, arithmetic mean, standard
    deviation and median):
 
-    - class BStatsR<OUT> (reporting the basic statistics)
-    - class StatsR<OUT> (derived class, also reporting the median)
+    Containers for output of the basic measures (at once):
 
-    - class BasicStats<IN, OUT>
+    - class BStatsR<OUT> (reporting the basic statistics)
+    - class StatsR<OUT> (derived class, additionally reporting the median).
+
+    Complete classes for computing the basic statistics:
+
+    - helper class CoreStats<IN> for sum, sum-of-squares, min and max
+    - class BasicStats<IN, OUT>: complete class for one quantity
+
     - function median<OUT, V>(V v)
-    - class StatsStors<IN, OUT> (keeps the data, provided median)
-    - class FreqStats<IN, OUT> (also keeps the data, providng median, in the
-      form of a frequency-table)
+    - class StatsStore<IN, OUT> (keeps the data, providing median)
+
+    - class FreqStats<IN, OUT> (also keeps the data and providing median, in
+      the form of a frequency-table).
 
    Sequences of points (pairs of x/y-values):
 
@@ -108,27 +115,44 @@ namespace GenStats {
   };
 
 
+  template <typename IN>
+  struct CoreStats {
+    typedef IN input_t;
+    input_t sum_, sum_sq_, min_, max_;
+    constexpr CoreStats() noexcept :
+      sum_(0), sum_sq_(0), min_(std::numeric_limits<input_t>::max()),
+      max_(std::numeric_limits<input_t>::lowest()) {}
+    constexpr CoreStats(const input_t sum0, const input_t sum_sq0,
+                        const input_t min0, const input_t max0) noexcept :
+    sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
+      assert(sum_sq_ >= 0);
+    }
+    friend bool operator ==(const CoreStats&,
+                            const CoreStats&) noexcept = default;
+  };
+
+
   // Averages, variance, standard deviation,
   // simplest functionality, no storing, naive algorithm:
   template <typename IN, typename OUT>
-  struct BasicStats {
-    typedef IN input_t;
+  struct BasicStats : private CoreStats<IN> {
+    using typename CoreStats<IN>::input_t;
     typedef OUT output_t;
+    typedef CoreStats<IN> base_t;
     typedef std::uint64_t count_t;
   private :
     count_t N_ = 0;
-    input_t sum_ = 0;
-    input_t sum_sq_ = 0;
-    input_t min_ = std::numeric_limits<input_t>::max();
-    input_t max_ = std::numeric_limits<input_t>::lowest();
+    using base_t::sum_;
+    using base_t::sum_sq_;
+    using base_t::min_;
+    using base_t::max_;
   public :
 
     constexpr BasicStats() noexcept = default;
     constexpr BasicStats(const count_t N0, const input_t sum0,
       const input_t sum_sq0, const input_t min0, const input_t max0) noexcept :
-    N_(N0), sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
+    base_t{sum0, sum_sq0, min0, max0}, N_(N0) {
       assert(N_ == 0 or min_ <= max_);
-      assert(sum_sq_ >= 0);
     }
 
     BasicStats& operator +=(const input_t x) noexcept {
@@ -192,6 +216,9 @@ namespace GenStats {
     }
     operator bstats_t() const noexcept {
       return extract();
+    }
+    base_t base() const noexcept {
+      return *this;
     }
 
     friend bool operator ==(const BasicStats&,
