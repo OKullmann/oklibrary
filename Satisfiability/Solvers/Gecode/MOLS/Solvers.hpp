@@ -245,7 +245,6 @@ namespace Solvers {
   /*
     The pure Gecode-solver
   */
-  // Safe creation of options for GC-search:
   GC::Search::Options make_options(const double t) noexcept {
     GC::Search::Options res; res.threads = t;
     return res;
@@ -421,6 +420,23 @@ namespace Solvers {
   /*
     The solver with look-ahead-reduction and gecode-branching
   */
+  struct sol_count_stop : GC::Search::Stop {
+    const LB::rlaStats* const s;
+    const size_t c;
+    sol_count_stop(const LB::rlaStats* const s, const size_t c) noexcept
+      : s(s), c(c) {}
+    bool stop(const GC::Search::Statistics&, const GC::Search::Options&) {
+      return s->sol_count() >= c;
+    }
+  };
+  GC::Search::Options make_options(const double t,
+                                   const OP::RT rt,
+                                   const LB::rlaStats* const s) noexcept {
+    GC::Search::Options res;
+    res.threads = t;
+    if (with_stop(rt)) res.stop = new sol_count_stop(s, test_sat(rt) ? 1 : 2);
+    return res;
+  }
   GBasicSR rlasolver(const EC::EncCond& enc,
                      const OP::RT rt,
                      const OP::LAR lar,
@@ -439,7 +455,7 @@ namespace Solvers {
     std::unique_ptr<LB::rlaStats> stats(
       new LB::rlaStats(log, log and OP::with_solutions(rt) ? &enc : nullptr));
     new (*m) LB::RlaBranching(*m, P, stats.get());
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, stats.get()));
     delete m;
 
     GBasicSR res{rt};
