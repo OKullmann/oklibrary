@@ -240,6 +240,7 @@ namespace Environment {
         "enum-branch-max"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
+    static constexpr const char* name = "la-reduction-type";
     static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
       string {"relpr", "relnpr", "eagpr", "eagnpr"};

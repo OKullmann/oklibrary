@@ -52,7 +52,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -124,7 +124,7 @@ int main(const int argc, const char* const argv[]) {
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const size_t num_runs =
-    brtv.size()*pov.size()*bvarv.size()*gbov.size()*larv.size();
+    pov.size()*brtv.size()*bvarv.size()*gbov.size()*larv.size();
 
   const double threads = read_threads(argc, argv, 10);
 
@@ -144,12 +144,13 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  const bool with_log = Options::with_log(rt);
+  std::ostream* const log = with_log ? &std::cout : nullptr;
+
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps,
-              rt, pov, brtv, bvarv, gbov, num_runs, threads,
-              outfile, with_file_output);
-  std::cout << "#   la-reduction: ";
-  Environment::out_line(std::cout, larv);
-  std::cout << std::endl;
+              N, ac, name_ac, ps, name_ps, rt,
+              num_runs, threads, outfile, with_file_output);
+  algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
+  std::cout.flush();
 
 }

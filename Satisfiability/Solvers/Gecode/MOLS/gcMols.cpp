@@ -258,8 +258,9 @@ int main(const int argc, const char* const argv[]) {
 
   info_output(std::cout,
               N, ac, name_ac, ps, name_ps, rt,
-              pov, brtv, bvarv, gbov,
               num_runs, threads, outfile, with_file_output);
+  algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov));
+  std::cout.flush();
 
   if (num_runs != 1) rh(std::cout);
   for (const PropO po : pov) {

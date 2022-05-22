@@ -20,6 +20,7 @@ License, or any later version. */
 #include <vector>
 #include <ostream>
 #include <utility>
+#include <tuple>
 
 #include <cassert>
 
@@ -187,8 +188,6 @@ namespace CommandLine {
                    const CD::AConditions& ac, const std::string& name_ac,
                    const PS::PSquares& ps, const std::string& name_ps,
                    const OP::RT rt,
-                   const list_propo_t& pov, const list_brt_t& brtv,
-                   const list_bhv_t& bvarv, const list_gbo_t& gbov,
                    const size_t num_runs, const double threads,
                    const std::string& outfile, const bool with_output) {
     out << "# N=" << N << "\n"
@@ -201,14 +200,16 @@ namespace CommandLine {
       "# threads=" << threads << "\n"
       "# rt=" << rt << "\n";
     if (with_output) out << "# output-file " << outfile << "\n";
+  }
 
-    out << "#   "; Environment::out_vecpol(out, pov);
-    out << "\n#   "; Environment::out_vecpol(out, brtv);
-    out << "\n#   "; Environment::out_vecpol(out, bvarv);
-    out << "\n#   "; Environment::out_vecpol(out, gbov);
-    out << "\n";
-
-    out.flush();
+  template <size_t I = 0, typename... T>
+  void algo_output(std::ostream& out, const std::tuple<T...>& t) {
+    constexpr size_t size = sizeof...(T);
+    static_assert(I <= size);
+    if constexpr (I < size) {
+      out << "#   "; Environment::out_vecpol(out, std::get<I>(t)); out << "\n";
+      algo_output<I+1>(out, t);
+    }
   }
 
 }

@@ -92,8 +92,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "21.5.2022",
+        "0.4.3",
+        "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -159,12 +159,12 @@ int main(const int argc, const char* const argv[]) {
                                            "propagation");
   const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
                                         "branching-type");
-  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N, 7);
-  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
+  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 7, "gbo",
                                         "gc-order-heuristics");
-  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 8, "lar",
                                         "lookahead-reduction");
-  const size_t num_runs = brtv.size()*pov.size()*gbov.size()*larv.size();
+  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N, 9);
+  const size_t num_runs = pov.size()*brtv.size()*gbov.size()*larv.size();
 
   const double threads = read_threads(argc, argv, 10);
 
@@ -184,13 +184,11 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  list_bhv_t bvarv; // this vector is needed to output info
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps,
-              rt, pov, brtv, bvarv, gbov, num_runs, threads,
-              outfile, with_file_output);
-  std::cout << "#   la-reduction: ";
-  Environment::out_line(std::cout, larv);
+              N, ac, name_ac, ps, name_ps, rt,
+              num_runs, threads, outfile, with_file_output);
+  algo_output(std::cout, std::make_tuple(pov, brtv, gbov, larv));
+  // XXX
   std::cout << "\n# lookahead-weights: ";
   Environment::out_line(std::cout, wghts);
   std::cout << std::endl;
