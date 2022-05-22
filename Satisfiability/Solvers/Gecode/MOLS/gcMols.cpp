@@ -197,7 +197,9 @@ namespace {
       "  - the four algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
-      "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
+      "SOLUTIONS_" << proginfo.prg << "_N_timestamp\"\n"
+      "  - for file-output, solutions are stored and transferred at the end\n"
+      "  - for logging-output, solutions are not stored.\n\n"
 ;
     return true;
   }
@@ -280,10 +282,8 @@ int main(const int argc, const char* const argv[]) {
                   << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " \t";
         res.rs(std::cout);
         std::cout << std::endl;
-        if (with_file_output) {
+        if (with_file_output)
           Environment::out_line(*out, res.b.list_sol, "\n");
-          out->flush();
-        }
       }
   }
   if (out) delete out;
