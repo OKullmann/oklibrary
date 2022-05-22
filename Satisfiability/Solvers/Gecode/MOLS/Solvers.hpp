@@ -152,11 +152,12 @@ namespace Solvers {
     else return sr.sol_found == sr.list_sol.size();
   }
 
-  struct GBasicSR  {
+  struct GBasicSR {
     BasicSR b;
     typedef GC::Search::Statistics gc_stats_t;
     gc_stats_t gs;
     double ut = 0;
+
     bool operator ==(const GBasicSR&) const noexcept = default;
     static void rh(std::ostream& out) {
       BasicSR::rh(out);
@@ -168,6 +169,16 @@ namespace Solvers {
       out << " " << gs.propagate << " " << gs.fail <<
         " " << gs.node << " " << gs.depth;
     }
+  };
+
+  struct rlaSR : GBasicSR {
+    using GBasicSR::b;
+    using GBasicSR::gs;
+    using GBasicSR::ut;
+    typedef LB::rlaStats::stats_t stats_t;
+    stats_t S;
+
+    bool operator ==(const rlaSR&) const noexcept = default;
   };
 
 
@@ -437,7 +448,7 @@ namespace Solvers {
     if (with_stop(rt)) res.stop = new sol_count_stop(s, test_sat(rt) ? 1 : 2);
     return res;
   }
-  GBasicSR rlasolver(const EC::EncCond& enc,
+  rlaSR rlasolver(const EC::EncCond& enc,
                      const OP::RT rt,
                      const OP::LAR lar,
                      const OP::BHV bv,
@@ -458,7 +469,7 @@ namespace Solvers {
     GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, stats.get()));
     delete m;
 
-    GBasicSR res{rt};
+    rlaSR res{rt};
     // XXX
 
     res.ut = timing() - t0;
