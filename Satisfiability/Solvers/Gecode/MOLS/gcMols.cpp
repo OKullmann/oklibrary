@@ -160,7 +160,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.7",
+        "0.10.8",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -280,8 +280,10 @@ int main(const int argc, const char* const argv[]) {
                   << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " \t";
         res.rs(std::cout);
         std::cout << std::endl;
-        if (with_file_output)
+        if (with_file_output) {
           Environment::out_line(*out, res.b.list_sol, "\n");
+          out->flush();
+        }
       }
   }
   if (out) delete out;
