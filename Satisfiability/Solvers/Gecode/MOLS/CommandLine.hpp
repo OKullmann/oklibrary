@@ -199,17 +199,16 @@ namespace CommandLine {
       "# num_ps=" << ps.psqs.size() << ": \"" << name_ps << "\"\n" <<
       "# num_runs=" << num_runs << "\n"
       "# threads=" << threads << "\n"
-      "# rt=" << rt;
-    out << "\n#   propagation: ";
-    Environment::out_line(out, pov);
-    out << "\n#   branching-type: ";
-    Environment::out_line(out, brtv);
-    out << "\n#   variable-heuristics: ";
-    Environment::out_line(out, bvarv);
-    out << "\n#   order-heuristics: ";
-    Environment::out_line(out, gbov);
-    if (with_output) out << "\n# output-file " << outfile;
-    out << std::endl;
+      "# rt=" << rt << "\n";
+    if (with_output) out << "# output-file " << outfile << "\n";
+
+    out << "#   "; Environment::out_vecpol(out, pov);
+    out << "\n#   "; Environment::out_vecpol(out, brtv);
+    out << "\n#   "; Environment::out_vecpol(out, bvarv);
+    out << "\n#   "; Environment::out_vecpol(out, gbov);
+    out << "\n";
+
+    out.flush();
   }
 
 }

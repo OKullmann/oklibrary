@@ -198,6 +198,7 @@ namespace Environment {
         "enumerate-solutions", "enum-sols-with-log"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
+    static constexpr const char* name = "propagation";
     static constexpr int size = Options::PropOsize;
     static constexpr std::array<const char*, size>
       string {"dom", "def", "val", "bnd"};
@@ -205,6 +206,7 @@ namespace Environment {
       estring {"domain-prop", "default-prop", "values-prop", "bounds-prop"};
   };
   template <> struct RegistrationPolicies<Options::BHV> {
+    static constexpr const char* name = "variable-heuristic";
     static constexpr int size = Options::BHVsize;
     static constexpr std::array<const char*, size>
     string {"first", "mindeg", "maxdeg", "mindom", "maxdom", "mindegdom",
@@ -214,6 +216,7 @@ namespace Environment {
         "max-dom-var", "min-deg/dom-var", "max-deg/dom-var"};
   };
   template <> struct RegistrationPolicies<Options::BRT> {
+    static constexpr const char* name = "branching-type";
     static constexpr int size = Options::BRTsize;
     static constexpr std::array<const char*, size>
       string {"binbr", "enumbr"};
@@ -221,6 +224,7 @@ namespace Environment {
       estring {"binary-branching", "enumerative-branching"};
   };
   template <> struct RegistrationPolicies<Options::GBO> {
+    static constexpr const char* name = "order-heuristic";
     static constexpr int size = Options::GBOsize;
     static constexpr std::array<const char*, size>
       string {"asc", "desc"};

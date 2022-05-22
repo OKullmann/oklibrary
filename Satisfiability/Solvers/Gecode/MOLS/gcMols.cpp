@@ -160,7 +160,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.6",
+        "0.10.7",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -233,7 +233,7 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-variable-heuristics");
   const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
                                         "gc-order-heuristics");
-  const size_t num_runs = brtv.size()*pov.size()*bvarv.size()*gbov.size();
+  const size_t num_runs = pov.size()*brtv.size()*bvarv.size()*gbov.size();
 
   const double threads = read_threads(argc, argv, 9);
 
@@ -257,9 +257,9 @@ int main(const int argc, const char* const argv[]) {
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps,
-              rt, pov, brtv, bvarv, gbov, num_runs, threads,
-              outfile, with_file_output);
+              N, ac, name_ac, ps, name_ps, rt,
+              pov, brtv, bvarv, gbov,
+              num_runs, threads, outfile, with_file_output);
 
   if (num_runs != 1) rh(std::cout);
   for (const PropO po : pov) {
