@@ -271,20 +271,20 @@ int main(const int argc, const char* const argv[]) {
       for (const BHV bvar : bvarv)
         for (const GBO gbo : gbov) {
           const BHO bord = translate(brt, gbo);
-        const GBasicSR res =
-          solver_gc(enc, rt, var_branch(bvar), val_branch(bord), threads, log);
-        if (with_log and
-            rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
-          std::cout << "\n";
-        if (num_runs == 1) rh(std::cout);
-        using Environment::W0;
-        std::cout << W0(po) << " "
-                  << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " \t";
-        res.rs(std::cout);
-        std::cout << std::endl;
-        if (with_file_output)
-          Environment::out_line(*out, res.b.list_sol, "\n");
-      }
+          const GBasicSR res =
+            solver_gc(enc,rt,var_branch(bvar),val_branch(bord),threads,log);
+          if (with_log and
+              rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+            std::cout << "\n";
+          if (num_runs == 1) rh(std::cout);
+          using Environment::W0;
+          std::cout << W0(po) << " "
+                    << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " \t";
+          res.rs(std::cout);
+          std::cout << std::endl;
+          if (with_file_output)
+            Environment::out_line(*out, res.b.list_sol, "\n");
+        }
   }
   if (out) delete out;
 }
