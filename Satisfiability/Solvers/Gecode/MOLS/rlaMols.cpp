@@ -17,7 +17,6 @@ Examples:
 
 /* BUGS:
 
-
 */
 
 /* TODOS:
@@ -57,7 +56,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.4.0",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

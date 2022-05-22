@@ -180,11 +180,13 @@ namespace LookaheadBranching {
           *log << " " << solc; log -> flush(); sol_counter += solc;
         }
       }
-      else if (not s.sollist().empty()) {
-        assert(s.sollist().size() == solc);
-        sols_.reserve(sols_.size() + solc);
-        for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
+      else {
         sol_counter += solc;
+        if (not s.sollist().empty()) {
+          assert(s.sollist().size() == solc);
+          sols_.reserve(sols_.size() + solc);
+          for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
+        }
       }
       if (threshold != 0 and sol_counter >= threshold)
         abort.store(true, std::memory_order_relaxed);
