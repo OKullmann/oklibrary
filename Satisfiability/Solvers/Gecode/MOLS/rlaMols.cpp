@@ -35,6 +35,7 @@ BUGS:
 #include <iostream>
 #include <string>
 #include <ostream>
+#include <fstream>
 
 #include <cassert>
 
@@ -51,8 +52,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "21.5.2022",
+        "0.3.0",
+        "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -73,8 +74,8 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level la-type branchvar branchval"
-      " threads\n\n"
+      " N file_cond file_ps run-type prop-level branch-type branch-var"
+      " branch-order la-type threads\n\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<

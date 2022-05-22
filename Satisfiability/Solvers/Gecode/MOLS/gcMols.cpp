@@ -145,6 +145,8 @@ BUGS:
 #include <ostream>
 #include <fstream>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
 
@@ -158,8 +160,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.5",
-        "21.5.2022",
+        "0.10.6",
+        "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -180,8 +182,8 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branch-type branch-var branch-order"
-      " threads\n\n"
+      " N file_cond file_ps run-type prop-level branch-type branch-var"
+      " branch-order threads\n\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
