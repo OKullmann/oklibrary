@@ -17,8 +17,6 @@ Examples:
 
 /* BUGS:
 
-1. MOLS> ./rlaMols_debug 5 data/SpecsCollection/Eulerinvsymmbalt "" satd "" "" "" "" "" 1
-rlaMols_debug: Solvers.hpp:463: Solvers::rlaSR Solvers::rlasolver(const Encoding::EncCond&, Options::RT, Options::BRT, Options::BHV, Options::GBO, Options::LAR, double, std::ostream*): Assertion `not leaf' failed.
 
 */
 
@@ -59,7 +57,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

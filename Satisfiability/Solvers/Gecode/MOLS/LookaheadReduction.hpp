@@ -216,7 +216,8 @@ namespace LookaheadReduction {
     const Timing::Time_point t0 = timing();
     pruning_table_t PT;
 
-    for (int last_red = -1; last_red >= 0;) {
+    {int last_red = -1;
+    do {
       stats.inc_rounds();
       const GC::IntVarArray V = m->V;
       for (int v = 0; v < V.size(); ++v) {
@@ -264,7 +265,7 @@ namespace LookaheadReduction {
           if (eager(lar)) break;
         }
       }
-    }
+    } while (last_red >= 0);}
 
     END:
     stats.maxprune(PT.size());
