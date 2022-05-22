@@ -85,6 +85,7 @@ TODOS:
 #include <istream>
 #include <ostream>
 #include <exception>
+#include <utility>
 
 #include <cassert>
 
@@ -450,11 +451,8 @@ namespace Solvers {
     return res;
   }
   rlaSR rlasolver(const EC::EncCond& enc,
-                     const OP::RT rt,
-                     const OP::LAR lar,
-                     const OP::BHV bv,
-                     const OP::BRT bt,
-                     const OP::GBO bo,
+                     const OP::RT rt, const OP::LAR lar,
+                     const OP::BHV bv, const OP::BRT bt, const OP::GBO bo,
                      const double threads,
                      std::ostream* const log) {
     assert(valid(rt));
@@ -471,13 +469,21 @@ namespace Solvers {
     delete m;
 
     rlaSR res{rt};
-    // XXX
-
+    {CT::GenericMols0* const leaf=s.next();
+     assert(not leaf); delete leaf;}
     res.ut = timing() - t0;
+    res.gs = s.statistics();
     res.b.sol_found = stats->sol_count();
     res.S = stats->stats();
-    for (const auto& sol : stats->sols())
-      res.b.list_sol.push_back(enc.decode(sol));
+    for (size_t count = 0; const auto& sol : stats->sols()) {
+      auto dsol = enc.decode(sol);
+      ++count;
+      if (not VR::correct(enc.ac, dsol))
+          std::cerr << "\nERROR[Solvers::rlasolver]: "
+            "correctness-checking failed for solution " << count
+                    << ":\n" << dsol << "\n";
+      res.b.list_sol.push_back(std::move(dsol));
+    }
     return res;
   }
 
