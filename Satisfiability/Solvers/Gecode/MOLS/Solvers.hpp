@@ -434,20 +434,15 @@ namespace Solvers {
     The solver with look-ahead-reduction and gecode-branching
   */
   struct sol_count_stop : GC::Search::Stop {
-    const LB::rlaStats* const s;
-    const size_t c;
-    sol_count_stop(const LB::rlaStats* const s, const size_t c) noexcept
-      : s(s), c(c) {}
     bool stop(const GC::Search::Statistics&, const GC::Search::Options&) {
-      return s->sol_count() >= c;
+      return LB::rlaStats::abort.load(std::memory_order_relaxed);
     }
   };
   GC::Search::Options make_options(const double t,
-                                   const OP::RT rt,
-                                   const LB::rlaStats* const s) noexcept {
+                                   const OP::RT rt) noexcept {
     GC::Search::Options res;
     res.threads = t;
-    if (with_stop(rt)) res.stop = new sol_count_stop(s, test_sat(rt) ? 1 : 2);
+    if (with_stop(rt)) res.stop = new sol_count_stop;
     return res;
   }
   rlaSR rlasolver(const EC::EncCond& enc,
@@ -463,9 +458,11 @@ namespace Solvers {
     CT::GenericMols0* const m = new CT::GenericMols0(enc);
     const LB::rlaParams P{rt, enc.pl, lar, bv, bt, bo, threads != 1};
     std::unique_ptr<LB::rlaStats> stats(
-      new LB::rlaStats(log, log and OP::with_solutions(rt) ? &enc : nullptr));
+      new LB::rlaStats(log,
+                       log and OP::with_solutions(rt) ? &enc : nullptr,
+                       with_stop(rt)));
     new (*m) LB::RlaBranching(*m, P, stats.get());
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, stats.get()));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt));
     delete m;
 
     rlaSR res{rt};

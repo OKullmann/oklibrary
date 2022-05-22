@@ -40,8 +40,10 @@ TODOS:
 #include <algorithm>
 #include <limits>
 #include <mutex>
+#include <atomic>
 #include <utility>
 #include <ostream>
+#include <iostream>
 
 #include <cassert>
 #include <cstdlib>
@@ -144,8 +146,11 @@ namespace LookaheadBranching {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
     typedef LR::ReductionStatistics::sollist_t sollist_t;
 
-    rlaStats(std::ostream* const log, const EC::EncCond* const enc) noexcept :
-      sol_counter(0), log(log), enc(enc) {
+    inline static std::atomic_bool abort = false;
+
+    rlaStats(std::ostream* const log, const EC::EncCond* const enc,
+             const size_t threshold) noexcept :
+      sol_counter(0), log(log), enc(enc), threshold(threshold) {
       assert(not enc or log);
     }
 
@@ -181,6 +186,8 @@ namespace LookaheadBranching {
         for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
         sol_counter += solc;
       }
+      if (threshold != 0 and sol_counter >= threshold)
+        abort.store(true, std::memory_order_relaxed);
     }
 
   private :
@@ -189,6 +196,8 @@ namespace LookaheadBranching {
     size_t sol_counter;
     std::ostream* const log;
     const EC::EncCond* const enc;
+  public :
+    const size_t threshold;
   };
 
 

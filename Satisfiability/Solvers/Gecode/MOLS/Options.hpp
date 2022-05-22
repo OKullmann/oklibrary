@@ -76,8 +76,10 @@ namespace Options {
     return rt == RT::unique_solving or rt == RT::unique_s_with_log or
       rt == RT::unique_decision or rt == RT::unique_d_with_log;
   }
-  constexpr bool with_stop(const RT rt) noexcept {
-    return test_sat(rt) or test_unique(rt);
+  constexpr size_t with_stop(const RT rt) noexcept {
+    if (test_sat(rt)) return 1;
+    else if (test_unique(rt)) return 2;
+    else return 0;
   }
 
 
