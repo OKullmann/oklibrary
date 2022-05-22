@@ -281,10 +281,9 @@ namespace Solvers {
         res.b.sol_found = 1;
         assert(EC::EncCond::unit(leaf->V));
         const auto sol = enc.decode(leaf->V);
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution:\n" << sol << "\n";
-        }
         delete leaf;
       }
       res.gs = s.statistics(); break;
@@ -295,10 +294,9 @@ namespace Solvers {
         const auto sol = enc.decode(leaf->V);
         res.b.list_sol.push_back(sol);
         res.b.sol_found = 1;
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution:\n" << sol << "\n";
-        }
         delete leaf;
       }
       res.gs = s.statistics(); break;
@@ -309,11 +307,10 @@ namespace Solvers {
         const auto sol = enc.decode(leaf->V);
         res.b.list_sol.push_back(sol);
         ++res.b.sol_found;
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
@@ -324,11 +321,10 @@ namespace Solvers {
         ++res.b.sol_found;
         assert(EC::EncCond::unit(leaf->V));
         const auto sol = enc.decode(leaf->V);
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
@@ -341,11 +337,10 @@ namespace Solvers {
         ++res.b.sol_found;
         const auto sol = enc.decode(leaf->V);
         *log << res.b.sol_found << "\n" << sol << std::endl;
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
@@ -357,11 +352,10 @@ namespace Solvers {
         ++res.b.sol_found;
         assert(EC::EncCond::unit(leaf->V));
         const auto sol = enc.decode(leaf->V);
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
         *log << " " << res.b.sol_found; log->flush();
         if (res.b.sol_found == 2) break;
@@ -388,11 +382,10 @@ namespace Solvers {
         const auto sol = enc.decode(leaf->V);
         res.b.list_sol.push_back(sol);
         ++res.b.sol_found;
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
       }
       res.gs = s.statistics(); break;
@@ -404,11 +397,10 @@ namespace Solvers {
         ++res.b.sol_found;
         const auto sol = enc.decode(leaf->V);
         *log << res.b.sol_found << "\n" << sol << std::endl;
-        if (not VR::correct(enc.ac, sol)) {
+        if (not VR::correct(enc.ac, sol))
           std::cerr << "\nERROR[Solvers::gcsolver_basis]: "
             "correctness-checking failed for solution " << res.b.sol_found
                     << ":\n" << sol << "\n";
-        }
         delete leaf;
       }
       res.gs = s.statistics(); break;
