@@ -438,10 +438,11 @@ namespace Solvers {
     return res;
   }
   rlaSR rlasolver(const EC::EncCond& enc,
-                     const OP::RT rt, const OP::LAR lar,
-                     const OP::BHV bv, const OP::BRT bt, const OP::GBO bo,
-                     const double threads,
-                     std::ostream* const log) {
+                  const OP::RT rt,
+                  const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
+                  const OP::LAR lar,
+                  const double threads,
+                  std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
 
@@ -458,8 +459,7 @@ namespace Solvers {
     delete m;
 
     rlaSR res{rt};
-    {CT::GenericMols0* const leaf=s.next();
-     assert(not leaf); delete leaf;}
+    {[[maybe_unused]]CT::GenericMols0* const leaf=s.next(); assert(not leaf);}
     res.ut = timing() - t0;
     res.gs = s.statistics();
     res.b.sol_found = stats->sol_count();

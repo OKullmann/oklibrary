@@ -15,6 +15,13 @@ Examples:
 
 */
 
+/* BUGS:
+
+1. MOLS> ./rlaMols_debug 5 data/SpecsCollection/Eulerinvsymmbalt "" satd "" "" "" "" "" 1
+rlaMols_debug: Solvers.hpp:463: Solvers::rlaSR Solvers::rlasolver(const Encoding::EncCond&, Options::RT, Options::BRT, Options::BHV, Options::GBO, Options::LAR, double, std::ostream*): Assertion `not leaf' failed.
+
+*/
+
 /* TODOS:
 
 0. Additional to the gecode-statistics, our statistics on the reduction
@@ -95,6 +102,11 @@ namespace {
     return true;
   }
 
+  void rh(std::ostream& out) {
+    out << "pl bt bh bo \t";
+    GBasicSR::rh(out); out << std::endl;
+  }
+
 }
 
 
@@ -153,4 +165,28 @@ int main(const int argc, const char* const argv[]) {
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
   std::cout.flush();
 
+  if (num_runs != 1) rh(std::cout); // XXX
+  for (const PropO po : pov) {
+    const EncCond enc(ac, ps, prop_level(po));
+    for (const BRT brt : brtv)
+      for (const BHV bvar : bvarv)
+        for (const GBO gbo : gbov)
+          for (const LAR lar : larv) {
+            const rlaSR res =
+              rlasolver(enc,rt,brt,bvar,gbo,lar,threads,log);
+            if (with_log and
+              rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+              std::cout << "\n";
+            if (num_runs == 1) rh(std::cout); // XXX
+            using Environment::W0;
+            std::cout << W0(po) << " "
+                      << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
+                      << W0(lar) << " \t";
+            res.rs(std::cout); // XXX
+            std::cout << std::endl;
+            if (with_file_output)
+              Environment::out_line(*out, res.b.list_sol, "\n");
+          }
+  }
+  if (out) delete out;
 }
