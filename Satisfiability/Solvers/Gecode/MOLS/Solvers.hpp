@@ -125,6 +125,7 @@ namespace Solvers {
     RT rt = RT::sat_decision;
     size_t sol_found = 0;
     listsol_t list_sol;
+
     bool operator ==(const BasicSR&) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const BasicSR& sr) {
       out << sr.rt << " " << sr.sol_found << "\n";
@@ -473,6 +474,10 @@ namespace Solvers {
     // XXX
 
     res.ut = timing() - t0;
+    res.b.sol_found = stats->sol_count();
+    res.S = stats->stats();
+    for (const auto& sol : stats->sols())
+      res.b.list_sol.push_back(enc.decode(sol));
     return res;
   }
 
