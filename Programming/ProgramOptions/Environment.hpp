@@ -12,10 +12,12 @@ License, or any later version. */
      "Policies" (typically scoped enums) "register" with
         class RegistrationPolicies
       that is, providing a partial specialisation, which includes
-      strings for recognition in short and long form
+      strings for recognition in short and long form, and optionally
+      names for the whole policy
 
      - class RegistrationPolicies (registration of size and strings)
      - function-template code(Policy) to return the underlying integral-value.
+
 
      Output is supported for either all policy-members, or for single
      policy-values, using the short and/or long form, and as third form
@@ -29,7 +31,11 @@ License, or any later version. */
      - WRPO outputs all the policy-strings (only)
 
      - Individiual wrappers W0(p), W1(p), W2(p) output the short resp. long
-       resp. policy-form of p.
+       resp. policy-form of p
+
+     - out_vecpol(out, vec) outputs a vector vec of policy-values,
+       with the name of the policy as header.
+
 
      Reading either for a single policy value, with strict checking, or
      for a sequence of policy-values (for different policies), with
@@ -289,6 +295,13 @@ namespace Environment {
     const auto i = code(p.p); using W = W1<Policy>;
     if (i >= W::R::size) return out << "UNDEFINED(" << i << ")";
     else return out << W::R::estring[i] << "(" << W::R::string[i] << ")";
+  }
+
+  // Printing a vector of policy-values, with header:
+  template <typename Policy>
+  void out_vecpol(std::ostream& out, const std::vector<Policy>& v) {
+    out << RegistrationPolicies<Policy>::name << ": ";
+    out_line(out, v);
   }
 
 
