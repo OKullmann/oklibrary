@@ -54,24 +54,25 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 /* TODOS:
 
--2. DONE (Was specified at the beginning of this file.)
-    OZ: Specify precisely the four statistics-outputs of Gecode
-        ("prop flvs nds h").
+-2. OZ: Specify *precisely* the four statistics-outputs of Gecode
+        ("prop flvs nds h"):
+         - "prop" = calls to propagation (does this include the lookahead)?
+         - "flvs": "failed leaves" -- what are they?
+         - "nds": does every branching created the corresponding "nodes"?
+         - "h": how does this relate to the backtracking-tree (maximal
+           size of call-stack)?
 
--1. As an option: output the count resp. the solutions immediately when
-   obtained.
-    - DONE Enumeration also should include the count.
-    - Additionally, when catching SIGUSR1, output the current results.
-     - However, according to
+-1. When catching SIGUSR1, output the current results:
+     - According to
        https://en.cppreference.com/w/cpp/utility/program/signal
        the signal-handler must not access "an object with thread storage
        duration", and thus we couldn't have (easily) parallelisation for
        scanning.
-     - One could be relying for scanning, if needed, on external parallelism
-       (as with BBOpt).
+     - At least for rlaMols, that shouldn't be a problem: the signal-handler
+       can just output rlaStats.
+     - For gcMols, the early abortion-mechanisms (seem below) need suffice.
 
 0. R-header
-    - DONE Can't hurt for now if always output?
     - Perhaps we need another option:
        - +- header
        - +- comments
@@ -80,7 +81,6 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 1. Output:
     - More statistics on conditions should be output:
-       - DONE number of unary, equality- and prod-conditions
        - perhaps by default actually the complete conditions are reported,
          using options "+-cond".
     - More statistics on the partial squares given should be output:
@@ -89,9 +89,6 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
        - total number of removed values.
     - Solution-output:
        - hex-output as an option; perhaps as "+-hex"
-       - DONE
-         setting the field-width to the maximum reached, and always output
-         right-aligned in this fixed field-width.
     - Perhaps the output-filename should contain a hash of the parameters.
     - Progress-bar:
      - As the OKsolver has it, but now using float80; compare there.
@@ -110,27 +107,32 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
     - Or perhaps just changing the current var-selection-default to using
       min-dom by default.
 
-3. Further options for Gecode:
-    - DONE Figure 9.7 in MPG.pdf: threads, clone in any case.
-    - Later considering cutoff (for restarts) and stop (terminating
-      when taking too long).
-
-4. Implement an additional parallelisation-mode "scanning"
+3. Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
-    - The thread-commandline-input then just becomes a pair, separated
-      by comma (first the scan-threads, then the Gecode-threads).
+    - We also need parallelism when optimising weights.
+    - Shouldn't be a problem with gcMols, but for rlaMols, the static
+      objects in rlaStats and RlaBranching need to be put into a (non-movable)
+      vector, so that each of the scan-threads does have its own objects.
+    - The thread-commandline-input can then become a pair, separated
+      by ":" (first the scan-threads, then the Gecode-threads).
     - If gecode-threads != 1, output a warning when counting or enumerating
       (that for a large number of solutions it becomes inefficient, since
       only one counting/output-instance (bottleneck)).
 
-5. Cutoff-time
-    - Specify a cutoff-time, after which computation is stopped.
+4. Cutoff-time
+    - Specify a cutoff-time (wall-clock), after which computation is stopped.
     - Especially useful for scanning (searching for the best possibility).
-    - One needs some form of polling (or does Gecode support something spedial
-      here?).
-    - Using the (generic) stop-function should do that.
+    - Using the Gecode-stop-option can do that.
+    - One stores the target wall-clock-time in the stop-object, and then
+      for every check calls the current-wall-clock.
+    - This parameter goes together with the threads-parameter,
+      comma-separated, with trailing arguments optional.
+    - Another stopping-criterion is the number of nodes (as given by
+      Gecode).
+    - Another statistics-item is needed, which specifies whether stopping
+      took place (and for what reason).
 
-6. Perhaps also for the N-parameter a range of values should be possible.
+5. Perhaps also for the N-parameter a range of values should be possible.
 
 
 BUGS:
