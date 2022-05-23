@@ -85,8 +85,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.8",
-        "21.5.2022",
+        "0.4.9",
+        "23.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -157,7 +157,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {CS::Square A(2);
+  {const CS::Square A(2);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -195,7 +195,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_SOLVED);
   }
 
-  {CS::Square A(3);
+  {const CS::Square A(3);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -284,7 +284,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {CS::Square A(2);
+  {const CS::Square A(2);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -293,7 +293,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {CS::Square A(2);
+  {const CS::Square A(2);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -332,7 +332,7 @@ int main(const int argc, const char* const argv[]) {
    assert(PT.empty());
   }
 
-  {CS::Square A(3);
+  {const CS::Square A(3);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -346,7 +346,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {CS::Square A(3);
+  {const CS::Square A(3);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -486,7 +486,7 @@ int main(const int argc, const char* const argv[]) {
    // assert(eqwt(stats4, stats)); YYY
  }
 
- {CS::Square A(2);
+ {const CS::Square A(2);
   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
   const GC::IntPropLevel pl = GC::IPL_VAL;
   const ReductionStatistics stats =
@@ -523,7 +523,7 @@ int main(const int argc, const char* const argv[]) {
    */
   }
 
-  {CS::Square A(3);
+  {const CS::Square A(3);
    const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const ReductionStatistics stats =
