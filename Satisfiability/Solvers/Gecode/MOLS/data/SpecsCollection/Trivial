@@ -1,0 +1,8 @@
+# The number of solutions is N^(N^2); for N >= 2:
+# 16, 19683
+
+# There a no falsified leaves.
+# Trees for count/enum for gcMols:
+#   For binary branching the number of nodes is always 2*N^(N^2)-1.
+
+squares A
