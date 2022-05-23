@@ -146,13 +146,15 @@ namespace LookaheadBranching {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
     typedef LR::ReductionStatistics::sollist_t sollist_t;
 
-    inline static std::atomic_bool abort = false;
+    inline static std::atomic_bool abort;
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
              const size_t threshold) noexcept :
       sol_counter(0), log(log), enc(enc), threshold(threshold) {
       assert(not enc or log);
+      abort = false;
     }
+    rlaStats(const rlaStats&) = delete;
 
     size_t sol_count() const noexcept { return sol_counter; }
     const stats_t& stats() const noexcept { return S; }

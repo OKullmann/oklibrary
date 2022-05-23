@@ -17,6 +17,62 @@ Examples:
 
 /* BUGS:
 
+1. Wrong count:
+
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr mindom asc relpr 12
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	+count 6247 21549.988 145501695 702831 1994566 23
+
+while the count in Eulerinvsymmbalt is 6236.
+All four forms of la-reduction show the same count:
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" count dom enumbr mindom asc - 12
+# N=7
+# k=3 total_num_sq=3: "data/SpecsCollection/Eulerinvsymmbalt"
+#   num_uc=7 num_eq=0 num_peq=1
+# num_ps=0: ""
+# num_runs=4
+# threads=12
+# rt=count-solutions(count)
+#   propagation: domain-prop(dom)
+#   branching-type: enumerative-branching(enumbr)
+#   variable-heuristic: min-dom-var(mindom)
+#   order-heuristic: ascending-order(asc)
+#   la-reduction-type: relaxed-pruning(relpr) relaxed-nonpruning(relnpr) eager-pruning(eagpr) eager-nonpruning(eagnpr)
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	count 6247 21076.627 145487113 702831 1994566 24
+dom enumbr mindom asc relnpr 	count 6247 23443.596 145494209 702831 1994566 24
+dom enumbr mindom asc eagpr 	count 6247 27755.376 145481836 702831 1994566 23
+dom enumbr mindom asc eagnpr 	count 6247 34281.727 145498008 702831 1994566 23
+
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" +enum dom enumbr mindom asc relpr 1
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	+enum 6247 10076.145 145535627 702831 1994566 22
+MOLS> time ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	enum 6247 11190.147 145531043 702831 1994566 23
+real	68m13.473s
+user	187m29.102s
+sys	0m48.871s
+
+
+2. DONE (when rlaStats is constructed, then now atomic_bool abort is initialised)
+   There seems to be an initialisation-problem with satd:
+
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr mindom asc - 1
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	satd 1 0.610 7433 36 114 17
+dom enumbr mindom asc relnpr 	satd 0 0.000 202 0 0 0
+dom enumbr mindom asc eagpr 	satd 0 0.000 202 0 0 0
+dom enumbr mindom asc eagnpr 	satd 0 0.000 202 0 0 0
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr mindom asc -relpr 1
+pl bt bh bo 	rt sat t prop flvs nds h
+dom enumbr mindom asc relnpr 	satd 1 0.643 7433 36 114 17
+dom enumbr mindom asc eagpr 	satd 0 0.000 202 0 0 0
+dom enumbr mindom asc eagnpr 	satd 0 0.000 202 0 0 0
+
+Always the first run is correct, the others are wrong.
+
 */
 
 /* TODOS:
@@ -56,7 +112,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "22.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -100,7 +156,7 @@ namespace {
   }
 
   void rh(std::ostream& out) {
-    out << "pl bt bh bo \t";
+    out << "pl bt bh bo lar \t\t";
     GBasicSR::rh(out); out << std::endl;
   }
 

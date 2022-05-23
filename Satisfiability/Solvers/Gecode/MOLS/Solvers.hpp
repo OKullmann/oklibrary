@@ -101,6 +101,7 @@ TODOS:
 #include "PartialSquares.hpp"
 #include "Options.hpp"
 #include "LookaheadBranching.hpp"
+#include "BasicLatinSquares.hpp"
 #include "Verification.hpp"
 
 namespace Solvers {
@@ -113,6 +114,7 @@ namespace Solvers {
   namespace PS = PartialSquares;
   namespace OP = Options;
   namespace LB = LookaheadBranching;
+  namespace BS = BasicLatinSquares;
   namespace VR = Verification;
 
   using size_t = CD::size_t;
@@ -463,16 +465,25 @@ namespace Solvers {
     res.ut = timing() - t0;
     res.gs = s.statistics();
     res.b.sol_found = stats->sol_count();
+    if (with_file_output(rt) and res.b.sol_found != stats->sols().size())
+      std::cerr << "\nERROR[Solvers::rlasolver]: stated solution-count "
+                << res.b.sol_found << " != real solution-count "
+                << stats->sols().size() << "\n";
     res.S = stats->stats();
-    for (size_t count = 0; const auto& sol : stats->sols()) {
-      auto dsol = enc.decode(sol);
-      ++count;
+    for (size_t i = 0; i < res.b.sol_found; ++i) {
+      auto dsol = enc.decode(stats->sols()[i]);
       if (not VR::correct(enc.ac, dsol))
           std::cerr << "\nERROR[Solvers::rlasolver]: "
-            "correctness-checking failed for solution " << count
+            "correctness-checking failed for solution " << i
                     << ":\n" << dsol << "\n";
       res.b.list_sol.push_back(std::move(dsol));
     }
+    if (not BS::alldiffelem(res.b.list_sol))
+      std::cerr << "\nERROR[Solvers::rlasolver]: "
+        "there are equal elements in the solution-list\n";
+    if (not valid(res.b))
+      std::cerr << "\nERROR[Solvers::rlasolver]: "
+        "failed basic consistency-check\n";
     return res;
   }
 
