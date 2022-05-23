@@ -57,6 +57,7 @@ License, or any later version. */
     - out_lines(ostream& RAN R, sep1, sep2, width)
 
     - printsize(ostream&, X x): number of characters printed with x
+    - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix
 
 
 TODOS:
@@ -426,7 +427,8 @@ namespace Environment {
   }
 
 
-  // Output range R, separated by sep
+  // Output the range R, separated by sep, and with given width
+  // for w != 0:
   template <class RAN>
   void out_line(std::ostream& out, const RAN& R,
                 const std::string& sep = " ",
@@ -466,6 +468,32 @@ namespace Environment {
     return ss.str().size();
   }
 
+  // Print a ragged 2d-matrix M, using per column the maximum width needed
+  // for that column, plus seps many spaces for separation:
+  template <class VEC2d>
+  void print2dformat(std::ostream& out, const VEC2d& M,
+                     std::string::size_type seps = 1) {
+    typedef std::string::size_type size_t;
+    if (M.empty()) return;
+    const size_t cols = (std::ranges::max_element(M, {},
+                           [](const auto& R){return R.size();})) -> size();
+    std::vector<size_t> max_size(cols);
+    for (const auto& R : M)
+      for (size_t i = 0; i < R.size(); ++i)
+        max_size[i] = std::max(max_size[i], printsize(out, R[i]));
+    for (const auto& R : M) {
+      const size_t s = R.size();
+      if (s == 0) {
+        out << "\n"; continue;
+      }
+      out.width(max_size[0]); out << R[0];
+      for (size_t i = 1; i < s; ++i) {
+        out << std::string(seps, ' ');
+        out.width(max_size[i]); out << R[i];
+      }
+      out << "\n";
+    }
+  }
 
 }
 

@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.11",
-        "23.3.2022",
+        "0.2.12",
+        "23.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -386,26 +386,39 @@ int main(const int argc, const char* const argv[]) {
   {std::vector<tokens_t> V;
    std::ostringstream ss;
    out_lines(ss, V);
-   assert(ss.str().empty());
-   assert(not ss.bad());
+   assert(ss.str().empty()); assert(not ss.bad()); ss.str("");
    V.assign(1,{});
    out_lines(ss, V);
-   assert(ss.str() == "\n");
-   assert(not ss.bad());
-   ss.str("");
+   assert(ss.str() == "\n"); assert(not ss.bad()); ss.str("");
    V.assign(2,{});
    out_lines(ss, V);
-   assert(ss.str() == "\n\n");
-   assert(not ss.bad());
-   ss.str("");
+   assert(ss.str() == "\n\n"); assert(not ss.bad()); ss.str("");
    out_lines(ss, V, "999");
-   assert(ss.str() == "999999");
-   assert(not ss.bad());
-   ss.str("");
+   assert(ss.str() == "999999"); assert(not ss.bad()); ss.str("");
    V = {{"", "xy"}, {"ab", "", "z"}};
    out_lines(ss, V, "999", "77");
-   assert(ss.str() == "77xy999ab7777z999");
-   assert(not ss.bad());
+   assert(ss.str() == "77xy999ab7777z999"); assert(not ss.bad());
+  }
+
+  {typedef std::vector<std::vector<int>> m_t;
+   m_t M;
+   std::ostringstream ss;
+   print2dformat(ss, M);
+   assert(ss.str().empty()); assert(not ss.bad()); ss.str("");
+   M = m_t(2);
+   print2dformat(ss, M);
+   assert(ss.str() == "\n\n"); assert(not ss.bad()); ss.str("");
+   M = {{0,1,-1,2,77,0}};
+   print2dformat(ss, M);
+   assert(ss.str() == "0 1 -1 2 77 0\n"); assert(not ss.bad()); ss.str("");
+   M.push_back({33,5});
+   print2dformat(ss, M);
+   assert(ss.str() == " 0 1 -1 2 77 0\n33 5\n");
+   assert(not ss.bad()); ss.str("");
+   M.push_back({9,5,7777});
+   print2dformat(ss, M);
+   assert(ss.str() == " 0 1   -1 2 77 0\n33 5\n 9 5 7777\n");
+   assert(not ss.bad()); ss.str("");
   }
 
 }
