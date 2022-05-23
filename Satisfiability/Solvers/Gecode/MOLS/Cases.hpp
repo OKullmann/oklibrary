@@ -16,13 +16,14 @@ TODOS:
 0. Add cases needed for testing lookahead-reduction.
   - DONE Square.
   - DONE Trivial (empty) Latin square.
-  - Partial Latin square.
+  - Reduced variations.
+  - Row latin squares.
 
 1. Providing the number of solutions when a formula is not known.
   - For a square, there is a simple formula for the number of solutions.
   - For a Latin square, there is no such formula.
-  - Is it needed to provide known numbers for N <= 11?
-  - If so, what to do when N > 11?
+  - For now no need to consider such complicated cases -- concentrating
+    on simple variations, as in TestEncoding.cpp.
 
 */
 
