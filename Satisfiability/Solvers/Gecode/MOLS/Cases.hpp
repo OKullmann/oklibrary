@@ -27,10 +27,23 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <Numerics/FloatingPoint.hpp>
+
+#include "Conditions.hpp"
+
 namespace Cases {
 
+  namespace FP = FloatingPoint;
+  namespace CD = Conditions;
+
+  using size_t = CD::size_t;
+
   struct Square {
-    // XXX
+  private:
+    size_t N = 0;
+  public:
+    Square(const size_t N) : N(N) {}
+    size_t solc() const noexcept { return FP::pow(N, N*N); }
   };
 
   struct TrivialLatinSquare {
