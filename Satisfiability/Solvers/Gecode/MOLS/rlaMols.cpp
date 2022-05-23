@@ -69,6 +69,7 @@ val enumbr mindom asc relpr 	enum 6256 8684.915 200646489 3811464 9517856 25
 real	52m10.313s
 user	144m45.477s
 sys	5m54.339s
+
 MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum val enumbr mindom asc relnpr 6
 ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
 pl bt bh bo lar 		rt sat t prop flvs nds h
@@ -76,25 +77,24 @@ val enumbr mindom asc relnpr 	enum 6256 15458.920 200612436 3811464 9517856 25
 real	50m59.412s
 user	257m39.538s
 sys	39m10.022s
+MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum val enumbr mindom asc relnpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+val enumbr mindom asc relnpr 	enum 6256 10971.967 200646137 3811464 9517856 25
+real	66m7.620s
+user	182m52.600s
+sys	7m13.229s
 
 
 
-2. DONE (when rlaStats is constructed, then now atomic_bool abort is initialised)
-   There seems to be an initialisation-problem with satd:
+2. Segfault on Trivial for N=2
 
-MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr mindom asc - 1
-pl bt bh bo 	rt sat t prop flvs nds h
-dom enumbr mindom asc relpr 	satd 1 0.610 7433 36 114 17
-dom enumbr mindom asc relnpr 	satd 0 0.000 202 0 0 0
-dom enumbr mindom asc eagpr 	satd 0 0.000 202 0 0 0
-dom enumbr mindom asc eagnpr 	satd 0 0.000 202 0 0 0
-MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr mindom asc -relpr 1
-pl bt bh bo 	rt sat t prop flvs nds h
-dom enumbr mindom asc relnpr 	satd 1 0.643 7433 36 114 17
-dom enumbr mindom asc eagpr 	satd 0 0.000 202 0 0 0
-dom enumbr mindom asc eagnpr 	satd 0 0.000 202 0 0 0
+MOLS> ./rlaMols_debug 2 data/SpecsCollection/Trivial "" satd "" "" "" "" "" ""
+Error: attempt to subscript container with out-of-bounds index 0, but
+container only holds 0 elements.
 
-Always the first run is correct, the others are wrong.
+while sat-solving seems to work.
+Also "count" aborts, while "enum" works.
 
 */
 
