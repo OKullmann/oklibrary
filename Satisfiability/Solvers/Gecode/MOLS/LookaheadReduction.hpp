@@ -14,17 +14,6 @@ License, or any later version. */
 
 BUGS:
 
-1. DONE Superfluous test for eager mode:
-    - The variable which had the reduction does not need to be probed again.
-
-2. DONE Superfluous tests for relaxed mode:
-    - When we reach the variable which in the previous round had the
-      reduction, then the whole computation can be finished.
-
-3. DONE Insufficient pruning:
-    - When for variable v some eliminated values have been found, then
-      all the pruning for this variable is valid for the new round.
-
 TODOS:
 
 
