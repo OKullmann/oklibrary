@@ -75,6 +75,7 @@ TODOS:
 #include <Numerics/FloatingPoint.hpp>
 #include <Transformers/Generators/Random/Tests.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
+#include <ProgramOptions/Strings.hpp>
 
 namespace GenStats {
 
@@ -284,16 +285,32 @@ namespace GenStats {
       vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].min_;
       return res;
     }
+    constexpr ovec_t omin() const noexcept {
+      ovec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].min_;
+      return res;
+    }
     constexpr vec_t max() const noexcept {
       vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].max_;
+      return res;
+    }
+    constexpr ovec_t omax() const noexcept {
+      ovec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].max_;
       return res;
     }
     constexpr vec_t sum() const noexcept {
       vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_;
       return res;
     }
+    constexpr ovec_t osum() const noexcept {
+      ovec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_;
+      return res;
+    }
     constexpr vec_t sum_sq() const noexcept {
       vec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_sq_;
+      return res;
+    }
+    constexpr ovec_t osum_sq() const noexcept {
+      ovec_t res; for (count_t i = 0; i < k; ++i) res[i] = S[i].sum_sq_;
       return res;
     }
 
@@ -335,6 +352,15 @@ namespace GenStats {
 
     friend bool operator ==(const GBasicStats&,
                             const GBasicStats&) noexcept = default;
+
+    // Printing of S as a 4xk matrix:
+    void out(std::ostream& out, const std::vector<std::string>& header) const {
+      typedef std::vector<ovec_t> o_t;
+      Environment::print2dformat(out,
+                                 o_t{amean(), omin(), omax(), sd_corrected()},
+                                 2, header);
+    }
+
   private :
     count_t N_;
     typedef CoreStats<IN> core_t;
