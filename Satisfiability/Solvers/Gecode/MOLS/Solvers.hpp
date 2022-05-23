@@ -465,22 +465,24 @@ namespace Solvers {
     res.ut = timing() - t0;
     res.gs = s.statistics();
     res.b.sol_found = stats->sol_count();
-    if (with_file_output(rt) and res.b.sol_found != stats->sols().size())
-      std::cerr << "\nERROR[Solvers::rlasolver]: stated solution-count "
-                << res.b.sol_found << " != real solution-count "
-                << stats->sols().size() << "\n";
     res.S = stats->stats();
-    for (size_t i = 0; i < res.b.sol_found; ++i) {
-      auto dsol = enc.decode(stats->sols()[i]);
-      if (not VR::correct(enc.ac, dsol))
+    if (with_file_output(rt)) {
+      if (res.b.sol_found != stats->sols().size())
+        std::cerr << "\nERROR[Solvers::rlasolver]: stated solution-count "
+                  << res.b.sol_found << " != real solution-count "
+                  << stats->sols().size() << "\n";
+      for (size_t i = 0; i < res.b.sol_found; ++i) {
+        auto dsol = enc.decode(stats->sols()[i]);
+        if (not VR::correct(enc.ac, dsol))
           std::cerr << "\nERROR[Solvers::rlasolver]: "
             "correctness-checking failed for solution " << i
                     << ":\n" << dsol << "\n";
-      res.b.list_sol.push_back(std::move(dsol));
+        res.b.list_sol.push_back(std::move(dsol));
+      }
+      if (not BS::alldiffelem(res.b.list_sol))
+        std::cerr << "\nERROR[Solvers::rlasolver]: "
+          "there are equal elements in the solution-list\n";
     }
-    if (not BS::alldiffelem(res.b.list_sol))
-      std::cerr << "\nERROR[Solvers::rlasolver]: "
-        "there are equal elements in the solution-list\n";
     if (not valid(res.b))
       std::cerr << "\nERROR[Solvers::rlasolver]: "
         "failed basic consistency-check\n";
