@@ -472,15 +472,28 @@ namespace Environment {
   // for that column, plus seps many spaces for separation:
   template <class VEC2d>
   void print2dformat(std::ostream& out, const VEC2d& M,
-                     std::string::size_type seps = 1) {
+                     std::string::size_type seps = 1,
+                     const tokens_t& header = {}) {
+    if (M.empty() and header.empty()) return;
     typedef std::string::size_type size_t;
-    if (M.empty()) return;
-    const size_t cols = (std::ranges::max_element(M, {},
-                           [](const auto& R){return R.size();})) -> size();
+    const size_t cols = [&M,&header]{size_t res = 0;
+      for (const auto& s : header) res = std::max(res, s.size());
+      for (const auto& R : M) res = std::max(res, R.size());
+                                     return res;}();
     std::vector<size_t> max_size(cols);
+    for (size_t i = 0; i < header.size(); ++i)
+      max_size[i] = header[i].size();
     for (const auto& R : M)
       for (size_t i = 0; i < R.size(); ++i)
         max_size[i] = std::max(max_size[i], printsize(out, R[i]));
+    if (not header.empty()) {
+      out.width(max_size[0]); out << header[0];
+      for (size_t i = 1; i < header.size(); ++i) {
+        out << std::string(seps, ' ');
+        out.width(max_size[i]); out << header[i];
+      }
+      out << "\n";
+    }
     for (const auto& R : M) {
       const size_t s = R.size();
       if (s == 0) {

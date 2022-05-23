@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.12",
+        "0.2.13",
         "23.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -418,6 +418,12 @@ int main(const int argc, const char* const argv[]) {
    M.push_back({9,5,7777});
    print2dformat(ss, M);
    assert(ss.str() == " 0 1   -1 2 77 0\n33 5\n 9 5 7777\n");
+   assert(not ss.bad()); ss.str("");
+   print2dformat(ss, M, 1, {"x","y"});
+   assert(ss.str() == " x y\n 0 1   -1 2 77 0\n33 5\n 9 5 7777\n");
+   assert(not ss.bad()); ss.str("");
+   print2dformat(ss, M, 2, {"x ","y","z"});
+   assert(ss.str() == "x   y     z\n 0  1    -1  2  77  0\n33  5\n 9  5  7777\n");
    assert(not ss.bad()); ss.str("");
   }
 
