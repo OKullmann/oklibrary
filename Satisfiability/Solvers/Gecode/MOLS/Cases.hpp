@@ -67,18 +67,22 @@ namespace Cases {
   struct Square {
   private:
     size_t N = 0;
+    EncCond e;
   public:
-    Square(const size_t N) : N(N) {}
-    size_t solc() const noexcept { return FP::pow(N, N*N); }
-    EncCond enc() const noexcept { return encoding("squares A\n", "", N); };
+    Square(const size_t N, const std::string psstr = "") :
+      N(N), e(encoding("squares A\n", psstr, N)) {}
+    //size_t solc() const noexcept { return FP::pow(N, N*N); }
+    EncCond enc() const noexcept { return e; };
   };
 
   struct TrivialLatinSquare {
   private:
     size_t N = 0;
+    EncCond e;
   public:
-    TrivialLatinSquare(const size_t N) : N(N) {}
-    EncCond enc() const noexcept { return encoding("squares A\nls A\n", "", N); };
+    TrivialLatinSquare(const size_t N, const std::string psstr = "") :
+      N(N), e(encoding("squares A\nls A\n", psstr, N)) {}
+    EncCond enc() const noexcept { return e; };
   };
 
 }
