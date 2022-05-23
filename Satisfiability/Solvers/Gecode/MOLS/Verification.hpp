@@ -436,11 +436,9 @@ namespace Verification {
 
   bool lcorrect(const CD::AConditions& ac,
                 std::vector<PS::PSquares> Lsol) {
-    if (not std::ranges::all_of(Lsol, [&ac](const PS::PSquares& sol){
-                                  return correct(ac, sol);}))
-      return false;
-    std::ranges::sort(Lsol);
-    return std::ranges::adjacent_find(Lsol) == Lsol.end();
+    return std::ranges::all_of(Lsol, [&ac](const PS::PSquares& sol){
+                                 return correct(ac, sol);})
+      and BS::alldiffelem(std::move(Lsol));
   }
 
 }
