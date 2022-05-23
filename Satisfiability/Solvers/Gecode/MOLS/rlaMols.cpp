@@ -69,6 +69,14 @@ val enumbr mindom asc relpr 	enum 6256 8684.915 200646489 3811464 9517856 25
 real	52m10.313s
 user	144m45.477s
 sys	5m54.339s
+MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum val enumbr mindom asc relnpr 6
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+val enumbr mindom asc relnpr 	enum 6256 15458.920 200612436 3811464 9517856 25
+real	50m59.412s
+user	257m39.538s
+sys	39m10.022s
+
 
 
 2. DONE (when rlaStats is constructed, then now atomic_bool abort is initialised)
@@ -127,8 +135,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "22.5.2022",
+        "0.4.2",
+        "23.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

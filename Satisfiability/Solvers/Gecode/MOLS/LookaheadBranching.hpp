@@ -61,6 +61,7 @@ TODOS:
 #include "GcVariables.hpp"
 #include "LookaheadReduction.hpp"
 #include "Encoding.hpp"
+#include "BasicLatinSquares.hpp"
 #include "Verification.hpp"
 
 namespace LookaheadBranching {
@@ -73,6 +74,7 @@ namespace LookaheadBranching {
   namespace CT = Constraints;
   namespace GV = GcVariables;
   namespace EC = Encoding;
+  namespace BS = BasicLatinSquares;
   namespace VR = Verification;
 
   using size_t = CD::size_t;
@@ -164,6 +166,7 @@ namespace LookaheadBranching {
       S += s.extract();
       const size_t solc = s.solc();
       if (solc == 0) return;
+      assert(BS::alldiffelem(s.sollist()));
       if (log) {
         if (enc) {
           assert(solc == s.sollist().size());
