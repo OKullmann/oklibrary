@@ -22,8 +22,8 @@ BUG:
 TODOS:
 
 -1. Move some functionality to proper place.
-    - The helper function encoding() should be moved from here.
-      Perhaps, TestEncoding.hpp or a new header TestCases.hpp.
+    - DONE The helper function encoding() should be moved to Cases.hpp.
+    - Same for space().
 
 0. Collection of test-scenarios
     - Some general structure is needed, which supports some kind of "database"
@@ -85,7 +85,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.9",
+        "0.4.10",
         "23.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -129,16 +129,6 @@ namespace {
       new (*this) Void(*this);
     }
   };
-
-  EncCond encoding(const std::string condstr, const std::string psstr,
-    const size_t N, const GC::IntPropLevel pl) noexcept {
-    std::istringstream in_cond(condstr);
-    std::istringstream in_ps(psstr);
-    const AConditions ac = ReadAC()(in_cond);
-    const PSquares ps = PSquares(N, in_ps);
-    const EncCond enc(ac, ps, pl);
-    return enc;
-  }
 
   std::unique_ptr<GenericMolsNB> space(const EncCond enc) noexcept {
     std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
@@ -224,9 +214,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {const EncCond enc = encoding("squares A\n", "A\n0 * *\n* * *\n* * *\n",
-     3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
@@ -254,9 +243,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_FAILED);
   }
 
-  {const EncCond enc = encoding("squares A\n", "A\n* * *\n* 1 *\n* * *\n",
-     3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
@@ -317,8 +305,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_SOLVED);
   }
-  {const EncCond enc = encoding("squares A\nls A\n", "", 2, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(2);
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -372,9 +360,8 @@ int main(const int argc, const char* const argv[]) {
      {2,2}}));
   }
 
-  {const EncCond enc = encoding("squares A\nls A\n",
-     "A\n0 * *\n* * *\n* * *\n", 3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -387,9 +374,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {const EncCond enc = encoding("squares A\nls A\n",
-     "A\n0 * *\n* * *\n* * *\n", 3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -413,9 +399,8 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
   }
 
-  {const EncCond enc = encoding("squares A\nls A\n",
-     "A\n* * *\n* 1 *\n* * *\n", 3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
@@ -428,9 +413,8 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_SOLVED);
   }
-  {const EncCond enc = encoding("squares A\nls A\n",
-     "A\n* * *\n* 1 *\n* * *\n", 3, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -543,9 +527,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc = encoding("squares A\nls A\n",
-     "A\n0 * *\n* * *\n* * *\n", 3, pl);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -566,9 +549,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const EncCond enc = encoding("squares A\nls A\n",
-     "A\n* * *\n* 1 *\n* * *\n", 3, pl);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+   const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
