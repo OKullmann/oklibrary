@@ -9,7 +9,7 @@ oklibloc = ../../../..
 
 opt_progs = Euler Euler_BBOpt laMols gcMols rlaMols
 
-test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables
+test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables Cases
 test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
@@ -105,6 +105,9 @@ TestVerification_debug : TestVerification.cpp Verification.hpp BasicLatinSquares
 TestOrthogonalArrays_debug : TestOrthogonalArrays.cpp OrthogonalArrays.hpp BasicLatinSquares.hpp
 
 TestBasicLatinSquares_debug : TestBasicLatinSquares.cpp BasicLatinSquares.hpp
+
+TestCases_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestCases_debug : TestCases.cpp Cases.hpp
 
 # -------------------------
 
