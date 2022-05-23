@@ -135,7 +135,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "23.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

@@ -44,10 +44,11 @@ License, or any later version. */
 BUGS:
 
 1. Initial reduction for rlasolver
-   - Complete the places marked with XXX.
-   - For SS_SOLVED, the solution found need to be transferred resp.
+   - DONE For SS_SOLVED, the solution found need to be transferred resp.
      output.
-   - In both cases the statistics need to be completed.
+   - DONE In both cases the statistics need to be completed.
+   - The statistics for this case are all just 0 (resp +-inf for min/max)
+     except for "sat", which is 0 or 1.
 
 
 TODOS:
@@ -111,6 +112,7 @@ TODOS:
 #include "LookaheadBranching.hpp"
 #include "BasicLatinSquares.hpp"
 #include "Verification.hpp"
+#include "GcVariables.hpp"
 
 namespace Solvers {
 
@@ -124,6 +126,7 @@ namespace Solvers {
   namespace LB = LookaheadBranching;
   namespace BS = BasicLatinSquares;
   namespace VR = Verification;
+  namespace GV = GcVariables;
 
   using size_t = CD::size_t;
 
@@ -468,13 +471,22 @@ namespace Solvers {
     {const auto status = m->status();
      if (status == GC::SS_SOLVED) {
        rlaSR res{rt};
-       ++res.b.sol_found; // XXX
-       delete m;
-       return res;
+       ++res.b.sol_found;
+       if (with_solutions(rt)) {
+         auto sol = enc.decode(GV::extract(m->V));
+         if (not VR::correct(enc.ac, sol))
+           std::cerr << "\nERROR[Solvers::rlasolver]: "
+             "correctness-checking failed for root-solution:\n" <<
+             sol << "\n";
+         if (with_log(rt))
+           *log << res.b.sol_found << "\n" << sol << "\n";
+         else
+           res.b.list_sol.push_back(std::move(sol));
+       }
+       delete m; return res;
      }
      else if (status == GC::SS_FAILED) {
-       delete m;
-       return {rt}; // XXX
+       delete m; return {rt};
      }
     }
     GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt));
