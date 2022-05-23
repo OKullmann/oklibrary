@@ -44,6 +44,7 @@ TODOS:
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
 #include "Encoding.hpp"
+#include "Constraints.hpp"
 
 namespace Cases {
 
@@ -51,8 +52,31 @@ namespace Cases {
   using namespace Parsing;
   using namespace PartialSquares;
   using namespace Encoding;
+  using namespace Constraints;
 
   namespace FP = FloatingPoint;
+
+  class GenericMolsNB : public GenericMols0 {
+    struct Void : GC::Brancher {
+      Void(const GC::Home home) : GC::Brancher(home) {}
+      Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
+      GC::Brancher* copy(GC::Space& home) {return new (home) Void(home,*this);}
+      bool status(const GC::Space& s) const noexcept {
+        return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
+      }
+      GC::Choice* choice(GC::Space&) { assert(0); return nullptr; }
+      GC::Choice* choice(const GC::Space&, GC::Archive&) {
+        assert(0); return nullptr;
+      }
+      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
+        assert(0); return GC::ExecStatus(0);
+      }
+    };
+  public :
+    GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
+      new (*this) Void(*this);
+    }
+  };
 
   EncCond encoding(const std::string condstr, const std::string psstr,
     const size_t N) noexcept {
@@ -73,6 +97,11 @@ namespace Cases {
       N(N), e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
     EncCond enc() const noexcept { return e; };
+    std::unique_ptr<GenericMolsNB> space() const noexcept {
+      std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(e));
+      m->status();
+      return m;
+    };
   };
 
   struct TrivialLatinSquare {
@@ -83,6 +112,11 @@ namespace Cases {
     TrivialLatinSquare(const size_t N, const std::string psstr = "") :
       N(N), e(encoding("squares A\nls A\n", psstr, N)) {}
     EncCond enc() const noexcept { return e; };
+    std::unique_ptr<GenericMolsNB> space() const noexcept {
+      std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(e));
+      m->status();
+      return m;
+    };
   };
 
 }
