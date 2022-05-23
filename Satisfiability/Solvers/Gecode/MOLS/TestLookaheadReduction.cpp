@@ -85,7 +85,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
+        "0.4.8",
         "21.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -176,8 +176,8 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {const EncCond enc = encoding("squares A\nls A\n", "", 2, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(2);
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
@@ -308,8 +308,8 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
   }
 
-  {const EncCond enc = encoding("squares A\nls A\n", "", 2, GC::IPL_VAL);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::TrivialLatinSquare A(2);
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
@@ -454,9 +454,9 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
   }
 
-  {const auto pl = GC::IPL_VAL;
-   const EncCond enc = encoding("squares A\n", "", 2, pl);
-   const std::unique_ptr<GenericMolsNB> m = space(enc);
+  {const CS::Square A(2);
+   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const auto pl = GC::IPL_VAL;
    const ReductionStatistics stats =
      lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
@@ -469,17 +469,17 @@ int main(const int argc, const char* const argv[]) {
    assert(stats.solc() == 0);
    assert(stats.leafcount() == 0);
    assert(stats.sollist().empty());
-   const std::unique_ptr<GenericMolsNB> m2 = space(enc);
+   const std::unique_ptr<GenericMolsNB> m2 = space(A.enc());
    const ReductionStatistics stats2 =
      lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
    // assert(eqwt(stats2, stats)); YYY
-   const std::unique_ptr<GenericMolsNB> m3 = space(enc);
+   const std::unique_ptr<GenericMolsNB> m3 = space(A.enc());
    const ReductionStatistics stats3 =
      lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
    assert(eqwt(stats3, stats));
-   const std::unique_ptr<GenericMolsNB> m4 = space(enc);
+   const std::unique_ptr<GenericMolsNB> m4 = space(A.enc());
    const ReductionStatistics stats4 =
      lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
