@@ -21,9 +21,9 @@ BUG:
 
 TODOS:
 
--1. Move some functionality to proper place.
+-1. DONE Move some functionality to proper place.
     - DONE The helper function encoding() should be moved to Cases.hpp.
-    - Same for space().
+    - DONE Same for space().
 
 0. Collection of test-scenarios
     - Some general structure is needed, which supports some kind of "database"
@@ -85,7 +85,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.10",
+        "0.4.11",
         "23.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -108,34 +108,6 @@ namespace {
   typedef Options::RT RT;
   using listsol_t = Solvers::listsol_t;
 
-  class GenericMolsNB : public GenericMols0 {
-    struct Void : GC::Brancher {
-      Void(const GC::Home home) : GC::Brancher(home) {}
-      Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
-      GC::Brancher* copy(GC::Space& home) {return new (home) Void(home,*this);}
-      bool status(const GC::Space& s) const noexcept {
-        return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
-      }
-      GC::Choice* choice(GC::Space&) { assert(0); return nullptr; }
-      GC::Choice* choice(const GC::Space&, GC::Archive&) {
-        assert(0); return nullptr;
-      }
-      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
-        assert(0); return GC::ExecStatus(0);
-      }
-    };
-  public :
-    GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
-      new (*this) Void(*this);
-    }
-  };
-
-  std::unique_ptr<GenericMolsNB> space(const EncCond enc) noexcept {
-    std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(enc));
-    m->status();
-    return m;
-  }
-
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
@@ -148,16 +120,16 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {const CS::Square A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
    assert(eqp(values(ch->V, 1), {0,1}));
    assert(eqp(values(ch->V, 2), {0,1}));
    assert(eqp(values(ch->V, 3), {0,1}));
    const auto st = ch->status();
    assert(st == Gecode::SS_BRANCH);
-   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
+   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(eqp(values(ch2->V, 0), {1}));
    assert(eqp(values(ch2->V, 1), {0,1}));
    assert(eqp(values(ch2->V, 2), {0,1}));
@@ -167,16 +139,16 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::TrivialLatinSquare A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
    assert(eqp(values(ch->V, 1), {0,1}));
    assert(eqp(values(ch->V, 2), {0,1}));
    assert(eqp(values(ch->V, 3), {0,1}));
    const auto st = ch->status();
    assert(st == Gecode::SS_SOLVED);
-   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
+   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(eqp(values(ch2->V, 0), {1}));
    assert(eqp(values(ch2->V, 1), {0,1}));
    assert(eqp(values(ch2->V, 2), {0,1}));
@@ -186,9 +158,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(3);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
    assert(eqp(values(ch->V, 1), {0,1,2}));
    assert(eqp(values(ch->V, 2), {0,1,2}));
@@ -200,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(values(ch->V, 8), {0,1,2}));
    const auto st = ch->status();
    assert(st == Gecode::SS_BRANCH);
-   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
+   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(eqp(values(ch2->V, 0), {1,2}));
    assert(eqp(values(ch2->V, 1), {0,1,2}));
    assert(eqp(values(ch2->V, 2), {0,1,2}));
@@ -215,9 +187,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
    assert(eqp(values(ch->V, 1), {0,1,2}));
    assert(eqp(values(ch->V, 2), {0,1,2}));
@@ -229,7 +201,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(values(ch->V, 8), {0,1,2}));
    const auto st = ch->status();
    assert(st == Gecode::SS_BRANCH);
-   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
+   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(eqp(values(ch2->V, 0), {0}));
    assert(eqp(values(ch2->V, 1), {0,1,2}));
    assert(eqp(values(ch2->V, 2), {0,1,2}));
@@ -244,9 +216,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<GenericMolsNB>(m.get(), 0, 0, pl, true);
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
    assert(eqp(values(ch->V, 0), {0}));
    assert(eqp(values(ch->V, 1), {0,1,2}));
    assert(eqp(values(ch->V, 2), {0,1,2}));
@@ -258,7 +230,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(values(ch->V, 8), {0,1,2}));
    const auto st = ch->status();
    assert(st == Gecode::SS_BRANCH);
-   const auto ch2 = child_node<GenericMolsNB>(m.get(), 0, 0, pl, false);
+   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
    assert(eqp(values(ch2->V, 0), {1,2}));
    assert(eqp(values(ch2->V, 1), {0,1,2}));
    assert(eqp(values(ch2->V, 2), {0,1,2}));
@@ -273,7 +245,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -282,7 +254,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
   }
   {const CS::Square A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -297,7 +269,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::TrivialLatinSquare A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
@@ -306,7 +278,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_SOLVED);
   }
   {const CS::TrivialLatinSquare A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -321,7 +293,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(3);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -335,7 +307,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
   {const CS::Square A(3);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -361,7 +333,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_BRANCH);
@@ -375,7 +347,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
   {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -400,7 +372,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
    assert(probe(m.get(), 0, 0, pl, stats0, false) == Gecode::SS_SOLVED);
@@ -414,7 +386,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_SOLVED);
   }
   {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
    const auto pl = GC::IPL_VAL;
@@ -439,10 +411,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square A(2);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const ReductionStatistics stats =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stats.props() == 0);
    assert(stats.elimvals() == 0);
@@ -453,28 +425,28 @@ int main(const int argc, const char* const argv[]) {
    assert(stats.solc() == 0);
    assert(stats.leafcount() == 0);
    assert(stats.sollist().empty());
-   const std::unique_ptr<GenericMolsNB> m2 = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m2 = A.space();
    const ReductionStatistics stats2 =
-     lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
    // assert(eqwt(stats2, stats)); YYY
-   const std::unique_ptr<GenericMolsNB> m3 = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m3 = A.space();
    const ReductionStatistics stats3 =
-     lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
    assert(eqwt(stats3, stats));
-   const std::unique_ptr<GenericMolsNB> m4 = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m4 = A.space();
    const ReductionStatistics stats4 =
-     lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
    // assert(eqwt(stats4, stats)); YYY
  }
 
  {const CS::Square A(2);
-  const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+  const std::unique_ptr<CS::GenericMolsNB> m = A.space();
   const GC::IntPropLevel pl = GC::IPL_VAL;
   const ReductionStatistics stats =
-    lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+    lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
       LAR::eag_npr);
   // assert(stats.props() == 1); XXX needs revision
   // assert(stats.elimvals() == 2); XXX needs revision
@@ -489,29 +461,29 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(list_sol, {
               {{{0,1},{1,0}}},
               {{{1,0},{0,1}}}}));
-   const std::unique_ptr<GenericMolsNB> m2(new GenericMolsNB(enc));
+   const std::unique_ptr<CS::GenericMolsNB> m2(new CS::GenericMolsNB(enc));
    const ReductionStatistics stats2 =
-     lareduction<GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
        LAR::eag_pr);
    assert(eqwt(stats2, stats));
-   const std::unique_ptr<GenericMolsNB> m3(new GenericMolsNB(enc));
+   const std::unique_ptr<CS::GenericMolsNB> m3(new CS::GenericMolsNB(enc));
    const ReductionStatistics stats3 =
-     lareduction<GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
        LAR::rel_npr);
    assert(eqwt(stats3, stats));
-   const std::unique_ptr<GenericMolsNB> m4(new GenericMolsNB(enc));
+   const std::unique_ptr<CS::GenericMolsNB> m4(new CS::GenericMolsNB(enc));
    const ReductionStatistics stats4 =
-     lareduction<GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
        LAR::rel_pr);
    assert(eqwt(stats4, stats));
    */
   }
 
   {const CS::Square A(3);
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const ReductionStatistics stats =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    assert(stats.props() == 0);
    assert(stats.elimvals() == 0);
@@ -528,9 +500,9 @@ int main(const int argc, const char* const argv[]) {
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
    const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    /* ERROR FALSE TESTS
    assert(stats.props() == 1);
@@ -550,9 +522,9 @@ int main(const int argc, const char* const argv[]) {
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
    const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
-   const std::unique_ptr<GenericMolsNB> m = space(A.enc());
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
-     lareduction<GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
        LAR::eag_npr);
    /* ERROR FALSE TESTS
    assert(stats.props() == 1);
