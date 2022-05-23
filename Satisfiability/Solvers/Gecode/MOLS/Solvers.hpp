@@ -41,6 +41,14 @@ License, or any later version. */
    - main function lasolver
    - helper function solver_la.
 
+BUGS:
+
+1. Initial reduction for rlasolver
+   - Complete the places marked with XXX.
+   - For SS_SOLVED, the solution found need to be transferred resp.
+     output.
+   - In both cases the statistics need to be completed.
+
 
 TODOS:
 
@@ -457,6 +465,18 @@ namespace Solvers {
                        log and OP::with_solutions(rt) ? &enc : nullptr,
                        with_stop(rt)));
     new (*m) LB::RlaBranching(*m, P, stats.get());
+    {const auto status = m->status();
+     if (status == GC::SS_SOLVED) {
+       rlaSR res{rt};
+       ++res.b.sol_found; // XXX
+       delete m;
+       return res;
+     }
+     else if (status == GC::SS_FAILED) {
+       delete m;
+       return {rt}; // XXX
+     }
+    }
     GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt));
     delete m;
 
