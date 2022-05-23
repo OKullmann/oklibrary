@@ -55,6 +55,21 @@ real	68m13.473s
 user	187m29.102s
 sys	0m48.871s
 
+MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	enum 6247 8546.903 145519085 702831 1994566 23
+real	56m50.373s
+user	142m27.460s
+sys	0m28.481s
+MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum val enumbr mindom asc relpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+val enumbr mindom asc relpr 	enum 6256 8684.915 200646489 3811464 9517856 25
+real	52m10.313s
+user	144m45.477s
+sys	5m54.339s
+
 
 2. DONE (when rlaStats is constructed, then now atomic_bool abort is initialised)
    There seems to be an initialisation-problem with satd:
