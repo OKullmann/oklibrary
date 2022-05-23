@@ -17,9 +17,6 @@ TODOS:
 
 #include <cassert>
 
-#include <gecode/int.hh>
-#include <gecode/search.hh>
-
 #include <ProgramOptions/Environment.hpp>
 
 #include "Cases.hpp"
@@ -27,7 +24,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "23.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
