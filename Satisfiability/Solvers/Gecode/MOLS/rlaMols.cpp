@@ -259,7 +259,11 @@ int main(const int argc, const char* const argv[]) {
                       << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
                       << W0(lar) << " \t";
             res.rs(std::cout); // XXX
-            std::cout << std::endl;
+            std::cout << "\n";
+            res.S.out(std::cout, {"vals", "props", "elvals", "prunes",
+                          "mprune", "probes", "rounds", "solc", "leaf",
+                          "t", "qelvals", "qprunes"}); // XXX
+            std::cout.flush();
             if (with_file_output)
               Environment::out_line(*out, res.b.list_sol, "\n");
           }
