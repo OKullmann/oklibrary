@@ -66,7 +66,11 @@ namespace Cases {
   };
 
   struct TrivialLatinSquare {
-    // XXX
+  private:
+    size_t N = 0;
+  public:
+    TrivialLatinSquare(const size_t N) : N(N) {}
+    EncCond enc() const noexcept { return encoding("squares A\nls A\n", "", N); };
   };
 
 }
