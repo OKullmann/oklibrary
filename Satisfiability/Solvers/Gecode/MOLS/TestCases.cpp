@@ -33,7 +33,7 @@ namespace {
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
         "GPL v3"};
-  
+
   using namespace Cases;
 
 };
