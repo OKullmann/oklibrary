@@ -37,6 +37,6 @@ namespace Cases {
     // XXX
   };
 
-};
+}
 
 #endif
