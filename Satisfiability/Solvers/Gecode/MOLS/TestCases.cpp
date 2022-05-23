@@ -33,7 +33,7 @@ namespace {
 
   namespace CS = Cases;
 
-};
+}
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
