@@ -19,6 +19,9 @@ TODOS:
 
 */
 
+#include <sstream>
+#include <string>
+
 #include <cassert>
 
 #ifndef CASES_tqVXGkU1YS
@@ -30,13 +33,28 @@ TODOS:
 #include <Numerics/FloatingPoint.hpp>
 
 #include "Conditions.hpp"
+#include "Parsing.hpp"
+#include "PartialSquares.hpp"
+#include "Encoding.hpp"
 
 namespace Cases {
 
-  namespace FP = FloatingPoint;
-  namespace CD = Conditions;
+  using namespace Conditions;
+  using namespace Parsing;
+  using namespace PartialSquares;
+  using namespace Encoding;
 
-  using size_t = CD::size_t;
+  namespace FP = FloatingPoint;
+
+  EncCond encoding(const std::string condstr, const std::string psstr,
+    const size_t N) noexcept {
+    std::istringstream in_cond(condstr);
+    std::istringstream in_ps(psstr);
+    const AConditions ac = ReadAC()(in_cond);
+    const PSquares ps = PSquares(N, in_ps);
+    const EncCond enc(ac, ps);
+    return enc;
+  }
 
   struct Square {
   private:
@@ -44,6 +62,7 @@ namespace Cases {
   public:
     Square(const size_t N) : N(N) {}
     size_t solc() const noexcept { return FP::pow(N, N*N); }
+    EncCond enc() const noexcept { return encoding("squares A\n", "", N); };
   };
 
   struct TrivialLatinSquare {

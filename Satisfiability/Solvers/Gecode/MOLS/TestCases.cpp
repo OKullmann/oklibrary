@@ -24,14 +24,14 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "23.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
         "GPL v3"};
 
-  using namespace Cases;
+  namespace CS = Cases;
 
 };
 
@@ -39,15 +39,15 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {Square A(1);
+  {CS::Square A(1);
    assert(A.solc() == 1);
   }
 
-  {Square A(2);
+  {CS::Square A(2);
    assert(A.solc() == 16);
   }
 
-  {Square A(3);
+  {CS::Square A(3);
    assert(A.solc() == 19683);
   }
 
