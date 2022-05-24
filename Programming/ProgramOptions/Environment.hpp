@@ -131,6 +131,12 @@ For our makefiles, recommend is to use
 > make git_id="ABC"
 
 
+TODOS:
+
+1. Make width_policy constevel
+    - C++20 supports "transient" string-construction in constexpr-functions.
+    - gcc 10.3 can't do that yet.
+
 */
 
 #ifndef ENVIRONMENT_6Kk9MX4Wbw
@@ -297,11 +303,78 @@ namespace Environment {
     else return out << W::R::estring[i] << "(" << W::R::string[i] << ")";
   }
 
-  // Printing a vector of policy-values, with header:
+  // Printing a vector of policy-values (one policy), with long header:
   template <typename Policy>
   void out_vecpol(std::ostream& out, const std::vector<Policy>& v) {
     out << RegistrationPolicies<Policy>::name << ": ";
     out_line(out, v);
+  }
+
+  // The maximal width of policy-strings:
+  template <typename Policy, bool with_header = false, bool short_form = true>
+  std::streamsize width_policy() noexcept {
+    typedef RegistrationPolicies<Policy> P;
+    typedef std::streamsize s_t;
+    s_t res = 0;
+    if constexpr (short_form) {
+      if constexpr (with_header) res = std::string(P::sname).size();
+      for (int i = 0; i < P::size; ++i)
+        res = std::max(res, s_t(std::string(P::string[i]).size()));
+      return res;
+    }
+    else {
+      if constexpr (with_header) res = std::string(P::name).size();
+      for (int i = 0; i < P::size; ++i)
+        res = std::max(res, s_t(std::string(P::estring[i]).size()));
+      return res;
+    }
+  }
+
+  // Print a header for a list of policies:
+  template <std::size_t I, typename... T>
+  void helper_hp(std::ostream& out,
+                 const std::string::size_type seps) {
+    constexpr std::size_t size = sizeof...(T);
+    static_assert(I <= size);
+    if constexpr (I < size) {
+      typedef std::tuple<T...> tuple_T;
+      typedef std::tuple_element_t<I, tuple_T> Policy;
+      typedef RegistrationPolicies<Policy> R;
+      const auto w = width_policy<Policy,true>();
+      if constexpr (I == 0) {
+        out.width(w); out << R::sname;
+      }
+      else {
+        out << std::string(seps, ' ');
+        out.width(w); out << R::sname;
+      }
+      helper_hp<I+1, T...>(out, seps);
+    }
+  }
+  template <typename... T>
+  void header_policies(std::ostream& out,
+                       const std::string::size_type seps = 1) {
+    helper_hp<0, T...>(out, seps);
+  }
+  // Print a list of policy-values (for different policies, short form):
+  template <std::size_t I = 0, typename... T>
+  void data_policies(std::ostream& out, const std::tuple<T...>& t,
+                     const std::string::size_type seps = 1) {
+    constexpr std::size_t size = sizeof...(T);
+    static_assert(I <= size);
+    if constexpr (I < size) {
+      typedef std::tuple<T...> tuple_T;
+      typedef std::tuple_element_t<I, tuple_T> Policy;
+      const auto w = width_policy<Policy,true>();
+      if constexpr (I == 0) {
+        out.width(w); out << W0(std::get<0>(t));
+      }
+      else {
+        out << std::string(seps, ' ');
+        out.width(w); out << W0(std::get<I>(t));
+      }
+      data_policies<I+1>(out, t, seps);
+    }
   }
 
 
