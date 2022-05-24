@@ -79,7 +79,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -109,8 +109,8 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {const CS::Square<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
      assert(eqp(values(ch->V, 0), {0}));
@@ -131,8 +131,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::TrivialLatinSquare<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
      assert(eqp(values(ch->V, 0), {0}));
@@ -153,8 +153,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<3> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
      assert(eqp(values(ch->V, 0), {0}));
@@ -185,8 +185,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
      assert(eqp(values(ch->V, 0), {0}));
@@ -217,8 +217,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<3> A("A\n* * *\n* 1 *\n* * *\n");
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
      assert(eqp(values(ch->V, 0), {0}));
@@ -249,9 +249,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   ReductionStatistics stats0(m->V);
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     ReductionStatistics stats0(m->V);
      assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
        GC::SS_BRANCH);
      assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
@@ -263,29 +263,25 @@ int main(const int argc, const char* const argv[]) {
    }
   }
   {const CS::Square<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   ReductionStatistics stats0(m->V);
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     ReductionStatistics stats0(m->V);
      pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
+     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}}));
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
+     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}}));
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
    }
   }
 
   {const CS::TrivialLatinSquare<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   ReductionStatistics stats0(m->V);
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     ReductionStatistics stats0(m->V);
      assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
        GC::SS_SOLVED);
      assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
@@ -297,9 +293,9 @@ int main(const int argc, const char* const argv[]) {
    }
   }
   {const CS::TrivialLatinSquare<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   ReductionStatistics stats0(m->V);
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     ReductionStatistics stats0(m->V);
      pruning_table_t PT;
      assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) ==
        GC::SS_SOLVED);
@@ -317,9 +313,9 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<3> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   ReductionStatistics stats0(m->V);
    for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     ReductionStatistics stats0(m->V);
      assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
        GC::SS_BRANCH);
      assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
