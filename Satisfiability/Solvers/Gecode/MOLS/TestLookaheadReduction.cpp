@@ -21,10 +21,6 @@ BUG:
 
 TODOS:
 
--1. DONE Move some functionality to proper place.
-    - DONE The helper function encoding() should be moved to Cases.hpp.
-    - DONE Same for space().
-
 0. Collection of test-scenarios
     - Some general structure is needed, which supports some kind of "database"
       of testcases.
