@@ -101,10 +101,6 @@ Compare also with todos in rlaMols.
        is subtracted.
      - Alternatively one could have a monitoring-depth (see also the OKsolver).
 
-2. Defaults:
-    - Change the order of gc-branching-variables to
-      mindom, maxdeg, maxdegdom, first, mindeg, mindegdom, maxdom.
-
 3. Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
     - We also need parallelism when optimising weights.
@@ -158,8 +154,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.8",
-        "22.5.2022",
+        "0.11.0",
+        "24.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",

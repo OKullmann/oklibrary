@@ -105,24 +105,24 @@ namespace Options {
   // 6.2.0.', the degree of a variable is the number of propagators depending
   // on it.
   enum class BHV {
-    first = 0, // first open
-    mindeg = 1, // smallest degree
-    maxdeg = 2, // largest degree
-    mindom = 3, // smallest domain
-    maxdom = 4, // largest domain
-    mindegdom = 5, // smallest degree/domain
-    maxdegdom = 6, // largest degree/domain
+    mindom = 0, // smallest domain
+    maxdeg = 1, // largest degree
+    maxdegdom = 2, // largest degree/domain
+    first = 3, // first open
+    mindeg = 4, // smallest degree
+    maxdom = 5, // largest domain
+    mindegdom = 6, // smallest degree/domain
   };
-  constexpr int BHVsize = int(BHV::maxdegdom) + 1;
+  constexpr int BHVsize = int(BHV::mindegdom) + 1;
   GC::IntVarBranch var_branch(const BHV bvar) {
     switch (bvar) {
+    case BHV::mindom: return GC::INT_VAR_SIZE_MIN();
+    case BHV::maxdeg: return GC::INT_VAR_DEGREE_MAX();
+    case BHV::maxdegdom: return GC::INT_VAR_DEGREE_SIZE_MAX();
     case BHV::first: return GC::INT_VAR_NONE();
     case BHV::mindeg: return GC::INT_VAR_DEGREE_MIN();
-    case BHV::maxdeg: return GC::INT_VAR_DEGREE_MAX();
-    case BHV::mindom: return GC::INT_VAR_SIZE_MIN();
     case BHV::maxdom: return GC::INT_VAR_SIZE_MAX();
     case BHV::mindegdom: return GC::INT_VAR_DEGREE_SIZE_MIN();
-    case BHV::maxdegdom: return GC::INT_VAR_DEGREE_SIZE_MAX();
     default : throw std::runtime_error("Options::var_branch: UNKNOWN bvar="
                                        + std::to_string(int(bvar)));
     }
@@ -209,11 +209,11 @@ namespace Environment {
     static constexpr const char* name = "variable-heuristic";
     static constexpr int size = Options::BHVsize;
     static constexpr std::array<const char*, size>
-    string {"first", "mindeg", "maxdeg", "mindom", "maxdom", "mindegdom",
-        "maxdegdom"};
+    string {"mindom", "maxdeg", "maxdegdom",
+        "first", "mindeg", "maxdom", "mindegdom"};
     static constexpr std::array<const char*, size>
-      estring {"first-var", "min-deg-var", "max-deg-var", "min-dom-var",
-        "max-dom-var", "min-deg/dom-var", "max-deg/dom-var"};
+      estring {"min-dom-var", "max-deg-var", "max-deg/dom-var",
+        "first-var", "min-deg-var", "max-dom-var", "min-deg/dom-var"};
   };
   template <> struct RegistrationPolicies<Options::BRT> {
     static constexpr const char* name = "branching-type";
