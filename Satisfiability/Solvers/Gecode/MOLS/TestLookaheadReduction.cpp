@@ -75,7 +75,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -487,24 +487,15 @@ int main(const int argc, const char* const argv[]) {
      assert(eqwt(stats, A.stats(lar)));
    }
   }
-
   {const CS::Square<3> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   const GC::IntPropLevel pl = GC::IPL_VAL;
-   const ReductionStatistics stats =
-     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-       LAR::eag_npr);
-   assert(stats.props() == 0);
-   assert(stats.elimvals() == 0);
-   assert(stats.prunes() == 0);
-   assert(stats.maxprune() == 0);
-   /* needs complete revision XXX
-   assert(stats.probes() == 27);
-   assert(stats.rounds() == 1);
-   assert(stats.solc() == 0);
-   assert(stats.leafcount() == 0);
-   assert(stats.sollist().empty());
-   */
+   for (const LAR lar : {LAR::eag_npr,LAR::eag_pr,LAR::rel_npr,LAR::rel_pr}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     const auto pl = GC::IPL_VAL;
+     const ReductionStatistics stats =
+       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+         lar);
+     assert(eqwt(stats, A.stats(lar)));
+   }
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
