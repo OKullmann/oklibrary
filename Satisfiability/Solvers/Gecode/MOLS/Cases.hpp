@@ -104,13 +104,13 @@ namespace Cases {
     };
   };
 
+  template <size_t N>
   struct TrivialLatinSquare {
   private:
-    size_t N = 0;
     EncCond e;
   public:
-    TrivialLatinSquare(const size_t N, const std::string psstr = "") :
-      N(N), e(encoding("squares A\nls A\n", psstr, N)) {}
+    TrivialLatinSquare(const std::string psstr = "") :
+      e(encoding("squares A\nls A\n", psstr, N)) {}
     EncCond enc() const noexcept { return e; };
     std::unique_ptr<GenericMolsNB> space() const noexcept {
       std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(e));

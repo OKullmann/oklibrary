@@ -85,7 +85,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.12",
+        "0.4.13",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -138,7 +138,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::TrivialLatinSquare<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -268,7 +268,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
   }
 
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::TrivialLatinSquare<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -277,7 +277,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_SOLVED);
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_SOLVED);
   }
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::TrivialLatinSquare<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -332,7 +332,7 @@ int main(const int argc, const char* const argv[]) {
      {2,2}}));
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -346,7 +346,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -371,7 +371,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -385,7 +385,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_SOLVED);
   }
-  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -499,7 +499,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+   const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
@@ -521,7 +521,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+   const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
