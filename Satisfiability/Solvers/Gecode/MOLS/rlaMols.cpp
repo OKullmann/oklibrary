@@ -130,6 +130,31 @@ sys	0m50.246s
 Thus the problem seems unrelated to the commit-action.
 Since runtime seems unaffected, calling status twice seems harmless.
 
+
+2. An easier example for the solutions-duplication:
+
+MOLS> ./rlaMols 5 data/SpecsCollection/LSred "" enum val enumbr mindegdom asc relpr 1
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+val enumbr mindegdom asc relpr 	enum 62 0.001 122 19 46 4
+  vals    props   elvals   prunes   mprune   probes    rounds     solc      leaf            t    qelvals   qprunes
+    43  2.40741  3.59259  7.59259  13.8148  16.2593   1.22222   2.2963  0.703704  3.28889e-05  0.0833553  0.268646
+    29        0        0        0        0        2         1        0         0        3e-06          0         0
+    61        6        8       38       52       62         2        5         1     0.000118   0.170213   1.58333
+9.2487  2.06173  2.69271  12.0392  17.2917  18.7772  0.423659  1.65981  0.465322   3.4729e-05  0.0541185  0.415753
+
+All variable-heuristics yield an overcount, the minimum is 57 (while 56) is correct:
+MOLS> ./rlaMols 5 data/SpecsCollection/LSred "" enum val enumbr mindom asc relpr 1
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+val enumbr mindom asc relpr 	enum 57 0.000 47 9 25 4
+   vals    props   elvals  prunes   mprune   probes    rounds     solc      leaf  t    qelvals   qprunes
+47.8125    2.625   3.8125    7.75   27.375  25.9375    1.3125   3.5625    0.5625  0  0.0855403  0.292849
+     40        0        0       0       10        7         1        0         0  0          0         0
+     61        7       10      22       52       52         2       10         1  0        0.2  0.615385
+6.14512  2.44609  3.50654  6.6883  14.8363  14.6855  0.478714  3.36588  0.512348  0  0.0759935  0.196481
+
+
 */
 
 /* TODOS:
