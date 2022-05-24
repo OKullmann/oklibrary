@@ -1,7 +1,6 @@
 # Counts for n >= 2:
 # 1 1 4 56 9408 16942080
 # https://oeis.org/A000315
-# Remark: It seems these are not good benchmarks for us.
 #
 # Best performing pure gc-solver:
 # Running all variable-selections, with fixed domain-propagation:
