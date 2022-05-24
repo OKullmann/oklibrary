@@ -71,21 +71,15 @@ TODOS:
 #include <ProgramOptions/Environment.hpp>
 
 #include "LookaheadReduction.hpp"
-#include "Conditions.hpp"
-#include "Parsing.hpp"
-#include "PartialSquares.hpp"
-#include "Encoding.hpp"
 #include "Options.hpp"
-#include "Constraints.hpp"
 #include "Solvers.hpp"
-#include "BasicLatinSquares.hpp"
 #include "GcVariables.hpp"
 #include "Cases.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.13",
+        "0.5.0",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -93,13 +87,8 @@ namespace {
         "GPL v3"};
 
   using namespace LookaheadReduction;
-  using namespace Conditions;
-  using namespace Parsing;
-  using namespace PartialSquares;
-  using namespace Encoding;
   using namespace Options;
-  using namespace Constraints;
-  using namespace BasicLatinSquares;
+  using namespace Solvers;
   using namespace GcVariables;
 
   namespace CS = Cases;
