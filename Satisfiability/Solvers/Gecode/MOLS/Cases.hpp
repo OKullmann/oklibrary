@@ -88,13 +88,13 @@ namespace Cases {
     return enc;
   }
 
+  template <size_t N>
   struct Square {
   private:
-    size_t N = 0;
     EncCond e;
   public:
-    Square(const size_t N, const std::string psstr = "") :
-      N(N), e(encoding("squares A\n", psstr, N)) {}
+    Square(const std::string psstr = "") :
+      e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
     EncCond enc() const noexcept { return e; };
     std::unique_ptr<GenericMolsNB> space() const noexcept {

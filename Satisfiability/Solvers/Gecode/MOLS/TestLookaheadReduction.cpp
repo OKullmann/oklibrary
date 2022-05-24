@@ -85,8 +85,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.11",
-        "23.5.2022",
+        "0.4.12",
+        "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -119,7 +119,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const CS::Square A(2);
+  {const CS::Square<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -157,7 +157,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_SOLVED);
   }
 
-  {const CS::Square A(3);
+  {const CS::Square<3> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -186,7 +186,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -215,7 +215,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_FAILED);
   }
 
-  {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::Square<3> A("A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
@@ -244,7 +244,7 @@ int main(const int argc, const char* const argv[]) {
    assert(st2 == Gecode::SS_BRANCH);
   }
 
-  {const CS::Square A(2);
+  {const CS::Square<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -253,7 +253,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 1, 1, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {const CS::Square A(2);
+  {const CS::Square<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -292,7 +292,7 @@ int main(const int argc, const char* const argv[]) {
    assert(PT.empty());
   }
 
-  {const CS::Square A(3);
+  {const CS::Square<3> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    const auto pl = GC::IPL_VAL;
@@ -306,7 +306,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, pl, stats0, false) == Gecode::SS_BRANCH);
    assert(probe(m.get(), 2, 2, pl, stats0, false) == Gecode::SS_BRANCH);
   }
-  {const CS::Square A(3);
+  {const CS::Square<3> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -410,7 +410,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
   }
 
-  {const CS::Square A(2);
+  {const CS::Square<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto pl = GC::IPL_VAL;
    const ReductionStatistics stats =
@@ -442,7 +442,7 @@ int main(const int argc, const char* const argv[]) {
    // assert(eqwt(stats4, stats)); YYY
  }
 
- {const CS::Square A(2);
+ {const CS::Square<2> A;
   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
   const GC::IntPropLevel pl = GC::IPL_VAL;
   const ReductionStatistics stats =
@@ -479,7 +479,7 @@ int main(const int argc, const char* const argv[]) {
    */
   }
 
-  {const CS::Square A(3);
+  {const CS::Square<3> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const GC::IntPropLevel pl = GC::IPL_VAL;
    const ReductionStatistics stats =

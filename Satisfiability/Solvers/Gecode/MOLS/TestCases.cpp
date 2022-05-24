@@ -24,8 +24,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "23.5.2022",
+        "0.0.10",
+        "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
@@ -39,23 +39,23 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {CS::Square A(2);
+  {CS::Square<2> A;
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
   }
-  {CS::Square A(2, "A\n0 *\n* *\n");
+  {CS::Square<2> A("A\n0 *\n* *\n");
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
   }
 
-  {CS::Square A(3);
+  {CS::Square<3> A;
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
   }
-  {CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+  {CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
