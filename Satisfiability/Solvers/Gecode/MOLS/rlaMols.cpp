@@ -44,9 +44,6 @@ dom enumbr mindom asc relnpr 	count 6247 23443.596 145494209 702831 1994566 24
 dom enumbr mindom asc eagpr 	count 6247 27755.376 145481836 702831 1994566 23
 dom enumbr mindom asc eagnpr 	count 6247 34281.727 145498008 702831 1994566 23
 
-MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" +enum dom enumbr mindom asc relpr 1
-pl bt bh bo 	rt sat t prop flvs nds h
-dom enumbr mindom asc relpr 	+enum 6247 10076.145 145535627 702831 1994566 22
 MOLS> time ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
 ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
 pl bt bh bo 	rt sat t prop flvs nds h
@@ -54,6 +51,19 @@ dom enumbr mindom asc relpr 	enum 6247 11190.147 145531043 702831 1994566 23
 real	68m13.473s
 user	187m29.102s
 sys	0m48.871s
+MOLS> time ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	enum 6247 10890.773 145535235 702831 1994566 22
+   vals    props   elvals   prunes   mprune   probes    rounds        solc      leaf          t    qelvals   qprunes
+431.263  8.42716  13.1531  89.3961  229.698  272.053    1.5094  0.00483613  0.544098  0.0232329  0.0311831  0.261767
+    155        0        0        0        0        2         1           0         0          0          0         0
+    676       74       89      871      647     2390         8          15         1   0.274853   0.173489       2.2
+53.6119  7.33887  11.1931   98.527  163.833  215.269  0.731606    0.114594  0.498052  0.0212473  0.0263532  0.290642
+real	69m0.530s
+user	182m35.353s
+sys	0m45.149s
+
 
 MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
 ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
@@ -95,6 +105,30 @@ real	66m7.620s
 user	182m52.600s
 sys	7m13.229s
 
+
+EXPERIMENT:
+Adding a final call of status() to commit, so that the final three lines of
+RlaBranching::commit then are
+
+      [[maybe_unused]]const auto status = s.status();
+      assert(status == GC::SS_BRANCH);
+
+doesn't change anything:
+MOLS> time ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" enum dom enumbr mindom asc relpr 3
+ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
+pl bt bh bo lar 		rt sat t prop flvs nds h
+dom enumbr mindom asc relpr 	enum 6247 10949.095 0 702831 1994566 22
+   vals    props   elvals   prunes   mprune   probes    rounds        solc      leaf          t    qelvals   qprunes
+431.263  8.42718  13.1531  89.3961  229.698  272.053    1.5094  0.00483613  0.544098  0.0242563  0.0311831  0.261767
+    155        0        0        0        0        2         1           0         0          0          0         0
+    676       74       89      871      647     2390         8          15         1   0.272879   0.173489       2.2
+53.6119  7.33889  11.1931   98.527  163.833  215.269  0.731606    0.114594  0.498052   0.021974  0.0263531  0.290642
+real	66m52.594s
+user	183m29.551s
+sys	0m50.246s
+
+Thus the problem seems unrelated to the commit-action.
+Since runtime seems unaffected, calling status twice seems harmless.
 
 */
 
