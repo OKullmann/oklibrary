@@ -1,0 +1,9 @@
+# The number of solutions for N >= 2:
+# 2, 48, 31104
+
+# With a proper (simple) variable-selection heuristic, failed leaves
+# can be avoided.
+
+squares A
+rls A
+diag A

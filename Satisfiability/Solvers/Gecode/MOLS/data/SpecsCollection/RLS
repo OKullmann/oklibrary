@@ -1,0 +1,8 @@
+# The number of solutions is (N!)^N; for N >= 2:
+# 16, 216, 331776
+
+# With a proper (simple) variable-selection heuristic, failed leaves
+# can be avoided.
+
+squares A
+rls A
