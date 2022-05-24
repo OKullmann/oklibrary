@@ -18,7 +18,9 @@ TODOS:
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/FloatingPoint.hpp>
 
+#include "Options.hpp"
 #include "Cases.hpp"
 
 namespace {
@@ -32,6 +34,8 @@ namespace {
         "GPL v3"};
 
   namespace CS = Cases;
+  namespace FP = FloatingPoint;
+  using namespace Options;
 
 }
 
@@ -43,6 +47,7 @@ int main(const int argc, const char* const argv[]) {
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
+   assert(A.stats(LAR::eag_pr).probes() == FP::pow(2, 3));
   }
   {CS::Square<2> A("A\n0 *\n* *\n");
    assert(A.enc().N == 2);
@@ -54,6 +59,7 @@ int main(const int argc, const char* const argv[]) {
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
+   assert(A.stats(LAR::eag_pr).probes() == FP::pow(3, 3));
   }
   {CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
    assert(A.enc().N == 3);

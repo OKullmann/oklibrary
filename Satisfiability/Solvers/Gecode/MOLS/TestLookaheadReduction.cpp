@@ -75,7 +75,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -478,72 +478,14 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const CS::Square<2> A;
-   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   const auto pl = GC::IPL_VAL;
-   const ReductionStatistics stats =
-     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-       LAR::eag_npr);
-   assert(stats.props() == 0);
-   assert(stats.elimvals() == 0);
-   assert(stats.prunes() == 0);
-   assert(stats.maxprune() == 0);
-   // assert(stats.probes() == 8); XXX needs revision
-   // assert(stats.rounds() == 1); XXX needs revision
-   assert(stats.solc() == 0);
-   assert(stats.leafcount() == 0);
-   assert(stats.sollist().empty());
-   const std::unique_ptr<CS::GenericMolsNB> m2 = A.space();
-   const ReductionStatistics stats2 =
-     lareduction<CS::GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
-       LAR::eag_pr);
-   // assert(eqwt(stats2, stats)); YYY
-   const std::unique_ptr<CS::GenericMolsNB> m3 = A.space();
-   const ReductionStatistics stats3 =
-     lareduction<CS::GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
-       LAR::rel_npr);
-   assert(eqwt(stats3, stats));
-   const std::unique_ptr<CS::GenericMolsNB> m4 = A.space();
-   const ReductionStatistics stats4 =
-     lareduction<CS::GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
-       LAR::rel_pr);
-   // assert(eqwt(stats4, stats)); YYY
- }
-
- {const CS::Square<2> A;
-  const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-  const GC::IntPropLevel pl = GC::IPL_VAL;
-  const ReductionStatistics stats =
-    lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-      LAR::eag_npr);
-  // assert(stats.props() == 1); XXX needs revision
-  // assert(stats.elimvals() == 2); XXX needs revision
-  assert(stats.prunes() == 0);
-  assert(stats.maxprune() == 0);
-  // assert(stats.probes() == 2); XXX needs revision
-  // assert(stats.rounds() == 1); XXX needs revision
-   /* needs complete revision XXX
-   assert(stats.solc() == 2);
-   assert(stats.leafcount() == 1);
-   const auto list_sol = extract(enc.ldecode(stats.sollist()));
-   assert(eqp(list_sol, {
-              {{{0,1},{1,0}}},
-              {{{1,0},{0,1}}}}));
-   const std::unique_ptr<CS::GenericMolsNB> m2(new CS::GenericMolsNB(enc));
-   const ReductionStatistics stats2 =
-     lareduction<CS::GenericMolsNB>(m2.get(), RT::enumerate_solutions, pl,
-       LAR::eag_pr);
-   assert(eqwt(stats2, stats));
-   const std::unique_ptr<CS::GenericMolsNB> m3(new CS::GenericMolsNB(enc));
-   const ReductionStatistics stats3 =
-     lareduction<CS::GenericMolsNB>(m3.get(), RT::enumerate_solutions, pl,
-       LAR::rel_npr);
-   assert(eqwt(stats3, stats));
-   const std::unique_ptr<CS::GenericMolsNB> m4(new CS::GenericMolsNB(enc));
-   const ReductionStatistics stats4 =
-     lareduction<CS::GenericMolsNB>(m4.get(), RT::enumerate_solutions, pl,
-       LAR::rel_pr);
-   assert(eqwt(stats4, stats));
-   */
+   for (const LAR lar : {LAR::eag_npr,LAR::eag_pr,LAR::rel_npr,LAR::rel_pr}) {
+     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+     const auto pl = GC::IPL_VAL;
+     const ReductionStatistics stats =
+       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+         lar);
+     assert(eqwt(stats, A.stats(lar)));
+   }
   }
 
   {const CS::Square<3> A;

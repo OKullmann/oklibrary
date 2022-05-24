@@ -48,6 +48,8 @@ TODOS:
 #include "PartialSquares.hpp"
 #include "Encoding.hpp"
 #include "Constraints.hpp"
+#include "Options.hpp"
+#include "LookaheadReduction.hpp"
 
 namespace Cases {
 
@@ -56,6 +58,8 @@ namespace Cases {
   using namespace PartialSquares;
   using namespace Encoding;
   using namespace Constraints;
+  using namespace Options;
+  using namespace LookaheadReduction;
 
   namespace FP = FloatingPoint;
 
@@ -91,6 +95,8 @@ namespace Cases {
     return enc;
   }
 
+  using space_ptr_t = std::unique_ptr<GenericMolsNB>;
+
   template <size_t N>
   struct Square {
   private:
@@ -100,11 +106,19 @@ namespace Cases {
       e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
     EncCond enc() const noexcept { return e; };
-    std::unique_ptr<GenericMolsNB> space() const noexcept {
-      std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(e));
+    space_ptr_t space() const noexcept {
+      space_ptr_t m(new GenericMolsNB(e));
       m->status();
       return m;
     };
+    ReductionStatistics stats(const LAR lar) const noexcept {
+      space_ptr_t m = space();
+      ReductionStatistics s(m->V);
+      s.inc_rounds();
+      for (auto i=0; i < FP::pow(N, 3); ++i) s.inc_probes();
+      if (pruning(lar)) s.maxprune(FP::pow(N, 3));
+      return s;
+    }
   };
 
   template <size_t N>
@@ -115,8 +129,8 @@ namespace Cases {
     TrivialLatinSquare(const std::string psstr = "") :
       e(encoding("squares A\nls A\n", psstr, N)) {}
     EncCond enc() const noexcept { return e; };
-    std::unique_ptr<GenericMolsNB> space() const noexcept {
-      std::unique_ptr<GenericMolsNB> m(new GenericMolsNB(e));
+    space_ptr_t space() const noexcept {
+      space_ptr_t m(new GenericMolsNB(e));
       m->status();
       return m;
     };
