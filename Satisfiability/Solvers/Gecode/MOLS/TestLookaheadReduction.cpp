@@ -79,7 +79,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -110,21 +110,24 @@ int main(const int argc, const char* const argv[]) {
 
   {const CS::Square<2> A;
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   const auto pl = GC::IPL_VAL;
-   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, true);
-   assert(eqp(values(ch->V, 0), {0}));
-   assert(eqp(values(ch->V, 1), {0,1}));
-   assert(eqp(values(ch->V, 2), {0,1}));
-   assert(eqp(values(ch->V, 3), {0,1}));
-   const auto st = ch->status();
-   assert(st == Gecode::SS_BRANCH);
-   const auto ch2 = child_node<CS::GenericMolsNB>(m.get(), 0, 0, pl, false);
-   assert(eqp(values(ch2->V, 0), {1}));
-   assert(eqp(values(ch2->V, 1), {0,1}));
-   assert(eqp(values(ch2->V, 2), {0,1}));
-   assert(eqp(values(ch2->V, 3), {0,1}));
-   const auto st2 = ch2->status();
-   assert(st2 == Gecode::SS_BRANCH);
+   for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+     const auto ch =
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+     assert(eqp(values(ch->V, 0), {0}));
+     assert(eqp(values(ch->V, 1), {0,1}));
+     assert(eqp(values(ch->V, 2), {0,1}));
+     assert(eqp(values(ch->V, 3), {0,1}));
+     const auto st = ch->status();
+     assert(st == Gecode::SS_BRANCH);
+     const auto ch2 =
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
+     assert(eqp(values(ch2->V, 0), {1}));
+     assert(eqp(values(ch2->V, 1), {0,1}));
+     assert(eqp(values(ch2->V, 2), {0,1}));
+     assert(eqp(values(ch2->V, 3), {0,1}));
+     const auto st2 = ch2->status();
+     assert(st2 == Gecode::SS_BRANCH);
+   }
   }
 
   {const CS::TrivialLatinSquare<2> A;
