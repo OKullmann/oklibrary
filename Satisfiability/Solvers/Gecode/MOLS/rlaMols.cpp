@@ -219,7 +219,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "24.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -262,9 +262,22 @@ namespace {
     return true;
   }
 
+  const size_t sep_spaces = 6;
   void rh(std::ostream& out) {
-    out << "pl bt bh bo lar \t\t";
-    GBasicSR::rh(out); out << std::endl;
+    Environment::header_policies<RT, PropO, BRT, BHV, GBO, LAR>(out);
+    out << std::string(sep_spaces, ' ');
+    out << "satc t ppc flvs gnds gd larc"; // XXX
+    out << std::endl;
+  }
+
+  void rs(std::ostream& out, const rlaSR& res) {
+    out << std::string(sep_spaces, ' ');
+    res.rs(out); // XXX
+    out << "\n";
+    res.S.out(out, {"vals", "props", "elvals", "prunes",
+                  "mprune", "probes", "rounds", "solc", "leaf",
+                  "t", "qelvals", "qprunes"});
+    out.flush();
   }
 
 }
@@ -325,7 +338,6 @@ int main(const int argc, const char* const argv[]) {
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
   std::cout.flush();
 
-  if (num_runs != 1) rh(std::cout); // XXX
   for (const PropO po : pov) {
     const EncCond enc(ac, ps, prop_level(po));
     for (const BRT brt : brtv)
@@ -337,17 +349,9 @@ int main(const int argc, const char* const argv[]) {
             if (with_log and
               rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
               std::cout << "\n";
-            if (num_runs == 1) rh(std::cout); // XXX
-            using Environment::W0;
-            std::cout << W0(po) << " "
-                      << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " "
-                      << W0(lar) << " \t";
-            res.rs(std::cout); // XXX
-            std::cout << "\n";
-            res.S.out(std::cout, {"vals", "props", "elvals", "prunes",
-                          "mprune", "probes", "rounds", "solc", "leaf",
-                          "t", "qelvals", "qprunes"}); // XXX
-            std::cout.flush();
+            rh(std::cout);
+            Environment::data_policies(std::cout, std::make_tuple(rt, po, brt, bvar, gbo, lar));
+            rs(std::cout, res);
             if (with_file_output)
               Environment::out_line(*out, res.b.list_sol, "\n");
           }

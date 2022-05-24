@@ -184,6 +184,7 @@ namespace Options {
 }
 namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
+    static constexpr const char* sname = "rt";
     static constexpr int size = Options::RTsize;
     static constexpr std::array<const char*, size>
       string {"sats", "satd",
@@ -198,7 +199,8 @@ namespace Environment {
         "enumerate-solutions", "enum-sols-with-log"};
   };
   template <> struct RegistrationPolicies<Options::PropO> {
-    static constexpr const char* name = "propagation";
+    static constexpr const char* name = "propagation-level";
+    static constexpr const char* sname = "pl";
     static constexpr int size = Options::PropOsize;
     static constexpr std::array<const char*, size>
       string {"dom", "def", "val", "bnd"};
@@ -207,6 +209,7 @@ namespace Environment {
   };
   template <> struct RegistrationPolicies<Options::BHV> {
     static constexpr const char* name = "variable-heuristic";
+    static constexpr const char* sname = "bv";
     static constexpr int size = Options::BHVsize;
     static constexpr std::array<const char*, size>
     string {"mindom", "maxdeg", "maxdegdom",
@@ -217,6 +220,7 @@ namespace Environment {
   };
   template <> struct RegistrationPolicies<Options::BRT> {
     static constexpr const char* name = "branching-type";
+    static constexpr const char* sname = "bt";
     static constexpr int size = Options::BRTsize;
     static constexpr std::array<const char*, size>
       string {"binbr", "enumbr"};
@@ -225,6 +229,7 @@ namespace Environment {
   };
   template <> struct RegistrationPolicies<Options::GBO> {
     static constexpr const char* name = "order-heuristic";
+    static constexpr const char* sname = "bo";
     static constexpr int size = Options::GBOsize;
     static constexpr std::array<const char*, size>
       string {"asc", "desc"};
@@ -241,6 +246,7 @@ namespace Environment {
   };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";
+    static constexpr const char* sname = "lar";
     static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
       string {"relpr", "relnpr", "eagpr", "eagnpr"};

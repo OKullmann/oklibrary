@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "27.4.2022",
+        "0.0.3",
+        "24.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCommandLine.cpp",
@@ -37,5 +37,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-
+  assert(Environment::width_policy<RT>() == 8);
+  assert((Environment::width_policy<RT,true>() == 8));
+  assert(Environment::width_policy<PropO>() == 3);
+  assert((Environment::width_policy<PropO,true>() == 3));
+  assert((Environment::width_policy<PropO,false,false>() == 12));
+  assert((Environment::width_policy<PropO,true,false>() == 17));
 }
