@@ -54,6 +54,8 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 /* TODOS:
 
+Compare also with todos in rlaMols.
+
 -2. OZ: Specify *precisely* the four statistics-outputs of Gecode
         ("prop flvs nds h"):
          - "prop" = calls to propagation (does this include the lookahead)?
@@ -100,12 +102,8 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
      - Alternatively one could have a monitoring-depth (see also the OKsolver).
 
 2. Defaults:
-    - We have for propagation-level the strongest, and for variable-choice
-      a weak selection currently as default.
-    - Perhaps we should have, after some experimentation, for all three choices
-      "the best".
-    - Or perhaps just changing the current var-selection-default to using
-      min-dom by default.
+    - Change the order of gc-branching-variables to
+      mindom, maxdeg, maxdegdom, first, mindeg, mindegdom, maxdom.
 
 3. Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
