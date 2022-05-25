@@ -11,8 +11,7 @@ License, or any later version. */
 
 TODOS
 
-0. LAT has only three values (the branching-type isn't part of it)
-    - The branching-type is given by BRT.
+0. Write documentation.
 
 1. Provide the choice of a random branching-variable:
     - This needs a bit of design how to use our random-number-generator.
