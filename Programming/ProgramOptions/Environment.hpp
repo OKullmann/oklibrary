@@ -13,7 +13,7 @@ License, or any later version. */
         class RegistrationPolicies
       that is, providing a partial specialisation, which includes
       strings for recognition in short and long form, and optionally
-      names for the whole policy
+      names for the whole policy (short and long form)
 
      - class RegistrationPolicies (registration of size and strings)
      - function-template code(Policy) to return the underlying integral-value.
@@ -34,7 +34,17 @@ License, or any later version. */
        resp. policy-form of p
 
      - out_vecpol(out, vec) outputs a vector vec of policy-values,
-       with the name of the policy as header.
+       with the name of the policy as header
+
+     - width_policy<Policy, with_header, short_form>() returns the maximal
+       size of policy-value-names (possibly including the header-names,
+       possibly using the long form)
+     - header_policies<P1, ...>(out, seps) prints the short names of a list
+       of policies, with seps-many spaces separarting the items, using
+       the maximal width of all values for the field-widths
+     - data_policies(out, tuple<P1, ...>) accordingly prints the values
+       of a list of policy-values (mixed types); "header" and "data" here
+       refer to the use in R-style data-output.
 
 
      Reading either for a single policy value, with strict checking, or
@@ -330,7 +340,6 @@ namespace Environment {
     }
   }
 
-  // Print a header for a list of policies:
   template <std::size_t I, typename... T>
   void helper_hp(std::ostream& out,
                  const std::string::size_type seps) {
@@ -351,6 +360,7 @@ namespace Environment {
       helper_hp<I+1, T...>(out, seps);
     }
   }
+  // Print a header for a list of policies (all short names):
   template <typename... T>
   void header_policies(std::ostream& out,
                        const std::string::size_type seps = 1) {
