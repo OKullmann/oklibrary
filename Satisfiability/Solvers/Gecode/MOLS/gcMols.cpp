@@ -14,7 +14,7 @@ License, or any later version. */
    - "t" is the solver-time.
    - "prop" is the number of calls of the function propagate(). This function
      performs contraint propagation for a set of variables and a constraint.
-     Details are described in Section I of the documentation.
+     Details are described in sections I and II of the documentation.
    - "flvs" is the number of unsatisfiable leaves in the backtracking tree
      -- but what is the "backtracking tree"?
    - "nds" is the number of nodes in the backtracking tree
