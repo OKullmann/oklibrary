@@ -76,7 +76,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.12",
+        "0.5.13",
         "25.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -106,7 +106,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const CS::Square<2> A;
+  {const CS::Square A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -119,7 +119,7 @@ int main(const int argc, const char* const argv[]) {
      assert(st == GC::SS_BRANCH);
    }
   }
-  {const CS::Square<2> A;
+  {const CS::Square A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -133,7 +133,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::TrivialLatinSquare<2> A;
+  {const CS::TrivialLatinSquare A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -146,7 +146,7 @@ int main(const int argc, const char* const argv[]) {
      assert(st == GC::SS_SOLVED);
    }
   }
-  {const CS::TrivialLatinSquare<2> A;
+  {const CS::TrivialLatinSquare A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -160,7 +160,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<3> A;
+  {const CS::Square A(3);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -178,7 +178,7 @@ int main(const int argc, const char* const argv[]) {
      assert(st == GC::SS_BRANCH);
    }
   }
-  {const CS::Square<3> A;
+  {const CS::Square A(3);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -197,7 +197,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -215,7 +215,7 @@ int main(const int argc, const char* const argv[]) {
      assert(st == GC::SS_BRANCH);
    }
   }
-  {const CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -234,7 +234,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<3> A("A\n* * *\n* 1 *\n* * *\n");
+  {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -252,7 +252,7 @@ int main(const int argc, const char* const argv[]) {
      assert(st == GC::SS_BRANCH);
    }
   }
-  {const CS::Square<3> A("A\n* * *\n* 1 *\n* * *\n");
+  {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
@@ -271,7 +271,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<2> A;
+  {const CS::Square A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -285,7 +285,7 @@ int main(const int argc, const char* const argv[]) {
        GC::SS_BRANCH);
    }
   }
-  {const CS::Square<2> A;
+  {const CS::Square A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -301,7 +301,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::TrivialLatinSquare<2> A;
+  {const CS::TrivialLatinSquare A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -315,7 +315,7 @@ int main(const int argc, const char* const argv[]) {
        GC::SS_SOLVED);
    }
   }
-  {const CS::TrivialLatinSquare<2> A;
+  {const CS::TrivialLatinSquare A(2);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -335,7 +335,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<3> A;
+  {const CS::Square A(3);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -359,7 +359,7 @@ int main(const int argc, const char* const argv[]) {
        GC::SS_BRANCH);
    }
   }
-  {const CS::Square<3> A;
+  {const CS::Square A(3);
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -395,7 +395,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -419,7 +419,7 @@ int main(const int argc, const char* const argv[]) {
        GC::SS_BRANCH);
    }
   }
-  {const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -445,7 +445,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -469,7 +469,7 @@ int main(const int argc, const char* const argv[]) {
        GC::SS_SOLVED);
    }
   }
-  {const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      ReductionStatistics stats0(m->V);
@@ -504,7 +504,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square<2> A;
+  {const CS::Square A(2);
    for (const LAR lar : ET::allvals<LAR>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto pl = GC::IPL_VAL;
@@ -514,7 +514,7 @@ int main(const int argc, const char* const argv[]) {
      assert(eqwt(stats, A.laredstats(lar)));
    }
   }
-  {const CS::Square<3> A;
+  {const CS::Square A(3);
    for (const LAR lar : ET::allvals<LAR>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto pl = GC::IPL_VAL;
@@ -526,7 +526,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
+   const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
@@ -548,7 +548,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare<3> A("A\n* * *\n* 1 *\n* * *\n");
+   const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,

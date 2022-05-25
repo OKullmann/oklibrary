@@ -96,14 +96,15 @@ namespace Cases {
   }
 
   using space_ptr_t = std::unique_ptr<GenericMolsNB>;
+  using size_t = Conditions::size_t;
 
-  template <size_t N>
   struct Square {
   private:
+    size_t N;
     EncCond e;
   public:
-    Square(const std::string psstr = "") :
-      e(encoding("squares A\n", psstr, N)) {}
+    Square(const size_t N_, const std::string psstr = "") :
+      N(N_), e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
     EncCond enc() const noexcept { return e; };
     space_ptr_t space() const noexcept {
@@ -121,13 +122,13 @@ namespace Cases {
     }
   };
 
-  template <size_t N>
   struct TrivialLatinSquare {
   private:
+    size_t N;
     EncCond e;
   public:
-    TrivialLatinSquare(const std::string psstr = "") :
-      e(encoding("squares A\nls A\n", psstr, N)) {}
+    TrivialLatinSquare(const size_t N_, const std::string psstr = "") :
+      N(N_), e(encoding("squares A\nls A\n", psstr, N)) {}
     EncCond enc() const noexcept { return e; };
     space_ptr_t space() const noexcept {
       space_ptr_t m(new GenericMolsNB(e));

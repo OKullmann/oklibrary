@@ -26,7 +26,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.12",
+        "0.0.13",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -43,47 +43,47 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {CS::Square<2> A;
+  {CS::Square A(2);
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
    assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(2, 3));
   }
-  {CS::Square<2> A("A\n0 *\n* *\n");
+  {CS::Square A(2, "A\n0 *\n* *\n");
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
   }
 
-  {CS::Square<3> A;
+  {CS::Square A(3);
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
    assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(3, 3));
   }
-  {CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
+  {CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
   }
 
-  {CS::TrivialLatinSquare<2> A;
+  {CS::TrivialLatinSquare A(2);
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 4);
    assert(A.space() != nullptr);
   }
-  {CS::TrivialLatinSquare<2> A("A\n0 *\n* *\n");
+  {CS::TrivialLatinSquare A(2, "A\n0 *\n* *\n");
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 4);
    assert(A.space() != nullptr);
   }
 
-  {CS::TrivialLatinSquare<3> A;
+  {CS::TrivialLatinSquare A(3);
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
   }
-  {CS::TrivialLatinSquare<3> A("A\n0 * *\n* * *\n* * *\n");
+  {CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
