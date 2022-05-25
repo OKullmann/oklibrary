@@ -159,7 +159,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
+        "0.11.4",
         "25.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -205,7 +205,7 @@ namespace {
 
   constexpr size_t sep_spaces = 6;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5};
+  const Environment::wvec_t widths{9, 10, 12, 11, 11, 6};
 
   void rh(std::ostream& out) {
     Environment::header_policies<RT, PropO, BRT, BHV, GBO>(out);
