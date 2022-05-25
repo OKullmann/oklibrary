@@ -17,6 +17,19 @@ Examples:
 
 /* BUGS:
 
+0. Branching width seems wrong:
+    - With
+        assert(oldsize == w-1);
+      activated in RlaBranching::commit, we get an assertion:
+MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" uniqued dom enum maxdeg asc relpr 1
+rlaMols_debug: LookaheadBranching.hpp:351: virtual Gecode::ExecStatus LookaheadBranching::RlaBranching::commit(Gecode::Space&, const Gecode::Choice&, unsigned int): Assertion `oldsize == w-1' failed.
+
+Printing the values shows that in this case we have oldsize == w (and thus
+one value is left out for branching).
+
+This is for enum-branching (with bin-branching no assertions).
+
+
 1. Wrong count:
 
 MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr mindom asc relpr 12
@@ -196,7 +209,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "25.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

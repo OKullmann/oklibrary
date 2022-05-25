@@ -337,15 +337,20 @@ namespace LookaheadBranching {
       const C& c = static_cast<const C&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
-      const int v = c.br[0];
-      assert(v >= 0);
+      const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
       assert(v < node->V.size());
-      if (w == 2)
+      [[maybe_unused]] const auto oldsize = node->V[v].size();
+      assert(oldsize >= 2);
+      if (w == 2) {
         GC::rel(s, node->V[v], a==0 ? GC::IRT_EQ : GC::IRT_NQ, c.br[1]);
+        assert(node->V[v].size() == (a==0 ? 1 : oldsize-1));
+      }
       else {
         assert(a+1 < w);
+        // assert(oldsize == w-1); ???
         GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
+        assert(node->V[v].size() == 1);
       }
       return GC::ES_OK;
     }
