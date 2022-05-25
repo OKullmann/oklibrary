@@ -75,8 +75,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "24.5.2022",
+        "0.5.8",
+        "25.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -87,6 +87,7 @@ namespace {
   using namespace Solvers;
   using namespace GcVariables;
 
+  namespace ET = Environment;
   namespace CS = Cases;
   namespace GC = Gecode;
 
@@ -105,7 +106,7 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {const CS::Square<2> A;
-   for (const PropO po : {PropO::dom, PropO::def, PropO::val, PropO::bnd}) {
+   for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
        child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
