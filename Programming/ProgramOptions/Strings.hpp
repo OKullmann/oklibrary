@@ -12,12 +12,15 @@ License, or any later version. */
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
 
+    Filename handling:
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
 
+    General string facilities:
     - replace(string, char, char), remove(string, char)
     - cutoff(string, char)
 
+    Splitting strings:
     - typedef size_t
     - typedef tokens_t = vector<string>
 
@@ -29,6 +32,7 @@ License, or any later version. */
     - for char2= ' ' :
       split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
 
+    Handling of spaces:
     - isspace(char)
     - onlyspaces(string), starts_with_space(string), ends_with_space(string)
     - remove_spaces (modifying or not),
@@ -38,26 +42,30 @@ License, or any later version. */
       replaces whitespace-characters, contracting adjacent ones and
       eliminating leading and trailing ones
 
+    File access:
     - get_content(std::istream), get_content(std:filesystem::path)
     - get_lines(std::istream), get_lines(std:filesystem::path)
 
+    Alphanumerical sorting of strings:
     - class CDstr ("component digit string") for the "digit-components" of a
       string, which either are all-digit or none-digit
     - class DecompStr contains the decomposition of a string into these
       components
     - comparator-class AlphaNum for alphanumerical comparison of strings.
 
+    Indexing strings:
     - tyepdefs index_vec_t, index_map_t, indstr_t
       for indexing strings
     - valid(indstr_t) checks whether an indexing is correct
     - indexing_strings(Iterator, Iterator, bool ignore_duplicates)
       -> indstr_t.
 
+    Formatted output:
     - out_line(ostream&, RAN R, sep, width)
-    - out_lines(ostream& RAN R, sep1, sep2, width)
-
+    - out_lines(ostream&, RAN R, sep1, sep2, width)
+    - print1d(ostream&, tuple<T1, ...>, width_vector, seps)
     - printsize(ostream&, X x): number of characters printed with x
-    - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix
+    - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix.
 
 
 TODOS:
@@ -461,6 +469,27 @@ namespace Environment {
   }
 
 
+  // Print a tuple of values, with given field-widths (recycled) and number of
+  // separating spaces:
+  typedef std::vector<std::streamsize> wvec_t;
+  template <std::size_t I = 0, typename... T>
+  void print1d(std::ostream& out,
+               const std::tuple<T...>& t,
+               const wvec_t& v,
+               const std::string::size_type seps = 1) {
+    constexpr std::size_t size = sizeof...(T);
+    if constexpr (size == 0) return;
+    static_assert(I <= size);
+    if constexpr (I < size) {
+      if constexpr (I != 0) out << std::string(seps, ' ');
+      const std::streamsize w = v.empty() ? 0 : v[I % v.size()];
+      if (w) out.width(w);
+      out << std::get<I>(t);
+      print1d<I+1>(out, t, v, seps);
+    }
+  }
+
+  // The printing-size of object x:
   template <typename X>
   std::string::size_type printsize(std::ostream& out, const X& x) {
     std::ostringstream ss; ss.flags(out.flags());
@@ -472,7 +501,7 @@ namespace Environment {
   // for that column, plus seps many spaces for separation:
   template <class VEC2d>
   void print2dformat(std::ostream& out, const VEC2d& M,
-                     std::string::size_type seps = 1,
+                     const std::string::size_type seps = 1,
                      const tokens_t& header = {}) {
     if (M.empty() and header.empty()) return;
     typedef std::string::size_type size_t;
