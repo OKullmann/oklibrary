@@ -7,6 +7,8 @@ License, or any later version. */
 
 /* Strings describing the environment
 
+   Namespace Environment, abbreviated "ET".
+
    General machinery for handling policy enumerations:
 
      "Policies" (typically scoped enums) "register" with
@@ -212,6 +214,8 @@ namespace Environment {
         are used in the translation (for a matching string, the corresponding
         index is used to construct an element of P).
       - For output also "estring" can be provided, the long form.
+      - The int "size" contains the size of P.
+      - "name" and "sname" provide long and short names of P (optionally).
 
      So if P is a scoped enum, then the indices must be consecutively 0, ...,
      and they must be the indices used for the static "string".
@@ -221,6 +225,16 @@ namespace Environment {
   template<typename P>
   constexpr auto code(P p) {
     return static_cast<typename std::underlying_type<P>::type>(p);
+  }
+
+  // For running through all values of a policy:
+  template <typename Policy>
+  constexpr auto allvals() noexcept {
+    constexpr auto size = RegistrationPolicies<Policy>::size;
+    typedef std::array<Policy, RegistrationPolicies<Policy>::size> a_t;
+    a_t list;
+    for (int i = 0; i < size; ++i) list[i] = Policy(i);
+    return list;
   }
 
   // Wrappers for output-streaming of all values:
