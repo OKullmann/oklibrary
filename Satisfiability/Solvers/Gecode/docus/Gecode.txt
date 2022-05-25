@@ -19,24 +19,48 @@ https://www.gecode.org/users-archive/
 https://www.gecode.org/doc-latest/reference/
 
 
-First, two main Gecode classes, Space and Brancher, are described.
+Variable, constraint, and constraint propagation are treated in a standard way
+as it is done in Constraint Programming.
+
+First, three main Gecode classes, Propagator, Space and Brancher, are described.
 Then it is explained how objects of the class Space correspond to nodes during
 the search performed by a search engine. Finally, the memory management is
 discussed.
 
-I. Space
+I. Propagator
 
-Space is one of the main Gecode classes. Among its data members there are
-variables, to which constraints can be added. Variables and constraints are
-treated in a standard way as it is done in Constraint Programming.
+Propagator performs constraint propagation. 
 
-Hereinafter, Space is a Gecode class, while space is an object of Space.
+Hereinafter, Propagator is a Gecode class, while propagator is an object of
+the class Propagator.
+
+Each propagator is subscribed to a set of variables and performs constraint
+propagation for some constraint. When domain of any subscribed variable is
+changed, the function propagate() of the corresponding propagator is called.
+This function removes values from variables that are in conflict with the
+constraint.
+
+propagators which are needed to be executed because of changed domains
+of their subscribed variables are called *scheduled propagators*.
+Scheduled propagators form *queue of scheduled propagators*.
+
+
+II. Space
+
+Space contains variables, to which constraints can be added.
+
+Hereinafter, Space is a Gecode class, while space is an object of the class
+Space.
 
 Main Space member functions are status() and clone().
 
 a) status()
-Propagates a space until fixpoint (when no more propagations are possible).
-There are three possible return values:
+Calls propagate() for all scheduled propagators from the queue. It is possible
+that new propagators are scheduled as a result of propagations, in this case
+they are added to the queue. Propagations are executed until the queue is
+empty.
+
+There are three possible return values of the status() function:
 1) SS_FAILED if the space is failed (i.e. current assignments conflict with
 the constraints);
 2) SS_SOLVED if a solution is found;
@@ -53,7 +77,7 @@ inherited from the class Space (e.g. SendMoreMoney). The copy() function must
 copy all variables.
 
 
-II. Brancher
+III. Brancher
 
 This class implements branchings for spaces.
 
@@ -72,7 +96,7 @@ on the cloned space. The commit() function is followed by status()
 to reach a fixpoint for the space.
 
 
-III. Backtracking tree
+IV. Backtracking tree
 
 During the search, a backtracking tree can be handled, where nodes correspond
 to spaces.
@@ -85,7 +109,7 @@ of the Space status() function (see above):
 3) otherwise (an inner node, further branching is needed).
 
 
-IV. Search engine
+V. Search engine
 
 First, an initial space is given to engine to initialise it. The engine calls
 propagation via status(), and as a result the root node of the backtracking
@@ -103,7 +127,7 @@ ones are performed for every child node.
 The default search engine is depth-first search, but branch-and-bound
 is also available.
 
-V. Memory management
+VI. Memory management
 
 Gecode::Brancher does not have a virtual destructor.
 
