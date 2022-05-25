@@ -161,32 +161,6 @@ val enumbr mindom asc relpr 	enum 57 0.000 47 9 25 4
 
 Compare also with todos in gcMols.
 
-0. Additional to the gecode-statistics, our statistics on the reduction
-   need to be provided:
-   - It seems best, given that there are quite a lot of numbers, to have every
-     block of statistics (one "run") always having the R-header also for the
-     general statistics.
-   - And this perhaps with a fixed standardised width per column (so that
-     a kind of visual anchor is created).
-   - To this general statistics the number of la-reduction-calls needs to be
-     added; call it "larc".
-   - General statistics:
-     - "pl": better "ppl" ("propagation-level"), w=3
-     - "bt": perhaps "binbr" -> "bin", "enumbr" -> "enum", and then w=4
-     - "bh": petter "bv" ("branching variable"), w=9
-     - "bo": w=4
-     - "lar": w=6
-     - perhaps say 6 spaces separation to the next group
-     - "rt": w=8
-     - "sat": perhaps "satc", w = 9
-     - "t": w=10 (rounded to 3 decimal places)
-     - "prop": perhaps "ppc" ("propagation-calls"), w=10
-     - "flvs": w=9
-     - "nds": better "gnds" ("gecode-nodes), w=9
-     - "h": better "gd" ("gecode-depth"), w=5
-     - perhaps say 3 spaces separation to next group
-     - "larc": w=9.
-
 1. A customised brancher with Gecode's default branching strategies is needed:
    - DONE Handled by LookaheadBranching::RlaBranching.
    - Check via unit tests that the solver and gcMols give equal results. OZ
@@ -219,8 +193,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "24.5.2022",
+        "0.5.2",
+        "25.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -262,22 +236,33 @@ namespace {
     return true;
   }
 
-  const size_t sep_spaces = 6;
+  constexpr size_t sep_spaces = 6;
+  constexpr size_t prec = 3;
+  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9};
+
   void rh(std::ostream& out) {
     Environment::header_policies<RT, PropO, BRT, BHV, GBO, LAR>(out);
     out << std::string(sep_spaces, ' ');
-    out << "satc t ppc flvs gnds gd larc"; // XXX
-    out << std::endl;
+    Environment::print1d(out,
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc"),
+      widths);
+    out << "\n";
   }
 
   void rs(std::ostream& out, const rlaSR& res) {
+    const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
-    res.rs(out); // XXX
+    Environment::print1d(out,
+      std::make_tuple(res.b.sol_found, res.ut,
+                      res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth,
+                      res.S.N()),
+      widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",
                   "mprune", "probes", "rounds", "solc", "leaf",
                   "t", "qelvals", "qprunes"});
     out.flush();
+    FloatingPoint::undo(out, state);
   }
 
 }
