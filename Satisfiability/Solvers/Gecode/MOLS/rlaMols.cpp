@@ -161,6 +161,9 @@ val enumbr mindom asc relpr 	enum 57 0.000 47 9 25 4
 
 Compare also with todos in gcMols.
 
+0. OZ: see especially the todo on the  the statistics-output of Gecode
+   in gcMols
+
 1. A customised brancher with Gecode's default branching strategies is needed:
    - DONE Handled by LookaheadBranching::RlaBranching.
    - Check via unit tests that the solver and gcMols give equal results. OZ
@@ -335,7 +338,8 @@ int main(const int argc, const char* const argv[]) {
               rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
               std::cout << "\n";
             rh(std::cout);
-            Environment::data_policies(std::cout, std::make_tuple(rt, po, brt, bvar, gbo, lar));
+            Environment::data_policies(std::cout,
+              std::make_tuple(rt, po, brt, bvar, gbo, lar));
             rs(std::cout, res);
             if (with_file_output)
               Environment::out_line(*out, res.b.list_sol, "\n");
