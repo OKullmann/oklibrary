@@ -29,7 +29,7 @@ discussed.
 
 I. Propagator
 
-Propagator performs constraint propagation. 
+Propagator performs constraint propagation.
 
 Hereinafter, Propagator is a Gecode class, while propagator is an object of
 the class Propagator.
