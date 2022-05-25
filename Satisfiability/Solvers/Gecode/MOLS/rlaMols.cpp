@@ -22,7 +22,7 @@ Examples:
         assert(oldsize == w-1);
       activated in RlaBranching::commit, we get an assertion:
 MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" uniqued dom enum maxdeg asc relpr 1
-rlaMols_debug: LookaheadBranching.hpp:351: virtual Gecode::ExecStatus LookaheadBranching::RlaBranching::commit(Gecode::Space&, const Gecode::Choice&, unsigned int): Assertion `oldsize == w-1' failed.
+rlaMols_debug: LookaheadBranching.hpp:353: virtual Gecode::ExecStatus LookaheadBranching::RlaBranching::commit(Gecode::Space&, const Gecode::Choice&, unsigned int): Assertion `oldsize == w-1' failed.
 
 Printing the values shows that in this case we have oldsize == w (and thus
 one value is left out for branching).

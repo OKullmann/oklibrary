@@ -62,6 +62,7 @@ namespace GcVariables {
     assert(v >= 0 and v < V.size());
     values_t res;
     for (GC::IntVarValues j(V[v]); j(); ++j) res.push_back(j.val());
+    assert(res.size() == size_t(V[v].size()));
     return res;
   }
   typedef std::vector<int> solutions_t;

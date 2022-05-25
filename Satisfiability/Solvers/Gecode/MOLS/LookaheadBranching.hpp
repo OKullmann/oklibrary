@@ -322,10 +322,12 @@ namespace LookaheadBranching {
         return new C(*this,
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
       case OP::BRT::enumb : {
-        GV::values_t br; br.reserve(values.size()+1);
+        const size_t size = values.size();
+        GV::values_t br; br.reserve(size+1);
         if (P.bo == OP::GBO::asc) br = std::move(values);
         else br.assign(values.rbegin(), values.rend());
         br.insert(br.begin(), v);
+        assert(br.size() == size+1);
         return new C(*this, br);
       }
       default : assert(false); return nullptr;}
