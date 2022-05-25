@@ -321,7 +321,7 @@ namespace LookaheadBranching {
       case OP::BRT::bin :
         return new C(*this,
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
-      case OP::BRT::enumb : {
+      case OP::BRT::enu : {
         const size_t size = values.size();
         assert(size >= 2);
         GV::values_t br; br.reserve(size+1);
