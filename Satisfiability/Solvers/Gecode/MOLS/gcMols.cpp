@@ -58,11 +58,16 @@ Compare also with todos in rlaMols.
 
 -2. OZ: Specify *precisely* the four statistics-outputs of Gecode
         ("prop flvs nds h"):
-         - "prop" = calls to propagation (does this include the lookahead)?
+         - "ppc" = calls to propagation (does this include the lookahead)?
          - "flvs": "failed leaves" -- what are they?
-         - "nds": does every branching created the corresponding "nodes"?
-         - "h": how does this relate to the backtracking-tree (maximal
+         - "gnds": does every branching created the corresponding "nodes"?
+         - "gd": how does this relate to the backtracking-tree (maximal
            size of call-stack)?
+         - For rlaMols: it seems we always have
+             larc + flvs = gnds.
+           From that follows that
+             leaf = (flvs + solc) / larc
+           but this does not hold?
 
 -1. When catching SIGUSR1, output the current results:
      - According to
@@ -154,8 +159,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
-        "24.5.2022",
+        "0.11.1",
+        "25.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -198,9 +203,28 @@ namespace {
     return true;
   }
 
+  constexpr size_t sep_spaces = 6;
+  constexpr size_t prec = 3;
+  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5};
+
   void rh(std::ostream& out) {
-    out << "pl bt bh bo \t";
-    GBasicSR::rh(out); out << std::endl;
+    Environment::header_policies<RT, PropO, BRT, BHV, GBO>(out);
+    out << std::string(sep_spaces, ' ');
+    Environment::print1d(out,
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd"),
+      widths);
+    out << std::endl;
+  }
+
+  void rs(std::ostream& out, const GBasicSR& res) {
+    const auto state = FloatingPoint::fixed_width(out, prec);
+    out << std::string(sep_spaces, ' ');
+    Environment::print1d(out,
+      std::make_tuple(res.b.sol_found, res.ut,
+        res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth),
+      widths);
+    out.flush();
+    FloatingPoint::undo(out, state);
   }
 
 }
@@ -271,10 +295,9 @@ int main(const int argc, const char* const argv[]) {
               rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
             std::cout << "\n";
           if (num_runs == 1) rh(std::cout);
-          using Environment::W0;
-          std::cout << W0(po) << " "
-                    << W0(brt) << " " << W0(bvar) << " " << W0(gbo) << " \t";
-          res.rs(std::cout);
+          Environment::data_policies(std::cout,
+            std::make_tuple(rt, po, brt, bvar, gbo));
+          rs(std::cout, res);
           std::cout << std::endl;
           if (with_file_output)
             Environment::out_line(*out, res.b.list_sol, "\n");
