@@ -323,6 +323,7 @@ namespace LookaheadBranching {
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
       case OP::BRT::enumb : {
         const size_t size = values.size();
+        assert(size >= 2);
         GV::values_t br; br.reserve(size+1);
         if (P.bo == OP::GBO::asc) br = std::move(values);
         else br.assign(values.rbegin(), values.rend());
@@ -335,7 +336,9 @@ namespace LookaheadBranching {
     GC::Choice* choice(const GC::Space&, GC::Archive&) {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
     }
-    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0, const unsigned a) {
+
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
+                          const unsigned a) {
       const C& c = static_cast<const C&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
