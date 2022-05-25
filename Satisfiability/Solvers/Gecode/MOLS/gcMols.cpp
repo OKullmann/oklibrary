@@ -56,6 +56,11 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 Compare also with todos in rlaMols.
 
+-3. For mode "count", why do we get different trees (numbers of nodes etc.)
+    between "asc" and "desc"?
+     - All branches need to be explored, and there is no learning, thus
+       the counts should be equal?!?
+
 -2. OZ: Specify *precisely* the four statistics-outputs of Gecode
         ("prop flvs nds h"):
          - "ppc" = calls to propagation (does this include the lookahead)?
