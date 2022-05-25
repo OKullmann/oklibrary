@@ -71,12 +71,13 @@ TODOS:
 #include "Options.hpp"
 #include "Solvers.hpp"
 #include "GcVariables.hpp"
+#include "Conditions.hpp"
 #include "Cases.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.13",
+        "0.5.14",
         "25.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -90,10 +91,12 @@ namespace {
 
   namespace ET = Environment;
   namespace CS = Cases;
+  namespace CD = Conditions;
   namespace GC = Gecode;
 
   typedef Options::RT RT;
   using listsol_t = Solvers::listsol_t;
+  using size_t = CD::size_t;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -504,24 +507,16 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::Square A(2);
-   for (const LAR lar : ET::allvals<LAR>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto pl = GC::IPL_VAL;
-     const ReductionStatistics stats =
-       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-         lar);
-     assert(eqwt(stats, A.laredstats(lar)));
-   }
-  }
-  {const CS::Square A(3);
-   for (const LAR lar : ET::allvals<LAR>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto pl = GC::IPL_VAL;
-     const ReductionStatistics stats =
-       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-         lar);
-     assert(eqwt(stats, A.laredstats(lar)));
+  {for (size_t N = 2; N <= 5; ++N) {
+     const CS::Square A(N);
+     for (const LAR lar : ET::allvals<LAR>()) {
+       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+       const auto pl = GC::IPL_VAL;
+       const ReductionStatistics stats =
+         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+           lar);
+       assert(eqwt(stats, A.laredstats(lar)));
+     }
    }
   }
 
