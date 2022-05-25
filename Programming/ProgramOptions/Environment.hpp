@@ -145,7 +145,12 @@ For our makefiles, recommend is to use
 
 TODOS:
 
-1. Make width_policy constevel
+0. Shouldn't the "size" of RegistrationPolicies<P> be std::size_t ?
+    - std::array uses std::size_t throughout.
+    - The motivation perhaps is that the default underlying integral type
+      of scoped enums is int, which is also the type of the size of argc.
+
+1. Make width_policy consteval:
     - C++20 supports "transient" string-construction in constexpr-functions.
     - gcc 10.3 can't do that yet.
 
