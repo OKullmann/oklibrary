@@ -26,7 +26,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.11",
+        "0.0.12",
         "24.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -47,7 +47,7 @@ int main(const int argc, const char* const argv[]) {
    assert(A.enc().N == 2);
    assert(A.enc().num_vars == 2 * 2);
    assert(A.space() != nullptr);
-   assert(A.stats(LAR::eag_pr).probes() == FP::pow(2, 3));
+   assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(2, 3));
   }
   {CS::Square<2> A("A\n0 *\n* *\n");
    assert(A.enc().N == 2);
@@ -59,7 +59,7 @@ int main(const int argc, const char* const argv[]) {
    assert(A.enc().N == 3);
    assert(A.enc().num_vars == 3 * 3);
    assert(A.space() != nullptr);
-   assert(A.stats(LAR::eag_pr).probes() == FP::pow(3, 3));
+   assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(3, 3));
   }
   {CS::Square<3> A("A\n0 * *\n* * *\n* * *\n");
    assert(A.enc().N == 3);

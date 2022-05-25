@@ -111,7 +111,7 @@ namespace Cases {
       m->status();
       return m;
     };
-    ReductionStatistics stats(const LAR lar) const noexcept {
+    ReductionStatistics laredstats(const LAR lar) const noexcept {
       space_ptr_t m = space();
       ReductionStatistics s(m->V);
       s.inc_rounds();
