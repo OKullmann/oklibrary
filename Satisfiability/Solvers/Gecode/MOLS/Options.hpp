@@ -130,10 +130,10 @@ namespace Options {
 
   // The branching-type:
   enum class BRT {
-    binbr = 0, // binary branching
-    enumbr = 1 // enumerative branching
+    bin = 0, // binary branching
+    enumb = 1 // enumerative branching
   };
-  constexpr int BRTsize = int(BRT::enumbr) + 1;
+  constexpr int BRTsize = int(BRT::enumb) + 1;
   // The Gecode-branching-orders:
   enum class GBO {
     asc = 0, // ascending
@@ -151,7 +151,7 @@ namespace Options {
   };
   constexpr int BHOsize = int(BHO::enumvalmax) + 1;
   constexpr BHO translate(const BRT bt, const GBO bo) noexcept {
-    if (bt == BRT::binbr)
+    if (bt == BRT::bin)
       if (bo == GBO::asc) return BHO::binvalmin;
       else return BHO::binvalmax;
     else
@@ -223,7 +223,7 @@ namespace Environment {
     static constexpr const char* sname = "bt";
     static constexpr int size = Options::BRTsize;
     static constexpr std::array<const char*, size>
-      string {"binbr", "enumbr"};
+      string {"bin", "enum"};
     static constexpr std::array<const char*, size>
       estring {"binary-branching", "enumerative-branching"};
   };

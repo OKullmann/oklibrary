@@ -318,10 +318,10 @@ namespace LookaheadBranching {
       const int v = bv(s, P.bv);
       GV::values_t values = GV::values(s.V, v);
       switch (P.bt) {
-      case OP::BRT::binbr :
+      case OP::BRT::bin :
         return new C(*this,
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
-      case OP::BRT::enumbr : {
+      case OP::BRT::enumb : {
         GV::values_t br; br.reserve(values.size()+1);
         if (P.bo == OP::GBO::asc) br = std::move(values);
         else br.assign(values.rbegin(), values.rend());
@@ -614,19 +614,6 @@ namespace LookaheadBranching {
 
   };
 
-  template <class ModSpace>
-  inline void post_la_branching(ModSpace& s, GC::IntVarArgs V,
-                                const OP::BRT brt) noexcept {
-    GC::Home home = s;
-    assert(not home.failed());
-    const IntViewArray x(home, V);
-    if (brt == OP::BRT::binbr) {
-      BinLookahead<ModSpace>::post(home, x);
-    }
-    else if (brt == OP::BRT::enumbr) {
-      // XXX
-    }
-  }
 
 }
 
