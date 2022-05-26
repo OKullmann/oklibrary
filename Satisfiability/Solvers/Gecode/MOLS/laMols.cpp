@@ -150,6 +150,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  /*
   const size_t N = read_N(argc, argv);
   const auto [ac, name_ac] = read_ac(argc, argv);
   const auto [ps, name_ps] = read_ps(argc, argv, N);
@@ -192,5 +193,5 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n# lookahead-weights: ";
   Environment::out_line(std::cout, wghts);
   std::cout << std::endl;
-
+  */
 }
