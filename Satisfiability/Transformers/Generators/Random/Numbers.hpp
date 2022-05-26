@@ -526,12 +526,8 @@ namespace RandGen {
       return FloatingPoint::float80(nom_) / den_;
     }
 
-    friend constexpr bool operator ==(const Prob64 lhs, const Prob64 rhs) noexcept {
-      return lhs.nom_ == rhs.nom_ and lhs.den_ == rhs.den_;
-    }
-    friend constexpr bool operator !=(const Prob64 l, const Prob64 r) noexcept {
-      return not (l == r);
-    }
+    friend constexpr bool operator ==(const Prob64&, const Prob64&)
+      noexcept = default;
 
   };
   static_assert(pair64(Prob64(4,16)) == pair64(1,4));
