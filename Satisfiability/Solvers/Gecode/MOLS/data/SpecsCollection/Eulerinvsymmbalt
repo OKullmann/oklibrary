@@ -9,6 +9,11 @@
 # dom enumbr maxdegdom desc 	satd 1 1008076.556 1387642038551 9480287163 17871790739 104
 # real	1531m11.511s user	16801m16.566s sys	368m37.636s
 
+# MOLS> ./rlaMols 8 data/SpecsCollection/Eulerinvsymmbalt "" satd def enu first desc relpr 1 1
+#    N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc
+#    8     satd def enu     first desc  relpr    1               1     33.728     533106     14282     32650    27     18368
+
+
 squares A B aux
 red A
 rred B aux
