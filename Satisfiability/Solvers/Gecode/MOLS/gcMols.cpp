@@ -61,11 +61,11 @@ Compare also with todos in rlaMols.
 -4. Add parameters for "cloning-distance" and "cloning-adaptation":
      - This are the variables res.c_d, res.a_d = 1 for the
        make_options functions;
-     - We can use value "0" for "ignore" for c_d, or we use the empty
+     - DONE We can use value "0" for "ignore" for c_d, or we use the empty
        sequence. But having 0 in a sequence is useful.
      - Perhaps we combine these two (related) parameters into one, using
        "|" for separation (if only one component, then this means c_d).
-     - The c_d-component is a sequence.
+     - DONE The c_d-component is a sequence.
      - It seems sensible to use rations 0 <= r <= 1 for a_d, where then
          a_d = r * c_d.
      - For this RandGen::Prob64 (in Random/Numbers.hpp) can be used.
