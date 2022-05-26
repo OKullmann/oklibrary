@@ -59,12 +59,30 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 Compare also with todos in rlaMols.
 
 -4. Add parameters for "cloning-distance" and "cloning-adaptation":
-     - This are the variables res.c_d, ess.a_d = 1 for the
+     - This are the variables res.c_d, res.a_d = 1 for the
        make_options functions;
-     - We can use value "0" for "ignore".
+     - We can use value "0" for "ignore" for c_d, or we use the empty
+       sequence. But having 0 in a sequence is useful.
      - Perhaps we combine these two (related) parameters into one, using
-       "|" for separation (if only one component, then this meands c_d).
-     - Each component is a sequence.
+       "|" for separation (if only one component, then this means c_d).
+     - The c_d-component is a sequence.
+     - It seems sensible to use rations 0 <= r <= 1 for a_d, where then
+         a_d = r * c_d.
+     - For this RandGen::Prob64 (in Random/Numbers.hpp) can be used.
+     - We allow a comma-separated list of such fractions.
+     - A rounding-function is needed to get the result of r * c_d.
+       Likely a member-function of Prob64; perhaps the best rounding-mode
+       here is rounding away from zero (or "rounding to odd"?).
+     - Is a_d = 0 useful? Seems to have the same effect as c_d = 1.
+       So it is not really needed; perhaps the rounding mode should be
+       "rounding up" (always for halfway cases).
+       Or perhaps using always the ceiling?
+     - So we can use say "1,5 | 0/1, 1/2, 1/1", which considers <= 5 * 3 = 15
+       possibilities (c_d = 1, ..., 5, a_d = 0, 1/2, 1).
+     - When we have a nonempty a_d-list, then also c_d must be non-empty.
+     - For a given c_d-list, one should contract equal a_d-values (keeping
+       the first); but actually sorting the a_d-values (with duplicates
+       removed) should be avoided (unclear which order is best)>
 
 
 -3. For mode "count", why do we get different trees (numbers of nodes etc.)
