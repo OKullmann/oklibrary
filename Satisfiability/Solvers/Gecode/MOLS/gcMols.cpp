@@ -58,6 +58,19 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 Compare also with todos in rlaMols.
 
+-5. Improve parameter on propagation-level
+     - The Gecode-text mentions in Subsection 4.3.5 the two further
+       possibilities "IPL_BASIC" and "IPL_ADVANCED", which we should
+       offer.
+     - Furthermore it is stated that all six possibilities can form
+       "disjunctions". It is not said what that means, but perhaps it
+       means "union".
+     - So perhaps the true value of pl is that of a bit-field with 6
+       bits, where at least one bit is set.
+     - We can use the order "dom,def,val,bnd,bas,adv".
+     - It seems "def,val,bnd <= dom".
+     - But apparently NOT "bas <= adv".
+
 -4. Add parameters for "cloning-distance" and "cloning-adaptation":
      - This are the variables res.c_d, res.a_d = 1 for the
        make_options functions;
