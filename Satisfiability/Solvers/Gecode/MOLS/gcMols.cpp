@@ -58,6 +58,15 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 Compare also with todos in rlaMols.
 
+-4. Add parameters for "cloning-distance" and "cloning-adaptation":
+     - This are the variables res.c_d, ess.a_d = 1 for the
+       make_options functions;
+     - We can use value "0" for "ignore".
+     - Perhaps we combine these two (related) parameters into one, using
+       "|" for separation (if only one component, then this meands c_d).
+     - Each component is a sequence.
+
+
 -3. For mode "count", why do we get different trees (numbers of nodes etc.)
     between "asc" and "desc"?
      - All branches need to be explored, and there is no learning, thus
