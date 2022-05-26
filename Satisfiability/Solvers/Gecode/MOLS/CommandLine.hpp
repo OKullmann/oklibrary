@@ -185,6 +185,15 @@ namespace CommandLine {
   }
 
 
+  typedef std::vector<unsigned> list_unsigned_t;
+  list_unsigned_t read_comdist([[maybe_unused]]const int argc,
+                               const char* const argv[], const int pos) {
+    assert(argc >= pos+1);
+    const auto res = FloatingPoint::sequences<unsigned>(argv[pos]);
+    if (res.empty()) return {0}; else return res;
+  }
+
+
   std::string output_filename(const std::string& stem,
                               const list_size_t& list_N) {
     if (list_N.size() != 1) return {};
@@ -223,14 +232,21 @@ namespace CommandLine {
     if (with_output) out << "# output-file " << outfile << "\n";
   }
 
+  constexpr size_t spaces_algoout = 3;
   template <size_t I = 0, typename... T>
   void algo_output(std::ostream& out, const std::tuple<T...>& t) {
     constexpr size_t size = sizeof...(T);
     static_assert(I <= size);
     if constexpr (I < size) {
-      out << "#   "; Environment::out_vecpol(out, std::get<I>(t)); out << "\n";
+      out << "#" << std::string(spaces_algoout, ' ');
+      Environment::out_vecpol(out, std::get<I>(t)); out << "\n";
       algo_output<I+1>(out, t);
     }
+  }
+  template <class VEC>
+  void additional_output(std::ostream& out, const VEC& V) {
+    out << "#" << std::string(spaces_algoout, ' ') << "commit-distance: ";
+    Environment::out_line(out, V); out << "\n";
   }
 
 }

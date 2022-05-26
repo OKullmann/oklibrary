@@ -209,7 +209,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "26.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -217,7 +217,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 10;
+  constexpr int commandline_args = 11;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -231,8 +231,8 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branch-type branch-var"
-      " branch-order la-type threads\n\n"
+      " N file_cond file_ps run-type prop-level branch-type"
+      " branch-var branch-order la-type gcd threads\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
@@ -242,6 +242,7 @@ namespace {
       " - branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
       " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
       " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
+      " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -256,11 +257,12 @@ namespace {
   constexpr size_t sep_spaces = 6;
   constexpr size_t prec = 3;
   const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9};
-  constexpr size_t wN = 5;
+  constexpr size_t wN = 5, wgcd = 5;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
     Environment::header_policies<RT, PropO, BRT, BHV, GBO, LAR>(out);
+    out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
       std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc"),
@@ -312,10 +314,12 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-order-heuristics");
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
+  const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
   const size_t num_runs =
-    list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size()*larv.size();
+    list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size()
+    *larv.size()*gcdv.size();
 
-  const double threads = read_threads(argc, argv, 10);
+  const double threads = read_threads(argc, argv, 11);
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
@@ -340,6 +344,7 @@ int main(const int argc, const char* const argv[]) {
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
+  additional_output(std::cout, gcdv);
   std::cout.flush();
 
   for (const size_t N : list_N)
@@ -349,20 +354,23 @@ int main(const int argc, const char* const argv[]) {
       for (const BRT brt : brtv)
         for (const BHV bvar : bvarv)
           for (const GBO gbo : gbov)
-            for (const LAR lar : larv) {
-              const rlaSR res =
-                rlasolver(enc,rt,brt,bvar,gbo,lar,threads,log);
-              if (with_log and
-                  rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
-                std::cout << "\n";
-              rh(std::cout);
-              std::cout.width(wN); std::cout << N << " ";
-              Environment::data_policies(std::cout,
-                                         std::make_tuple(rt, po, brt, bvar, gbo, lar));
-              rs(std::cout, res);
-              if (with_file_output)
-                Environment::out_line(*out, res.b.list_sol, "\n");
-            }
+            for (const LAR lar : larv)
+              for (unsigned gcd : gcdv) {
+                const rlaSR res =
+                  rlasolver(enc, rt, brt, bvar, gbo, lar,
+                            gcd, threads, log);
+                if (with_log and
+                    rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+                  std::cout << "\n";
+                rh(std::cout);
+                std::cout.width(wN); std::cout << N << " ";
+                Environment::data_policies(std::cout,
+                                           std::make_tuple(rt, po, brt, bvar, gbo, lar));
+                std::cout.width(wgcd); std::cout << gcd << " ";
+                rs(std::cout, res);
+                if (with_file_output)
+                  Environment::out_line(*out, res.b.list_sol, "\n");
+              }
     }
   if (out) delete out;
 }

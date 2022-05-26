@@ -271,20 +271,22 @@ namespace Solvers {
   /*
     The pure Gecode-solver
   */
-  GC::Search::Options make_options(const double t) noexcept {
+  GC::Search::Options make_options(const double t, const unsigned gcd) noexcept {
     GC::Search::Options res; res.threads = t;
+    if (gcd) res.c_d = gcd;
     return res;
   }
   GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
                           const GC::IntVarBranch vrb,
                           const GC::IntValBranch vlb,
+                          const unsigned gcd,
                           const double threads,
                           std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
     GC::branch(*gm, gm->V, vrb, vlb);
-    GC::DFS<CT::GenericMols0> s(gm, make_options(threads));
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads, gcd));
     delete gm;
 
     GBasicSR res{rt};
@@ -424,11 +426,12 @@ namespace Solvers {
   GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
                      const GC::IntVarBranch vrb,
                      const GC::IntValBranch vlb,
+                     const unsigned gcd,
                      const double threads = 1,
                      std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, threads, log);
+    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, gcd, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;
@@ -444,16 +447,19 @@ namespace Solvers {
     }
   };
   GC::Search::Options make_options(const double t,
-                                   const OP::RT rt) noexcept {
+                                   const OP::RT rt,
+                                   const unsigned gcd) noexcept {
     GC::Search::Options res;
     res.threads = t;
     if (with_stop(rt)) res.stop = new sol_count_stop;
+    if (gcd) res.c_d = gcd;
     return res;
   }
   rlaSR rlasolver(const EC::EncCond& enc,
                   const OP::RT rt,
                   const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
                   const OP::LAR lar,
+                  const unsigned gcd,
                   const double threads,
                   std::ostream* const log) {
     assert(valid(rt));
@@ -489,7 +495,7 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, gcd));
     delete m;
 
     rlaSR res{rt};
