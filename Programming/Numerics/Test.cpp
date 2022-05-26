@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.7",
-        "28.3.2022",
+        "0.11.8",
+        "26.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -268,7 +268,7 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(thrown);
   }
-  {const auto x = to_UInt("18446744073709551615");
+  {const auto x = to_UInt("  +18446744073709551615");
    assert(x == P264m1);
   }
   {bool thrown = false;
@@ -283,11 +283,62 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_UInt("0x"); }
    catch(const std::invalid_argument& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string), trailing:"
-        " \"x\" in \"0x\""));
+     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+                                         " trailing: \"x\" in \"0x\""));
      thrown = true;
    }
    assert(thrown);
+  }
+  {bool thrown = false;
+   try { to_UInt("0 "); }
+   catch(const std::invalid_argument& e) {
+     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+                                         " trailing: \" \" in \"0 \""));
+     thrown = true;
+   }
+   assert(thrown);
+  }
+
+  {auto x = to_unsigned<std::uint16_t>("65535");
+   assert(x == 65535);
+   assert(++x == 0);
+   {bool thrown = false;
+    try { to_unsigned<std::uint16_t>(" 65536"); }
+    catch(const std::out_of_range& e) {
+      assert(e.what() == std::string_view("FloatingPoint::to_unsigned(string),"
+                                          " x=65536 > 65535"));
+      thrown = true;
+    }
+    assert(thrown);
+   }
+   {bool thrown = false;
+    try { to_unsigned<std::uint16_t>(""); }
+    catch(const std::invalid_argument& e) {
+      assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+                                          " failed for \"\""));
+      thrown = true;
+    }
+    assert(thrown);
+   }
+   {bool thrown = false;
+    try { to_unsigned<std::uint16_t>("0 "); }
+    catch(const std::invalid_argument& e) {
+      assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+                                          " trailing: \" \" in \"0 \""));
+      thrown = true;
+    }
+    assert(thrown);
+   }
+   {bool thrown = false;
+    try { to_unsigned<std::uint16_t>("- 1"); }
+    catch(const std::invalid_argument& e) {
+      assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
+                                          " failed for \"- 1\""));
+      thrown = true;
+    }
+    assert(thrown);
+   }
+   assert(to_unsigned<std::uint16_t>(" -1") == 65535);
   }
 
   {assert(valid(F80ai{0}));
@@ -1211,6 +1262,48 @@ int main(const int argc, const char* const argv[]) {
        assert(accuracy(x2.x, x1.x) == 2*j);
      }
    }
+  }
+
+  {typedef std::uint16_t UInt;
+   typedef std::vector<UInt> v_t;
+   assert(sequence(v_t{}) == v_t{});
+   assert(sequence(v_t(1,0)) == v_t(1,0));
+   assert((sequence(v_t{4,3,2,1}) == v_t{4,3,2,1}));
+   const UInt max = 65535;
+   {v_t v(2, max);
+    assert((v == v_t{max,max}));
+    assert(sequence(v) == v_t(1,max));
+    v[0] = max-1; v[1] = max;
+    assert(sequence(v) == v);
+    v[0] = 0; v[1] = 1;
+    assert(sequence(v) == v);
+    v[0] = max-2; v[1] = max;
+    assert((sequence(v) == v_t{max-2,max-1,max}));
+    v[0] = 0; v[1] = 2;
+    assert((sequence(v) == v_t{0,1,2}));
+    v[0] = 3;
+    assert(sequence(v) == v_t{});
+   }
+   {v_t v(3, max);
+    assert(sequence(v) == v_t(1,max));
+    v[0] = max-1;
+    assert(sequence(v) == v_t(1,max-1));
+    v[0] = 0;
+    assert((sequence(v) == v_t{0,max}));
+    v = {0,3,2};
+    assert((sequence(v) == v_t{0,2}));
+    v = {0,6,3};
+    assert((sequence(v) == v_t{0,3,6}));
+    v[0] = 7;
+    assert(sequence(v) == v_t{});
+   }
+  }
+
+  {typedef std::uint16_t UInt;
+   typedef std::vector<UInt> v_t;
+   assert((sequences<UInt>("3;7;0") == v_t{3,7,0}));
+   assert((sequences<UInt>(" 3, 5, 2; 7,8;0,-1,-1;; 4,3, 2, 1") ==
+           v_t{3,5,7,8,0,65535,4,3,2,1}));
   }
 
 }

@@ -11,12 +11,17 @@ License, or any later version. */
   Input:
 
     - stold(string s) (returns float80; wrapper for standard-library function)
+    - stod(s) (same for float64)
 
     - to_float80(string s) converts s to float80 (improved stold regarding
       error-checking and -messages)
-    - to_UInt(string s) convers s to UInt_t (similarly improved stoull);
-      see also toUInt below, which is more liberal, since starting from
-      float80
+    - to_float64(string s) same for float 64
+
+    - to_UInt(string s) converts s to UInt_t (similarly improved stoull)
+      (see also toUInt below, which is more liberal, since starting from
+       float80)
+    - to_unsigned<UInt>(s) generalises this to unsigned integral UInt
+      (recognising "-1" as maximum).
 
     - to_F80ai(string s) also considers ".", "+" and "e0"
     - to_vec_float80(string s, char sep) returns a vector of float80
@@ -30,7 +35,11 @@ License, or any later version. */
     - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
     - touint(std::string s) converts every string convertible to float80
-      to uint_t.
+      to uint_t
+
+    Sequences of unsigned integers:
+    - sequence(vector<UInt>): sequences "a,b,c" (from a to b step c)
+    - sequences(string s): such sequences, and their concatenation by ";".
 
   Output:
 
@@ -59,6 +68,8 @@ License, or any later version. */
 #include <filesystem>
 #include <utility>
 #include <stdexcept>
+#include <type_traits>
+#include <limits>
 
 #include <cstddef>
 
@@ -150,6 +161,21 @@ namespace FloatingPoint {
                               std::to_string(P264m1));
     return x;
   }
+  template <typename UInt>
+  UInt to_unsigned(std::string s) {
+    static_assert(std::is_integral_v<UInt>);
+    static_assert(std::is_unsigned_v<UInt>);
+    constexpr UInt max = std::numeric_limits<UInt>::max();
+    static_assert(max <= P264m1);
+    Environment::mremove_leading_spaces(s);
+    if (s == "-1") return max;
+    const UInt_t x = to_UInt(s);
+    if (x > max)
+      throw std::out_of_range("FloatingPoint::to_unsigned(string), x=" +
+                              std::to_string(x) + " > " +
+                              std::to_string(max));
+    return x;
+  }
 
 
   // Succeeds for every s convertible to float80, interpreting negative x
@@ -163,6 +189,40 @@ namespace FloatingPoint {
     const float80 x = to_float80(s);
     if (not (x >= 0)) return 0;
     else return touint(x);
+  }
+
+
+  template <typename UInt>
+  std::vector<UInt> sequence(const std::vector<UInt> v) {
+    static_assert(std::is_integral_v<UInt>);
+    static_assert(std::is_unsigned_v<UInt>);
+    static_assert(std::numeric_limits<UInt>::max() <= P264m1);
+    typedef std::vector<UInt> v_t;
+    const auto size = v.size();
+    if (size <= 1 or size >= 4) return v;
+    const UInt a = v[0], b = v[1], s = size == 2 ? 1 : v[2];
+    if (b < a) return {};
+    v_t res(1,a);
+    if (a == b or s == 0) return res;
+    const UInt n = (UInt_t(b) - UInt_t(a)) / UInt_t(s);
+    const UInt_t np1 = UInt_t(n) + 1;
+    if (np1 == 0) return {};
+    res.reserve(np1);
+    for (UInt_t i = 0, x = a+s; i < n; ++i, x += s) res.push_back(x);
+    assert(res.size() == np1);
+    return res;
+  }
+  template <typename UInt>
+  std::vector<UInt> sequences(const std::string& s) {
+    std::vector<UInt> res;
+    auto split = Environment::split2(s, ';', ',');
+    for (const auto& seq0 : split) {
+      std::vector<UInt> seq1; seq1.reserve(seq0.size());
+      for (const auto& s : seq0) seq1.push_back(to_unsigned<UInt>(s));
+      const auto seq2 = sequence(std::move(seq1));
+      for (UInt x : seq2) res.push_back(x);
+    }
+    return res;
   }
 
 
