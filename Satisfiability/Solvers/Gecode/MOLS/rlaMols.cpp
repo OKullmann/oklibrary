@@ -29,6 +29,25 @@ one value is left out for branching).
 
 This is for enum-branching (with bin-branching no assertions).
 
+Update:
+
+MOLS> ./rlaMols_debug 5 data/SpecsCollection/LSred "" count - bin - - - 1
+has no problems, but that's just the critical assert being in the enum-branch
+(though also for all bin-branching *all* counts are wrong).
+
+MOLS> ./rlaMols_debug 5 data/SpecsCollection/LSred "" count val enu mindegdom asc relnpr 1 1
+rlaMols_debug: LookaheadBranching.hpp:356: virtual Gecode::ExecStatus LookaheadBranching::RlaBranching::commit(Gecode::Space&, const Gecode::Choice&, unsigned int): Assertion `oldsize == w-1' failed.
+MOLS> ./rlaMols 5 data/SpecsCollection/LSred "" count val enu mindegdom asc relnpr 1 1
+    N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc
+    5    count val enu mindegdom  asc relnpr    1              62      0.004        103        19        46     4        27
+
+The only other branching-mode showing this failure is maxdom (but that might be
+coincidence).
+
+
+Possibly after the la-reduction in "choice", one of the eliminated values gets re-introduced?
+The problem seems to happen *between* choice and commit.
+
 
 1. Wrong count:
 
@@ -85,6 +104,34 @@ dom enumbr mindom asc relpr 	enum 6247 8546.903 145519085 702831 1994566 23
 real	56m50.373s
 user	142m27.460s
 sys	0m28.481s
+MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enu mindom asc relpr 1 3
+    N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc
+    7   +count dom enu    mindom  asc  relpr    1            6247   7772.620  107767158    702831   1994566    20   1291735
+      vals      props     elvals      prunes      mprune       probes    rounds       solc      leaf         t   qelvals   qprunes
+   428.471      8.262     12.943      89.274     229.346      270.316     1.497      0.005     0.544     0.014     0.031     0.263
+   155.000      0.000      0.000       0.000       0.000        2.000     1.000      0.000     0.000     0.000     0.000     0.000
+   676.000     74.000     89.000     871.000     647.000     2390.000     8.000     15.000     1.000     0.198     0.173     2.200
+    53.345      7.296     11.150      98.417     164.082      214.358     0.729      0.115     0.498     0.014     0.026     0.291
+real	67m47.364s
+user	129m32.622s
+sys	0m24.515s
+
+Strange the time-results: more wallclock-time, but less total time?
+Rerunning:
+    N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc
+    7   +count dom enu    mindom  asc  relpr    1            6247   8252.532  107767158    702831   1994566    20   1291735
+      vals      props     elvals      prunes      mprune       probes    rounds       solc      leaf         t   qelvals   qprunes
+   428.471      8.262     12.943      89.274     229.346      270.316     1.497      0.005     0.544     0.018     0.031     0.263
+   155.000      0.000      0.000       0.000       0.000        2.000     1.000      0.000     0.000     0.000     0.000     0.000
+   676.000     74.000     89.000     871.000     647.000     2390.000     8.000     15.000     1.000     0.211     0.173     2.200
+    53.345      7.296     11.150      98.417     164.082      214.358     0.729      0.115     0.498     0.016     0.026     0.291
+real	54m3.598s
+user	137m32.538s
+sys	0m33.437s
+
+Big variations. In any case, it seems that for rlaMols setting gcd=1 seems best.
+
+
 MOLS> time ./rlaMols 7 data/SpecsCollection/Eulerinvsymmbalt "" enum val enumbr mindom asc relpr 3
 ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
 pl bt bh bo lar 		rt sat t prop flvs nds h
@@ -209,7 +256,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "26.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
