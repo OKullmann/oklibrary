@@ -11,6 +11,16 @@ Testing of look-ahead reduction for the Gecode library.
 
 BUG:
 
+0. status does not work in lareduction
+    - The assert
+        assert(V[v].size() == vsize - esize);
+      after the call "const auto status = m->status();" fails (for one of
+      the tests in here).
+    - This is likely the same bug as reported as "BUG 0" in rlaMols.cpp.
+    - Possibly the problem is for (some of) those values of val which led to a
+      satisfying assignment?
+    - One needs unit-tests which inspect exactly the values of variables.
+
 1. Wrong tests for eager reduction (marked with XXX)
     - If a reduction was found, then obviously at least two rounds are needed.
 

@@ -214,7 +214,8 @@ namespace LookaheadReduction {
           if (eager(lar)) {last_red = -1; continue;}
           else goto END;
         }
-        if (V[v].size() == 1) continue;
+        const auto vsize = V[v].size();
+        if (vsize == 1) continue;
 
         const GV::values_t values = GV::values(V, v);
         GV::values_t elimvals;
@@ -242,9 +243,12 @@ namespace LookaheadReduction {
 
         if (elimvals.empty()) PT.merge(PV);
         else {
+          [[maybe_unused]] const auto esize = elimvals.size();
+          assert(esize <= vsize);
           last_red = v;
           for (const int val : elimvals) GC::rel(*m,V[v],GC::IRT_NQ,val,pl);
           const auto status = m->status();
+          // assert(V[v].size() == vsize - esize); // ???
           stats.inc_props();
           assert(status != GC::SS_SOLVED);
           if (status != GC::SS_BRANCH) {
