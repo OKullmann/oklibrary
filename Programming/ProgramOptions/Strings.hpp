@@ -242,18 +242,24 @@ namespace Environment {
   }
 
 
-  inline std::string remove_trailing_spaces(std::string s) {
+  inline void mremove_trailing_spaces(std::string& s) {
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
-    return s;
+  }
+  inline std::string remove_trailing_spaces(std::string s) {
+    mremove_trailing_spaces(s); return s;
+  }
+  inline void mremove_leading_spaces(std::string& s) {
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
   }
   inline std::string remove_leading_spaces(std::string s) {
-    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
-    return s;
+    mremove_leading_spaces(s); return s;
   }
-  inline std::string remove_leadingtrailing_spaces(std::string s) {
+  inline void mremove_leadingtrailing_spaces(std::string& s) {
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isspace));
     s.erase(std::find_if_not(s.rbegin(), s.rend(), isspace).base(), s.end());
-    return s;
+  }
+  inline std::string remove_leadingtrailing_spaces(std::string s) {
+    mremove_leadingtrailing_spaces(s); return s;
   }
 
 

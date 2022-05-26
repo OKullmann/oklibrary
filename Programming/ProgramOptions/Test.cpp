@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.13",
-        "23.5.2022",
+        "0.2.14",
+        "26.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -131,6 +131,8 @@ int main(const int argc, const char* const argv[]) {
    assert(transform_spaces("\n \n \t ab \t cd\n e  \n \t f\tg  \n \t") == "ab cd e f g");
   }
   {assert(remove_trailing_spaces("abc  \n  ") == "abc");
+   assert(remove_leading_spaces("  abc  \n  ") == "abc  \n  ");
+   assert(remove_leadingtrailing_spaces(" \n \t  abc  \n \t ") == "abc");
   }
 
   {ProgramInfo pi("AAA", "BBB", "CCC");
