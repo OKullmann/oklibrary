@@ -245,6 +245,7 @@ namespace LookaheadBranching {
     static int bv(const CT::GenericMols0& s, const OP::BHV bv) noexcept {
       const auto V(s.V);
       const auto size = V.size();
+      assert(size >= 1);
       switch (bv) {
       case OP::BHV::first :
         for (int v = 0; v < size; ++v) if (V[v].size() != 1) return v;
@@ -317,6 +318,7 @@ namespace LookaheadBranching {
       }
       const int v = bv(s, P.bv);
       GV::values_t values = GV::values(s.V, v);
+      assert(values.size() >= 2);
       switch (P.bt) {
       case OP::BRT::bin :
         return new C(*this,
@@ -353,7 +355,7 @@ namespace LookaheadBranching {
       }
       else {
         assert(a+1 < w);
-        // assert(oldsize == w-1); ???
+        // assert(oldsize == w-1); // ???
         GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
         assert(node->V[v].size() == 1);
       }
