@@ -24,7 +24,7 @@ License, or any later version. */
 
 Examples:
 
-1. Counting reduced ls's for N=7
+1. Counting reduced ls's for N=6
     - for all propagation-levels
     - the default branching-type (binary branching)
     - all variable-selections except of first-var,
@@ -147,9 +147,6 @@ Compare also with todos in rlaMols.
     - Another statistics-item is needed, which specifies whether stopping
       took place (and for what reason).
 
-5. Perhaps also for the N-parameter a range of values should be possible.
-
-
 BUGS:
 
 
@@ -175,8 +172,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.4",
-        "25.5.2022",
+        "0.12.0",
+        "26.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -199,6 +196,7 @@ namespace {
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type branch-var"
       " branch-order threads\n\n"
+      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
@@ -222,8 +220,10 @@ namespace {
   constexpr size_t sep_spaces = 6;
   constexpr size_t prec = 3;
   const Environment::wvec_t widths{9, 10, 12, 11, 11, 6};
+  constexpr size_t wN = 5;
 
   void rh(std::ostream& out) {
+    out.width(wN); out << "N" << " ";
     Environment::header_policies<RT, PropO, BRT, BHV, GBO>(out);
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
@@ -256,9 +256,9 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const size_t N = read_N(argc, argv);
+  const auto list_N = read_N(argc, argv);
   const auto [ac, name_ac] = read_ac(argc, argv);
-  const auto [ps, name_ps] = read_ps(argc, argv, N);
+  const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
@@ -269,11 +269,12 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-variable-heuristics");
   const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
                                         "gc-order-heuristics");
-  const size_t num_runs = pov.size()*brtv.size()*bvarv.size()*gbov.size();
+  const size_t num_runs =
+    list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size();
 
   const double threads = read_threads(argc, argv, 9);
 
-  const std::string outfile = output_filename(proginfo.prg, N);
+  const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
   if (with_file_output and num_runs != 1) {
@@ -293,31 +294,34 @@ int main(const int argc, const char* const argv[]) {
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps, rt,
+              list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov));
   std::cout.flush();
 
   if (num_runs != 1) rh(std::cout);
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const BRT brt : brtv)
-      for (const BHV bvar : bvarv)
-        for (const GBO gbo : gbov) {
-          const BHO bord = translate(brt, gbo);
-          const GBasicSR res =
-            solver_gc(enc,rt,var_branch(bvar),val_branch(bord),threads,log);
-          if (with_log and
-              rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
-            std::cout << "\n";
-          if (num_runs == 1) rh(std::cout);
-          Environment::data_policies(std::cout,
-            std::make_tuple(rt, po, brt, bvar, gbo));
-          rs(std::cout, res);
-          std::cout << std::endl;
-          if (with_file_output)
-            Environment::out_line(*out, res.b.list_sol, "\n");
-        }
-  }
+  for (const size_t N : list_N)
+    for (const PropO po : pov) {
+      const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,{}),
+                        prop_level(po));
+      for (const BRT brt : brtv)
+        for (const BHV bvar : bvarv)
+          for (const GBO gbo : gbov) {
+            const BHO bord = translate(brt, gbo);
+            const GBasicSR res =
+              solver_gc(enc,rt,var_branch(bvar),val_branch(bord),threads,log);
+            if (with_log and
+                rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+              std::cout << "\n";
+            if (num_runs == 1) rh(std::cout);
+            std::cout.width(wN); std::cout << N << " ";
+            Environment::data_policies(std::cout,
+              std::make_tuple(rt, po, brt, bvar, gbo));
+            rs(std::cout, res);
+            std::cout << std::endl;
+            if (with_file_output)
+              Environment::out_line(*out, res.b.list_sol, "\n");
+          }
+    }
   if (out) delete out;
 }

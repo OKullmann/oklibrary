@@ -21,6 +21,7 @@ License, or any later version. */
 #include <ostream>
 #include <utility>
 #include <tuple>
+#include <optional>
 
 #include <cassert>
 
@@ -43,16 +44,19 @@ namespace CommandLine {
 
   typedef CD::size_t size_t;
 
-  size_t read_N([[maybe_unused]]const int argc,
+  typedef std::vector<size_t> list_size_t;
+  list_size_t read_N([[maybe_unused]]const int argc,
                 const char* const argv[]) {
     assert(argc >= 2);
-    const size_t N = FloatingPoint::to_UInt(argv[1]);
-    if (not EC::EncCond::valid(N)) {
-      std::ostringstream ss;
-      ss << "ERROR[CommandLine::read_N]: value N=" << N << " is not allowed.";
-      throw std::runtime_error(ss.str());
+    const list_size_t res = FloatingPoint::sequences<size_t>(argv[1]);
+    for (const size_t N : res) {
+      if (not EC::EncCond::valid(N)) {
+        std::ostringstream ss;
+        ss << "ERROR[CommandLine::read_N]: value N=" << N << " is not allowed.";
+        throw std::runtime_error(ss.str());
+      }
     }
-    return N;
+    return res;
   }
 
   std::pair<CD::AConditions,std::string>
@@ -69,12 +73,19 @@ namespace CommandLine {
     return {PR::ReadAC()(file), filename};
   }
 
-  std::pair<PS::PSquares, std::string>
-  read_ps([[maybe_unused]]const int argc, const char* const argv[],
-          const size_t N) {
+  typedef std::pair<std::optional<PS::PSquares>, std::string> ps_t;
+  ps_t read_ps([[maybe_unused]]const int argc, const char* const argv[],
+               const list_size_t& list_N) {
     assert(argc >= 4);
     const std::string name = argv[3];
-    if (name.empty()) return {{N,{}}, {}};
+    if (name.empty() or list_N.empty()) return {{}, {}};
+    if (list_N.size() != 1) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_ps]: there must be exactly one N, but "
+        "there are " << list_N.size() << ".";
+      throw std::runtime_error(ss.str());
+    }
+    const size_t N = list_N[0];
     std::ifstream file(name);
     if (not file) {
       std::ostringstream ss;
@@ -174,7 +185,10 @@ namespace CommandLine {
   }
 
 
-  std::string output_filename(const std::string& stem, const size_t N) {
+  std::string output_filename(const std::string& stem,
+                              const list_size_t& list_N) {
+    if (list_N.size() != 1) return {};
+    const size_t N = list_N[0];
     std::ostringstream ss;
     ss << "SOLUTIONS_" + stem << "_" << N << "_"
        << Environment::CurrentTime::timestamp_uint();
@@ -183,18 +197,26 @@ namespace CommandLine {
 
 
   void info_output(std::ostream& out,
-                   const size_t N,
+                   const list_size_t& list_N,
                    const CD::AConditions& ac, const std::string& name_ac,
-                   const PS::PSquares& ps, const std::string& name_ps,
+                   const std::optional<PS::PSquares>& ps0,
+                   const std::string& name_ps,
                    const OP::RT rt,
                    const size_t num_runs, const double threads,
                    const std::string& outfile, const bool with_output) {
-    out << "# N=" << N << "\n"
+    out << "# N: ";
+    Environment::out_line(out, list_N);
+    out << "\n"
       "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() <<
         ": \"" << name_ac << "\"\n"
       "#   num_uc=" << ac.num_ucs() << " num_eq=" << ac.eq().size() <<
-      " num_peq=" << ac.peq().size() << "\n"
-      "# num_ps=" << ps.psqs.size() << ": \"" << name_ps << "\"\n" <<
+      " num_peq=" << ac.peq().size() << "\n";
+    if (not ps0)
+      out << "# no_ps";
+    else
+      out <<
+        "# num_ps=" << ps0.value().psqs.size() << ": \"" << name_ps << "\"";
+    out << "\n"
       "# num_runs=" << num_runs << "\n"
       "# threads=" << threads << "\n"
       "# rt=" << rt << "\n";

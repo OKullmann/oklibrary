@@ -209,8 +209,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
-        "25.5.2022",
+        "0.6.0",
+        "26.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -233,6 +233,7 @@ namespace {
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type branch-var"
       " branch-order la-type threads\n\n"
+      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename for conditions-specification\n"
       " - file_ps      : filename for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
@@ -255,8 +256,10 @@ namespace {
   constexpr size_t sep_spaces = 6;
   constexpr size_t prec = 3;
   const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9};
+  constexpr size_t wN = 5;
 
   void rh(std::ostream& out) {
+    out.width(wN); out << "N" << " ";
     Environment::header_policies<RT, PropO, BRT, BHV, GBO, LAR>(out);
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
@@ -294,9 +297,9 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const size_t N = read_N(argc, argv);
+  const auto list_N = read_N(argc, argv);
   const auto [ac, name_ac] = read_ac(argc, argv);
-  const auto [ps, name_ps] = read_ps(argc, argv, N);
+  const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
@@ -310,11 +313,11 @@ int main(const int argc, const char* const argv[]) {
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const size_t num_runs =
-    pov.size()*brtv.size()*bvarv.size()*gbov.size()*larv.size();
+    list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size()*larv.size();
 
   const double threads = read_threads(argc, argv, 10);
 
-  const std::string outfile = output_filename(proginfo.prg, N);
+  const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
   if (with_file_output and num_runs != 1) {
@@ -334,29 +337,32 @@ int main(const int argc, const char* const argv[]) {
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps, rt,
+              list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
   std::cout.flush();
 
-  for (const PropO po : pov) {
-    const EncCond enc(ac, ps, prop_level(po));
-    for (const BRT brt : brtv)
-      for (const BHV bvar : bvarv)
-        for (const GBO gbo : gbov)
-          for (const LAR lar : larv) {
-            const rlaSR res =
-              rlasolver(enc,rt,brt,bvar,gbo,lar,threads,log);
-            if (with_log and
-              rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
-              std::cout << "\n";
-            rh(std::cout);
-            Environment::data_policies(std::cout,
-              std::make_tuple(rt, po, brt, bvar, gbo, lar));
-            rs(std::cout, res);
-            if (with_file_output)
-              Environment::out_line(*out, res.b.list_sol, "\n");
-          }
-  }
+  for (const size_t N : list_N)
+    for (const PropO po : pov) {
+      const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,{}),
+                        prop_level(po));
+      for (const BRT brt : brtv)
+        for (const BHV bvar : bvarv)
+          for (const GBO gbo : gbov)
+            for (const LAR lar : larv) {
+              const rlaSR res =
+                rlasolver(enc,rt,brt,bvar,gbo,lar,threads,log);
+              if (with_log and
+                  rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+                std::cout << "\n";
+              rh(std::cout);
+              std::cout.width(wN); std::cout << N << " ";
+              Environment::data_policies(std::cout,
+                                         std::make_tuple(rt, po, brt, bvar, gbo, lar));
+              rs(std::cout, res);
+              if (with_file_output)
+                Environment::out_line(*out, res.b.list_sol, "\n");
+            }
+    }
   if (out) delete out;
 }
