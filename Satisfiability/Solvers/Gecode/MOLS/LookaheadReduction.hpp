@@ -233,8 +233,10 @@ namespace LookaheadReduction {
             stats.inc_elimvals(); elimvals.push_back(val);
             if (status == GC::SS_SOLVED and
                 (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
-                 or (test_unique(rt) and stats.solc() >= 2)))
+                 or (test_unique(rt) and stats.solc() >= 2))) {
+              stats.inc_leafcount();
               goto END;
+            }
           }
         }
 
