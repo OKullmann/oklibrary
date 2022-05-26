@@ -98,8 +98,9 @@ to reach a fixpoint for the space.
 
 IV. Backtracking tree
 
-During the search, a backtracking tree can be handled, where nodes correspond
-to spaces.
+The root node is space, which describes the original constraint satisfaction
+problem. If branching is formed in a space, and new spaces are created, then
+these new spaces are child nodes for the node, where the branching is formed.
 
 When a propagation for a current space is called, there are three possible
 states of propagation fixpoint, which directly correspond to return values
