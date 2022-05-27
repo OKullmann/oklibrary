@@ -11,11 +11,22 @@ License, or any later version. */
 TODOS:
 
 1. Test functions from GcVariables
-  - A class must be intoduced that contains an array of
+   - DONE sumdomsizes
+   - empty
+   - assignedvars
+   - assignedval
+   - values
+   - extract
+   - set_var
+   - unset_var
+
+2. DONE (class GecodeIntVarArray was introduced)
+   Class with access to array of Gecode variables 
+  - DONE A class must be intoduced that contains an array of
     Gecode variables and a trivial Gecode space.
-  - Constructor parameters: array size and domains size.
+  - DONE Constructor parameters: array size and domains size.
     As a result, constructor must create the space and the array.
-  - The class must provide public access to the array for testing
+  - DONE The class must provide public access to the array for testing
     all functions from GcVariables.
 
 BUGS:
@@ -24,6 +35,7 @@ BUGS:
 
 #include <iostream>
 #include <sstream>
+#include <memory>
 
 #include <cassert>
 
@@ -38,8 +50,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "13.5.2022",
+        "0.0.4",
+        "27.5.2022",
         __FILE__,
         "Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestGcVariables.cpp",
@@ -52,8 +64,9 @@ namespace {
 
   using size_t = CD::size_t;
 
+  typedef GC::IntVarArray VarVec;
+
   struct GenericIntArray : GC::Space {
-    typedef GC::IntVarArray VarVec;
     VarVec V;
     GenericIntArray(const size_t varnum, const size_t domainsize = 1)
       noexcept : V(*this, varnum, 0, domainsize-1) {
@@ -66,24 +79,36 @@ namespace {
     GC::Space* copy() { return new GenericIntArray(*this); }
   };
 
-  using trivial_ptr_t = std::unique_ptr<GenericIntArray>;
+  struct GecodeIntVarArray{
+    typedef std::unique_ptr<GenericIntArray> intarr_ptr_t;
+  private:
+    intarr_ptr_t m;
+    VarVec V;
+  public:
+    GecodeIntVarArray(const size_t varnum, const size_t domainsize = 1)
+      noexcept {
+      assert(varnum > 0 and domainsize > 0);
+      m = intarr_ptr_t(new GenericIntArray(varnum, domainsize));
+      V = m->V;
+    }
+    VarVec array() const noexcept { return V; }
+  };
 }
-
 
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {trivial_ptr_t m(new GenericIntArray(1,1));
-   assert(sumdomsizes(m->V) == 1);
+  {const auto g = GecodeIntVarArray(1,1);
+   assert(sumdomsizes(g.array()) == 1);
   }
-  {trivial_ptr_t m(new GenericIntArray(1,2));
-   assert(sumdomsizes(m->V) == 2);
+  {const auto g = GecodeIntVarArray(1,2);
+   assert(sumdomsizes(g.array()) == 2);
   }
-  {trivial_ptr_t m(new GenericIntArray(2,2));
-   assert(sumdomsizes(m->V) == 2 * 2);
+  {const auto g = GecodeIntVarArray(2,1);
+   assert(sumdomsizes(g.array()) == 2 * 1);
   }
-  {trivial_ptr_t m(new GenericIntArray(2,3));
-   assert(sumdomsizes(m->V) == 2 * 3);
+  {const auto g = GecodeIntVarArray(2,2);
+   assert(sumdomsizes(g.array()) == 2 * 2);
   }
 }
