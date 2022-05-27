@@ -77,7 +77,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "27.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -112,10 +112,7 @@ int main(const int argc, const char* const argv[]) {
   {const CS::Square A(2);
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
-    assert(eqp(values(ch->V, 0), {0}));
-    assert(eqp(values(ch->V, 1), {0,1}));
-    assert(eqp(values(ch->V, 2), {0,1}));
-    assert(eqp(values(ch->V, 3), {0,1}));
+    assert(eqp(values(ch->V), {{0}, {0,1}, {0,1}, {0,1}}));
     const auto st = ch->status();
     assert(st == GC::SS_BRANCH);
   }
@@ -123,10 +120,7 @@ int main(const int argc, const char* const argv[]) {
   {const CS::TrivialLatinSquare A(2);
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
-    assert(eqp(values(ch->V, 0), {0}));
-    assert(eqp(values(ch->V, 1), {0,1}));
-    assert(eqp(values(ch->V, 2), {0,1}));
-    assert(eqp(values(ch->V, 3), {0,1}));
+    assert(eqp(values(ch->V), {{0}, {0,1}, {0,1}, {0,1}}));
     const auto st = ch->status();
     assert(st == GC::SS_SOLVED);
   }
@@ -134,15 +128,8 @@ int main(const int argc, const char* const argv[]) {
   {const CS::Square A(3);
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
-    assert(eqp(values(ch->V, 0), {0}));
-    assert(eqp(values(ch->V, 1), {0,1,2}));
-    assert(eqp(values(ch->V, 2), {0,1,2}));
-    assert(eqp(values(ch->V, 3), {0,1,2}));
-    assert(eqp(values(ch->V, 4), {0,1,2}));
-    assert(eqp(values(ch->V, 5), {0,1,2}));
-    assert(eqp(values(ch->V, 6), {0,1,2}));
-    assert(eqp(values(ch->V, 7), {0,1,2}));
-    assert(eqp(values(ch->V, 8), {0,1,2}));
+    assert(eqp(values(ch->V), {{0}, {0,1,2}, {0,1,2}, {0,1,2}, {0,1,2},
+      {0,1,2}, {0,1,2}, {0,1,2}, {0,1,2}}));
     const auto st = ch->status();
     assert(st == GC::SS_BRANCH);
   }
@@ -150,15 +137,8 @@ int main(const int argc, const char* const argv[]) {
   {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
-    assert(eqp(values(ch->V, 0), {0}));
-    assert(eqp(values(ch->V, 1), {0,1,2}));
-    assert(eqp(values(ch->V, 2), {0,1,2}));
-    assert(eqp(values(ch->V, 3), {0,1,2}));
-    assert(eqp(values(ch->V, 4), {0,1,2}));
-    assert(eqp(values(ch->V, 5), {0,1,2}));
-    assert(eqp(values(ch->V, 6), {0,1,2}));
-    assert(eqp(values(ch->V, 7), {0,1,2}));
-    assert(eqp(values(ch->V, 8), {0,1,2}));
+    assert(eqp(values(ch->V), {{0}, {0,1,2}, {0,1,2}, {0,1,2}, {0,1,2},
+      {0,1,2}, {0,1,2}, {0,1,2}, {0,1,2}}));
     const auto st = ch->status();
     assert(st == GC::SS_BRANCH);
   }
@@ -166,15 +146,8 @@ int main(const int argc, const char* const argv[]) {
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
-   assert(eqp(values(ch->V, 0), {0}));
-   assert(eqp(values(ch->V, 1), {0,1,2}));
-   assert(eqp(values(ch->V, 2), {0,1,2}));
-   assert(eqp(values(ch->V, 3), {0,1,2}));
-   assert(eqp(values(ch->V, 4), {1}));
-   assert(eqp(values(ch->V, 5), {0,1,2}));
-   assert(eqp(values(ch->V, 6), {0,1,2}));
-   assert(eqp(values(ch->V, 7), {0,1,2}));
-   assert(eqp(values(ch->V, 8), {0,1,2}));
+   assert(eqp(values(ch->V), {{0}, {0,1,2}, {0,1,2}, {0,1,2}, {1},
+      {0,1,2}, {0,1,2}, {0,1,2}, {0,1,2}}));
    const auto st = ch->status();
    assert(st == GC::SS_BRANCH);
   }
