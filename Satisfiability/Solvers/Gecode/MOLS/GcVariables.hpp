@@ -43,26 +43,12 @@ namespace GcVariables {
     return true;
   }
 
-  size_t assignedvars(const GC::IntVarArray& V) noexcept {
-    size_t assigned = 0;
-    for (int v = 0; v < V.size(); ++v)
-      if (V[v].size() == 1) ++assigned;
-    return assigned;
-  }
-
   size_t sumdomsizes(const GC::IntVarArray& V) noexcept {
     size_t sum = 0;
     for (int v = 0; v < V.size(); ++v) sum += V[v].size();
     return sum;
   }
 
-  int assignedval(const GC::IntVarArray& V, const int v) noexcept {
-    assert(V.size() > 0 and v < V.size());
-    const GC::Int::IntView view = V[v];
-    assert(view.assigned());
-    const GC::IntVarValues j(view);
-    return j.val();
-  }
   typedef std::vector<int> values_t;
   values_t values(const GC::IntVarArray& V, const int v) {
     assert(v >= 0 and v < V.size());

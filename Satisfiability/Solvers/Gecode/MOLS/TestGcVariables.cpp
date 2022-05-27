@@ -13,8 +13,6 @@ TODOS:
 1. Test functions from GcVariables
    - DONE sumdomsizes
    - DONE empty
-   - assignedvars
-   - assignedval
    - values
    - extract
    - set_var
