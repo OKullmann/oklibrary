@@ -21,7 +21,7 @@ TODOS:
    - unset_var
 
 2. DONE (class GecodeIntVarArray was introduced)
-   Class with access to array of Gecode variables 
+   Class with access to array of Gecode variables
   - DONE A class must be intoduced that contains an array of
     Gecode variables and a trivial Gecode space.
   - DONE Constructor parameters: array size and domains size.
