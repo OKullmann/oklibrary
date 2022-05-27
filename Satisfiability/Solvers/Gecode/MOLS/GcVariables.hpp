@@ -50,11 +50,22 @@ namespace GcVariables {
   }
 
   typedef std::vector<int> values_t;
-  values_t values(const GC::IntVarArray& V, const int v) {
+  values_t values(const GC::IntVarArray& V, const int v) noexcept {
     assert(v >= 0 and v < V.size());
     values_t res;
     for (GC::IntVarValues j(V[v]); j(); ++j) res.push_back(j.val());
     assert(res.size() == size_t(V[v].size()));
+    return res;
+  }
+  std::vector<values_t> values(const GC::IntVarArray& V) noexcept {
+    std::vector<values_t> res;
+    for (int v=0; v<V.size(); ++v) {
+      values_t vec;
+      for (GC::IntVarValues j(V[v]); j(); ++j) vec.push_back(j.val());
+      assert(vec.size() == size_t(V[v].size()));
+      res.push_back(vec);
+    }
+    assert(res.size() == size_t(V.size()));
     return res;
   }
   typedef std::vector<int> solutions_t;

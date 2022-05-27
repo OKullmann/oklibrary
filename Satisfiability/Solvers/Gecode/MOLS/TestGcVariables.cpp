@@ -48,7 +48,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "27.5.2022",
         __FILE__,
         "Oleg Zaikin",
@@ -106,26 +106,24 @@ int main(const int argc, const char* const argv[]) {
   {const auto g = GecodeIntVarArray(1, 1);
    assert(sumdomsizes(g.array()) == 1 * 1);
    assert(empty(g.array()));
-   assert(eqp(values(g.array(), 0), {0}));
+   assert(eqp(values(g.array()), {{0}}));
   }
 
   {const auto g = GecodeIntVarArray(1, 2);
    assert(sumdomsizes(g.array()) == 1 * 2);
    assert(not empty(g.array()));
-   assert(eqp(values(g.array(), 0), {0,1}));
+   assert(eqp(values(g.array()), {{0,1}}));
   }
 
   {const auto g = GecodeIntVarArray(2, 1);
    assert(sumdomsizes(g.array()) == 2 * 1);
    assert(empty(g.array()));
-   assert(eqp(values(g.array(), 0), {0}));
-   assert(eqp(values(g.array(), 1), {0}));
+   assert(eqp(values(g.array()), {{0}, {0}}));
   }
 
   {const auto g = GecodeIntVarArray(2, 2);
    assert(sumdomsizes(g.array()) == 2 * 2);
    assert(not empty(g.array()));
-   assert(eqp(values(g.array(), 0), {0,1}));
-   assert(eqp(values(g.array(), 1), {0,1}));
+   assert(eqp(values(g.array()), {{0,1}, {0,1}}));
   }
 }
