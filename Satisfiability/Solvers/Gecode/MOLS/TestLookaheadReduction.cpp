@@ -23,6 +23,9 @@ BUG:
     - The point here seems to be that propagation, as triggered by status(),
       aims at being "intelligent" (not doing superfluous work), and thus
       is likely unreliable here.
+    - This assert is triggered by calling lareduction for any of two cases:
+      const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n")
+      const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n")
 
 1. Wrong tests for eager reduction (marked with XXX)
     - If a reduction was found, then obviously at least two rounds are needed.
