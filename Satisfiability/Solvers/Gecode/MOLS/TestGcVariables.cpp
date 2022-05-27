@@ -12,7 +12,7 @@ TODOS:
 
 1. Test functions from GcVariables
    - DONE sumdomsizes
-   - empty
+   - DONE empty
    - assignedvars
    - assignedval
    - values
@@ -50,7 +50,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "27.5.2022",
         __FILE__,
         "Oleg Zaikin",
@@ -99,16 +99,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const auto g = GecodeIntVarArray(1,1);
-   assert(sumdomsizes(g.array()) == 1);
+  {const auto g = GecodeIntVarArray(1, 1);
+   assert(sumdomsizes(g.array()) == 1 * 1);
+   assert(empty(g.array()));
   }
-  {const auto g = GecodeIntVarArray(1,2);
-   assert(sumdomsizes(g.array()) == 2);
+  {const auto g = GecodeIntVarArray(1, 2);
+   assert(sumdomsizes(g.array()) == 1 * 2);
+   assert(not empty(g.array()));
   }
-  {const auto g = GecodeIntVarArray(2,1);
+  {const auto g = GecodeIntVarArray(2, 1);
    assert(sumdomsizes(g.array()) == 2 * 1);
+   assert(empty(g.array()));
   }
-  {const auto g = GecodeIntVarArray(2,2);
+  {const auto g = GecodeIntVarArray(2, 2);
    assert(sumdomsizes(g.array()) == 2 * 2);
+   assert(not empty(g.array()));
   }
 }
