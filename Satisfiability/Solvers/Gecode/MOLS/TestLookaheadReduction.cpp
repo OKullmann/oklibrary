@@ -87,7 +87,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.15",
+        "0.6.0",
         "27.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -120,341 +120,299 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {const CS::Square A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1}));
-     assert(eqp(values(ch->V, 2), {0,1}));
-     assert(eqp(values(ch->V, 3), {0,1}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
+    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
+    assert(eqp(values(ch->V, 0), {0}));
+    assert(eqp(values(ch->V, 1), {0,1}));
+    assert(eqp(values(ch->V, 2), {0,1}));
+    assert(eqp(values(ch->V, 3), {0,1}));
+    const auto st = ch->status();
+    assert(st == GC::SS_BRANCH);
   }
 
   {const CS::TrivialLatinSquare A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1}));
-     assert(eqp(values(ch->V, 2), {0,1}));
-     assert(eqp(values(ch->V, 3), {0,1}));
-     const auto st = ch->status();
-     assert(st == GC::SS_SOLVED);
-   }
+    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
+    assert(eqp(values(ch->V, 0), {0}));
+    assert(eqp(values(ch->V, 1), {0,1}));
+    assert(eqp(values(ch->V, 2), {0,1}));
+    assert(eqp(values(ch->V, 3), {0,1}));
+    const auto st = ch->status();
+    assert(st == GC::SS_SOLVED);
   }
 
   {const CS::Square A(3);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {0,1,2}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
+    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
+    assert(eqp(values(ch->V, 0), {0}));
+    assert(eqp(values(ch->V, 1), {0,1,2}));
+    assert(eqp(values(ch->V, 2), {0,1,2}));
+    assert(eqp(values(ch->V, 3), {0,1,2}));
+    assert(eqp(values(ch->V, 4), {0,1,2}));
+    assert(eqp(values(ch->V, 5), {0,1,2}));
+    assert(eqp(values(ch->V, 6), {0,1,2}));
+    assert(eqp(values(ch->V, 7), {0,1,2}));
+    assert(eqp(values(ch->V, 8), {0,1,2}));
+    const auto st = ch->status();
+    assert(st == GC::SS_BRANCH);
   }
 
   {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {0,1,2}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
+    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+    const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
+    assert(eqp(values(ch->V, 0), {0}));
+    assert(eqp(values(ch->V, 1), {0,1,2}));
+    assert(eqp(values(ch->V, 2), {0,1,2}));
+    assert(eqp(values(ch->V, 3), {0,1,2}));
+    assert(eqp(values(ch->V, 4), {0,1,2}));
+    assert(eqp(values(ch->V, 5), {0,1,2}));
+    assert(eqp(values(ch->V, 6), {0,1,2}));
+    assert(eqp(values(ch->V, 7), {0,1,2}));
+    assert(eqp(values(ch->V, 8), {0,1,2}));
+    const auto st = ch->status();
+    assert(st == GC::SS_BRANCH);
   }
 
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {1}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
+   assert(eqp(values(ch->V, 0), {0}));
+   assert(eqp(values(ch->V, 1), {0,1,2}));
+   assert(eqp(values(ch->V, 2), {0,1,2}));
+   assert(eqp(values(ch->V, 3), {0,1,2}));
+   assert(eqp(values(ch->V, 4), {1}));
+   assert(eqp(values(ch->V, 5), {0,1,2}));
+   assert(eqp(values(ch->V, 6), {0,1,2}));
+   assert(eqp(values(ch->V, 7), {0,1,2}));
+   assert(eqp(values(ch->V, 8), {0,1,2}));
+   const auto st = ch->status();
+   assert(st == GC::SS_BRANCH);
   }
 
   {const CS::Square A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, stats0, false) ==
+          GC::SS_BRANCH);
   }
   {const CS::Square A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}}));
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 0, 1, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}}));
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 0, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}, {1,0}}));
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 1, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
-   }
   }
 
   {const CS::TrivialLatinSquare A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, stats0, false) ==
        GC::SS_SOLVED);
-     assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
+     assert(probe(m.get(), 0, 1, stats0, false) ==
        GC::SS_SOLVED);
-     assert(probe(m.get(), 1, 0, prop_level(po), stats0, false) ==
+     assert(probe(m.get(), 1, 0, stats0, false) ==
        GC::SS_SOLVED);
-     assert(probe(m.get(), 1, 1, prop_level(po), stats0, false) ==
+     assert(probe(m.get(), 1, 1, stats0, false) ==
        GC::SS_SOLVED);
-   }
   }
   {const CS::TrivialLatinSquare A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(PT.empty());
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(PT.empty());
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(PT.empty());
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(PT.empty());
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, PT, stats0, false) == GC::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 1, PT, stats0, false) == GC::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 0, PT, stats0, false) == GC::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 1, 1, PT, stats0, false) == GC::SS_SOLVED);
+   assert(PT.empty());
   }
 
   {const CS::Square A(3);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 0, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, stats0, false) ==
+          GC::SS_BRANCH);
   }
   {const CS::Square A(3);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}}));
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}}));
-     assert(probe(m.get(), 0, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}}));
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}}));
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}}));
-     assert(probe(m.get(), 1, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}}));
-     assert(probe(m.get(), 2, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}}));
-     assert(probe(m.get(), 2, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
-     assert(probe(m.get(), 2, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1},
-       {2,2}}));
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}}));
+   assert(probe(m.get(), 0, 1, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}}));
+   assert(probe(m.get(), 0, 2, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}}));
+   assert(probe(m.get(), 1, 0, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}}));
+   assert(probe(m.get(), 1, 1, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}}));
+   assert(probe(m.get(), 1, 2, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}}));
+   assert(probe(m.get(), 2, 0, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}}));
+   assert(probe(m.get(), 2, 1, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}}));
+   assert(probe(m.get(), 2, 2, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1},
+                   {2,2}}));
   }
 
   {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
-       GC::SS_FAILED);
-     assert(probe(m.get(), 0, 2, prop_level(po), stats0, false) ==
-       GC::SS_FAILED);
-     assert(probe(m.get(), 1, 0, prop_level(po), stats0, false) ==
-       GC::SS_FAILED);
-     assert(probe(m.get(), 1, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 0, prop_level(po), stats0, false) ==
-       GC::SS_FAILED);
-     assert(probe(m.get(), 2, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 0, 1, stats0, false) ==
+          GC::SS_FAILED);
+   assert(probe(m.get(), 0, 2, stats0, false) ==
+          GC::SS_FAILED);
+   assert(probe(m.get(), 1, 0, stats0, false) ==
+          GC::SS_FAILED);
+   assert(probe(m.get(), 1, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 2, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, stats0, false) ==
+          GC::SS_FAILED);
+   assert(probe(m.get(), 2, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, stats0, false) ==
+          GC::SS_BRANCH);
   }
   {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, PT, stats0, false) == GC::SS_BRANCH);
      assert(PT.empty());
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) == GC::SS_FAILED);
+     assert(probe(m.get(), 0, 1, PT, stats0, false) == GC::SS_FAILED);
      assert(PT.empty());
-     assert(probe(m.get(), 0, 2, prop_level(po), PT, stats0, false) == GC::SS_FAILED);
+     assert(probe(m.get(), 0, 2, PT, stats0, false) == GC::SS_FAILED);
      assert(PT.empty());
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) == GC::SS_FAILED);
+     assert(probe(m.get(), 1, 0, PT, stats0, false) == GC::SS_FAILED);
      assert(PT.empty());
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 1, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{1,1}, {2,2}}));
-     assert(probe(m.get(), 1, 2, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 1, 2, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-     assert(probe(m.get(), 2, 0, prop_level(po), PT, stats0, false) == GC::SS_FAILED);
+     assert(probe(m.get(), 2, 0, PT, stats0, false) == GC::SS_FAILED);
      assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-     assert(probe(m.get(), 2, 1, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 2, 1, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-     assert(probe(m.get(), 2, 2, prop_level(po), PT, stats0, false) == GC::SS_BRANCH);
+     assert(probe(m.get(), 2, 2, PT, stats0, false) == GC::SS_BRANCH);
      assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
-   }
   }
 
   {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     assert(probe(m.get(), 0, 0, prop_level(po), stats0, false) ==
-       GC::SS_SOLVED);
-     assert(probe(m.get(), 0, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 0, 2, prop_level(po), stats0, false) ==
-       GC::SS_SOLVED);
-     assert(probe(m.get(), 1, 0, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 1, 1, prop_level(po), stats0, false) ==
-       GC::SS_FAILED);
-     assert(probe(m.get(), 1, 2, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 0, prop_level(po), stats0, false) ==
-       GC::SS_SOLVED);
-     assert(probe(m.get(), 2, 1, prop_level(po), stats0, false) ==
-       GC::SS_BRANCH);
-     assert(probe(m.get(), 2, 2, prop_level(po), stats0, false) ==
-       GC::SS_SOLVED);
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   assert(probe(m.get(), 0, 0, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(probe(m.get(), 0, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 0, 2, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(probe(m.get(), 1, 0, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 1, 1, stats0, false) ==
+          GC::SS_FAILED);
+   assert(probe(m.get(), 1, 2, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 0, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(probe(m.get(), 2, 1, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(probe(m.get(), 2, 2, stats0, false) ==
+          GC::SS_SOLVED);
   }
   {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     ReductionStatistics stats0(m->V);
-     pruning_table_t PT;
-     assert(probe(m.get(), 0, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(PT.empty());
-     assert(probe(m.get(), 0, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,1}}));
-     assert(probe(m.get(), 0, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(eqp(PT, {{0,1}}));
-     assert(probe(m.get(), 1, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
-     assert(probe(m.get(), 1, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_FAILED);
-     assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
-     assert(probe(m.get(), 1, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
-     assert(probe(m.get(), 2, 0, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
-     assert(probe(m.get(), 2, 1, prop_level(po), PT, stats0, false) ==
-       GC::SS_BRANCH);
-     assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
-     assert(probe(m.get(), 2, 2, prop_level(po), PT, stats0, false) ==
-       GC::SS_SOLVED);
-     assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
-   }
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   ReductionStatistics stats0(m->V);
+   pruning_table_t PT;
+   assert(probe(m.get(), 0, 0, PT, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(PT.empty());
+   assert(probe(m.get(), 0, 1, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 0, 2, PT, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(eqp(PT, {{0,1}}));
+   assert(probe(m.get(), 1, 0, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1, 1, PT, stats0, false) ==
+          GC::SS_FAILED);
+   assert(eqp(PT, {{0,1}, {1,0}, {7,2}}));
+   assert(probe(m.get(), 1, 2, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 0, PT, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 1, PT, stats0, false) ==
+          GC::SS_BRANCH);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
+   assert(probe(m.get(), 2, 2, PT, stats0, false) ==
+          GC::SS_SOLVED);
+   assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
   }
 
   {for (size_t N = 2; N <= 5; ++N) {
      const CS::Square A(N);
      for (const LAR lar : ET::allvals<LAR>()) {
        const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-       const auto pl = GC::IPL_VAL;
        const ReductionStatistics stats =
-         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
-           lar);
+         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
        assert(eqwt(stats, A.laredstats(lar)));
      }
    }
   }
 
-  {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
-     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::eag_npr);
    /* ERROR FALSE TESTS
    assert(stats.props() == 1);
@@ -472,11 +430,10 @@ int main(const int argc, const char* const argv[]) {
    */
   }
 
-  {const GC::IntPropLevel pl = GC::IPL_VAL;
-   const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
-     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, pl,
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::eag_npr);
    /* ERROR FALSE TESTS
    assert(stats.props() == 1);

@@ -78,6 +78,14 @@ namespace GcVariables {
     return res;
   }
 
+
+  void set_var(GC::Space& s, const GC::IntVar& v, const int val) noexcept {
+    GC::rel(s, v, GC::IRT_EQ, val);
+  }
+  void unset_var(GC::Space& s, const GC::IntVar& v, const int val) noexcept {
+    GC::rel(s, v, GC::IRT_NQ, val);
+  }
+
 }
 
 #endif

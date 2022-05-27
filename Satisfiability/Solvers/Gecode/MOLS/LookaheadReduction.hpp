@@ -136,12 +136,11 @@ namespace LookaheadReduction {
   // Make a copy of a given problem and assign either var==val or var!=val:
   template <class SPA>
   std::unique_ptr<SPA> child_node(SPA* const m,
-                                       const int v, const int val,
-                                       const GC::IntPropLevel pl) noexcept {
+                                       const int v, const int val) noexcept {
     assert(v >= 0 and v < m->V.size());
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     assert(c->V.size() == m->V.size());
-    GC::rel(*c.get(), c.get()->V[v], GC::IRT_EQ, val, pl);
+    GV::set_var(*c.get(), c.get()->V[v], val);
     return c;
   }
 
@@ -152,11 +151,10 @@ namespace LookaheadReduction {
   template <class SPA>
   GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
-                        const GC::IntPropLevel pl,
                         ReductionStatistics& stats,
                         const bool with_sols) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    const auto chnode = child_node<SPA>(m, v, val, pl);
+    const auto chnode = child_node<SPA>(m, v, val);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
       stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));
@@ -166,13 +164,12 @@ namespace LookaheadReduction {
   template <class SPA>
   GC::SpaceStatus probe(SPA* const m,
                         const int v, const int val,
-                        const GC::IntPropLevel pl,
                         pruning_table_t& PV,
                         ReductionStatistics& stats,
                         const bool with_sols) noexcept {
     assert(v >= 0 and v < m->V.size());
     const auto V0 = m->V;
-    const auto chnode = child_node<SPA>(m, v, val, pl);
+    const auto chnode = child_node<SPA>(m, v, val);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
       stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));
@@ -197,7 +194,6 @@ namespace LookaheadReduction {
   template <class SPA>
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
-                        const GC::IntPropLevel pl,
                         const OP::LAR lar) noexcept {
     ReductionStatistics stats(m->V);
     Timing::UserTime timing;
@@ -225,8 +221,8 @@ namespace LookaheadReduction {
             stats.inc_prunes(); continue;
           }
           const auto status = pruning(lar) ?
-            probe(m, v, val, pl, PV, stats, with_solutions(rt)) :
-            probe(m, v, val, pl,     stats, with_solutions(rt));
+            probe(m, v, val, PV, stats, with_solutions(rt)) :
+            probe(m, v, val,     stats, with_solutions(rt));
           stats.inc_probes();
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
@@ -245,7 +241,7 @@ namespace LookaheadReduction {
           [[maybe_unused]] const auto esize = elimvals.size();
           assert(esize <= vsize);
           last_red = v;
-          for (const int val : elimvals) GC::rel(*m,V[v],GC::IRT_NQ,val,pl);
+          for (const int val : elimvals) GV::unset_var(*m, V[v], val);
           const auto status = m->status();
           // assert(V[v].size() == vsize - esize); // ???
           stats.inc_props();

@@ -135,7 +135,6 @@ namespace LookaheadBranching {
 
   struct rlaParams {
     const OP::RT rt;
-    const GC::IntPropLevel pl;
     const OP::LAR lar;
     const OP::BHV bv;
     const OP::BRT bt;
@@ -309,7 +308,7 @@ namespace LookaheadBranching {
 
     GC::Choice* choice(GC::Space& s0) {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
-      {auto stats = LR::lareduction(&s, P.rt, P.pl, P.lar);
+      {auto stats = LR::lareduction(&s, P.rt, P.lar);
        if (P.parallel) {
          std::lock_guard<std::mutex> lock(stats_mutex); S->add(stats);
        }
@@ -350,13 +349,14 @@ namespace LookaheadBranching {
       [[maybe_unused]] const auto oldsize = node->V[v].size();
       assert(oldsize >= 2);
       if (w == 2) {
-        GC::rel(s, node->V[v], a==0 ? GC::IRT_EQ : GC::IRT_NQ, c.br[1]);
+        if (a == 0) GV::set_var(s, node->V[v], c.br[1]);
+        else GV::unset_var(s, node->V[v], c.br[1]);
         assert(node->V[v].size() == (a==0 ? 1 : oldsize-1));
       }
       else {
         assert(a+1 < w);
         // assert(oldsize == w-1); // ???
-        GC::rel(s, node->V[v], GC::IRT_EQ, c.br[a+1]);
+        GV::set_var(s, node->V[v], c.br[a+1]);
         assert(node->V[v].size() == 1);
       }
       return GC::ES_OK;
