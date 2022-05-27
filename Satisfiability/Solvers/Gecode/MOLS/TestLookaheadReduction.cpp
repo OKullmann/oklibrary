@@ -20,6 +20,9 @@ BUG:
     - Possibly the problem is for (some of) those values of val which led to a
       satisfying assignment?
     - One needs unit-tests which inspect exactly the values of variables.
+    - The point here seems to be that propagation, as triggered by status(),
+      aims at being "intelligent" (not doing superfluous work), and thus
+      is likely unreliable here.
 
 1. Wrong tests for eager reduction (marked with XXX)
     - If a reduction was found, then obviously at least two rounds are needed.

@@ -12,6 +12,12 @@ License, or any later version. */
 
 TODOS:
 
+1. set_var, unset_var need to be tested
+    - This needs status().
+    - Using a different functionality, based on views, has the additional
+      advantage that set_var, unset_var don't need parameter s.
+    - But first proper test-cases are needed.
+
 */
 
 #ifndef GCVARIABLES_FQM6cOCEcZ

@@ -84,6 +84,7 @@ namespace LookaheadBranching {
   // A branching tuple, i.e. a tuple of distances:
   typedef std::vector<float_t> bt_t;
 
+  // DEPRECATED: (no "views" or any such Gecode-internals should be used here)
   // Array of values of an integer variable:
   typedef GC::Int::IntView IntView;
   // Array of array of values of Gecode integer variables:
