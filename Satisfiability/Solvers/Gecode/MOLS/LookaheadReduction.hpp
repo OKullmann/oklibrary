@@ -137,12 +137,11 @@ namespace LookaheadReduction {
   template <class SPA>
   std::unique_ptr<SPA> child_node(SPA* const m,
                                        const int v, const int val,
-                                       const GC::IntPropLevel pl,
-                                       const bool eq = true) noexcept {
+                                       const GC::IntPropLevel pl) noexcept {
     assert(v >= 0 and v < m->V.size());
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     assert(c->V.size() == m->V.size());
-    GC::rel(*c.get(), c.get()->V[v], eq?GC::IRT_EQ:GC::IRT_NQ, val, pl);
+    GC::rel(*c.get(), c.get()->V[v], GC::IRT_EQ, val, pl);
     return c;
   }
 
@@ -157,7 +156,7 @@ namespace LookaheadReduction {
                         ReductionStatistics& stats,
                         const bool with_sols) noexcept {
     assert(m->V.size() > 0 and v < m->V.size());
-    const auto chnode = child_node<SPA>(m, v, val, pl, true);
+    const auto chnode = child_node<SPA>(m, v, val, pl);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
       stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));
@@ -173,7 +172,7 @@ namespace LookaheadReduction {
                         const bool with_sols) noexcept {
     assert(v >= 0 and v < m->V.size());
     const auto V0 = m->V;
-    const auto chnode = child_node<SPA>(m, v, val, pl, true);
+    const auto chnode = child_node<SPA>(m, v, val, pl);
     const auto status = chnode->status();
     if (status == GC::SS_SOLVED) {
       stats.inc_solc(); if (with_sols) stats.sollist(GV::extract(chnode->V));

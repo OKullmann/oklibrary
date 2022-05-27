@@ -87,8 +87,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.14",
-        "25.5.2022",
+        "0.5.15",
+        "27.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -123,21 +123,8 @@ int main(const int argc, const char* const argv[]) {
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
      assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1}));
-     assert(eqp(values(ch->V, 2), {0,1}));
-     assert(eqp(values(ch->V, 3), {0,1}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
-  }
-  {const CS::Square A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
-     assert(eqp(values(ch->V, 0), {1}));
      assert(eqp(values(ch->V, 1), {0,1}));
      assert(eqp(values(ch->V, 2), {0,1}));
      assert(eqp(values(ch->V, 3), {0,1}));
@@ -150,21 +137,8 @@ int main(const int argc, const char* const argv[]) {
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
      assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1}));
-     assert(eqp(values(ch->V, 2), {0,1}));
-     assert(eqp(values(ch->V, 3), {0,1}));
-     const auto st = ch->status();
-     assert(st == GC::SS_SOLVED);
-   }
-  }
-  {const CS::TrivialLatinSquare A(2);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
-     assert(eqp(values(ch->V, 0), {1}));
      assert(eqp(values(ch->V, 1), {0,1}));
      assert(eqp(values(ch->V, 2), {0,1}));
      assert(eqp(values(ch->V, 3), {0,1}));
@@ -177,26 +151,8 @@ int main(const int argc, const char* const argv[]) {
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
      assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {0,1,2}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
-  }
-  {const CS::Square A(3);
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
-     assert(eqp(values(ch->V, 0), {1,2}));
      assert(eqp(values(ch->V, 1), {0,1,2}));
      assert(eqp(values(ch->V, 2), {0,1,2}));
      assert(eqp(values(ch->V, 3), {0,1,2}));
@@ -214,7 +170,7 @@ int main(const int argc, const char* const argv[]) {
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
      assert(eqp(values(ch->V, 0), {0}));
      assert(eqp(values(ch->V, 1), {0,1,2}));
      assert(eqp(values(ch->V, 2), {0,1,2}));
@@ -226,24 +182,6 @@ int main(const int argc, const char* const argv[]) {
      assert(eqp(values(ch->V, 8), {0,1,2}));
      const auto st = ch->status();
      assert(st == GC::SS_BRANCH);
-   }
-  }
-  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
-     assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {0,1,2}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_FAILED);
    }
   }
 
@@ -251,26 +189,8 @@ int main(const int argc, const char* const argv[]) {
    for (const PropO po : ET::allvals<PropO>()) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), true);
+       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po));
      assert(eqp(values(ch->V, 0), {0}));
-     assert(eqp(values(ch->V, 1), {0,1,2}));
-     assert(eqp(values(ch->V, 2), {0,1,2}));
-     assert(eqp(values(ch->V, 3), {0,1,2}));
-     assert(eqp(values(ch->V, 4), {1}));
-     assert(eqp(values(ch->V, 5), {0,1,2}));
-     assert(eqp(values(ch->V, 6), {0,1,2}));
-     assert(eqp(values(ch->V, 7), {0,1,2}));
-     assert(eqp(values(ch->V, 8), {0,1,2}));
-     const auto st = ch->status();
-     assert(st == GC::SS_BRANCH);
-   }
-  }
-  {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
-   for (const PropO po : ET::allvals<PropO>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     const auto ch =
-       child_node<CS::GenericMolsNB>(m.get(), 0, 0, prop_level(po), false);
-     assert(eqp(values(ch->V, 0), {1,2}));
      assert(eqp(values(ch->V, 1), {0,1,2}));
      assert(eqp(values(ch->V, 2), {0,1,2}));
      assert(eqp(values(ch->V, 3), {0,1,2}));
