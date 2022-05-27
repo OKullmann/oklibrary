@@ -45,25 +45,12 @@ TODOS:
       additional parameters (so that a range of possibilities can be examined
       in loops).
 
-1, DONE (First child_node() is tested, then probe(), and finally lareduction())
-   Clear structure of tests
-    - DONE A test should always test *one thing*.
-    - DONE That means, exactly *one* of "child_node" or "probe" or "lareduction".
-    - DONE The current copy-and-pasting of some "child_node" and some "probe" seems
-      to make little sense (not much care is spent on each candidate to be
-      tested, and there are interferences).
-    - DONE (First, child_node is tested, then probe, and finally, lareduction)
-      The order of tests usually should follow the order in the code to be
-      tested; here that means *first* one establishes that child_node is
-      correct, *then* one establishes that probe is correct, and finally one
-      establishes that lareduction is correct.
-
-2. Loop over the four possibilities of LAR (for lareduction):
+1. Loop over the four possibilities of LAR (for lareduction):
     - Most cases should test all four possibilities -- it makes no sense to
       test only one of them, and not the others, on the same example.
     - Most testcases will have all these four possibilites different.
 
-3. All possibilities of RT need testing (for lareduction):
+2. All possibilities of RT need testing (for lareduction):
     - Possibly also a loop should be used, for each testcase.
 
 */
