@@ -90,7 +90,7 @@ TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
 
 TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
-TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp Cases.hpp Options.hpp Solvers.hpp GcVariables.hpp Conditions.hpp
+TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp Cases.hpp Options.hpp Solvers.hpp GcVariables.hpp Conditions.hpp Cases.hpp
 
 TestLookaheadBranching_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadBranching_debug : Optimisation_plus = -fwhole-program

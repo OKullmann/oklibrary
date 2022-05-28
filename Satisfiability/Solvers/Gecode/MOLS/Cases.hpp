@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*
 
-Test cases for lookahead-reduction and solvers.
+  Test cases for lookahead-reduction and solvers.
+
+  Namespace Cases, abbreviated "CS";
 
 BUG:
 
@@ -67,8 +69,6 @@ namespace Cases {
 
   using size_t = Conditions::size_t;
 
-  using space_ptr_t = std::unique_ptr<GenericMolsNB>;
-
 
   class GenericMolsNB : public CT::GenericMols0 {
     struct Void : GC::Brancher {
@@ -91,6 +91,8 @@ namespace Cases {
       new (*this) Void(*this);
     }
   };
+
+  typedef std::unique_ptr<GenericMolsNB> space_ptr_t;
 
 
   EC::EncCond encoding(const std::string condstr, const std::string psstr,
