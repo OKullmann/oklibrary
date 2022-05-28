@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.7",
+        "0.2.8",
         "28.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -71,6 +71,8 @@ int main(const int argc, const char* const argv[]) {
      assert(Cell(n).unit() == (n == 1));
      assert(Cell(n).first() == 0);
      assert(Cell(n).elimvals() == 0);
+     assert(Cell(n).vals() == n);
+     assert(not Cell(n).restricted());
      Cell C(n);
      assert(C == Cell(n));
      assert(C.first() == 0);
@@ -85,6 +87,8 @@ int main(const int argc, const char* const argv[]) {
      assert(not C2.consistent());
      assert((C < C2) == (n != 0));
      assert(C2.elimvals() == n);
+     assert(C2.vals() == 0);
+     assert(C2.restricted() == (n != 0));
      swap(C, C2);
      assert(C2 == Cell(n));
      assert(C == Cell(n).flip());
@@ -143,12 +147,16 @@ int main(const int argc, const char* const argv[]) {
    assert(p.N == 2);
    assert(p.psqs.empty());
    assert(p.elimvals() == 0);
+   assert(not p.restricted());
+   assert(p.restricted_count() == 0);
   }
   {std::istringstream ss("\n\t\n # \n #");
    const PSquares p(2, ss);
    assert(p.N == 2);
    assert(p.psqs.empty());
    assert(p.elimvals() == 0);
+   assert(not p.restricted());
+   assert(p.restricted_count() == 0);
   }
   {std::istringstream ss("\n\t\n # \n #\n gh");
    bool caught = false;
@@ -211,6 +219,8 @@ int main(const int argc, const char* const argv[]) {
    const PSquares p(2, ss);
    assert(p.N == 2);
    assert(p.elimvals() == 8);
+   assert(p.restricted());
+   assert(p.restricted_count() == 4);
    assert(eqp(p.psqs, {flip(PSquare{2})}));
   }
   {std::istringstream ss("0\n+0,1 *\n* +1,x\n");
@@ -255,12 +265,18 @@ int main(const int argc, const char* const argv[]) {
                     {789, CD::VS::c213});
    assert(valid(p0,2));
    assert(p0.elimvals() == 2 + 2 + 1);
+   assert(p0.restricted());
+   assert(p0.restricted_count() == 3);
    const PSquare p1({{Cell(2),Cell({0,1})},{Cell(2),Cell({0,1})}},
                     12);
    assert(valid(p1,2));
    assert(p1.elimvals() == 1 + 1);
+   assert(p1.restricted());
+   assert(p1.restricted_count() == 2);
    assert(p == PSquares(2,{p0,p1}));
    assert(p.elimvals() == 5 + 2);
+   assert(p.restricted());
+   assert(p.restricted_count() == 3 + 2);
   }
 
 }

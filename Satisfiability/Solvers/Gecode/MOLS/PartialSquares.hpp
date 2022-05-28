@@ -72,6 +72,7 @@ namespace PartialSquares {
       return std::accumulate(c.begin(), c.end(), size_t(0));
     }
     size_t vals() const noexcept { return size() - elimvals(); }
+    bool restricted() const noexcept { return elimvals() != 0; }
 
     void swap(Cell& other) noexcept {
       c.swap(other.c);
@@ -168,6 +169,17 @@ namespace PartialSquares {
         for (const auto& c : row) sum += c.elimvals();
       return sum;
     }
+    bool restricted() const noexcept {
+      for (const auto& row : ps)
+        for (const auto& c : row) if (c.restricted()) return true;
+      return false;
+    }
+    size_t restricted_count() const noexcept {
+      size_t count = 0;
+      for (const auto& row : ps)
+        for (const auto& c : row) count += c.restricted();
+      return count;
+    }
 
     void swap(PSquare& other) noexcept {
       ps.swap(other.ps); std::swap(s, other.s);
@@ -247,6 +259,15 @@ namespace PartialSquares {
       size_t sum = 0;
       for (const auto& ps : psqs) sum += ps.elimvals();
       return sum;
+    }
+    bool restricted() const noexcept {
+      return std::ranges::any_of(psqs,
+                                 [](const auto& s){return s.restricted();});
+    }
+    size_t restricted_count() const noexcept {
+      size_t count = 0;
+      for (const auto& ps : psqs) count += ps.restricted_count();
+      return count;
     }
 
     struct Error : std::runtime_error {
