@@ -31,6 +31,7 @@ TODOS:
 #include <exception>
 #include <type_traits>
 #include <utility>
+#include <numeric>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -67,6 +68,10 @@ namespace PartialSquares {
     size_t first() const noexcept {
       return std::ranges::find(c, 0) - c.begin();
     }
+    size_t elimvals() const noexcept {
+      return std::accumulate(c.begin(), c.end(), size_t(0));
+    }
+    size_t vals() const noexcept { return size() - elimvals(); }
 
     void swap(Cell& other) noexcept {
       c.swap(other.c);
@@ -157,6 +162,12 @@ namespace PartialSquares {
 
     bool consistent() const noexcept { return PartialSquares::consistent(ps); }
     bool unit() const noexcept { return PartialSquares::unit(ps); }
+    size_t elimvals() const noexcept {
+      size_t sum = 0;
+      for (const auto& row : ps)
+        for (const auto& c : row) sum += c.elimvals();
+      return sum;
+    }
 
     void swap(PSquare& other) noexcept {
       ps.swap(other.ps); std::swap(s, other.s);
@@ -222,6 +233,7 @@ namespace PartialSquares {
       return *this;
     }
 
+    bool empty() const noexcept { return psqs.empty(); }
     size_t size() const noexcept { return psqs.size(); }
     bool consistent() const noexcept {
       return std::ranges::all_of(psqs,
@@ -230,6 +242,11 @@ namespace PartialSquares {
     bool unit() const noexcept {
       return std::ranges::all_of(psqs,
         [](const PSquare& ps){return ps.unit();});
+    }
+    size_t elimvals() const noexcept {
+      size_t sum = 0;
+      for (const auto& ps : psqs) sum += ps.elimvals();
+      return sum;
     }
 
     struct Error : std::runtime_error {
