@@ -99,14 +99,11 @@ namespace Cases {
   using size_t = Conditions::size_t;
 
   struct Square {
-  private:
-    size_t N;
-    EncCond e;
-  public:
+    const size_t N;
+    const EncCond e;
     Square(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
-    EncCond enc() const noexcept { return e; };
     space_ptr_t space() const noexcept {
       space_ptr_t m(new GenericMolsNB(e));
       m->status();
@@ -122,14 +119,11 @@ namespace Cases {
     }
   };
 
-  struct TrivialLatinSquare {
-  private:
-    size_t N;
-    EncCond e;
-  public:
-    TrivialLatinSquare(const size_t N_, const std::string psstr = "") :
+  struct LS {
+    const size_t N;
+    const EncCond e;
+    LS(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\nls A\n", psstr, N)) {}
-    EncCond enc() const noexcept { return e; };
     space_ptr_t space() const noexcept {
       space_ptr_t m(new GenericMolsNB(e));
       m->status();
