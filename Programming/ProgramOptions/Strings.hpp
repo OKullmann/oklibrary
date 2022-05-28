@@ -105,14 +105,18 @@ namespace Environment {
 
 
   // Replace character x by y in string s (returning a copy):
-  inline std::string replace(std::string s, const char x, const char y) {
+  inline void mreplace(std::string& s, const char x, const char y) {
     std::replace(s.begin(), s.end(), x, y);
-    return s;
+  }
+  inline std::string replace(std::string s, const char x, const char y) {
+    mreplace(s, x, y); return s;
   }
   // Remove character x in s:
-  inline std::string remove(std::string s, const char x) {
+  inline void mremove(std::string& s, const char x) {
     s.erase(std::remove(s.begin(), s.end(), x), s.end());
-    return s;
+  }
+  inline std::string remove(std::string s, const char x) {
+    mremove(s, x); return s;
   }
   // Remove all content after first character c (including c; possibly there
   // is no c):
@@ -260,6 +264,18 @@ namespace Environment {
   }
   inline std::string remove_leadingtrailing_spaces(std::string s) {
     mremove_leadingtrailing_spaces(s); return s;
+  }
+
+  inline std::string unescape_eol(const std::string& s) {
+    std::string res; res.reserve(s.size());
+    typedef std::string::size_type size_t;
+    for (size_t i = 0; i < s.size();) {
+      const size_t pos = s.find("\\n", i);
+      res.append(s.substr(i, pos-i));
+      if (pos == std::string::npos) break;
+      res.append(1, '\n'); i = pos+2;
+    }
+    return res;
   }
 
 

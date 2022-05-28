@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.14",
-        "26.5.2022",
+        "0.2.15",
+        "28.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -47,6 +47,8 @@ int main(const int argc, const char* const argv[]) {
   using namespace Environment;
 
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
+   assert(replace("", ' ', 'x') == "");
+   assert(remove("xyz \nab", 'a') == "xyz \nb");
   }
   {assert(basename("abc.def") == "abc");
   }
@@ -133,6 +135,18 @@ int main(const int argc, const char* const argv[]) {
   {assert(remove_trailing_spaces("abc  \n  ") == "abc");
    assert(remove_leading_spaces("  abc  \n  ") == "abc  \n  ");
    assert(remove_leadingtrailing_spaces(" \n \t  abc  \n \t ") == "abc");
+  }
+
+  {assert(unescape_eol("") == "");
+   assert(unescape_eol("a b c") == "a b c");
+   assert(unescape_eol("\\n") == "\n");
+   assert(unescape_eol("\\n\\n") == "\n\n");
+   assert(unescape_eol("\n") == "\n");
+   assert(unescape_eol("\\na") == "\na");
+   assert(unescape_eol("\\na b") == "\na b");
+   assert(unescape_eol("\\na b\\n") == "\na b\n");
+   assert(unescape_eol("\\na b\\n \n c") == "\na b\n \n c");
+   assert(unescape_eol("\\na b\\n \n c  \\n") == "\na b\n \n c  \n");
   }
 
   {ProgramInfo pi("AAA", "BBB", "CCC");
