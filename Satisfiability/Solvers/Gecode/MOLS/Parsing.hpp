@@ -7,6 +7,8 @@ License, or any later version. */
 
 /*
 
+  Namespace Parsing, abbreviated "PG".
+
   Parsing of the problem specification
 
 

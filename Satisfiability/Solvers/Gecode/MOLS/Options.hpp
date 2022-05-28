@@ -6,8 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-
   Options for Gecode
+
+  Namespace Options, abbreviated "OP".
 
 TODOS
 

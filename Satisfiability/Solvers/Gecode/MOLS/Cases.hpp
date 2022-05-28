@@ -30,13 +30,14 @@ TODOS:
 
 */
 
-#include <sstream>
-#include <string>
-
-#include <cassert>
-
 #ifndef CASES_tqVXGkU1YS
 #define CASES_tqVXGkU1YS
+
+#include <sstream>
+#include <string>
+#include <memory>
+
+#include <cassert>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -53,17 +54,18 @@ TODOS:
 
 namespace Cases {
 
-  using namespace Conditions;
-  using namespace Parsing;
-  using namespace PartialSquares;
-  using namespace Encoding;
-  using namespace Constraints;
-  using namespace Options;
-  using namespace LookaheadReduction;
+  namespace GC = Gecode;
 
+  namespace CD = Conditions;
+  namespace PG = Parsing;
   namespace FP = FloatingPoint;
+  namespace PS = PartialSquares;
+  namespace EC = Encoding;
+  namespace CT = Constraints;
+  namespace OP = Options;
+  namespace LR = LookaheadReduction;
 
-  class GenericMolsNB : public GenericMols0 {
+  class GenericMolsNB : public CT::GenericMols0 {
     struct Void : GC::Brancher {
       Void(const GC::Home home) : GC::Brancher(home) {}
       Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
@@ -80,27 +82,29 @@ namespace Cases {
       }
     };
   public :
-    GenericMolsNB(const EncCond& enc) : GenericMols0(enc) {
+    GenericMolsNB(const EC::EncCond& enc) : GenericMols0(enc) {
       new (*this) Void(*this);
     }
   };
 
-  EncCond encoding(const std::string condstr, const std::string psstr,
+
+  EC::EncCond encoding(const std::string condstr, const std::string psstr,
     const size_t N) noexcept {
     std::istringstream in_cond(condstr);
     std::istringstream in_ps(psstr);
-    const AConditions ac = ReadAC()(in_cond);
-    const PSquares ps = PSquares(N, in_ps);
-    const EncCond enc(ac, ps);
+    const CD::AConditions ac = PG::ReadAC()(in_cond);
+    const PS::PSquares ps(N, in_ps);
+    const EC::EncCond enc(ac, ps);
     return enc;
   }
+
 
   using space_ptr_t = std::unique_ptr<GenericMolsNB>;
   using size_t = Conditions::size_t;
 
   struct Square {
     const size_t N;
-    const EncCond e;
+    const EC::EncCond e;
     Square(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\n", psstr, N)) {}
     //size_t solc() const noexcept { return FP::pow(N, N*N); }
@@ -109,9 +113,9 @@ namespace Cases {
       m->status();
       return m;
     };
-    ReductionStatistics laredstats(const LAR lar) const noexcept {
-      space_ptr_t m = space();
-      ReductionStatistics s(m->V);
+    LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
+      const space_ptr_t m = space();
+      LR::ReductionStatistics s(m->V);
       s.inc_rounds();
       for (auto i=0; i < FP::pow(N, 3); ++i) s.inc_probes();
       if (pruning(lar)) s.maxprune(FP::pow(N, 3));
@@ -121,7 +125,7 @@ namespace Cases {
 
   struct LS {
     const size_t N;
-    const EncCond e;
+    const EC::EncCond e;
     LS(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\nls A\n", psstr, N)) {}
     space_ptr_t space() const noexcept {
