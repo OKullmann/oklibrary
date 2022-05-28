@@ -551,7 +551,7 @@ namespace Encoding {
 
     // The initial domain-restriction:
     PS::PSquares full_tass() const {
-      PS::PSquares::psquares_t P; P.reserve(ac.num_squares());
+      PS::psquares_t P; P.reserve(ac.num_squares());
       const auto f = PS::full_psquare(N);
       for (size_t i = 0; i < ac.versions().size(); ++i)
         for (const CD::VS v : ac.versions()[i].choices())

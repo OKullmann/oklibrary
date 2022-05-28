@@ -38,7 +38,6 @@ namespace CommandLine {
 
   namespace CD = Conditions;
   namespace EC = Encoding;
-  namespace PR = Parsing;
   namespace PS = PartialSquares;
   namespace OP = Options;
 
@@ -59,10 +58,18 @@ namespace CommandLine {
     return res;
   }
 
+  constexpr char escape_char = '@';
+
   std::pair<CD::AConditions,std::string>
   read_ac([[maybe_unused]]const int argc, const char* const argv[]) {
     assert(argc >= 3);
     const std::string filename = argv[2];
+    if (filename.empty())
+      throw std::runtime_error("ERROR[CommandLine::read_ac]: "
+                               "conditions-file-string empty");
+    if (filename[0] == escape_char)
+      return {Parsing::ReadAC()(
+                Environment::unescape_eol(filename.substr(1))), filename};
     std::ifstream file(filename);
     if (not file) {
       std::ostringstream ss;
@@ -70,7 +77,7 @@ namespace CommandLine {
         "\" could not be opened for reading.";
       throw std::runtime_error(ss.str());
     }
-    return {PR::ReadAC()(file), filename};
+    return {Parsing::ReadAC()(file), filename};
   }
 
   typedef std::pair<std::optional<PS::PSquares>, std::string> ps_t;
@@ -86,6 +93,9 @@ namespace CommandLine {
       throw std::runtime_error(ss.str());
     }
     const size_t N = list_N[0];
+    if (name[0] == escape_char)
+      return {PS::PSquares(N,
+                           Environment::unescape_eol(name.substr(1))), name};
     std::ifstream file(name);
     if (not file) {
       std::ostringstream ss;

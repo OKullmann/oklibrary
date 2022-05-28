@@ -203,8 +203,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.1",
-        "26.5.2022",
+        "0.12.2",
+        "28.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -228,8 +228,8 @@ namespace {
       " N file_cond file_ps run-type prop-level branch-type"
       " branch-var branch-order gcd threads\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
-      " - file_cond    : filename for conditions-specification\n"
-      " - file_ps      : filename for partial-squares-specification\n"
+      " - file_cond    : filename/string for conditions-specification\n"
+      " - file_ps      : filename/string for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
       " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
       " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
@@ -239,6 +239,7 @@ namespace {
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
+      "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - the four algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
@@ -339,7 +340,7 @@ int main(const int argc, const char* const argv[]) {
   if (num_runs != 1) rh(std::cout);
   for (const size_t N : list_N)
     for (const PropO po : pov) {
-      const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,{}),
+      const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,psquares_t{}),
                         prop_level(po));
       for (const BRT brt : brtv)
         for (const BHV bvar : bvarv)

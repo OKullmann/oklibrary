@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
+        "0.3.7",
         "14.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -43,7 +43,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const EncCond enc(AConditions(0), PSquares(2,{}));
+  {const EncCond enc(AConditions(0), PSquares(2,psquares_t{}));
    assert(enc.ac.k == 0);
    assert(enc.N == 2);
    assert(enc.N2 == 4);

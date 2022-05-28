@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "2.5.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -48,7 +48,7 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(valid(BasicSR{}));
    assert((valid(BasicSR{RT::sat_decision,1,{}})));
-   const PSquares ps(2,{});
+   const PSquares ps(2,psquares_t{});
    assert((not valid(BasicSR{RT::sat_decision,1,{ps}})));
    assert((not valid(BasicSR{RT::sat_decision,2,{}})));
 

@@ -32,6 +32,7 @@ TODOS:
 #include <type_traits>
 #include <utility>
 #include <numeric>
+#include <sstream>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -216,12 +217,15 @@ namespace PartialSquares {
   }
 
 
+  typedef std::vector<PSquare> psquares_t;
+
   struct PSquares {
-    typedef std::vector<PSquare> psquares_t;
     psquares_t psqs;
     const size_t N;
 
     PSquares(const size_t N, std::istream& in) : psqs(read(in,N)), N(N) {}
+    PSquares(const size_t N, std::string in) : psqs(read(in,N)), N(N) {}
+
     PSquares(const size_t N, const psquares_t p) : psqs(p), N(N) {
       assert(valid());
     }
@@ -353,6 +357,12 @@ namespace PartialSquares {
       }
       return res;
     }
+
+    static psquares_t read(std::string in, const size_t N) {
+      std::istringstream ss(in);
+      return read(ss, N);
+    }
+
 
     void swap(PSquares& other) noexcept {
       assert(N == other.N);

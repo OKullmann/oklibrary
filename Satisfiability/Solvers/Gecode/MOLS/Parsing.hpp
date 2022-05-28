@@ -175,7 +175,7 @@ namespace Parsing {
     }
 
 
-    CD::AConditions operator()(std::istream& in) {
+    CD::AConditions operator()(std::istream& in) const {
       Square::is = {}; // easier for testing, and announcing handling
       assert(not in.bad());
       const auto content = Environment::split2_cutoff(in, '\n', '#');
@@ -183,7 +183,7 @@ namespace Parsing {
       if (numlines == 0) throw Error("File empty.");
       assert(not content[0].empty());
       if (content[0][0] != CD::Square::decl_keyword)
-        throw Error("First line, first entry does not cotain \"" +
+        throw Error("First line, first entry does not contain \"" +
                     std::string(CD::Square::decl_keyword) + "\", but \"" +
                     content[0][0] + "\"");
       Square::is = Environment::indexing_strings(content[0].cbegin()+1,
@@ -224,6 +224,11 @@ namespace Parsing {
         }}
       }
       return res;
+    }
+
+    CD::AConditions operator()(std::string in) const {
+      std::istringstream ss(in);
+      return operator()(ss);
     }
 
   };
