@@ -65,6 +65,11 @@ namespace Cases {
   namespace OP = Options;
   namespace LR = LookaheadReduction;
 
+  using size_t = Conditions::size_t;
+
+  using space_ptr_t = std::unique_ptr<GenericMolsNB>;
+
+
   class GenericMolsNB : public CT::GenericMols0 {
     struct Void : GC::Brancher {
       Void(const GC::Home home) : GC::Brancher(home) {}
@@ -98,9 +103,6 @@ namespace Cases {
     return enc;
   }
 
-
-  using space_ptr_t = std::unique_ptr<GenericMolsNB>;
-  using size_t = Conditions::size_t;
 
   struct Square {
     const size_t N;
