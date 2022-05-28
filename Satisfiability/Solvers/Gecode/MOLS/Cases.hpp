@@ -45,6 +45,7 @@ TODOS:
 #include <gecode/search.hh>
 
 #include <Numerics/FloatingPoint.hpp>
+#include <Transformers/Generators/Random/LatinSquares.hpp>
 
 #include "Conditions.hpp"
 #include "Parsing.hpp"
@@ -58,9 +59,11 @@ namespace Cases {
 
   namespace GC = Gecode;
 
+  namespace FP = FloatingPoint;
+  namespace LS = LatinSquares;
+
   namespace CD = Conditions;
   namespace PG = Parsing;
-  namespace FP = FloatingPoint;
   namespace PS = PartialSquares;
   namespace EC = Encoding;
   namespace CT = Constraints;
@@ -68,6 +71,7 @@ namespace Cases {
   namespace LR = LookaheadReduction;
 
   using size_t = Conditions::size_t;
+  using float_t = LR::float_t;
 
 
   class GenericMolsNB : public CT::GenericMols0 {
@@ -112,14 +116,25 @@ namespace Cases {
     const size_t vals = N*n;
 
     const EC::EncCond e;
+
     Square(const size_t N_, const std::string psstr = "") :
-      N(N_), e(encoding("squares A\n", psstr, N)) {}
-    //size_t solc() const noexcept { return FP::pow(N, N*N); }
+      N(N_), e(encoding("squares A\n", psstr, N)) {
+      assert(e.num_vars == n);
+    }
     space_ptr_t space() const noexcept {
-      space_ptr_t m(new GenericMolsNB(e));
-      m->status();
-      return m;
+      space_ptr_t m(new GenericMolsNB(e)); m->status(); return m;
     };
+
+    float_t numsol() const noexcept {
+      if (e.ps.elimvals() == 0) return FP::pow(N, n);
+      assert(e.ps.psqs.size() == 1);
+      const auto& ps = e.ps.psqs[0].ps;
+      float_t prod = 1;
+      for (const auto& row : ps)
+        for (const auto& c : row) prod *= c.vals();
+      return prod;
+    }
+
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       LR::ReductionStatistics s(vals);
       s.inc_rounds();
@@ -129,15 +144,25 @@ namespace Cases {
     }
   };
 
-  struct LS {
+  struct LaSq {
     const size_t N;
+    const size_t n = N*N;
+    const size_t vals = N*n;
+
     const EC::EncCond e;
-    LS(const size_t N_, const std::string psstr = "") :
+
+    float_t numsol() const noexcept {
+      const auto r = e.ps.restricted_count();
+      if (r == 0) return LS::count_ls(N, LS::StRLS::none);
+      else if (r == 1)
+        return LS::count_ls(N, LS::StRLS::none) / N * (N - e.ps.elimvals());
+      else return -1;
+    }
+
+    LaSq(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\nls A\n", psstr, N)) {}
     space_ptr_t space() const noexcept {
-      space_ptr_t m(new GenericMolsNB(e));
-      m->status();
-      return m;
+      space_ptr_t m(new GenericMolsNB(e)); m->status(); return m;
     };
   };
 

@@ -106,7 +106,7 @@ TestOrthogonalArrays_debug : TestOrthogonalArrays.cpp OrthogonalArrays.hpp Basic
 
 TestBasicLatinSquares_debug : TestBasicLatinSquares.cpp BasicLatinSquares.hpp
 
-TestCases_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestCases_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestCases_debug : TestCases.cpp Options.hpp Cases.hpp
 
 TestOptions_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport

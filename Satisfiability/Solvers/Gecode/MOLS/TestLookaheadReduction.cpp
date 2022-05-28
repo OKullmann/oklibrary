@@ -65,7 +65,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
+        "0.6.4",
         "28.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -107,7 +107,7 @@ int main(const int argc, const char* const argv[]) {
     assert(st == GC::SS_BRANCH);
   }
 
-  {const CS::LS A(2);
+  {const CS::LaSq A(2);
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
     assert(eqp(values(ch->V), {{0}, {0,1}, {0,1}, {0,1}}));
@@ -164,7 +164,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
   }
 
-  {const CS::LS A(2);
+  {const CS::LaSq A(2);
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_SOLVED);
@@ -172,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, stats0, false) == GC::SS_SOLVED);
    assert(probe(m.get(), 1, 1, stats0, false) == GC::SS_SOLVED);
   }
-  {const CS::LS A(2);
+  {const CS::LaSq A(2);
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -224,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
                    {2,2}}));
   }
 
-  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_BRANCH);
@@ -237,7 +237,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, stats0, false) == GC::SS_BRANCH);
    assert(probe(m.get(), 2, 2, stats0, false) == GC::SS_BRANCH);
   }
-  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -261,7 +261,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
   }
 
-  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LaSq A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_SOLVED);
@@ -274,7 +274,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, stats0, false) == GC::SS_BRANCH);
    assert(probe(m.get(), 2, 2, stats0, false) == GC::SS_SOLVED);
   }
-  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LaSq A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -309,7 +309,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
    const ReductionStatistics s =
@@ -333,7 +333,7 @@ int main(const int argc, const char* const argv[]) {
             }));
   }
 
-  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LaSq A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
