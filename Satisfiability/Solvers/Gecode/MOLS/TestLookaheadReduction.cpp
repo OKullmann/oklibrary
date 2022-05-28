@@ -11,22 +11,6 @@ Testing of look-ahead reduction for the Gecode library.
 
 BUG:
 
-0. status does not work in lareduction
-    - The assert
-        assert(V[v].size() == vsize - esize);
-      after the call "const auto status = m->status();" fails (for one of
-      the tests in here).
-    - This is likely the same bug as reported as "BUG 0" in rlaMols.cpp.
-    - Possibly the problem is for (some of) those values of val which led to a
-      satisfying assignment?
-    - One needs unit-tests which inspect exactly the values of variables.
-    - The point here seems to be that propagation, as triggered by status(),
-      aims at being "intelligent" (not doing superfluous work), and thus
-      is likely unreliable here.
-    - This assert is triggered by calling lareduction for any of two cases:
-      const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n")
-      const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n")
-
 1. Wrong tests for eager reduction (marked with XXX)
     - If a reduction was found, then obviously at least two rounds are needed.
 
@@ -76,12 +60,13 @@ TODOS:
 #include "GcVariables.hpp"
 #include "Conditions.hpp"
 #include "Cases.hpp"
+#include "BasicLatinSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "27.5.2022",
+        "0.6.3",
+        "28.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -91,11 +76,13 @@ namespace {
   using namespace Options;
   using namespace Solvers;
   using namespace GcVariables;
+  using namespace BasicLatinSquares;
 
   namespace ET = Environment;
   namespace CS = Cases;
   namespace CD = Conditions;
   namespace GC = Gecode;
+  namespace LR = LookaheadReduction;
 
   typedef Options::RT RT;
   using listsol_t = Solvers::listsol_t;
@@ -120,7 +107,7 @@ int main(const int argc, const char* const argv[]) {
     assert(st == GC::SS_BRANCH);
   }
 
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::LS A(2);
     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
     const auto ch = child_node<CS::GenericMolsNB>(m.get(), 0, 0);
     assert(eqp(values(ch->V), {{0}, {0,1}, {0,1}, {0,1}}));
@@ -177,7 +164,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,0}, {0,1}, {1,0}, {1,1}}));
   }
 
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::LS A(2);
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_SOLVED);
@@ -185,7 +172,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 1, 0, stats0, false) == GC::SS_SOLVED);
    assert(probe(m.get(), 1, 1, stats0, false) == GC::SS_SOLVED);
   }
-  {const CS::TrivialLatinSquare A(2);
+  {const CS::LS A(2);
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -237,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
                    {2,2}}));
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_BRANCH);
@@ -250,7 +237,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, stats0, false) == GC::SS_BRANCH);
    assert(probe(m.get(), 2, 2, stats0, false) == GC::SS_BRANCH);
   }
-  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -274,7 +261,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{1,1}, {1,2}, {2,1}, {2,2}}));
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    assert(probe(m.get(), 0, 0, stats0, false) == GC::SS_SOLVED);
@@ -287,7 +274,7 @@ int main(const int argc, const char* const argv[]) {
    assert(probe(m.get(), 2, 1, stats0, false) == GC::SS_BRANCH);
    assert(probe(m.get(), 2, 2, stats0, false) == GC::SS_SOLVED);
   }
-  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    ReductionStatistics stats0(m->V);
    pruning_table_t PT;
@@ -322,28 +309,31 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n0 * *\n* * *\n* * *\n");
+  {const CS::LS A(3, "A\n0 * *\n* * *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   const ReductionStatistics stats =
+   assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
+   const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::eag_npr);
-   /* ERROR FALSE TESTS
-   assert(stats.props() == 1);
-   assert(stats.elimvals() == 2);
-   assert(stats.prunes() == 0);
-   assert(stats.maxprune() == 0);
-   assert(stats.probes() == 9);
-   assert(stats.rounds() == 1);
-   assert(stats.solc() == 2);
-   assert(stats.leafcount() == 0);
-   const auto list_sol = extract(enc.ldecode(stats.sollist()));
+       LAR::rel_npr);
+   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.props() == 2);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 4);
+   assert(s.leafcount() == 1);
+   assert(s.elimvals() == 2*2);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.probes() == 3*2 + 3 + 2);
+   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotprun() == 0);
+   const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
-              {{{0,2,1},{2,1,0},{1,0,2}}},
-              {{{0,1,2},{1,2,0},{2,0,1}}}}));
-   */
+              {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
+              {{{0,1,2},{2,0,1},{1,2,0}}}, {{{0,2,1},{1,0,2},{2,1,0}}}
+            }));
   }
 
-  {const CS::TrivialLatinSquare A(3, "A\n* * *\n* 1 *\n* * *\n");
+  {const CS::LS A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    const ReductionStatistics stats =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
