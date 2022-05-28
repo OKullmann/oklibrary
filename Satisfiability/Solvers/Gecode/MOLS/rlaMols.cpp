@@ -49,9 +49,6 @@ Possibly after the la-reduction in "choice", one of the eliminated values gets r
 The problem seems to happen *between* choice and commit.
 
 
-UPDATE: See "BUG 0" in TestLookaheadReduction.cpp.
-
-
 1. Wrong count:
 
 MOLS> ./rlaMols_debug 7 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr mindom asc relpr 12
@@ -259,8 +256,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "26.5.2022",
+        "0.6.3",
+        "28.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

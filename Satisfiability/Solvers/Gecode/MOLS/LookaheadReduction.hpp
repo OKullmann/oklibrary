@@ -243,9 +243,9 @@ namespace LookaheadReduction {
           last_red = v;
           for (const int val : elimvals) GV::unset_var(*m, V[v], val);
           const auto status = m->status();
-          // assert(V[v].size() == vsize - esize); // ???
-          stats.inc_props();
           assert(status != GC::SS_SOLVED);
+          assert(status==GC::SS_FAILED or V[v].size() == vsize - esize);
+          stats.inc_props();
           if (status != GC::SS_BRANCH) {
             assert(status==GC::SS_FAILED and elimvals.size()==values.size());
             stats.inc_leafcount();
