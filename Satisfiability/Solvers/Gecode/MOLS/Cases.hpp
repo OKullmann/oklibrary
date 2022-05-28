@@ -108,6 +108,9 @@ namespace Cases {
 
   struct Square {
     const size_t N;
+    const size_t n = N*N;
+    const size_t vals = N*n;
+
     const EC::EncCond e;
     Square(const size_t N_, const std::string psstr = "") :
       N(N_), e(encoding("squares A\n", psstr, N)) {}
@@ -118,11 +121,10 @@ namespace Cases {
       return m;
     };
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
-      const space_ptr_t m = space();
-      LR::ReductionStatistics s(m->V);
+      LR::ReductionStatistics s(vals);
       s.inc_rounds();
-      for (auto i=0; i < FP::pow(N, 3); ++i) s.inc_probes();
-      if (pruning(lar)) s.maxprune(FP::pow(N, 3));
+      for (size_t i = 0; i < vals; ++i) s.inc_probes();
+      if (pruning(lar)) s.maxprune(vals);
       return s;
     }
   };
