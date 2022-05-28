@@ -56,7 +56,7 @@ namespace LookaheadReduction {
   struct ReductionStatistics {
     typedef std::vector<GV::solutions_t> sollist_t;
   private :
-    size_t vals_; // the total number of values
+    const size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
 
     size_t props_ = 0; // propagation-call-counter
@@ -73,13 +73,7 @@ namespace LookaheadReduction {
   public:
 
     explicit ReductionStatistics(const GC::IntVarArray& x) noexcept :
-      vals_(count_values(x)) {}
-    static size_t count_values(const GC::IntVarArray& x) noexcept {
-      assert(x.size() > 0);
-      size_t sum = 0;
-      for (int v = 0; v < x.size(); ++v) sum += x[v].size();
-      assert(sum > 0); return sum;
-    }
+      vals_(GV::sumdomsizes(x)) { assert(vals_ > 0); }
 
     void inc_props() noexcept { ++props_; }
     void inc_elimvals() noexcept { ++elimvals_; }
