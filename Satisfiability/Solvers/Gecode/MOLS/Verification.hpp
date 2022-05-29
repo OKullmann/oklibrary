@@ -408,8 +408,9 @@ namespace Verification {
         case CD::UC::box : if (not is_boxed(L)) return false; break;
         case CD::UC::symm : if (not symmetric(L)) return false; break;
         case CD::UC::antisymm : if (not antisymmetric(L)) return false; break;
-        default : throw std::runtime_error("Verification::correct: uc=" +
-                                           std::to_string(int(uc)));
+        case CD::UC::mention : break;
+        default : throw std::runtime_error("Verification::correct: unknown"
+                                           " uc=" + std::to_string(int(uc)));
         }
       }
     }

@@ -495,7 +495,7 @@ namespace Encoding {
               for (size_t j = 0; j < N-i-1; ++j)
                 equal(s, va[index(sq,i,j)], va[index(sq,t(j),t(i))]);
             break; }
-
+          case UC::mention : break;
           default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
                                              +std::to_string(size_t(uc)));}
         }

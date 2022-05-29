@@ -115,16 +115,17 @@ namespace Conditions {
     wcred = 20, // weakly column-reduced
     box = 21, // generalised Sudoku constraint
     symm = 22,
-    antisymm = 23
+    antisymm = 23,
+    mention = 24,
   };
-  constexpr size_t maxUC = size_t(UC::antisymm);
+  constexpr size_t maxUC = size_t(UC::mention);
 
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls",
       "diag", "antidiag", "uni", "antiuni", "idem", "antiidem",
       "moddiag", "modantidiag", "queendiag", "queenantidiag",
       "rred", "orred", "cred", "ocred", "red", "ored", "wcred",
-      "box", "symm", "antisymm"};
+      "box", "symm", "antisymm", "mention"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) {
       assert(strUC[size_t(uc)]);
@@ -283,7 +284,7 @@ namespace Conditions {
 
     typedef Environment::tokens_t tokens_t;
     typedef std::optional<Square> osq_t;
-    // Uses natural numbers for names if static member "is" empty:
+    // Uses natural numbers for names if static member "is" is empty:
     static osq_t read(
         const tokens_t& line, size_t& j) noexcept {
       const size_t N = line.size();
