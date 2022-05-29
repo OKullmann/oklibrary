@@ -23,12 +23,13 @@ TODOS:
 #include "Cases.hpp"
 #include "Options.hpp"
 #include "Solvers.hpp"
+#include "PartialSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "28.5.2022",
+        "0.1.2",
+        "29.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
@@ -37,6 +38,7 @@ namespace {
   using namespace Cases;
   using namespace Options;
   using namespace Solvers;
+  using namespace PartialSquares;
 
   namespace FP = FloatingPoint;
 
@@ -57,6 +59,10 @@ int main(const int argc, const char* const argv[]) {
   {Square A(2, "A\n0 *\n* *\n");
    assert(A.e.num_vars == 2 * 2);
    assert(A.numsol() == solver0(A.e, RT::count_solutions).sol_found);
+   assert(A == Square(2,
+                      {2, psquares_t{ {
+                           ps_map_t{ {{0,0}, Cell(2,0)} },
+                             2, 0} } } ));
   }
 
   {Square A(3);

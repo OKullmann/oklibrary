@@ -207,8 +207,9 @@ namespace Encoding {
       assert(PS::valid(ps, ac));
     }
 
+    bool operator ==(const EncCond&) const noexcept = default;
 
-    /* The inteface to Gecode-constraints */
+    /* The interface to Gecode-constraints */
 
     template <class VAR, typename SP>
     void not_equal(const SP s, const VAR& v, const size_t k) const {

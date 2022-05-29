@@ -100,11 +100,11 @@ namespace Cases {
 
 
   EC::EncCond encoding(const std::string& cond,
-                       PS::PSquares ps) noexcept {
+                       PS::PSquares ps) {
     return EC::EncCond(PG::ReadAC()(cond), ps);
   }
   EC::EncCond encoding(const std::string& cond, const std::string& ps,
-                       const size_t N) noexcept {
+                       const size_t N) {
     return encoding(cond, {N,ps});
   }
 
@@ -115,11 +115,18 @@ namespace Cases {
     const size_t vals = N*n;
 
     const EC::EncCond e;
+    inline static const std::string cond = "squares A\n";
 
-    Square(const size_t N_, const std::string psstr = "") :
-      N(N_), e(encoding("squares A\n", psstr, N)) {
+    Square(const size_t N, const std::string psstr = "") :
+      N(N), e(encoding(cond, psstr, N)) {
       assert(e.num_vars == n);
     }
+    Square(const size_t N, const PS::PSquares ps) :
+      N(N), e(encoding(cond, ps)) {
+      assert(e.N == ps.N);
+      assert(e.num_vars == n);
+    }
+
     space_ptr_t space() const noexcept {
       space_ptr_t m(new GenericMolsNB(e)); m->status(); return m;
     };
@@ -141,7 +148,10 @@ namespace Cases {
       if (pruning(lar)) s.maxprune(vals);
       return s;
     }
+
+    bool operator ==(const Square&) const noexcept = default;
   };
+
 
   struct LaSq {
     const size_t N;
