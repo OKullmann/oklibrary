@@ -256,8 +256,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
-        "28.5.2022",
+        "0.6.5",
+        "29.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

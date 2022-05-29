@@ -164,6 +164,7 @@ Indeed quite obvious that
 #include <utility>
 #include <exception>
 #include <string>
+#include <sstream>
 
 #include <cmath>
 #include <cstdint>
@@ -200,10 +201,27 @@ namespace Encoding {
 
     EncCond(const CD::AConditions& ac,
             const PS::PSquares& ps,
-            const GC::IntPropLevel pl = {}) noexcept
+            const GC::IntPropLevel pl = {})
       : ac(ac), ps(ps), N(ps.N), N2(N*N), num_vars(ac.num_squares() * N2),
         pl(pl) {
       assert(valid(N));
+      if (not ps.consistent()) {
+        const CD::Square sq = std::ranges::find_if(ps.psqs, [](const auto& s){
+                              return not s.consistent();}) -> s;
+        std::ostringstream ss;
+        ss << "ERROR[EncCond(ac,ps,pl)]: Inconsistent square-instantiation"
+          " for square \"" << sq << "\".";
+        throw std::runtime_error(ss.str());
+      }
+      if (not PS::included(ps, ac)) {
+        const CD::Square sq =
+          std::ranges::find_if(ps.psqs, [&ac](const auto& p){
+                                 return not ac.contains(p.s);}) -> s;
+        std::ostringstream ss;
+        ss << "ERROR[EncCond(ac,ps,pl)]: square \"" << sq << "\" not"
+          " mentioned in conditions.";
+        throw std::runtime_error(ss.str());
+      }
       assert(PS::valid(ps, ac));
     }
 
