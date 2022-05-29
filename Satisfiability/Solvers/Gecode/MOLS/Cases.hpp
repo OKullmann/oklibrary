@@ -78,15 +78,19 @@ namespace Cases {
     struct Void : GC::Brancher {
       Void(const GC::Home home) : GC::Brancher(home) {}
       Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
-      GC::Brancher* copy(GC::Space& home) {return new (home) Void(home,*this);}
-      bool status(const GC::Space& s) const noexcept {
+      GC::Brancher* copy(GC::Space& home) override {
+        return new (home) Void(home,*this);
+      }
+      bool status(const GC::Space& s) const noexcept override {
         return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
       }
-      GC::Choice* choice(GC::Space&) { assert(0); return nullptr; }
-      GC::Choice* choice(const GC::Space&, GC::Archive&) {
+      const GC::Choice* choice(GC::Space&) override {
         assert(0); return nullptr;
       }
-      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) {
+      const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
+        assert(0); return nullptr;
+      }
+      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) override {
         assert(0); return GC::ExecStatus(0);
       }
     };

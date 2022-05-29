@@ -15,12 +15,6 @@ BUGS:
 
 TODOS:
 
-1. DONE (All deprecated classes and types were deleted)
-   Likely all the old classes here should be abondoned.
-    - Exactly two classes are needed, for rla and la, and that should
-      be all.
-    - All the existing classes seem to lack focus.
-
 2. Measure-based distances
     - The number of eliminated values is Delta GV::sumdomsizes.
     - More generally Delta domsizes is used.
@@ -74,14 +68,15 @@ namespace LookaheadBranching {
   namespace VR = Verification;
 
   using size_t = CD::size_t;
+
   typedef std::vector<int> values_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
   // A branching tuple, i.e. a tuple of distances:
-  typedef std::vector<float_t> bt_t;
 
   // Converting int to size_t:
-  inline constexpr size_t tr(const int size, [[maybe_unused]] const size_t bound = 0) noexcept {
+  inline constexpr size_t tr(const int size,
+                           [[maybe_unused]] const size_t bound = 0) noexcept {
     assert(bound <= std::numeric_limits<int>::max());
     assert(size >= int(bound));
     return size;
@@ -196,8 +191,9 @@ namespace LookaheadBranching {
   };
 
 
-  class RlaBranching : public GC::Brancher {
+  struct RlaBranching : public GC::Brancher {
     const rlaParams P;
+  private :
     rlaStats* const S;
     inline static std::mutex stats_mutex;
 
@@ -206,12 +202,13 @@ namespace LookaheadBranching {
   public :
     RlaBranching(const GC::Home home, const rlaParams P, rlaStats* const S)
       : GC::Brancher(home), P(P), S(S) { assert(S); }
-    GC::Brancher* copy(GC::Space& home) {
+
+    GC::Brancher* copy(GC::Space& home) override {
       return new (home) RlaBranching(home,*this);
     }
-    std::size_t dispose(GC::Space&) noexcept { return sizeof(*this); }
+    std::size_t dispose(GC::Space&) noexcept override { return sizeof(*this); }
 
-    bool status(const GC::Space& s) const noexcept {
+    bool status(const GC::Space& s) const noexcept override {
       return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
     }
 
@@ -295,7 +292,7 @@ namespace LookaheadBranching {
       default : assert(false); return -1;}
     }
 
-    GC::Choice* choice(GC::Space& s0) {
+    const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
       {auto stats = LR::lareduction(&s, P.rt, P.lar);
        if (P.parallel) {
@@ -323,12 +320,12 @@ namespace LookaheadBranching {
       }
       default : assert(false); return nullptr;}
     }
-    GC::Choice* choice(const GC::Space&, GC::Archive&) {
+    const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
     }
 
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
-                          const unsigned a) {
+                          const unsigned a) override {
       const C& c = static_cast<const C&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
