@@ -33,6 +33,7 @@ TODOS:
 #include <utility>
 #include <numeric>
 #include <sstream>
+#include <initializer_list>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -43,20 +44,30 @@ namespace PartialSquares {
 
   namespace CD = Conditions;
 
-  typedef CD::size_t size_t;
+  using size_t = CD::size_t;
 
 
-  // index i being true means value i is *disabled*:
+  // Index i being true means value i is *disabled*:
   typedef std::vector<bool> cell_t;
+  // Exactly one value set:
+  cell_t set_val(const size_t N, const size_t val) {
+    cell_t res(N, true);
+    if (val < N) res[val] = false;
+    return res;
+  }
+
   struct Cell {
     cell_t c;
 
     Cell() noexcept = default;
+    Cell(std::initializer_list<bool> L) noexcept : c(L) {}
     Cell(const cell_t c) : c(c) {}
     Cell(const size_t N) : c(N) {} // all N positions enabled
+    Cell(const size_t N, const size_t val) : c(set_val(N,val)) {}
+
+    Cell& flip() noexcept { c.flip(); return *this; }
 
     size_t size() const noexcept { return c.size(); }
-    Cell& flip() noexcept { c.flip(); return *this; }
     bool consistent() const noexcept {
       return std::ranges::find(c, 0) != c.end();
     }
@@ -66,6 +77,7 @@ namespace PartialSquares {
       if (first == end) return false;
       return std::find(first+1, end, 0) == end;
     }
+    // Index of first available slot (c.size() iff c is empty):
     size_t first() const noexcept {
       return std::ranges::find(c, 0) - c.begin();
     }
@@ -74,6 +86,19 @@ namespace PartialSquares {
     }
     size_t vals() const noexcept { return size() - elimvals(); }
     bool restricted() const noexcept { return elimvals() != 0; }
+
+    // Intersection of cells:
+    Cell& operator &=(const Cell& other) noexcept {
+      assert(other.size() >= c.size());
+      for (size_t i = 0; i < c.size(); ++i) c[i] = c[i] | other.c[i];
+      return *this;
+    }
+    // Union of cells:
+    Cell& operator |=(const Cell& other) noexcept {
+      assert(other.size() >= c.size());
+      for (size_t i = 0; i < c.size(); ++i) c[i] = c[i] & other.c[i];
+      return *this;
+    }
 
     void swap(Cell& other) noexcept {
       c.swap(other.c);
@@ -86,6 +111,14 @@ namespace PartialSquares {
   static_assert(std::is_move_assignable_v<Cell>);
   static_assert(std::is_move_constructible_v<Cell>);
   static_assert(std::is_swappable_v<Cell>);
+
+  Cell flip(Cell c) { c.flip(); return c; }
+  Cell operator &(const Cell& c1, const Cell& c2) {
+    Cell res(c1); res &= c2; return res;
+  }
+  Cell operator |(const Cell& c1, const Cell& c2) {
+    Cell res(c1); res |= c2; return res;
+  }
 
   std::ostream& operator <<(std::ostream& out, const Cell& c) {
     std::vector<size_t> content;
@@ -155,12 +188,28 @@ namespace PartialSquares {
   }
 
 
+  struct coord {
+    size_t x, y;
+    bool operator ==(const coord&) const noexcept = default;
+    auto operator <=>(const coord&) const noexcept = default;
+  };
+
+  typedef std::map<coord, Cell> ps_map_t;
+  psquare_t map2ps(const ps_map_t& m, const size_t N) {
+    psquare_t res = empty_psquare(N);
+    for (const auto& [co, c] : m)
+      if (co.x < N and co.y < N) res[co.x][co.y] &= c;
+    return res;
+  }
+
   struct PSquare {
     psquare_t ps;
     CD::Square s;
 
     PSquare(const size_t N) : ps(empty_psquare(N)), s(0) {}
-    PSquare(const psquare_t ps, const CD::Square s) : ps(ps), s(s) {}
+    PSquare(psquare_t ps, const CD::Square s) : ps(ps), s(s) {}
+    PSquare(const ps_map_t& m , const size_t N, const CD::Square s) :
+      ps(map2ps(m,N)), s(s) {}
 
     bool consistent() const noexcept { return PartialSquares::consistent(ps); }
     bool unit() const noexcept { return PartialSquares::unit(ps); }
@@ -235,9 +284,7 @@ namespace PartialSquares {
     }
     PSquares(const PSquares&) = default;
     PSquares(PSquares&& rhs) :
-      psqs(std::move(rhs.psqs)), N(rhs.N) {
-      assert(N == rhs.N);
-    }
+      psqs(std::move(rhs.psqs)), N(rhs.N) { assert(N == rhs.N); }
     PSquares& operator =(const PSquares& rhs) {
       assert(N == rhs.N);
       psqs = rhs.psqs;

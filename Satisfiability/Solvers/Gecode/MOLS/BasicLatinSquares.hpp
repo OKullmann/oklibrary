@@ -138,9 +138,11 @@ namespace BasicLatinSquares {
   namespace PS = PartialSquares;
   namespace RG = RandGen;
 
-  typedef CD::size_t size_t;
+  using size_t = CD::size_t;
+  using coord = PS::coord;
+
   typedef std::vector<size_t> ls_row_t;
-  typedef std::vector<ls_row_t> ls_t;
+   typedef std::vector<ls_row_t> ls_t;
 
 
   void out(std::ostream& out, const ls_row_t& r, const std::string& sep=" ") {
@@ -295,11 +297,6 @@ namespace BasicLatinSquares {
   }
 
 
-  struct coord {
-    size_t x, y;
-    bool operator ==(const coord&) const noexcept = default;
-    auto operator <=>(const coord&) const noexcept = default;
-  };
   size_t apply(const ls_t& S, const coord v) noexcept {
     assert(v.x < S.size()); assert(v.y < S[v.x].size());
     return S[v.x][v.y];

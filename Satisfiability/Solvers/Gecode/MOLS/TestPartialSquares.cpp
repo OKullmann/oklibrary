@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
-        "28.5.2022",
+        "0.2.9",
+        "29.5.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestPartialSquares.cpp",
@@ -56,15 +56,19 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(Cell() == Cell(0));
-   assert(Cell{} == Cell());
-   assert(Cell{{}} == Cell());
-   assert(Cell({0}) == Cell());
+   assert(Cell() == Cell{});
+   assert(Cell() == Cell({}));
+   assert(Cell() == Cell(0,0));
+   assert(Cell{{}} == Cell({0}));
+   assert(Cell({0}) == Cell{0});
    assert(Cell({0,0}) == Cell(2));
+   assert((Cell{0,0} == Cell(2)));
    assert(Cell({1,1}).first() == 2);
    assert(Cell({1,0}).first() == 1);
    assert(Cell({0,1}).first() == 0);
-
-   for (unsigned n = 0; n <= 5; ++n) {
+   assert((Cell({0,1}) == Cell{0,1}));
+  }
+  {for (unsigned n = 0; n <= 5; ++n) {
      assert(Cell(n).size() == n);
      assert(Cell(cell_t{bool(n)}).size() == 1);
      assert(Cell(n).consistent() == (n != 0));
@@ -96,11 +100,33 @@ int main(const int argc, const char* const argv[]) {
      C.swap(C2);
      assert(C == Cell(n));
      assert(C2 == Cell(n).flip());
+     for (size_t i = 0; i <= n; ++i) {
+       const Cell A(n,i);
+       assert(A.size() == n);
+       assert(A.unit() == (i < n));
+       assert(A.first() == i);
+       assert(A.elimvals() == (i==n ? n : n-1));
+       assert(A.vals() == (i==n ? 0 : 1));
+       assert(A.restricted() == (n >= 2 or (n == 1 and i == 1)));
+       const Cell fA = flip(A);
+       assert(fA.size() == n);
+       assert(fA.unit() == ((n==2 and i<n) or (n==1 and i==1)));
+       assert(fA.first() == (i==0 and i<n ? 1 : 0));
+       assert(fA.elimvals() == (i<n ? 1 : 0));
+       assert(fA.vals() == (i==n ? n : n-1));
+       assert(fA.restricted() == (i<n));
+       assert((A & fA) == Cell(n).flip());
+       assert((A | fA) == Cell(n));
+     }
    }
    assert(Cell(1) == Cell(cell_t{0}));
-   assert(Cell(1) == Cell({1}));
-   assert(Cell(1) > Cell({0}));
+   assert(Cell(1).flip() == Cell({1}));
+   assert(Cell(1) == Cell{0});
+   assert(Cell(1) < Cell{1});
    assert(Cell(cell_t{1}) == Cell(1).flip());
+  }
+  {assert(((Cell{0,1,0,1} & Cell{1,0,1,0}) == Cell(4).flip()));
+   assert(((Cell{0,1,0,1} | Cell{1,0,1,0}) == Cell(4)));
   }
 
   {for (size_t N = 0; N <= 3; ++N) {
@@ -140,6 +166,28 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(full_psquare(1), {{Cell(1).flip()}}));
    const Cell c2 = Cell(2).flip();
    assert(eqp(full_psquare(2), {{c2,c2}, {c2,c2}}));
+  }
+
+  {for (size_t N = 0; N <= 4; ++N) {
+     const PSquare p(N);
+     assert(p.ps.size() == N);
+     assert(p.consistent());
+     assert(p.unit() == (N <= 1));
+     assert(p.elimvals() == 0);
+     assert(not p.restricted());
+     assert(p.restricted_count() == 0);
+     assert(p == PSquare(ps_map_t{}, N, 0));
+   }
+  }
+  {PSquare p(
+             ps_map_t { {{0,1}, Cell{1,0,0,0,1}}, {{4,4},flip(Cell(4))} },
+             4, 0);
+   assert(p.consistent());
+   assert(not p.unit());
+   assert(p.elimvals() == 1);
+   assert(p.restricted());
+   assert(p.restricted_count() == 1);
+   assert(p.ps[0][1] == flip(Cell(4,0)));
   }
 
   {std::istringstream ss;
