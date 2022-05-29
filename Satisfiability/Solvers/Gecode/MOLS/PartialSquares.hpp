@@ -14,6 +14,25 @@ License, or any later version. */
 
 TODOS:
 
+0. Generalise the input-syntax to allow "maps", via triples
+     i, j, Cell :
+    - The point is to easily allow to restrict just a few cells (in possibly
+      big squares).
+    - Per square we either have the current matrix-format, or that map-syntax.
+    - E.g.
+
+A
++0 -
+0,1  1
+B m
+0,0, -0,1
+1,1, +1,0
+
+    - Here the distinction between the two forms happens via the "m",
+      at the end of the name-line.
+    - In the matrix-form we have one row per line, in the map-form one
+      cell per line.
+
 1. Clarify the relations to Random/LatinSquares.hpp
  - Especially Random::ls_ip_t is similar to PSquares.
  - Though the context is different: in Random/LatinSquares.hpp one is
