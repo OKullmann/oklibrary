@@ -283,7 +283,7 @@ namespace Conditions {
 
     typedef Environment::tokens_t tokens_t;
     typedef std::optional<Square> osq_t;
-    // Uses natural numbers for names if is empty:
+    // Uses natural numbers for names if static member "is" empty:
     static osq_t read(
         const tokens_t& line, size_t& j) noexcept {
       const size_t N = line.size();

@@ -326,7 +326,6 @@ namespace PartialSquares {
       std::runtime_error("ERROR[PSquares]: " + s) {}
     };
 
-    // For the stream-input, the values are numbers 1, ..., N:
     static psquares_t read(std::istream& in, const size_t N) {
       const auto lines = Environment::split2_cutoff(in, '\n', '#');
       if (lines.size() % (N+1) != 0) {
