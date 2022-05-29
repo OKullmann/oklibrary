@@ -256,7 +256,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.6",
+        "0.7.1",
         "29.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -304,7 +304,7 @@ namespace {
 
   constexpr size_t sep_spaces = 6;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9};
+  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9, 9};
   constexpr size_t wN = 5, wgcd = 5;
 
   void rh(std::ostream& out) {
@@ -313,7 +313,7 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
-      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc"),
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc", "lvs"),
       widths);
     out << "\n";
   }
@@ -324,11 +324,11 @@ namespace {
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
                       res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth,
-                      res.S.N()),
+                      res.S.N(), res.lvs),
       widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",
-                  "mprune", "probes", "rounds", "solc", "leaf",
+                  "mprune", "probes", "rounds", "solc",
                   "t", "qelvals", "qprunes"});
     out.flush();
     FloatingPoint::undo(out, state);
@@ -387,7 +387,6 @@ int main(const int argc, const char* const argv[]) {
 
   const bool with_log = Options::with_log(rt);
   std::ostream* const log = with_log ? &std::cout : nullptr;
-
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
@@ -408,7 +407,8 @@ int main(const int argc, const char* const argv[]) {
                   rlasolver(enc, rt, brt, bvar, gbo, lar,
                             gcd, threads, log);
                 if (with_log and
-                    rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
+                    rt != RT::enumerate_with_log and
+                    rt != RT::unique_s_with_log)
                   std::cout << "\n";
                 rh(std::cout);
                 std::cout.width(wN); std::cout << N << " ";

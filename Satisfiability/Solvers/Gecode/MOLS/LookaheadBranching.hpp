@@ -135,18 +135,20 @@ namespace LookaheadBranching {
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
              const size_t threshold) noexcept :
-      sol_counter(0), log(log), enc(enc), threshold(threshold) {
+    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold(threshold) {
       assert(not enc or log);
       abort = false;
     }
     rlaStats(const rlaStats&) = delete;
 
     size_t sol_count() const noexcept { return sol_counter; }
+    size_t lvs() const noexcept { return lvs_counter; }
     const stats_t& stats() const noexcept { return S; }
     const sollist_t& sols() const noexcept { return sols_; }
 
     void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
+      lvs_counter += s.leafcount();
       const size_t solc = s.solc();
       if (solc == 0) return;
       assert(BS::alldiffelem(s.sollist()));
@@ -183,7 +185,7 @@ namespace LookaheadBranching {
   private :
     sollist_t sols_;
     stats_t S;
-    size_t sol_counter;
+    size_t sol_counter, lvs_counter;
     std::ostream* const log;
     const EC::EncCond* const enc;
   public :

@@ -192,6 +192,7 @@ namespace Solvers {
     using GBasicSR::ut;
     typedef LB::rlaStats::stats_t stats_t;
     stats_t S;
+    size_t lvs = 0;
 
     bool operator ==(const rlaSR&) const noexcept = default;
   };
@@ -504,6 +505,7 @@ namespace Solvers {
     res.gs = s.statistics();
     res.b.sol_found = stats->sol_count();
     res.S = stats->stats();
+    res.lvs = stats->lvs();
     if (with_file_output(rt)) {
       if (res.b.sol_found != stats->sols().size())
         std::cerr << "\nERROR[Solvers::rlasolver]: stated solution-count "
