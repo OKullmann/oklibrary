@@ -99,14 +99,13 @@ namespace Cases {
   typedef std::unique_ptr<GenericMolsNB> space_ptr_t;
 
 
-  EC::EncCond encoding(const std::string condstr, const std::string psstr,
-    const size_t N) noexcept {
-    std::istringstream in_cond(condstr);
-    std::istringstream in_ps(psstr);
-    const CD::AConditions ac = PG::ReadAC()(in_cond);
-    const PS::PSquares ps(N, in_ps);
-    const EC::EncCond enc(ac, ps);
-    return enc;
+  EC::EncCond encoding(const std::string& cond,
+                       PS::PSquares ps) noexcept {
+    return EC::EncCond(PG::ReadAC()(cond), ps);
+  }
+  EC::EncCond encoding(const std::string& cond, const std::string& ps,
+                       const size_t N) noexcept {
+    return encoding(cond, {N,ps});
   }
 
 
