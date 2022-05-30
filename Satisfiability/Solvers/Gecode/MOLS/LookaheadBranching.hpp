@@ -246,13 +246,10 @@ namespace LookaheadBranching {
         return new C(*this,
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
       case OP::BRT::enu : {
-        const size_t size = values.size();
-        assert(size >= 2);
-        GV::values_t br; br.reserve(size+1);
-        if (P.bo == OP::GBO::asc) br = std::move(values);
-        else br.assign(values.rbegin(), values.rend());
-        br.insert(br.begin(), v);
-        assert(br.size() == size+1);
+        const size_t size = values.size(); assert(size >= 2);
+        GV::values_t br(size+1); br[0] = v;
+        if (P.bo == OP::GBO::asc) std::ranges::move(values, br.begin()+1);
+        else std::ranges::move_backward(values, br.begin()+1);
         return new C(*this, br);
       }
       default : assert(false); return nullptr;}
