@@ -285,10 +285,14 @@ namespace Solvers {
     assert(valid(rt));
     assert(not with_log(rt) or log);
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
+#ifndef SIMBRANCH
     {const GC::IntVarBranch vrb = var_branch(bv);
      const GC::IntValBranch vlb = val_branch(translate(bt, bo));
      GC::branch(*gm, gm->V, vrb, vlb);
     }
+#else
+    new (*gm) LB::GcBranching(*gm, bv,bt,bo);
+#endif
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads, gcd));
     delete gm;
 

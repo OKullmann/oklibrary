@@ -203,9 +203,13 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.5",
+        "0.13.0",
         "30.5.2022",
+#ifndef SIMBRANCH
         __FILE__,
+#else
+        "s" __FILE__,
+#endif
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
         "GPL v3"};

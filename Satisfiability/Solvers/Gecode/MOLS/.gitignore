@@ -6,6 +6,8 @@
 /laMols_debug
 /gcMols
 /gcMols_debug
+/sgcMols
+/sgcMols_debug
 /rlaMols
 /rlaMols_debug
 /TestParsing_debug
