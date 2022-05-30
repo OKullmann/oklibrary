@@ -21,18 +21,13 @@ TODOS:
 #include <gecode/search.hh>
 
 #include "Encoding.hpp"
-#include "Options.hpp"
 
 namespace Constraints {
 
   namespace GC = Gecode;
   namespace EC = Encoding;
-  namespace OP = Options;
-
-  typedef EC::size_t size_t;
 
 
-  // Pure Gecode-version:
   struct GenericMols0 : GC::Space {
     typedef GC::IntVarArray VarVec;
     typedef GC::IntVar Var;
@@ -41,11 +36,10 @@ namespace Constraints {
       V = enc.post<VarVec, Var>(this);
     }
   protected :
-    GenericMols0(GenericMols0& gm) : Space(gm), V(gm.V) {
+    GenericMols0(GenericMols0& gm) : GC::Space(gm), V(gm.V) {
       V.update(*this, gm.V);
     }
-    // Pure virtual function inherited from GC::Space:
-    GC::Space* copy() { return new GenericMols0(*this); }
+    GC::Space* copy() override { return new GenericMols0(*this); }
   };
 
 
