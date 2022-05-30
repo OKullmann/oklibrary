@@ -11,14 +11,6 @@ Testing of look-ahead reduction for the Gecode library.
 
 BUG:
 
-1. Wrong tests for eager reduction (marked with XXX)
-    - If a reduction was found, then obviously at least two rounds are needed.
-
-2. The lareduction-loop was never entered (marked with YYY)
-    - The asserts seem completely off.
-
-3. A complete revision regarding rounds etc. is needed.
-
 TODOS:
 
 0. Collection of test-scenarios
