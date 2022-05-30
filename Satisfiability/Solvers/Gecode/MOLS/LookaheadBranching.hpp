@@ -227,6 +227,59 @@ namespace LookaheadBranching {
   }
 
 
+  struct GcBranching : public GC::Brancher {
+    const OP::BHV bv; const OP::BRT bt; const OP::GBO bo;
+  private :
+    GcBranching(GC::Space& home, GcBranching& b)
+      : GC::Brancher(home,b), bv(b.bv), bt(b.bt), bo(b.bo) {}
+  public :
+    GcBranching(const GC::Home home,
+                const OP::BHV bv, const OP::BRT bt, const OP::GBO bo)
+      : GC::Brancher(home), bv(bv), bt(bt), bo(bo) {}
+
+    GC::Brancher* copy(GC::Space& home) override {
+      return new (home) GcBranching(home,*this);
+    }
+    std::size_t dispose(GC::Space&) noexcept override { return sizeof(*this); }
+
+    bool status(const GC::Space& s) const noexcept override {
+      return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
+    }
+
+    const GC::Choice* choice(GC::Space& s0) override {
+      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      const int v = GV::gcbv(s.V, bv);
+      return create(v, GV::values(s.V, v), bt, bo, *this);
+    }
+    const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
+      throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
+    }
+
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
+                          const unsigned a) override {
+      const ValVec& c = static_cast<const ValVec&>(c0);
+      const size_t w = c.br.size(); assert(w >= 2);
+      const int v = c.br[0]; assert(v >= 0);
+      CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      assert(v < node->V.size());
+      [[maybe_unused]] const size_t oldsize = node->V[v].size();
+      assert(oldsize >= 2);
+      if (w == 2) {
+        if (a == 0) GV::set_var(s, node->V[v], c.br[1]);
+        else GV::unset_var(s, node->V[v], c.br[1]);
+        assert(node->V[v].size() == (a==0 ? 1 : oldsize-1));
+      }
+      else {
+        assert(a+1 < w);
+        assert(oldsize == w-1);
+        GV::set_var(s, node->V[v], c.br[a+1]);
+        assert(node->V[v].size() == 1);
+      }
+      return GC::ES_OK;
+    }
+  };
+
+
   struct RlaBranching : public GC::Brancher {
     const rlaParams P;
   private :
