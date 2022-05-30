@@ -230,68 +230,7 @@ namespace LookaheadBranching {
   public :
 
     static int bv(const CT::GenericMols0& s, const OP::BHV bv) noexcept {
-      const auto V(s.V);
-      const auto size = V.size();
-      assert(size >= 1);
-      switch (bv) {
-      case OP::BHV::first :
-        for (int v = 0; v < size; ++v) if (V[v].size() != 1) return v;
-        assert(false); [[fallthrough]];
-      case OP::BHV::mindeg : {
-        int min = std::numeric_limits<int>::max(), opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const int deg = V[v].degree();
-          if (deg < min) { min = deg; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      case OP::BHV::maxdeg : {
-        int max = -1, opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const int deg = V[v].degree();
-          if (deg > max) { max = deg; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      case OP::BHV::mindom : {
-        int min = std::numeric_limits<int>::max(), opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const int dom = V[v].size();
-          if (dom < min) { min = dom; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      case OP::BHV::maxdom : {
-        int max = -1, opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const int dom = V[v].size();
-          if (dom > max) { max = dom; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      case OP::BHV::mindegdom : {
-        float_t min = FP::pinfinity; int opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const float_t q = float_t(V[v].degree()) / V[v].size();
-          if (q < min) { min = q; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      case OP::BHV::maxdegdom : {
-        float_t max = FP::minfinity; int opt=-1;
-        for (int v = 0; v < size; ++v) {
-          if (V[v].size() == 1) continue;
-          const float_t q = float_t(V[v].degree()) / V[v].size();
-          if (q > max) { max = q; opt = v; }
-        }
-        assert(opt >= 0); return opt;
-      }
-      default : assert(false); return -1;}
+      return GV::gcbv(s.V, bv);
     }
 
     const GC::Choice* choice(GC::Space& s0) override {
