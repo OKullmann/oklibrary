@@ -208,6 +208,13 @@ namespace LookaheadBranching {
     }
   };
 
+  GV::values_t append(const int v, GV::values_t values, const bool notrev) {
+    const size_t size = values.size();
+    GV::values_t br(size+1); br[0] = v;
+    if (notrev) std::ranges::copy(values, br.begin()+1);
+    else std::copy(values.rbegin(), values.rend(), br.begin()+1);
+    return br;
+  }
   const ValVec* create(const int v, GV::values_t values,
                        const OP::BRT bt, const OP::GBO bo,
                        GC::Brancher& b) noexcept {
@@ -217,11 +224,8 @@ namespace LookaheadBranching {
       return new ValVec(b,
         {v, bo==OP::GBO::asc ? values.front() : values.back()});
     case OP::BRT::enu : {
-      const size_t size = values.size(); assert(size >= 2);
-      GV::values_t br(size+1); br[0] = v;
-      if (bo == OP::GBO::asc) std::ranges::move(values, br.begin()+1);
-      else std::ranges::move_backward(values, br.begin()+1);
-      return new ValVec(b, br);
+      assert(values.size() >= 2);
+      return new ValVec(b, append(v, values, bo == OP::GBO::asc));
     }
     default : assert(false); return nullptr;}
   }
