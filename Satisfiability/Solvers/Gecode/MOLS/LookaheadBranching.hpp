@@ -229,10 +229,6 @@ namespace LookaheadBranching {
     };
   public :
 
-    static int bv(const CT::GenericMols0& s, const OP::BHV bv) noexcept {
-      return GV::gcbv(s.V, bv);
-    }
-
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
       {auto stats = LR::lareduction(&s, P.rt, P.lar);
@@ -242,7 +238,7 @@ namespace LookaheadBranching {
        else S->add(stats);
        if (stats.leafcount()) return new C(*this, {});
       }
-      const int v = bv(s, P.bv);
+      const int v = GV::gcbv(s.V, P.bv);
       GV::values_t values = GV::values(s.V, v);
       assert(values.size() >= 2);
       switch (P.bt) {
