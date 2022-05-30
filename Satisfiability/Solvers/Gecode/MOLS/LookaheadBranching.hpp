@@ -208,6 +208,24 @@ namespace LookaheadBranching {
     }
   };
 
+  const ValVec* create(const int v, GV::values_t values,
+                       const OP::BRT bt, const OP::GBO bo,
+                       GC::Brancher& b) noexcept {
+    assert(values.size() >= 2);
+    switch (bt) {
+    case OP::BRT::bin :
+      return new ValVec(b,
+        {v, bo==OP::GBO::asc ? values.front() : values.back()});
+    case OP::BRT::enu : {
+      const size_t size = values.size(); assert(size >= 2);
+      GV::values_t br(size+1); br[0] = v;
+      if (bo == OP::GBO::asc) std::ranges::move(values, br.begin()+1);
+      else std::ranges::move_backward(values, br.begin()+1);
+      return new ValVec(b, br);
+    }
+    default : assert(false); return nullptr;}
+  }
+
 
   struct RlaBranching : public GC::Brancher {
     const rlaParams P;
@@ -240,20 +258,7 @@ namespace LookaheadBranching {
        if (stats.leafcount()) return new ValVec(*this, {});
       }
       const int v = GV::gcbv(s.V, P.bv);
-      GV::values_t values = GV::values(s.V, v);
-      assert(values.size() >= 2);
-      switch (P.bt) {
-      case OP::BRT::bin :
-        return new ValVec(*this,
-                     {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
-      case OP::BRT::enu : {
-        const size_t size = values.size(); assert(size >= 2);
-        GV::values_t br(size+1); br[0] = v;
-        if (P.bo == OP::GBO::asc) std::ranges::move(values, br.begin()+1);
-        else std::ranges::move_backward(values, br.begin()+1);
-        return new ValVec(*this, br);
-      }
-      default : assert(false); return nullptr;}
+      return create(v, GV::values(s.V, v), P.bt, P.bo, *this);
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
