@@ -23,12 +23,21 @@ TODOS:
 #ifndef GCVARIABLES_FQM6cOCEcZ
 #define GCVARIABLES_FQM6cOCEcZ
 
+#include <ostream>
+
+#include <cassert>
+
 #include <gecode/int.hh>
 #include <gecode/search.hh>
+
+#include "Conditions.hpp"
 
 namespace GcVariables {
 
   namespace GC = Gecode;
+
+  using size_t = Conditions::size_t;
+
 
   void out(std::ostream& o, const GC::IntVarArray& V) {
     for (int v = 0; v < V.size(); ++v) {
@@ -50,14 +59,14 @@ namespace GcVariables {
   }
 
   typedef std::vector<int> values_t;
-  values_t values(const GC::IntVarArray& V, const int v) noexcept {
+  values_t values(const GC::IntVarArray& V, const int v) {
     assert(v >= 0 and v < V.size());
     values_t res;
     for (GC::IntVarValues j(V[v]); j(); ++j) res.push_back(j.val());
     assert(res.size() == size_t(V[v].size()));
     return res;
   }
-  std::vector<values_t> values(const GC::IntVarArray& V) noexcept {
+  std::vector<values_t> values(const GC::IntVarArray& V) {
     std::vector<values_t> res;
     for (int v=0; v<V.size(); ++v) {
       values_t vec;
