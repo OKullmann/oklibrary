@@ -203,7 +203,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.0",
+        "0.13.1",
         "30.5.2022",
 #ifndef SIMBRANCH
         __FILE__,
