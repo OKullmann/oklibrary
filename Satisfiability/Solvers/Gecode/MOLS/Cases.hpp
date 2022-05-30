@@ -156,13 +156,27 @@ namespace Cases {
     bool operator ==(const Square&) const noexcept = default;
   };
 
-
   struct LaSq {
     const size_t N;
     const size_t n = N*N;
     const size_t vals = N*n;
 
     const EC::EncCond e;
+    inline static const std::string cond = "squares A\nls A\n";
+
+    LaSq(const size_t N, const std::string psstr = "") :
+      N(N), e(encoding(cond, psstr, N)) {
+      assert(e.num_vars == n);
+    }
+    LaSq(const size_t N, const PS::PSquares ps) :
+      N(N), e(encoding(cond, ps)) {
+      assert(e.N == ps.N);
+      assert(e.num_vars == n);
+    }
+
+    space_ptr_t space() const noexcept {
+      space_ptr_t m(new GenericMolsNB(e)); m->status(); return m;
+    };
 
     float_t numsol() const noexcept {
       const auto r = e.ps.restricted_count();
@@ -172,11 +186,26 @@ namespace Cases {
       else return -1;
     }
 
-    LaSq(const size_t N_, const std::string psstr = "") :
-      N(N_), e(encoding("squares A\nls A\n", psstr, N)) {}
-    space_ptr_t space() const noexcept {
-      space_ptr_t m(new GenericMolsNB(e)); m->status(); return m;
-    };
+    LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
+      LR::ReductionStatistics s(vals);
+      s.inc_rounds();
+      if (N > 2) {
+        for (size_t i = 0; i < vals; ++i) s.inc_probes();
+        if (pruning(lar)) s.maxprune(vals);
+      }
+      else if (N == 2) {
+        s.inc_probes(); s.inc_probes();
+        s.inc_elimvals(); s.inc_elimvals();
+        s.inc_solc(); s.inc_solc();
+        s.sollist({0,1,1,0});
+        s.sollist({1,0,0,1});
+        s.inc_props();
+        s.inc_leafcount();
+      }
+      return s;
+    }
+
+    bool operator ==(const LaSq&) const noexcept = default;
   };
 
 }
