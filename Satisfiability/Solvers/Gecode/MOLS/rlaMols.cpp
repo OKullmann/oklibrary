@@ -198,6 +198,9 @@ sys	0m50.246s
 Thus the problem seems unrelated to the commit-action.
 Since runtime seems unaffected, calling status twice seems harmless.
 
+sgcMols seems to behave exactly as gcMols, and thus branching
+at least on its own seems correct.
+
 
 2. An easier example for the solutions-duplication:
 
