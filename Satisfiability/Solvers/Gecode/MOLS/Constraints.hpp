@@ -36,7 +36,7 @@ namespace Constraints {
       V = enc.post<VarVec, Var>(this);
     }
   protected :
-    GenericMols0(GenericMols0& gm) : GC::Space(gm), V(gm.V) {
+    GenericMols0(GenericMols0& gm) : GC::Space(gm) {
       V.update(*this, gm.V);
     }
     GC::Space* copy() override { return new GenericMols0(*this); }
