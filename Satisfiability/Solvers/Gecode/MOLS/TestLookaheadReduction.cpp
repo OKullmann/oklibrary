@@ -65,8 +65,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
-        "28.5.2022",
+        "0.6.5",
+        "30.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -335,23 +335,26 @@ int main(const int argc, const char* const argv[]) {
 
   {const CS::LaSq A(3, "A\n* * *\n* 1 *\n* * *\n");
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-   const ReductionStatistics stats =
+   assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
+   const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::eag_npr);
-   /* ERROR FALSE TESTS
-   assert(stats.props() == 1);
-   assert(stats.elimvals() == 2);
-   assert(stats.prunes() == 0);
-   assert(stats.maxprune() == 0);
-   assert(stats.probes() == 3);
-   assert(stats.rounds() == 1);
-   assert(stats.solc() == 2);
-   assert(stats.leafcount() == 0);
-   const auto list_sol = extract(enc.ldecode(stats.sollist()));
+       LAR::rel_npr);
+   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.props() == 2);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 4);
+   assert(s.leafcount() == 1);
+   assert(s.elimvals() == 2*2);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.probes() == 3 + 2);
+   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotprun() == 0);
+   const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
-              {{{0,2,1},{2,1,0},{1,0,2}}},
-              {{{2,0,1},{0,1,2},{1,2,0}}}}));
-   */
+              {{{0,2,1},{2,1,0},{1,0,2}}}, {{{2,0,1},{0,1,2},{1,2,0}}},
+              {{{1,0,2},{2,1,0},{0,2,1}}}, {{{1,2,0},{0,1,2},{2,0,1}}}
+            }));
   }
 
 }
