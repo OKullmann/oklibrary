@@ -57,7 +57,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.6",
+        "0.6.8",
         "30.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -299,6 +299,75 @@ int main(const int argc, const char* const argv[]) {
        assert(eqwt(stats, A.laredstats(lar)));
      }
    }
+  }
+
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::rel_npr);
+   assert(s.vals() == 27 - 2);
+   assert(s.props() == 0);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 0);
+   assert(s.leafcount() == 0);
+   assert(s.elimvals() == 0);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.probes() == 27 - 3);
+   assert(s.sollist().empty());
+  }
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::eag_npr);
+   assert(s.vals() == 27 - 2);
+   assert(s.props() == 0);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 0);
+   assert(s.leafcount() == 0);
+   assert(s.elimvals() == 0);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.probes() == 27 - 3);
+   assert(s.sollist().empty());
+  }
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::rel_pr);
+   assert(s.vals() == 27 - 2);
+   assert(s.props() == 0);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 0);
+   assert(s.leafcount() == 0);
+   assert(s.elimvals() == 0);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 27 - 3);
+   assert(s.probes() == 27 - 3);
+   assert(s.sollist().empty());
+  }
+  {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::eag_pr);
+   assert(s.vals() == 27 - 2);
+   assert(s.props() == 0);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 0);
+   assert(s.leafcount() == 0);
+   assert(s.elimvals() == 0);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 27 - 3);
+   assert(s.probes() == 27 - 3);
+   assert(s.sollist().empty());
   }
 
   {for (size_t N = 2; N <= 5; ++N) {
