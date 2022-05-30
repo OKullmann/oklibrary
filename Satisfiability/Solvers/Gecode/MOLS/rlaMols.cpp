@@ -48,6 +48,14 @@ coincidence).
 Possibly after the la-reduction in "choice", one of the eliminated values gets re-introduced?
 The problem seems to happen *between* choice and commit.
 
+The "REPAIR ATTEMPT", just removing those additional values, "succeeds",
+but has no influence at all on the behaviour (which supports that the
+assignment "v = c.br[a+1]", which makes these additional values irrelevant
+anyway, seems to take place).
+
+So perhaps this assert and related behaviour is not related to the doubling
+of some solutions?
+
 
 1. Wrong count:
 

@@ -272,7 +272,7 @@ namespace LookaheadBranching {
       const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
       assert(v < node->V.size());
-      [[maybe_unused]] const auto oldsize = node->V[v].size();
+      const size_t oldsize = node->V[v].size();
       assert(oldsize >= 2);
       if (w == 2) {
         if (a == 0) GV::set_var(s, node->V[v], c.br[1]);
@@ -281,7 +281,19 @@ namespace LookaheadBranching {
       }
       else {
         assert(a+1 < w);
-        // assert(oldsize == w-1); // ???
+        if (oldsize != w-1) {// REPAIR ATTEMPT
+          assert(oldsize > w-1);
+          const GV::values_t values = GV::values(node->V, v);
+          assert(std::includes(values.begin(), values.end(),
+                               c.br.begin()+1, c.br.end()));
+          GV::values_t additional(oldsize - (w-1));
+          std::set_difference(values.begin(), values.end(),
+                              c.br.begin()+1, c.br.end(),
+                              additional.begin());
+          for (const int val : additional)
+            GV::unset_var(*node, node->V[v], val);
+          assert(node->V[v].size() == w-1);
+        }
         GV::set_var(s, node->V[v], c.br[a+1]);
         assert(node->V[v].size() == 1);
       }
