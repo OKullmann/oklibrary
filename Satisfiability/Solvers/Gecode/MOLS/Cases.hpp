@@ -146,10 +146,13 @@ namespace Cases {
     }
 
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
-      LR::ReductionStatistics s(vals);
+      const size_t ev = e.ps.elimvals();
+      assert(vals >= ev);
+      LR::ReductionStatistics s(vals - ev);
+      const size_t probes = ev==0 ? vals : vals - ev - 1;
       s.inc_rounds();
-      for (size_t i = 0; i < vals; ++i) s.inc_probes();
-      if (pruning(lar)) s.maxprune(vals);
+      for (size_t i = 0; i < probes; ++i) s.inc_probes();
+      if (pruning(lar)) s.maxprune(probes);
       return s;
     }
 
