@@ -278,15 +278,17 @@ namespace Solvers {
     return res;
   }
   GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
-                          const GC::IntVarBranch vrb,
-                          const GC::IntValBranch vlb,
+                          const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
                           const unsigned gcd,
                           const double threads,
                           std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
     CT::GenericMols0* const gm = new CT::GenericMols0(enc);
-    GC::branch(*gm, gm->V, vrb, vlb);
+    {const GC::IntVarBranch vrb = var_branch(bv);
+     const GC::IntValBranch vlb = val_branch(translate(bt, bo));
+     GC::branch(*gm, gm->V, vrb, vlb);
+    }
     GC::DFS<CT::GenericMols0> s(gm, make_options(threads, gcd));
     delete gm;
 
@@ -425,14 +427,13 @@ namespace Solvers {
   }
 
   GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
-                     const GC::IntVarBranch vrb,
-                     const GC::IntValBranch vlb,
+                     const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
                      const unsigned gcd,
                      const double threads = 1,
                      std::ostream* const log = nullptr) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, vrb, vlb, gcd, threads, log);
+    GBasicSR res = gcsolver_basis(enc, rt, bt,bv,bo, gcd, threads, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

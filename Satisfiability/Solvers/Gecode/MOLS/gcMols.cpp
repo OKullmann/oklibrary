@@ -203,8 +203,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.4",
-        "29.5.2022",
+        "0.12.5",
+        "30.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/gcMols.cpp",
@@ -344,13 +344,10 @@ int main(const int argc, const char* const argv[]) {
                         prop_level(po));
       for (const BRT brt : brtv)
         for (const BHV bvar : bvarv)
-          for (const GBO gbo : gbov) {
-            const BHO bord = translate(brt, gbo);
+          for (const GBO gbo : gbov)
             for (unsigned gcd : gcdv) {
               const GBasicSR res =
-                solver_gc(enc, rt, var_branch(bvar), val_branch(bord),
-                          gcd, threads, log);
-
+                solver_gc(enc, rt, brt, bvar, gbo, gcd, threads, log);
               if (with_log and
                   rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
                 std::cout << "\n";
@@ -364,7 +361,6 @@ int main(const int argc, const char* const argv[]) {
               if (with_file_output)
                 Environment::out_line(*out, res.b.list_sol, "\n");
             }
-          }
     }
   if (out) delete out;
 }
