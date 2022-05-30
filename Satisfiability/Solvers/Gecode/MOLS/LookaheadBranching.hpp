@@ -193,6 +193,22 @@ namespace LookaheadBranching {
   };
 
 
+  struct ValVec : GC::Choice {
+    typedef GV::values_t values_t;
+    const values_t br; // br[0] is the variable (if br is not empty)
+
+    ValVec(const GC::Brancher& b, const values_t branching) noexcept
+      : GC::Choice(b, width(branching)), br(branching) {}
+
+    static unsigned width(const values_t& br) noexcept {
+      const unsigned size = br.size();
+      if (size == 0) return 1;
+      assert(size >= 2);
+      return size == 2 ? 2 : size-1;
+    }
+  };
+
+
   struct RlaBranching : public GC::Brancher {
     const rlaParams P;
   private :
@@ -214,21 +230,6 @@ namespace LookaheadBranching {
       return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
     }
 
-  private :
-    struct C : GC::Choice {
-      typedef GV::values_t values_t;
-      const values_t br; // br[0] is the variable (if br is not empty)
-      C(const RlaBranching& b, const values_t branching) noexcept
-        : GC::Choice(b, width(branching)), br(branching) {}
-      static unsigned width(const values_t& br) noexcept {
-        const unsigned size = br.size();
-        if (size == 0) return 1;
-        assert(size >= 2);
-        return size == 2 ? 2 : size-1;
-      }
-    };
-  public :
-
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
       {auto stats = LR::lareduction(&s, P.rt, P.lar);
@@ -236,21 +237,21 @@ namespace LookaheadBranching {
          std::lock_guard<std::mutex> lock(stats_mutex); S->add(stats);
        }
        else S->add(stats);
-       if (stats.leafcount()) return new C(*this, {});
+       if (stats.leafcount()) return new ValVec(*this, {});
       }
       const int v = GV::gcbv(s.V, P.bv);
       GV::values_t values = GV::values(s.V, v);
       assert(values.size() >= 2);
       switch (P.bt) {
       case OP::BRT::bin :
-        return new C(*this,
+        return new ValVec(*this,
                      {v, P.bo==OP::GBO::asc ? values.front() : values.back()});
       case OP::BRT::enu : {
         const size_t size = values.size(); assert(size >= 2);
         GV::values_t br(size+1); br[0] = v;
         if (P.bo == OP::GBO::asc) std::ranges::move(values, br.begin()+1);
         else std::ranges::move_backward(values, br.begin()+1);
-        return new C(*this, br);
+        return new ValVec(*this, br);
       }
       default : assert(false); return nullptr;}
     }
@@ -260,7 +261,7 @@ namespace LookaheadBranching {
 
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
-      const C& c = static_cast<const C&>(c0);
+      const ValVec& c = static_cast<const ValVec&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       const int v = c.br[0]; assert(v >= 0);
