@@ -57,7 +57,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.5",
+        "0.6.6",
         "30.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -292,6 +292,17 @@ int main(const int argc, const char* const argv[]) {
 
   {for (size_t N = 2; N <= 5; ++N) {
      const CS::Square A(N);
+     for (const LAR lar : ET::allvals<LAR>()) {
+       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+       const ReductionStatistics stats =
+         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
+       assert(eqwt(stats, A.laredstats(lar)));
+     }
+   }
+  }
+
+  {for (size_t N = 2; N <= 5; ++N) {
+     const CS::LaSq A(N);
      for (const LAR lar : ET::allvals<LAR>()) {
        const std::unique_ptr<CS::GenericMolsNB> m = A.space();
        const ReductionStatistics stats =
