@@ -2,9 +2,16 @@
 # 0, 1, 1, 4, 0, 6236, >= 27, >= 1, >= 2
 # >= 1
 
-# MOLS> time ./gcMols 10 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enumbr maxdegdom desc 12
+# Setting gcd = 1 seems better than the default (gcd = 0).
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/Eulerinvsymmbalt "" count dom enu maxdegdom desc 1 12
+#     N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#     7    count dom enu maxdegdom desc    1            6236   1595.463   2855635698    33367987    62367738     27
+# real	2m40.906s user	26m35.467s sys	2m14.523s
+
+# MOLS> time ./gcMols 10 data/SpecsCollection/Eulerinvsymmbalt "" +count dom enu maxdegdom desc 0 12
 # 2 solutions found after 6h wallclock.
-# MOLS> time ./gcMols 11 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enumbr maxdegdom desc 12
+# MOLS> time ./gcMols 11 data/SpecsCollection/Eulerinvsymmbalt "" satd dom enu maxdegdom desc 0 12
 # pl bt bh bo 	rt sat t prop flvs nds h
 # dom enumbr maxdegdom desc 	satd 1 1008076.556 1387642038551 9480287163 17871790739 104
 # real	1531m11.511s user	16801m16.566s sys	368m37.636s
