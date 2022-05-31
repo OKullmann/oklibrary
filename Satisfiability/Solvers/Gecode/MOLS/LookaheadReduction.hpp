@@ -99,11 +99,15 @@ namespace LookaheadReduction {
     size_t solc() const noexcept { return solc_; }
     size_t leafcount() const noexcept { return leafcount_; }
 
-    void sollist(const GV::solutions_t x) { sollist_.push_back(x); }
+    ReductionStatistics& sollist(const GV::solutions_t x) {
+      sollist_.push_back(x); return *this;
+    }
     const sollist_t& sollist() const noexcept { return sollist_; }
     sollist_t& sollist() noexcept { return sollist_; }
 
-    void elim(const lit_t x) { elims_.push_back(x); }
+    ReductionStatistics& elim(const lit_t x) {
+      elims_.push_back(x); return *this;
+    }
     assignment_t& elims() noexcept { return elims_; }
 
     void maxprune(const size_t size) noexcept {

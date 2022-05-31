@@ -199,11 +199,9 @@ namespace Cases {
       else if (N == 2) {
         s.inc_probes(); s.inc_probes();
         s.inc_elimvals(); s.inc_elimvals();
-        s.elim({0,0});
-        s.elim({0,1});
+        s.elim({0,0}).elim({0,1});
         s.inc_solc(); s.inc_solc();
-        s.sollist({0,1,1,0});
-        s.sollist({1,0,0,1});
+        s.sollist({0,1,1,0}).sollist({1,0,0,1});
         s.inc_props();
         s.inc_leafcount();
       }
