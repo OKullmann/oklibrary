@@ -17,7 +17,9 @@ Examples:
 
 /* BUGS:
 
-0. Branching width seems wrong:
+0. DONE (replaying all eliminations plus calling status seems to solve
+   the problem)
+   Branching width seems wrong:
     - With
         assert(oldsize == w-1);
       activated in RlaBranching::commit, we get an assertion:
