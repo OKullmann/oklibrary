@@ -58,6 +58,9 @@ bnd binbr mindom asc 6240 0.050 325700 487 13453 12
 
 Compare also with todos in rlaMols.
 
+-6. Better time-information
+     - Additional to total user-time we need also total wallclock-time.
+
 -5. Improve parameter on propagation-level
      - The Gecode-text mentions in Subsection 4.3.5 the two further
        possibilities "IPL_BASIC" and "IPL_ADVANCED", which we should

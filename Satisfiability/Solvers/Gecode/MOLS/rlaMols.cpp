@@ -25,6 +25,14 @@ Examples:
 
 Compare also with todos in gcMols.
 
+-1. Better time-information
+   - The reduction-time is sum of user-times for all running threads.
+   - One needs to divide this number by the number of threads, for an
+     approximation of the real user-time; idle threads mean that this
+     time is too small, but at least it's a simple handling.
+   - Also the total reduction-time ("tr") should be reported (the sum-
+     member of the statistics), corrected in the same way.
+
 0. OZ: see especially the todo on the  the statistics-output of Gecode
    in gcMols
 
