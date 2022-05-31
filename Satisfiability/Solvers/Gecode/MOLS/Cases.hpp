@@ -190,6 +190,7 @@ namespace Cases {
     }
 
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
+      // XXX needs update
       LR::ReductionStatistics s(vals);
       s.inc_rounds();
       if (N > 2) {

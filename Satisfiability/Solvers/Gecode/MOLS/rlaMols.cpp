@@ -202,7 +202,8 @@ sgcMols seems to behave exactly as gcMols, and thus branching
 at least on its own seems correct.
 
 
-2. An easier example for the solutions-duplication:
+2. DONE (version 0.8.0 seems to have resolved the bug)
+An easier example for the solutions-duplication:
 
 MOLS> ./rlaMols 5 data/SpecsCollection/LSred "" enum val enumbr mindegdom asc relpr 1
 ERROR[Solvers::rlasolver]: there are equal elements in the solution-list
@@ -267,8 +268,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.4",
-        "30.5.2022",
+        "0.8.0",
+        "31.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

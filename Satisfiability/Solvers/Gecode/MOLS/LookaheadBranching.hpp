@@ -129,7 +129,7 @@ namespace LookaheadBranching {
 
   struct rlaStats {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
-    typedef LR::ReductionStatistics::sollist_t sollist_t;
+    typedef LR::sollist_t sollist_t;
 
     inline static std::atomic_bool abort;
 
@@ -194,7 +194,7 @@ namespace LookaheadBranching {
 
 
   struct ValVec : GC::Choice {
-    typedef GV::values_t values_t;
+    using values_t = GV::values_t;
     const values_t br; // br[0] is the variable (if br is not empty)
 
     ValVec(const GC::Brancher& b, const values_t branching) noexcept
@@ -229,7 +229,6 @@ namespace LookaheadBranching {
     }
     default : assert(false); return nullptr;}
   }
-
 
   struct GcBranching : public GC::Brancher {
     const OP::BHV bv; const OP::BRT bt; const OP::GBO bo;
@@ -284,6 +283,32 @@ namespace LookaheadBranching {
   };
 
 
+  struct VVElim : ValVec {
+    using ValVec::values_t;
+    using ValVec::br;
+    using assignment_t = LR::assignment_t;
+    const assignment_t elim;
+
+    VVElim(const GC::Brancher& b, const values_t br, const assignment_t elim)
+      noexcept : ValVec(b, br), elim(elim) {}
+  };
+
+  const VVElim* create_la(const int v, GV::values_t values,
+                          const OP::BRT bt, const OP::GBO bo,
+                          GC::Brancher& b,
+                          VVElim::assignment_t a) noexcept {
+    assert(values.size() >= 2);
+    switch (bt) {
+    case OP::BRT::bin :
+      return new VVElim(b,
+        {v, bo==OP::GBO::asc ? values.front() : values.back()}, std::move(a));
+    case OP::BRT::enu : {
+      assert(values.size() >= 2);
+      return new VVElim(b, append(v, values, bo==OP::GBO::asc), std::move(a));
+    }
+    default : assert(false); return nullptr;}
+  }
+
   struct RlaBranching : public GC::Brancher {
     const rlaParams P;
   private :
@@ -307,15 +332,16 @@ namespace LookaheadBranching {
 
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
-      {auto stats = LR::lareduction(&s, P.rt, P.lar);
-       if (P.parallel) {
-         std::lock_guard<std::mutex> lock(stats_mutex); S->add(stats);
-       }
-       else S->add(stats);
-       if (stats.leafcount()) return new ValVec(*this, {});
+      auto stats = LR::lareduction(&s, P.rt, P.lar);
+      if (P.parallel) {
+        std::lock_guard<std::mutex> lock(stats_mutex);
+        S->add(stats);
       }
+      else S->add(stats);
+      if (stats.leafcount()) return new VVElim(*this, {}, {});
       const int v = GV::gcbv(s.V, P.bv);
-      return create(v, GV::values(s.V, v), P.bt, P.bo, *this);
+      return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
+                       std::move(stats.elims()));
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
@@ -323,13 +349,17 @@ namespace LookaheadBranching {
 
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
-      const ValVec& c = static_cast<const ValVec&>(c0);
+      const VVElim& c = static_cast<const VVElim&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      for (const auto [var,val] : c.elim) {
+        assert(var < node->V.size());
+        GV::unset_var(s, node->V[var], val);
+      }
       assert(v < node->V.size());
-      const size_t oldsize = node->V[v].size();
+      [[maybe_unused]] const size_t oldsize = node->V[v].size();
       assert(oldsize >= 2);
       if (w == 2) {
         if (a == 0) GV::set_var(s, node->V[v], c.br[1]);
@@ -338,19 +368,7 @@ namespace LookaheadBranching {
       }
       else {
         assert(a+1 < w);
-        if (oldsize != w-1) {// REPAIR ATTEMPT
-          assert(oldsize > w-1);
-          const GV::values_t values = GV::values(node->V, v);
-          assert(std::includes(values.begin(), values.end(),
-                               c.br.begin()+1, c.br.end()));
-          GV::values_t additional(oldsize - (w-1));
-          std::set_difference(values.begin(), values.end(),
-                              c.br.begin()+1, c.br.end(),
-                              additional.begin());
-          for (const int val : additional)
-            GV::unset_var(*node, node->V[v], val);
-          assert(node->V[v].size() == w-1);
-        }
+        // assert(oldsize == w-1); ???
         GV::set_var(s, node->V[v], c.br[a+1]);
         assert(node->V[v].size() == 1);
       }

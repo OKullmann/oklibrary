@@ -52,10 +52,12 @@ namespace LookaheadReduction {
   using size_t = CD::size_t;
   typedef FP::float80 float_t;
 
+  typedef std::vector<GV::solutions_t> sollist_t;
+  typedef std::pair<int, int> lit_t;
+  typedef std::vector<lit_t> assignment_t;
+
   // Statistics of the main lookahead-reduction actions:
-  struct ReductionStatistics {
-    typedef std::vector<GV::solutions_t> sollist_t;
-  private :
+  class ReductionStatistics {
     const size_t vals_; // the total number of values
     Timing::Time_point time_; // the total time for the reduction
 
@@ -69,6 +71,7 @@ namespace LookaheadReduction {
     size_t leafcount_ = 0; // number of leafs as a result of reduction (0 or 1)
 
     sollist_t sollist_; // list of solutions found
+    assignment_t elims_; // list of eliminations (variable != value)
 
   public:
 
@@ -99,6 +102,9 @@ namespace LookaheadReduction {
     void sollist(const GV::solutions_t x) { sollist_.push_back(x); }
     const sollist_t& sollist() const noexcept { return sollist_; }
     sollist_t& sollist() noexcept { return sollist_; }
+
+    void elim(const lit_t x) { elims_.push_back(x); }
+    assignment_t& elims() noexcept { return elims_; }
 
     void maxprune(const size_t size) noexcept {
       maxprune_ = std::max(maxprune_, size);
@@ -142,8 +148,7 @@ namespace LookaheadReduction {
   }
 
 
-  typedef std::pair<int, int> plit_t;
-  typedef std::set<plit_t> pruning_table_t;
+  typedef std::set<lit_t> pruning_table_t;
 
   template <class SPA>
   GC::SpaceStatus probe(SPA* const m,
@@ -238,7 +243,10 @@ namespace LookaheadReduction {
           [[maybe_unused]] const auto esize = elimvals.size();
           assert(esize <= vsize);
           last_red = v;
-          for (const int val : elimvals) GV::unset_var(*m, V[v], val);
+          for (const int val : elimvals) {
+            GV::unset_var(*m, V[v], val);
+            stats.elim({v,val});
+          }
           const auto status = m->status();
           assert(status != GC::SS_SOLVED);
           assert(status==GC::SS_FAILED or V[v].size() == vsize - esize);
