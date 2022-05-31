@@ -197,8 +197,9 @@ namespace Cases {
     // If N==2, then 2 probes V[0]==0 and V[0]===1 are done,
     // each leads to one solution, so both values are eliminated,
     // and finally 1 propagation is done and a leaf is formed.
+    // The pruning-set remains empty.
     // Else if N>2, no solutions are found, and N*N*N probes are done.
-    // Maximal size of pruning-set is equal to the number of probes.
+    // Maximal size of pruning-set is N*N*N as well.
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       LR::ReductionStatistics s(vals);
       s.inc_rounds();
