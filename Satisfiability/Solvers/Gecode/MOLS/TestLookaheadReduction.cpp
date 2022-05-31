@@ -57,7 +57,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
+        "0.7.1",
         "31.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -349,6 +349,29 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 3*2 + 3 + 2);
    assert(s.quotelimvals() == LR::float_t(4) / 21);
    assert(s.quotprun() == 0);
+   const auto list_sol = extract(A.e.ldecode(s.sollist()));
+   assert(eqp(list_sol, {
+              {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
+              {{{0,1,2},{2,0,1},{1,2,0}}}, {{{0,2,1},{1,0,2},{2,1,0}}}
+            }));
+  }
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::rel_pr);
+   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.props() == 2);
+   assert(s.rounds() == 1);
+   assert(s.solc() == 4);
+   assert(s.leafcount() == 1);
+   assert(s.elimvals() == 2*2);
+   assert(s.probes() == 2*2 + 3 + 2);
+   assert(s.prunes() == 2);
+   assert(s.maxprune() == 4*2);
+   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotprun() == LR::float_t(2) / 9);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
               {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
