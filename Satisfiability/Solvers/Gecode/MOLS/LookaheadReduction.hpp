@@ -202,6 +202,7 @@ namespace LookaheadReduction {
     const Timing::Time_point t0 = timing();
     pruning_table_t PT;
 
+    bool early_abort = false;
     {int last_red = -1;
     do {
       stats.inc_rounds();
@@ -229,12 +230,10 @@ namespace LookaheadReduction {
           if (status != GC::SS_BRANCH) {
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stats.inc_elimvals(); elimvals.push_back(val);
-            if (status == GC::SS_SOLVED and
-                (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
-                 or (test_unique(rt) and stats.solc() >= 2))) {
-              stats.inc_leafcount();
-              goto END;
-            }
+            early_abort = status == GC::SS_SOLVED and
+              (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
+               or (test_unique(rt) and stats.solc() >= 2));
+            if (early_abort) { stats.inc_leafcount(); goto END; }
           }
         }
 
@@ -264,7 +263,7 @@ namespace LookaheadReduction {
 
     END:
     stats.maxprune(PT.size());
-    assert(stats.elims().size() == stats.elimvals());
+    assert(early_abort or stats.elims().size() == stats.elimvals());
     return stats.time(timing() - t0);
   }
 
