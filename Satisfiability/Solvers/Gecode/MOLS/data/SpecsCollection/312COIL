@@ -1,11 +1,33 @@
 # Counts for N >= 2:
-# 0, 0, 0, 18, 0, 360, >= 736, >= 11
+# 0, 0, 0, 18, 0, 360, >= 736, >= 33
 # Also known as "QG2".
 # Unsatisfiabiblity for N=10 shown by [Dubois, Dequen, 2001] (this is
 # the only unsatisfiable case for N >= 7).
-# This is an interesting testcase:
-# MOLS> ./gcMols 9 data/SpecsCollection/312COIL "" +count dom binbr mindom desc 12
-# aborted after 105 hours wall-clock.
+# This is an interesting testcase.
+
+# MOLS> time ./gcMols 9 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
+# aborted after 3 min wallclock-time (33 solutions found).
+# MOLS> time ./gcMols 10 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
+# aborted after 105 hours wall-clock (no solution found).
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/312COIL "" count dom enu mindom asc relpr 1 3
+#     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
+#     7    count dom enu    mindom  asc  relpr    1             360     15.352     152128      1110      2851     8      1741      1110
+#       vals      props     elvals      prunes      mprune      probes    rounds      solc         t   qelvals   qprunes
+#    507.598     12.085     16.330     100.850     281.006     404.570     1.592     0.207     0.020     0.032     0.163
+#    447.000      3.000      5.000       0.000       8.000      14.000     1.000     0.000     0.000     0.011     0.000
+#    693.000     42.000     47.000     377.000     630.000     980.000     3.000     2.000     0.073     0.093     0.445
+#     32.017      7.664      9.865     115.844     182.094     317.282     0.652     0.609     0.019     0.020     0.151
+# MOLS> ./rlaMols 9 data/SpecsCollection/312COIL "" satd dom enu mindom asc relpr 1 12
+#     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
+#     9     satd dom enu    mindom  asc  relpr    1               1    246.189     473918      2201      6194    21      3993      2207
+#        vals       props      elvals       prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#     903.595      19.411      26.798      242.396      509.483      832.347     1.718     0.000     0.711     0.030     0.197
+#     615.000       0.000       0.000        0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#    1611.000     117.000     148.000     1339.000     1512.000     5072.000     8.000     1.000     4.684     0.153     0.938
+#      98.100      14.412      21.024      260.200      359.755      617.342     0.752     0.016     0.529     0.024     0.194
+# MOLS> time ./rlaMols 10 data/SpecsCollection/312COIL "" satd dom enu mindom asc relpr 1 12
+# aborted after 70min wallclock-time (no solution found).
 
 # Question: are there better representations of orthogonality here?
 
