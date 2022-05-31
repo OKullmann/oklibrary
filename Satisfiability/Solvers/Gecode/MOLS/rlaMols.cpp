@@ -13,6 +13,8 @@ License, or any later version. */
 
 Examples:
 
+
+
 */
 
 /* BUGS:
@@ -58,7 +60,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "31.5.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -104,10 +106,10 @@ namespace {
     return true;
   }
 
-  constexpr size_t sep_spaces = 6;
+  constexpr size_t sep_spaces = 2;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{9, 10, 10, 9, 9, 5, 9, 9};
-  constexpr size_t wN = 5, wgcd = 5;
+  const Environment::wvec_t widths{8, 10, 10, 8, 8, 5, 8, 8};
+  constexpr size_t wN = 4, wgcd = 5;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
