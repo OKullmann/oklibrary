@@ -358,7 +358,6 @@ namespace LookaheadBranching {
         assert(var < node->V.size());
         GV::unset_var(s, node->V[var], val);
       }
-      // node->status(); XXX
       assert(v < node->V.size());
       [[maybe_unused]] const size_t oldsize = node->V[v].size();
       assert(oldsize >= 2);
@@ -369,7 +368,7 @@ namespace LookaheadBranching {
       }
       else {
         assert(a+1 < w);
-        // assert(oldsize == w-1); XXX
+        // assert(oldsize == w-1); // only if node->status() called before
         GV::set_var(s, node->V[v], c.br[a+1]);
         assert(node->V[v].size() == 1);
       }

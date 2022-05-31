@@ -264,6 +264,7 @@ namespace LookaheadReduction {
 
     END:
     stats.maxprune(PT.size());
+    assert(stats.elims().size() == stats.elimvals());
     return stats.time(timing() - t0);
   }
 
