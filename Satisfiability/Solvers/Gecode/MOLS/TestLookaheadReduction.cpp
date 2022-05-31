@@ -13,7 +13,8 @@ BUG:
 
 TODOS:
 
-0. Collection of test-scenarios
+0. DONE (Square and LaSq from Cases.hpp are used as cases here.)
+   Collection of test-scenarios
     - Some general structure is needed, which supports some kind of "database"
       of testcases.
     - So that it becomes easy to construct them (again and again in different
