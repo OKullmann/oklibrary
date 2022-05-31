@@ -24,7 +24,8 @@ TODOS:
       additional parameters (so that a range of possibilities can be examined
       in loops).
 
-1. Loop over the four possibilities of LAR (for lareduction):
+1. DONE (For all test cases but one all four possibilities are tried.)
+   Loop over the four possibilities of LAR (for lareduction):
     - Most cases should test all four possibilities -- it makes no sense to
       test only one of them, and not the others, on the same example.
     - Most testcases will have all these four possibilites different.
@@ -364,6 +365,52 @@ int main(const int argc, const char* const argv[]) {
    assert(s.vals() == 27 - 2 - 2*2);
    assert(s.props() == 2);
    assert(s.rounds() == 1);
+   assert(s.solc() == 4);
+   assert(s.leafcount() == 1);
+   assert(s.elimvals() == 2*2);
+   assert(s.probes() == 2*2 + 3 + 2);
+   assert(s.prunes() == 2);
+   assert(s.maxprune() == 4*2);
+   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotprun() == LR::float_t(2) / 9);
+   const auto list_sol = extract(A.e.ldecode(s.sollist()));
+   assert(eqp(list_sol, {
+              {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
+              {{{0,1,2},{2,0,1},{1,2,0}}}, {{{0,2,1},{1,0,2},{2,1,0}}}
+            }));
+  }
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::eag_npr);
+   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.props() == 2);
+   assert(s.rounds() == 2);
+   assert(s.solc() == 4);
+   assert(s.leafcount() == 1);
+   assert(s.elimvals() == 2*2);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.probes() == 3*2 + 3 + 2);
+   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotprun() == 0);
+   const auto list_sol = extract(A.e.ldecode(s.sollist()));
+   assert(eqp(list_sol, {
+              {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
+              {{{0,1,2},{2,0,1},{1,2,0}}}, {{{0,2,1},{1,0,2},{2,1,0}}}
+            }));
+  }
+  {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+       LAR::eag_pr);
+   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.props() == 2);
+   assert(s.rounds() == 2);
    assert(s.solc() == 4);
    assert(s.leafcount() == 1);
    assert(s.elimvals() == 2*2);
