@@ -424,7 +424,7 @@ int main(const int argc, const char* const argv[]) {
                 rh(std::cout);
                 std::cout.width(wN); std::cout << N << " ";
                 Environment::data_policies(std::cout,
-                                           std::make_tuple(rt, po, brt, bvar, gbo, lar));
+                  std::make_tuple(rt, po, brt, bvar, gbo, lar));
                 std::cout.width(wgcd); std::cout << gcd << " ";
                 rs(std::cout, res);
                 if (with_file_output)
