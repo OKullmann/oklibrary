@@ -145,6 +145,10 @@ namespace Cases {
       return prod;
     }
 
+    // 1 round of lookahead-reduction.
+    // If a square is empty, then N*N*N probes are done.
+    // Else if k cells are assigned, N*N*N - k*N probes are done.
+    // Maximal size of pruning-set is equal to the number of probes.
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       const size_t ev = e.ps.elimvals();
       assert(vals >= ev);
@@ -189,6 +193,12 @@ namespace Cases {
       else return -1;
     }
 
+    // 1 round of lookahead-reduction.
+    // If N==2, then 2 probes V[0]==0 and V[0]===1 are done,
+    // each leads to one solution, so both values are eliminated,
+    // and finally 1 propagation is done and a leaf is formed.
+    // Else if N>2, no solutions are found, and N*N*N probes are done.
+    // Maximal size of pruning-set is equal to the number of probes.
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       LR::ReductionStatistics s(vals);
       s.inc_rounds();
