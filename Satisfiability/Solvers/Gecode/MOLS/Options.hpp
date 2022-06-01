@@ -10,12 +10,63 @@ License, or any later version. */
 
   Namespace Options, abbreviated "OP".
 
+  Providing option-types (as supported by Environment.hpp):
+
+    General parameters:
+     - RT
+     - PropO
+
+    Gecode-based branching for gcMols and rlaMols:
+     - BHV
+     - BRT
+     - GBO
+    Support-class for the interface to Gecode (just plain scoped enum):
+     - BHO
+
+    Lookahead-reduction for rlaMols and laMols:
+     - LAR
+
+    Lookahead-branching for laMols: (new, so for now these are just plans)
+     - BRTE branching-type (extended) bin, enu, plus later binbal
+       or call it LBRT (lookahead BRT)?
+     - BRO branching-order asc, desc, ascd, descd
+     - DIS distance deltaL, wdeltaL, newvars.
+
 TODOS
 
 0. Write documentation.
 
 1. Provide the choice of a random branching-variable:
     - This needs a bit of design how to use our random-number-generator.
+    - We could just use our 64-bit generator, and throw away half of
+      the bits (or xor the first 32 with the second 32 bits).
+
+2. Provide for Gecode-variable-choices some of the active forms:
+    - Thus adding more possibilities to BHV.
+    - We need to see that we can also simulate this.
+
+3. Real choice of branch-order for binary branching (simulated Gc-branching):
+    - The value-choice for branching (min- or max-value) needs to be
+      separated from the order of the branches (which of =, != first).
+    - Easiest perhaps to have this as "branching types" bmin, bmax (for
+      the choice of the value).
+    - Then the "branching order", asc or desc, could be used for the
+      order of the branches (asc means first =).
+    - One would need thus a special type for branching-order for sgc-branching,
+      which would break the current simple implementation of sgcMols, just
+      employing a macro at one place.
+    - While still using the same basis would mean that for gcMols there are
+      non-functional combination, namely for the choice of bmin/bmax then
+      asc, desc becomes irrelevant.
+
+4. Extended possibilities for simulated Gecode-branching (sgcMols):
+    - When sharing facilities with gcMols, one could throw an exception
+      for non-provided possibilities --- but that would break the looping
+      over all possible options.
+    - Or the macro SIMBRANCH needs to be used at more places; especially
+      proving different definitions of BRT and BHV.
+    - Random order of branches.
+    - Last variable.
 
 */
 
@@ -149,7 +200,6 @@ namespace Options {
     enumvalmin = 2, // INT_VALUES_MIN()
     enumvalmax = 3 // INT_VALUES_MAX()
   };
-  constexpr int BHOsize = int(BHO::enumvalmax) + 1;
   constexpr BHO translate(const BRT bt, const GBO bo) noexcept {
     if (bt == BRT::bin)
       if (bo == GBO::asc) return BHO::binvalmin;
@@ -236,14 +286,6 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"ascending-order", "descending-order"};
   };
-  template <> struct RegistrationPolicies<Options::BHO> {
-    static constexpr int size = Options::BHOsize;
-    static constexpr std::array<const char*, size>
-      string {"bmin", "bmax", "emin", "emax"};
-    static constexpr std::array<const char*, size>
-      estring {"bin-branch-min", "bin-branch-max", "enum-branch-min",
-        "enum-branch-max"};
-  };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";
     static constexpr const char* sname = "lar";
@@ -270,9 +312,6 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const GBO bo) {
     return out << Environment::W2(bo);
-  }
-  std::ostream& operator <<(std::ostream& out, const BHO bord) {
-    return out << Environment::W2(bord);
   }
   std::ostream& operator <<(std::ostream& out, const LAR lar) {
     return out << Environment::W2(lar);
