@@ -26,10 +26,9 @@ License, or any later version. */
     Lookahead-reduction for rlaMols and laMols:
      - LAR
 
-    Lookahead-branching for laMols: (new, so for now these are just plans)
-     - BRTE branching-type (extended) bin, enu, plus later binbal
-       or call it LBRT (lookahead BRT)?
-     - BRO branching-order asc, desc, ascd, descd
+    Lookahead-branching for laMols:
+     - LBRT branching-type (lookahead-brt) bin, enu, plus later binbal
+     - LBRO branching-order asc, desc, ascd, descd
      - DIS distance deltaL, wdeltaL, newvars.
 
 TODOS
@@ -151,6 +150,7 @@ namespace Options {
     default : return GC::IPL_DOM;}
   }
 
+
   // Variable-selection for Gecode-branching ("branching-heuristic variables").
   // According to Section 8.5.1 of 'Modeling and Programming with Gecode.
   // 6.2.0.', the degree of a variable is the number of propagators depending
@@ -179,12 +179,21 @@ namespace Options {
     }
   }
 
+
   // The branching-type:
   enum class BRT {
     bin = 0, // binary branching
     enu = 1 // enumerative branching
   };
   constexpr int BRTsize = int(BRT::enu) + 1;
+
+  enum class LBRT {
+    bin = 0,
+    enu = 1
+  };
+  constexpr int LBRTsize = int(LBRT::enu) + 1;
+
+
   // The Gecode-branching-orders:
   enum class GBO {
     asc = 0, // ascending
@@ -219,6 +228,15 @@ namespace Options {
     }
   }
 
+  enum class LBRO {
+    asc = 0,
+    desc = 1,
+    ascd = 2,
+    descd = 3
+  };
+  constexpr int LBROsize = int(LBRO::descd) + 1;
+
+
   // Algorithmic options for lookahead-reduction, in two dimensions:
   // relaxed vs eager and pruning vs nonpruning
   enum class LAR {
@@ -230,6 +248,14 @@ namespace Options {
   constexpr int LARsize = int(LAR::eag_npr) + 1;
   constexpr bool eager(const LAR lar) noexcept { return int(lar) >= 2; }
   constexpr bool pruning(const LAR lar) noexcept { return int(lar) % 2 == 0; }
+
+
+  enum class DIS {
+    deltaL = 0,
+    wdeltaL = 1,
+    newvars = 2
+  };
+  constexpr int DISsize = int(DIS::newvars) + 1;
 
 }
 namespace Environment {
@@ -277,6 +303,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"binary-branching", "enumerative-branching"};
   };
+  template <> struct RegistrationPolicies<Options::LBRT> {
+    static constexpr const char* name = "la-branching-type";
+    static constexpr const char* sname = "lbt";
+    static constexpr int size = Options::LBRTsize;
+    static constexpr std::array<const char*, size>
+      string {"bin", "enu"};
+    static constexpr std::array<const char*, size>
+      estring {"la-binary-branching", "la-enumerative-branching"};
+  };
   template <> struct RegistrationPolicies<Options::GBO> {
     static constexpr const char* name = "order-heuristic";
     static constexpr const char* sname = "bo";
@@ -285,6 +320,16 @@ namespace Environment {
       string {"asc", "desc"};
     static constexpr std::array<const char*, size>
       estring {"ascending-order", "descending-order"};
+  };
+  template <> struct RegistrationPolicies<Options::LBRO> {
+    static constexpr const char* name = "la-order-heuristic";
+    static constexpr const char* sname = "lbo";
+    static constexpr int size = Options::LBROsize;
+    static constexpr std::array<const char*, size>
+      string {"asc", "desc", "ascd", "descd"};
+    static constexpr std::array<const char*, size>
+    estring {"la-ascending-order", "la-descending-order",
+        "ascending-distances", "descending-distances"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";
@@ -295,6 +340,16 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"relaxed-pruning", "relaxed-nonpruning",
         "eager-pruning", "eager-nonpruning"};
+  };
+  template <> struct RegistrationPolicies<Options::DIS> {
+    static constexpr const char* name = "distance-type";
+    static constexpr const char* sname = "dis";
+    static constexpr int size = Options::DISsize;
+    static constexpr std::array<const char*, size>
+      string {"deltaL", "wdeltaL", "newvars"};
+    static constexpr std::array<const char*, size>
+      estring {"delta-literals", "weighted-delta-literals",
+        "new-variables"};
   };
 }
 namespace Options {
@@ -310,11 +365,20 @@ namespace Options {
   std::ostream& operator <<(std::ostream& out, const BRT bt) {
     return out << Environment::W2(bt);
   }
+  std::ostream& operator <<(std::ostream& out, const LBRT bt) {
+    return out << Environment::W2(bt);
+  }
   std::ostream& operator <<(std::ostream& out, const GBO bo) {
+    return out << Environment::W2(bo);
+  }
+  std::ostream& operator <<(std::ostream& out, const LBRO bo) {
     return out << Environment::W2(bo);
   }
   std::ostream& operator <<(std::ostream& out, const LAR lar) {
     return out << Environment::W2(lar);
+  }
+  std::ostream& operator <<(std::ostream& out, const DIS dis) {
+    return out << Environment::W2(dis);
   }
 
 }
