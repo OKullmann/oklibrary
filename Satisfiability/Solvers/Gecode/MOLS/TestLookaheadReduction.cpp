@@ -13,26 +13,10 @@ BUG:
 
 TODOS:
 
-0. DONE (Square and LaSq from Cases.hpp are used as cases here.)
-   Collection of test-scenarios
-    - Some general structure is needed, which supports some kind of "database"
-      of testcases.
-    - So that it becomes easy to construct them (again and again in different
-      test-environments, for testing *one* single function).
-    - Properties are discussed of these cases, and possibly explained in text.
-    - But best to have functions computing the various numbers.
-    - At least the simpler cases should have N as parameter; possibly also
-      additional parameters (so that a range of possibilities can be examined
-      in loops).
-
-1. DONE (For all test cases but one all four possibilities are tried.)
-   Loop over the four possibilities of LAR (for lareduction):
-    - Most cases should test all four possibilities -- it makes no sense to
-      test only one of them, and not the others, on the same example.
-    - Most testcases will have all these four possibilites different.
-
-2. All possibilities of RT need testing (for lareduction):
+0. All possibilities of RT need testing (for lareduction):
     - Possibly also a loop should be used, for each testcase.
+
+1. Test case with 3 rounds of lookahead reduction.
 
 */
 
