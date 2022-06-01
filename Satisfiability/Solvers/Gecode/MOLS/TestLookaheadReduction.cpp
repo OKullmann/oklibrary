@@ -43,7 +43,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
+        "0.7.3",
         "31.5.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -277,39 +277,45 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {for (size_t N = 2; N <= 5; ++N) {
-     const CS::Square A(N);
      for (const LAR lar : ET::allvals<LAR>()) {
-       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-       const ReductionStatistics stats =
-         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
-       assert(eqwt(stats, A.laredstats(lar)));
+       for (const RT rt : ET::allvals<RT>()) {
+         const CS::Square A(N);
+         const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+         const ReductionStatistics stats =
+           lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+         assert(eqwt(stats, A.laredstats(lar)));
+       }
      }
    }
   }
 
   {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
    for (const LAR lar : ET::allvals<LAR>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     assert(sumdomsizes(m->V) == 27 - 2);
-     const ReductionStatistics s =
-       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
-     assert(eqwt(s, A.laredstats(lar)));
+     for (const RT rt : ET::allvals<RT>()) {
+       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+       assert(sumdomsizes(m->V) == 27 - 2);
+       const ReductionStatistics s =
+         lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+       assert(eqwt(s, A.laredstats(lar)));
+     }
    }
   }
 
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const LAR lar : ET::allvals<LAR>()) {
-     const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-     assert(sumdomsizes(m->V) == 27 - 2);
-     const ReductionStatistics s =
-       lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
-     assert(eqwt(s, A.laredstats(lar)));
+     for (const RT rt : ET::allvals<RT>()) {
+       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+       assert(sumdomsizes(m->V) == 27 - 2);
+       const ReductionStatistics s =
+         lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+       assert(eqwt(s, A.laredstats(lar)));
+     }
    }
   }
 
   {for (size_t N = 2; N <= 5; ++N) {
-     const CS::LaSq A(N);
      for (const LAR lar : ET::allvals<LAR>()) {
+       const CS::LaSq A(N);
        const std::unique_ptr<CS::GenericMolsNB> m = A.space();
        const ReductionStatistics stats =
          lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
