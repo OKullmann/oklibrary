@@ -1,0 +1,26 @@
+# Counts for N >= 2:
+# 1, 1, 4, 18, 3352
+
+# time ./gcMols 6 data/SpecsCollection/Eulerm2 "" count dom enu maxdegdom "" 1 6
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    6    count dom enu maxdegdom  asc    1            3552     23.836     82594835     1156950     2047343     20
+# real	0m4.714s user	0m23.845s sys	0m1.798s
+
+# time ./rlaMols 6 data/SpecsCollection/Eulerm2 "" count dom enu mindom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   6    count dom enu    mindom  asc  relpr    1       3552    143.843    2921865    38600    96843    15    58243    38600
+#      vals      props     elvals      prunes      mprune      probes    rounds      solc         t   qelvals    qprunes
+#   296.918      5.378      8.508      64.359     122.903     148.868     1.338     0.061     0.010     0.029      0.254
+#   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000      0.000
+#   435.000     46.000     58.000     256.000     407.000     766.000     4.000     6.000     0.068     0.200     19.000
+#    35.880      3.723      5.135      91.818     110.635     140.399     0.476     0.368     0.011     0.018      0.861
+# real	0m46.084s user	2m23.848s sys	0m3.640s
+
+
+squares A B aux
+red A
+rred B
+ls A B
+rls aux
+clsm2 aux
+rprod A aux B
