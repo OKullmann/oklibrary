@@ -59,7 +59,7 @@ namespace LookaheadReduction {
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
     const size_t vals_; // the total number of values
-    Timing::Time_point time_; // the total time for the reduction
+    Timing::Time_point time_; // total time for the reduction
 
     size_t props_ = 0; // propagation-call-counter
     size_t elimvals_ = 0; // number of eliminated values
