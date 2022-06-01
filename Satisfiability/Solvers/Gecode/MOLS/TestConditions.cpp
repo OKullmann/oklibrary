@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
-        "29.5.2022",
+        "0.4.6",
+        "1.6.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConditions.cpp",
@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
   {assert(toUC("") == UC(0));
    assert(toUC("UNDEF") == UC(0));
    assert(toUC("rls") == UC(1));
-   assert(toUC("mention") == UC(maxUC));
+   assert(toUC("clsm2") == UC(maxUC));
   }
 
   {assert(toVS("") == VS::id);

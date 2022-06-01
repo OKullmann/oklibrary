@@ -496,6 +496,26 @@ namespace Encoding {
                 equal(s, va[index(sq,i,j)], va[index(sq,t(j),t(i))]);
             break; }
           case UC::mention : break;
+          case UC::rlsm1 : {
+            for (size_t i = 0; i < N-1; ++i) { vv_t vv;
+              for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
+              distinct(s, vv);
+            } break; }
+          case UC::clsm1 : {
+            for (size_t j = 0; j < N-1; ++j) { vv_t vv;
+              for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
+              distinct(s, vv);
+            } break; }
+          case UC::rlsm2 : {
+            for (size_t i = 0; i < N-2; ++i) { vv_t vv;
+              for (size_t j = 0; j < N; ++j) vv.push_back(va[index(sq,i,j)]);
+              distinct(s, vv);
+            } break; }
+          case UC::clsm2 : {
+            for (size_t j = 0; j < N-2; ++j) { vv_t vv;
+              for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
+              distinct(s, vv);
+            } break; }
           default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
                                              +std::to_string(size_t(uc)));}
         }

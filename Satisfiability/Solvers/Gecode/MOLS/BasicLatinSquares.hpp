@@ -289,8 +289,52 @@ namespace BasicLatinSquares {
   bool rls(const ls_t& S) noexcept {
     return sqprop(S) and alldiffrows(S);
   }
+  bool rlsm1(const ls_t& S) noexcept {
+    if (not sqprop(S)) return false;
+    const size_t size = S.size();
+    if (size <= 1) return true;
+    for (size_t i = 0; i < size-1; ++i)
+        if (not alldiffelem(S[i])) return false;
+    return true;
+  }
+  bool rlsm2(const ls_t& S) noexcept {
+    if (not sqprop(S)) return false;
+    const size_t size = S.size();
+    if (size <= 2) return true;
+    for (size_t i = 0; i < size-2; ++i)
+        if (not alldiffelem(S[i])) return false;
+    return true;
+  }
   bool cls(const ls_t& S) noexcept {
     return sqprop(S) and alldiffcols(S);
+  }
+  bool clsm1(const ls_t& S) noexcept {
+    if (not sqprop(S)) return false;
+    if (S.empty()) return true;
+    const size_t N = std::ranges::max_element(S, {},
+      [](const auto& r){return r.size();}) -> size();
+    if (N <= 1) return true;
+    for (size_t j = 0; j < N-1; ++j) {
+      ls_row_t col;
+      for (const ls_row_t& r : S)
+        if (j < r.size()) col.push_back(r[j]);
+      if (not alldiffelem(std::move(col))) return false;
+    }
+    return true;
+  }
+  bool clsm2(const ls_t& S) noexcept {
+    if (not sqprop(S)) return false;
+    if (S.empty()) return true;
+    const size_t N = std::ranges::max_element(S, {},
+      [](const auto& r){return r.size();}) -> size();
+    if (N <= 2) return true;
+    for (size_t j = 0; j < N-2; ++j) {
+      ls_row_t col;
+      for (const ls_row_t& r : S)
+        if (j < r.size()) col.push_back(r[j]);
+      if (not alldiffelem(std::move(col))) return false;
+    }
+    return true;
   }
   bool ls(const ls_t& S) noexcept {
     return sqprop(S) and alldiffsq(S);

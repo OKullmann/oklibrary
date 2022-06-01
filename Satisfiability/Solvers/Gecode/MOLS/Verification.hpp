@@ -409,6 +409,10 @@ namespace Verification {
         case CD::UC::symm : if (not symmetric(L)) return false; break;
         case CD::UC::antisymm : if (not antisymmetric(L)) return false; break;
         case CD::UC::mention : break;
+        case CD::UC::rlsm1 : if (not BS::rlsm1(L)) return false; break;
+        case CD::UC::clsm1 : if (not BS::clsm1(L)) return false; break;
+        case CD::UC::rlsm2 : if (not BS::rlsm2(L)) return false; break;
+        case CD::UC::clsm2 : if (not BS::clsm2(L)) return false; break;
         default : throw std::runtime_error("Verification::correct: unknown"
                                            " uc=" + std::to_string(int(uc)));
         }
