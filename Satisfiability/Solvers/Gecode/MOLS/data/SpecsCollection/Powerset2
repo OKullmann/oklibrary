@@ -33,7 +33,11 @@
 # 6 :
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    7    count dom enu    mindom  asc    1         1641600   4861.146  16863072160   152572159   246160701     23
-# N=8 seems a hard sat-decision-problem.
+
+# N=8 seems a hard sat-decision-problem:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2 "" satd dom enu mindom "" 1 9
+# aborted after 16min wallclock-time without finding a solution.
+# For Powerset2diag a solution for N=8 was found relatively quickly (also for Powerset2diag2).
 
 squares P1 P2
 ls P1 P2
