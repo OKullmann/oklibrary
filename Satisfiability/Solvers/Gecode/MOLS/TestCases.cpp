@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "31.5.2022",
+        "0.1.5",
+        "1.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
@@ -79,8 +79,8 @@ int main(const int argc, const char* const argv[]) {
    assert(A.e.num_vars == 4);
    assert(A.numsol() == solver0(A.e, RT::count_solutions).sol_found);
    assert(A.space());
-   assert(A.laredstats(LAR::eag_pr).solc() == 2);
-   assert(A.laredstats(LAR::eag_pr).elims().size() == 2);
+   assert(A.laredstats(LAR::eag_pr, RT::enumerate_solutions).solc() == 2);
+   assert(A.laredstats(LAR::eag_pr, RT::enumerate_solutions).elims().size() == 2);
   }
   {LaSq A(2, "A\n0 *\n* *\n");
    assert(A.e.num_vars == 4);
@@ -90,7 +90,7 @@ int main(const int argc, const char* const argv[]) {
   {LaSq A(3);
    assert(A.e.num_vars == 3 * 3);
    assert(A.numsol() == solver0(A.e, RT::count_solutions).sol_found);
-   assert(A.laredstats(LAR::eag_pr).solc() == 0);
+   assert(A.laredstats(LAR::eag_pr, RT::enumerate_solutions).solc() == 0);
   }
   {LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
    assert(A.e.num_vars == 3 * 3);

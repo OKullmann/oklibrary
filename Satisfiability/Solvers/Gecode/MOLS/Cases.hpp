@@ -201,7 +201,8 @@ namespace Cases {
     // The pruning-set remains empty.
     // Else if N>2, no solutions are found, and N*N*N probes are done.
     // Maximal size of pruning-set is N*N*N as well.
-    LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
+    LR::ReductionStatistics laredstats(const OP::LAR lar,
+      const OP::RT rt) const noexcept {
       LR::ReductionStatistics s(vals);
       s.inc_rounds();
       if (N > 2) {
@@ -209,13 +210,20 @@ namespace Cases {
         if (pruning(lar)) s.maxprune(vals);
       }
       else if (N == 2) {
-        s.inc_probes(); s.inc_probes();
-        s.inc_elimvals(); s.inc_elimvals();
-        s.elim({0,0}).elim({0,1});
-        s.inc_solc(); s.inc_solc();
-        s.sollist({0,1,1,0}).sollist({1,0,0,1});
-        s.inc_props();
+        s.inc_probes();
+        s.inc_elimvals();
+        s.elim({0,0});
+        s.inc_solc();
         s.inc_leafcount();
+        if (with_solutions(rt)) s.sollist({0,1,1,0});
+        if (not OP::test_sat(rt)) {
+          s.inc_probes();
+          s.inc_elimvals();
+          s.elim({0,1});
+          s.inc_solc();
+          if (with_solutions(rt)) s.sollist({1,0,0,1});
+          if (not (with_stop(rt))) s.inc_props();
+        }
       }
       return s;
     }

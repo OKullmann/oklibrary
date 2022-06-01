@@ -13,7 +13,8 @@ BUG:
 
 TODOS:
 
-0. All possibilities of RT need testing (for lareduction):
+0. DONE (All variants of RT are tried in several tests.)
+   All possibilities of RT need testing (for lareduction):
     - Possibly also a loop should be used, for each testcase.
 
 1. Test case with 3 rounds of lookahead reduction.
@@ -43,8 +44,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
-        "31.5.2022",
+        "0.7.4",
+        "1.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -315,11 +316,14 @@ int main(const int argc, const char* const argv[]) {
 
   {for (size_t N = 2; N <= 5; ++N) {
      for (const LAR lar : ET::allvals<LAR>()) {
-       const CS::LaSq A(N);
-       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
-       const ReductionStatistics stats =
-         lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, lar);
-       assert(eqwt(stats, A.laredstats(lar)));
+       for (const RT rt : ET::allvals<RT>()) {
+         if (test_sat(rt) or test_unique(rt)) continue;
+         const CS::LaSq A(N);
+         const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+         const ReductionStatistics stats =
+           lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+         assert(eqwt(stats, A.laredstats(lar, rt)));
+       }
      }
    }
   }
