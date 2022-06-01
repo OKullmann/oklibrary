@@ -22,7 +22,7 @@ License, or any later version. */
 
 
     To have a large and safe seed-space, seed-sequences should be used
-    (not single-valued seeds), which is facilitates by the wrapper
+    (not single-valued seeds), which is facilitated by the wrapper
     RandGen_t below.
 
 
