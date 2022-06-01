@@ -5,6 +5,9 @@
 # N=8 seems a hard sat-decision problem.
 
 # rlaMols: using dom+enu+mindom.
+# time ./rlaMols 8 data/SpecsCollection/Powerset3diag3 "" satd dom enu mindom "" "" 1 3
+# aborted after 50min wallclock-time without finding a solution.
+
 
 squares P1 P2 P3
 ls P1 P2 P3
