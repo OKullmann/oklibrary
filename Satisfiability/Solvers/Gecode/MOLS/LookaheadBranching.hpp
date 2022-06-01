@@ -117,81 +117,9 @@ namespace LookaheadBranching {
   }
 
 
-  struct rlaParams {
-    const OP::RT rt;
-    const OP::LAR lar;
-    const OP::BHV bv;
-    const OP::BRT bt;
-    const OP::GBO bo;
-    const bool parallel;
-  };
-
-
-  struct rlaStats {
-    typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
-    typedef LR::sollist_t sollist_t;
-
-    inline static std::atomic_bool abort;
-
-    rlaStats(std::ostream* const log, const EC::EncCond* const enc,
-             const size_t threshold) noexcept :
-    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold(threshold) {
-      assert(not enc or log);
-      abort = false;
-    }
-    rlaStats(const rlaStats&) = delete;
-
-    size_t sol_count() const noexcept { return sol_counter; }
-    size_t lvs() const noexcept { return lvs_counter; }
-    const stats_t& stats() const noexcept { return S; }
-    const sollist_t& sols() const noexcept { return sols_; }
-
-    void add(LR::ReductionStatistics& s) noexcept {
-      S += s.extract();
-      lvs_counter += s.leafcount();
-      const size_t solc = s.solc();
-      if (solc == 0) return;
-      assert(BS::alldiffelem(s.sollist()));
-      if (log) {
-        if (enc) {
-          assert(solc == s.sollist().size());
-          for (auto& sol : s.sollist()) {
-            ++sol_counter;
-            const auto dsol = enc->decode(std::move(sol));
-            *log << sol_counter << "\n" << dsol << std::endl;
-            if (not VR::correct(enc->ac, dsol))
-              std::cerr << "\nERROR[LABranching::rlaStats]: "
-                "correctness-checking failed for solution " << sol_counter
-                        << ":\n" << dsol << "\n";
-          }
-        }
-        else {
-          assert(s.sollist().empty());
-          *log << " " << solc; log -> flush(); sol_counter += solc;
-        }
-      }
-      else {
-        sol_counter += solc;
-        if (not s.sollist().empty()) {
-          assert(s.sollist().size() == solc);
-          sols_.reserve(sols_.size() + solc);
-          for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
-        }
-      }
-      if (threshold != 0 and sol_counter >= threshold)
-        abort.store(true, std::memory_order_relaxed);
-    }
-
-  private :
-    sollist_t sols_;
-    stats_t S;
-    size_t sol_counter, lvs_counter;
-    std::ostream* const log;
-    const EC::EncCond* const enc;
-  public :
-    const size_t threshold;
-  };
-
+  /*
+    Simulating Gecode-branching
+  */
 
   struct ValVec : GC::Choice {
     using values_t = GV::values_t;
@@ -308,6 +236,86 @@ namespace LookaheadBranching {
     }
     default : assert(false); return nullptr;}
   }
+
+
+  /*
+    Using simulated Gecode-branching with lookahead-reduction
+  */
+
+  struct rlaParams {
+    const OP::RT rt;
+    const OP::LAR lar;
+    const OP::BHV bv;
+    const OP::BRT bt;
+    const OP::GBO bo;
+    const bool parallel;
+  };
+
+  struct rlaStats {
+    typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
+    typedef LR::sollist_t sollist_t;
+
+    inline static std::atomic_bool abort;
+
+    rlaStats(std::ostream* const log, const EC::EncCond* const enc,
+             const size_t threshold) noexcept :
+    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold(threshold) {
+      assert(not enc or log);
+      abort = false;
+    }
+    rlaStats(const rlaStats&) = delete;
+
+    size_t sol_count() const noexcept { return sol_counter; }
+    size_t lvs() const noexcept { return lvs_counter; }
+    const stats_t& stats() const noexcept { return S; }
+    const sollist_t& sols() const noexcept { return sols_; }
+
+    void add(LR::ReductionStatistics& s) noexcept {
+      S += s.extract();
+      lvs_counter += s.leafcount();
+      const size_t solc = s.solc();
+      if (solc == 0) return;
+      assert(BS::alldiffelem(s.sollist()));
+      if (log) {
+        if (enc) {
+          assert(solc == s.sollist().size());
+          for (auto& sol : s.sollist()) {
+            ++sol_counter;
+            const auto dsol = enc->decode(std::move(sol));
+            *log << sol_counter << "\n" << dsol << std::endl;
+            if (not VR::correct(enc->ac, dsol))
+              std::cerr << "\nERROR[LABranching::rlaStats]: "
+                "correctness-checking failed for solution " << sol_counter
+                        << ":\n" << dsol << "\n";
+          }
+        }
+        else {
+          assert(s.sollist().empty());
+          *log << " " << solc; log -> flush(); sol_counter += solc;
+        }
+      }
+      else {
+        sol_counter += solc;
+        if (not s.sollist().empty()) {
+          assert(s.sollist().size() == solc);
+          sols_.reserve(sols_.size() + solc);
+          for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
+        }
+      }
+      if (threshold != 0 and sol_counter >= threshold)
+        abort.store(true, std::memory_order_relaxed);
+    }
+
+  private :
+    sollist_t sols_;
+    stats_t S;
+    size_t sol_counter, lvs_counter;
+    std::ostream* const log;
+    const EC::EncCond* const enc;
+  public :
+    const size_t threshold;
+  };
+
 
   struct RlaBranching : public GC::Brancher {
     const rlaParams P;
