@@ -384,6 +384,47 @@ namespace LookaheadBranching {
     }
   };
 
+
+  /*
+    Lookahead-reduction and branching
+  */
+
+  struct laParams {
+    const OP::RT rt;
+    const OP::LBRT bt;
+    const OP::DIS d;
+    const OP::LBRO bo;
+    const OP::LAR lar;
+    const bool parallel;
+  };
+
+  class BranchingStatistics {
+    Timing::Time_point time_; // total time for the branching construction
+
+  public :
+
+    static constexpr size_t num_stats = 1;
+
+  };
+
+  class laStats {
+    rlaStats rla_;
+  public :
+    typedef GenStats::GStdStats<BranchingStatistics::num_stats> stats_t;
+
+    laStats(std::ostream* const log, const EC::EncCond* const enc,
+            const size_t threshold) noexcept
+      : rla_(log, enc, threshold) {}
+
+    const rlaStats& rla() const noexcept { return rla_; }
+
+    void add(LR::ReductionStatistics& s) noexcept { rla_.add(s); }
+    void add(const BranchingStatistics&) noexcept {
+
+    }
+
+  };
+
 }
 
 #endif
