@@ -1,0 +1,28 @@
+# Counts for N >= 2:
+# 0, 1, 0, 6, 0, 120, 0, >= 1, ?
+
+# Are all even N unsatisfiable?
+
+# gcMols: dom+enu+mindom seems best.
+# MOLS> ./gcMols 8 data/SpecsCollection/Powerset2red "" count dom enu mindom "" 1 6
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    8    count dom enu    mindom  asc    1               0     43.960    159181939      750587     1440108     16
+# N=10 seems a hard sat-decision problem (likely unsatisfiable).
+# N=11 also (likely satisfiable).
+
+# rlaMols: also using dom+enu+mindom.
+# MOLS> ./rlaMols 8 data/SpecsCollection/Powerset2red "" satd dom enu mindom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8     satd dom enu    mindom  asc  relpr    1          0    643.195    5023905    36668    93105    11    56437    36668
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   454.502     12.067     18.788      46.026     195.444      346.845     1.515     0.000     0.047     0.042     0.107
+#   316.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   702.000     58.000     82.000     265.000     679.000     2282.000     7.000     0.000     0.746     0.177     0.450
+#    33.174     10.894     15.963      52.376     186.810      317.693     0.781     0.000     0.055     0.035     0.063
+
+
+squares P1 P2
+ls P1 P2
+red P1
+rred P2
+rprod P2 P1 P1

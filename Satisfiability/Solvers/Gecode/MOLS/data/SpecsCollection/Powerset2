@@ -1,0 +1,16 @@
+# Counts for N >= 2:
+# 0, 6, 48, 2160, 0, >= 1
+
+# The open conjecture is that except for N=2,6 all other N
+# are satisfiable; this is known for N <= 50, and all larger N
+# except for N congruent 2 mod 6.
+
+# The relevant feature here is that P1, P2 are orthogonal.
+
+# QUESTION: which kind of symmetry-breaking can be imposed here?
+
+# gcMols: dom+enu+mindom seems best.
+
+squares P1 P2
+ls P1 P2
+rprod P2 P1 P1

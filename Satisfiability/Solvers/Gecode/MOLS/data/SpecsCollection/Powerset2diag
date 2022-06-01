@@ -1,0 +1,17 @@
+# Counts for N >= 2:
+# 0, 0, 16, 60, 0, 4256, >= 1, ?
+
+# gcMols: dom+enu+maxdegdom seems best.
+# MOLS> ./gcMols 7 data/SpecsCollection/Powerset2diag "" count dom enu maxdegdom "" 1 1
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    7    count dom enu maxdegdom  asc    1            4256    156.612    708990729     4472295     8085568     17
+# N=9 seems a hard sat-decision problem.
+
+# rlaMols: possibly dom+enu+maxdeg is best.
+# Again, N=9 seems a hard sat-decision problem.
+
+squares P1 P2
+ls P1 P2
+diag P1
+antidiag P1
+rprod P2 P1 P1

@@ -1,0 +1,14 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 224
+
+# gcMols: using dom+enu+mindom.
+# N=8 seems a hard sat-decision problem.
+
+# rlaMols: using dom+enu+mindom.
+
+squares P1 P2 P3
+ls P1 P2 P3
+diag P1 P2 P3
+antidiag P1 P2 P3
+rprod P2 P1 P1
+rprod P3 P1 P2
