@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 1, 0, 0, 2, >= 3949
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/Eulerinvsymmbaltdiag2 "" +count dom enu maxdegdom desc 1 12
+# found 3949 solutions after
+# real	188m16.025s user	2157m0.898s sys	35m26.700s
+
+
+squares A B aux
+rred A B aux
+diag A B
+antidiag A B
+ls A B aux
+wcred B
+rprod B A aux

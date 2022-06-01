@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 1, 1, 4, 0, 6236, >= 27, >= 1, >= 2
+# 0, 1, 1, 4, 0, 6236, >= 133, >= 1, >= 2
 # >= 1
 
 # Setting gcd = 1 seems better than the default (gcd = 0).
@@ -27,7 +27,7 @@
 #     51.353      7.040     10.916      96.977     165.107      207.961     0.701      0.114     0.018     0.027     0.297
 # real	50m21.479s user	145m15.261s sys	0m42.171s
 
-MOLS> ./rlaMols 8 data/SpecsCollection/Eulerinvsymmbalt "" satd def enu mindom asc relpr 1 1
+# MOLS> ./rlaMols 8 data/SpecsCollection/Eulerinvsymmbalt "" satd def enu mindom asc relpr 1 1
 #     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
 #     8     satd def enu    mindom  asc  relpr    1               1      0.321       5911        75       201    24       126        76
 #        vals      props     elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
