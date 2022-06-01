@@ -2,7 +2,25 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 4, >= 2
 #
-# Best seems dom+binbr+maxdom+desc.
+# gcMols: Best seems dom+bin+maxdom+desc; for N=10 asc in fact is somewhat better
+# (second runtime under high load):
+# MOLS> ./gcMols 10 data/SpecsCollection/SudokuQueen "" count dom bin maxdom asc 1 1
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#   10    count dom bin    maxdom  asc    1               0      2.467      6517122      103032      206063     18
+# MOLS> ./gcMols 10 data/SpecsCollection/SudokuQueen "" count dom bin maxdom desc 1 1
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#   10    count dom bin    maxdom desc    1               0      5.560      7172755      118026      236051     17
+# But for N=11 desc is quite a bit better:
+# MOLS> time ./gcMols 11 data/SpecsCollection/SudokuQueen "" +count dom bin maxdom asc 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#   11   +count dom bin    maxdom  asc    1               4   1890.888   2447323709    37691626    75383259     40
+# real	3m20.157s user	31m30.889s sys	1m38.504s
+# MOLS> time ./gcMols 11 data/SpecsCollection/SudokuQueen "" count dom bin maxdom desc 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#   11    count dom bin    maxdom desc    1               4   1264.173   1686242110    26782437    53564881     40
+# real	2m26.775s user	21m4.175s sys	1m10.209s
+
+
 # For N <= 11 no additional solution compared to SudokuPandiagonal
 # exist, but this changes for N=12:
 # MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
@@ -50,6 +68,23 @@
 # MOLS> ./gcMols 13 data/SpecsCollection/SudokuQueen "" sats dom binbr maxdom desc 12
 # aborted after 37h wall-clock without a solution found.
 # For checking, "dom enumbr mindom" was run for nearly 60h wall-clock without finding a solution (with rred).
+
+
+# rlaMols:
+# MOLS> ./rlaMols 10 data/SpecsCollection/SudokuQueen "" satd dom enu maxdom asc relpr 1 1
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#  10     satd dom enu    maxdom  asc  relpr    1          0     11.989     103040      814     1743     7      929      814
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   473.538     14.898      23.936       6.369     111.298      385.420     1.480     0.000     0.013     0.051     0.013
+#   339.000      0.000       0.000       0.000       0.000        5.000     1.000     0.000     0.000     0.000     0.000
+#   712.000     86.000     116.000     105.000     702.000     2914.000     7.000     0.000     0.110     0.214     0.109
+#    67.824     13.001      18.395      13.089     150.057      484.698     0.959     0.000     0.017     0.038     0.015
+# time ./rlaMols 11 data/SpecsCollection/SudokuQueen "" +count dom enu maxdom asc relpr 1 12
+# aborted after 5h wallclock-time without finding a solution.
+# ./rlaMols 11 data/SpecsCollection/SudokuQueen "" +count dom enu maxdom desc relpr 1 12
+# aborted after 4h wallclock-time without finding a solution.
+# So the "special magic" of maxdom seems lost here for N=11.
+
 
 
 # Really interesting cases are N=16, 25.
