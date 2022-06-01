@@ -1,0 +1,13 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2160, 0, >= 1
+
+# gcMols: dom+enu+mindom seems best (for N <= 7 val+enu+mindom).
+# Node-counts and time seem to be better than for Powerset3.
+# "satd val enu mindom desc" found solutions for N=8 in parallel mode
+# (of course, search should run in "internal C&C mode"!).
+
+
+squares P1 P2 P3
+ls P1 P2 P3
+rprod P2 P1 P1
+rprod P3 P2 P1
