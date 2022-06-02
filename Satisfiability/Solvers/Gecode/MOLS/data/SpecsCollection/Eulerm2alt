@@ -1,0 +1,23 @@
+# Counts for N >= 2:
+# 1, 1, 4, 18, 3352
+
+# Appears to be better than Eulerm2 (for rlaMols).
+
+# MOLS> time ./rlaMols 6 data/SpecsCollection/Eulerm2alt "" count dom enu mindom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   6    count dom enu    mindom  asc  relpr    1       3552     76.704    1998626    38064    95243    14    57179    38064
+#      vals      props     elvals      prunes      mprune      probes    rounds      solc         t   qelvals    qprunes
+#   293.613      3.187      6.783      40.616     121.116      80.770     1.016     0.062     0.006     0.024      0.287
+#   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000      0.000
+#   430.000     34.000     40.000     168.000     407.000     385.000     3.000     4.000     0.046     0.141     13.600
+#    29.891      3.315      6.056      57.673     112.951      61.211     0.131     0.374     0.006     0.021      0.511
+# real	0m20.409s user	1m16.706s sys	0m2.884s
+
+
+squares A B aux
+red A
+rred B
+ls A B
+rls aux
+clsm2 aux
+rprod B aux A

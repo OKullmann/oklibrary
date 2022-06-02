@@ -1,0 +1,32 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 192
+
+
+# gcMols:
+# MOLS> ./gcMols 7 data/SpecsCollection/4MOLSdiag "" count dom enu mindom desc 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    7    count dom enu    mindom desc    1             192     79.636    213664355      467133      902605     22
+
+# rlaMols:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLSdiag "" +count dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   7   +count dom enu    mindom  asc  relpr    1        192   3951.044    2216576     8557    25118    12    16561     8557
+#       vals       props      elvals      prunes       mprune        probes    rounds      solc          t   qelvals   qprunes
+#   2187.777      30.201      39.921     125.935     1157.953      2554.611     1.870     0.012      2.564     0.018     0.054
+#   1634.000       0.000       0.000       0.000        0.000         3.000     1.000     0.000      0.000     0.000     0.000
+#   2542.000     163.000     270.000     789.000     2472.000     13065.000     7.000     1.000     16.435     0.124     0.500
+#     56.448      28.845      38.611     122.764      959.325      1940.366     0.927     0.107      2.086     0.018     0.040
+# real	6m18.120s user	65m51.048s sys	0m9.081s
+
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+rred A B C D
+diag A B C D
+antidiag A B C D
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C

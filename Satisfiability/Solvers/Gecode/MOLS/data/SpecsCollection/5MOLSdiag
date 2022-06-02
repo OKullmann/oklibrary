@@ -1,0 +1,29 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0
+
+
+# gcMols:
+# time ./gcMols 8 data/SpecsCollection/5MOLSdiag "" +count dom enu mindom desc 1 12
+# aborted after 8min wallclock-time without finding a solution.
+
+
+# rlaMols:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/5MOLSdiag "" +count dom enu mindom "" "" 1 12
+# aborted after 10min wallclock-time without finding a solution.
+
+
+squares A B C D E  AB AC AD AE BC BD BE CD CE DE
+ls A B C D E  AB AC AD AE BC BD BE CD CE DE
+rred A B C D E
+diag A B C D E
+antidiag A B C D E
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod E AE A
+rprod C BC B
+rprod D BD B
+rprod E BE B
+rprod D CD C
+rprod E CE C
+rprod E DE D

@@ -1,0 +1,9 @@
+# "alt" here means swapping the places of A, B.
+
+# Appears to be better than Euler (for rlaMols).
+
+squares A B aux
+red A
+rred B aux
+ls A B aux
+rprod B aux A

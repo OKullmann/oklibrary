@@ -1,8 +1,16 @@
 # Counts for N >= 2:
 # 0, 0, 0, 8, 0
 #
+
+# gcMols:
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enumbr maxdegdom asc 12
-# Seems very hard just to find a single solution?!?
+# Very hard just to find a single solution.
+
+
+# rlaMols:
+# time ./rlaMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enu maxdegdom "" "" 1 12
+# aborted after 8 min wallclock-time without finding a solution.
+
 
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD

@@ -1,0 +1,23 @@
+# Counts for N >= 2:
+# 0, 1, 1, 4, 0, 6236
+
+# "alt" here means swapping the places of A, B.
+# Appears to be a bit better than Eulersymmb.
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Eulersymmbalt "" +count dom enu maxdegdom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   7   +count dom enu maxdegdom  asc  relpr    1       6236   8460.451   92539204   677927  1958912    20  1280985   677927
+#      vals      props     elvals      prunes      mprune       probes    rounds       solc         t   qelvals   qprunes
+#   411.598      6.575     10.891      82.735     224.764      262.335     1.343      0.005     0.031     0.028     0.253
+#   155.000      0.000      0.000       0.000       0.000        2.000     1.000      0.000     0.000     0.000     0.000
+#   641.000     59.000     74.000     766.000     606.000     2397.000     8.000     15.000     0.419     0.160     2.124
+#    35.871      6.838     11.007      90.966     154.454      201.304     0.586      0.114     0.029     0.027     0.291
+# real	34m55.367s user	141m0.451s sys	2m36.454s
+
+
+squares A B aux
+red A
+rred B aux
+wcred B
+ls A B aux
+rprod B aux A

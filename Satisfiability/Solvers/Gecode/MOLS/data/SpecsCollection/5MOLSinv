@@ -1,0 +1,28 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, >= 840
+
+# gcMols:
+# time ./gcMols 7 data/SpecsCollection/5MOLSinv "" +count dom bin maxdegdom "" 1 12
+# aborted after 23min wallclock-time; as with 4MOLSinv, the solutions arrive
+# in batches, here one batch = 120 sols.
+
+
+# rlaMols:
+# time ./rlaMols 7 data/SpecsCollection/5MOLSinv "" +count dom enu maxdegdom "" "" 1 12
+# aborted after 8 min wallclock-time without finding a solution.
+
+
+squares A B C D E  AB AC AD AE BC BD BE CD CE DE
+ls A B C D E  AB AC AD AE BC BD BE CD CE DE
+red A
+rred B C D E
+rprod B A AB
+rprod C A AC
+rprod D A AD
+rprod E A AE
+rprod C B BC
+rprod D B BD
+rprod E B BE
+rprod D C CD
+rprod E C CE
+rprod E D DE

@@ -2,10 +2,18 @@
 # 0, 0, 0, 36, 0
 # Apparently not in OEIS.
 #
+
+# gcMols:
 # Possibly dom+enumbr+mindeg is better (at least for N=6).
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS "" satd dom binbr maxdegdom "" 12
 # aborted after 50min wallclock and no solution found.
 # It seems significantly harder than 4MOLSinv.
+
+
+# rlaMols:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLS "" +count dom enu maxdegdom "" "" 1 12
+# aborted after 9 min wallclock-time without finding a solution.
+
 
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD

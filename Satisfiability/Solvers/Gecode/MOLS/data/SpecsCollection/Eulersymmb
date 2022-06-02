@@ -3,10 +3,24 @@
 
 # This is the search for Euler-squares with the strongest known symmetry-breaking.
 
+# gcMols:
 # dom+enumbr+maxdegdom+desc should be a generally good combination.
-# MOLS> ./gcMols_debug 7 data/SpecsCollection/Eulersymmb "" +count dom enumbr maxdegdom desc 1
-# pl bt bh bo 	rt sat t prop flvs nds h
-# dom enumbr maxdegdom desc 	+count 6236 1620.793 3194632064 29038037 53916452 29
+# MOLS> time ./gcMols 7 data/SpecsCollection/Eulersymmb "" +count dom enu maxdegdom desc 1 6
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    7   +count dom enu maxdegdom desc    1            6236    877.544   2424803097    29038037    53916452     26
+# real	2m40.910s user	14m37.551s sys	0m33.610s
+
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Eulersymmb "" +count dom enu maxdegdom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   7   +count dom enu maxdegdom  asc  relpr    1       6236  10406.893  104169885   688151  1993302    21  1305151   688151
+#      vals      props     elvals      prunes      mprune       probes    rounds       solc         t   qelvals   qprunes
+#   415.398      6.907     11.250      89.544     229.471      283.385     1.398      0.005     0.043     0.028     0.252
+#   155.000      0.000      0.000       0.000       0.000        2.000     1.000      0.000     0.000     0.000     0.000
+#   654.000     65.000     78.000     837.000     606.000     2349.000     8.000     15.000     0.464     0.167     2.124
+#    40.699      6.811     10.891      98.113     158.111      224.344     0.626      0.113     0.040     0.027     0.291
+# real	35m24.090s user	173m26.901s sys	3m28.092s
+
 
 squares A B aux
 red A

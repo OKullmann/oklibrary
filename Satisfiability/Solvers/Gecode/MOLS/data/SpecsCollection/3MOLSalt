@@ -1,12 +1,19 @@
 # Counts for N >= 2:
 # 0, 0, 2, 36, 0, 2400
+
+# "alt" here means the use of c132.
+
 # Best seems dom-prop + mindom.
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSalt "" satd dom mindom "" 12
 # domain-prop min-dom-var bin-branch-min 1 13.809 26573640 125028 250199 33
 # real	0m2.638s user	0m13.809s sys	0m0.179s
 # MOLS> time ./gcMols_debug 7 data/SpecsCollection/3MOLSalt "" count "dom" "mindom" "" 12
 # domain-prop min-dom-var bin-branch-min 2400 227316.204 414775740543 1942257731 3884520261 42
 # real	338m41.605s user	3788m36.205s sys	68m3.570s
+# REDO WITH optimised version XXX
+# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSalt "" +count "dom" enu "mindom" "" 1 12
+# XXX
 
 squares A B C AB AC BC
 ls A B C AB AC BC

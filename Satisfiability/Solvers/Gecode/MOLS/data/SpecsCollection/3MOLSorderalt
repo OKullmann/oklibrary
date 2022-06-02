@@ -1,0 +1,16 @@
+# Counts for N >= 2:
+# 0, 0, 2, 36, 0
+
+# "orderalt" means the position of the main squares in "rprod",
+# and in relation to 3MOLS (which indeed is the "alt"-version).
+
+# Appears to be worse the 3MOLS.
+
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+red A
+rred B C
+rprod A AB B
+rprod A AC C
+rprod B BC C

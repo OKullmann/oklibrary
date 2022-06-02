@@ -21,6 +21,7 @@
 # pl bt bh bo 	rt sat t prop flvs nds h
 # dom enumbr maxdegdom asc 	count 342480 100334.181 176337623191 1588775587 2956889080 31
 #
+
 # Comparison with laMols of version 0.2.1 (without pruning):
 # MOLS$ ./laMols 6 data/SpecsCollection/Euler "" satd dom bineag "" 0,2,3,4,5 1
 # domain-prop binary-eager bin-branch-min 0 56.274 803280 6120 18359 15
