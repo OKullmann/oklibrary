@@ -25,6 +25,11 @@ Examples:
 
 Compare also with todos in gcMols.
 
+-2. +Counting
+   - On the one hand, it is informative to see how many solutions per node
+     are obtained.
+   - On the other hand, one also wants to see the total count.
+
 -1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
    - One needs to divide this number by the number of threads, for an
