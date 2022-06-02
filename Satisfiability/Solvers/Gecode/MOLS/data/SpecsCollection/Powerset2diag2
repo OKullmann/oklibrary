@@ -1,11 +1,28 @@
 # Counts for N >= 2:
 # 0, 0, 8, 20, 0, 672, >= 1
 
-# gcMols: using dom+enu+maxdegdom.
-# Again, N=9 seems a hard sat-decision problem.
+# gcMols:
+# MOLS> time ./gcMols 7 data/SpecsCollection/Powerset2diag2 "" count dom enu maxdegdom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    7    count dom enu maxdegdom  asc    1             672     21.441     54714138      285922      503834     16
+# real	0m2.228s user	0m21.449s sys	0m0.291s
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset2diag2 "" satd dom enu maxdegdom "" 1 12
+# aborted after 3min wallclock-time (no solution found yet); with idem a solution is easily found.
 
-# rlaMols: using dom+enu+maxdeg.
-# Again, N=9 seems a hard sat-decision problem.
+
+# rlaMols:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Powerset2diag2 "" count dom enu maxdegdom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   7    count dom enu maxdegdom  asc  relpr    1        672    401.245    2127139    13814    34185     8    20371    13814
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   498.020     10.959     18.840      33.023     208.363      349.623     1.331     0.033     0.215     0.039     0.053
+#   354.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   686.000     67.000     98.000     285.000     686.000     2465.000     6.000     6.000     1.581     0.196     0.268
+#    38.839      9.281     15.328      46.849     222.207      336.628     0.574     0.193     0.202     0.031     0.066
+# real	0m38.169s user	6m41.249s sys	0m10.334s
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Powerset2diag2 "" satd dom enu maxdegdom "" "" 1 12
+# aborted after 90s without a solution found.
+
 
 squares P1 P2
 ls P1 P2

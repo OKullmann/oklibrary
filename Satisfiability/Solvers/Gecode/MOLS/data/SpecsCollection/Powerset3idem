@@ -1,0 +1,18 @@
+# Counts for N >= 2:
+# 0, 0, 0, 12, 0, 240, 1440, >= 1, 
+
+# gcMols:
+# counting for N <= 8 and sat-decision for N=9 rather easy with
+# dom+bin+mindom (though enu might be slightly better)
+
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset3idem "" satd dom bin mindom "" 1 12
+# aborted after 3min wallclock-time -- interesting sat-decision case!
+
+
+
+
+squares P1 P2 P3
+ls P1 P2 P3
+idem P1
+rprod P2 P1 P1
+rprod P3 P2 P1

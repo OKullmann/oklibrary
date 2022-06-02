@@ -1,0 +1,21 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, 2304
+
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset4diag4 "" +count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    8   +count dom enu    mindom  asc    1            2304   5124.990  10480598465    35339597    60198899     31
+# real	7m26.243s user	85m24.996s sys	0m36.272s
+# This is much easier than N=8 for Powerset3diag3 -- it seems the constraint for
+# P4, involving only P2, is very helpful! 
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset4diag4 "" satd dom enu mindom "" 1 12
+# aborted after 100s wallclock-time without finding a solution.
+
+
+squares P1 P2 P3 P4
+ls P1 P2 P3 P4
+diag P1 P2 P3 P4
+antidiag P1 P2 P3 P4
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2

@@ -1,0 +1,15 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 240, >= 1
+
+# gcMols:
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset5idem "" satd dom enu mindom "" 1 12
+# aborted after 1min wallclock-time without finding a solution.
+
+
+squares P1 P2 P3 P4 P5
+ls P1 P2 P3 P4 P5
+idem P1
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2
+rprod P5 P3 P2

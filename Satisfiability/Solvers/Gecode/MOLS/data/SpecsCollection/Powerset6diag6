@@ -1,0 +1,20 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, >= 1
+
+# gcMols:
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset6diag6 "" satd dom enu mindom "" 1 12
+# aborted after 70s wallclock-time without finding a solution.
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset6diag6 "" satd dom enu mindom "" 1 12
+# aborted after 1min wallclock-time without finding a solution.
+
+
+
+squares P1 P2 P3 P4 P5 P6
+ls P1 P2 P3 P4 P5 P6
+diag P1 P2 P3 P4 P5 P6
+antidiag P1 P2 P3 P4 P5 P6
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2
+rprod P5 P3 P2
+rprod P6 P3 P3

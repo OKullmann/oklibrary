@@ -1,0 +1,20 @@
+# Counts for N >= 2:
+# 0, 0, 2, 12, 0, 480, 11520, >= 1
+
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idem "" count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    8    count dom enu    mindom  asc    1           11520    803.275   1948829494    11730415    21160087     20
+# real	1m15.456s user	13m23.283s sys	0m22.877s
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset2idem "" satd dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    9     satd dom enu    mindom  asc    1               1     52.661    119699145      641556     1150859     25
+# real	0m4.668s user	0m52.670s sys	0m0.711s
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset2idem "" satd dom enu mindom "" 1 12
+# aborted after 3min wallclock-time (no solution found yet).
+
+
+squares P1 P2
+ls P1 P2
+idem P1
+rprod P2 P1 P1

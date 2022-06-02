@@ -9,6 +9,9 @@
 
 # QUESTION: which kind of symmetry-breaking can be imposed here?
 # At least on the first cell.
+# Idenpotency (Powerset2idem) is interesting, but for N=3
+# it destroyed satisfiability.
+
 
 # gcMols: dom+enu+mindom seems best.
 # Counting for N=7, splitting on the first field (values 0, .., 6):
@@ -38,6 +41,7 @@
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2 "" satd dom enu mindom "" 1 9
 # aborted after 16min wallclock-time without finding a solution.
 # For Powerset2diag a solution for N=8 was found relatively quickly (also for Powerset2diag2).
+
 
 squares P1 P2
 ls P1 P2

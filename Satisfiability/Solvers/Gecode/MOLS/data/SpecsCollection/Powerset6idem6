@@ -1,0 +1,66 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, 96, 0
+# 
+
+# gcMols:
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset6idem6 "" satd dom enu mindom "" 1 12
+# aborted after 80s wallclock-time without finding a solution.
+# MOLS> time ./gcMols 11 data/SpecsCollection/Powerset6idem6 "" satd dom enu mindom "" 1 12
+# aborted after 90s wallclock-time without finding a solution.
+
+
+# rlaMols:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset6idem6 "" +count dom enu mindom desc "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8   +count dom enu    mindom desc  relpr    1         96    288.734    1061444     2964     7249    10     4285     2964
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#   1641.509      4.598      9.618      17.604      535.442      729.944     1.130     0.022     0.447     0.006     0.013
+#   1587.000      0.000      0.000       0.000        0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   2064.000     36.000     59.000     272.000     2016.000     5151.000     3.000     1.000     5.659     0.037     0.158
+#    108.630      5.266      8.347      47.836      748.824     1165.434     0.383     0.148     0.939     0.005     0.020
+# real	0m41.738s user	4m48.746s sys	0m0.492s
+
+
+# With all reduncant equations enabled:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset6idem6 "" +count dom enu mindom desc "" 1 12
+# N: 8
+# k=6 total_num_sq=6: "data/SpecsCollection/Powerset6idem6"
+#   num_uc=18 num_eq=0 num_peq=9
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8   +count dom enu    mindom desc  relpr    1         96    429.936    1729692     2880     6997     7     4117     2880
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#   1620.723      2.331      5.969      14.474      506.568      644.487     1.113     0.023     0.930     0.004     0.008
+#   1578.000      0.000      0.000       0.000        0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   2064.000     16.000     26.000     212.000     2016.000     3383.000     2.000     1.000     9.019     0.016     0.152
+#     91.502      2.378      4.046      40.757      739.544     1014.515     0.317     0.151     1.751     0.002     0.018
+# real	0m45.839s user	7m9.939s sys	0m0.358s
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Powerset6idem6 "" +count dom enu mindom desc "" 1 12
+# k=6 total_num_sq=6: "data/SpecsCollection/Powerset6idem6"
+#   num_uc=18 num_eq=0 num_peq=9
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   9   +count dom enu    mindom desc  relpr    1          0   1303.735    2072375     2940     7177     8     4237     2940
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc          t   qelvals   qprunes
+#   2453.337      17.094      32.155      23.430      873.178     1298.993     1.128     0.000      2.888     0.013     0.013
+#   2394.000       0.000       0.000       0.000        0.000        4.000     1.000     0.000      0.001     0.000     0.000
+#   3030.000     103.000     154.000     232.000     2976.000     5021.000     3.000     0.000     18.292     0.064     0.096
+#    121.701      20.118      32.845      45.320     1069.951     1440.858     0.346     0.000      3.672     0.014     0.013
+# real	2m10.057s user	21m43.738s sys	0m2.490s
+# MOLS> time ./rlaMols 10 data/SpecsCollection/Powerset6idem6 "" +count dom enu mindom desc "" 1 12
+# aborted after 70m wallclock-time without decision.
+
+
+
+squares P1 P2 P3 P4 P5 P6
+ls P1 P2 P3 P4 P5 P6
+idem P1 P2 P3 P4 P5 P6
+antidiag P1 P2 P3 P4 P5 P6
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2
+#rprod P4 P3 P1
+rprod P5 P3 P2
+#rprod P5 P4 P1
+rprod P6 P3 P3
+#rprod P6 P5 P1
+#rprod P6 P4 P2

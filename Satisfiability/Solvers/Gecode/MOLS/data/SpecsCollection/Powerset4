@@ -1,0 +1,13 @@
+# Counts for N >= 2:
+# 0, 0, 0, 720, 0, >= 1
+
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset4 "" satd dom enu mindom "" 1 12
+# aborted after 1min wallclock-time without finding a solution.
+
+
+squares P1 P2 P3 P4
+ls P1 P2 P3 P4
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2

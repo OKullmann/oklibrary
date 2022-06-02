@@ -1,0 +1,23 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, 96, 0
+# 
+
+# gcMols:
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset6idemdiag6 "" satd dom enu mindom "" 1 12
+# aborted after 70s wallclock-time without finding a solution.
+# MOLS> time ./gcMols 11 data/SpecsCollection/Powerset6idemdiag6 "" +count dom enu mindom "" 1 12
+# aborted after 130s wallclock-time without finding a solution.
+
+# See Powerset6idem6 for the equivalent formulation with all Pi idempotent.
+
+
+squares P1 P2 P3 P4 P5 P6
+ls P1 P2 P3 P4 P5 P6
+idem P1
+diag P2 P3 P4 P5 P6
+antidiag P1 P2 P3 P4 P5 P6
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2
+rprod P5 P3 P2
+rprod P6 P3 P3

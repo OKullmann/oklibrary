@@ -1,0 +1,18 @@
+# Counts for N >= 2:
+# 0, 0, 2, 2, 0, 8, 672, >= 1
+
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idem2 "" count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    8    count dom enu    mindom  asc    1             672     69.870    176744168      815023     1562345     16
+# real	0m6.651s user	1m9.875s sys	0m1.103s
+
+# Nearly identical with Powerset2idemdiag2, and thus the idem-constraints for
+# P2 is deduced.
+
+
+squares P1 P2
+ls P1 P2
+idem P1 P2
+antidiag P1 P2
+rprod P2 P1 P1

@@ -1,0 +1,43 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, 96, 0
+
+# gcMols:
+# time ./gcMols 9 data/SpecsCollection/Powerset4idemdiag4 "" +count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    9   +count dom enu    mindom  asc    1               0    138.243    374370626      680909     1286442     16
+# real	0m14.795s user	2m18.247s sys	0m1.143s
+
+# time ./gcMols 10 data/SpecsCollection/Powerset4idemdiag4 "" +count dom enu mindom "" 1 12
+# aborted after 3min wallclock-time for now -- to be continued.
+
+
+# rlaMols:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset4idemdiag4 "" count dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8    count dom enu    mindom  asc  relpr    1         96    178.752     769305     2880     6997     7     4117     2880
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#   1081.438      8.813     17.041      12.570      369.154      528.317     1.136     0.023     0.389     0.016     0.021
+#   1049.000      0.000      0.000       0.000        0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   1376.000     66.000     99.000     135.000     1344.000     2229.000     2.000     1.000     2.830     0.094     0.182
+#     65.145      9.754     15.678      27.721      478.716      684.465     0.343     0.151     0.579     0.015     0.024
+# real	0m17.917s user	2m58.752s sys	0m0.610s
+
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Powerset4idemdiag4 "" count dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   9    count dom enu    mindom  asc  relpr    1          0   5960.468    9599433    27995    69934    11    41939    27995
+#       vals       props      elvals      prunes       mprune        probes    rounds      solc          t   qelvals   qprunes
+#   1564.402      19.304      31.468      29.929      638.647      1381.309     1.576     0.000      1.509     0.020     0.017
+#   1161.000       0.000       0.000       0.000        0.000         2.000     1.000     0.000      0.000     0.000     0.000
+#   2020.000     152.000     206.000     498.000     1984.000     11209.000     8.000     0.000     15.776     0.129     0.308
+#     72.184      21.556      31.751      52.237      658.521      1482.489     0.970     0.000      1.727     0.020     0.015
+# real	10m9.577s user	99m20.478s sys	0m9.304s
+
+
+squares P1 P2 P3 P4
+ls P1 P2 P3 P4
+idem P1
+diag P2 P3 P4
+antidiag P1 P2 P3 P4
+rprod P2 P1 P1
+rprod P3 P2 P1
+rprod P4 P2 P2

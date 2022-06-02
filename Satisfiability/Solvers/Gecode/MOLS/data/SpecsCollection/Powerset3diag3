@@ -1,12 +1,23 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 224
+# 0, 0, 0, 0, 0, 224, >= 2788
 
-# gcMols: using dom+enu+mindom.
-# N=8 seems a hard sat-decision problem.
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset3diag3 "" +count dom enu mindom "" 1 12
+# aborted after 51m wall-clock-time with 2788 solutions found (to be completed
+# another time).
 
-# rlaMols: using dom+enu+mindom.
-# time ./rlaMols 8 data/SpecsCollection/Powerset3diag3 "" satd dom enu mindom "" "" 1 3
-# aborted after 50min wallclock-time without finding a solution.
+
+# rlaMols:
+# time ./rlaMols 8 data/SpecsCollection/Powerset3diag3 "" satd dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8     satd dom enu    mindom  asc  relpr    1          1   1568.170    3820606    11905    31376    15    19471    11910
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#    919.450      15.566      24.937      45.438      424.466      916.135     1.706     0.000     0.961     0.027     0.034
+#    664.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1536.000     106.000     147.000     597.000     1536.000     6865.000     9.000     1.000     8.110     0.153     0.467
+#     88.403      15.854      23.710      60.038      424.533      888.073     0.923     0.007     0.933     0.025     0.032
+# real	2m12.226s user	26m8.712s sys	0m7.332s
+
 
 
 squares P1 P2 P3
@@ -14,4 +25,4 @@ ls P1 P2 P3
 diag P1 P2 P3
 antidiag P1 P2 P3
 rprod P2 P1 P1
-rprod P3 P1 P2
+rprod P3 P2 P1

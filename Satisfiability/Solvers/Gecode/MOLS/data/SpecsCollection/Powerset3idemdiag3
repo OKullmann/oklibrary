@@ -1,0 +1,32 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 8, 96, 96
+
+# gcMols:
+# time ./gcMols 9 data/SpecsCollection/Powerset3idemdiag3 "" count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    9    count dom enu    mindom  asc    1              96    689.919   1622616873     3826257     7354477     19
+# real	1m7.443s user	11m29.921s sys	0m4.222s
+
+# time ./gcMols 10 data/SpecsCollection/Powerset3idemdiag3 "" satd dom bin mindom "" 1 12
+# aborted after 70min wallclock-time.
+
+
+# rlaMols:
+# time ./rlaMols 8 data/SpecsCollection/Powerset3idemdiag3 "" count dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
+#   8    count dom enu    mindom  asc  relpr    1         96    176.031     658312     3132     7651     8     4519     3132
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#    800.865     16.850      27.709      18.508      322.604      638.204     1.405     0.021     0.338     0.035     0.024
+#    595.000      0.000       0.000       0.000        0.000        4.000     1.000     0.000     0.000     0.000     0.000
+#   1032.000     76.000     107.000     287.000     1008.000     3810.000     6.000     1.000     2.611     0.136     0.286
+#     48.513     16.415      24.410      31.897      332.303      586.504     0.709     0.144     0.351     0.031     0.023
+# real	0m19.295s user	2m56.036s sys	0m0.748s
+
+
+squares P1 P2 P3
+ls P1 P2 P3
+idem P1
+diag P2 P3
+antidiag P1 P2 P3
+rprod P2 P1 P1
+rprod P3 P2 P1

@@ -1,0 +1,20 @@
+# Counts for N >= 2:
+# 0, 0, 2, 2, 0, 8, 672, >= 13
+
+# gcMols:
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idemdiag2 "" count dom enu mindom "" 1 12
+#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
+#    8    count dom enu    mindom  asc    1             672     68.208    176744195      815023     1562345     17
+# real	0m6.761s user	1m8.217s sys	0m1.194s
+# MOLS> time ./gcMols 9 data/SpecsCollection/Powerset2idemdiag2 "" +count dom enu mindom "" 1 12
+# aborted after 100s wallclock-time and 13 solutions found.
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset2idemdiag2 "" +count dom enu mindom "" 1 12
+# aborted after 210min wallclock-time without finding a solution.
+
+
+squares P1 P2
+ls P1 P2
+idem P1
+diag P2
+antidiag P1 P2
+rprod P2 P1 P1
