@@ -1,28 +1,68 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 64, 1152
-# Best for counting and solving seems domain-prop + max-deg-dom.
+# 0, 0, 2, 4, 0, 64, 1152, >= 1
 # Existence for N=14 is open.
 # Satisfiability for N=9 appears to be already quite hard.
 # Unsatisfiability for N=10 should be a good testcase.
 
+# This is
 # https://oeis.org/A333367
-# 0, 0, 2, 4, 0, 64, 1152, 28608, 0
+# for N >= 1:
+# 1, 0, 0, 2, 4, 0, 64, 1152, 28608, 0
 # [Searching for Doubly Self-orthogonal Latin Squares, Lu, Liu, Zhang], Table 4
 
-# MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom "" maxdegdom "" 12
-# dom binbr maxdegdom asc 1152 340.251 1041397497 2388051 4778405 34
-# real	0m35.687s user	5m40.257s sys	0m3.357s
-# MOLS> time ./gcMols 9 data/SpecsCollection/DoublySelfOrthogonal "" count dom maxdegdom "" 16
-# XXX
+# gcMols:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom enu maxdegdom "" 1 12
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
+#   8    count dom enu maxdegdom  asc    1        1152     279.809     821016024     2391184     4642457     22
+#
+# real	0m28.784s user	4m39.815s sys	0m3.264s
+# MOLS> time ./gcMols 9 data/SpecsCollection/DoublySelfOrthogonal "" satd dom enu maxdegdom "" 1 12
+# aborted after 330s wallclock-time without finding a solution.
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/DoublySelfOrthogonal "" count dom enu mindeg "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   8    count dom enu    mindeg  asc  relpr    1       1152    4612.520   15433642    61314   145475    11    84161    61314
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#    827.322     17.492      27.127      66.146      312.934      684.294     1.487     0.014     0.630     0.033     0.047
+#    470.000      0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1366.000     99.000     145.000     583.000     1304.000     5466.000     8.000     3.000     5.823     0.166     0.277
+#     59.966     13.557      20.327      99.779      342.493      690.073     0.718     0.139     0.630     0.024     0.063
+# real	6m44.851s user	76m52.524s sys	0m22.354s
+# Curious that mindeg seems best here (roughly 50% faster than mindom).
+# MOLS> time ./rlaMols 9 data/SpecsCollection/DoublySelfOrthogonal "" satd dom enu mindeg "" "" 1 12
+# found a solution after 36s wallclock-time.
+
+
+# QUESTION: aux1 and aux2 should be strongly related.
+# We have
+#   aux1 = (c213 A) * (at A)^-1 * aux2
+#   aux2 = (at A) * (c213 A)^-1 * aux1
+# Both (at A)^-1, (c213 A)^-1 can be expressed as one of the 12 versions:
+#   (at A)^-1 -> c132 circ at = ?
+#   (c213 A)^-1 -> c132 circ c213 = c231.
+# This gives at least further (redundant) constraints (using "X" below):
+#   ?
+#   aux2 = (at A) * c312 A * aux1
+# They might be useful for (r)la.
+# Question: is there a better presentation of (at A) * c312 A ?
+
 
 # QUESTION: SAT-decision for DoublySelfOrthgonalinv appears to be much faster
-# -- is this equivalent?
+# (N=10 is easy) -- is this SAT-equivalent (the counts are different)?
+# The SAT-results seem the same.
 
 
-squares A aux1 aux2
+squares A aux1 aux2  #X
 rred A
 ls A aux1 aux2
 rprod  c213 A   aux1    A
 rprod  at A     aux2    A
 diag A # apparently a theorem ?
 antidiag A # apparently a theorem ?
+
+#rprod X         c231 A  aux1
+#rprod aux2      at A    X
