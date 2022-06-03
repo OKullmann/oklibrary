@@ -217,7 +217,7 @@ namespace LookaheadBranching {
     using assignment_t = LR::assignment_t;
     const assignment_t elim;
 
-    VVElim(const GC::Brancher& b, const values_t br, const assignment_t elim)
+    VVElim(const GC::Brancher& b, values_t br, assignment_t elim)
       noexcept : ValVec(b, br), elim(elim) {}
   };
 
@@ -422,6 +422,24 @@ namespace LookaheadBranching {
 
   };
 
+  const VVElim* create_la(const int v, GV::values_t values,
+                          const OP::LBRT bt,
+                          GC::Brancher& b,
+                          VVElim::assignment_t a) {
+    assert(not values.empty());
+    switch (bt) {
+    case OP::LBRT::bin : {
+      assert(values.size() == 1);
+      return new VVElim(b, {v, values[0]}, std::move(a));
+    }
+    case OP::LBRT::enu : {
+      assert(values.size() >= 2);
+      return new VVElim(b, std::move(values), std::move(a));
+    }
+    default : throw std::runtime_error("LookaheadBranching::create_la: "
+                                       "non-handled LBRT");}
+  }
+
   struct laStats {
     typedef GenStats::GStdStats<BranchingStatistics::num_stats> stats_t;
   private :
@@ -467,14 +485,26 @@ namespace LookaheadBranching {
     }
 
     const GC::Choice* choice(GC::Space& s0) override {
+      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      auto stats0 = LR::lareduction(&s, P.rt, P.lar);
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       BranchingStatistics stats1;
-      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
-      auto stats0 = LR::lareduction(&s, P.rt, P.lar);
-      if (stats0.leafcount()) goto END;
-      // XXX
 
+      CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      const auto& V = node->V;
+      int bestv = -1;
+      if (stats0.leafcount()) goto END;
+      {
+       for (const auto [var,val] : stats0.elims()) {
+         assert(var < V.size());
+         GV::unset_var(s, V[var], val);
+       }
+       {[[maybe_unused]] const auto status = node->status();
+         assert(status == GC::SS_BRANCH);
+       }
+       // XXX
+      }
     END :
      stats1.time(timing()-t0);
      if (P.parallel) {
@@ -482,7 +512,11 @@ namespace LookaheadBranching {
         S->add(stats0, stats1);
       }
      else S->add(stats0, stats1);
+     if (bestv == -1) return new VVElim(*this, {}, {});
+     auto values = GV::values(V, bestv);
      // XXX
+     return create_la(bestv, std::move(values), P.bt, *this,
+                      std::move(stats0.elims()));
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
