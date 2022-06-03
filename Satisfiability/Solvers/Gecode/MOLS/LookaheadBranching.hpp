@@ -404,13 +404,21 @@ namespace LookaheadBranching {
   public :
 
     static constexpr size_t num_stats = 1;
+    typedef std::array<float_t, num_stats> export_t;
+    export_t extract() const noexcept {
+      export_t res;
+      res[0] = time_;
+      return res;
+    }
 
   };
 
-  class laStats {
-    rlaStats rla_;
-  public :
+  struct laStats {
     typedef GenStats::GStdStats<BranchingStatistics::num_stats> stats_t;
+  private :
+    rlaStats rla_;
+    stats_t S;
+  public :
 
     laStats(std::ostream* const log, const EC::EncCond* const enc,
             const size_t threshold) noexcept
@@ -419,8 +427,8 @@ namespace LookaheadBranching {
     const rlaStats& rla() const noexcept { return rla_; }
 
     void add(LR::ReductionStatistics& s) noexcept { rla_.add(s); }
-    void add(const BranchingStatistics&) noexcept {
-
+    void add(const BranchingStatistics& s) noexcept {
+      S += s.extract();
     }
 
   };
