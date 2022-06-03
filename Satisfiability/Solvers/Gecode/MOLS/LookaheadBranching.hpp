@@ -403,6 +403,11 @@ namespace LookaheadBranching {
 
   public :
 
+    BranchingStatistics& time(const Timing::Time_point t) noexcept {
+      time_ = t; return *this;
+    }
+
+    Timing::Time_point time() const noexcept { return time_; }
     static constexpr size_t num_stats = 1;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
@@ -425,11 +430,68 @@ namespace LookaheadBranching {
       : rla_(log, enc, threshold) {}
 
     const rlaStats& rla() const noexcept { return rla_; }
+    const stats_t& stats() const noexcept { return S; }
 
-    void add(LR::ReductionStatistics& s) noexcept { rla_.add(s); }
-    void add(const BranchingStatistics& s) noexcept {
-      S += s.extract();
+    void add(LR::ReductionStatistics& s0,
+             const BranchingStatistics& s1) noexcept {
+      rla_.add(s0);
+      S += s1.extract();
     }
+
+  };
+
+
+  struct laBranching : public GC::Brancher {
+    const laParams P;
+  private :
+    laStats* const S;
+    inline static std::mutex stats_mutex;
+
+    laBranching(GC::Space& home, laBranching& b)
+      : GC::Brancher(home,b), P(b.P), S(b.S) {}
+  public :
+    laBranching(const GC::Home home, const laParams P, laStats* const S)
+      : GC::Brancher(home), P(P), S(S) { assert(S); }
+
+    GC::Brancher* copy(GC::Space& home) override {
+      return new (home) laBranching(home,*this);
+    }
+    std::size_t dispose(GC::Space&) noexcept override { return sizeof(*this); }
+
+    bool status(const GC::Space& s) const noexcept override {
+      return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
+    }
+
+    const GC::Choice* choice(GC::Space& s0) override {
+      Timing::UserTime timing;
+      const Timing::Time_point t0 = timing();
+      BranchingStatistics stats1;
+      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      auto stats0 = LR::lareduction(&s, P.rt, P.lar);
+      // XXX
+
+    END :
+     stats1.time(timing()-t0);
+     if (P.parallel) {
+        std::lock_guard<std::mutex> lock(stats_mutex);
+        S->add(stats0, stats1);
+      }
+     else S->add(stats0, stats1);
+     // XXX
+    }
+    const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
+      throw std::runtime_error("laMols::choice(Archive): not implemented.");
+    }
+
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
+                          const unsigned a) override {
+      const VVElim& c = static_cast<const VVElim&>(c0);
+      const size_t w = c.br.size();
+      if (w == 0) return GC::ExecStatus::ES_FAILED;
+      const int v = c.br[0]; assert(v >= 0);
+      // XXX
+    }
+
 
   };
 
