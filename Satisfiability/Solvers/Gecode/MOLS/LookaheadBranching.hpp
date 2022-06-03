@@ -355,8 +355,8 @@ namespace LookaheadBranching {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
     }
 
-    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
-                          const unsigned a) override {
+    static GC::ExecStatus commit0(GC::Space& s, const GC::Choice& c0,
+                                  const unsigned a) {
       const VVElim& c = static_cast<const VVElim&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
@@ -381,6 +381,10 @@ namespace LookaheadBranching {
         assert(node->V[v].size() == 1);
       }
       return GC::ES_OK;
+    }
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
+                          const unsigned a) override {
+      return commit0(s, c0, a);
     }
   };
 
@@ -441,20 +445,20 @@ namespace LookaheadBranching {
   };
 
 
-  struct laBranching : public GC::Brancher {
+  struct LaBranching : public GC::Brancher {
     const laParams P;
   private :
     laStats* const S;
     inline static std::mutex stats_mutex;
 
-    laBranching(GC::Space& home, laBranching& b)
+    LaBranching(GC::Space& home, LaBranching& b)
       : GC::Brancher(home,b), P(b.P), S(b.S) {}
   public :
-    laBranching(const GC::Home home, const laParams P, laStats* const S)
+    LaBranching(const GC::Home home, const laParams P, laStats* const S)
       : GC::Brancher(home), P(P), S(S) { assert(S); }
 
     GC::Brancher* copy(GC::Space& home) override {
-      return new (home) laBranching(home,*this);
+      return new (home) LaBranching(home,*this);
     }
     std::size_t dispose(GC::Space&) noexcept override { return sizeof(*this); }
 
@@ -468,6 +472,7 @@ namespace LookaheadBranching {
       BranchingStatistics stats1;
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
+      if (stats0.leafcount()) goto END;
       // XXX
 
     END :
@@ -485,11 +490,7 @@ namespace LookaheadBranching {
 
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
-      const VVElim& c = static_cast<const VVElim&>(c0);
-      const size_t w = c.br.size();
-      if (w == 0) return GC::ExecStatus::ES_FAILED;
-      const int v = c.br[0]; assert(v >= 0);
-      // XXX
+      return RlaBranching::commit0(s, c0, a);
     }
 
 
