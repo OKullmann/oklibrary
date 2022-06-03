@@ -265,7 +265,7 @@ namespace LookaheadReduction {
       }
     } while (last_red >= 0);}
 
-    END:
+  END:
     stats.maxprune(PT.size());
     assert(early_abort or stats.elims().size() == stats.elimvals());
     return stats.time(timing() - t0);
