@@ -73,8 +73,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
-        "1.6.2022",
+        "0.8.4",
+        "3.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -121,7 +121,7 @@ namespace {
 
   constexpr size_t sep_spaces = 2;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{8, 10, 10, 8, 8, 5, 8, 8};
+  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 8, 8};
   constexpr size_t wN = 4, wgcd = 5;
 
   void rh(std::ostream& out) {
