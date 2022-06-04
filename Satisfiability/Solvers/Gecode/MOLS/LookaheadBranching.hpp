@@ -68,11 +68,11 @@ namespace LookaheadBranching {
   namespace VR = Verification;
 
   using size_t = CD::size_t;
+  using values_t = GV::values_t;
 
-  typedef std::vector<int> values_t;
   typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
-  // A branching tuple, i.e. a tuple of distances:
+
 
   // Converting int to size_t:
   inline constexpr size_t tr(const int size,
@@ -463,6 +463,23 @@ namespace LookaheadBranching {
   };
 
 
+  template <class SPA>
+  float_t branch_measure(SPA* const m, const int v, const int val,
+                              const bool equal) noexcept {
+    assert(v >= 0);
+    const auto& V = m->V;
+    assert(v < V.size());
+    std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
+    auto& nV = c.get()->V;
+    assert(nV.size() == V.size());
+    if (equal) GV::set_var(*c.get(), nV[v], val);
+    else GV::unset_var(*c.get(), nV[v], val);
+    {[[maybe_unused]] const auto status = c->status();
+     assert(status == GC::SS_BRANCH);}
+    return GV::sumdomsizes(nV);
+  }
+
+
   struct LaBranching : public GC::Brancher {
     const laParams P;
   private :
@@ -493,30 +510,84 @@ namespace LookaheadBranching {
 
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
       const auto& V = node->V;
-      int bestv = -1;
+      const auto n = V.size();
+      int bestv = -1, bestval = -1;
+      float_t opttau = FP::pinfinity;
+      std::vector<float_t> optbt;
       if (stats0.leafcount()) goto END;
-      {
+      { // block to protect END
        for (const auto [var,val] : stats0.elims()) {
-         assert(var < V.size());
-         GV::unset_var(s, V[var], val);
+         assert(var < V.size()); GV::unset_var(s, V[var], val);
        }
        {[[maybe_unused]] const auto status = node->status();
          assert(status == GC::SS_BRANCH);
        }
-       // XXX
+       const float_t old_L = GV::sumdomsizes(V);
+       for (int v = 0; v < n; ++v) {
+         const auto& vo = V[v];
+         if (vo.size() == 1) continue;
+         const auto values = GV::values(V, v);
+         if (P.bt == OP::LBRT::bin) {
+           for (const int val : values) {
+             const float_t L0 = branch_measure(node, v, val, true);
+             const float_t L1 = branch_measure(node, v, val, false);
+             const float_t a = old_L - L0, b = old_L - L1;
+             assert(a > 0 and b > 0);
+             const float_t tau =  Tau::ltau(a,b);
+             assert(tau > 0 and tau < FP::pinfinity);
+             if (tau < opttau) {
+               opttau = tau; optbt = {a,b}; bestv = v; bestval = val;
+             }
+           }
+         }
+         else {
+           assert(P.bt == OP::LBRT::enu);
+           std::vector<float_t> branchtuple;
+           branchtuple.reserve(values.size());
+           for (const int val : values) {
+             const float_t L = branch_measure(node, v, val, true);
+             assert(L >= 0 and L < old_L);
+             branchtuple.push_back(old_L - L);
+           }
+           const float_t tau = Tau::ltau(branchtuple);
+           assert(tau > 0 and tau < FP::pinfinity);
+           if (tau < opttau) {
+             opttau = tau; optbt = std::move(branchtuple); bestv = v;
+           }
+         }
+       }
+       assert(bestv >= 0);
       }
     END :
-     stats1.time(timing()-t0);
-     if (P.parallel) {
+      auto values = bestv == -1 ? values_t{} :
+      (bestval == -1 ? GV::values(V, bestv) : values_t{bestval});
+      if (bestv != -1 and P.bt != OP::LBRT::bin) {
+        assert(P.bt == OP::LBRT::enu);
+        assert(bestval == -1);
+        if (P.bo == OP::LBRO::desc) std::ranges::reverse(values);
+        else if (P.bo == OP::LBRO::ascd or P.bo == OP::LBRO::descd) {
+          const size_t w = values.size();
+          assert(w >= 2 and w == optbt.size());
+          std::vector<std::pair<int, float_t>> valdist;
+          valdist.reserve(w);
+          for (size_t i = 0; i < w; ++i)
+            valdist.emplace_back(values[i], optbt[i]);
+          std::ranges::sort(valdist, {}, [](const auto& p){return p.second;});
+          if (P.bo == OP::LBRO::ascd)
+            for (size_t i = 0; i < w; ++i) values[i] = valdist[i].first;
+          else
+            for (size_t i = 0; i < w; ++i) values[i] = valdist[(w-1)-i].first;
+        }
+      }
+      stats1.time(timing()-t0);
+      if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
         S->add(stats0, stats1);
       }
-     else S->add(stats0, stats1);
-     if (bestv == -1) return new VVElim(*this, {}, {});
-     auto values = GV::values(V, bestv);
-     // XXX
-     return create_la(bestv, std::move(values), P.bt, *this,
-                      std::move(stats0.elims()));
+      else S->add(stats0, stats1);
+      if (bestv == -1) return new VVElim(*this, {}, {});
+      else return create_la(bestv, std::move(values), P.bt, *this,
+                            std::move(stats0.elims()));
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
