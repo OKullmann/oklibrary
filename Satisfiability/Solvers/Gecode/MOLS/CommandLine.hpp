@@ -122,9 +122,15 @@ namespace CommandLine {
 
   typedef std::vector<OP::BRT> list_brt_t;
   typedef std::vector<OP::PropO> list_propo_t;
+
   typedef std::vector<OP::BHV> list_bhv_t;
   typedef std::vector<OP::GBO> list_gbo_t;
+
   typedef std::vector<OP::LAR> list_lar_t;
+
+  typedef std::vector<OP::LBRT> list_lbrt_t;
+  typedef std::vector<OP::DIS> list_dis_t;
+  typedef std::vector<OP::LBRO> list_lbro_t;
 
   template <typename OPT>
   std::vector<OPT> read_opt([[maybe_unused]]const int argc,

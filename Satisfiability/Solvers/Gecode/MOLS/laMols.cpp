@@ -90,7 +90,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "4.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -136,6 +136,38 @@ namespace {
     return true;
   }
 
+  constexpr size_t sep_spaces = 2;
+  constexpr size_t prec = 3;
+  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 8, 8};
+  constexpr size_t wN = 4, wgcd = 5;
+
+  void rh(std::ostream& out) {
+    out.width(wN); out << "N" << " ";
+    Environment::header_policies<RT, PropO, LBRT, DIS, LBRO, LAR>(out);
+    out.width(wgcd); out << "gcd" << " ";
+    out << std::string(sep_spaces, ' ');
+    Environment::print1d(out,
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc", "lvs"),
+      widths);
+    out << "\n";
+  }
+
+  void rs(std::ostream& out, const rlaSR& res) {
+    const auto state = FloatingPoint::fixed_width(out, prec);
+    out << std::string(sep_spaces, ' ');
+    Environment::print1d(out,
+      std::make_tuple(res.b.sol_found, res.ut,
+                      res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth,
+                      res.S.N(), res.lvs),
+      widths);
+    out << "\n";
+    res.S.out(out, {"vals", "props", "elvals", "prunes",
+                  "mprune", "probes", "rounds", "solc",
+                  "t", "qelvals", "qprunes"});
+    out.flush();
+    FloatingPoint::undo(out, state);
+  }
+
 }
 
 
@@ -149,25 +181,29 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  /*
-  const size_t N = read_N(argc, argv);
+  const auto list_N = read_N(argc, argv);
   const auto [ac, name_ac] = read_ac(argc, argv);
-  const auto [ps, name_ps] = read_ps(argc, argv, N);
+  const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
                                            "propagation");
-  const list_brt_t brtv = read_opt<BRT>(argc, argv, 6, "brt",
-                                        "branching-type");
-  const list_gbo_t gbov = read_opt<GBO>(argc, argv, 7, "gbo",
-                                        "gc-order-heuristics");
-  const list_lar_t larv = read_opt<LAR>(argc, argv, 8, "lar",
+  const list_lbrt_t brtv = read_opt<LBRT>(argc, argv, 6, "brt",
+                                          "branching-type");
+  const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "bvar",
+                                        "distance");
+  const list_lbro_t brov = read_opt<LBRO>(argc, argv, 8, "gbo",
+                                          "order-heuristics");
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
-  const size_t num_runs = pov.size()*brtv.size()*gbov.size()*larv.size();
+  const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
+  const size_t num_runs =
+    list_N.size()*pov.size()*brtv.size()*disv.size()*brov.size()
+    *larv.size()*gcdv.size();
 
-  const double threads = read_threads(argc, argv, 10);
+  const double threads = read_threads(argc, argv, 11);
 
-  const std::string outfile = output_filename(proginfo.prg, N);
+  const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
   if (with_file_output and num_runs != 1) {
@@ -182,14 +218,14 @@ int main(const int argc, const char* const argv[]) {
       "writing.\n";
     return 1;
   }
+  const bool with_log = Options::with_log(rt);
+  std::ostream* const log = with_log ? &std::cout : nullptr;
 
   info_output(std::cout,
-              N, ac, name_ac, ps, name_ps, rt,
+              list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
-  algo_output(std::cout, std::make_tuple(pov, brtv, gbov, larv));
-  // XXX
-  std::cout << "\n# lookahead-weights: ";
-  Environment::out_line(std::cout, wghts);
-  std::cout << std::endl;
-  */
+  algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
+  additional_output(std::cout, gcdv);
+  std::cout.flush();
+
 }
