@@ -197,6 +197,17 @@ namespace Solvers {
     bool operator ==(const rlaSR&) const noexcept = default;
   };
 
+  struct laSR : GBasicSR {
+    using GBasicSR::b;
+    using GBasicSR::gs;
+    using GBasicSR::ut;
+    typedef LB::laStats::stats_t stats_t;
+    stats_t S;
+    size_t lvs = 0;
+
+    bool operator ==(const laSR&) const noexcept = default;
+  };
+
 
   /*
     The solver for the testing of encodings etc.
@@ -530,6 +541,83 @@ namespace Solvers {
     }
     if (not valid(res.b))
       std::cerr << "\nERROR[Solvers::rlasolver]: "
+        "failed basic consistency-check\n";
+    return res;
+  }
+
+
+  /*
+    The solver with look-ahead-reduction and -branching
+  */
+  laSR lasolver(const EC::EncCond& enc,
+                const OP::RT rt,
+                const OP::LBRT bt, const OP::DIS dis, const OP::LBRO bo,
+                const OP::LAR lar,
+                const unsigned gcd,
+                const double threads,
+                std::ostream* const log) {
+    assert(valid(rt));
+    assert(not with_log(rt) or log);
+
+    Timing::UserTime timing;
+    const Timing::Time_point t0 = timing();
+    CT::GenericMols0* const m = new CT::GenericMols0(enc);
+    const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
+    std::unique_ptr<LB::laStats> stats(
+      new LB::laStats(log,
+                      log and OP::with_solutions(rt) ? &enc : nullptr,
+                      with_stop(rt)));
+    new (*m) LB::LaBranching(*m, P, stats.get());
+    {const auto status = m->status();
+     if (status == GC::SS_SOLVED) {
+       laSR res{rt};
+       ++res.b.sol_found;
+       if (with_solutions(rt)) {
+         auto sol = enc.decode(GV::extract(m->V));
+         if (not VR::correct(enc.ac, sol))
+           std::cerr << "\nERROR[Solvers::lasolver]: "
+             "correctness-checking failed for root-solution:\n" <<
+             sol << "\n";
+         if (with_log(rt))
+           *log << res.b.sol_found << "\n" << sol << "\n";
+         else
+           res.b.list_sol.push_back(std::move(sol));
+       }
+       delete m; return res;
+     }
+     else if (status == GC::SS_FAILED) {
+       delete m; return {rt};
+     }
+    }
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, gcd));
+    delete m;
+
+    laSR res{rt};
+    {[[maybe_unused]]CT::GenericMols0* const leaf=s.next(); assert(not leaf);}
+    res.ut = timing() - t0;
+    res.gs = s.statistics();
+    res.b.sol_found = stats->rla().sol_count();
+    res.S = stats->stats();
+    res.lvs = stats->rla().lvs();
+    if (with_file_output(rt)) {
+      if (res.b.sol_found != stats->rla().sols().size())
+        std::cerr << "\nERROR[Solvers::lasolver]: stated solution-count "
+                  << res.b.sol_found << " != real solution-count "
+                  << stats->rla().sols().size() << "\n";
+      for (size_t i = 0; i < res.b.sol_found; ++i) {
+        auto dsol = enc.decode(stats->rla().sols()[i]);
+        if (not VR::correct(enc.ac, dsol))
+          std::cerr << "\nERROR[Solvers::lasolver]: "
+            "correctness-checking failed for solution " << i
+                    << ":\n" << dsol << "\n";
+        res.b.list_sol.push_back(std::move(dsol));
+      }
+      if (not BS::alldiffelem(res.b.list_sol))
+        std::cerr << "\nERROR[Solvers::lasolver]: "
+          "there are equal elements in the solution-list\n";
+    }
+    if (not valid(res.b))
+      std::cerr << "\nERROR[Solvers::lasolver]: "
         "failed basic consistency-check\n";
     return res;
   }
