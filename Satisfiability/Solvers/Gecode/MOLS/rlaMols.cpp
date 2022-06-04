@@ -201,9 +201,9 @@ int main(const int argc, const char* const argv[]) {
       "writing.\n";
     return 1;
   }
-
   const bool with_log = Options::with_log(rt);
   std::ostream* const log = with_log ? &std::cout : nullptr;
+
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
