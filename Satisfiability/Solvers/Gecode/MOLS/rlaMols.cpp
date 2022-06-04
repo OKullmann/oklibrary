@@ -145,8 +145,8 @@ namespace {
       widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",
-                  "mprune", "probes", "rounds", "solc",
-                  "t", "qelvals", "qprunes"});
+                    "mprune", "probes", "rounds", "solc",
+                    "t", "qelvals", "qprunes"});
     out.flush();
     FloatingPoint::undo(out, state);
   }
