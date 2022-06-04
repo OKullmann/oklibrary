@@ -310,7 +310,7 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       string {"bin", "enu"};
     static constexpr std::array<const char*, size>
-      estring {"la-binary-branching", "la-enumerative-branching"};
+      estring {"binary-branching", "enumerative-branching"};
   };
   template <> struct RegistrationPolicies<Options::GBO> {
     static constexpr const char* name = "order-heuristic";
@@ -326,10 +326,10 @@ namespace Environment {
     static constexpr const char* sname = "lbo";
     static constexpr int size = Options::LBROsize;
     static constexpr std::array<const char*, size>
-      string {"asc", "desc", "ascd", "descd"};
+      string {"asc", "desc", "dasc", "ddesc"};
     static constexpr std::array<const char*, size>
-    estring {"la-ascending-order", "la-descending-order",
-        "ascending-distances", "descending-distances"};
+    estring {"ascending-order", "descending-order",
+        "distances-ascending", "distances-descending"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";
@@ -346,7 +346,7 @@ namespace Environment {
     static constexpr const char* sname = "dis";
     static constexpr int size = Options::DISsize;
     static constexpr std::array<const char*, size>
-      string {"deltaL", "wdeltaL", "newvars"};
+      string {"dL", "wdL", "newv"};
     static constexpr std::array<const char*, size>
       estring {"delta-literals", "weighted-delta-literals",
         "new-variables"};

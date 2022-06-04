@@ -467,7 +467,7 @@ namespace LookaheadBranching {
   float_t branch_measure(SPA* const m, const int v, const int val,
                               const bool equal) noexcept {
     assert(v >= 0);
-    const auto& V = m->V;
+    [[maybe_unused]] const auto& V = m->V;
     assert(v < V.size());
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     auto& nV = c.get()->V;

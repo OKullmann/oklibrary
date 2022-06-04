@@ -79,7 +79,6 @@ The problem seems "binary-super-eager".
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
-#include <Numerics/FloatingPoint.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -87,20 +86,19 @@ The problem seems "binary-super-eager".
 #include "Solvers.hpp"
 #include "Options.hpp"
 #include "CommandLine.hpp"
-#include "LookaheadBranching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "22.5.2022",
+        "0.5.0",
+        "4.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 10;
+  constexpr int commandline_args = 11;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -109,27 +107,28 @@ namespace {
   using namespace Options;
   using namespace CommandLine;
 
-  typedef EC::size_t size_t;
-
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level la-type branchvar branchval"
-      " threads\n\n"
-      " - file_cond    : filename for conditions-specification\n"
-      " - file_ps      : filename for partial-squares-specification\n"
+      " N file_cond file_ps run-type prop-level branch-type"
+      " distance branch-order la-type gcd threads\n\n"
+      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
+      " - file_cond    : filename/string for conditions-specification\n"
+      " - file_ps      : filename/string for partial-squares-specification\n"
       " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
       " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
-      " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
-      " - la-weights   : N-1 comma-separated weigths for calculating" <<
-      " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
+      " - branch-type  : " << Environment::WRPO<LBRT>{} << "\n" <<
+      " - distance     : " << Environment::WRPO<DIS>{} << "\n" <<
+      " - branch-order : " << Environment::WRPO<LBRO>{} << "\n" <<
       " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
+      " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the algorithmic options can be lists (all combinations)\n"
+      "  - to use a string instead of a filename, a leading \"@\" is needed\n"
+      "  - the six algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
@@ -164,7 +163,6 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-order-heuristics");
   const list_lar_t larv = read_opt<LAR>(argc, argv, 8, "lar",
                                         "lookahead-reduction");
-  const LookaheadBranching::vec_t wghts = read_weights(argc, argv, N, 9);
   const size_t num_runs = pov.size()*brtv.size()*gbov.size()*larv.size();
 
   const double threads = read_threads(argc, argv, 10);

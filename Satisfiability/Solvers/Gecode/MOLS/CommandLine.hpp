@@ -170,6 +170,7 @@ namespace CommandLine {
     }
   }
 
+  /*
   auto read_weights([[maybe_unused]]const int argc,
                     const char* const argv[], const size_t N,
                     const int pos) {
@@ -184,7 +185,7 @@ namespace CommandLine {
     }
     return res;
   }
-
+  */
 
   double read_threads([[maybe_unused]]const int argc,
                       const char* const argv[], const int pos) {
