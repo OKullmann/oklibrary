@@ -197,13 +197,15 @@ namespace Solvers {
     bool operator ==(const rlaSR&) const noexcept = default;
   };
 
-  struct laSR : GBasicSR {
+  struct laSR : rlaSR {
     using GBasicSR::b;
     using GBasicSR::gs;
     using GBasicSR::ut;
-    typedef LB::laStats::stats_t stats_t;
-    stats_t S;
-    size_t lvs = 0;
+    using rlaSR::S;
+    using rlaSR::lvs;
+
+    typedef LB::laStats::stats_t stats1_t;
+    stats1_t S1;
 
     bool operator ==(const laSR&) const noexcept = default;
   };
@@ -597,8 +599,9 @@ namespace Solvers {
     res.ut = timing() - t0;
     res.gs = s.statistics();
     res.b.sol_found = stats->rla().sol_count();
-    res.S = stats->stats();
+    res.S = stats->rla().stats();
     res.lvs = stats->rla().lvs();
+    res.S1 = stats->stats();
     if (with_file_output(rt)) {
       if (res.b.sol_found != stats->rla().sols().size())
         std::cerr << "\nERROR[Solvers::lasolver]: stated solution-count "

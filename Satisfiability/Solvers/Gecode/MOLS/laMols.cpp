@@ -90,7 +90,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "4.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -152,7 +152,7 @@ namespace {
     out << "\n";
   }
 
-  void rs(std::ostream& out, const rlaSR& res) {
+  void rs(std::ostream& out, const laSR& res) {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
@@ -162,8 +162,9 @@ namespace {
       widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",
-                  "mprune", "probes", "rounds", "solc",
-                  "t", "qelvals", "qprunes"});
+                    "mprune", "probes", "rounds", "solc",
+                    "tr", "qelvals", "qprunes"});
+    res.S1.out(out, {"tb"});
     out.flush();
     FloatingPoint::undo(out, state);
   }
@@ -228,4 +229,31 @@ int main(const int argc, const char* const argv[]) {
   additional_output(std::cout, gcdv);
   std::cout.flush();
 
+  for (const size_t N : list_N)
+    for (const PropO po : pov) {
+      const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,psquares_t{}),
+                        prop_level(po));
+      for (const LBRT brt : brtv)
+        for (const DIS dis : disv)
+          for (const LBRO bro : brov)
+            for (const LAR lar : larv)
+              for (unsigned gcd : gcdv) {
+                const laSR res =
+                  lasolver(enc, rt, brt, dis, bro, lar,
+                           gcd, threads, log);
+                if (with_log and
+                    rt != RT::enumerate_with_log and
+                    rt != RT::unique_s_with_log)
+                  std::cout << "\n";
+                rh(std::cout);
+                std::cout.width(wN); std::cout << N << " ";
+                Environment::data_policies(std::cout,
+                  std::make_tuple(rt, po, brt, dis, bro, lar));
+                std::cout.width(wgcd); std::cout << gcd << " ";
+                rs(std::cout, res);
+                if (with_file_output)
+                  Environment::out_line(*out, res.b.list_sol, "\n");
+              }
+    }
+  if (out) delete out;
 }
