@@ -232,7 +232,9 @@ namespace LookaheadBranching {
         {v, bo==OP::GBO::asc ? values.front() : values.back()}, std::move(a));
     case OP::BRT::enu : {
       assert(values.size() >= 2);
-      return new VVElim(b, append(v, values, bo==OP::GBO::asc), std::move(a));
+      return new VVElim(b,
+                        append(v, std::move(values), bo==OP::GBO::asc),
+                        std::move(a));
     }
     default : assert(false); return nullptr;}
   }
@@ -434,7 +436,8 @@ namespace LookaheadBranching {
     }
     case OP::LBRT::enu : {
       assert(values.size() >= 2);
-      return new VVElim(b, std::move(values), std::move(a));
+      return new VVElim(b, append(v, std::move(values), true),
+                        std::move(a));
     }
     default : throw std::runtime_error("LookaheadBranching::create_la: "
                                        "non-handled LBRT");}
@@ -507,61 +510,66 @@ namespace LookaheadBranching {
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       BranchingStatistics stats1;
+      if (stats0.leafcount()) {
+        stats1.time(timing()-t0);
+        if (P.parallel) {
+          std::lock_guard<std::mutex> lock(stats_mutex);
+          S->add(stats0, stats1);
+        }
+        else S->add(stats0, stats1);
+        return new VVElim(*this, {}, {});
+      }
 
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      for (const auto [var,val] : stats0.elims()) {
+        assert(var < node->V.size()); GV::unset_var(s, node->V[var], val);
+      }
+      {[[maybe_unused]] const auto status = node->status();
+       assert(status == GC::SS_BRANCH);
+      }
+
       const auto& V = node->V;
       const auto n = V.size();
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      if (stats0.leafcount()) goto END;
-      { // block to protect END
-       for (const auto [var,val] : stats0.elims()) {
-         assert(var < V.size()); GV::unset_var(s, V[var], val);
-       }
-       {[[maybe_unused]] const auto status = node->status();
-         assert(status == GC::SS_BRANCH);
-       }
-       const float_t old_L = GV::sumdomsizes(V);
-       for (int v = 0; v < n; ++v) {
-         const auto& vo = V[v];
-         if (vo.size() == 1) continue;
-         const auto values = GV::values(V, v);
-         if (P.bt == OP::LBRT::bin) {
-           for (const int val : values) {
-             const float_t L0 = branch_measure(node, v, val, true);
-             const float_t L1 = branch_measure(node, v, val, false);
-             const float_t a = old_L - L0, b = old_L - L1;
-             assert(a > 0 and b > 0);
-             const float_t tau =  Tau::ltau(a,b);
-             assert(tau > 0 and tau < FP::pinfinity);
-             if (tau < opttau) {
-               opttau = tau; optbt = {a,b}; bestv = v; bestval = val;
-             }
-           }
-         }
-         else {
-           assert(P.bt == OP::LBRT::enu);
-           std::vector<float_t> branchtuple;
-           branchtuple.reserve(values.size());
-           for (const int val : values) {
-             const float_t L = branch_measure(node, v, val, true);
-             assert(L >= 0 and L < old_L);
-             branchtuple.push_back(old_L - L);
-           }
-           const float_t tau = Tau::ltau(branchtuple);
-           assert(tau > 0 and tau < FP::pinfinity);
-           if (tau < opttau) {
-             opttau = tau; optbt = std::move(branchtuple); bestv = v;
-           }
-         }
-       }
-       assert(bestv >= 0);
+      const float_t old_L = GV::sumdomsizes(V);
+      for (int v = 0; v < n; ++v) {
+        const auto& vo = V[v];
+        if (vo.size() == 1) continue;
+        const auto values = GV::values(V, v);
+        if (P.bt == OP::LBRT::bin) {
+          for (const int val : values) {
+            const float_t L0 = branch_measure(node, v, val, true);
+            const float_t L1 = branch_measure(node, v, val, false);
+            const float_t a = old_L - L0, b = old_L - L1;
+            assert(a > 0 and b > 0);
+            const float_t tau =  Tau::ltau(a,b);
+            assert(tau > 0 and tau < FP::pinfinity);
+            if (tau < opttau) {
+              opttau = tau; optbt = {a,b}; bestv = v; bestval = val;
+            }
+          }
+        }
+        else {
+          assert(P.bt == OP::LBRT::enu);
+          std::vector<float_t> branchtuple;
+          branchtuple.reserve(values.size());
+          for (const int val : values) {
+            const float_t L = branch_measure(node, v, val, true);
+            assert(L >= 0 and L < old_L);
+            branchtuple.push_back(old_L - L);
+          }
+          const float_t tau = Tau::ltau(branchtuple);
+          assert(tau > 0 and tau < FP::pinfinity);
+          if (tau < opttau) {
+            opttau = tau; optbt = std::move(branchtuple); bestv = v;
+          }
+        }
       }
-    END :
-      auto values = bestv == -1 ? values_t{} :
-      (bestval == -1 ? GV::values(V, bestv) : values_t{bestval});
-      if (bestv != -1 and P.bt != OP::LBRT::bin) {
+      assert(bestv >= 0);
+      auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
+      if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
         if (P.bo == OP::LBRO::desc) std::ranges::reverse(values);
@@ -585,9 +593,8 @@ namespace LookaheadBranching {
         S->add(stats0, stats1);
       }
       else S->add(stats0, stats1);
-      if (bestv == -1) return new VVElim(*this, {}, {});
-      else return create_la(bestv, std::move(values), P.bt, *this,
-                            std::move(stats0.elims()));
+      return create_la(bestv, std::move(values), P.bt, *this,
+                       std::move(stats0.elims()));
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
@@ -598,8 +605,7 @@ namespace LookaheadBranching {
       return RlaBranching::commit0(s, c0, a);
     }
 
-
-  };
+};
 
 }
 
