@@ -93,7 +93,7 @@ TestPartialSquares_debug : TestPartialSquares.cpp PartialSquares.hpp Conditions.
 
 TestCommandLine_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestCommandLine_debug : Optimisation_plus = -fwhole-program
-TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp
+TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp Options.hpp
 
 TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
