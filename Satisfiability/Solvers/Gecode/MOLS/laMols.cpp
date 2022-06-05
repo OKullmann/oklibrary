@@ -61,20 +61,15 @@ The problem seems "binary-super-eager".
 
 /* TODOS:
 
--1. Statistics on branchings (for inner nodes)
+1. Statistics on branchings (for inner nodes)
    - DONE these statistics only for inner nodes
    - DONE number of inner nodes
    - DONE sumdomsizes (old_L)
    - DONE width of branching
-   - (l)tau of branching
-   - the four statistics for the distances of the branches
+   - DONE (l)tau of branching
+   - DONE the four statistics for the distances of the branches
 
-0.  DONE
-    Provide the two branching orders as in our paper (using the distance,
-    ascending and descending):
-      ascdist, descdist.
-
-1. Once we checked all statistics, remove the gecode-statistics on nodes
+2. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
 
 */
@@ -98,7 +93,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
+        "0.6.3",
         "5.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -173,7 +168,8 @@ namespace {
     res.S.out(out, {"vals", "props", "elvals", "prunes",
                     "mprune", "probes", "rounds", "solc",
                     "tr", "qelvals", "qprunes"});
-    res.S1.out(out, {"vals", "w", "ltau", "tb"});
+    res.S1.out(out, {"vals", "w", "ltau",
+                   "mind", "meand", "maxd", "sdd", "tb"});
     out.flush();
     FloatingPoint::undo(out, state);
   }

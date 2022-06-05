@@ -408,6 +408,7 @@ namespace LookaheadBranching {
     size_t vals_; // the total number of values
     size_t width_ = 2; // width of branching
     float_t ltau_;
+    float_t mind_, meand_, maxd_, sdd_;
     Timing::Time_point time_; // total time for the branching construction
 
   public :
@@ -421,17 +422,25 @@ namespace LookaheadBranching {
     void set_tau(const float_t t) noexcept {
       assert(t > 0 and t < FP::pinfinity); ltau_ = t;
     }
+    template <class STATS>
+    void set_dist(const STATS& s) noexcept {
+      assert(s.N() == width_);
+      mind_ = s.min(); meand_ = s.amean(); maxd_ = s.max();
+      sdd_ = s.sd_population();
+    }
 
     BranchingStatistics& time(const Timing::Time_point t) noexcept {
       time_ = t; return *this;
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    static constexpr size_t num_stats = 4;
+    static constexpr size_t num_stats = 8;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = vals_; res[1] = width_; res[2] = ltau_; res[3] = time_;
+      res[0] = vals_; res[1] = width_; res[2] = ltau_;
+      res[3] = mind_; res[4] = meand_; res[5] = maxd_; res[6] = sdd_;
+      res[num_stats-1] = time_;
       return res;
     }
 
@@ -583,6 +592,10 @@ namespace LookaheadBranching {
       }
       assert(bestv >= 0);
       stats1.set_tau(opttau);
+      {GenStats::StdStats statsd;
+       for (const auto d : optbt) statsd += d;
+       stats1.set_dist(statsd);
+      }
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
