@@ -64,8 +64,8 @@ The problem seems "binary-super-eager".
 -1. Statistics on branchings (for inner nodes)
    - DONE these statistics only for inner nodes
    - DONE number of inner nodes
-   - sumdomsizes (old_L)
-   - width of branching
+   - DONE sumdomsizes (old_L)
+   - DONE width of branching
    - (l)tau of branching
    - the four statistics for the distances of the branches
 
@@ -98,7 +98,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "5.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -173,7 +173,7 @@ namespace {
     res.S.out(out, {"vals", "props", "elvals", "prunes",
                     "mprune", "probes", "rounds", "solc",
                     "tr", "qelvals", "qprunes"});
-    res.S1.out(out, {"tb"});
+    res.S1.out(out, {"vals", "w", "ltau", "tb"});
     out.flush();
     FloatingPoint::undo(out, state);
   }

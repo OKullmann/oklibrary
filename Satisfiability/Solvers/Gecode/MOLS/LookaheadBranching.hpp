@@ -405,20 +405,33 @@ namespace LookaheadBranching {
   };
 
   class BranchingStatistics {
+    size_t vals_; // the total number of values
+    size_t width_ = 2; // width of branching
+    float_t ltau_;
     Timing::Time_point time_; // total time for the branching construction
 
   public :
 
+    void set_vals(const size_t vals) noexcept {
+      assert(vals != 0); vals_ = vals;
+    }
+    void set_width(const size_t w) noexcept {
+      assert(w >= 2); width_ = w;
+    }
+    void set_tau(const float_t t) noexcept {
+      assert(t > 0 and t < FP::pinfinity); ltau_ = t;
+    }
+
     BranchingStatistics& time(const Timing::Time_point t) noexcept {
       time_ = t; return *this;
     }
-
     Timing::Time_point time() const noexcept { return time_; }
-    static constexpr size_t num_stats = 1;
+
+    static constexpr size_t num_stats = 4;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = time_;
+      res[0] = vals_; res[1] = width_; res[2] = ltau_; res[3] = time_;
       return res;
     }
 
@@ -534,7 +547,7 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      const float_t old_L = GV::sumdomsizes(V);
+      const float_t old_L = GV::sumdomsizes(V); stats1.set_vals(old_L);
       for (int v = 0; v < n; ++v) {
         const auto& vo = V[v];
         if (vo.size() == 1) continue;
@@ -569,14 +582,16 @@ namespace LookaheadBranching {
         }
       }
       assert(bestv >= 0);
+      stats1.set_tau(opttau);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
+        const size_t w = values.size();
+        assert(w >= 2 and w == optbt.size());
+        stats1.set_width(w);
         if (P.bo == OP::LBRO::desc) std::ranges::reverse(values);
         else if (P.bo == OP::LBRO::ascd or P.bo == OP::LBRO::descd) {
-          const size_t w = values.size();
-          assert(w >= 2 and w == optbt.size());
           std::vector<std::pair<int, float_t>> valdist;
           valdist.reserve(w);
           for (size_t i = 0; i < w; ++i)
