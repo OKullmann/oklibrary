@@ -94,7 +94,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
+        "0.7.1",
         "5.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -170,7 +170,7 @@ namespace {
     res.S.out(out, {"vals", "props", "elvals", "prunes",
                     "mprune", "probes", "rounds", "solc",
                     "tr", "qelvals", "qprunes"});
-    res.S1.out(out, {"vals", "w", "ltau",
+    res.S1.out(out, {"mu", "w", "ltau",
                    "mind", "meand", "maxd", "sdd", "tb"});
     out.flush();
     FloatingPoint::undo(out, state);
@@ -272,7 +272,8 @@ int main(const int argc, const char* const argv[]) {
               for (unsigned gcd : gcdv) {
                 const laSR res =
                   lasolver(enc, rt, brt, dis, bro, lar,
-                           gcd, threads, log);
+                    gcd, threads, with_weights(dis) ? weights : nullptr,
+                    log);
                 if (with_log and
                     rt != RT::enumerate_with_log and
                     rt != RT::unique_s_with_log)

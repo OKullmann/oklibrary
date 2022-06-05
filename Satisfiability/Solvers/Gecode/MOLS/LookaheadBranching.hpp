@@ -34,6 +34,7 @@ TODOS:
 #include <utility>
 #include <ostream>
 #include <iostream>
+#include <functional>
 
 #include <cassert>
 #include <cstdlib>
@@ -87,33 +88,30 @@ namespace LookaheadBranching {
 
      PRELIMINARY
   */
-  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
-                   const vec_t* const wghts, const size_t depth) noexcept {
-    const size_t n = tr(V.size(), 1);
-    float_t s = 0;
-    const float_t w1 = FP::exp((*wghts)[0] * depth);
-    for (size_t i = 0; i < n; ++i) {
-      const size_t ds = tr(V[i].size(), 1), dsn = tr(Vn[i].size(), 1);
-      if (dsn == ds) continue;
-      assert(1 <= dsn and dsn < ds);
-      if (dsn == 1) s += w1;
-      else {
-        assert(dsn-1 < wghts->size());
-        s += (*wghts)[dsn-1];
-      }
+  float_t wsumdomsizes(const GC::IntVarArray& V,
+                       const OP::weights_t* const w) noexcept {
+    float_t sum = 0;
+    for (int v = 0; v < V.size(); ++v) {
+      const size_t s = tr(V[v].size(), 1);
+      assert(s < w->size());
+      sum += (*w)[s];
     }
-    return s;
+    return sum;
   }
-  float_t domsizes(const GC::IntVarArray& V, const vec_t* const wghts) noexcept {
-    const size_t n = tr(V.size(), 1);
-    float_t s = 0;
-    for (size_t i = 0; i < n; ++i) {
-      const size_t ds = tr(V[i].size(), 1);
-      assert(ds >= 1);
-      assert(ds-1 < wghts->size());
-      s += (*wghts)[ds-1];
+
+  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+                   const OP::weights_t* const w,
+                   const size_t depth) noexcept {
+    float_t sum = 0;
+    const float_t w1 = FP::exp2((*w)[0] * depth);
+    for (int v = 0; v < V.size(); ++v) {
+      const size_t s = tr(V[v].size(), 1), sn = tr(Vn[v].size(), 1);
+      if (sn == s) continue;
+      assert(sn < s);
+      if (sn == 1) sum += w1;
+      else { assert(sn < w->size()); sum += (*w)[sn]; }
     }
-    return s;
+    return sum;
   }
 
 
@@ -491,34 +489,43 @@ namespace LookaheadBranching {
   };
 
 
+  typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
+
   template <class SPA>
   float_t branch_measure(SPA* const m, const int v, const int val,
-                              const bool equal) noexcept {
+                         const bool equal,
+                         const measure_t& mu) noexcept {
     assert(v >= 0);
-    [[maybe_unused]] const auto& V = m->V;
-    assert(v < V.size());
+    [[maybe_unused]] const auto size = m->V.size();
+    assert(v < size);
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     auto& nV = c.get()->V;
-    assert(nV.size() == V.size());
+    assert(nV.size() == size);
     if (equal) GV::set_var(*c.get(), nV[v], val);
     else GV::unset_var(*c.get(), nV[v], val);
     {[[maybe_unused]] const auto status = c->status();
      assert(status == GC::SS_BRANCH);}
-    return GV::sumdomsizes(nV);
+    return mu(nV);
   }
 
 
   struct LaBranching : public GC::Brancher {
     const laParams P;
+    typedef const OP::weights_t* weights_pt;
+    const weights_pt weights;
   private :
     laStats* const S;
     inline static std::mutex stats_mutex;
 
     LaBranching(GC::Space& home, LaBranching& b)
-      : GC::Brancher(home,b), P(b.P), S(b.S) {}
+      : GC::Brancher(home,b), P(b.P), weights(b.weights), S(b.S) {}
   public :
-    LaBranching(const GC::Home home, const laParams P, laStats* const S)
-      : GC::Brancher(home), P(P), S(S) { assert(S); }
+    LaBranching(const GC::Home home,
+                const laParams P, laStats* const S,
+                const weights_pt w = nullptr)
+      : GC::Brancher(home), P(P), weights(w), S(S) {
+      assert(S); assert(not with_weights(P.d) or weights);
+    }
 
     GC::Brancher* copy(GC::Space& home) override {
       return new (home) LaBranching(home,*this);
@@ -556,16 +563,21 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      const float_t old_L = GV::sumdomsizes(V); stats1.set_vals(old_L);
+      const measure_t mu = P.d == OP::DIS::deltaL ?
+        measure_t(GV::sumdomsizes) :
+        [this](const GC::IntVarArray& V){
+        return wsumdomsizes(V, weights);};
+
+      const float_t mu0 = mu(V); stats1.set_vals(mu0);
       for (int v = 0; v < n; ++v) {
         const auto& vo = V[v];
         if (vo.size() == 1) continue;
         const auto values = GV::values(V, v);
         if (P.bt == OP::LBRT::bin) {
           for (const int val : values) {
-            const float_t L0 = branch_measure(node, v, val, true);
-            const float_t L1 = branch_measure(node, v, val, false);
-            const float_t a = old_L - L0, b = old_L - L1;
+            const float_t mu10 = branch_measure(node, v, val, true, mu);
+            const float_t mu11 = branch_measure(node, v, val, false, mu);
+            const float_t a = mu0 - mu10, b = mu0 - mu11;
             assert(a > 0 and b > 0);
             const float_t tau =  Tau::ltau(a,b);
             assert(tau > 0 and tau < FP::pinfinity);
@@ -579,9 +591,9 @@ namespace LookaheadBranching {
           std::vector<float_t> branchtuple;
           branchtuple.reserve(values.size());
           for (const int val : values) {
-            const float_t L = branch_measure(node, v, val, true);
-            assert(L >= 0 and L < old_L);
-            branchtuple.push_back(old_L - L);
+            const float_t mu1 = branch_measure(node, v, val, true, mu);
+            assert(mu1 >= 0 and mu1 < mu0);
+            branchtuple.push_back(mu0 - mu1);
           }
           const float_t tau = Tau::ltau(branchtuple);
           assert(tau > 0 and tau < FP::pinfinity);

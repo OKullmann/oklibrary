@@ -557,9 +557,12 @@ namespace Solvers {
                 const OP::LAR lar,
                 const unsigned gcd,
                 const double threads,
+                const OP::weights_t* const weights,
                 std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
+    assert(not with_weights(dis) or weights);
+    assert(not weights or with_weights(dis));
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
@@ -569,7 +572,8 @@ namespace Solvers {
       new LB::laStats(log,
                       log and OP::with_solutions(rt) ? &enc : nullptr,
                       with_stop(rt)));
-    new (*m) LB::LaBranching(*m, P, stats.get());
+
+    new (*m) LB::LaBranching(*m, P, stats.get(), weights);
     {const auto status = m->status();
      if (status == GC::SS_SOLVED) {
        laSR res{rt};
