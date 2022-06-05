@@ -406,7 +406,7 @@ namespace LookaheadBranching {
 
   class BranchingStatistics {
     size_t vals_; // the total number of values
-    size_t width_ = 2; // width of branching
+    size_t width_; // width of branching
     float_t ltau_;
     float_t mind_, meand_, maxd_, sdd_;
     Timing::Time_point time_; // total time for the branching construction
@@ -592,6 +592,9 @@ namespace LookaheadBranching {
       }
       assert(bestv >= 0);
       stats1.set_tau(opttau);
+      const size_t w = optbt.size();
+      stats1.set_width(w);
+      assert(w >= 2);
       {GenStats::StdStats statsd;
        for (const auto d : optbt) statsd += d;
        stats1.set_dist(statsd);
@@ -600,9 +603,7 @@ namespace LookaheadBranching {
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
-        const size_t w = values.size();
-        assert(w >= 2 and w == optbt.size());
-        stats1.set_width(w);
+        assert(w == values.size());
         if (P.bo == OP::LBRO::desc) std::ranges::reverse(values);
         else if (P.bo == OP::LBRO::ascd or P.bo == OP::LBRO::descd) {
           std::vector<std::pair<int, float_t>> valdist;

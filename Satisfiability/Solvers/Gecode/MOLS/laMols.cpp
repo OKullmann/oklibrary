@@ -79,6 +79,7 @@ The problem seems "binary-super-eager".
 #include <string>
 #include <ostream>
 #include <fstream>
+#include <string_view>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -93,7 +94,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
+        "0.7.0",
         "5.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -101,7 +102,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 11;
+  constexpr int commandline_args = 12;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -116,7 +117,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type"
-      " distance branch-order la-type gcd threads\n\n"
+      " distance branch-order la-type gcd threads weights\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -127,7 +128,8 @@ namespace {
       " - branch-order : " << Environment::WRPO<LBRO>{} << "\n" <<
       " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
-      " - threads      : floating-point for number of threads\n\n"
+      " - threads      : floating-point for number of threads\n"
+      " - weights      : comma-separated list of weights for distance\n\n"
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
@@ -196,9 +198,24 @@ int main(const int argc, const char* const argv[]) {
                                            "propagation");
   const list_lbrt_t brtv = read_opt<LBRT>(argc, argv, 6, "brt",
                                           "branching-type");
-  const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "bvar",
+
+  const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  const list_lbro_t brov = read_opt<LBRO>(argc, argv, 8, "gbo",
+  const auto first_weight = first_with_weights(disv);
+  const bool use_weights = first_weight != disv.end();
+  if (use_weights and list_N.size() != 1) {
+    std::cerr << error << "For distances with weights there must be"
+      " exactly one N-value given, but there are " << list_N.size()
+              << ".\n";
+    return 1;
+  }
+  if (use_weights and another_with_weights(first_weight, disv.end())) {
+    std::cerr << error << "There is more than one distance given needing "
+      "weights.\n";
+    return 1;
+  }
+
+  const list_lbro_t brov = read_opt<LBRO>(argc, argv, 8, "bro",
                                           "order-heuristics");
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
@@ -208,6 +225,15 @@ int main(const int argc, const char* const argv[]) {
     *larv.size()*gcdv.size();
 
   const double threads = read_threads(argc, argv, 11);
+
+  if (not std::string_view(argv[12]).empty() and not use_weights) {
+    std::cerr << error << "The distances don't have weights, but"
+      " weight-string \"" << argv[12] << "\" given.";
+    return 1;
+  }
+  const weights_t weights0 = use_weights ?
+    read_weights(argc, argv, 12, list_N[0], *first_weight) : weights_t{};
+  const weights_t* const weights = &weights0;
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
@@ -232,6 +258,7 @@ int main(const int argc, const char* const argv[]) {
               num_runs, threads, outfile, with_file_output);
   algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
   additional_output(std::cout, gcdv);
+  if (use_weights) weights_output(std::cout, weights0);
   std::cout.flush();
 
   for (const size_t N : list_N)

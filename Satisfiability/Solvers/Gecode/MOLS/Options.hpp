@@ -72,18 +72,24 @@ TODOS
 #ifndef OPTIONS_JwU0BOX6Tw
 #define OPTIONS_JwU0BOX6Tw
 
+#include <vector>
 #include <array>
 #include <ostream>
 #include <exception>
 #include <string>
+#include <algorithm>
 
 #include <gecode/int.hh>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumTypes.hpp>
 
 namespace Options {
 
   namespace GC = Gecode;
+
+  typedef std::vector<FloatingPoint::float80> weights_t;
+
 
   // Run-Type:
   enum class RT {
@@ -256,6 +262,18 @@ namespace Options {
     newvars = 2
   };
   constexpr int DISsize = int(DIS::newvars) + 1;
+  constexpr bool with_weights(const DIS d) noexcept {
+    return d != DIS::deltaL;
+  }
+  auto first_with_weights(const std::vector<DIS>& dv) noexcept {
+    return std::ranges::find_if(dv, [](DIS d){return with_weights(d);});
+  }
+  template <typename IT>
+  bool another_with_weights(IT begin, const IT end) noexcept {
+    return
+      std::ranges::find_if(++begin, end, [](DIS d){return with_weights(d);})
+      != end;
+  }
 
 }
 namespace Environment {

@@ -25,8 +25,9 @@ License, or any later version. */
 
 #include <cassert>
 
-#include <Numerics/NumInOut.hpp>
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -176,23 +177,6 @@ namespace CommandLine {
     }
   }
 
-  /*
-  auto read_weights([[maybe_unused]]const int argc,
-                    const char* const argv[], const size_t N,
-                    const int pos) {
-    assert(argc >= pos+1);
-    const auto res = FloatingPoint::to_vec_float80(argv[pos], ',');
-    if (res.size() != N-1) {
-      std::ostringstream ss;
-      ss << "ERROR[CommandLine::read_weights]: For lookahead, the "
-        "weights-vector must have " " size N-1=" << N-1 << ","
-        " but the size is " << res.size() << ".\n";
-      throw std::runtime_error(ss.str());
-    }
-    return res;
-  }
-  */
-
   double read_threads([[maybe_unused]]const int argc,
                       const char* const argv[], const int pos) {
     assert(argc >= pos+1);
@@ -201,13 +185,52 @@ namespace CommandLine {
     else return FloatingPoint::to_float64(x);
   }
 
-
   typedef std::vector<unsigned> list_unsigned_t;
   list_unsigned_t read_comdist([[maybe_unused]]const int argc,
                                const char* const argv[], const int pos) {
     assert(argc >= pos+1);
     const auto res = FloatingPoint::sequences<unsigned>(argv[pos]);
     if (res.empty()) return {0}; else return res;
+  }
+
+
+  OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
+    switch (dis) {
+    case OP::DIS::wdeltaL : {
+      OP::weights_t res; res.reserve(N+2);
+      res.push_back(0); res.push_back(0); // domain-size 0,1
+      for (size_t i = 2; i <= N; ++i) res.push_back(i-1);
+      return res;
+    }
+    default : return {}; }
+  }
+
+  OP::weights_t read_weights([[maybe_unused]]const int argc,
+                             const char* const argv[], const int pos,
+                             const size_t N, const OP::DIS dis) {
+    assert(with_weights(dis));
+    assert(N >= 2); assert(argc >= pos+1);
+    const std::string vecs = argv[pos];
+    if (vecs.empty()) return default_weights(N, dis);
+    const OP::weights_t inp = FloatingPoint::to_vec_float80(argv[pos], ',');
+    if (dis == OP::DIS::wdeltaL) {
+      if (inp.size() != N-2) {
+        std::ostringstream ss;
+        ss << "ERROR[CommandLine::read_weights]: For wdeltaL the "
+          "weight-vector must have " " size N-2=" << N-2 << ","
+          " but the size is " << inp.size() << ".\n";
+        throw std::runtime_error(ss.str());
+      }
+      OP::weights_t res(N+1);
+      res[0] = 0, res[1] = 0; res[2] = 1;
+      for (size_t i = 0; i < N-2; ++i)
+        res[3+i] = res[2+i] * FloatingPoint::exp(inp[i]);
+      return res;
+    }
+    else {
+      throw std::runtime_error("ERROR[CommandLine::read_weights]: "
+                               "not implemented.");
+    }
   }
 
 
@@ -264,6 +287,12 @@ namespace CommandLine {
   void additional_output(std::ostream& out, const VEC& V) {
     out << "#" << std::string(spaces_algoout, ' ') << "commit-distance: ";
     Environment::out_line(out, V); out << "\n";
+  }
+  void weights_output(std::ostream& out, const OP::weights_t& wv) {
+     out << "#" << std::string(spaces_algoout, ' ') << "weights: ";
+    const auto old = FloatingPoint::fullprec_float80(out);
+    Environment::out_line(out, wv); out << "\n";
+    out.precision(old);
   }
 
 }
