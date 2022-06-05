@@ -61,13 +61,21 @@ The problem seems "binary-super-eager".
 
 /* TODOS:
 
-0. Provide the two branching orders as in our paper (using the distance,
+-1. Statistics on branchings (for inner nodes)
+   - DONE these statistics only for inner nodes
+   - DONE number of inner nodes
+   - sumdomsizes (old_L)
+   - width of branching
+   - (l)tau of branching
+   - the four statistics for the distances of the branches
+
+0.  DONE
+    Provide the two branching orders as in our paper (using the distance,
     ascending and descending):
       ascdist, descdist.
 
-1. It is important that here our own precise and complete statistics
-    are used.
-    - This is addition to the gecode-statistics.
+1. Once we checked all statistics, remove the gecode-statistics on nodes
+   and failed leaves.
 
 */
 
@@ -90,8 +98,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "4.6.2022",
+        "0.6.1",
+        "5.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -136,10 +144,10 @@ namespace {
     return true;
   }
 
-  constexpr size_t sep_spaces = 2;
+  constexpr size_t sep_spaces = 0;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 8, 8};
-  constexpr size_t wN = 4, wgcd = 5;
+  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 8, 8, 7};
+  constexpr size_t wN = 3, wgcd = 4;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
@@ -147,7 +155,8 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
-      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "larc", "lvs"),
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd",
+                      "larc", "lvs", "larbc"),
       widths);
     out << "\n";
   }
@@ -158,7 +167,7 @@ namespace {
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
                       res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth,
-                      res.S.N(), res.lvs),
+                      res.S.N(), res.lvs, res.S1.N()),
       widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",

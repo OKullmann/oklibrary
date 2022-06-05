@@ -457,6 +457,9 @@ namespace LookaheadBranching {
     const rlaStats& rla() const noexcept { return rla_; }
     const stats_t& stats() const noexcept { return S; }
 
+    void add(LR::ReductionStatistics& s0) noexcept {
+      rla_.add(s0);
+    }
     void add(LR::ReductionStatistics& s0,
              const BranchingStatistics& s1) noexcept {
       rla_.add(s0);
@@ -507,18 +510,16 @@ namespace LookaheadBranching {
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
+      if (stats0.leafcount()) {
+        if (P.parallel) {
+          std::lock_guard<std::mutex> lock(stats_mutex);
+          S->add(stats0);
+        } else S->add(stats0);
+        return new VVElim(*this, {}, {});
+      }
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       BranchingStatistics stats1;
-      if (stats0.leafcount()) {
-        stats1.time(timing()-t0);
-        if (P.parallel) {
-          std::lock_guard<std::mutex> lock(stats_mutex);
-          S->add(stats0, stats1);
-        }
-        else S->add(stats0, stats1);
-        return new VVElim(*this, {}, {});
-      }
 
       CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
       for (const auto [var,val] : stats0.elims()) {
@@ -591,8 +592,7 @@ namespace LookaheadBranching {
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
         S->add(stats0, stats1);
-      }
-      else S->add(stats0, stats1);
+      } else S->add(stats0, stats1);
       return create_la(bestv, std::move(values), P.bt, *this,
                        std::move(stats0.elims()));
     }
