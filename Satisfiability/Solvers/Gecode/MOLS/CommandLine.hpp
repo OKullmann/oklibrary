@@ -224,7 +224,7 @@ namespace CommandLine {
       OP::weights_t res(N+1);
       res[0] = 0, res[1] = 0; res[2] = 1;
       for (size_t i = 0; i < N-2; ++i)
-        res[3+i] = res[2+i] * FloatingPoint::exp(inp[i]);
+        res[3+i] = res[2+i] * FloatingPoint::exp2(inp[i]);
       return res;
     }
     else {
