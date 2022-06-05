@@ -7,6 +7,8 @@ License, or any later version. */
 
 /* Averages, variance etc.
 
+   Namespace GenStats.
+
    One-dimensional sequences (count, min, max, arithmetic mean, standard
    deviation and median):
 
