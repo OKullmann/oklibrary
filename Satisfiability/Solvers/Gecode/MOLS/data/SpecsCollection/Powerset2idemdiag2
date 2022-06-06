@@ -1,7 +1,8 @@
 # Counts for N >= 2:
-# 0, 0, 2, 2, 0, 8, 672, >= 13
+# 0, 0, 2, 2, 0, 8, 672, >= 18
 
 # gcMols:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idemdiag2 "" count dom enu mindom "" 1 12
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    8    count dom enu    mindom  asc    1             672     68.208    176744195      815023     1562345     17
@@ -10,6 +11,69 @@
 # aborted after 100s wallclock-time and 13 solutions found.
 # MOLS> time ./gcMols 10 data/SpecsCollection/Powerset2idemdiag2 "" +count dom enu mindom "" 1 12
 # aborted after 210min wallclock-time without finding a solution.
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   8   +count dom enu    mindom  asc  relpr    1        672    1299.605    5688703    38508    99066    11    60558    38508
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   478.744     12.742     19.581      28.477     218.437      424.536     1.554     0.011     0.240     0.042     0.058
+#   344.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   688.000     60.000     86.000     289.000     672.000     2867.000     8.000     2.000     1.864     0.177     0.375
+#    29.876     11.373     16.426      31.698     198.590      355.939     0.806     0.115     0.202     0.034     0.033
+# real	2m2.159s user	21m39.607s sys	0m30.993s
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu maxdeg "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   8   +count dom enu    maxdeg  asc  relpr    1        672    1338.176    4942082    37868    90928    10    53060    37868
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   528.478     13.918     20.984      37.316     208.987      424.581     1.499     0.013     0.284     0.040     0.058
+#   168.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   688.000     64.000     87.000     473.000     672.000     3159.000     7.000     4.000     2.404     0.166     3.814
+#    33.238     12.254     17.517      53.649     214.214      415.902     0.777     0.141     0.278     0.033     0.077
+# real	2m3.442s user	22m18.181s sys	0m31.470s
+
+
+# laMols with dL:
+
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu dL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  8   +count dom enu   dL   asc  relpr   1      672    1602.783    7634890    47538   115381    10    67843    47538   20305
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   462.913     10.439     17.194      22.455     178.560      338.920     1.436     0.010     0.190     0.038     0.048
+#   336.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   688.000     58.000     80.000     314.000     672.000     2750.000     7.000     2.000     1.715     0.166     0.375
+#    37.915     10.115     14.528      30.658     198.488      356.342     0.758     0.112     0.199     0.031     0.037
+#        mu         w      ltau       mind      meand        maxd        sdd        tb
+#   500.286     3.341     0.039     21.070     36.673      52.173     13.169     0.244
+#   446.000     2.000     0.016      7.000     18.750      19.000      0.000     0.046
+#   688.000     6.000     0.081     69.000     77.000     152.000     58.976     0.471
+#    26.727     0.698     0.012      8.749     11.400      22.380     10.693     0.053
+# real	2m28.811s user	26m42.791s sys	0m34.270s
+
+
+# laMols with wdL:
+
+# Basically guessing the weights:
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu wdL "" "" 1 12 "1,1,0.2,0.2,0.2,0.2"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  8   +count dom enu  wdL   asc  relpr   1      672    1528.682    7043775    43656   106261    10    62605    43656   18949
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   463.354     10.450     17.113      22.486     182.141      344.025     1.453     0.011     0.195     0.037     0.046
+#   349.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   688.000     62.000     86.000     304.000     672.000     2630.000     7.000     2.000     1.664     0.177     0.333
+#    37.704     10.345     14.745      30.132     199.003      353.189     0.757     0.110     0.199     0.031     0.035
+#        mu         w      ltau       mind      meand        maxd        sdd        tb
+#   426.012     3.304     0.040     20.066     35.341      51.613       -nan     0.249
+#   375.000     2.000     0.018      6.379     12.357      12.416      0.000     0.082
+#   591.000     6.000     0.106     60.637     79.360     146.460     51.723     0.595
+#    24.173     0.688     0.012      6.121     11.335      23.913       -nan     0.052
+# real	2m22.345s user	25m28.690s sys	0m34.358s
+# MOLS> time ./laMols 9 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu wdL desc "" 1 12 "1,1,0.2,0.2,0.2,0.2,0.2"
+# aborted after 37min wallclock-time and 18 solutions found.
+# MOLS> time ./laMols 10 data/SpecsCollection/Powerset2idemdiag2 "" +enum "" enu wdL desc "" 1 12 "1,1,0.2,0.2,0.2,0.2,0.2,0.2"
+# aborted after 130min wallclock-time and no solutions found.
 
 
 squares P1 P2

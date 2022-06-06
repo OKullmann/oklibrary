@@ -1,7 +1,14 @@
 # Counts for N >= 2:
 # 0, 0, 2, 12, 0, 480, 11520, >= 1
 
+# [Laywine, Mullen] have an example for N=10 (both squares are not
+# antidiagonal).
+# Since N=3 has a solution for Powerset2, idempotency seems an
+# essential restriction (which is inherited by all powers).
+
+
 # gcMols:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idem "" count dom enu mindom "" 1 12
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    8    count dom enu    mindom  asc    1           11520    803.275   1948829494    11730415    21160087     20
@@ -12,6 +19,46 @@
 # real	0m4.668s user	0m52.670s sys	0m0.711s
 # MOLS> time ./gcMols 10 data/SpecsCollection/Powerset2idem "" satd dom enu mindom "" 1 12
 # aborted after 3min wallclock-time (no solution found yet).
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Powerset2idem "" count dom enu first "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   7    count dom enu     first  asc  relpr    1        480      12.122      86162      896     2104     8     1208      896
+#      vals      props     elvals     prunes      mprune      probes    rounds      solc         t   qelvals   qprunes
+#   326.892     11.681     17.167     14.973     140.943     244.635     1.380     0.397     0.073     0.054     0.070
+#   284.000      0.000      0.000      0.000      12.000      15.000     1.000     0.000     0.000     0.000     0.000
+#   434.000     34.000     47.000     47.000     420.000     520.000     2.000     3.000     0.244     0.146     0.360
+#    21.396      9.038     12.331     12.895     121.462     141.313     0.486     0.798     0.050     0.038     0.045
+# real	0m1.290s user	0m12.131s sys	0m0.358s
+
+
+# laMols with dL:
+
+# time ./laMols 7 data/SpecsCollection/Powerset2idem "" count dom enu dL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  7    count dom enu   dL   asc  relpr   1      480      16.070      91930      920     2146     7     1226      920     306
+#      vals      props     elvals     prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
+#   324.514     11.564     16.940     14.155     136.762     234.425     1.345     0.392     0.074     0.053     0.071
+#   284.000      0.000      0.000      0.000      12.000      14.000     1.000     0.000     0.000     0.000     0.000
+#   434.000     34.000     47.000     47.000     420.000     495.000     2.000     3.000     0.223     0.146     0.286
+#    22.087      9.030     12.317     12.700     120.443     136.536     0.476     0.794     0.046     0.038     0.046
+#        mu         w      ltau       mind      meand       maxd       sdd        tb
+#   350.765     4.003     0.067     20.716     24.268     26.010     2.118     0.097
+#   325.000     2.000     0.020     13.000     14.000     14.000     0.000     0.039
+#   434.000     5.000     0.115     35.000     35.750     41.000     9.093     0.178
+#    23.305     1.256     0.035      8.567      8.676      9.088     2.807     0.028
+# real	0m1.597s user	0m16.072s sys	0m0.461s
+# Finding a solution for N=9: "asc" seems best (33s wallclock-time for finding one
+# solution).
+# MOLS> time ./laMols 10 data/SpecsCollection/Powerset2idem "" +enum dom enu dL asc "" 1 12 ""
+# XXX
+
+
+# laMols with wdL:
+# the weights seem to have hardly any influence.
+
 
 
 squares P1 P2
