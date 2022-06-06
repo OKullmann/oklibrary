@@ -30,6 +30,11 @@ TODOS:
     - Such additional node-data likely should not need a destructor, and
       should be packaged into one structure.
     - This is NodeData: the rood has id=1, and pid=0 (NIL).
+    - Since we use Gecode-parallelism, we can not simply take the current
+      node-count as id, without further interfering with parallelism.
+    - The path is a valid id, which can be extended for each branch by
+      branching-variable and index of branch, but that is non-elementary
+      data which we try to avoid.
 
 */
 
