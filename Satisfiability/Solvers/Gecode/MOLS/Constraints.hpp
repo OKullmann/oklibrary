@@ -16,6 +16,13 @@ TODOS:
     - This can be done by providing a derived class from GenericMols0,
       which has a parameter "depth" (etc.) in it, and which the (pseudo-)
       copy-constructor copies and updates (increment the depth etc.).
+    - This is done so in Lookahead::Node, containing also the node-id and
+      the parent-node-it.
+    - However that class doesn't use the copy-mechanism, but relies
+      on manual updates in the commit-function.
+      The point here seems to be that the commit-function already acts on the
+      new "clone" which is the new node, while the copy-function is general
+      is used for several purposes (we use it for the lookahead).
     - The depth should also be a reported statistics (per node).
 
 */
