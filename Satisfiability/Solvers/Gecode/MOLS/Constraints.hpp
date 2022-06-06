@@ -16,13 +16,16 @@ TODOS:
     - This can be done by providing a derived class from GenericMols0,
       which has a parameter "depth" (etc.) in it, and which the (pseudo-)
       copy-constructor copies and updates (increment the depth etc.).
+      This is GenericMols1.
+
     - This is done so in Lookahead::Node, containing also the node-id and
       the parent-node-it.
     - However that class doesn't use the copy-mechanism, but relies
       on manual updates in the commit-function.
       The point here seems to be that the commit-function already acts on the
-      new "clone" which is the new node, while the copy-function im general
+      new "clone" which is the new node, while the copy-function in general
       is used for several purposes (we use it for the lookahead).
+
     - The depth should also be a reported statistics (per node).
     - Such additional node-data likely should not need a destructor, and
       should be packaged into one structure.
@@ -65,6 +68,20 @@ namespace Constraints {
     size_t id, pid, depth;
     constexpr NodeData() noexcept : id(1), pid(0), depth(0) {};
     constexpr bool operator ==(const NodeData&) const noexcept = default;
+  };
+
+  struct GenericMols1 : GenericMols0 {
+    using GenericMols0::VarVec;
+    using GenericMols0::Var;
+    using GenericMols0::V;
+    NodeData nd;
+
+    GenericMols1(const EC::EncCond& enc) : GenericMols0(enc) {}
+
+  protected :
+    GenericMols1(GenericMols1& gm) : GenericMols0(gm), nd(gm.nd) {}
+    GC::Space* copy() override { return new GenericMols1(*this); }
+
   };
 
 }
