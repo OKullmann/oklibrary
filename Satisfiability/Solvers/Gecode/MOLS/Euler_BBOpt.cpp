@@ -40,6 +40,20 @@ TODOS:
        - Same with the geometric progression for a piece: and of the two
          parameters (a, r) can be either a placeholder for an optimisation-
          parameter, or a constant.
+       - It would be good to have an input-format for a sequence of such
+         geometric progressions:
+          - One progression is given by a triple
+              a, r, n
+            with n the length (so the constant sequence of length n is
+            "a, 0, n").
+          - Progressions are concatenated by ";".
+          - So this is the same format as for N-sequences, only the
+            interpretation is different.
+          We also allow pairs "a, n" (-> "a, 0, n") and single numbers.
+          We have FP::Sequence(string) for the concatenation of arithmetic
+          progressions, and we could have there also this concatenation of
+          geometric progressions.
+          Perhaps having then "ap" and "gp" in the name of the functions.
 
 0. Output of basic data (like version number).
 

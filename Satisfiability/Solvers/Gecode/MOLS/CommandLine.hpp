@@ -8,6 +8,14 @@ License, or any later version. */
 /*
   Reading the command-line arguments
 
+  Namespace CommandLine, abbreviated "CL".
+
+
+TODOS:
+
+1. See the general format for the input of weights in
+   Euler_BBOpt.cpp.
+
 */
 
 #ifndef COMMANDLINE_hcOzkjbxbQ
