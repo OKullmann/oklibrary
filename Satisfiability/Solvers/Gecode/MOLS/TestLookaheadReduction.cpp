@@ -13,11 +13,8 @@ BUG:
 
 TODOS:
 
-0. DONE (All variants of RT are tried in several tests.)
-   All possibilities of RT need testing (for lareduction):
-    - Possibly also a loop should be used, for each testcase.
-
-1. Test case with 3 rounds of lookahead reduction.
+1. DONE (A partially filled Latin square of order 4 fits this condition)
+   Test case with 3 rounds of lookahead reduction.
 
 */
 
@@ -44,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.4",
-        "1.6.2022",
+        "0.7.5",
+        "6.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -481,6 +478,25 @@ int main(const int argc, const char* const argv[]) {
        }
      }
    }
+  }
+
+  {const CS::LaSq A(4, "A\n0 * * *\n* 0 3 *\n* 3 0 *\n* * * 0\n");
+   const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+   assert(sumdomsizes(m->V) == 64 - 3*6 - 2*8 - 2*1);
+   const ReductionStatistics s =
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, LAR::eag_npr);
+   assert(s.vals() == 64 - 3*6 - 2*8 - 2*1);
+   assert(s.props() == 2);
+   assert(s.rounds() == 3);
+   assert(s.solc() == 0);
+   assert(s.leafcount() == 0);
+   assert(s.elimvals() == 4);
+   assert(s.probes() == 38);
+   assert(s.prunes() == 0);
+   assert(s.maxprune() == 0);
+   assert(s.quotelimvals() == LR::float_t(4) / 28);
+   assert(s.quotprun() == 0);
+   assert(s.sollist().empty());
   }
 
 }
