@@ -27,10 +27,6 @@ TODOS:
   - For now no need to consider such complicated cases -- concentrating
     on simple variations, as in TestEncoding.cpp.
 
-2. DONE (added for all existing cases)
-   Statistics for lookahead-reduction.
-  - Add for each case a function that returns ReductionStatistics.
-
 */
 
 #ifndef CASES_tqVXGkU1YS
