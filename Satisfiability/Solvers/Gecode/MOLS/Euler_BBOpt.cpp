@@ -13,6 +13,34 @@ XXX
 
 TODOS:
 
+-1. Transfer to new system
+    - Now the function-call to be optimised will be handled by a
+      system-call: this is easier, and especially parallelism is
+      easily treated this way.
+    - Every optimisation-run creates an experiment-directory.
+    - Simple patterns, reducing the complexity of optimisation, are provided
+      to produce vectors:
+       - piecewise constant vectors, with p >=1 nonempty pieces;
+       - more generally than a constant a for a piece, a piece could
+         run through a geometric progression a * r^i (making two parameters
+         per piece).
+       - This all assumes that the parameters x to be optimised yield the
+         weights by the formula
+           next-weight = 2^x * current-weight
+         (as we have it for wdL).
+         x > 0 for wdL, while for newvars x is arbitrary.
+         This seems more appropriate for "moving through the sequence".
+       - A question here is the direction of the move: it seems best to
+         start with the most important item, which for newvars should be
+         the first, but for dL should be the last?
+       - A "pattern" for weights is then a list of such piece-descriptions.
+       - Most basically, the length of such a piece is given.
+       - More generally, the length can also be a place-holder, and then
+         all possibilities are tried.
+       - Same with the geometric progression for a piece: and of the two
+         parameters (a, r) can be either a placeholder for an optimisation-
+         parameter, or a constant.
+
 0. Output of basic data (like version number).
 
 1. Using optionally an alternative measure, like the number of reductions,
