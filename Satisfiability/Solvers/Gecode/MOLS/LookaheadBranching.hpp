@@ -15,11 +15,26 @@ BUGS:
 
 TODOS:
 
-2. Measure-based distances
-    - The number of eliminated values is Delta GV::sumdomsizes.
-    - More generally Delta domsizes is used.
-    - The weight for dom-size 1 is zero; this is part of the initialisation of
-      the weight-vector (from the parameters).
+1. Provide and use better statistics-functions for the branches
+    - There needs to be a general facility, which takes as input
+      as vector of values, and provides, using the most exact
+      computations, all basic statistics.
+    - Likely this should include the median.
+
+2. Measure the variation of considered branchings for one node:
+    - Just the basic statistics for (l)tau, over all branchings
+      considered.
+    - The problem here is that the tau-values are very small; some
+      standardisation would be helpful.
+    - Perhaps the numbers should be divided by the mean.
+
+3. Update member "vals_" of BranchingStatistics
+    - More general, it is the "measure".
+    - What to do when only the distances are available?
+    - One could use the sum of the distances along the path
+      from the root: this would be kind of an "inverted measure".
+    - The statistics-output currently uses "mu", which could also
+      be used for that "inverted measure".
 
 */
 
@@ -403,7 +418,7 @@ namespace LookaheadBranching {
   };
 
   class BranchingStatistics {
-    size_t vals_; // the total number of values
+    size_t vals_; // XXX
     size_t width_; // width of branching
     float_t ltau_;
     float_t mind_, meand_, maxd_, sdd_;
