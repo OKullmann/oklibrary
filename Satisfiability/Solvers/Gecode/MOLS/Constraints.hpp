@@ -35,6 +35,15 @@ TODOS:
     - The path is a valid id, which can be extended for each branch by
       branching-variable and index of branch, but that is non-elementary
       data which we try to avoid.
+    - Though having an atomic running index should be harmless; only
+      increment and reading is needed, which can be handled lock-free.
+    - One could also say that when submitting the statistics stats0
+      (for the la-reduction, which contains the node-count), it is cheap
+      to return the current total node-count, which can be used for the id.
+      This happens in the choice-function, and needed then, similar to
+      the assignment found in the la-reduction, be put into the
+      branching-object (created by create_la).
+      The problem here is the barrier between choice and commit.
 
 */
 
