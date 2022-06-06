@@ -12,6 +12,12 @@ License, or any later version. */
 
 TODOS:
 
+1. Provide depth-etc-facilities
+    - This can be done by providing a derived class from GenericMols0,
+      which has a parameter "depth" (etc.) in it, and which the (pseudo-)
+      copy-constructor copies and updates (increment the depth etc.).
+    - The depth should also be a reported statistics (per node).
+
 */
 
 #ifndef CONSTRAINTS_hBa0Xe3nKA
