@@ -1,6 +1,8 @@
 # Counts for N >= 2:
 # 0, 0, 2, 2, 0, 8, 672, >= 18
 
+# The natural Conjecture seems that N=10 is unsatisfiable.
+
 # gcMols:
 
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset2idemdiag2 "" count dom enu mindom "" 1 12
