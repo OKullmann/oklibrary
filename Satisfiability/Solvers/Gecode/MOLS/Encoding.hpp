@@ -183,7 +183,7 @@ namespace Encoding {
   namespace PS = PartialSquares;
   namespace GV = GcVariables;
 
-  typedef CD::size_t size_t;
+  using size_t = CD::size_t;
 
 
   struct EncCond {
