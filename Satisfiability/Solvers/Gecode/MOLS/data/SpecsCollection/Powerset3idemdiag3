@@ -23,6 +23,41 @@
 # real	0m19.295s user	2m56.036s sys	0m0.748s
 
 
+# laMols with dL:
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset3idemdiag3 "" count "" enu "" "" "" 1 12
+#   N       rt  pl lbt  dis   lbo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   8    count dom enu   dL   asc  relpr    1         96     194.278     670200     3024     7213     8     4189     3024
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    790.636     16.977      27.815      13.641      301.856      567.772     1.301     0.023     0.275     0.036     0.020
+#    595.000      0.000       0.000       0.000        0.000        4.000     1.000     0.000     0.000     0.000     0.000
+#   1032.000     71.000     104.000     184.000     1008.000     2868.000     5.000     1.000     2.130     0.133     0.143
+#     53.566     17.137      24.466      24.390      313.068      502.597     0.667     0.150     0.275     0.031     0.017
+#      tb
+#   0.098
+#   0.000
+#   0.747
+#   0.178
+# real	0m21.536s user	3m14.283s sys	0m0.608s
+# MOLS> time ./laMols 9 data/SpecsCollection/Powerset3idemdiag3 "" satd "" enu "" dasc "" 1 12
+#   N       rt  pl lbt  dis   lbo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   9     satd dom enu   dL  dasc  relpr    1          1      88.227     191828      439     1133    12      694      442
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1068.389     14.640      24.143      34.860      457.879      954.991     1.553     0.001     0.952     0.023     0.020
+#    903.000      0.000       0.000       0.000        0.000        5.000     1.000     0.000     0.003     0.000     0.000
+#   1515.000     80.000     123.000     345.000     1488.000     4826.000     6.000     1.000     5.202     0.107     0.075
+#    123.388     15.718      22.704      52.923      518.676     1039.535     0.911     0.038     1.033     0.021     0.019
+#      tb
+#   0.383
+#   0.000
+#   1.384
+#   0.518
+# real	0m7.700s user	1m29.036s sys	0m0.484s
+# MOLS> time ./laMols 10 data/SpecsCollection/Powerset3idemdiag3 "" satd "" enu "" dasc "" 1 12
+# aborted after 20min wallclock-time.
+# MOLS> time ./laMols 11 data/SpecsCollection/Powerset3idemdiag3 "" satd "" enu "" dasc "" 1 12
+# aborted after 70min wallclock-time.
+
+
 squares P1 P2 P3
 ls P1 P2 P3
 idem P1

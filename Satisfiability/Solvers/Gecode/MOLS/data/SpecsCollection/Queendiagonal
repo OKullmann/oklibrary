@@ -2,7 +2,7 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0
 # 8
 
-# Best seems dom+binbr+maxdom+desc.
+# gcMols:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
 # dom binbr maxdom desc 8 89292.987 105040080300 1515904270 3031808555 72
@@ -13,15 +13,67 @@
 # MOLS> ./gcMols 12 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 90min wall-clock.
 
-# As for Pandiagonal, decision without rred might be easier.
+# As for Pandiagonal, sat-decision without rred might be easier.
 
-# The current data is identical with Pandiagonal, but for N=12 there exist
-# even sudoku-queens-solutions (which are apparently easier to find -- and
+
+# rlaMols:
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Queendiagonal "" count "" enu maxdom "" "" 1 6
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   9    count dom enu    maxdom  asc  relpr    1          0      13.295      94689     1104     2391     7     1287     1104
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   326.085     12.876      21.055       7.190      85.309      251.743     1.469     0.000     0.029     0.064     0.019
+#   197.000      0.000       0.000       0.000       0.000        4.000     1.000     0.000     0.000     0.000     0.000
+#   513.000     73.000     113.000     188.000     504.000     2276.000     8.000     0.000     0.439     0.278     0.154
+#    53.704     10.923      15.709      17.586     110.923      303.472     0.891     0.000     0.043     0.046     0.025
+# real	0m2.971s user	0m13.297s sys	0m0.036s
+
+
+
+# laMols with dL:
+# MOLS> time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu "" "" "" 1 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  9    count dom enu   dL   asc  relpr   1        0      22.562     149684     1700     3877    11     2177     1700     477
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   326.628     13.216     21.354       6.890     111.746      330.243     1.616     0.000     0.013     0.066     0.013
+#   199.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   513.000     66.000     97.000     116.000     504.000     2567.000     7.000     0.000     0.339     0.272     0.125
+#    48.026     12.009     17.715      13.620     131.728      382.527     1.024     0.000     0.024     0.052     0.018
+#      vals         w      ltau       mind      meand        maxd        sdd        tb
+#   364.887     4.562     0.049     19.394     38.192      46.786     10.362     0.015
+#   257.000     2.000     0.013      6.000     15.000      15.000      0.000     0.003
+#   513.000     8.000     0.078     56.000     97.167     116.000     42.119     0.076
+#    43.454     1.166     0.015      8.348     17.156      22.029      8.920     0.014
+# real	0m17.049s user	0m22.570s sys	0m0.029s
+# Missing the "magic of maxdom".
+
+
+# laMols with wdL:
+# Some hand-optimisation yields:
+# MOLS> time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu wdL "" "" 1 6 "0.5,0.5,0.5,0.01,0.01,0.1,1"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  9    count dom enu  wdL   asc  relpr   1        0      19.012     103029     1178     2675     9     1497     1178     319
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   326.582     14.271     22.341       7.649     115.441      360.714     1.724     0.000     0.033     0.068     0.014
+#   186.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   513.000     70.000     98.000     113.000     504.000     2464.000     7.000     0.000     0.321     0.241     0.214
+#    54.012     13.101     18.170      14.710     132.510      423.362     1.151     0.000     0.045     0.052     0.019
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   166.567     4.690     0.124      9.305     17.569     22.056      4.656     0.035
+#   116.000     2.000     0.028      2.625      3.473      3.690      0.000     0.009
+#   209.000     8.000     0.390     24.079     44.640     59.597     24.025     0.085
+#    19.316     1.259     0.069      4.698      9.478     13.841      4.750     0.016
+# real	0m5.808s user	0m19.018s sys	0m0.104s
+# Still not capturing "maxdom".
+
+
+# The current semantical data is identical with Pandiagonal, but for N=12 there
+# exist even sudoku-queens-solutions (which are apparently easier to find -- and
 # pandiagonal solutions are even much easier to find).
 # SudokuQueen is different for N=11.
 
+
 squares A
-#rred A
+rred A
 ls A
 queendiag A
 queenantidiag A

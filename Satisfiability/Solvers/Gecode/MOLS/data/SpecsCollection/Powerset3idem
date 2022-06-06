@@ -2,13 +2,47 @@
 # 0, 0, 0, 12, 0, 240, 1440, >= 1, 
 
 # gcMols:
-# counting for N <= 8 and sat-decision for N=9 rather easy with
-# dom+bin+mindom (though enu might be slightly better)
-
-# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset3idem "" satd dom bin mindom "" 1 12
+# MOLS> time ./gcMols 8 data/SpecsCollection/Powerset3idem "" count dom enu mindom "" 1 12
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
+#   8    count dom enu    mindom  asc    1        1440      14.508      34969603      197134      334203     14
+# real	0m1.417s user	0m14.514s sys	0m0.450s
+# MOLS> time ./gcMols 10 data/SpecsCollection/Powerset3idem "" satd dom enu mindom desc 1 12
 # aborted after 3min wallclock-time -- interesting sat-decision case!
 
 
+# rlaMols:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset3idem "" count dom enu mindom "" "" 1 12
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
+#   8    count dom enu    mindom  asc  relpr    1       1440     951.893    3497158    11622    31063    10    19441    11622
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#    728.871     11.447     17.828      36.667      321.623      736.932     1.761     0.074     0.545     0.025     0.028
+#    622.000      0.000      0.000       0.000        0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   1032.000     59.000     88.000     223.000     1008.000     3315.000     5.000     1.000     2.935     0.122     0.158
+#     75.375      9.596     12.744      48.752      338.899      821.193     1.051     0.262     0.617     0.017     0.027
+# real	1m28.542s user	15m51.898s sys	0m5.839s
+
+
+# laMols with dL:
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset3idem "" count dom enu "" "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  8    count dom enu   dL   asc  relpr   1     1440     837.910    4718143    14400    34237     9    19837    14400    5437
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    696.751      9.081     15.769      23.024      213.530      508.619     1.508     0.073     0.311     0.023     0.016
+#    637.000      0.000      0.000       0.000        0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   1032.000     27.000     38.000     209.000     1008.000     3059.000     5.000     1.000     2.285     0.059     0.155
+#     78.523      6.033      8.539      45.436      323.896      814.918     1.030     0.259     0.519     0.012     0.023
+#         mu         w      ltau        mind       meand        maxd        sdd        tb
+#    784.199     3.648     0.024      87.373      93.839     108.031      8.665     0.471
+#    745.000     2.000     0.009      19.000      19.000      19.000      0.000     0.019
+#   1032.000     6.000     0.094     143.000     143.000     157.000     56.209     0.947
+#     44.292     0.922     0.025      45.214      38.152      40.363     19.185     0.135
+# real	1m22.188s user	13m57.918s sys	0m3.619s
+# MOLS> time ./laMols 11 data/SpecsCollection/Powerset3idem "" satd "" enu "" ddesc "" 1 12
+# aborted after 3min wallclock-time.
+
+
+# laMols with wdL:
+# hardly any dependency on the weights (larbs for dom always 5437).
 
 
 squares P1 P2 P3
