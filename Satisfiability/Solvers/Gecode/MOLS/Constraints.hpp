@@ -21,9 +21,12 @@ TODOS:
     - However that class doesn't use the copy-mechanism, but relies
       on manual updates in the commit-function.
       The point here seems to be that the commit-function already acts on the
-      new "clone" which is the new node, while the copy-function is general
+      new "clone" which is the new node, while the copy-function im general
       is used for several purposes (we use it for the lookahead).
     - The depth should also be a reported statistics (per node).
+    - Such additional node-data likely should not need a destructor, and
+      should be packaged into one structure.
+    - This is NodeData: the rood has id=1, and pid=0 (NIL).
 
 */
 
@@ -40,6 +43,8 @@ namespace Constraints {
   namespace GC = Gecode;
   namespace EC = Encoding;
 
+  using size_t = EC::size_t;
+
 
   struct GenericMols0 : GC::Space {
     typedef GC::IntVarArray VarVec;
@@ -55,6 +60,12 @@ namespace Constraints {
     GC::Space* copy() override { return new GenericMols0(*this); }
   };
 
+
+  struct NodeData {
+    size_t id, pid, depth;
+    constexpr NodeData() noexcept : id(1), pid(0), depth(0) {};
+    constexpr bool operator ==(const NodeData&) const noexcept = default;
+  };
 
 }
 
