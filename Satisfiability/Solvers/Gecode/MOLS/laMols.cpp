@@ -94,8 +94,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
-        "5.6.2022",
+        "0.8.0",
+        "7.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -135,6 +135,7 @@ namespace {
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "  - special weights are given by \"A\" and \"L\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;

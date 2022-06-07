@@ -208,10 +208,28 @@ namespace CommandLine {
     for (size_t i = 1; i <= N; ++i) res.push_back(i-1);
     return res;
   }
+  OP::weights_t weights_ld(const size_t N) {
+    OP::weights_t res; res.reserve(N+2);
+    res.push_back(0);
+    for (size_t i = 1; i <= N; ++i)
+      res.push_back(FloatingPoint::log2(i));
+    return res;
+  }
+
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
-    case OP::DIS::wdeltaL : return weights_ap(N);
+    case OP::DIS::wdeltaL : return weights_ld(N);
     default : return {}; }
+  }
+
+  bool special_weights(const std::string& arg) noexcept {
+    return arg == "A" or arg == "L";
+  }
+  OP::weights_t special_weights(const std::string& arg,
+                                const size_t N, const OP::DIS) {
+    assert(special_weights(arg));
+    if (arg == "A") return weights_ap(N);
+    else return weights_ld(N);
   }
 
   OP::weights_t read_weights([[maybe_unused]]const int argc,
@@ -221,7 +239,9 @@ namespace CommandLine {
     assert(N >= 2); assert(argc >= pos+1);
     const std::string vecs = argv[pos];
     if (vecs.empty()) return default_weights(N, dis);
+    if (special_weights(vecs)) return special_weights(vecs, N, dis);
     const OP::weights_t inp = FloatingPoint::to_vec_float80(argv[pos], ',');
+
     if (dis == OP::DIS::wdeltaL) {
       if (inp.size() != N-2) {
         std::ostringstream ss;
