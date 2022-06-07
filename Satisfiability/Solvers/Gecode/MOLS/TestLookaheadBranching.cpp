@@ -13,7 +13,7 @@ TODOS:
    - DONE tr() function
    - DONE ValVec struct
    - DONE append() function
-   - create() function
+   - DONE create() function
    - GcBranching struct
    - VVElim struct
    - create_la() function
@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.12",
+        "0.1.0",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -57,6 +57,7 @@ namespace {
   namespace GC = Gecode;
   namespace GV = GcVariables;
   namespace CS = Cases;
+  namespace OP = Options;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -79,21 +80,42 @@ int main(const int argc, const char* const argv[]) {
 
   {GV::GenericIntArray g = GV::GenericIntArray(1, 1);
    ValVec vv = ValVec(CS::Void(g), {0, 0});
-   assert(vv.width({0, 0}) == 2);
+   assert(eqp(vv.br, {0, 0}));
   }
   {GV::GenericIntArray g = GV::GenericIntArray(1, 2);
    ValVec vv = ValVec(CS::Void(g), {0, 0, 1});
-   assert(vv.width({0, 0, 1}) == 2);
+   assert(eqp(vv.br, {0, 0, 1}));
   }
   {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
    ValVec vv = ValVec(CS::Void(g), {0, 0, 1, 2});
-   assert(vv.width({0, 0, 1, 2}) == 3);
+   assert(eqp(vv.br, {0, 0, 1, 2}));
   }
 
   {assert(eqp(append(0, {1}, true), {0, 1}));
    assert(eqp(append(0, {1}, false), {0, 1}));
    assert(eqp(append(0, {1, 2}, true), {0, 1, 2}));
    assert(eqp(append(0, {1, 2}, false), {0, 2, 1}));
+  }
+
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+   CS::Void b = CS::Void(g);
+   const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
+   assert(eqp(vvp->br, {0, 1}));
+  }
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+   CS::Void b = CS::Void(g);
+   const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
+   assert(eqp(vvp->br, {0, 2}));
+  }
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+   CS::Void b = CS::Void(g);
+   const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
+   assert(eqp(vvp->br, {0, 1, 2}));
+  }
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+   CS::Void b = CS::Void(g);
+   const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
+   assert(eqp(vvp->br, {0, 2, 1}));
   }
 
 }
