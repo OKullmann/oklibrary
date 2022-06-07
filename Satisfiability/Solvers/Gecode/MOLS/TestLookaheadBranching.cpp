@@ -70,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(tr(GV::gcintarr(1, 1)[0].size(), 1) == 1);
+  {assert(tr(GecodeIntVarArray(1, 1)()[0].size(), 1) == 1);
    assert(tr(GV::gcintarr(1, 2)[0].size(), 1) == 2);
    assert(tr(GV::gcintarr(2, 1)[0].size(), 1) == 1);
    assert(tr(GV::gcintarr(2, 1)[1].size(), 1) == 1);
@@ -78,15 +78,15 @@ int main(const int argc, const char* const argv[]) {
    assert(tr(GV::gcintarr(2, 2)[1].size(), 1) == 2);
   }
 
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 1);
+  {GV::GenericIntArray g(1, 1);
    ValVec vv = ValVec(CS::Void(g), {0, 0});
    assert(eqp(vv.br, {0, 0}));
   }
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 2);
+  {GV::GenericIntArray g(1, 2);
    ValVec vv = ValVec(CS::Void(g), {0, 0, 1});
    assert(eqp(vv.br, {0, 0, 1}));
   }
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+  {GV::GenericIntArray g(1, 3);
    ValVec vv = ValVec(CS::Void(g), {0, 0, 1, 2});
    assert(eqp(vv.br, {0, 0, 1, 2}));
   }
@@ -97,22 +97,22 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(append(0, {1, 2}, false), {0, 2, 1}));
   }
 
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+  {GV::GenericIntArray g(1, 3);
    CS::Void b = CS::Void(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1}));
   }
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+  {GV::GenericIntArray g(1, 3);
    CS::Void b = CS::Void(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2}));
   }
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+  {GV::GenericIntArray g(1, 3);
    CS::Void b = CS::Void(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1, 2}));
   }
-  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+  {GV::GenericIntArray g(1, 3);
    CS::Void b = CS::Void(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2, 1}));

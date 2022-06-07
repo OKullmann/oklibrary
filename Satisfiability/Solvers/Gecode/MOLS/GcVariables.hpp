@@ -15,7 +15,9 @@ BUG:
 
 1. gcintarr leads to undefined behaviour:
     - The object of the returned VarVec is immediately destroyed.
-
+    - The solution should be to use implicit conversion of
+      GecodeIntVarArray to VarVec (so that the GecodeIntVarArray-
+      object is kept).
 
 TODOS:
 
@@ -77,8 +79,11 @@ namespace GcVariables {
       noexcept : m(new GenericIntArray(varnum, domainsize)), V(m->V) {
       assert(varnum > 0 and domainsize > 0);
     }
-    VarVec array() const noexcept { return V; }
+    operator VarVec() const noexcept { return V; }
+    VarVec operator()() const noexcept { return V; }
+    [[deprecated]] VarVec array() const noexcept { return V; }
   };
+  [[deprecated]]
   VarVec gcintarr(const size_t varnum, const size_t domainsize = 1) noexcept {
      return GecodeIntVarArray(varnum, domainsize).array();
   }
