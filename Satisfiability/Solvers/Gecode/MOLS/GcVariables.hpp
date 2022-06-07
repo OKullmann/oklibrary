@@ -15,9 +15,12 @@ BUG:
 
 1. gcintarr leads to undefined behaviour:
     - The object of the returned VarVec is immediately destroyed.
-    - The solution should be to use implicit conversion of
+    - The solution is to use implicit conversion of
       GecodeIntVarArray to VarVec (so that the GecodeIntVarArray-
-      object is kept).
+      object is kept), and providing members of VarVec.
+    - The name "GecodeIntVarArray" is also inappropriate (and too
+      long).
+    - "GcIntVarArray" is somewhat better.
 
 TODOS:
 
@@ -80,7 +83,8 @@ namespace GcVariables {
       assert(varnum > 0 and domainsize > 0);
     }
     operator VarVec() const noexcept { return V; }
-    VarVec operator()() const noexcept { return V; }
+    const auto& operator [](const int i) const { return V[i]; }
+    auto& operator [](const int i) { return V[i]; }
     [[deprecated]] VarVec array() const noexcept { return V; }
   };
   [[deprecated]]

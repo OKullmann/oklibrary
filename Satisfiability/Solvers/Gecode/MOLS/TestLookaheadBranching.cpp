@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -70,8 +70,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(tr(GecodeIntVarArray(1, 1)()[0].size(), 1) == 1);
-   assert(tr(gcintarr(1, 2)[0].size(), 1) == 2);
+  {assert(tr(GecodeIntVarArray(1, 1)[0].size(), 1) == 1);
+   assert(tr(GecodeIntVarArray(1, 2)[0].size(), 1) == 2);
    assert(tr(gcintarr(2, 1)[0].size(), 1) == 1);
    assert(tr(gcintarr(2, 1)[1].size(), 1) == 1);
    assert(tr(gcintarr(2, 2)[0].size(), 1) == 2);
