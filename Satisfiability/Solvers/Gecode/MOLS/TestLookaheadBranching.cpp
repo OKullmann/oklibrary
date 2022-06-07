@@ -10,7 +10,7 @@ License, or any later version. */
 TODOS:
 
 1. Urgently unit-tests are needed, for all components.
-   - tr() function
+   - DONE tr() function
    - DONE wsumdomsizes() function
    - new_vars() function
    - ValVec struct
@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -90,6 +90,14 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(tr(GecodeIntVarArray(1, 1).array()[0].size(), 1) == 1);
+   assert(tr(GecodeIntVarArray(1, 2).array()[0].size(), 1) == 2);
+   assert(tr(GecodeIntVarArray(2, 1).array()[0].size(), 1) == 1);
+   assert(tr(GecodeIntVarArray(2, 1).array()[1].size(), 1) == 1);
+   assert(tr(GecodeIntVarArray(2, 2).array()[0].size(), 1) == 2);
+   assert(tr(GecodeIntVarArray(2, 2).array()[1].size(), 1) == 2);
+  }
 
   {GecodeIntVarArray g = GecodeIntVarArray(1, 1);
    const OP::weights_t weights = {0, 0};
