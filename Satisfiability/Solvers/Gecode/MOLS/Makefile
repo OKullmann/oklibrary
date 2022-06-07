@@ -101,11 +101,11 @@ TestLookaheadReduction_debug : TestLookaheadReduction.cpp LookaheadReduction.hpp
 
 TestLookaheadBranching_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestLookaheadBranching_debug : Optimisation_plus = -fwhole-program
-TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp Options.hpp
+TestLookaheadBranching_debug : TestLookaheadBranching.cpp LookaheadBranching.hpp GcVariables.hpp
 
 TestGcVariables_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
 TestGcVariables_debug : Optimisation_plus = -fwhole-program
-TestGcVariables_debug : TestGcVariables.cpp GcVariables.hpp Conditions.hpp
+TestGcVariables_debug : TestGcVariables.cpp GcVariables.hpp
 
 TestVerification_debug : TestVerification.cpp Verification.hpp BasicLatinSquares.hpp
 

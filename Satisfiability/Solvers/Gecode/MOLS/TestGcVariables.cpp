@@ -42,14 +42,13 @@ BUGS:
 
 #include <ProgramOptions/Environment.hpp>
 
-#include "Conditions.hpp"
 #include "GcVariables.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "27.5.2022",
+        "0.1.0",
+        "7.6.2022",
         __FILE__,
         "Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestGcVariables.cpp",
@@ -57,40 +56,7 @@ namespace {
 
   using namespace GcVariables;
 
-  namespace CD = Conditions;
   namespace GC = Gecode;
-
-  using size_t = CD::size_t;
-
-  typedef GC::IntVarArray VarVec;
-
-  struct GenericIntArray : GC::Space {
-    VarVec V;
-    GenericIntArray(const size_t varnum, const size_t domainsize = 1)
-      noexcept : V(*this, varnum, 0, domainsize-1) {
-      assert(varnum > 0 and domainsize > 0);
-    }
-  protected :
-    GenericIntArray(GenericIntArray& gm) : GC::Space(gm), V(gm.V) {
-      V.update(*this, gm.V);
-    }
-    GC::Space* copy() { return new GenericIntArray(*this); }
-  };
-
-  struct GecodeIntVarArray{
-    typedef std::unique_ptr<GenericIntArray> intarr_ptr_t;
-  private:
-    intarr_ptr_t m;
-    VarVec V;
-  public:
-    GecodeIntVarArray(const size_t varnum, const size_t domainsize = 1)
-      noexcept {
-      assert(varnum > 0 and domainsize > 0);
-      m = intarr_ptr_t(new GenericIntArray(varnum, domainsize));
-      V = m->V;
-    }
-    VarVec array() const noexcept { return V; }
-  };
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
