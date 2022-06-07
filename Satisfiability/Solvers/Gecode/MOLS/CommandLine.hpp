@@ -202,14 +202,15 @@ namespace CommandLine {
   }
 
 
+  OP::weights_t weights_ap(const size_t N) {
+    OP::weights_t res; res.reserve(N+2);
+    res.push_back(0); // domain-size 0
+    for (size_t i = 1; i <= N; ++i) res.push_back(i-1);
+    return res;
+  }
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
-    case OP::DIS::wdeltaL : {
-      OP::weights_t res; res.reserve(N+2);
-      res.push_back(0); res.push_back(0); // domain-size 0,1
-      for (size_t i = 2; i <= N; ++i) res.push_back(i-1);
-      return res;
-    }
+    case OP::DIS::wdeltaL : return weights_ap(N);
     default : return {}; }
   }
 
