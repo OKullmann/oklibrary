@@ -12,7 +12,7 @@ TODOS:
 1. Urgently unit-tests are needed, for all components.
    - DONE tr() function
    - DONE ValVec struct
-   - append() function
+   - DONE append() function
    - create() function
    - GcBranching struct
    - VVElim struct
@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.11",
+        "0.0.12",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -57,6 +57,11 @@ namespace {
   namespace GC = Gecode;
   namespace GV = GcVariables;
   namespace CS = Cases;
+
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 
 }
 
@@ -83,6 +88,12 @@ int main(const int argc, const char* const argv[]) {
   {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
    ValVec vv = ValVec(CS::Void(g), {0, 0, 1, 2});
    assert(vv.width({0, 0, 1, 2}) == 3);
+  }
+
+  {assert(eqp(append(0, {1}, true), {0, 1}));
+   assert(eqp(append(0, {1}, false), {0, 1}));
+   assert(eqp(append(0, {1, 2}, true), {0, 1, 2}));
+   assert(eqp(append(0, {1, 2}, false), {0, 2, 1}));
   }
 
 }
