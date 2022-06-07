@@ -99,22 +99,22 @@ int main(const int argc, const char* const argv[]) {
 
   {GenericIntArray g(1, 3);
    CS::Void b(g);
-   const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
+   const ValVec* const vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1}));
   }
   {GenericIntArray g(1, 3);
    CS::Void b(g);
-   const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
+   const ValVec* const vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2}));
   }
   {GenericIntArray g(1, 3);
    CS::Void b(g);
-   const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
+   const ValVec* const vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1, 2}));
   }
   {GenericIntArray g(1, 3);
    CS::Void b(g);
-   const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
+   const ValVec* const vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2, 1}));
   }
 
