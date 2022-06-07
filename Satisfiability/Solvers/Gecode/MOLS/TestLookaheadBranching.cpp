@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -53,9 +53,9 @@ namespace {
         "GPL v3"};
 
   using namespace LookaheadBranching;
+  using namespace GcVariables;
 
   namespace GC = Gecode;
-  namespace GV = GcVariables;
   namespace CS = Cases;
   namespace OP = Options;
 
@@ -71,23 +71,23 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {assert(tr(GecodeIntVarArray(1, 1)()[0].size(), 1) == 1);
-   assert(tr(GV::gcintarr(1, 2)[0].size(), 1) == 2);
-   assert(tr(GV::gcintarr(2, 1)[0].size(), 1) == 1);
-   assert(tr(GV::gcintarr(2, 1)[1].size(), 1) == 1);
-   assert(tr(GV::gcintarr(2, 2)[0].size(), 1) == 2);
-   assert(tr(GV::gcintarr(2, 2)[1].size(), 1) == 2);
+   assert(tr(gcintarr(1, 2)[0].size(), 1) == 2);
+   assert(tr(gcintarr(2, 1)[0].size(), 1) == 1);
+   assert(tr(gcintarr(2, 1)[1].size(), 1) == 1);
+   assert(tr(gcintarr(2, 2)[0].size(), 1) == 2);
+   assert(tr(gcintarr(2, 2)[1].size(), 1) == 2);
   }
 
-  {GV::GenericIntArray g(1, 1);
-   ValVec vv = ValVec(CS::Void(g), {0, 0});
+  {GenericIntArray g(1, 1);
+   const ValVec vv(CS::Void(g), {0, 0});
    assert(eqp(vv.br, {0, 0}));
   }
-  {GV::GenericIntArray g(1, 2);
-   ValVec vv = ValVec(CS::Void(g), {0, 0, 1});
+  {GenericIntArray g(1, 2);
+   const ValVec vv(CS::Void(g), {0, 0, 1});
    assert(eqp(vv.br, {0, 0, 1}));
   }
-  {GV::GenericIntArray g(1, 3);
-   ValVec vv = ValVec(CS::Void(g), {0, 0, 1, 2});
+  {GenericIntArray g(1, 3);
+   const ValVec vv(CS::Void(g), {0, 0, 1, 2});
    assert(eqp(vv.br, {0, 0, 1, 2}));
   }
 
@@ -97,23 +97,23 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(append(0, {1, 2}, false), {0, 2, 1}));
   }
 
-  {GV::GenericIntArray g(1, 3);
-   CS::Void b = CS::Void(g);
+  {GenericIntArray g(1, 3);
+   CS::Void b(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1}));
   }
-  {GV::GenericIntArray g(1, 3);
-   CS::Void b = CS::Void(g);
+  {GenericIntArray g(1, 3);
+   CS::Void b(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2}));
   }
-  {GV::GenericIntArray g(1, 3);
-   CS::Void b = CS::Void(g);
+  {GenericIntArray g(1, 3);
+   CS::Void b(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1, 2}));
   }
-  {GV::GenericIntArray g(1, 3);
-   CS::Void b = CS::Void(g);
+  {GenericIntArray g(1, 3);
+   CS::Void b(g);
    const ValVec* vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2, 1}));
   }
