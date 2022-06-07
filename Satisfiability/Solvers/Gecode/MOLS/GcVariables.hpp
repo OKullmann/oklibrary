@@ -47,6 +47,7 @@ namespace GcVariables {
 
   typedef GC::IntVarArray VarVec;
 
+
   struct GenericIntArray : GC::Space {
     VarVec V;
     GenericIntArray(const size_t varnum, const size_t domainsize = 1)
@@ -57,20 +58,17 @@ namespace GcVariables {
     GenericIntArray(GenericIntArray& gm) : GC::Space(gm), V(gm.V) {
       V.update(*this, gm.V);
     }
-    GC::Space* copy() { return new GenericIntArray(*this); }
+    GC::Space* copy() override { return new GenericIntArray(*this); }
   };
 
-  struct GecodeIntVarArray{
+  class GecodeIntVarArray {
     typedef std::unique_ptr<GenericIntArray> intarr_ptr_t;
-  private:
-    intarr_ptr_t m;
-    VarVec V;
+    const intarr_ptr_t m;
+    const VarVec V;
   public:
     GecodeIntVarArray(const size_t varnum, const size_t domainsize = 1)
-      noexcept {
+      noexcept : m(new GenericIntArray(varnum, domainsize)), V(m->V) {
       assert(varnum > 0 and domainsize > 0);
-      m = intarr_ptr_t(new GenericIntArray(varnum, domainsize));
-      V = m->V;
     }
     VarVec array() const noexcept { return V; }
   };
@@ -82,6 +80,7 @@ namespace GcVariables {
       o << "\n";
     }
   }
+
 
   bool empty(const GC::IntVarArray& V) noexcept {
     for (int i = 0; i < V.size(); ++i) if (not V[i].assigned()) return false;
