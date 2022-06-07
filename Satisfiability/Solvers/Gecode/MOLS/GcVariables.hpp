@@ -72,6 +72,10 @@ namespace GcVariables {
     }
     VarVec array() const noexcept { return V; }
   };
+  VarVec gcintarr(const size_t varnum, const size_t domainsize = 1) noexcept {
+     GecodeIntVarArray g = GecodeIntVarArray(varnum, domainsize);
+     return g.array();
+  }
 
   void out(std::ostream& o, const GC::IntVarArray& V) {
     for (int v = 0; v < V.size(); ++v) {

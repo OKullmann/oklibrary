@@ -47,7 +47,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin",
@@ -69,21 +69,21 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const auto V = GecodeIntVarArray(1, 1).array();
+  {const auto V = gcintarr(1, 1);
    assert(sumdomsizes(V) == 1 * 1);
    assert(empty(V));
    assert(eqp(values(V, 0), {0}));
    assert(eqp(values(V), {{0}}));
   }
 
-  {const auto V = GecodeIntVarArray(1, 2).array();
+  {const auto V = gcintarr(1, 2);
    assert(sumdomsizes(V) == 1 * 2);
    assert(not empty(V));
    assert(eqp(values(V, 0), {0,1}));
    assert(eqp(values(V), {{0,1}}));
   }
 
-  {const auto V = GecodeIntVarArray(2, 1).array();
+  {const auto V = gcintarr(2, 1);
    assert(sumdomsizes(V) == 2 * 1);
    assert(empty(V));
    assert(eqp(values(V, 0), {0}));
@@ -91,7 +91,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(values(V), {{0}, {0}}));
   }
 
-  {const auto V = GecodeIntVarArray(2, 2).array();
+  {const auto V = gcintarr(2, 2);
    assert(sumdomsizes(V) == 2 * 2);
    assert(not empty(V));
    assert(eqp(values(V, 0), {0,1}));
