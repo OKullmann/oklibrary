@@ -75,7 +75,7 @@
 # MOLS> time ./laMols 9 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu wdL desc "" 1 12 "1,1,0.2,0.2,0.2,0.2,0.2"
 # aborted after 37min wallclock-time and 18 solutions found.
 # MOLS> time ./laMols 10 data/SpecsCollection/Powerset2idemdiag2 "" +enum "" enu wdL desc "" 1 12 "1,1,0.2,0.2,0.2,0.2,0.2,0.2"
-# aborted after 130min wallclock-time and no solutions found.
+# aborted after 19h wallclock-time and no solutions found.
 
 
 squares P1 P2
