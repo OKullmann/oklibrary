@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "3.5.2022",
+        "0.0.4",
+        "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
