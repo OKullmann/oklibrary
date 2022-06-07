@@ -10,17 +10,21 @@ License, or any later version. */
 TODOS:
 
 1. Urgently unit-tests are needed, for all components.
+   - tr() function
    - DONE wsumdomsizes() function
-   - distance() function.
-   - best_branching() function.
-   - best_branchings() function.
-   - post_la_branching() function.
-   - Node class.
-   - BinBranching class.
-   - EnumBranching class.
-   - BaseBrancher class.
-   - BinLookahead class;
-   - EnumLookahead class;
+   - new_vars() function
+   - ValVec struct
+   - append() function
+   - create() function
+   - GcBranching struct
+   - VVElim struct
+   - create_la() function
+   - rlaStats struct
+   - RlaBranching struct
+   - BranchingStatistics class
+   - laStats struct
+   - branch_measure() function
+   - LaBranching struct
 
 */
 
