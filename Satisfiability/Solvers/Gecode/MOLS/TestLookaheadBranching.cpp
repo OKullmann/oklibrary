@@ -11,8 +11,6 @@ TODOS:
 
 1. Urgently unit-tests are needed, for all components.
    - DONE tr() function
-   - DONE wsumdomsizes() function
-   - DONE new_vars() function
    - ValVec struct
    - append() function
    - create() function
@@ -45,7 +43,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -97,40 +95,6 @@ int main(const int argc, const char* const argv[]) {
    assert(tr(GecodeIntVarArray(2, 1).array()[1].size(), 1) == 1);
    assert(tr(GecodeIntVarArray(2, 2).array()[0].size(), 1) == 2);
    assert(tr(GecodeIntVarArray(2, 2).array()[1].size(), 1) == 2);
-  }
-
-  {GecodeIntVarArray g = GecodeIntVarArray(1, 1);
-   const OP::weights_t weights = {0, 0};
-   assert(wsumdomsizes(g.array(), &weights) == 0);
-  }
-  {GecodeIntVarArray g = GecodeIntVarArray(1, 2);
-   const OP::weights_t weights = {0, 0, 1};
-   assert(wsumdomsizes(g.array(), &weights) == 1);
-  }
-  {GecodeIntVarArray g = GecodeIntVarArray(2, 1);
-   const OP::weights_t weights = {0, 0};
-   assert(wsumdomsizes(g.array(), &weights) == 0);
-  }
-  {GecodeIntVarArray g = GecodeIntVarArray(2, 2);
-   const OP::weights_t weights = {0, 0, 1};
-   assert(wsumdomsizes(g.array(), &weights) == 2);
-  }
-
-  {const OP::weights_t weights = {0, 0};
-   assert(new_vars(GecodeIntVarArray(1, 1).array(),
-     GecodeIntVarArray(1, 1).array(), &weights, 1) == 0);
-  }
-  {const OP::weights_t weights = {0, 0, 1};
-   assert(new_vars(GecodeIntVarArray(1, 2).array(),
-     GecodeIntVarArray(1, 1).array(), &weights, 1) == 1);
-  }
-  {const OP::weights_t weights = {0, 0, 1, 2};
-   assert(new_vars(GecodeIntVarArray(1, 3).array(),
-     GecodeIntVarArray(1, 2).array(), &weights, 1) == 1);
-  }
-  {const OP::weights_t weights = {0, 0, 1};
-   assert(new_vars(GecodeIntVarArray(2, 2).array(),
-     GecodeIntVarArray(2, 1).array(), &weights, 1) == 2);
   }
 
 }
