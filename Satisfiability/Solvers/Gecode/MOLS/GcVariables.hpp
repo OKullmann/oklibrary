@@ -14,8 +14,8 @@ License, or any later version. */
 BUG:
 
 1. gcintarr leads to undefined behaviour:
-    - The object of the returned VarVec is immediately destroyed.
-    - The solution is to use implicit conversion of
+    - DONE The object of the returned VarVec is immediately destroyed.
+    - DONE The solution is to use implicit conversion of
       GecodeIntVarArray to VarVec (so that the GecodeIntVarArray-
       object is kept), and providing members of VarVec.
     - The name "GecodeIntVarArray" is also inappropriate (and too
@@ -85,12 +85,8 @@ namespace GcVariables {
     operator VarVec() const noexcept { return V; }
     const auto& operator [](const int i) const { return V[i]; }
     auto& operator [](const int i) { return V[i]; }
-    [[deprecated]] VarVec array() const noexcept { return V; }
   };
-  [[deprecated]]
-  VarVec gcintarr(const size_t varnum, const size_t domainsize = 1) noexcept {
-     return GecodeIntVarArray(varnum, domainsize).array();
-  }
+
 
   void out(std::ostream& o, const GC::IntVarArray& V) {
     for (int v = 0; v < V.size(); ++v) {
