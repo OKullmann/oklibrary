@@ -70,27 +70,26 @@ namespace Cases {
   using size_t = Conditions::size_t;
   using float_t = LR::float_t;
 
-
+  struct Void : GC::Brancher {
+    Void(const GC::Home home) : GC::Brancher(home) {}
+    Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
+    GC::Brancher* copy(GC::Space& home) override {
+      return new (home) Void(home,*this);
+    }
+    bool status(const GC::Space& s) const noexcept override {
+      return not GcVariables::empty(static_cast<const CT::GenericMols0&>(s).V);
+    }
+    const GC::Choice* choice(GC::Space&) override {
+      assert(0); return nullptr;
+    }
+    const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
+      assert(0); return nullptr;
+    }
+    GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) override {
+      assert(0); return GC::ExecStatus(0);
+    }
+  };
   class GenericMolsNB : public CT::GenericMols0 {
-    struct Void : GC::Brancher {
-      Void(const GC::Home home) : GC::Brancher(home) {}
-      Void(GC::Space& home, Void& b) : GC::Brancher(home,b) {}
-      GC::Brancher* copy(GC::Space& home) override {
-        return new (home) Void(home,*this);
-      }
-      bool status(const GC::Space& s) const noexcept override {
-        return not GcVariables::empty(static_cast<const GenericMols0&>(s).V);
-      }
-      const GC::Choice* choice(GC::Space&) override {
-        assert(0); return nullptr;
-      }
-      const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
-        assert(0); return nullptr;
-      }
-      GC::ExecStatus commit(GC::Space&, const GC::Choice&, unsigned) override {
-        assert(0); return GC::ExecStatus(0);
-      }
-    };
   public :
     GenericMolsNB(const EC::EncCond& enc) : GenericMols0(enc) {
       new (*this) Void(*this);

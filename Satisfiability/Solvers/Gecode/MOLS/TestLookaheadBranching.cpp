@@ -11,7 +11,7 @@ TODOS:
 
 1. Urgently unit-tests are needed, for all components.
    - DONE tr() function
-   - ValVec struct
+   - DONE ValVec struct
    - append() function
    - create() function
    - GcBranching struct
@@ -40,11 +40,12 @@ TODOS:
 #include "LookaheadBranching.hpp"
 #include "Options.hpp"
 #include "GcVariables.hpp"
+#include "Cases.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.10",
+        "0.0.11",
         "7.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -55,6 +56,7 @@ namespace {
 
   namespace GC = Gecode;
   namespace GV = GcVariables;
+  namespace CS = Cases;
 
 }
 
@@ -68,6 +70,19 @@ int main(const int argc, const char* const argv[]) {
    assert(tr(GV::gcintarr(2, 1)[1].size(), 1) == 1);
    assert(tr(GV::gcintarr(2, 2)[0].size(), 1) == 2);
    assert(tr(GV::gcintarr(2, 2)[1].size(), 1) == 2);
+  }
+
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 1);
+   ValVec vv = ValVec(CS::Void(g), {0, 0});
+   assert(vv.width({0, 0}) == 2);
+  }
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 2);
+   ValVec vv = ValVec(CS::Void(g), {0, 0, 1});
+   assert(vv.width({0, 0, 1}) == 2);
+  }
+  {GV::GenericIntArray g = GV::GenericIntArray(1, 3);
+   ValVec vv = ValVec(CS::Void(g), {0, 0, 1, 2});
+   assert(vv.width({0, 0, 1, 2}) == 3);
   }
 
 }
