@@ -25,9 +25,6 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 
 
 BUGS:
 
-1. OZ Reproduction of old result failed:
-    - See Euler_unred.
-
 */
 
 /* TODOS:
