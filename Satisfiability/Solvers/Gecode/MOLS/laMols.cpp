@@ -25,37 +25,8 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 
 
 BUGS:
 
-1.
-
-MOLS> ./laMols_debug 6 data/SpecsCollection/Euler "" satd "" "" "" "0,1,0.5,0.25,0.2" ""
-# N=6
-# k=3 total_num_sq=3
-# num_ps=0
-# rt=sat-decision
-# num_runs=1
-# threads=1
-# propagation: domain-prop
-# lookahead-type: binary-super-eager
-# order-heuristic: bin-branch-min
-# lookahead-weights: 0 1 0.5 0.25 0.2
-domain-prop binary-super-eager bin-branch-min 1 0.000 135 0 1 0
-
-MOLS> ./laMols_debug 6 data/SpecsCollection/Euler "" sats "" "" "" "0,1,0.5,0.25,0.2" ""
-# N=6
-# k=3 total_num_sq=3
-# num_ps=0
-# rt=sat-solving
-# num_runs=1
-# threads=1
-# propagation: domain-prop
-# lookahead-type: binary-super-eager
-# order-heuristic: bin-branch-min
-# lookahead-weights: 0 1 0.5 0.25 0.2
-# output-file SOLUTIONS_laMols_debug_6_1649926294938638745
-laMols_debug: Solvers.hpp:281: Solvers::GBasicSR Solvers::lasolver(const Encoding::EncCond&, Solvers::RT, Options::LAT, Options::BHO, LookaheadBranching::vec_t, double): Assertion `EC::EncCond::unit(leaf->var())' failed.
-Aborted (core dumped)
-
-The problem seems "binary-super-eager".
+1. OZ Reproduction of old result failed:
+    - See Euler_unred.
 
 */
 
