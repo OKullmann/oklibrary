@@ -18,7 +18,7 @@ TODOS:
    - set_var
    - unset_var
 
-2. DONE (class GecodeIntVarArray was introduced)
+2. DONE (class GcIntVarArray was introduced)
    Class with access to array of Gecode variables
   - DONE A class must be intoduced that contains an array of
     Gecode variables and a trivial Gecode space.
@@ -47,8 +47,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "7.6.2022",
+        "0.1.3",
+        "8.6.2022",
         __FILE__,
         "Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestGcVariables.cpp",
@@ -69,21 +69,21 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {const GecodeIntVarArray V(1, 1);
+  {const GcIntVarArray V(1, 1);
    assert(sumdomsizes(V) == 1 * 1);
    assert(empty(V));
    assert(eqp(values(V, 0), {0}));
    assert(eqp(values(V), {{0}}));
   }
 
-  {const GecodeIntVarArray V(1, 2);
+  {const GcIntVarArray V(1, 2);
    assert(sumdomsizes(V) == 1 * 2);
    assert(not empty(V));
    assert(eqp(values(V, 0), {0,1}));
    assert(eqp(values(V), {{0,1}}));
   }
 
-  {const GecodeIntVarArray V(2, 1);
+  {const GcIntVarArray V(2, 1);
    assert(sumdomsizes(V) == 2 * 1);
    assert(empty(V));
    assert(eqp(values(V, 0), {0}));
@@ -91,7 +91,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(values(V), {{0}, {0}}));
   }
 
-  {const GecodeIntVarArray V(2, 2);
+  {const GcIntVarArray V(2, 2);
    assert(sumdomsizes(V) == 2 * 2);
    assert(not empty(V));
    assert(eqp(values(V, 0), {0,1}));

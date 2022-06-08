@@ -13,14 +13,14 @@ License, or any later version. */
 
 BUG:
 
-1. gcintarr leads to undefined behaviour:
+1. FIXED gcintarr leads to undefined behaviour:
     - DONE The object of the returned VarVec is immediately destroyed.
     - DONE The solution is to use implicit conversion of
-      GecodeIntVarArray to VarVec (so that the GecodeIntVarArray-
+      GcIntVarArray to VarVec (so that the GcIntVarArray-
       object is kept), and providing members of VarVec.
-    - The name "GecodeIntVarArray" is also inappropriate (and too
+    - The name "GcIntVarArray" is also inappropriate (and too
       long).
-    - "GcIntVarArray" is somewhat better.
+    - DONE "GcIntVarArray" is somewhat better.
 
 TODOS:
 
@@ -73,12 +73,12 @@ namespace GcVariables {
     GC::Space* copy() override { return new GenericIntArray(*this); }
   };
 
-  class GecodeIntVarArray {
+  class GcIntVarArray {
     typedef std::unique_ptr<GenericIntArray> intarr_ptr_t;
     const intarr_ptr_t m;
     const VarVec V;
   public:
-    GecodeIntVarArray(const size_t varnum, const size_t domainsize = 1)
+    GcIntVarArray(const size_t varnum, const size_t domainsize = 1)
       noexcept : m(new GenericIntArray(varnum, domainsize)), V(m->V) {
       assert(varnum > 0 and domainsize > 0);
     }

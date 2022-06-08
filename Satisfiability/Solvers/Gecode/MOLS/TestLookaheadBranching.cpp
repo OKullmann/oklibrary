@@ -45,8 +45,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "7.6.2022",
+        "0.1.4",
+        "8.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
@@ -70,12 +70,12 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(tr(GecodeIntVarArray(1, 1)[0].size(), 1) == 1);
-   assert(tr(GecodeIntVarArray(1, 2)[0].size(), 1) == 2);
-   assert(tr(GecodeIntVarArray(2, 1)[0].size(), 1) == 1);
-   assert(tr(GecodeIntVarArray(2, 1)[1].size(), 1) == 1);
-   assert(tr(GecodeIntVarArray(2, 2)[0].size(), 1) == 2);
-   assert(tr(GecodeIntVarArray(2, 2)[1].size(), 1) == 2);
+  {assert(tr(GcIntVarArray(1, 1)[0].size(), 1) == 1);
+   assert(tr(GcIntVarArray(1, 2)[0].size(), 1) == 2);
+   assert(tr(GcIntVarArray(2, 1)[0].size(), 1) == 1);
+   assert(tr(GcIntVarArray(2, 1)[1].size(), 1) == 1);
+   assert(tr(GcIntVarArray(2, 2)[0].size(), 1) == 2);
+   assert(tr(GcIntVarArray(2, 2)[1].size(), 1) == 2);
   }
 
   {GenericIntArray g(1, 1);
