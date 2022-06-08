@@ -100,8 +100,6 @@ namespace LookaheadBranching {
 
 
   /* Distance and measure functions
-
-     PRELIMINARY
   */
   float_t wsumdomsizes(const GC::IntVarArray& V,
                        const OP::weights_t* const w) noexcept {
@@ -114,13 +112,13 @@ namespace LookaheadBranching {
     return sum;
   }
 
-  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& Vn,
+  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
                    const OP::weights_t* const w,
                    const size_t depth) noexcept {
     float_t sum = 0;
-    const float_t w1 = FP::exp2((*w)[0] * depth);
+    const float_t w1 = FP::exp2((*w)[1] * depth);
     for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1), sn = tr(Vn[v].size(), 1);
+      const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
       if (sn == s) continue;
       assert(sn < s);
       if (sn == 1) sum += w1;
@@ -510,13 +508,16 @@ namespace LookaheadBranching {
 
 
   typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
+  typedef std::function<
+    float_t(const GC::IntVarArray&,const GC::IntVarArray&)> distance_t;
 
   template <class SPA>
-  float_t branch_measure(SPA* const m, const int v, const int val,
+  float_t branch_distance(SPA* const m, const int v, const int val,
                          const bool equal,
-                         const measure_t& mu) noexcept {
+                         const distance_t& d) noexcept {
     assert(v >= 0);
-    [[maybe_unused]] const auto size = m->V.size();
+    const auto V = m->V;
+    [[maybe_unused]] const auto size = V.size();
     assert(v < size);
     std::unique_ptr<SPA> c(static_cast<SPA*>(m->clone()));
     auto& nV = c.get()->V;
@@ -525,7 +526,7 @@ namespace LookaheadBranching {
     else GV::unset_var(*c.get(), nV[v], val);
     {[[maybe_unused]] const auto status = c->status();
      assert(status == GC::SS_BRANCH);}
-    return mu(nV);
+    return d(V,nV);
   }
 
 
@@ -568,7 +569,8 @@ namespace LookaheadBranching {
       }
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
-      BranchingStatistics stats1(s.nodedata().depth);
+      const size_t depth = s.nodedata().depth;
+      BranchingStatistics stats1(depth);
 
       CT::GenericMols1* const node = &s;
       for (const auto [var,val] : stats0.elims()) {
@@ -586,18 +588,24 @@ namespace LookaheadBranching {
       const measure_t mu = P.d == OP::DIS::deltaL ?
         measure_t(GV::sumdomsizes) :
         [this](const GC::IntVarArray& V){
-        return wsumdomsizes(V, weights);};
-
+          return wsumdomsizes(V, weights);};
       const float_t mu0 = mu(V); stats1.set_vals(mu0);
+      const distance_t d = P.d == OP::DIS::newvars ?
+        distance_t(
+        [this,depth](const GC::IntVarArray& V, const GC::IntVarArray& nV){
+          return new_vars(V, nV, weights, depth);}) :
+        distance_t(
+        [mu0,&mu](const GC::IntVarArray&, const GC::IntVarArray& nV){
+          return mu0 - mu(nV);});
+
       for (int v = 0; v < n; ++v) {
         const auto& vo = V[v];
         if (vo.size() == 1) continue;
         const auto values = GV::values(V, v);
         if (P.bt == OP::LBRT::bin) {
           for (const int val : values) {
-            const float_t mu10 = branch_measure(node, v, val, true, mu);
-            const float_t mu11 = branch_measure(node, v, val, false, mu);
-            const float_t a = mu0 - mu10, b = mu0 - mu11;
+            const float_t a = branch_distance(node, v, val, true, d),
+              b = branch_distance(node, v, val, false, d);
             assert(a > 0 and b > 0);
             const float_t tau =  Tau::ltau(a,b);
             assert(tau > 0 and tau < FP::pinfinity);
@@ -607,13 +615,12 @@ namespace LookaheadBranching {
           }
         }
         else {
-          assert(P.bt == OP::LBRT::enu);
           std::vector<float_t> branchtuple;
           branchtuple.reserve(values.size());
           for (const int val : values) {
-            const float_t mu1 = branch_measure(node, v, val, true, mu);
-            assert(mu1 >= 0 and mu1 < mu0);
-            branchtuple.push_back(mu0 - mu1);
+            const float_t t = branch_distance(node, v, val, true, d);
+            assert(t > 0);
+            branchtuple.push_back(t);
           }
           const float_t tau = Tau::ltau(branchtuple);
           assert(tau > 0 and tau < FP::pinfinity);

@@ -94,7 +94,7 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "8.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

@@ -219,6 +219,7 @@ namespace CommandLine {
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
     case OP::DIS::wdeltaL : return weights_ld(N);
+    case OP::DIS::newvars : return OP::weights_t(N+1); // XXX
     default : return {}; }
   }
 
@@ -257,8 +258,19 @@ namespace CommandLine {
       return res;
     }
     else {
-      throw std::runtime_error("ERROR[CommandLine::read_weights]: "
-                               "not implemented.");
+      assert(dis == OP::DIS::newvars);
+      if (inp.size() != N-1) {
+        std::ostringstream ss;
+        ss << "ERROR[CommandLine::read_weights]: For newvars the "
+          "weight-vector must have " " size N-1=" << N-1 << ","
+          " but the size is " << inp.size() << ".\n";
+        throw std::runtime_error(ss.str());
+      }
+      OP::weights_t res(N+1);
+      res[0] = 0; res[N] = 0; res[1] = inp[0];
+      for (size_t i = 1; i < N-1; ++i)
+        res[1+i] = (i==1?1:res[i]) * FloatingPoint::exp2(inp[i]);
+      return res;
     }
   }
 
