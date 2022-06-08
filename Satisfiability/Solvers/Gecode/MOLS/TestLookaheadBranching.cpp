@@ -9,6 +9,10 @@ License, or any later version. */
 
 TODOS:
 
+0. Use more loops
+   - Most of the tests in here can be simplified (and code-duplication
+     removed) by using loops.
+
 1. Urgently unit-tests are needed, for all components.
    - DONE tr() function
    - DONE wsumdomsizes() function
@@ -72,12 +76,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {assert(tr(GcIntVarArray(1, 1)[0].size(), 1) == 1);
-   assert(tr(GcIntVarArray(1, 2)[0].size(), 1) == 2);
-   assert(tr(GcIntVarArray(2, 1)[0].size(), 1) == 1);
-   assert(tr(GcIntVarArray(2, 1)[1].size(), 1) == 1);
-   assert(tr(GcIntVarArray(2, 2)[0].size(), 1) == 2);
-   assert(tr(GcIntVarArray(2, 2)[1].size(), 1) == 2);
+  {for (size_t n = 1; n <= 3; ++n)
+     for (size_t v = 0; v < n; ++v)
+       for (size_t dom = 1; dom <= 3; ++dom)
+         assert(tr(GcIntVarArray(n,dom)[v].size(),1) == dom);
   }
 
   {const GcIntVarArray V(1, 1);
