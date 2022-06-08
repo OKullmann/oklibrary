@@ -45,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.1.5",
         "8.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -78,15 +78,15 @@ int main(const int argc, const char* const argv[]) {
    assert(tr(GcIntVarArray(2, 2)[1].size(), 1) == 2);
   }
 
-  {GenericIntArray g(1, 1);
+  {GcIntArraySpace g(1, 1);
    const ValVec vv(CS::Void(g), {0, 0});
    assert(eqp(vv.br, {0, 0}));
   }
-  {GenericIntArray g(1, 2);
+  {GcIntArraySpace g(1, 2);
    const ValVec vv(CS::Void(g), {0, 0, 1});
    assert(eqp(vv.br, {0, 0, 1}));
   }
-  {GenericIntArray g(1, 3);
+  {GcIntArraySpace g(1, 3);
    const ValVec vv(CS::Void(g), {0, 0, 1, 2});
    assert(eqp(vv.br, {0, 0, 1, 2}));
   }
@@ -97,22 +97,22 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(append(0, {1, 2}, false), {0, 2, 1}));
   }
 
-  {GenericIntArray g(1, 3);
+  {GcIntArraySpace g(1, 3);
    CS::Void b(g);
    const ValVec* const vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1}));
   }
-  {GenericIntArray g(1, 3);
+  {GcIntArraySpace g(1, 3);
    CS::Void b(g);
    const ValVec* const vvp = create(0, {1, 2}, OP::BRT::bin, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2}));
   }
-  {GenericIntArray g(1, 3);
+  {GcIntArraySpace g(1, 3);
    CS::Void b(g);
    const ValVec* const vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::asc, b);
    assert(eqp(vvp->br, {0, 1, 2}));
   }
-  {GenericIntArray g(1, 3);
+  {GcIntArraySpace g(1, 3);
    CS::Void b(g);
    const ValVec* const vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2, 1}));

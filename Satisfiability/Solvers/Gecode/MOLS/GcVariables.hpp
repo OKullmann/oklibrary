@@ -60,26 +60,26 @@ namespace GcVariables {
   typedef GC::IntVarArray VarVec;
 
 
-  struct GenericIntArray : GC::Space {
+  struct GcIntArraySpace : GC::Space {
     VarVec V;
-    GenericIntArray(const size_t varnum, const size_t domainsize = 1)
+    GcIntArraySpace(const size_t varnum, const size_t domainsize = 1)
       noexcept : V(*this, varnum, 0, domainsize-1) {
       assert(varnum > 0 and domainsize > 0);
     }
   protected :
-    GenericIntArray(GenericIntArray& gm) : GC::Space(gm), V(gm.V) {
+    GcIntArraySpace(GcIntArraySpace& gm) : GC::Space(gm), V(gm.V) {
       V.update(*this, gm.V);
     }
-    GC::Space* copy() override { return new GenericIntArray(*this); }
+    GC::Space* copy() override { return new GcIntArraySpace(*this); }
   };
 
   class GcIntVarArray {
-    typedef std::unique_ptr<GenericIntArray> intarr_ptr_t;
+    typedef std::unique_ptr<GcIntArraySpace> intarr_ptr_t;
     const intarr_ptr_t m;
     const VarVec V;
   public:
     GcIntVarArray(const size_t varnum, const size_t domainsize = 1)
-      noexcept : m(new GenericIntArray(varnum, domainsize)), V(m->V) {
+      noexcept : m(new GcIntArraySpace(varnum, domainsize)), V(m->V) {
       assert(varnum > 0 and domainsize > 0);
     }
     operator VarVec() const noexcept { return V; }
