@@ -566,7 +566,7 @@ namespace Solvers {
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    CT::GenericMols0* const m = new CT::GenericMols0(enc);
+    CT::GenericMols1* const m = new CT::GenericMols1(enc);
     const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
     std::unique_ptr<LB::laStats> stats(
       new LB::laStats(log,
@@ -595,11 +595,11 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, gcd));
+    GC::DFS<CT::GenericMols1> s(m, make_options(threads, rt, gcd));
     delete m;
 
     laSR res{rt};
-    {[[maybe_unused]]CT::GenericMols0* const leaf=s.next(); assert(not leaf);}
+    {[[maybe_unused]]CT::GenericMols1* const leaf=s.next(); assert(not leaf);}
     res.ut = timing() - t0;
     res.gs = s.statistics();
     res.b.sol_found = stats->rla().sol_count();

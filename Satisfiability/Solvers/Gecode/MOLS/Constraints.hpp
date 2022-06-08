@@ -83,18 +83,27 @@ namespace Constraints {
     constexpr NodeData() noexcept : id(1), pid(0), depth(0) {};
     constexpr bool operator ==(const NodeData&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const NodeData& d) {
+    return out << d.id << " " << d.pid << " " << d.depth;
+  }
 
   struct GenericMols1 : GenericMols0 {
     using GenericMols0::VarVec;
     using GenericMols0::Var;
     using GenericMols0::V;
-    NodeData nd;
 
     GenericMols1(const EC::EncCond& enc) : GenericMols0(enc) {}
+    NodeData nodedata() const noexcept { return nd; }
+
+    void set_id(const size_t id) noexcept { nd.id = id; }
+    void update_clone() noexcept { nd.pid = nd.id; ++nd.depth; }
 
   protected :
     GenericMols1(GenericMols1& gm) : GenericMols0(gm), nd(gm.nd) {}
     GC::Space* copy() override { return new GenericMols1(*this); }
+
+  private :
+    NodeData nd;
 
   };
 

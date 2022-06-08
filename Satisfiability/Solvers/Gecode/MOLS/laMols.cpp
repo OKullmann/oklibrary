@@ -94,8 +94,8 @@ The problem seems "binary-super-eager".
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "7.6.2022",
+        "0.8.1",
+        "8.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -172,7 +172,7 @@ namespace {
                     "mprune", "probes", "rounds", "solc",
                     "tr", "qelvals", "qprunes"});
     res.S1.out(out, {"mu", "w", "ltau",
-                   "mind", "meand", "maxd", "sdd", "tb"});
+                   "mind", "meand", "maxd", "sdd", "dp", "tb"});
     out.flush();
     FloatingPoint::undo(out, state);
   }

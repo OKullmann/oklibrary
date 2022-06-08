@@ -422,9 +422,13 @@ namespace LookaheadBranching {
     size_t width_; // width of branching
     float_t ltau_;
     float_t mind_, meand_, maxd_, sdd_;
+    size_t depth_;
     Timing::Time_point time_; // total time for the branching construction
 
   public :
+
+    explicit BranchingStatistics(const size_t depth) noexcept
+      : depth_(depth) {}
 
     void set_vals(const size_t vals) noexcept {
       assert(vals != 0); vals_ = vals;
@@ -447,12 +451,13 @@ namespace LookaheadBranching {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    static constexpr size_t num_stats = 8;
+    static constexpr size_t num_stats = 9;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
       res[0] = vals_; res[1] = width_; res[2] = ltau_;
       res[3] = mind_; res[4] = meand_; res[5] = maxd_; res[6] = sdd_;
+      res[7] = depth_;
       res[num_stats-1] = time_;
       return res;
     }
@@ -552,7 +557,7 @@ namespace LookaheadBranching {
     }
 
     const GC::Choice* choice(GC::Space& s0) override {
-      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
       if (stats0.leafcount()) {
         if (P.parallel) {
@@ -563,9 +568,9 @@ namespace LookaheadBranching {
       }
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
-      BranchingStatistics stats1;
+      BranchingStatistics stats1(s.nodedata().depth);
 
-      CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      CT::GenericMols1* const node = &s;
       for (const auto [var,val] : stats0.elims()) {
         assert(var < node->V.size()); GV::unset_var(s, node->V[var], val);
       }
@@ -656,9 +661,11 @@ namespace LookaheadBranching {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
     }
 
-    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
+    GC::ExecStatus commit(GC::Space& s0, const GC::Choice& c0,
                           const unsigned a) override {
-      return RlaBranching::commit0(s, c0, a);
+      {CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
+       s.update_clone();}
+      return RlaBranching::commit0(s0, c0, a);
     }
 
 };
