@@ -11,6 +11,8 @@ TODOS:
 
 1. Urgently unit-tests are needed, for all components.
    - DONE tr() function
+   - DONE wsumdomsizes() function
+   - DONE new_vars() function
    - DONE ValVec struct
    - DONE append() function
    - DONE create() function
@@ -21,7 +23,7 @@ TODOS:
    - RlaBranching struct
    - BranchingStatistics class
    - laStats struct
-   - branch_measure() function
+   - branch_distance() function
    - LaBranching struct
 
 */
@@ -45,7 +47,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "8.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -76,6 +78,43 @@ int main(const int argc, const char* const argv[]) {
    assert(tr(GcIntVarArray(2, 1)[1].size(), 1) == 1);
    assert(tr(GcIntVarArray(2, 2)[0].size(), 1) == 2);
    assert(tr(GcIntVarArray(2, 2)[1].size(), 1) == 2);
+  }
+
+  {const GcIntVarArray V(1, 1);
+   const OP::weights_t w = {0, 0};
+   assert(wsumdomsizes(V, &w) == 0);
+  }
+  {const GcIntVarArray V(1, 2);
+   const OP::weights_t w = {0, 0, 1};
+   assert(wsumdomsizes(V, &w) == 1);
+  }
+  {const GcIntVarArray V(1, 3);
+   const OP::weights_t w = {0, 0, 1, 2};
+   assert(wsumdomsizes(V, &w) == 2);
+  }
+  {const GcIntVarArray V(2, 3);
+   const OP::weights_t w = {0, 0, 1, 2};
+   assert(wsumdomsizes(V, &w) == 2 * 2);
+  }
+
+  {const OP::weights_t w = {0, 0};
+   const GcIntVarArray V(1, 2);
+   assert(new_vars(V, V, &w, 1) == 0);
+  }
+  {const OP::weights_t w = {0, 0, 1};
+   const GcIntVarArray V(1, 2);
+   const GcIntVarArray nV(1, 1);
+   assert(new_vars(V, nV, &w, 1) == 1);
+  }
+  {const GcIntVarArray V(1, 3);
+   const GcIntVarArray nV(1, 2);
+   const OP::weights_t w = {0, 0, 1, 2};
+   assert(new_vars(V, nV, &w, 1) == 1);
+  }
+  {const GcIntVarArray V(2, 2);
+   const GcIntVarArray nV(2, 1);
+   const OP::weights_t w = {0, 0, 1};
+   assert(new_vars(V, nV, &w, 1) == 2);
   }
 
   {GcIntArraySpace g(1, 1);
