@@ -1,6 +1,7 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 8, 0, >= 129, 0, 0, 0
+
 # Remark: count != 0 iff gcd(N,6) = 1.
 
 # Apparently not on OEIS.
@@ -9,8 +10,10 @@
 
 # Far best seems dom+binbr+maxdom.
 
-# MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom binbr maxdom desc 12
-# dom binbr maxdom desc 8 4.079 3546754 64206 128427 45
+# MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom bin maxdom desc 1 12
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
+#  11   +count dom bin    maxdom desc    1           8       2.866       2356883       64206      128427     23
+# real	0m0.463s user	0m2.873s sys	0m0.111s
 
 # MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 40h wall-clock and 129 solutions found.
@@ -47,41 +50,43 @@
 
 # laMols with dL:
 
+# MOLS> time ./laMols 10 data/SpecsCollection/Pandiagonal "" +count "" enu dL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 10   +count dom enu   dL   asc  relpr   1        0       8.826        988       19       41     3       22       19       3
+#      vals      props     elvals     prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   592.409      7.909     13.591      3.182     193.864      405.955     1.091     0.000     0.331     0.023     0.006
+#   557.000      0.000      0.000      0.000      50.000      166.000     1.000     0.000     0.144     0.000     0.000
+#   650.000     15.000     21.000     23.000     640.000     1174.000     2.000     0.000     0.960     0.034     0.020
+#    26.586      3.544      5.404      6.200     178.038      281.089     0.294     0.000     0.230     0.009     0.007
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   625.333     7.000     0.058     28.333     35.667     48.333      8.190     0.667     0.512
+#   613.000     7.000     0.055     27.000     30.143     33.000      2.100     0.000     0.483
+#   650.000     7.000     0.065     29.000     38.429     56.000     11.236     1.000     0.528
+#    21.362     0.000     0.006      1.155      4.784     13.279      5.275     0.577     0.025
+# real	0m0.752s user	0m8.835s sys	0m0.000s
 # MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +enum "" enu dL "" "" 1 12 ""
 # aborted after 2min wallclock-time without finding a solution.
 
 
 # laMols with wdL:
 
+# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu wdL "" "" 1 12 ""
+# aborted after 3min wallclock-time without finding a solution.
 # Some hand-optimisation yields
-# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu wdL "" "" 1 12 "0.1,0.2,0.2,0.2,0.2,1,1,1,1"
+# time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu wdL "" "" 1 12 "0.1,0.2,0.2,0.2,0.2,1,1,1,1"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-# 11   +count dom enu  wdL   asc  relpr   1        8     150.629      72164     1320     2857    10     1537     1320     217
+# 11   +count dom enu  wdL   asc  relpr   1        8     119.193      72164     1320     2857    10     1537     1320     217
 #      vals      props     elvals    prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
-#   730.277     17.868     25.855     0.193     250.700      700.064     1.492     0.005     0.416     0.036     0.000
+#   730.277     17.868     25.855     0.193     250.700      700.064     1.492     0.005     0.210     0.036     0.000
 #   487.000      0.000      0.000     0.000       0.000        7.000     1.000     0.000     0.000     0.000     0.000
-#   891.000     48.000     70.000     4.000     880.000     2294.000     4.000     1.000     1.939     0.143     0.011
-#    60.851     12.764     16.748     0.504     235.271      435.731     0.612     0.072     0.300     0.023     0.001
-#        mu         w      ltau       mind      meand       maxd       sdd        tb
-#   240.378     7.078     0.094     23.794     26.348     29.122     1.739     0.485
-#   128.000     3.000     0.037      4.853      5.582      5.672     0.000     0.149
-#   410.000     8.000     0.288     55.982     55.982     55.982     3.862     0.995
-#    50.014     1.170     0.054     11.236     11.896     13.003     0.831     0.194
-# real	0m16.669s  user	2m30.633s sys	0m0.512s
-# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu wdL "" relnpr 1 12 "0.1,0.2,0.2,0.2,0.2,1,1,1,1"
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-# 11   +count dom enu  wdL   asc relnpr   1        8     132.068      72164     1320     2857    10     1537     1320     217
-#      vals      props     elvals    prunes    mprune       probes    rounds      solc        tr   qelvals   qprunes
-#   730.277     17.868     25.855     0.000     0.000      700.258     1.492     0.005     0.469     0.036     0.000
-#   487.000      0.000      0.000     0.000     0.000        7.000     1.000     0.000     0.000     0.000     0.000
-#   891.000     48.000     70.000     0.000     0.000     2297.000     4.000     1.000     2.343     0.143     0.000
-#    60.851     12.764     16.748     0.000     0.000      435.860     0.612     0.072     0.396     0.023     0.000
-#        mu         w      ltau       mind      meand       maxd       sdd        tb
-#   240.378     7.078     0.094     23.794     26.348     29.122     1.739     0.547
-#   128.000     3.000     0.037      4.853      5.582      5.672     0.000     0.097
-#   410.000     8.000     0.288     55.982     55.982     55.982     3.862     1.114
-#    50.014     1.170     0.054     11.236     11.896     13.003     0.831     0.257
-# real	0m14.972s user	2m12.076s sys	0m0.717s
+#   891.000     48.000     70.000     4.000     880.000     2294.000     4.000     1.000     2.284     0.143     0.011
+#    60.851     12.764     16.748     0.504     235.271      435.731     0.612     0.072     0.319     0.023     0.001
+#        mu         w      ltau       mind      meand       maxd       sdd        dp        tb
+#   240.378     7.078     0.094     23.794     26.348     29.122     1.739     3.521     0.266
+#   128.000     3.000     0.037      4.853      5.582      5.672     0.000     0.000     0.016
+#   410.000     8.000     0.288     55.982     55.982     55.982     3.862     8.000     0.997
+#    50.014     1.170     0.054     11.236     11.896     13.003     0.831     1.418     0.301
+# real	0m41.486s user	1m59.197s sys	0m0.202s
 # MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" bin wdL "" "" 1 12 "0.1,0.2,0.2,0.2,0.2,1,1,1,1"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 # 11   +count dom bin  wdL   asc  relpr   1        8   12338.953    1431490    29658    88973    15    59315    29658   29657
@@ -99,6 +104,42 @@
 # Trying to extend that weight-tuple, by extending the 0.2-middle-part:
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu wdL "" relpr 1 12 "0.1,0.2,0.2,0.2,0.2,0.2,1,1,1,1"
 # aborted after 11h wallclock-time without decision.
+
+
+# laMols with newvars:
+
+# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu newv "" "" 1 12 "0,0,0,0,0,0,10,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 11   +count dom enu newv   asc  relpr   1        8     174.010      77177     1422     3083    10     1661     1422     239
+#      vals      props     elvals    prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   727.683     18.201     26.031     0.196     252.067      717.053     1.528     0.005     0.801     0.036     0.000
+#   487.000      0.000      0.000     0.000       0.000        6.000     1.000     0.000     0.001     0.000     0.000
+#   891.000     49.000     74.000     4.000     880.000     2549.000     4.000     1.000     3.419     0.124     0.007
+#    59.547     12.986     17.069     0.464     237.097      448.901     0.638     0.069     0.522     0.024     0.001
+#           mu         w      ltau          mind         meand          maxd          sdd        dp        tb
+#    84847.079     6.946     0.005      9271.167     10685.980     12303.552     1019.743     3.632     0.847
+#    15425.000     3.000     0.000        19.000        20.800        21.000        0.000     0.000     0.383
+#   112640.000     8.000     0.077     28673.000     28673.000     28673.000     2225.907     8.000     1.255
+#    22142.529     1.104     0.017      6057.231      6463.584      7148.132      494.843     1.414     0.165
+# real	0m17.278s user	2m54.012s sys	0m1.685s
+# Small improvement:
+# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu newv "" "" 1 12 "0,0,0,0,2,0,10,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 11   +count dom enu newv   asc  relpr   1        8     108.659      76692     1414     3063     8     1649     1414     235
+#      vals      props     elvals    prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   728.571     18.151     25.927     0.192     251.410      716.491     1.527     0.005     0.435     0.036     0.000
+#   488.000      0.000      0.000     0.000       0.000        6.000     1.000     0.000     0.000     0.000     0.000
+#   891.000     49.000     75.000     4.000     880.000     2549.000     4.000     1.000     2.168     0.153     0.007
+#    58.830     12.926     16.941     0.460     237.026      449.396     0.637     0.070     0.349     0.024     0.001
+#           mu         w      ltau           mind          meand           maxd          sdd        dp        tb
+#   342859.123     7.013     0.001      37709.511      43465.055      50045.417     4148.340     3.557     0.498
+#    61700.000     4.000     0.000         62.000         67.600         71.000        0.000     0.000     0.059
+#   450560.000     8.000     0.024     114689.000     114689.000     114689.000     8903.627     7.000     0.990
+#    85180.923     0.985     0.005      23945.278      25462.819      28101.377     1922.546     1.304     0.223
+# real	0m14.909s user	1m48.660s sys	0m0.715s
+# N=12, with a zero added at the end to the weights:
+# MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu newv - "" 1 12 "0,0,0,0,0,0,10,0,0,0,0"
+# asc aborted after 90min wallclock, desc aborted after 25min.
 
 
 squares A

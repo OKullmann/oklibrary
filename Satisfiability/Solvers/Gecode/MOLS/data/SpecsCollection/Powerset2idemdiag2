@@ -57,6 +57,20 @@
 
 # laMols with wdL:
 
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu wdL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  8   +count dom enu  wdL   asc  relpr   1      672    1500.689    7230535    45840   110677    10    64837    45840   18997
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   462.378     10.902     17.797      22.118     177.921      344.073     1.450     0.010     0.183     0.039     0.045
+#   364.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   688.000     58.000     80.000     323.000     672.000     2734.000     7.000     2.000     1.723     0.166     0.333
+#    37.185     10.568     15.025      29.469     196.455      351.719     0.757     0.115     0.189     0.032     0.035
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   216.361     3.413     0.092      9.044     16.172     23.524       -nan     0.232
+#   194.000     2.000     0.034      3.415      7.034      7.054      0.000     0.009
+#   289.000     6.000     0.254     32.569     32.764     57.488     20.796     0.550
+#    10.448     0.661     0.031      3.276      5.609     10.903       -nan     0.060
+# real	2m28.388s user	25m0.694s sys	0m31.886s
 # Basically guessing the weights:
 # MOLS> time ./laMols 8 data/SpecsCollection/Powerset2idemdiag2 "" +count "" enu wdL "" "" 1 12 "1,1,0.2,0.2,0.2,0.2"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc

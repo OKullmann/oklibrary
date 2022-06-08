@@ -114,7 +114,21 @@
 
 # laMols with wdL:
 
-# Just some "random weights":
+# MOLS> time ./laMols 10 data/SpecsCollection/SudokuQueen "" count "" enu wdL "" "" 1 6 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 10    count dom enu  wdL   asc  relpr   1        0     815.652    1812407    17621    43862    13    26241    17621    8620
+#      vals       props      elvals      prunes      mprune       probes     rounds      solc        tr   qelvals   qprunes
+#   482.248      15.938      24.663      14.915     218.333      564.106      1.758     0.000     0.110     0.052     0.030
+#   279.000       0.000       0.000       0.000       0.000        2.000      1.000     0.000     0.000     0.000     0.000
+#   712.000     108.000     132.000     251.000     702.000     4476.000     10.000     0.000     0.876     0.257     0.545
+#    49.609      15.985      23.694      17.673     202.202      475.331      0.987     0.000     0.101     0.049     0.033
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   207.479     3.044     0.129      5.952      9.642     12.612      2.780     0.100
+#   165.000     2.000     0.031      1.526      4.063      4.152      0.000     0.032
+#   265.000     8.000     0.227     28.307     51.435     67.714     21.804     0.280
+#    12.470     1.060     0.031      2.544      5.242      8.090      2.951     0.027
+# real	3m5.218s user	13m35.657s sys	0m3.754s
+# The simplest exponential pattern:
 # MOLS> time ./laMols 10 data/SpecsCollection/SudokuQueen "" count "" enu wdL "" "" 1 6 "0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 # 10    count dom enu  wdL   asc  relpr   1        0      86.585     182624     1827     4232    10     2405     1827     578
@@ -129,7 +143,39 @@
 #   202.000     9.000     0.247     18.308     24.268     36.234     12.095     0.190
 #    13.181     1.159     0.046      2.160      4.807      7.239      2.643     0.036
 # real	0m25.063s user	1m26.596s sys	0m0.296s
-# This looks promising.
+# MOLS> time ./laMols 10 data/SpecsCollection/SudokuQueen "" count "" enu wdL "" "" 1 12 "0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 10    count dom enu  wdL   asc  relpr   1        0     108.651     178488     1828     4185    10     2357     1828     529
+#      vals       props      elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   502.746      18.321      27.411       9.521     193.087      625.467     1.859     0.000     0.242     0.055     0.013
+#   341.000       0.000       0.000       0.000       0.000        5.000     1.000     0.000     0.000     0.000     0.000
+#   712.000     102.000     126.000     147.000     702.000     4170.000     8.000     0.000     2.477     0.207     0.095
+#    54.767      16.030      22.016      13.976     189.845      574.180     1.122     0.000     0.310     0.044     0.012
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   204.883     4.454     0.107     11.231     15.454     19.492      3.103     0.217
+#   139.000     2.000     0.019      2.582      6.101      6.771      0.121     0.030
+#   306.000     9.000     0.140     34.071     45.967     60.146     20.709     0.633
+#    23.579     1.185     0.021      3.711      6.789     10.222      3.683     0.149
+# real	0m16.676s user	1m48.656s sys	0m0.777s
+# MOLS> time ./laMols 10 data/SpecsCollection/SudokuQueen "" count "" enu wdL "" "" 1 12 "0.4,0.3,0.3,0.1,0.3,0.2,0.4,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+# 10    count dom enu  wdL   asc  relpr   1        0     102.235     136746     1342     3059    10     1717     1342     375
+#      vals      props      elvals      prunes      mprune       probes     rounds      solc        tr   qelvals   qprunes
+#   504.778     18.475      27.730       9.023     187.995      608.560      1.815     0.000     0.250     0.055     0.013
+#   341.000      0.000       0.000       0.000       0.000        5.000      1.000     0.000     0.000     0.000     0.000
+#   712.000     95.000     153.000     215.000     702.000     4888.000     10.000     0.000     2.749     0.271     0.109
+#    60.993     15.751      21.886      14.130     189.459      544.270      1.046     0.000     0.308     0.043     0.013
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   194.688     4.576     0.135      9.232     13.186     16.374      2.683     0.235
+#   129.000     2.000     0.021      2.055      5.168      6.060      0.049     0.049
+#   276.000     9.000     0.183     34.918     64.609     72.588     20.747     0.603
+#    20.613     1.262     0.033      3.879      7.292      9.823      3.309     0.138
+# real	0m13.405s user	1m42.241s sys	0m0.480s
+
+# MOLS> time ./laMols 11 data/SpecsCollection/SudokuQueen "" +count "" enu wdL - "" 1 12 "0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3"
+# aborted after 50m wallclock-time without finding a solution.
+
+# N=10 looks promising.
 
 
 # Really interesting cases are N=16, 25.

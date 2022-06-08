@@ -48,6 +48,20 @@
 
 
 # laMols with wdL:
+# time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu wdL "" "" 1 6 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  9    count dom enu  wdL   asc  relpr   1        0      33.656     181253     2002     4581    11     2579     2002     577
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   329.541     14.812      23.412       8.737     118.153      375.565     1.730     0.000     0.042     0.071     0.015
+#   192.000      0.000       0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   513.000     76.000     102.000     117.000     504.000     3007.000     8.000     0.000     0.700     0.259     0.125
+#    49.896     13.094      18.797      16.002     135.058      434.888     1.178     0.000     0.063     0.053     0.018
+#        mu         w      ltau       mind      meand       maxd        sdd        tb
+#   154.962     4.468     0.127      8.067     16.313     20.125      4.622     0.042
+#   114.000     2.000     0.027      2.129      5.777      6.277      0.040     0.010
+#   201.000     7.000     0.228     29.143     44.938     60.611     17.906     0.100
+#    16.268     1.110     0.054      4.590      8.958     11.653      4.189     0.020
+# real	0m9.332s user	0m33.659s sys	0m0.217s
 # Some hand-optimisation yields:
 # MOLS> time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu wdL "" "" 1 6 "0.5,0.5,0.5,0.01,0.01,0.1,1"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
