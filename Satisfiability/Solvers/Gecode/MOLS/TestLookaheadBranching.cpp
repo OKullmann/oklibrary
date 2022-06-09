@@ -34,8 +34,6 @@ TODOS:
 */
 
 #include <iostream>
-#include <sstream>
-#include <memory>
 
 #include <cassert>
 
@@ -53,8 +51,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.8",
-        "8.6.2022",
+        "0.1.9",
+        "9.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
