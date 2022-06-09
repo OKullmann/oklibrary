@@ -9,7 +9,8 @@ License, or any later version. */
 
 TODOS:
 
-0. Use more loops
+0. DONE (Loops are now used for wsumdomsizes(), new_vars(), and ValVec.)
+   Use more loops
    - Most of the tests in here can be simplified (and code-duplication
      removed) by using loops.
 
@@ -41,6 +42,7 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <Numerics/NumBasicFunctions.hpp>
 #include <ProgramOptions/Environment.hpp>
 
 #include "LookaheadBranching.hpp"
@@ -51,7 +53,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.1.7",
         "8.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -64,6 +66,7 @@ namespace {
   namespace GC = Gecode;
   namespace CS = Cases;
   namespace OP = Options;
+  namespace FP = FloatingPoint;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -82,54 +85,34 @@ int main(const int argc, const char* const argv[]) {
          assert(tr(GcIntVarArray(n,dom)[v].size(),1) == dom);
   }
 
-  {const GcIntVarArray V(1, 1);
-   const OP::weights_t w = {0, 0};
-   assert(wsumdomsizes(V, &w) == 0);
-  }
-  {const GcIntVarArray V(1, 2);
-   const OP::weights_t w = {0, 0, 1};
-   assert(wsumdomsizes(V, &w) == 1);
-  }
-  {const GcIntVarArray V(1, 3);
-   const OP::weights_t w = {0, 0, 1, 2};
-   assert(wsumdomsizes(V, &w) == 2);
-  }
-  {const GcIntVarArray V(2, 3);
-   const OP::weights_t w = {0, 0, 1, 2};
-   assert(wsumdomsizes(V, &w) == 2 * 2);
+  {const OP::weights_t w = {0, 0, 1, 2};
+   for (size_t n = 1; n <= 3; ++n)
+     for (size_t dom = 1; dom <= 3; ++dom) {
+       const GcIntVarArray V(n, dom);
+       assert(wsumdomsizes(V, &w) == n * w[dom]);
+     }
   }
 
-  {const OP::weights_t w = {0, 0};
-   const GcIntVarArray V(1, 2);
-   assert(new_vars(V, V, &w, 1) == 0);
-  }
-  {const OP::weights_t w = {0, 0, 1};
-   const GcIntVarArray V(1, 2);
-   const GcIntVarArray nV(1, 1);
-   assert(new_vars(V, nV, &w, 1) == 1);
-  }
-  {const GcIntVarArray V(1, 3);
-   const GcIntVarArray nV(1, 2);
-   const OP::weights_t w = {0, 0, 1, 2};
-   assert(new_vars(V, nV, &w, 1) == 1);
-  }
-  {const GcIntVarArray V(2, 2);
-   const GcIntVarArray nV(2, 1);
-   const OP::weights_t w = {0, 0, 1};
-   assert(new_vars(V, nV, &w, 1) == 2);
+  {const OP::weights_t w = {0, 0, 1, 2, 3};
+   for (size_t n = 1; n <= 3; ++n)
+     for (size_t dom = 2; dom <= 4; ++dom)
+       for (size_t depth = 1; depth <= 3; ++depth) {
+         const GcIntVarArray V(n, dom);
+         const GcIntVarArray nV(n, dom-1);
+         const auto wval = dom==2 ? FP::exp2((w)[1] * depth) : w[1];
+         assert(new_vars(V, nV, &w, depth) == n * wval);
+       }
   }
 
-  {GcIntArraySpace g(1, 1);
-   const ValVec vv(CS::Void(g), {0, 0});
-   assert(eqp(vv.br, {0, 0}));
-  }
-  {GcIntArraySpace g(1, 2);
-   const ValVec vv(CS::Void(g), {0, 0, 1});
-   assert(eqp(vv.br, {0, 0, 1}));
-  }
-  {GcIntArraySpace g(1, 3);
-   const ValVec vv(CS::Void(g), {0, 0, 1, 2});
-   assert(eqp(vv.br, {0, 0, 1, 2}));
+  {for (size_t n = 1; n <= 3; ++n)
+     for (size_t v = 0; v < n; ++v)
+       for (size_t dom = 1; dom <= 3; ++dom) {
+         GcIntArraySpace g(n, dom);
+         values_t branching = {v};
+         for (int i=0; i<n; ++i) branching.push_back(i);
+         const ValVec vv(CS::Void(g), branching);
+         assert(eqp(vv.br, branching));
+       }
   }
 
   {assert(eqp(append(0, {1}, true), {0, 1}));
