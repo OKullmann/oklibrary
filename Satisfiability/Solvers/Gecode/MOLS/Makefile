@@ -14,8 +14,8 @@ test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 
-atps_debug = Euler_debug
-atps       = Euler
+atps_debug = Euler_debug gcMols_debug
+atps       = Euler gcMols
 
 atps_debug := $(addprefix at_,$(atps_debug))
 atps       := $(addprefix at_,$(atps))

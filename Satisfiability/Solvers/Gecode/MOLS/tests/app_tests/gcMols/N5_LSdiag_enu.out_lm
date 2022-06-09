@@ -1,0 +1,14 @@
+# N: 5
+# k=1 total_num_sq=1: "@squares A \\nls A\\ndiag A\\nantidiag A\\n"
+#   num_uc=3 num_eq=0 num_peq=0
+# no_ps
+# num_runs=1
+# threads=1
+# rt=count-solutions\(count\)
+#   propagation-level: domain-prop\(dom\)
+#   branching-type: enumerative-branching\(enu\)
+#   variable-heuristic: max-deg/dom-var\(maxdegdom\)
+#   order-heuristic: ascending-order\(asc\)
+#   commit-distance: 1
+   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
+   5    count dom enu maxdegdom  asc    1         960       \d+\.\d+         24712           0        1886      7
