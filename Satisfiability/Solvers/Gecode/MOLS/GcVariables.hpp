@@ -61,13 +61,15 @@ namespace GcVariables {
 
 
   struct GcIntArraySpace : GC::Space {
+    const int n, dom;
     VarVec V;
-    GcIntArraySpace(const size_t varnum, const size_t domainsize = 1)
-      noexcept : V(*this, varnum, 0, domainsize-1) {
-      assert(varnum > 0 and domainsize > 0);
+    GcIntArraySpace(const size_t n, const size_t dom = 1) noexcept :
+      n(n), dom(dom), V(*this, n, 0, dom-1) {
+      assert(n > 0 and dom > 0);
     }
   protected :
-    GcIntArraySpace(GcIntArraySpace& gm) : GC::Space(gm), V(gm.V) {
+    GcIntArraySpace(GcIntArraySpace& gm) :
+      GC::Space(gm), n(gm.n), dom(gm.dom), V(gm.V) {
       V.update(*this, gm.V);
     }
     GC::Space* copy() override { return new GcIntArraySpace(*this); }
@@ -78,10 +80,10 @@ namespace GcVariables {
     const intarr_ptr_t m;
     const VarVec V;
   public:
-    GcIntVarArray(const size_t varnum, const size_t domainsize = 1)
-      noexcept : m(new GcIntArraySpace(varnum, domainsize)), V(m->V) {
-      assert(varnum > 0 and domainsize > 0);
-    }
+    GcIntVarArray(const size_t n, const size_t dom = 1)
+      noexcept : m(new GcIntArraySpace(n, dom)), V(m->V) {
+        assert(n > 0 and dom > 0);
+      }
     operator VarVec() const noexcept { return V; }
     const auto& operator [](const int i) const { return V[i]; }
     auto& operator [](const int i) { return V[i]; }
