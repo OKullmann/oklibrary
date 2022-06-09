@@ -105,14 +105,15 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {for (size_t n = 1; n <= 3; ++n)
-     for (size_t v = 0; v < n; ++v)
-       for (size_t dom = 1; dom <= 3; ++dom) {
-         GcIntArraySpace g(n, dom);
-         values_t branching = {v};
-         for (int i=0; i<n; ++i) branching.push_back(i);
+     for (size_t dom = 1; dom <= 3; ++dom) {
+       GcIntArraySpace g(n, dom);
+       for (int v = 0; v < g.n; ++v) {
+         values_t branching{v};
+         for (int i = 0; i < g.n; ++i) branching.push_back(i);
          const ValVec vv(CS::Void(g), branching);
-         assert(eqp(vv.br, branching));
+         assert(vv.br == branching);
        }
+     }
   }
 
   {assert(eqp(append(0, {1}, true), {0, 1}));
