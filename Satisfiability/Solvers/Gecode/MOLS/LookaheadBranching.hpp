@@ -15,6 +15,8 @@ BUGS:
 
 TODOS:
 
+0. Provide documentation.
+
 1. Provide and use better statistics-functions for the branches
     - There needs to be a general facility, which takes as input
       as vector of values, and provides, using the most exact
