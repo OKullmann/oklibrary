@@ -207,8 +207,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.3",
-        "3.6.2022",
+        "0.13.4",
+        "9.6.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -260,7 +260,7 @@ namespace {
 
   constexpr size_t sep_spaces = 2;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{9, 11, 13, 11, 11, 6};
+  const Environment::wvec_t widths{9, 11, 13, 11, 11, 6, 2};
   constexpr size_t wN = 4, wgcd = 5;
 
   void rh(std::ostream& out) {
@@ -269,7 +269,7 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
-      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd"),
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "st"),
       widths);
     out << std::endl;
   }
@@ -279,7 +279,7 @@ namespace {
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
-        res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth),
+        res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth, res.stopped),
       widths);
     out.flush();
     FloatingPoint::undo(out, state);

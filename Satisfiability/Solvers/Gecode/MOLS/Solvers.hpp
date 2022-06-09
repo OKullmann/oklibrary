@@ -172,18 +172,14 @@ namespace Solvers {
     typedef GC::Search::Statistics gc_stats_t;
     gc_stats_t gs;
     double ut = 0;
+    bool stopped = false;
+
+    template <class X>
+    void update(const X& s) noexcept {
+      gs = s.statistics(); stopped = s.stopped();
+    }
 
     bool operator ==(const GBasicSR&) const noexcept = default;
-    static void rh(std::ostream& out) {
-      BasicSR::rh(out);
-      out << " t prop flvs nds h";
-    }
-    void rs(std::ostream& out) const {
-      b.rs(out); out << " ";
-      FloatingPoint::out_fixed_width(std::cout, 3, ut);
-      out << " " << gs.propagate << " " << gs.fail <<
-        " " << gs.node << " " << gs.depth;
-    }
   };
 
   struct rlaSR : GBasicSR {
@@ -285,7 +281,8 @@ namespace Solvers {
   /*
     The pure Gecode-solver
   */
-  GC::Search::Options make_options(const double t, const unsigned gcd) noexcept {
+  GC::Search::Options make_options(const double t,
+                                   const unsigned gcd) noexcept {
     GC::Search::Options res; res.threads = t;
     if (gcd) res.c_d = gcd;
     return res;
@@ -321,7 +318,7 @@ namespace Solvers {
             "correctness-checking failed for solution:\n" << sol << "\n";
         delete leaf;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::sat_solving: {
       if (CT::GenericMols0* const leaf = s.next()) {
@@ -334,7 +331,7 @@ namespace Solvers {
             "correctness-checking failed for solution:\n" << sol << "\n";
         delete leaf;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::unique_solving: {
       while (CT::GenericMols0* const leaf = s.next()) {
@@ -349,7 +346,7 @@ namespace Solvers {
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::unique_decision: {
       while (CT::GenericMols0* const leaf = s.next()) {
@@ -363,7 +360,7 @@ namespace Solvers {
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::unique_s_with_log: {
       assert(log);
@@ -379,7 +376,7 @@ namespace Solvers {
         delete leaf;
         if (res.b.sol_found == 2) break;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::unique_d_with_log: {
       assert(log);
@@ -395,13 +392,13 @@ namespace Solvers {
         *log << " " << res.b.sol_found; log->flush();
         if (res.b.sol_found == 2) break;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::count_solutions: {
       while (CT::GenericMols0* const leaf = s.next()) {
         ++res.b.sol_found; delete leaf;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::count_with_log: {
       assert(log);
@@ -409,7 +406,7 @@ namespace Solvers {
         ++res.b.sol_found; delete leaf;
         *log << " " << res.b.sol_found; log->flush();
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::enumerate_solutions: {
       while (CT::GenericMols0* const leaf = s.next()) {
@@ -423,7 +420,7 @@ namespace Solvers {
                     << ":\n" << sol << "\n";
         delete leaf;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }
     case RT::enumerate_with_log: {
       assert(log);
@@ -438,7 +435,7 @@ namespace Solvers {
                     << ":\n" << sol << "\n";
         delete leaf;
       }
-      res.gs = s.statistics(); break;
+      res.update(s); break;
     }}
     return res;
   }
@@ -520,7 +517,7 @@ namespace Solvers {
     rlaSR res{rt};
     {[[maybe_unused]]CT::GenericMols0* const leaf=s.next(); assert(not leaf);}
     res.ut = timing() - t0;
-    res.gs = s.statistics();
+    res.update(s);
     res.b.sol_found = stats->sol_count();
     res.S = stats->stats();
     res.lvs = stats->lvs();
@@ -601,7 +598,7 @@ namespace Solvers {
     laSR res{rt};
     {[[maybe_unused]]CT::GenericMols1* const leaf=s.next(); assert(not leaf);}
     res.ut = timing() - t0;
-    res.gs = s.statistics();
+    res.update(s);
     res.b.sol_found = stats->rla().sol_count();
     res.S = stats->rla().stats();
     res.lvs = stats->rla().lvs();

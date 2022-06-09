@@ -89,8 +89,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
-        "8.6.2022",
+        "0.8.3",
+        "9.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -139,7 +139,7 @@ namespace {
 
   constexpr size_t sep_spaces = 0;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 8, 8, 7};
+  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 2, 8, 8, 7};
   constexpr size_t wN = 3, wgcd = 4;
 
   void rh(std::ostream& out) {
@@ -148,7 +148,7 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
-      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd",
+      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "st",
                       "larc", "lvs", "larbc"),
       widths);
     out << "\n";
@@ -159,8 +159,8 @@ namespace {
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
-                      res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth,
-                      res.S.N(), res.lvs, res.S1.N()),
+        res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth, res.stopped,
+        res.S.N(), res.lvs, res.S1.N()),
       widths);
     out << "\n";
     res.S.out(out, {"vals", "props", "elvals", "prunes",
