@@ -29,6 +29,11 @@ Compare also with todos in gcMols.
    - On the one hand, it is informative to see how many solutions per node
      are obtained.
    - On the other hand, one also wants to see the total count.
+   - One could have an output-option for switching between the two
+     possibilities.
+   - Or one always outputs the total count T, and outputs the local count L
+     additionally iff it is > 1, and the form
+       T:L.
 
 -1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
