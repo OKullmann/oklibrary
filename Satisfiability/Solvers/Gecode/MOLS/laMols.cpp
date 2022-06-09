@@ -32,26 +32,21 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 0. Early abortion of runs
-    - A further commandline-argument.
-    - Bounds b on "lvs", "t" and "nds", with abortion iff the
-      current measure is stricly greater than the given bound.
-    - Using rlaStats::abort, set in rlaStats::add.
-      Using abort.store there then is handled by a dedicated member.
+    - A further commandline-argument (for rlaMols and laMols).
+    - Syntax: comma-separated pairs, like
+      "satc,20" or "nds, 1000" or "mu , 10000",
+      with the natural meaning "satc > 20", "nds > 1000", "mu < 10000".
+    - Aborting either the branch for local measures like mu, or the
+      whole computation for global measures like satc.
+    - Such pairs can be concatenated by "|" (for logical or).
+    - Using rlaStats::abort, set in rlaStats::add, for global abortion.
+    - Using abort.store there then is handled by a dedicated member.
       And data-member threshold is expanded to a proper object holding
       such data.
-    - Perhaps also allowing a bound for "satc" and for "dp".
-      But "dp" is not available for the reduction; perhaps leaving thus
-      depth for later (C&C).
-    - Also time is not available; so perhaps not for now? Only "lvs" and
-      "nds" for now.
-    - One could have "mu<bound", which could be used for C&C.
-    - Using logical or for several conditions (abort say iff
-      satc or t is exceeded).
-    - Syntax: '>'-separated pairs like "satc>20" or "nds > 1000",
-      separated by "|".
-    - Since for every measure only one relation makes sense, the
-      pairs can be just handled as comma-separated pairs, like
-      "satc,20" or "nds, 1000" or "mu , 10000".
+    - Abortion of just the branch is handled by generalising the current
+      handling of "leafcount".
+    - Later also allowing bounds for branching-related data (like depth)
+      and total runtime.
 
 1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
