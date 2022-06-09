@@ -53,7 +53,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.7",
+        "0.1.8",
         "8.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -99,7 +99,7 @@ int main(const int argc, const char* const argv[]) {
        for (size_t depth = 1; depth <= 3; ++depth) {
          const GcIntVarArray V(n, dom);
          const GcIntVarArray nV(n, dom-1);
-         const auto wval = dom==2 ? FP::exp2((w)[1] * depth) : w[1];
+         const auto wval = dom==2 ? FP::exp2((w)[1] * depth) : w[dom-1];
          assert(new_vars(V, nV, &w, depth) == n * wval);
        }
   }
