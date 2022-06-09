@@ -12,12 +12,25 @@ License, or any later version. */
 
 Examples:
 
-1. Finding an Euler square for N=6
-    - for dom propagation-level
-    - the default branching-type (binary branching)
-    - and the default branching-order:
+1. Counting all 18 Euler-squares (mutually orthogonal latin squares)
+of order 6, which are reduced:
 
-MOLS> ./laMols 6 data/SpecsCollection/Euler "" satd dom binbr 0,2,3,4,5 asc eag 1
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu dL "" "" 1 3 ""
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+  5    count dom enu   dL   asc  relpr   1       18       0.029        129        3        7     2        4        3       1
+...
+
+Explicitly given parameters:
+ - propagation-level "pl"
+ - branching-type "lbt"
+ - distance "dL"
+ - implementation-detail "gcd"
+ - number of parallel threads = 3.
+For branching-order ("lbo") and some details on
+the reduction-implementation ("lar") the default
+is used. Distance dL does not use weights, but
+the weight-parameter (the last one) needs to be
+there.
 
 */
 
