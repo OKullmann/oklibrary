@@ -1,0 +1,38 @@
+# Oleg Zaikin, 9.6.2022 (Swansea)
+
+Authors:
+ - Oleg Zaikin, o.s.zaikin@swansea.ac.uk
+ - Oliver Kullmann, O.Kullmann@Swansea.ac.uk
+ Swansea University, Computer Science Department, United Kingdom
+
+------------------
+
+REQUIRED PACKAGES
+
+g++ (version 10+), git, Gecode
+
+To install Gecode, follow the instructions from https://www.gecode.org/
+
+------------------
+
+INSTALLATION
+
+Clone the OKlibrary
+
+> git clone https://github.com/OKullmann/oklibrary.git
+
+In the directory "OKlibrary/Satisfiability/Solvers/Gecode/MOLS/docus" perform 
+
+> ./InstallMOLS
+
+The executables
+
+gmMols, rlaMols, laMols
+
+are generated.
+
+-----------------
+
+USE
+
+XXX
