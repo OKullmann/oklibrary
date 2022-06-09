@@ -28,5 +28,4 @@ echo -e "  Required packages:"
 echo -e "    g++ (version 10.3+), Gecode (version 6.2+)"
 
 cd ..
-make
-
+make -j 4
