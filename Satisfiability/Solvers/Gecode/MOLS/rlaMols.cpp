@@ -38,13 +38,6 @@ Compare also with todos in gcMols.
    - Also the total reduction-time ("tr") should be reported (the sum-
      member of the statistics), corrected in the same way.
 
-0. OZ: see especially the todo on the  the statistics-output of Gecode
-   in gcMols
-
-1. A customised brancher with Gecode's default branching strategies is needed:
-   - DONE Handled by LookaheadBranching::RlaBranching.
-   - Check via unit tests that the solver and gcMols give equal results. OZ
-
 */
 
 /*

@@ -108,18 +108,19 @@ Compare also with todos in rlaMols.
 
 -2. OZ: Specify *precisely* the four statistics-outputs of Gecode
         ("prop flvs nds h"):
-         - "ppc" = calls to propagation (does this include the lookahead)?
-         - "flvs": "failed leaves" -- what are they?
-         - "gnds": does every branching created the corresponding "nodes"?
-         - "gd": how does this relate to the backtracking-tree (maximal
-           size of call-stack)?
-         - For rlaMols: it seems we always have
-             larc + flvs = gnds.
-           From that follows that
-             leaf = (flvs + solc) / larc
-           but this does not hold?
+         - "ppc" = calls to propagation
+           (apparently not including the lookahead for (r)laMols)
+         - "flvs": "failed leaves" -- unsatisfiable leaves of the
+           backtracking-tree
+         - "gnds": these are our nodes plus leaves (the "search tree"
+           of Gecode makes leaves always only-children of the current
+           node)
+         - "gd": maximal size of call-stack -- apparently always height
+            of backtracking tree + 1 or + 2
+         - For (r)laMols: it seems we always have
+             lvs = flvs, larc + flvs = gnds.
 
--1. When catching SIGUSR1, output the current results:
+-1. Catching SIGUSR1, output the current results:
      - According to
        https://en.cppreference.com/w/cpp/utility/program/signal
        the signal-handler must not access "an object with thread storage

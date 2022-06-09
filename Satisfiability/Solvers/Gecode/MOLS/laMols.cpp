@@ -29,15 +29,9 @@ BUGS:
 
 /* TODOS:
 
-1. Statistics on branchings (for inner nodes)
-   - DONE these statistics only for inner nodes
-   - DONE number of inner nodes
-   - DONE sumdomsizes (old_L)
-   - DONE width of branching
-   - DONE (l)tau of branching
-   - DONE the four statistics for the distances of the branches
+See Todos in rlaMols, gcMols and LookaheadBranching.
 
-2. Once we checked all statistics, remove the gecode-statistics on nodes
+1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
 
 */
