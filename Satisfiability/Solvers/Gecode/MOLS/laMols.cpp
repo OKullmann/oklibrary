@@ -47,6 +47,9 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
       handling of "leafcount".
     - Later also allowing bounds for branching-related data (like depth)
       and total runtime.
+    - Actually, depth is also available at reduction time ("before
+      branching"); likely its abortion-handling should be included as part
+      of the reduction.
 
 1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
