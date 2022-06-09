@@ -124,7 +124,26 @@
 #    3720.000     2.000     0.000      473.532      710.298      947.064        0.000      0.000     0.010
 #   11842.000     5.000     0.001     3893.981     4827.487     6629.243     1404.005     10.000     0.027
 #    1789.882     0.928     0.000      740.473      809.049      951.277         -nan      1.425     0.002
-# Furhter simplification of weights:
+# Attempt at exact reproduction:
+# ./laMols 7 data/SpecsCollection/Euler_unred data/Weights/N7/inst/0n count dom enu newv "" "" 1 1 "0,7.28055371918846129796449108447,6.83573732102879181382885688431e-1,-1.44334464705005430394486484258,-4.8703315368716917830201408794,3.96425857674561401161585048706"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  7    count dom enu newv   asc  relpr   1        0      17.389     110878     1312     3154    11     1842     1312     530
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   463.394     13.365     20.519      91.126     219.414      349.023     1.528     0.000     0.007     0.045     0.324
+#   303.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   658.000     54.000     73.000     541.000     617.000     1882.000     6.000     0.000     0.041     0.154     4.333
+#    41.291     10.434     14.827      90.869     158.162      294.070     0.843     0.000     0.006     0.032     0.328
+#          mu         w      ltau         mind        meand         maxd          sdd         dp        tb
+#    6988.236     3.474     0.001     2239.639     2533.800     2823.057         -nan      6.443     0.009
+#    3724.000     2.000     0.000      473.708      710.563      947.417        0.000      0.000     0.003
+#   11845.000     5.000     0.001     3894.170     4827.731     6629.563     1404.198     10.000     0.012
+#    1791.767     0.929     0.000      740.609      808.677      949.751         -nan      1.425     0.001
+# The last four digits (float80) are not reproducible this way (one needed
+# direct input of the numbers for this), and the original numbers were given
+# in such a way such that dropping any digit would yield a higher leaf-count).
+# So we consider this "good enough"; though the count of propagation-calls is
+# now much lower?
+# Further simplification of weights:
 # MOLS> time ./laMols 7 data/SpecsCollection/Euler_unred data/Weights/N7/inst/0n count dom enu newv "" "" 1 1 "0,8,1,-1.3,-5,4"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 #  7    count dom enu newv   asc  relpr   1        0      18.789     118240     1388     3344    12     1956     1388     568
@@ -138,7 +157,7 @@
 #    6859.000     2.000     0.000     1293.996      1547.842      1547.842        0.000      0.000     0.005
 #   24275.000     5.000     0.000     8120.054     10050.351     13793.239     4222.342     10.000     0.014
 #    3831.777     0.887     0.000     1420.452      1577.097      1913.277         -nan      1.447     0.001
-] real	0m18.797s user	0m18.791s sys	0m0.000s
+# real	0m18.797s user	0m18.791s sys	0m0.000s
 # So we might restrict our optimisation to say 2 digits precision, and say the range-value [-10, 10].
 
 # Reproduction of old result:
