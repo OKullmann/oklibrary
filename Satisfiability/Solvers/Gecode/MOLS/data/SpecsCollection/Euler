@@ -4,12 +4,13 @@
 # https://oeis.org/A266166
 # 0, 1, 2, 18, 0, 342480, 7850589120, 7188534981260640
 
+
 # gcMols:
 
-# MOLS> time ./gcMols 6 data/SpecsCollection/Euler "" satd dom enu maxdegdom "" 1 1
+# MOLS> ./gcMols 6 data/SpecsCollection/Euler "" satd dom enu maxdegdom "" 1 1
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
-#   6     satd dom enu maxdegdom  asc    1           0       1.031       5331758       59233      106047     16
-# MOLS> ./gcMols_debug 7 data/SpecsCollection/Euler "" count dom enumbr maxdegdom asc 12
+#   6     satd dom enu maxdegdom  asc    1           0       1.136       5725499       64171      115311     15
+# MOLS> ./gcMols_debug 7 data/SpecsCollection/Euler "" count dom enumbr maxdegdom asc 12 XXX
 # pl bt bh bo 	rt sat t prop flvs nds h
 # dom enumbr maxdegdom asc 	count 342480 100334.181 176337623191 1588775587 2956889080 31
 # MOLS> time ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 12
@@ -18,17 +19,18 @@
 # Remark: some runs can be faster, some slower
 
 
+
 # rlaMols:
 
-# MOLS> time ./rlaMols 6 data/SpecsCollection/Euler "" satd dom enu maxdegdom "" "" 1 1
+# MOLS> ./rlaMols 6 data/SpecsCollection/Euler "" satd dom enu maxdegdom "" "" 1 1
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
-#   6     satd dom enu maxdegdom  asc  relpr    1          0      17.233     346835     2673     7504    10     4831     2673
+#   6     satd dom enu maxdegdom  asc  relpr    1          0      19.095     338883     2639     7134     9     4495     2639
 #      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
-#   280.088      9.122     12.782      56.637     154.904      236.822     1.658     0.000     0.004     0.043     0.259
+#   273.021     11.302     15.152      63.652     148.948      272.045     1.836     0.000     0.004     0.049     0.301
 #   116.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
-#   423.000     60.000     69.000     461.000     395.000     1081.000     6.000     0.000     0.017     0.214     6.789
-#    85.923     10.079     13.421      69.600     121.577      210.351     0.853     0.000     0.003     0.041     0.586
-# real	0m17.255s user	0m17.237s sys	0m0.016s
+#   418.000     73.000     89.000     766.000     395.000     1331.000     6.000     0.000     0.023     0.261     6.529
+#    94.694     13.186     16.750      88.121     123.011      265.265     1.067     0.000     0.004     0.049     0.754
+
 
 
 # laMols with dL:
@@ -47,7 +49,7 @@
 #   418.000     4.000     0.173     59.000     110.333     160.000     76.500     11.000     0.005
 #    84.224     0.609     0.067     13.722      20.510      31.967     13.016      1.518     0.002
 # real	0m11.151s user	0m11.143s sys	0m0.008s
-# MOLS> time ./laMols 9 data/SpecsCollection/Euler "" satd "" enu "" dasc "" 1 12 ""
+# MOLS> time ./laMols 9 data/SpecsCollection/Euler "" satd "" enu "" dasc "" 1 12 "" XXX
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 #  9     satd dom enu   dL  dasc  relpr   1        1    2682.972    9234754    64828   161861    53    97033    64833   32200
 #       vals       props      elvals      prunes       mprune       probes     rounds      solc        tr   qelvals   qprunes
@@ -63,73 +65,75 @@
 # real	3m56.119s user	44m43.158s sys	1m39.217s
 
 
+
 # laMols with wdL:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 6 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-#  6     satd dom enu  wdL   asc  relpr   1        0      15.513     492108     3996    10857    11     6861     3996    2865
+#  6     satd dom enu  wdL   asc  relpr   1        0      15.373     496646     3996    10857    12     6861     3996    2865
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-#   193.968      3.849      5.940      26.971      66.923      71.232     1.239     0.000     0.007     0.026     0.651
+#   193.960      3.927      5.995      27.740      67.796      71.859     1.249     0.000     0.007     0.026     0.654
 #   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000     0.000
-#   423.000     50.000     64.000     351.000     395.000     746.000     5.000     0.000     0.099     0.227     9.000
-#    80.976      7.636      9.837      54.256      97.760     118.749     0.594     0.000     0.012     0.035     1.302
+#   418.000     52.000     64.000     422.000     395.000     668.000     5.000     0.000     0.079     0.227     9.000
+#    80.958      7.850      9.984      56.000      97.936     117.555     0.598     0.000     0.011     0.035     1.305
 #        mu         w      ltau       mind      meand        maxd        sdd         dp        tb
-#    70.263     2.394     0.116     11.591     15.689      19.431      3.468      7.277     0.012
+#    70.261     2.394     0.116     11.593     15.689      19.431      3.467      7.277     0.012
 #    12.000     2.000     0.014      2.492      4.000       4.000      0.000      0.000     0.000
-#   187.000     4.000     0.231     70.379     70.379     104.946     43.195     12.000     0.056
-#    55.711     0.602     0.060     17.552     17.683      20.235      5.904      1.726     0.012
-# real	0m3.096s user	0m15.519s sys	0m0.481s
+#   187.000     4.000     0.231     70.379     70.379     104.946     43.195     12.000     0.048
+#    55.709     0.602     0.060     17.551     17.682      20.234      5.903      1.726     0.012
+# real	0m3.479s user	0m15.377s sys	0m0.417s
 # A bit of optimisation by hand:
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 6 "1.2,1.5,0.9,1"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-#  6     satd dom enu  wdL   asc  relpr   1        0      14.703     476808     3874    10411    11     6537     3874    2663
+#  6     satd dom enu  wdL   asc  relpr   1        0      15.166     455794     3905    10636    10     6731     3905    2826
 #      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
-#   199.474      4.498      6.759      20.921      69.875       91.397     1.326     0.000     0.008     0.029     0.420
+#   195.841      4.415      6.521      22.597      67.576       89.173     1.307     0.000     0.008     0.027     0.559
 #   116.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
-#   423.000     63.000     76.000     375.000     395.000     1237.000     7.000     0.000     0.129     0.258     9.000
-#    82.455      7.913     10.170      46.527      97.634      150.722     0.738     0.000     0.014     0.035     0.995
-#        mu         w      ltau        mind       meand        maxd         sdd        tb
-#   170.712     2.454     0.094      22.479      36.094      51.098        -nan     0.010
-#    12.000     2.000     0.007       4.000       4.000       4.000       0.000     0.000
-#   861.000     4.000     0.173     162.896     162.896     257.538     121.320     0.045
-#   185.052     0.646     0.077      21.185      35.297      59.476        -nan     0.011
-# real	0m2.876s user	0m14.704s sys	0m0.397s
+#   418.000     56.000     61.000     600.000     395.000     1344.000     9.000     0.000     0.159     0.217     9.000
+#    83.592      8.138     10.287      52.665      96.410      148.862     0.721     0.000     0.014     0.035     1.270
+#        mu         w      ltau        mind       meand        maxd         sdd         dp        tb
+#   165.514     2.381     0.092      22.637      33.787      45.956      10.141      6.518     0.010
+#    12.000     2.000     0.006       4.000       4.000       4.000       0.000      0.000     0.000
+#   861.000     4.000     0.173     168.702     168.702     360.319     127.465     10.000     0.048
+#   182.613     0.605     0.077      22.541      34.422      58.607      21.131      1.317     0.011
+# real	0m2.800s user	0m15.173s sys	0m0.442s
+
 
 
 # laMols with newvars:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu newv "" "" 1 6 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-#  6     satd dom enu newv   asc  relpr   1        0      14.489     452091     3608     9789    11     6181     3608    2573
+#  6     satd dom enu newv   asc  relpr   1        0      14.136     454743     3587     9718    12     6131     3587    2544
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-#   193.513      4.360      6.495      27.249      67.858      77.209     1.265     0.000     0.007     0.027     0.590
+#   194.446      4.415      6.596      27.125      68.527      78.214     1.261     0.000     0.007     0.028     0.572
 #   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000     0.000
-#   423.000     50.000     64.000     375.000     395.000     856.000     6.000     0.000     0.097     0.227     9.000
-#    82.407      8.570     10.814      56.192      97.724     127.915     0.665     0.000     0.013     0.037     1.154
+#   418.000     52.000     61.000     408.000     395.000     753.000     6.000     0.000     0.088     0.216     9.000
+#    82.547      8.693     10.883      56.686      98.278     126.983     0.659     0.000     0.012     0.038     1.119
 #      mu         w      ltau       mind      meand       maxd        sdd         dp        tb
-#   0.000     2.402     0.202      8.594     10.145     11.676      1.367      6.931     0.011
+#   0.000     2.410     0.203      8.548     10.030     11.488      1.298      6.919     0.011
 #   0.000     2.000     0.014      1.000      1.000      1.000      0.000      0.000     0.000
-#   0.000     4.000     1.099     55.000     55.000     55.000     16.028     12.000     0.047
-#   0.000     0.594     0.155     13.795     13.658     14.049      2.642      1.606     0.011
-# real	0m2.742s user	0m14.492s sys	0m0.349s
+#   0.000     4.000     1.099     55.000     55.000     55.000     16.028     12.000     0.049
+#   0.000     0.599     0.155     13.879     13.654     13.926      2.464      1.609     0.011
+# real	0m2.973s user	0m14.141s sys	0m0.314s
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu newv "" "" 1 6 "0,5,-6,4,0"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-#  6     satd dom enu newv   asc  relpr   1        0      17.705     357688     2832     8181    12     5349     2832    2517
+#  6     satd dom enu newv   asc  relpr   1        0      16.809     361434     2832     8181    11     5349     2832    2517
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-#   202.827      5.400      7.656      35.072      90.895     111.505     1.380     0.000     0.011     0.031     0.709
+#   202.814      5.442      7.629      34.507      90.768     109.341     1.372     0.000     0.010     0.031     0.695
 #   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000     0.000
-#   423.000     43.000     52.000     330.000     395.000     746.000     4.000     0.000     0.097     0.185     9.000
-#    86.744      8.816     11.614      57.496     104.606     145.522     0.666     0.000     0.015     0.039     1.529
+#   418.000     44.000     51.000     334.000     395.000     662.000     4.000     0.000     0.087     0.181     9.000
+#    86.719      8.877     11.588      56.888     104.333     141.598     0.648     0.000     0.014     0.039     1.483
 #         mu         w      ltau        mind       meand         maxd         sdd         dp        tb
-#    622.392     2.125     0.073      97.447     124.937      153.421      27.023      7.323     0.013
+#    623.250     2.125     0.073      97.808     125.276      153.764      27.010      7.323     0.013
 #    384.000     2.000     0.001       4.000       4.000        4.000       0.000      0.000     0.000
-#   1511.000     4.000     0.173     665.000     842.000     1019.000     238.500     11.000     0.056
-#    287.814     0.446     0.082     120.531     154.383      194.889      46.059      1.787     0.013
-# real	0m3.403s user	0m17.712s sys	0m0.522s
+#   1511.000     4.000     0.173     665.000     842.000     1019.000     238.500     11.000     0.049
+#    287.983     0.446     0.082     120.614     154.421      194.928      46.063      1.787     0.012
+# real	0m3.309s user	0m16.815s sys	0m0.410s
 
 
 squares A B aux
 red A
 rred B aux
 ls A B aux
-rprod A aux B
+rprod B aux A
