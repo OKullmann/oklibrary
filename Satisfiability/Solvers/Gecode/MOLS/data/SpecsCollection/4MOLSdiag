@@ -3,11 +3,15 @@
 
 
 # gcMols:
+
 # MOLS> ./gcMols 7 data/SpecsCollection/4MOLSdiag "" count dom enu mindom desc 1 12
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    7    count dom enu    mindom desc    1             192     79.636    213664355      467133      902605     22
 
+
+
 # rlaMols:
+
 # MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLSdiag "" +count dom enu mindom "" "" 1 12
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
 #   7   +count dom enu    mindom  asc  relpr    1        192   3951.044    2216576     8557    25118    12    16561     8557
@@ -17,6 +21,80 @@
 #   2542.000     163.000     270.000     789.000     2472.000     13065.000     7.000     1.000     16.435     0.124     0.500
 #     56.448      28.845      38.611     122.764      959.325      1940.366     0.927     0.107      2.086     0.018     0.040
 # real	6m18.120s user	65m51.048s sys	0m9.081s
+
+
+# laMols with dL:
+
+# MOLS> time ./laMols 6 data/SpecsCollection/4MOLSdiag "" +count dom enu dL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  6   +count dom enu   dL   asc  relpr   1        0      22.221       4630       20       49     3       29       20       9
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1443.862     13.655     20.690      42.862      474.414      828.897     1.517     0.000     0.507     0.014     0.192
+#   1374.000      0.000      0.000       0.000       27.000       12.000     1.000     0.000     0.001     0.000     0.000
+#   1520.000     32.000     47.000     171.000     1460.000     2866.000     3.000     0.000     1.680     0.033     1.000
+#     39.301      9.005     13.784      53.170      645.554     1164.443     0.871     0.000     0.665     0.010     0.214
+#         mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   1480.889     3.111     0.032     21.667     41.815     61.667     17.500     1.333     0.830
+#   1458.000     3.000     0.026     20.000     23.000     23.000      0.000     0.000     0.721
+#   1520.000     4.000     0.060     23.000     49.000     84.000     25.703     2.000     0.864
+#     23.219     0.333     0.011      1.581      8.552     22.727      8.903     0.707     0.046
+# real	0m1.869s user	0m22.227s sys	0m0.005s
+# MOLS> time ./laMols 7 data/SpecsCollection/4MOLSdiag "" +count dom enu dL "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  7   +count dom enu   dL   asc  relpr   1      192    6426.924    6324866    17768    45873    12    28105    17768   10337
+#       vals       props      elvals      prunes       mprune        probes    rounds      solc         tr   qelvals   qprunes
+#   2113.264      25.082      33.693      57.875      883.767      1841.649     1.621     0.007      1.757     0.016     0.026
+#   1648.000       0.000       0.000       0.000        1.000         6.000     1.000     0.000      0.000     0.000     0.000
+#   2542.000     180.000     241.000     566.000     2472.000     13625.000     7.000     1.000     14.599     0.115     0.167
+#     74.195      26.864      34.743      67.505      928.777      1780.641     0.839     0.082      1.862     0.016     0.014
+#         mu         w      ltau       mind       meand        maxd         sdd         dp        tb
+#   2167.099     2.719     0.021     37.362      56.243      74.404      16.709      7.939     1.825
+#   1993.000     2.000     0.006      4.000      25.000      26.000       0.000      0.000     0.160
+#   2542.000     4.000     0.052     97.000     201.000     416.000     164.747     12.000     3.431
+#     56.513     0.644     0.010     12.707      23.202      47.914      21.598      1.240     0.620
+# real	10m45.659s user	107m6.929s sys	0m13.094s
+
+
+# laMols with wdL:
+
+# MOLS> time ./laMols 6 data/SpecsCollection/4MOLSdiag "" +count dom enu wdL "" "" 1 12 ""
+#
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  6   +count dom enu  wdL   asc  relpr   1        0      22.069       4630       20       49     3       29       20       9
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1443.862     13.655     20.690      42.862      474.414      828.897     1.517     0.000     0.503     0.014     0.192
+#   1374.000      0.000      0.000       0.000       27.000       12.000     1.000     0.000     0.001     0.000     0.000
+#   1520.000     32.000     47.000     171.000     1460.000     2866.000     3.000     0.000     1.679     0.033     1.000
+#     39.301      9.005     13.784      53.170      645.554     1164.443     0.871     0.000     0.664     0.010     0.214
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   667.444     3.111     0.074      9.468     18.506     27.491      7.876     1.333     0.829
+#   658.000     3.000     0.058      8.404      9.370      9.370      0.000     0.000     0.719
+#   683.000     4.000     0.148     10.558     22.442     38.434     11.745     2.000     0.865
+#     9.501     0.333     0.029      1.077      4.421     11.022      4.129     0.707     0.052
+# real	0m1.858s user	0m22.080s sys	0m0.005s
+
+# Very slow, hard to get nice weights.
+
+
+# laMols with newvars:
+
+# MOLS> time ./laMols 6 data/SpecsCollection/4MOLSdiag "" +count dom enu newv "" "" 1 12 ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
+#  6   +count dom enu newv   asc  relpr   1        0      23.902       6142       26       62     4       36       26      10
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1431.944     11.500     18.222      40.333      433.083      701.806     1.333     0.000     0.435     0.013     0.125
+#   1321.000      0.000      0.000       0.000       15.000       13.000     1.000     0.000     0.002     0.000     0.000
+#   1520.000     36.000     49.000     374.000     1460.000     4188.000     4.000     0.000     2.673     0.034     0.741
+#     46.533      7.385     11.472      72.004      615.052     1079.111     0.717     0.000     0.638     0.008     0.141
+#      mu         w      ltau      mind     meand      maxd       sdd        dp        tb
+#   0.000     3.500     0.491     2.400     3.383     4.300     0.794     1.400     0.814
+#   0.000     3.000     0.144     1.000     1.000     1.000     0.000     0.000     0.766
+#   0.000     4.000     1.386     7.000     7.667     8.000     1.090     2.000     0.861
+#   0.000     0.527     0.332     1.647     1.667     1.767     0.368     0.699     0.031
+# real	0m2.012s user	0m23.909s sys	0m0.004s
+
+# Again, very hard to find something.
+# A systematic search is needed, starting with "lvs<8557" as target.
 
 
 squares A B C D  AB AC AD BC BD CD
