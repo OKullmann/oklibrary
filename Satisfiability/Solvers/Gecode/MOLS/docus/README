@@ -21,7 +21,7 @@ Clone the OKlibrary
 
 > git clone https://github.com/OKullmann/oklibrary.git
 
-In the directory "OKlibrary/Satisfiability/Solvers/Gecode/MOLS/docus" perform 
+In the directory "OKlibrary/Satisfiability/Solvers/Gecode/MOLS/docus" perform
 
 > ./InstallMOLS
 
