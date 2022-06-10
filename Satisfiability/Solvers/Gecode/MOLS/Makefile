@@ -14,8 +14,8 @@ test_progs = $(addprefix Test,$(test_progs_stem))
 
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 
-atps_debug = Euler_debug gcMols_debug
-atps       = Euler gcMols
+atps_debug = #Euler_debug gcMols_debug
+atps       = #Euler gcMols
 
 atps_debug := $(addprefix at_,$(atps_debug))
 atps       := $(addprefix at_,$(atps))
@@ -91,9 +91,9 @@ TestSolvers_debug : TestSolvers.cpp Solvers.hpp Constraints.hpp Encoding.hpp Con
 
 TestPartialSquares_debug : TestPartialSquares.cpp PartialSquares.hpp Conditions.hpp
 
-TestCommandLine_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport
+TestCommandLine_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestCommandLine_debug : Optimisation_plus = -fwhole-program
-TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp Options.hpp
+TestCommandLine_debug : TestCommandLine.cpp CommandLine.hpp Conditions.hpp Options.hpp Solvers.hpp
 
 TestLookaheadReduction_debug : LDFLAGS += -lgecodeint -lgecodekernel -lgecodesupport -lgecodesearch
 TestLookaheadReduction_debug : Optimisation_plus = -fwhole-program
