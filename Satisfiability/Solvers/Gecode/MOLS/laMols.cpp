@@ -67,6 +67,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
 
+2. Enable many runs for wdL and newvars when using default-weights.
+
+3. Should the reporting of ltau use engineering notation?
+
 */
 
 
