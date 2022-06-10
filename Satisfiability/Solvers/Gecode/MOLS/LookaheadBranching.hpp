@@ -273,8 +273,8 @@ namespace LookaheadBranching {
     inline static std::atomic_bool abort;
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
-             const size_t threshold) noexcept :
-    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold(threshold) {
+             const size_t t) noexcept :
+    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold_satc(t) {
       assert(not enc or log);
       abort = false;
     }
@@ -284,6 +284,11 @@ namespace LookaheadBranching {
     size_t lvs() const noexcept { return lvs_counter; }
     const stats_t& stats() const noexcept { return S; }
     const sollist_t& sols() const noexcept { return sols_; }
+
+    void handle_abort() const noexcept {
+      if (threshold_satc != 0 and sol_counter >= threshold_satc)
+        abort.store(true, std::memory_order_relaxed);
+    }
 
     void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
@@ -317,8 +322,7 @@ namespace LookaheadBranching {
           for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
         }
       }
-      if (threshold != 0 and sol_counter >= threshold)
-        abort.store(true, std::memory_order_relaxed);
+      handle_abort();
     }
 
   private :
@@ -328,7 +332,7 @@ namespace LookaheadBranching {
     std::ostream* const log;
     const EC::EncCond* const enc;
   public :
-    const size_t threshold;
+    const size_t threshold_satc;
   };
 
 
