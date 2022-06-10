@@ -44,25 +44,37 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
-0. Early abortion of runs
+-1. Early abortion of runs
     - A further commandline-argument (for rlaMols and laMols).
     - Syntax: comma-separated pairs, like
-      "satc,20" or "nds, 1000" or "mu , 10000",
-      with the natural meaning "satc > 20", "nds > 1000", "mu < 10000".
-    - Aborting either the branch for local measures like mu, or the
-      whole computation for global measures like satc.
+      "satc,20" or "nds, 1000" with the natural meaning
+      "satc > 20", "nds > 1000".
+    - Aborting the whole computation (early completion of branches
+      is handled separately; see below).
+    - List of criterions:
+       - satc > b
+       - nds > b
+       - lvs > b
+       - inds > b
     - Such pairs can be concatenated by "|" (for logical or).
-    - Using rlaStats::abort, set in rlaStats::add, for global abortion.
+    - Using rlaStats::abort, set in rlaStats::add.
     - Using abort.store there then is handled by a dedicated member.
       And data-member threshold is expanded to a proper object holding
       such data.
-    - Abortion of just the branch is handled by generalising the current
-      handling of "leafcount".
-    - Later also allowing bounds for branching-related data (like depth)
-      and total runtime.
-    - Actually, depth is also available at reduction time ("before
-      branching"); likely its abortion-handling should be included as part
-      of the reduction.
+    - Later also allowing bounds for total runtime; which should perhaps
+      anyway be part of the general statistics (not separately handled
+      by the solver).
+
+0. Early abortion of branches
+   - Considering now say "depth > 10" or "mu < 10000" for making a node,
+     after la-reduction, a leaf.
+   - Usual syntax: "depth, 10" and "mu, 10000".
+   - The current handling of "leafcount" needs to be generalised.
+   - Then we need to count three types of leaves: falsified, satisfied,
+     and completed-early.
+   - One could also include criteria related to the branching, e.g.,
+     ltau too bad.
+   - So perhaps here we handle this after the branching-computation?
 
 1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
