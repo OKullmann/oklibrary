@@ -1,7 +1,159 @@
 # Counts for N >= 2:
-# 1, 2, 12, 240, 43648
+# 1, 2, 12, 240, 43648, >= 1, >= 1, >= 1, >= 1,
+# >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1 >= 1
+# >= 1, >= 1, >= 1, >= 1, >= 1
 
-# dom+mindom seems best.
+
+# gcMols:
+
+# ./gcMols 2,11 data/SpecsCollection/Sudoku "" satd dom enu maxdegom "" 1 12 ""
+# solves all cases very quickly. But N=12 is hard:
+# ./gcMols 12 data/SpecsCollection/Sudoku "" satd dom enu maxdegdom "" 1 12 "t,120"
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#  12     satd dom enu maxdegdom  asc    1           0    1106.569    1232824669    27119989    52957848     81  1
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 12 data/SpecsCollection/Sudoku "" satd dom enu maxdegdom "" "" 1 12
+# aborted after 2min wallclock-time.
+
+
+# laMols with (w)dL:
+
+# dL solvers N <= 16 with threads=12 rather quickly (the square-cases seem
+# easier):
+# MOLS> time ./laMols 12,16 data/SpecsCollection/Sudoku "" satd dom enu dL "" "" 1 12 ""
+# while N=17 is the first hard decision-case.
+
+# wdL with default weights also solvers N <= 16 relatively quickly (very
+# few failed leaves. N=17 also here seems a hard decision-case.
+
+
+# laMols with newvars:
+
+# Default weights have already for N=11 problems with sat-decision.
+# For N <= 16 then the weights "0,8,0,..." (all zeros except at position 2)
+# find a solution rather quickly (12 threads); very few failed leaves.
+# Possibly ddesc is fastest.
+
+# MOLS> time ./laMols 17 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 17     satd dom enu newv ddesc  relpr   1        1     778.294      35254        0     1064   129  1     1064        1    1063
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   2550.306      0.131      0.150       1.981     2482.808     2500.632     1.028     0.001     4.025     0.000     0.003
+#    462.000      0.000      0.000       0.000       93.000       74.000     1.000     0.000     0.048     0.000     0.000
+#   4225.000     15.000     17.000     140.000     4208.000     4470.000     3.000     1.000     8.440     0.032     0.419
+#    869.604      0.980      1.131       8.212      901.718      895.948     0.171     0.031     2.319     0.001     0.019
+#          mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   56815.383      6.500     0.000      5129.952      5975.592      6640.817      620.886      45.567      4.078
+#   23040.000      2.000     0.000       513.000      1793.000      1794.000        0.000       0.000      0.138
+#   69632.000     16.000     0.000     11523.000     12035.000     17156.000     5423.772     127.000     10.924
+#    8185.845      3.634     0.000      1716.287      1899.540      2098.725      584.767      27.328      2.373
+# real	1m7.719s user	12m59.035s sys	0m12.904s
+# MOLS> time ./laMols 18 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 18     satd dom enu newv ddesc  relpr   1        1    1291.097      44869       43     1397   162  1     1354       44    1310
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   2959.413      0.386      0.580       2.286     2828.352     2858.997     1.032     0.001      5.335     0.000     0.020
+#    328.000      0.000      0.000       0.000        0.000        1.000     1.000     0.000      0.000     0.000     0.000
+#   5070.000     11.000     16.000     202.000     5052.000     5543.000     2.000     1.000     11.452     0.018     4.800
+#   1058.110      1.681      2.589      12.771     1161.302     1163.459     0.175     0.027      3.251     0.001     0.263
+#          mu          w      ltau         mind         meand          maxd          sdd          dp         tb
+#   62410.064      6.499     0.000     5197.698      5987.237      6624.595      571.063      56.413      5.514
+#    2560.000      2.000     0.000        6.000         6.000         6.000        0.000       0.000      0.000
+#   78336.000     17.000     0.116     9987.000     11011.000     12291.000     3286.303     161.000     13.505
+#  10760.010      3.861     0.005     1811.290      1952.708      2057.331      423.362      34.146      3.263
+# real	1m53.423s user	21m32.297s sys	0m24.923s
+# MOLS> time ./laMols 19 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 19     satd dom enu newv ddesc  relpr   1        1    2194.155     114430     1195     5287   203  1     4092     1198    2894
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   1849.916      3.108      4.910       8.215     1567.411     1640.895     1.154     0.000      3.070     0.007     0.029
+#    365.000      0.000      0.000       0.000        0.000        1.000     1.000     0.000      0.000     0.000     0.000
+#   6013.000     39.000     59.000     203.000     5994.000     6901.000     3.000     1.000     19.160     0.093     7.500
+#   1511.705      5.254      8.297      13.362     1669.218     1643.794     0.389     0.016      4.383     0.012     0.149
+#          mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   52092.904      4.823     0.000      3925.926      4742.794      5427.566      632.894     114.423      4.279
+#    2048.000      2.000     0.000         4.000         4.000         4.000        0.000       0.000      0.000
+#   87552.000     18.000     0.173     10754.000     13399.667     23574.000     9218.325     202.000     16.857
+#   21298.160      3.614     0.005      2160.607      2254.063      2485.723      690.233      60.703      4.781
+# real	3m15.579s user	36m34.389s sys	0m53.256s
+# MOLS> time ./laMols 20 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 20     satd dom enu newv ddesc  relpr   1        1    3137.663      82847      158     2552   209  1     2394      159    2235
+#       vals      props     elvals      prunes       mprune        probes    rounds      solc         tr   qelvals   qprunes
+#   3214.422      1.284      1.822       9.650     3055.074      3097.084     1.079     0.000      7.494     0.003     0.022
+#    578.000      0.000      0.000       0.000        0.000         2.000     1.000     0.000      0.000     0.000     0.000
+#   7060.000     43.000     63.000     303.000     7040.000     10238.000     4.000     1.000     30.217     0.090     0.403
+#   1817.204      4.783      6.854      32.516     1923.386      1920.276     0.326     0.020      6.936     0.010     0.064
+#          mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   69816.870      6.584     0.000      4945.746      5913.195      6689.391      682.889      95.495      8.009
+#   27648.000      2.000     0.000       513.000      1665.000      1793.000        0.000       0.000      0.148
+#   97280.000     19.000     0.000     13827.000     15106.750     20484.000     5644.000     212.000     24.787
+#   17552.661      4.300     0.000      2277.577      2437.485      2603.648      660.790      56.881      6.915
+# real	5m15.459s user	52m18.349s sys	2m49.087s
+# MOLS> time ./laMols 22 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 22     satd dom enu newv ddesc  relpr   1        1    7093.255     122699      356     3701   277  1     3345      359    2986
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   4070.445      1.375      2.096       5.634     3821.882     3878.597     1.062     0.000     12.237     0.002     0.008
+#    637.000      0.000      0.000       0.000        2.000        6.000     1.000     0.000      0.000     0.000     0.000
+#   9538.000     47.000     66.000     217.000     9516.000     9516.000     3.000     1.000     45.671     0.080     0.327
+#   2426.374      4.196      6.439      15.963     2602.669     2557.482     0.265     0.017     12.254     0.008     0.027
+#           mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#    82678.312      7.238     0.000      5269.566      6135.077      6780.379      575.127     126.446     13.610
+#    21760.000      2.000     0.000       513.000      1665.000      1793.000        0.000       0.000      0.121
+#   118272.000     21.000     0.000     11265.000     12610.750     17156.000     5767.500     277.000     47.148
+#    23560.146      5.060     0.000      2574.691      2656.861      2688.092      569.978      74.091     12.333
+# real	12m13.844s user	118m14.134s sys	8m58.521s
+# MOLS> time ./laMols 23 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 23     satd dom enu newv ddesc  relpr   1        1    9781.893     100261        0     2420   305  1     2420        1    2419
+#        vals      props     elvals      prunes        mprune        probes    rounds      solc         tr   qelvals   qprunes
+#    6142.061      0.064      0.066       1.031      6010.791      6035.530     1.015     0.000     23.228     0.000     0.001
+#     780.000      0.000      0.000       0.000       211.000       231.000     1.000     0.000      0.170     0.000     0.000
+#   10957.000     12.000     12.000     107.000     10934.000     10934.000     3.000     1.000     57.937     0.010     0.281
+#    2337.023      0.597      0.619       6.528      2405.267      2401.878     0.124     0.020     15.048     0.000     0.012
+#           mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   101888.106      9.081     0.000      6497.972      7318.637      7906.719      488.818     104.061     23.226
+#    25088.000      2.000     0.000       769.000      1921.000      2049.000        0.000       0.000      0.292
+#   129536.000     22.000     0.000     12803.000     13911.667     16387.000     3868.340     303.000     66.217
+#    17930.756      5.250     0.000      2394.608      2537.187      2532.387      341.462      63.584     15.255
+# real	17m20.312s user	163m5.290s sys	14m29.601s
+# MOLS> time ./laMols 24 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 24     satd dom enu newv ddesc  relpr   1        1   13598.456     148801      293     4038   329  1     3745      294    3451
+#        vals      props     elvals      prunes        mprune        probes    rounds      solc         tr   qelvals   qprunes
+#    5376.647      1.257      1.811       9.285      5137.049      5184.809     1.071     0.000     21.083     0.002     0.013
+#     580.000      0.000      0.000       0.000         0.000         1.000     1.000     0.000      0.000     0.000     0.000
+#   12504.000     54.000     70.000     413.000     12480.000     12480.000     5.000     1.000     77.352     0.070     3.000
+#    3253.923      4.581      6.488      29.182      3420.292      3375.598     0.310     0.016     21.155     0.006     0.059
+#           mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   100683.591      8.726     0.000      5903.547      6795.542      7458.819      563.395     149.657     22.830
+#     2048.000      2.000     0.000         4.000         4.000         4.000        0.000       0.000      0.000
+#   141312.000     23.000     0.173     12033.000     13368.652     13569.000     6153.000     340.000     83.464
+#    26855.395      5.747     0.003      2897.081      3005.831      2973.309      472.116      91.657     21.319
+# real	24m20.706s user	226m40.836s sys	20m34.227s
+# MOLS> time ./laMols 25 data/SpecsCollection/Sudoku "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 25     satd dom enu newv ddesc  relpr   1        1   17802.501     122094        0     3167   354  1     3167        1    3166
+#        vals      props     elvals      prunes        mprune        probes    rounds      solc          tr   qelvals    qprunes
+#    6879.162      0.261      0.275       3.615      6708.566      6794.955     1.039     0.000      32.449     0.000      0.018
+#     629.000      0.000      0.000       0.000         0.000         1.000     1.000     0.000       0.000     0.000      0.000
+#   14025.000     21.000     36.000     208.000     14000.000     17529.000     2.000     1.000     104.237     0.006     10.000
+#    3410.800      1.608      1.776      11.483      3500.781      3516.718     0.192     0.018      27.634     0.000      0.336
+#           mu          w      ltau          mind         meand          maxd          sdd          dp          tb
+#   116434.800      8.415     0.000      6898.039      8103.463      9026.684      780.114     134.451      32.292
+#     2560.000      2.000     0.000         6.000         6.000         6.000        0.000       0.000       0.000
+#   153600.000     24.000     0.116     14850.000     20430.600     25603.000     8129.582     352.000     119.515
+#    24127.033      5.474     0.003      3199.827      3488.490      3669.191      636.093      79.736      27.876
+# real	32m0.177s user	296m45.237s sys	27m47.815s
+
+
+
+# So here newvars seems overall best.
+
 
 squares A
 rred A
