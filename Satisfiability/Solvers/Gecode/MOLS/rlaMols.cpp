@@ -71,8 +71,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.6",
-        "9.6.2022",
+        "0.8.7",
+        "10.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -207,7 +207,7 @@ int main(const int argc, const char* const argv[]) {
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
-  additional_output(std::cout, gcdv);
+  cd_output(std::cout, gcdv);
   std::cout.flush();
 
   for (const size_t N : list_N)
