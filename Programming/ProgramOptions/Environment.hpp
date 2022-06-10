@@ -407,7 +407,7 @@ namespace Environment {
   }
 
 
-  // Reading a policy from a string:
+  // Reading a policy from a string (return default-value for empty string):
   template <typename Policy>
   inline std::optional<Policy> read(const std::string_view s) noexcept {
     if (s.empty()) return Policy{};
