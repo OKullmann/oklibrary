@@ -129,10 +129,14 @@ namespace Solvers {
   namespace GV = GcVariables;
 
   using size_t = CD::size_t;
+  using RT = Options::RT;
 
-
-  typedef Options::RT RT;
   typedef std::vector<PS::PSquares> listsol_t;
+
+
+  /*
+    Handling of results
+  */
 
   // Simplest solver-return:
   struct BasicSR {
@@ -281,16 +285,37 @@ namespace Solvers {
   /*
     The pure Gecode-solver
   */
+
+  struct GcStoppingData {
+    const OP::STO st;
+    const unsigned long val; // count for time in seconds
+    constexpr GcStoppingData() noexcept : st(OP::STO::none), val(0) {}
+    constexpr GcStoppingData(const OP::STO st, const unsigned long val)
+      noexcept : st(st), val(val) {}
+    operator bool() const noexcept { return st != OP::STO::none; }
+  };
   GC::Search::Options make_options(const double t,
-                                   const unsigned gcd) noexcept {
+                                   const unsigned gcd,
+                                   const GcStoppingData st) noexcept {
     GC::Search::Options res; res.threads = t;
     if (gcd) res.c_d = gcd;
+    if (st)
+      switch (st.st) {
+      case OP::STO::none : assert(false); break;
+      case OP::STO::by_gnds :
+        res.stop = new GC::Search::NodeStop(st.val); break;
+      case OP::STO::by_flvs :
+        res.stop = new GC::Search::FailStop(st.val); break;
+      case OP::STO::by_time :
+        res.stop = new GC::Search::TimeStop(1000*st.val); break;
+      }
     return res;
   }
   GBasicSR gcsolver_basis(const EC::EncCond& enc, const RT rt,
                           const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
                           const unsigned gcd,
                           const double threads,
+                          const GcStoppingData st,
                           std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
@@ -303,7 +328,7 @@ namespace Solvers {
 #else
     new (*gm) LB::GcBranching(*gm, bv,bt,bo);
 #endif
-    GC::DFS<CT::GenericMols0> s(gm, make_options(threads, gcd));
+    GC::DFS<CT::GenericMols0> s(gm, make_options(threads, gcd, st));
     delete gm;
 
     GBasicSR res{rt};
@@ -443,11 +468,12 @@ namespace Solvers {
   GBasicSR solver_gc(const EC::EncCond& enc, const RT rt,
                      const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
                      const unsigned gcd,
-                     const double threads = 1,
-                     std::ostream* const log = nullptr) {
+                     const double threads,
+                     const GcStoppingData st,
+                     std::ostream* const log) {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    GBasicSR res = gcsolver_basis(enc, rt, bt,bv,bo, gcd, threads, log);
+    GBasicSR res = gcsolver_basis(enc, rt, bt,bv,bo, gcd, threads, st, log);
     const Timing::Time_point t1 = timing();
     res.ut = t1 - t0;
     return res;

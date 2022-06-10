@@ -207,8 +207,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.4",
-        "9.6.2022",
+        "0.14.0",
+        "10.6.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -219,7 +219,7 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 10;
+  constexpr int commandline_args = 11;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -234,7 +234,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type"
-      " branch-var branch-order gcd threads\n\n"
+      " branch-var branch-order gcd threads stop-type,stop-value\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -244,12 +244,14 @@ namespace {
       " - branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
       " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
-      " - threads      : floating-point for number of threads\n\n"
+      " - threads      : floating-point for number of threads\n"
+      " - stop-type    :  " << Environment::WRPO<STO>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - the four algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "  - stop-values are unsigned int; times in seconds\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\"\n"
       "  - for file-output, solutions are stored and transferred at the end\n"
@@ -317,7 +319,7 @@ int main(const int argc, const char* const argv[]) {
     list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size()*gcdv.size();
 
   const double threads = read_threads(argc, argv, 10);
-
+  const GcStoppingData stod = read_gcst(argc, argv, 11);
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
@@ -341,8 +343,9 @@ int main(const int argc, const char* const argv[]) {
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
+  st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov));
-  additional_output(std::cout, gcdv);
+  cd_output(std::cout, gcdv);
   std::cout.flush();
 
   if (num_runs != 1) rh(std::cout);
@@ -355,7 +358,7 @@ int main(const int argc, const char* const argv[]) {
           for (const GBO gbo : gbov)
             for (unsigned gcd : gcdv) {
               const GBasicSR res =
-                solver_gc(enc, rt, brt, bvar, gbo, gcd, threads, log);
+                solver_gc(enc, rt, brt, bvar, gbo, gcd, threads, stod, log);
               if (with_log and
                   rt != RT::enumerate_with_log and rt != RT::unique_s_with_log)
                 std::cout << "\n";

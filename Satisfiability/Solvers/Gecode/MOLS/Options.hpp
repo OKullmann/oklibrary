@@ -157,6 +157,16 @@ namespace Options {
   }
 
 
+  // Stopping the search engine:
+  enum class STO {
+    none=0,
+    by_gnds=1,
+    by_flvs=2,
+    by_time=3
+  };
+  constexpr int STOsize = int(STO::by_time) + 1;
+
+
   // Variable-selection for Gecode-branching ("branching-heuristic variables").
   // According to Section 8.5.1 of 'Modeling and Programming with Gecode.
   // 6.2.0.', the degree of a variable is the number of propagators depending
@@ -301,6 +311,14 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"domain-prop", "default-prop", "values-prop", "bounds-prop"};
   };
+  template <> struct RegistrationPolicies<Options::STO> {
+    static constexpr const char* name = "gecode-stopping";
+    static constexpr int size = Options::STOsize;
+    static constexpr std::array<const char*, size>
+      string {"none", "gnds", "flvs", "t"};
+    static constexpr std::array<const char*, size>
+      estring {"none", "by-gc-node-count", "by-failed-leaf-count", "by-time"};
+  };
   template <> struct RegistrationPolicies<Options::BHV> {
     static constexpr const char* name = "variable-heuristic";
     static constexpr const char* sname = "bv";
@@ -376,6 +394,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const PropO po) {
     return out << Environment::W2(po);
+  }
+  std::ostream& operator <<(std::ostream& out, const STO st) {
+    return out << Environment::W2(st);
   }
   std::ostream& operator <<(std::ostream& out, const BHV bvar) {
     return out << Environment::W2(bvar);

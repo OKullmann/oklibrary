@@ -42,6 +42,7 @@ TODOS:
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
 #include "Options.hpp"
+#include "Solvers.hpp"
 
 namespace CommandLine {
 
@@ -49,8 +50,9 @@ namespace CommandLine {
   namespace EC = Encoding;
   namespace PS = PartialSquares;
   namespace OP = Options;
+  namespace SV = Solvers;
 
-  typedef CD::size_t size_t;
+  using size_t = CD::size_t;
 
   typedef std::vector<size_t> list_size_t;
   list_size_t read_N([[maybe_unused]]const int argc,
@@ -201,6 +203,31 @@ namespace CommandLine {
     if (res.empty()) return {0}; else return res;
   }
 
+  SV::GcStoppingData read_gcst([[maybe_unused]]const int argc,
+                               const char* const argv[], const int pos) {
+    assert(argc >= pos+1);
+    const std::string sts = argv[pos];
+    if (sts.empty()) return {};
+    const auto split = Environment::split(sts, ',');
+    if (split.size() != 2) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_gcst]: a non-empty stopping-entry"
+        " must have exactly two items,\n   separated by comma, but there are "
+         << split.size() << " items in \"" << sts << "\"\n";
+      throw std::runtime_error(ss.str());
+    }
+    const auto sto = Environment::read<OP::STO>(split[0]);
+    if (not sto) {
+      std::ostringstream ss;
+      ss << "ERROR[CommandLine::read_gcst]: " <<
+        "stopping-criterion \"" << split[0] << "\" invalid.";
+      throw std::runtime_error(ss.str());
+    }
+    const unsigned long val =
+      FloatingPoint::to_unsigned<unsigned long>(split[1]);
+    return {sto.value(), val};
+  }
+
 
   OP::weights_t weights_ap(const size_t N) {
     OP::weights_t res; res.reserve(N+2);
@@ -312,6 +339,12 @@ namespace CommandLine {
       "# rt=" << rt << "\n";
     if (with_output) out << "# output-file " << outfile << "\n";
   }
+  void st_output(std::ostream& out, const SV::GcStoppingData stod) {
+    if (stod)
+      out << "# stopping=" << stod.st << " value=" << stod.val << "\n";
+    else
+      out << "# no_stopping\n";
+  }
 
   constexpr size_t spaces_algoout = 3;
   template <size_t I = 0, typename... T>
@@ -325,12 +358,12 @@ namespace CommandLine {
     }
   }
   template <class VEC>
-  void additional_output(std::ostream& out, const VEC& V) {
+  void cd_output(std::ostream& out, const VEC& V) {
     out << "#" << std::string(spaces_algoout, ' ') << "commit-distance: ";
     Environment::out_line(out, V); out << "\n";
   }
   void weights_output(std::ostream& out, const OP::weights_t& wv) {
-     out << "#" << std::string(spaces_algoout, ' ') << "weights: ";
+    out << "#" << std::string(spaces_algoout, ' ') << "weights: ";
     const auto old = FloatingPoint::fullprec_float80(out);
     Environment::out_line(out, wv); out << "\n";
     out.precision(old);
