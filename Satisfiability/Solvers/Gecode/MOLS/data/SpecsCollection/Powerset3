@@ -1,8 +1,15 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2160, 0, >= 1
 
-# gcMols: dom+enu+mindom seems best (for N <= 7 val+enu+mindom).
+# [Wanless 2001] shows that N=10 is unsatisfiable.
+# The argumentation there uses some form of symmetry-breaking.
+
+
+# gcMols:
+
+# dom+enu+mindom seems best (for N <= 7 val+enu+mindom).
 # N=8 seems a hard sat-decision problem.
+
 
 # rlaMols: using dom+enu+mindom.
 

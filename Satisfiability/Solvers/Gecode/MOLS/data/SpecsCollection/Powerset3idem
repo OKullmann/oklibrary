@@ -1,7 +1,11 @@
 # Counts for N >= 2:
-# 0, 0, 0, 12, 0, 240, 1440, >= 1, 
+# 0, 0, 0, 12, 0, 240, 1440, >= 1
+
+# N=10 is unsatisfiable (see Powerset3).
+
 
 # gcMols:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset3idem "" count dom enu mindom "" 1 12
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
 #   8    count dom enu    mindom  asc    1        1440      14.508      34969603      197134      334203     14
@@ -11,6 +15,7 @@
 
 
 # rlaMols:
+
 # MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset3idem "" count dom enu mindom "" "" 1 12
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
 #   8    count dom enu    mindom  asc  relpr    1       1440     951.893    3497158    11622    31063    10    19441    11622
@@ -23,6 +28,7 @@
 
 
 # laMols with dL:
+
 # MOLS> time ./laMols 8 data/SpecsCollection/Powerset3idem "" count dom enu "" "" "" 1 12 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 #  8    count dom enu   dL   asc  relpr   1     1440     837.910    4718143    14400    34237     9    19837    14400    5437
@@ -43,6 +49,25 @@
 
 # laMols with wdL:
 # hardly any dependency on the weights (larbs for dom always 5437).
+
+
+# laMols with newvars:
+
+# MOLS> time ./laMols 8 data/SpecsCollection/Powerset3idem "" +count dom enu newv ddesc "" 1 12 "0,1,-1,0,0,0,0"
+#  8   +count dom enu newv ddesc  relpr   1     1440     756.043    3945667    12240    29197     8  0    16957    12240    4717
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    715.094     10.549     17.899      21.422      227.096      512.558     1.510     0.085     0.320     0.025     0.018
+#    642.000      0.000      0.000       0.000        2.000       15.000     1.000     0.000     0.001     0.000     0.000
+#   1032.000     47.000     68.000     223.000     1008.000     3302.000     5.000     1.000     2.801     0.093     0.155
+#     79.723      7.139      9.701      45.119      325.941      797.694     1.022     0.279     0.506     0.013     0.022
+#        mu         w      ltau        mind       meand        maxd        sdd        dp        tb
+#   149.103     3.595     0.035      54.362      66.685      74.714      9.464     5.331     0.490
+#   144.000     2.000     0.010      13.000      14.400      15.000      0.000     0.000     0.084
+#   169.000     6.000     0.119     106.000     106.000     106.000     30.500     6.000     0.923
+#     6.132     1.124     0.036      33.879      34.840      38.246     12.714     0.828     0.124
+# real	1m11.444s user	12m36.046s sys	0m3.347s
+# MOLS> time ./laMols 10 data/SpecsCollection/Powerset3idem "" +count dom enu newv ddesc "" 1 12 "0,1,-1,0,0,0,0,0,0"
+# aborted after 320min wallclock-time without finding a solution.
 
 
 squares P1 P2 P3
