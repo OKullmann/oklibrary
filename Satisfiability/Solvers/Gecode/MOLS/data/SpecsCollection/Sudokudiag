@@ -1,6 +1,7 @@
 # Counts for N >= 2:
 # 0, 0, 2, 4, 0, 14832, 337928232, >= 1, >= 1
 # >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, ?
+# >= 1, ?, ?, ?, >= 1
 
 # Known as "Sudoku X".
 
@@ -141,6 +142,37 @@
 # real	3m4.335s user	34m5.444s sys	0m58.829s
 # MOLS> time ./laMols 20 data/SpecsCollection/Sudokudiag "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
 # aborted after 40min wallclock-time without finding a solution.
+# MOLS> time ./laMols 21 data/SpecsCollection/Sudokudiag "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 21     satd dom enu newv ddesc  relpr   1        1    4357.232      82792       64     2132   239  1     2068       65    2003
+#       vals      props     elvals      prunes       mprune        probes    rounds      solc         tr   qelvals   qprunes
+#   4262.065      0.272      0.516       1.899     4117.676      4179.292     1.025     0.000     11.742     0.000     0.009
+#    445.000      0.000      0.000       0.000        0.000         1.000     1.000     0.000      0.000     0.000     0.000
+#   8204.000     22.000     24.000     165.000     8183.000     13513.000     3.000     1.000     49.197     0.039     6.400
+#   1756.175      1.382      2.514       9.228     1851.517      1958.324     0.171     0.022      8.588     0.001     0.184
+#           mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#    83758.650      6.711     0.000      6278.753      7009.522      7627.967      491.000      87.843     11.910
+#     2048.000      2.000     0.000         4.000         4.000         4.000        0.000       0.000      0.000
+#   107520.000     18.000     0.173     25603.000     25859.000     28163.000     8569.191     239.000     40.967
+#    15092.349      3.502     0.004      3333.274      3439.509      3484.483      383.628      52.175      8.254
+# real	7m26.538s user	72m39.235s sys	4m17.052s
+# MOLS> time ./laMols 22 data/SpecsCollection/Sudokudiag "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
+# 22     satd dom enu newv ddesc  relpr   1        1    6648.756      92245       13     2183   259  1     2170       14    2156
+#       vals      props     elvals      prunes       mprune        probes    rounds      solc         tr   qelvals   qprunes
+#   5162.137      0.137      0.187       1.334     5031.816      5108.180     1.020     0.000     17.657     0.000     0.001
+#    677.000      0.000      0.000       0.000      136.000       226.000     1.000     0.000      0.180     0.000     0.000
+#   9500.000     25.000     29.000     324.000     9478.000     16298.000     4.000     1.000     80.571     0.037     0.341
+#   1990.697      1.175      1.644       9.248     2067.175      2224.945     0.152     0.021     13.022     0.001     0.012
+#           mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#    93622.382      7.222     0.000      6789.192      7540.231      8196.086      503.857      91.799     17.521
+#    27648.000      2.000     0.000      1025.000      1921.000      2305.000        0.000       0.000      0.291
+#   118272.000     20.000     0.000     19202.000     19586.000     19970.000     4224.727     257.000     53.551
+#    15548.978      3.894     0.000      3592.575      3649.277      3669.106      352.908      55.119     12.431
+# real	11m31.619s user	110m51.530s sys	8m11.179s
+
+# MOLS> time ./laMols 25 data/SpecsCollection/Sudokudiag "" +count dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+# aborted after 150min wallclock-time with very many solutions found.
 
 
 squares A
