@@ -488,8 +488,12 @@ namespace Solvers {
   /*
     The solver with look-ahead-reduction and gecode-branching
   */
-  struct sol_count_stop : GC::Search::Stop {
-    bool stop(const GC::Search::Statistics&, const GC::Search::Options&) {
+
+  typedef StoppingData<OP::LRST> LRStoppingData;
+
+  struct rla_stop : GC::Search::Stop {
+    bool stop(const GC::Search::Statistics&, const GC::Search::Options&)
+      noexcept override {
       return LB::rlaStats::abort.load(std::memory_order_relaxed);
     }
   };
@@ -498,7 +502,7 @@ namespace Solvers {
                                    const unsigned gcd) noexcept {
     GC::Search::Options res;
     res.threads = t;
-    if (with_stop(rt)) res.stop = new sol_count_stop;
+    if (with_stop(rt)) res.stop = new rla_stop;
     if (gcd) res.c_d = gcd;
     return res;
   }
