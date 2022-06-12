@@ -296,10 +296,11 @@ namespace Options {
   }
 
   enum class SPW {
-    zero=0,
-    one=1,
-    ap=2,
-    ld=3
+    other=0,
+    zero=1,
+    one=2,
+    ap=3,
+    ld=4
   };
   constexpr int SPWsize = int(SPW::ld) + 1;
 
@@ -419,9 +420,9 @@ namespace Environment {
     static constexpr const char* sname = "spw";
     static constexpr int size = Options::SPWsize;
     static constexpr std::array<const char*, size>
-    string {"Z", "O", "A", "L"};
+    string {"", "Z", "O", "A", "L"};
     static constexpr std::array<const char*, size>
-      estring {"zero-weights", "one-weights", "ap-weights",
+      estring {"disabled", "zero-weights", "one-weights", "ap-weights",
         "log2-weights"};
   };
 }
