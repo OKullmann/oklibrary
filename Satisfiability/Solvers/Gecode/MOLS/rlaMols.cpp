@@ -71,15 +71,15 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.7",
-        "10.6.2022",
+        "0.8.8",
+        "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 11;
+  constexpr int commandline_args = 12;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -94,7 +94,8 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type"
-      " branch-var branch-order la-type gcd threads\n\n"
+      " branch-var branch-order la-type gcd threads"
+      " (stop-type,stop-value)*\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -105,12 +106,15 @@ namespace {
       " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
       " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
-      " - threads      : floating-point for number of threads\n\n"
+      " - threads      : floating-point for number of threads\n"
+      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "  - stop-values are unsigned int; times in seconds\n"
+      "  - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;
@@ -185,6 +189,8 @@ int main(const int argc, const char* const argv[]) {
 
   const double threads = read_threads(argc, argv, 11);
 
+  const ListStoppingData stod = read_rlast(argc, argv, 12);
+
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
@@ -206,6 +212,7 @@ int main(const int argc, const char* const argv[]) {
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
+  st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
   cd_output(std::cout, gcdv);
   std::cout.flush();

@@ -95,6 +95,8 @@ TODOS:
 #include <ostream>
 #include <exception>
 #include <utility>
+#include <algorithm>
+#include <initializer_list>
 
 #include <cassert>
 
@@ -296,6 +298,9 @@ namespace Solvers {
     constexpr StoppingData(const STO st, const unsigned long val)
       noexcept : st(st), val(val) {}
     operator bool() const noexcept { return st != STO::none; }
+    friend std::ostream& operator <<(std::ostream& out, const StoppingData st) {
+      return out << st.st << "," << st.val;
+    }
   };
   typedef StoppingData<OP::STO> GcStoppingData;
 
@@ -490,6 +495,28 @@ namespace Solvers {
   */
 
   typedef StoppingData<OP::LRST> LRStoppingData;
+  // List of LRStoppingData:
+  struct ListStoppingData {
+    typedef std::vector<LRStoppingData> list_t;
+
+    ListStoppingData() noexcept = default;
+    ListStoppingData(const std::initializer_list<LRStoppingData> L) noexcept :
+      lst(L.begin(), L.end()) {}
+    ListStoppingData(list_t L) : lst(L) {}
+
+    const list_t& list() const {return lst; }
+    operator bool() const noexcept {
+      return std::ranges::any_of(lst, [](const LRStoppingData st)->bool{
+                                   return st;});
+    }
+
+    ListStoppingData& operator +=(const LRStoppingData st) {
+      lst.push_back(st); return *this;
+    }
+
+  private :
+    list_t lst;
+  };
 
   struct rla_stop : GC::Search::Stop {
     bool stop(const GC::Search::Statistics&, const GC::Search::Options&)

@@ -203,10 +203,8 @@ namespace CommandLine {
     if (res.empty()) return {0}; else return res;
   }
 
-  SV::GcStoppingData read_gcst([[maybe_unused]]const int argc,
-                               const char* const argv[], const int pos) {
-    assert(argc >= pos+1);
-    const std::string sts = argv[pos];
+  template <typename STO>
+  SV::StoppingData<STO> read_st(const std::string& sts) {
     if (sts.empty()) return {};
     const auto split = Environment::split(sts, ',');
     if (split.size() != 2) {
@@ -216,7 +214,7 @@ namespace CommandLine {
          << split.size() << " items in \"" << sts << "\"\n";
       throw std::runtime_error(ss.str());
     }
-    const auto sto = Environment::read<OP::STO>(split[0]);
+    const auto sto = Environment::read<STO>(split[0]);
     if (not sto) {
       std::ostringstream ss;
       ss << "ERROR[CommandLine::read_gcst]: " <<
@@ -227,7 +225,21 @@ namespace CommandLine {
       FloatingPoint::to_unsigned<unsigned long>(split[1]);
     return {sto.value(), val};
   }
+  SV::GcStoppingData read_gcst([[maybe_unused]]const int argc,
+                               const char* const argv[], const int pos) {
+    assert(argc >= pos+1);
+    return read_st<OP::STO>(argv[pos]);
+  }
 
+  SV::ListStoppingData read_rlast([[maybe_unused]]const int argc,
+                                  const char* const argv[], const int pos) {
+    assert(argc >= pos+1);
+    const std::string sts = argv[pos];
+    const auto split = Environment::split(sts, '|');
+    SV::ListStoppingData res;
+    for (const std::string& s : split) res += read_st<OP::LRST>(s);
+    return res;
+  }
 
   OP::weights_t weights_ap(const size_t N) {
     OP::weights_t res; res.reserve(N+2);
@@ -339,11 +351,20 @@ namespace CommandLine {
       "# rt=" << rt << "\n";
     if (with_output) out << "# output-file " << outfile << "\n";
   }
+
   void st_output(std::ostream& out, const SV::GcStoppingData stod) {
     if (stod)
-      out << "# stopping=" << stod.st << " value=" << stod.val << "\n";
+      out << "# stopping: " << stod << "\n";
     else
       out << "# no_stopping\n";
+  }
+  void st_output(std::ostream& out, const SV::ListStoppingData& stod) {
+    if (stod) {
+      out << "# stopping: "; Environment::out_line(out, stod.list());
+    }
+    else
+      out << "# no_stopping";
+    out << "\n";
   }
 
   constexpr size_t spaces_algoout = 3;
