@@ -273,7 +273,7 @@ namespace CommandLine {
 
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
-    case OP::DIS::wdeltaL : return weights_ld(N);
+    case OP::DIS::wdeltaL : return weights_ap(N);
     case OP::DIS::newvars : return weights_one(N);
     default : assert(false); return {}; }
   }
@@ -290,7 +290,6 @@ namespace CommandLine {
   OP::weights_t read_weights([[maybe_unused]]const int argc,
                              const char* const argv[], const int pos,
                              const size_t N, const OP::DIS dis) {
-    assert(with_weights(dis));
     assert(N >= 2); assert(argc >= pos+1);
     const std::string vecs = argv[pos];
     if (vecs.empty()) return default_weights(N, dis);

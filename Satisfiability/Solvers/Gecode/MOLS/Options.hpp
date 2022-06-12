@@ -277,23 +277,10 @@ namespace Options {
 
 
   enum class DIS {
-    deltaL = 0,
-    wdeltaL = 1,
-    newvars = 2
+    wdeltaL = 0,
+    newvars = 1
   };
   constexpr int DISsize = int(DIS::newvars) + 1;
-  constexpr bool with_weights(const DIS d) noexcept {
-    return d != DIS::deltaL;
-  }
-  auto first_with_weights(const std::vector<DIS>& dv) noexcept {
-    return std::ranges::find_if(dv, [](DIS d){return with_weights(d);});
-  }
-  template <typename IT>
-  bool another_with_weights(IT begin, const IT end) noexcept {
-    return
-      std::ranges::find_if(++begin, end, [](DIS d){return with_weights(d);})
-      != end;
-  }
 
   enum class SPW {
     other=0,
@@ -410,10 +397,9 @@ namespace Environment {
     static constexpr const char* sname = "dis";
     static constexpr int size = Options::DISsize;
     static constexpr std::array<const char*, size>
-      string {"dL", "wdL", "newv"};
+      string {"wdL", "newv"};
     static constexpr std::array<const char*, size>
-      estring {"delta-literals", "weighted-delta-literals",
-        "new-variables"};
+      estring {"weighted-delta-literals", "new-variables"};
   };
   template <> struct RegistrationPolicies<Options::SPW> {
     static constexpr const char* name = "special-weights";

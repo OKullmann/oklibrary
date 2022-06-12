@@ -106,8 +106,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "12.6.2022",
+        "0.9.2",
+        "13.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -218,15 +218,13 @@ int main(const int argc, const char* const argv[]) {
 
   const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  const auto first_weight = first_with_weights(disv);
-  const bool use_weights = first_weight != disv.end();
-  if (use_weights and list_N.size() != 1) {
+  if (list_N.size() != 1) {
     std::cerr << error << "For distances with weights there must be"
       " exactly one N-value given, but there are " << list_N.size()
               << ".\n";
     return 1;
   }
-  if (use_weights and another_with_weights(first_weight, disv.end())) {
+  if (disv.size() != 1) {
     std::cerr << error << "There is more than one distance given needing "
       "weights.\n";
     return 1;
@@ -243,13 +241,8 @@ int main(const int argc, const char* const argv[]) {
 
   const double threads = read_threads(argc, argv, 11);
 
-  if (not std::string_view(argv[12]).empty() and not use_weights) {
-    std::cerr << error << "The distances don't have weights, but"
-      " weight-string \"" << argv[12] << "\" given.";
-    return 1;
-  }
-  const weights_t weights0 = use_weights ?
-    read_weights(argc, argv, 12, list_N[0], *first_weight) : weights_t{};
+  const weights_t weights0 =
+    read_weights(argc, argv, 12, list_N[0], disv[0]);
   const weights_t* const weights = &weights0;
 
   const auto stod = read_rlast(argc, argv, 13);
@@ -278,7 +271,7 @@ int main(const int argc, const char* const argv[]) {
   st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
   cd_output(std::cout, gcdv);
-  if (use_weights) weights_output(std::cout, weights0);
+  weights_output(std::cout, weights0);
   std::cout.flush();
 
   for (const size_t N : list_N)
@@ -292,8 +285,7 @@ int main(const int argc, const char* const argv[]) {
               for (unsigned gcd : gcdv) {
                 const laSR res =
                   lasolver(enc, rt, brt, dis, bro, lar,
-                    gcd, threads, with_weights(dis) ? weights : nullptr,
-                    stod, log);
+                    gcd, threads, weights, stod, log);
                 if (with_log and
                     rt != RT::enumerate_with_log and
                     rt != RT::unique_s_with_log)

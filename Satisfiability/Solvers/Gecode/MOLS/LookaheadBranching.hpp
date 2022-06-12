@@ -616,7 +616,7 @@ namespace LookaheadBranching {
                 const laParams P, laStats* const S,
                 const weights_pt w = nullptr)
       : GC::Brancher(home), P(P), weights(w), S(S) {
-      assert(S); assert(not with_weights(P.d) or weights);
+      assert(S); assert(weights);
     }
 
     GC::Brancher* copy(GC::Space& home) override {

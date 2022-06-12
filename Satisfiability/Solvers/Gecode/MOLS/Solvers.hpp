@@ -583,8 +583,7 @@ namespace Solvers {
                 std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
-    assert(not with_weights(dis) or weights);
-    assert(not weights or with_weights(dis));
+    assert(weights);
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
