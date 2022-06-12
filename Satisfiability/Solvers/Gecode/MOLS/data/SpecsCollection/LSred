@@ -1,8 +1,11 @@
 # Counts for n >= 2:
-# 1 1 4 56 9408 16942080
-# https://oeis.org/A000315
-#
-# Best performing pure gc-solver:
+# 1, 1, 4, 56, 9408, 16942080
+
+# https://oeis.org/A000315 :
+# 1, 1, 1, 4, 56, 9408, 16942080, 535281401856, 377597570964258816, 7580721483160132811489280, 5363937773277371298119673540771840
+
+# gcMols:
+
 # Running all variable-selections, with fixed domain-propagation:
 # MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count "" "-" "" ""
 #  - first-var, min-deg-va, max-deg-var are exactly identical
@@ -40,8 +43,12 @@
 #   75     satd dom enu    maxdeg desc              1      8.385       280361           0        4194   4193
 #   80     satd dom enu    maxdeg desc              1     12.237       336124           0        4711   4710
 
-# rlaMols has a much worse performance fpr sat-decision(nearly no la-reductions);
+
+# rlaMols:
+
+# Has a much worse performance fpr sat-decision(nearly no la-reductions);
 # best seems bnd+enu+first+asc+eagnpr for say N<=24 (taking around 34s).
+
 
 squares A
 ls A
