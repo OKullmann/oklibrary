@@ -286,14 +286,19 @@ namespace Solvers {
     The pure Gecode-solver
   */
 
-  struct GcStoppingData {
-    const OP::STO st;
-    const unsigned long val; // count for time in seconds
-    constexpr GcStoppingData() noexcept : st(OP::STO::none), val(0) {}
-    constexpr GcStoppingData(const OP::STO st, const unsigned long val)
+  // OP::STO for gc-stopping, OP::LRST for (r)la-stopping:
+  template <typename STO>
+  struct StoppingData {
+    typedef STO st_t;
+    const st_t st;
+    const unsigned long val; // the count for time is in seconds
+    constexpr StoppingData() noexcept : st(STO::none), val(0) {}
+    constexpr StoppingData(const STO st, const unsigned long val)
       noexcept : st(st), val(val) {}
-    operator bool() const noexcept { return st != OP::STO::none; }
+    operator bool() const noexcept { return st != STO::none; }
   };
+  typedef StoppingData<OP::STO> GcStoppingData;
+
   GC::Search::Options make_options(const double t,
                                    const unsigned gcd,
                                    const GcStoppingData st) noexcept {
