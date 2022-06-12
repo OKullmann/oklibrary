@@ -207,8 +207,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.0",
-        "10.6.2022",
+        "0.14.1",
+        "12.6.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -245,7 +245,7 @@ namespace {
       " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
-      " - stop-type    :  " << Environment::WRPO<STO>{} << "\n\n" <<
+      " - stop-type    : " << Environment::WRPO<STO>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
