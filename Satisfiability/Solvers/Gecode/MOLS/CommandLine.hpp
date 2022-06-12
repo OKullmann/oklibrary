@@ -44,6 +44,7 @@ TODOS:
 #include "PartialSquares.hpp"
 #include "Options.hpp"
 #include "Solvers.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace CommandLine {
 
@@ -52,6 +53,7 @@ namespace CommandLine {
   namespace PS = PartialSquares;
   namespace OP = Options;
   namespace SV = Solvers;
+  namespace LB = LookaheadBranching;
 
   using size_t = CD::size_t;
 
@@ -205,7 +207,7 @@ namespace CommandLine {
   }
 
   template <typename STO>
-  SV::StoppingData<STO> read_st(const std::string& sts) {
+  LB::StoppingData<STO> read_st(const std::string& sts) {
     if (sts.empty()) return {};
     const auto split = Environment::split(sts, ',');
     if (split.size() != 2) {
@@ -235,12 +237,12 @@ namespace CommandLine {
     return read_st<OP::STO>(argv[pos]);
   }
 
-  SV::ListStoppingData read_rlast([[maybe_unused]]const int argc,
+  LB::ListStoppingData read_rlast([[maybe_unused]]const int argc,
                                   const char* const argv[], const int pos) {
     assert(argc >= pos+1);
     const std::string sts = argv[pos];
     const auto split = Environment::split(sts, '|');
-    SV::ListStoppingData res;
+    LB::ListStoppingData res;
     for (const std::string& s : split) res += read_st<OP::LRST>(s);
     return res;
   }
@@ -362,7 +364,7 @@ namespace CommandLine {
     else
       out << "# no_stopping\n";
   }
-  void st_output(std::ostream& out, const SV::ListStoppingData& stod) {
+  void st_output(std::ostream& out, const LB::ListStoppingData& stod) {
     if (stod) {
       out << "# stopping: "; Environment::out_line(out, stod.list());
     }

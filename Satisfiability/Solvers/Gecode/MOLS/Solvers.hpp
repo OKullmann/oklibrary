@@ -95,9 +95,6 @@ TODOS:
 #include <ostream>
 #include <exception>
 #include <utility>
-#include <algorithm>
-#include <initializer_list>
-#include <map>
 
 #include <cassert>
 
@@ -289,21 +286,7 @@ namespace Solvers {
     The pure Gecode-solver
   */
 
-  // OP::STO for gc-stopping, OP::LRST for (r)la-stopping:
-  template <typename STO>
-  struct StoppingData {
-    typedef STO st_t;
-    const st_t st;
-    const size_t val; // the count for time is in seconds
-    constexpr StoppingData() noexcept : st(STO::none), val(0) {}
-    constexpr StoppingData(const STO st, const size_t val)
-      noexcept : st(st), val(val) {}
-    operator bool() const noexcept { return st != STO::none; }
-    friend std::ostream& operator <<(std::ostream& out, const StoppingData st) {
-      return out << st.st << "," << st.val;
-    }
-  };
-  typedef StoppingData<OP::STO> GcStoppingData;
+  typedef LB::StoppingData<OP::STO> GcStoppingData;
 
   GC::Search::Options make_options(const double t,
                                    const unsigned gcd,
@@ -494,36 +477,6 @@ namespace Solvers {
   /*
     The solver with look-ahead-reduction and gecode-branching
   */
-
-  typedef StoppingData<OP::LRST> LRStoppingData;
-  // List of LRStoppingData:
-  struct ListStoppingData {
-    typedef std::map<OP::LRST, size_t> map_t;
-    typedef std::vector<LRStoppingData> list_t;
-
-    ListStoppingData() noexcept = default;
-    ListStoppingData(const std::initializer_list<LRStoppingData> L) noexcept {
-      for (const auto st : L) operator +=(st);
-    }
-
-    list_t list() const {
-      list_t res; res.reserve(m.size());
-      for (const auto [s,val] : m) res.emplace_back(s,val);
-      return res;
-    }
-    operator bool() const noexcept {
-      return not m.empty();
-    }
-
-    ListStoppingData& operator +=(const LRStoppingData st) {
-      if (st.st != OP::LRST::none)
-        m[st.st] = std::max(m[st.st], st.val);
-      return *this;
-    }
-
-  private :
-    map_t m;
-  };
 
   struct rla_stop : GC::Search::Stop {
     bool stop(const GC::Search::Statistics&, const GC::Search::Options&)

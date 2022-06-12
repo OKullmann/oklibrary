@@ -71,7 +71,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.9",
+        "0.8.10",
         "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -189,7 +189,7 @@ int main(const int argc, const char* const argv[]) {
 
   const double threads = read_threads(argc, argv, 11);
 
-  const ListStoppingData stod = read_rlast(argc, argv, 12);
+  const auto stod = read_rlast(argc, argv, 12);
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 

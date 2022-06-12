@@ -106,7 +106,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.6",
+        "0.8.7",
         "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -252,7 +252,7 @@ int main(const int argc, const char* const argv[]) {
     read_weights(argc, argv, 12, list_N[0], *first_weight) : weights_t{};
   const weights_t* const weights = &weights0;
 
-  const ListStoppingData stod = read_rlast(argc, argv, 13);
+  const auto stod = read_rlast(argc, argv, 13);
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
