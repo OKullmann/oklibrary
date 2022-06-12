@@ -316,11 +316,13 @@ namespace LookaheadBranching {
     typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
     typedef LR::sollist_t sollist_t;
 
+    typedef ListStoppingData::list_t st_t;
+    st_t st;
     inline static std::atomic_bool abort;
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
-             const size_t t) noexcept :
-    sol_counter(0), lvs_counter(0), log(log), enc(enc), threshold_satc(t) {
+             const ListStoppingData& st) noexcept :
+      st(st.list()), sol_counter(0), lvs_counter(0), log(log), enc(enc) {
       assert(not enc or log);
       abort = false;
     }
@@ -332,43 +334,62 @@ namespace LookaheadBranching {
     const sollist_t& sols() const noexcept { return sols_; }
 
     void handle_abort() const noexcept {
-      if (threshold_satc != 0 and sol_counter >= threshold_satc)
-        abort.store(true, std::memory_order_relaxed);
+      for (const auto [s, val] : st)
+        switch (s) {
+        case OP::LRST::nds :
+          if (S.N() > val) {
+            abort.store(true, std::memory_order_relaxed); return;
+          } else break;
+        case OP::LRST::lvs :
+          if (lvs_counter > val) {
+            abort.store(true, std::memory_order_relaxed); return;
+          } else break;
+        case OP::LRST::inds :
+          if (S.N() - lvs_counter > val) {
+            abort.store(true, std::memory_order_relaxed); return;
+          } else break;
+        case OP::LRST::satc :
+          if (sol_counter > val) {
+            abort.store(true, std::memory_order_relaxed); return;
+          } else break;
+        case OP::LRST::none : assert(false);
+        }
     }
 
     void add(LR::ReductionStatistics& s) noexcept {
       S += s.extract();
       lvs_counter += s.leafcount();
       const size_t solc = s.solc();
+      size_t old_sol_counter = sol_counter;
+      sol_counter += solc;
+      handle_abort();
       if (solc == 0) return;
       assert(BS::alldiffelem(s.sollist()));
       if (log) {
         if (enc) {
           assert(solc == s.sollist().size());
           for (auto& sol : s.sollist()) {
-            ++sol_counter;
+            ++old_sol_counter;
             const auto dsol = enc->decode(std::move(sol));
-            *log << sol_counter << "\n" << dsol << std::endl;
+            *log << old_sol_counter << "\n" << dsol << std::endl;
             if (not VR::correct(enc->ac, dsol))
               std::cerr << "\nERROR[LABranching::rlaStats]: "
-                "correctness-checking failed for solution " << sol_counter
+                "correctness-checking failed for solution " << old_sol_counter
                         << ":\n" << dsol << "\n";
           }
         }
         else {
           assert(s.sollist().empty());
-          *log << " " << solc; log -> flush(); sol_counter += solc;
+          *log << " " << solc; log -> flush(); ;
         }
       }
       else {
-        sol_counter += solc;
         if (not s.sollist().empty()) {
           assert(s.sollist().size() == solc);
           sols_.reserve(sols_.size() + solc);
           for (auto& sol : s.sollist()) sols_.push_back(std::move(sol));
         }
       }
-      handle_abort();
     }
 
   private :
@@ -377,8 +398,6 @@ namespace LookaheadBranching {
     size_t sol_counter, lvs_counter;
     std::ostream* const log;
     const EC::EncCond* const enc;
-  public :
-    const size_t threshold_satc;
   };
 
 
@@ -541,8 +560,8 @@ namespace LookaheadBranching {
   public :
 
     laStats(std::ostream* const log, const EC::EncCond* const enc,
-            const size_t threshold) noexcept
-      : rla_(log, enc, threshold) {}
+            const ListStoppingData& st) noexcept
+      : rla_(log, enc, st) {}
 
     const rlaStats& rla() const noexcept { return rla_; }
     const stats_t& stats() const noexcept { return S; }

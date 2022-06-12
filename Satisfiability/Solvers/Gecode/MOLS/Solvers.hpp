@@ -485,11 +485,11 @@ namespace Solvers {
     }
   };
   GC::Search::Options make_options(const double t,
-                                   const OP::RT rt,
+                                   const bool stop,
                                    const unsigned gcd) noexcept {
     GC::Search::Options res;
     res.threads = t;
-    if (with_stop(rt)) res.stop = new rla_stop;
+    if (stop) res.stop = new rla_stop;
     if (gcd) res.c_d = gcd;
     return res;
   }
@@ -499,6 +499,7 @@ namespace Solvers {
                   const OP::LAR lar,
                   const unsigned gcd,
                   const double threads,
+                  LB::ListStoppingData st,
                   std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
@@ -507,10 +508,11 @@ namespace Solvers {
     const Timing::Time_point t0 = timing();
     CT::GenericMols0* const m = new CT::GenericMols0(enc);
     const LB::rlaParams P{rt, lar, bv, bt, bo, threads != 1};
+    if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::rlaStats> stats(
       new LB::rlaStats(log,
                        log and OP::with_solutions(rt) ? &enc : nullptr,
-                       with_stop(rt)));
+                       st));
     new (*m) LB::RlaBranching(*m, P, stats.get());
     {const auto status = m->status();
      if (status == GC::SS_SOLVED) {
@@ -533,7 +535,7 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads, rt, gcd));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, st, gcd));
     delete m;
 
     rlaSR res{rt};
@@ -577,6 +579,7 @@ namespace Solvers {
                 const unsigned gcd,
                 const double threads,
                 const OP::weights_t* const weights,
+                LB::ListStoppingData st,
                 std::ostream* const log) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
@@ -587,10 +590,11 @@ namespace Solvers {
     const Timing::Time_point t0 = timing();
     CT::GenericMols1* const m = new CT::GenericMols1(enc);
     const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
+    if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::laStats> stats(
       new LB::laStats(log,
                       log and OP::with_solutions(rt) ? &enc : nullptr,
-                      with_stop(rt)));
+                      st));
 
     new (*m) LB::LaBranching(*m, P, stats.get(), weights);
     {const auto status = m->status();
@@ -614,7 +618,7 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols1> s(m, make_options(threads, rt, gcd));
+    GC::DFS<CT::GenericMols1> s(m, make_options(threads, st, gcd));
     delete m;
 
     laSR res{rt};

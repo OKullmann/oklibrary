@@ -71,7 +71,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.10",
+        "0.9.0",
         "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -228,7 +228,7 @@ int main(const int argc, const char* const argv[]) {
               for (unsigned gcd : gcdv) {
                 const rlaSR res =
                   rlasolver(enc, rt, brt, bvar, gbo, lar,
-                            gcd, threads, log);
+                            gcd, threads, stod, log);
                 if (with_log and
                     rt != RT::enumerate_with_log and
                     rt != RT::unique_s_with_log)

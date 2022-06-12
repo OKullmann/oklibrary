@@ -106,7 +106,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.7",
+        "0.9.0",
         "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -293,7 +293,7 @@ int main(const int argc, const char* const argv[]) {
                 const laSR res =
                   lasolver(enc, rt, brt, dis, bro, lar,
                     gcd, threads, with_weights(dis) ? weights : nullptr,
-                    log);
+                    stod, log);
                 if (with_log and
                     rt != RT::enumerate_with_log and
                     rt != RT::unique_s_with_log)
