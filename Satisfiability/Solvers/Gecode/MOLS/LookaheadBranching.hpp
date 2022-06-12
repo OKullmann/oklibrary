@@ -656,7 +656,7 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      const measure_t mu = P.d == OP::DIS::deltaL ?
+      const measure_t mu = P.d != OP::DIS::wdeltaL ?
         measure_t(GV::sumdomsizes) :
         [this](const GC::IntVarArray& V){
           return wsumdomsizes(V, weights);};

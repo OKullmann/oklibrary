@@ -247,14 +247,24 @@ namespace CommandLine {
     return res;
   }
 
+  // Reminder: weights[0] relates to domain-size 0.
+  OP::weights_t weights_zero(const size_t N) {
+    return OP::weights_t(N+1);
+  }
+  OP::weights_t weights_one(const size_t N) {
+    assert(N >= 1);
+    OP::weights_t res(N+1,1);
+    res[0] = 0; res[1] = 0;
+    return res;
+  }
   OP::weights_t weights_ap(const size_t N) {
-    OP::weights_t res; res.reserve(N+2);
-    res.push_back(0); // domain-size 0
+    OP::weights_t res; res.reserve(N+1);
+    res.push_back(0);
     for (size_t i = 1; i <= N; ++i) res.push_back(i-1);
     return res;
   }
   OP::weights_t weights_ld(const size_t N) {
-    OP::weights_t res; res.reserve(N+2);
+    OP::weights_t res; res.reserve(N+1);
     res.push_back(0);
     for (size_t i = 1; i <= N; ++i)
       res.push_back(FloatingPoint::log2(i));
@@ -264,18 +274,17 @@ namespace CommandLine {
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
     case OP::DIS::wdeltaL : return weights_ld(N);
-    case OP::DIS::newvars : return OP::weights_t(N+1); // XXX
-    default : return {}; }
+    case OP::DIS::newvars : return weights_one(N);
+    default : assert(false); return {}; }
   }
 
-  bool special_weights(const std::string& arg) noexcept {
-    return arg == "A" or arg == "L";
-  }
-  OP::weights_t special_weights(const std::string& arg,
-                                const size_t N, const OP::DIS) {
-    assert(special_weights(arg));
-    if (arg == "A") return weights_ap(N);
-    else return weights_ld(N);
+  OP::weights_t special_weights(const OP::SPW sp, const size_t N) {
+    switch (sp) {
+    case OP::SPW::zero : return weights_zero(N);
+    case OP::SPW::one : return weights_one(N);
+    case OP::SPW::ap : return weights_ap(N);
+    case OP::SPW::ld : return weights_ld(N);
+    default: assert(false); return {}; }
   }
 
   OP::weights_t read_weights([[maybe_unused]]const int argc,
@@ -285,7 +294,9 @@ namespace CommandLine {
     assert(N >= 2); assert(argc >= pos+1);
     const std::string vecs = argv[pos];
     if (vecs.empty()) return default_weights(N, dis);
-    if (special_weights(vecs)) return special_weights(vecs, N, dis);
+    {const auto sp = Environment::read<OP::SPW>(vecs);
+     if (sp) return special_weights(sp.value(), N);
+    }
     const OP::weights_t inp = FloatingPoint::to_vec_float80(argv[pos], ',');
 
     if (dis == OP::DIS::wdeltaL) {

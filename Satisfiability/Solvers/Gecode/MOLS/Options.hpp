@@ -295,6 +295,14 @@ namespace Options {
       != end;
   }
 
+  enum class SPW {
+    zero=0,
+    one=1,
+    ap=2,
+    ld=3
+  };
+  constexpr int SPWsize = int(SPW::ld) + 1;
+
 }
 namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
@@ -406,6 +414,16 @@ namespace Environment {
       estring {"delta-literals", "weighted-delta-literals",
         "new-variables"};
   };
+  template <> struct RegistrationPolicies<Options::SPW> {
+    static constexpr const char* name = "special-weights";
+    static constexpr const char* sname = "spw";
+    static constexpr int size = Options::SPWsize;
+    static constexpr std::array<const char*, size>
+    string {"Z", "O", "A", "L"};
+    static constexpr std::array<const char*, size>
+      estring {"zero-weights", "one-weights", "ap-weights",
+        "log2-weights"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -440,6 +458,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const DIS dis) {
     return out << Environment::W2(dis);
+  }
+  std::ostream& operator <<(std::ostream& out, const SPW sp) {
+    return out << Environment::W2(sp);
   }
 
 }
