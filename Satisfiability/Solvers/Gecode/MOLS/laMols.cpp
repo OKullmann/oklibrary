@@ -106,7 +106,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.5",
+        "0.8.6",
         "12.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -170,7 +170,7 @@ namespace {
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
       std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "st",
-                      "larc", "lvs", "larbc"),
+                      "nds", "lvs", "inds"),
       widths);
     out << "\n";
   }
