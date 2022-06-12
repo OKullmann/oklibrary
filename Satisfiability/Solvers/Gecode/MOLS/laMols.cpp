@@ -61,6 +61,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
     - Using abort.store there then is handled by a dedicated member.
       And data-member threshold is expanded to a proper object holding
       such data.
+    - A variable indicating whether stopping took place is needed.
     - Later also allowing bounds for total runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
       by the solver).
