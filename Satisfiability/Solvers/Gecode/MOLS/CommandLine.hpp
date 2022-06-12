@@ -30,6 +30,7 @@ TODOS:
 #include <utility>
 #include <tuple>
 #include <optional>
+#include <type_traits>
 
 #include <cassert>
 
@@ -221,9 +222,12 @@ namespace CommandLine {
         "stopping-criterion \"" << split[0] << "\" invalid.";
       throw std::runtime_error(ss.str());
     }
-    const unsigned long val =
-      FloatingPoint::to_unsigned<unsigned long>(split[1]);
-    return {sto.value(), val};
+    if constexpr (std::is_same_v<STO, OP::STO>)
+      return {sto.value(),
+                    FloatingPoint::to_unsigned<unsigned long>(split[1])};
+    else
+      return {sto.value(),
+                    FloatingPoint::toUInt(split[1])};
   }
   SV::GcStoppingData read_gcst([[maybe_unused]]const int argc,
                                const char* const argv[], const int pos) {
