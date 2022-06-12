@@ -15,6 +15,7 @@ License, or any later version. */
     General parameters:
      - RT
      - PropO
+     - STO, LRST
 
     Gecode-based branching for gcMols and rlaMols:
      - BHV
@@ -157,7 +158,7 @@ namespace Options {
   }
 
 
-  // Stopping the search engine:
+  // Stopping the search engine, for gcMols:
   enum class STO {
     none=0,
     by_gnds=1,
@@ -165,6 +166,15 @@ namespace Options {
     by_time=3
   };
   constexpr int STOsize = int(STO::by_time) + 1;
+  // Stopping the search after la-reduction:
+  enum class LRST {
+    none=0,
+    nds=1,
+    lvs=2,
+    inds=3,
+    satc=4,
+  };
+  constexpr int LRSTsize = int(LRST::satc) + 1;
 
 
   // Variable-selection for Gecode-branching ("branching-heuristic variables").
@@ -319,6 +329,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"none", "by-gc-node-count", "by-failed-leaf-count", "by-time"};
   };
+  template <> struct RegistrationPolicies<Options::LRST> {
+    static constexpr const char* name = "la-reduction-stopping";
+    static constexpr int size = Options::LRSTsize;
+    static constexpr std::array<const char*, size>
+    string {"none", "nds", "lvs", "inds", "satc"};
+    static constexpr std::array<const char*, size>
+      estring {"none", "by-node-count", "by-leaf-count",
+        "by-inner-node-count", "by-solution-count"};
+  };
   template <> struct RegistrationPolicies<Options::BHV> {
     static constexpr const char* name = "variable-heuristic";
     static constexpr const char* sname = "bv";
@@ -396,6 +415,9 @@ namespace Options {
     return out << Environment::W2(po);
   }
   std::ostream& operator <<(std::ostream& out, const STO st) {
+    return out << Environment::W2(st);
+  }
+  std::ostream& operator <<(std::ostream& out, const LRST st) {
     return out << Environment::W2(st);
   }
   std::ostream& operator <<(std::ostream& out, const BHV bvar) {
