@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840
+# 0, 0, 2, 12, 0, 3840, >= 5838
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
 
@@ -26,6 +26,32 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   8    count dom bin mindegdom desc    1        5838     470.434    1643212977    13513085    27037910     22  1
 
+
+# rlaMols:
+
+# N=7:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - "" 1 6 "nds, 15000"
+# Best timewise:
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   7    count dom enu    mindeg  asc  relpr    1       3840      53.089     851548    10620    24748     9  0    14128    10620
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   305.907      8.196     13.450      13.456     107.373      169.388     1.238     0.272     0.020     0.045     0.053
+#   140.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   578.000     39.000     58.000     168.000     546.000     1195.000     5.000     6.000     0.177     0.182     0.333
+#    21.829      6.151      9.505      20.854     114.006      172.059     0.508     0.746     0.021     0.031     0.051
+# Best nodewise (also leafwise):
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   7    count dom bin mindegdom desc  relpr    1       3840      85.672     571161     4086    12257    13  0     8171     4086
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   377.781     11.050     16.049      82.295     234.650      408.498     1.791     0.470     0.032     0.044     0.156
+#   214.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   578.000     59.000     80.000     463.000     546.000     1825.000     7.000     6.000     0.268     0.218     0.625
+#    42.876     10.911     16.060      75.288     156.203      300.466     0.878     0.941     0.029     0.044     0.111
+
+# N=8:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - "" 1 6 "nds, 15000"
 
 
 
