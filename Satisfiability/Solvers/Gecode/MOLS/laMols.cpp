@@ -51,11 +51,10 @@ Explicitly given parameters:
  - implementation-detail "gcd"
  - number of parallel threads = 3.
  - stopping parameter (no stopping by default).
- For branching-order ("lbo") and some details on
-the reduction-implementation ("lar") the default
-is used. Distance wdL by default does not use
-weights, but the weight-parameter (the last but
-one) needs to be there.
+For branching-order ("lbo"), some details on the
+reduction-implementation ("lar"), and the weights
+the default is used (indicated by the empty string --
+all parameters need always to be specified).
 
 */
 
