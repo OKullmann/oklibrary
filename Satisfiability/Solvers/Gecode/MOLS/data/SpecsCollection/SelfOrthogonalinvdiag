@@ -7,7 +7,9 @@
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
 # real	27m30.417s user	300m39.383s sys	3m46.476s
-# time ./gcMols 9 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 16
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 16
+# aborted after 377 hours wallclock-time.
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom enu maxdegdom "" 1 16
 # XXX
 
 squares A aux
