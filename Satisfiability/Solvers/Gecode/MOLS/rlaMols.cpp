@@ -13,7 +13,38 @@ License, or any later version. */
 
 Examples:
 
+1. Counting triples of MOLS for N=5
+    - for the domain propagation-level
+    - enumerative branching-type
+    - max-deg/dom-var variable-selection,
+    - the default branching-order,
+    - eager-pruning lookahead reduction,
+    - commit-distance 1,
+    - 6 threads,
+    - no stopping:
 
+./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr 1 6 ""
+# N: 5
+# k=6 total_num_sq=6: "data/SpecsCollection/3MOLS"
+#   num_uc=9 num_eq=0 num_peq=3
+# no_ps
+# num_runs=1
+# threads=6
+# rt=count-solutions(count)
+# no_stopping
+#   propagation-level: domain-prop(dom)
+#   branching-type: enumerative-branching(enu)
+#   variable-heuristic: max-deg/dom-var(maxdegdom)
+#   order-heuristic: ascending-order(asc)
+#   la-reduction-type: eager-pruning(eagpr)
+#   commit-distance: 1
+   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+   5    count dom enu maxdegdom  asc  eagpr    1         36       0.684        692        8       19     4  0       11        8
+      vals      props     elvals       prunes      mprune      probes     rounds      solc         t   qelvals   qprunes
+   445.091     12.545     16.545      375.091     223.818     418.364     12.818     3.273     0.062     0.037     1.857
+   401.000      0.000      0.000        2.000      64.000      22.000      1.000     0.000     0.001     0.000     0.033
+   470.000     38.000     47.000     1209.000     436.000     963.000     38.000     8.000     0.141     0.102     6.273
+    23.611     14.774     17.688      472.050     150.943     411.050     14.566     3.495     0.057     0.038     2.388
 
 */
 
