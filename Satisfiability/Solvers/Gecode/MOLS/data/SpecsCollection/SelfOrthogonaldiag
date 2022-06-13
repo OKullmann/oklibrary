@@ -2,6 +2,11 @@
 # 0, 0, 2, 12, 0, 3840, >= 5838
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
+# Without the diagonality-condition this is true by
+# [Brayton, Coppersmith and Hoffman, 1976].
+# [Bennett et all, 2003] cites a result showing that indeed
+# all N >= 7 might be satisfiable (including diagonality),
+# with the only possible exceptions of N=10,14, which seem to be unknown.
 
 # A sequence with the same initial part is
 # in SelfOrthogonalidem
