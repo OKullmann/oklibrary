@@ -247,6 +247,7 @@ namespace CommandLine {
     return res;
   }
 
+
   // Reminder: weights[0] relates to domain-size 0.
   OP::weights_t weights_zero(const size_t N) {
     return OP::weights_t(N+1);
@@ -270,6 +271,61 @@ namespace CommandLine {
       res.push_back(FloatingPoint::log2(i));
     return res;
   }
+
+  typedef std::vector<OP::weights_t> list_weights_t;
+  struct WGenerator {
+    typedef OP::weights_t pattern_t;
+    const pattern_t pat;
+    const OP::SPW sp;
+    const size_t rep = 1;
+
+    WGenerator(const OP::SPW sp, pattern_t pat) noexcept :
+      pat(pat), sp(sp) {}
+
+    size_t size(const size_t,
+                const OP::LBRT brt, const  OP::DIS dis) const noexcept {
+      if (sp != OP::SPW::other) return 1;
+      if (pat.empty()) {
+        if (dis == OP::DIS::wdeltaL) return 2;
+        assert(dis == OP::DIS::newvars);
+        if (brt == OP::LBRT::bin) return 3;
+        assert(brt == OP::LBRT::enu);
+        return 4;
+      }
+      return rep;
+    }
+    list_weights_t operator ()(const size_t N,
+                   const OP::LBRT brt, const  OP::DIS dis) const noexcept {
+      list_weights_t res; res.reserve(size(N,brt,dis));
+      if (sp != OP::SPW::other) {
+        switch (sp) {
+        case OP::SPW::zero : res.push_back(weights_zero(N));
+        case OP::SPW::one : res.push_back(weights_one(N));
+        case OP::SPW::ap : res.push_back(weights_ap(N));
+        case OP::SPW::ld : res.push_back(weights_ld(N));
+        default : assert(false);}
+      }
+      else if (pat.empty()) {
+        if (dis == OP::DIS::wdeltaL) {
+          res.push_back(weights_ap(N)); res.push_back(weights_ld(N));
+        }
+        else if (brt == OP::LBRT::bin) {
+          res.push_back(weights_one(N));
+          res.push_back(weights_ap(N)); res.push_back(weights_ld(N));
+        }
+        else {
+          res.push_back(weights_zero(N)); res.push_back(weights_one(N));
+          res.push_back(weights_ap(N)); res.push_back(weights_ld(N));
+        }
+      }
+      else {
+        assert(rep == 1);
+        res.push_back(pat);
+      }
+      assert(res.size() == size(N,brt,dis));
+      return res;
+    }
+  };
 
   OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
     switch (dis) {
