@@ -31,4 +31,11 @@ are generated.
 
 USE
 
-XXX
+1. Counting all 9408 reduced ls's for N=6:
+MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
+
+2. Counting all 36 triples of mutually orthogonal latin squares (MOLS) for N=5:
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr 1 6 ""
+
+3. Counting all 18 pairs of MOLS for N=6:
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "" ""
