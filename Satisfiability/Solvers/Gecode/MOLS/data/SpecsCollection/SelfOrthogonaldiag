@@ -52,6 +52,91 @@
 # N=8:
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - "" 1 6 "nds, 15000"
+# The two combinations achieving the highest count:
+#   8    count dom enu    mindom desc  relpr    1        125     169.784    1031517     9612    24618    17  1    15006     9614
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   436.503     11.321     16.880      77.056     229.713      386.809     1.610     0.008     0.057     0.039     0.146
+#   280.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   884.000     50.000     70.000     543.000     847.000     1862.000     6.000     1.000     0.335     0.155     1.000
+#    37.787      8.196     12.385      87.178     165.910      303.786     0.786     0.091     0.044     0.029     0.116
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom bin mindegdom  asc  relpr    1        125     306.028     958421     7482    22487    15  1    15005     7483
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   524.110     12.515      20.313     111.280     321.034      556.498     1.810     0.008     0.114     0.040     0.160
+#   339.000      0.000       0.000       0.000       0.000        4.000     1.000     0.000     0.000     0.000     0.000
+#   884.000     81.000     128.000     649.000     847.000     2982.000     7.000     2.000     0.710     0.216     0.728
+#    53.165     12.921      21.648     103.437     208.241      388.196     0.828     0.092     0.084     0.042     0.132
+
+
+# laMols with wdL:
+
+# N=7:
+
+# MOLS> time ./laMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count dom - wdL "" "" 1 6 "" "nds,10000"
+# Best combination: enu+A-weights:
+#   weights: 0 0 1 2 3 4 5 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1     3840      46.756     738741     5760    14626    10  0     8866     5760    3106
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   276.887      7.547     11.438      16.711     119.399      221.627     1.487     0.433     0.004     0.041     0.046
+#   185.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   578.000     41.000     57.000     157.000     546.000     1063.000     5.000     3.000     0.121     0.180     0.267
+#    44.203      8.057     10.971      23.489     122.793      226.790     0.800     0.737     0.004     0.036     0.047
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   207.739     2.854     0.041     19.868     30.954     42.826      9.861     6.080     0.005
+#   144.000     2.000     0.012      7.000     20.000     20.000      0.000     0.000     0.000
+#   456.000     5.000     0.068     65.000     65.000     93.000     31.591     8.000     0.073
+#    40.132     0.483     0.015      7.937     10.621     21.403     10.067     1.204     0.002
+
+# Using weights-pattern "0.1", ..., "1.0" makes little difference.
+
+# N=8:
+
+# MOLS> time ./laMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom - wdL - "" 1 6 "" "nds,10000"
+# Best count:
+#   weights: 0 0 1 2 3 4 5 6 7
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu  wdL ddesc  relpr   1      130      84.430     924883     7022    17027    13  1    10005     7024    2981
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   368.842      8.552     13.636      11.894     142.547      249.453     1.345     0.013     0.029     0.037     0.032
+#   247.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   884.000     56.000     76.000     189.000     847.000     2113.000     6.000     1.000     0.267     0.163     0.400
+#    45.239      8.442     11.657      20.377     153.230      263.686     0.662     0.113     0.032     0.030     0.037
+#        mu         w      ltau       mind      meand        maxd        sdd         dp        tb
+#   278.362     3.386     0.049     20.144     31.778      43.203      9.549     10.819     0.041
+#   218.000     2.000     0.013      6.000     14.500      18.000      0.000      0.000     0.017
+#   728.000     6.000     0.083     84.000     85.000     125.000     40.541     13.000     0.146
+#    50.278     0.877     0.022     12.117     13.886      22.685      9.226      1.693     0.012
+
+# Seems better than rlaMols.
+
+
+# laMols with newvars:
+
+# N=7:
+
+# MOLS> time ./laMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count dom - newv "" "" 1 6 "" "nds,10000"
+# Best enu with any of the four weights (hardly a difference).
+# Playing a bit around with weights makes hardly a difference.
+
+# N=8:
+
+# MOLS> time ./laMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom enu newv - "" 1 6 "" "nds,10000"
+# All quite close together; best count:
+#   weights: 0 0 1 2 3 4 5 6 7
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv ddesc  relpr   1      132     100.614     893216     6798    16804    13  1    10006     6800    3206
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   369.197      8.831     13.822      14.199     151.924      272.351     1.405     0.013     0.038     0.038     0.036
+#   247.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   884.000     49.000     71.000     145.000     847.000     2113.000     6.000     1.000     0.383     0.152     0.276
+#    44.106      8.135     11.363      21.658     152.650      271.394     0.731     0.114     0.039     0.030     0.038
+#        mu         w      ltau        mind       meand        maxd        sdd         dp        tb
+#   402.586     3.157     0.028      38.597      53.575      65.793     11.697     10.726     0.050
+#   346.000     2.000     0.005       8.000      18.000      19.000      0.000      0.000     0.011
+#   856.000     6.000     0.051     231.000     231.000     231.000     54.383     13.000     0.212
+#    49.894     0.809     0.013      25.966      28.964      34.380     12.100      1.627     0.014
+
 
 
 
