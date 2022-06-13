@@ -18,13 +18,13 @@
 
 # N=8:
 
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokodiag "" count dom - mindeg - 1 6 "t,20"
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - mindeg - 1 6 "t,20"
 # hardly any differences, but perhaps bin+mindeg+desc is best:
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   8    count dom bin    mindeg desc    1         210     117.489     434182525     2790622     5581731     23  1
 # But bin+mindegdom+desc seems better:
 #   8    count dom bin mindegdom desc    1         263     116.016     429220550     3208130     6416840     21  1
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokodiag "" count dom bin mindegdom desc 1 12 "t,20000"
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom bin mindegdom desc 1 12 "t,20000"
 # XXX
 
 
