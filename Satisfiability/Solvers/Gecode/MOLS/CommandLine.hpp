@@ -31,6 +31,7 @@ TODOS:
 #include <tuple>
 #include <optional>
 #include <type_traits>
+#include <algorithm>
 
 #include <cassert>
 
@@ -274,17 +275,29 @@ namespace CommandLine {
 
   typedef std::vector<OP::weights_t> list_weights_t;
   struct WGenerator {
-    typedef OP::weights_t pattern_t;
+    using weights_t = OP::weights_t;
+    using SPW = OP::SPW;
+
+    typedef weights_t pattern_t; // XXX
     const pattern_t pat;
-    const OP::SPW sp;
+    const SPW sp;
     const size_t rep = 1;
 
-    WGenerator(const OP::SPW sp, pattern_t pat) noexcept :
+    WGenerator(const SPW sp, pattern_t pat) noexcept :
       pat(pat), sp(sp) {}
+
+    static weights_t adapt(const pattern_t& pat, const size_t N) {
+      assert(not pat.empty());
+      weights_t res(pat.begin(), pat.begin() + std::min(N+1, pat.size()));
+      for (size_t i = 0; res.size() < N+1; i = i==N+1 ? 0 : i+1)
+        res.push_back(pat[i]);
+      assert(res.size() == N+1);
+      return res;
+    }
 
     size_t size(const size_t,
                 const OP::LBRT brt, const  OP::DIS dis) const noexcept {
-      if (sp != OP::SPW::other) return 1;
+      if (sp != SPW::other) return 1;
       if (pat.empty()) {
         if (dis == OP::DIS::wdeltaL) return 2;
         assert(dis == OP::DIS::newvars);
@@ -294,15 +307,16 @@ namespace CommandLine {
       }
       return rep;
     }
+
     list_weights_t operator ()(const size_t N,
                    const OP::LBRT brt, const  OP::DIS dis) const noexcept {
       list_weights_t res; res.reserve(size(N,brt,dis));
-      if (sp != OP::SPW::other) {
+      if (sp != SPW::other) {
         switch (sp) {
-        case OP::SPW::zero : res.push_back(weights_zero(N));
-        case OP::SPW::one : res.push_back(weights_one(N));
-        case OP::SPW::ap : res.push_back(weights_ap(N));
-        case OP::SPW::ld : res.push_back(weights_ld(N));
+        case SPW::zero : res.push_back(weights_zero(N));
+        case SPW::one : res.push_back(weights_one(N));
+        case SPW::ap : res.push_back(weights_ap(N));
+        case SPW::ld : res.push_back(weights_ld(N));
         default : assert(false);}
       }
       else if (pat.empty()) {
@@ -320,7 +334,8 @@ namespace CommandLine {
       }
       else {
         assert(rep == 1);
-        res.push_back(pat);
+        auto w = adapt(pat, N);
+        res.push_back(w);
       }
       assert(res.size() == size(N,brt,dis));
       return res;
