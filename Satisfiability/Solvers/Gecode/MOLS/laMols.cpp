@@ -106,7 +106,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
+        "0.10.0",
         "13.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -193,6 +193,17 @@ namespace {
     FloatingPoint::undo(out, state);
   }
 
+  size_t mult(const size_t basis, const list_size_t& list_N,
+              const list_lbrt_t& brtv, const list_dis_t& disv,
+              const WGenerator& wg) noexcept {
+    size_t sum = 0;
+    for (const size_t N : list_N)
+      for (const LBRT brt : brtv)
+        for (const DIS dis : disv)
+          sum += wg.size(N, brt, dis);
+    return basis * sum;
+  }
+
 }
 
 
@@ -215,35 +226,21 @@ int main(const int argc, const char* const argv[]) {
                                            "propagation");
   const list_lbrt_t brtv = read_opt<LBRT>(argc, argv, 6, "brt",
                                           "branching-type");
-
   const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  if (list_N.size() != 1) {
-    std::cerr << error << "For distances with weights there must be"
-      " exactly one N-value given, but there are " << list_N.size()
-              << ".\n";
-    return 1;
-  }
-  if (disv.size() != 1) {
-    std::cerr << error << "There is more than one distance given needing "
-      "weights.\n";
-    return 1;
-  }
-
   const list_lbro_t brov = read_opt<LBRO>(argc, argv, 8, "bro",
                                           "order-heuristics");
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
-  const size_t num_runs =
-    list_N.size()*pov.size()*brtv.size()*disv.size()*brov.size()
-    *larv.size()*gcdv.size();
 
   const double threads = read_threads(argc, argv, 11);
 
-  const weights_t weights0 =
-    read_weights(argc, argv, 12, list_N[0], disv[0]);
-  const weights_t* const weights = &weights0;
+  const WGenerator wg = read_weights(argc, argv, 12);
+
+  const size_t num_runs =
+    mult(pov.size()*brov.size()*larv.size()*gcdv.size(),
+         list_N, brtv, disv, wg);
 
   const auto stod = read_rlast(argc, argv, 13);
 
@@ -271,7 +268,6 @@ int main(const int argc, const char* const argv[]) {
   st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
   cd_output(std::cout, gcdv);
-  weights_output(std::cout, weights0);
   std::cout.flush();
 
   for (const size_t N : list_N)
@@ -279,26 +275,32 @@ int main(const int argc, const char* const argv[]) {
       const EncCond enc(ac, ps0 ? ps0.value() : PSquares(N,psquares_t{}),
                         prop_level(po));
       for (const LBRT brt : brtv)
-        for (const DIS dis : disv)
-          for (const LBRO bro : brov)
-            for (const LAR lar : larv)
-              for (unsigned gcd : gcdv) {
-                const laSR res =
-                  lasolver(enc, rt, brt, dis, bro, lar,
-                    gcd, threads, weights, stod, log);
-                if (with_log and
-                    rt != RT::enumerate_with_log and
-                    rt != RT::unique_s_with_log)
-                  std::cout << "\n";
-                rh(std::cout);
-                std::cout.width(wN); std::cout << N << " ";
-                Environment::data_policies(std::cout,
-                  std::make_tuple(rt, po, brt, dis, bro, lar));
-                std::cout.width(wgcd); std::cout << gcd << " ";
-                rs(std::cout, res);
-                if (with_file_output)
-                  Environment::out_line(*out, res.b.list_sol, "\n");
-              }
+        for (const DIS dis : disv) {
+          const auto wv = wg(N, brt, dis);
+          for (const weights_t& weights0 : wv) {
+            const weights_t* const weights = &weights0;
+            for (const LBRO bro : brov)
+              for (const LAR lar : larv)
+                for (unsigned gcd : gcdv) {
+                  const laSR res =
+                    lasolver(enc, rt, brt, dis, bro, lar,
+                             gcd, threads, weights, stod, log);
+                  if (with_log and
+                      rt != RT::enumerate_with_log and
+                      rt != RT::unique_s_with_log)
+                    std::cout << "\n";
+                  weights_output(std::cout, weights0);
+                  rh(std::cout);
+                  std::cout.width(wN); std::cout << N << " ";
+                  Environment::data_policies(std::cout,
+                    std::make_tuple(rt, po, brt, dis, bro, lar));
+                  std::cout.width(wgcd); std::cout << gcd << " ";
+                  rs(std::cout, res);
+                  if (with_file_output)
+                    Environment::out_line(*out, res.b.list_sol, "\n");
+                }
+          }
+        }
     }
   if (out) delete out;
 }

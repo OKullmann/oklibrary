@@ -283,20 +283,40 @@ namespace CommandLine {
     const SPW sp;
     const size_t rep = 1;
 
-    WGenerator(const SPW sp, pattern_t pat) noexcept :
-      pat(pat), sp(sp) {}
-
-    static weights_t adapt(const pattern_t& pat, const size_t N) {
+    WGenerator() noexcept : pat{}, sp(SPW::other) {}
+    WGenerator(const SPW sp) noexcept : pat{}, sp(sp) {
+      assert(sp != SPW::other);
+    }
+    WGenerator(pattern_t pat) noexcept : pat(pat), sp(SPW::other) {
       assert(not pat.empty());
-      weights_t res(pat.begin(), pat.begin() + std::min(N+1, pat.size()));
-      for (size_t i = 0; res.size() < N+1; i = i==N+1 ? 0 : i+1)
-        res.push_back(pat[i]);
-      assert(res.size() == N+1);
+    }
+
+    // The pattern for DIS::newvars does not include domain-size N:
+    static weights_t adapt(const pattern_t& pat,
+                           const size_t N, const OP::DIS dis) {
+      assert(not pat.empty());
+      const size_t target = dis==OP::DIS::newvars ? N-1 : N-2;
+      weights_t pat0(pat.begin(), pat.begin() + std::min(target, pat.size()));
+      for (size_t i = 0; pat0.size() < target; i = (i==pat.size()-1 ? 0 : i+1))
+        pat0.push_back(pat[i]);
+      assert(pat0.size() == target);
+      OP::weights_t res(N+1);
+      if (dis == OP::DIS::wdeltaL) {
+        res[2] = 1;
+        for (size_t i = 0; i < target; ++i)
+          res[3+i] = res[2+i] * FloatingPoint::exp2(pat0[i]);
+      }
+      else {
+        assert(dis == OP::DIS::newvars);
+        res[1] = pat0[0];
+        for (size_t i = 1; i < target; ++i)
+          res[1+i] = (i==1 ? 1 : res[i]) * FloatingPoint::exp2(pat0[i]);
+      }
       return res;
     }
 
     size_t size(const size_t,
-                const OP::LBRT brt, const  OP::DIS dis) const noexcept {
+                const OP::LBRT brt, const OP::DIS dis) const noexcept {
       if (sp != SPW::other) return 1;
       if (pat.empty()) {
         if (dis == OP::DIS::wdeltaL) return 2;
@@ -313,11 +333,11 @@ namespace CommandLine {
       list_weights_t res; res.reserve(size(N,brt,dis));
       if (sp != SPW::other) {
         switch (sp) {
-        case SPW::zero : res.push_back(weights_zero(N));
-        case SPW::one : res.push_back(weights_one(N));
-        case SPW::ap : res.push_back(weights_ap(N));
-        case SPW::ld : res.push_back(weights_ld(N));
-        default : assert(false);}
+        case SPW::zero : res.push_back(weights_zero(N)); break;
+        case SPW::one : res.push_back(weights_one(N)); break;
+        case SPW::ap : res.push_back(weights_ap(N)); break;
+        case SPW::ld : res.push_back(weights_ld(N)); break;
+        default : assert(false); break;}
       }
       else if (pat.empty()) {
         if (dis == OP::DIS::wdeltaL) {
@@ -334,7 +354,7 @@ namespace CommandLine {
       }
       else {
         assert(rep == 1);
-        auto w = adapt(pat, N);
+        auto w = adapt(pat, N, dis);
         res.push_back(w);
       }
       assert(res.size() == size(N,brt,dis));
@@ -342,62 +362,15 @@ namespace CommandLine {
     }
   };
 
-  OP::weights_t default_weights(const size_t N, const OP::DIS dis) {
-    switch (dis) {
-    case OP::DIS::wdeltaL : return weights_ap(N);
-    case OP::DIS::newvars : return weights_one(N);
-    default : assert(false); return {}; }
-  }
-
-  OP::weights_t special_weights(const OP::SPW sp, const size_t N) {
-    switch (sp) {
-    case OP::SPW::zero : return weights_zero(N);
-    case OP::SPW::one : return weights_one(N);
-    case OP::SPW::ap : return weights_ap(N);
-    case OP::SPW::ld : return weights_ld(N);
-    default: assert(false); return {}; }
-  }
-
-  OP::weights_t read_weights([[maybe_unused]]const int argc,
-                             const char* const argv[], const int pos,
-                             const size_t N, const OP::DIS dis) {
-    assert(N >= 2); assert(argc >= pos+1);
+  WGenerator read_weights([[maybe_unused]]const int argc,
+                          const char* const argv[], const int pos) {
+    assert(argc >= pos+1);
     const std::string vecs = argv[pos];
-    if (vecs.empty()) return default_weights(N, dis);
+    if (vecs.empty()) return {};
     {const auto sp = Environment::read<OP::SPW>(vecs);
-     if (sp) return special_weights(sp.value(), N);
+     if (sp) return {sp.value()};
     }
-    const OP::weights_t inp = FloatingPoint::to_vec_float80(argv[pos], ',');
-
-    if (dis == OP::DIS::wdeltaL) {
-      if (inp.size() != N-2) {
-        std::ostringstream ss;
-        ss << "ERROR[CommandLine::read_weights]: For wdeltaL the "
-          "weight-vector must have " " size N-2=" << N-2 << ","
-          " but the size is " << inp.size() << ".\n";
-        throw std::runtime_error(ss.str());
-      }
-      OP::weights_t res(N+1);
-      res[0] = 0, res[1] = 0; res[2] = 1;
-      for (size_t i = 0; i < N-2; ++i)
-        res[3+i] = res[2+i] * FloatingPoint::exp2(inp[i]);
-      return res;
-    }
-    else {
-      assert(dis == OP::DIS::newvars);
-      if (inp.size() != N-1) {
-        std::ostringstream ss;
-        ss << "ERROR[CommandLine::read_weights]: For newvars the "
-          "weight-vector must have " " size N-1=" << N-1 << ","
-          " but the size is " << inp.size() << ".\n";
-        throw std::runtime_error(ss.str());
-      }
-      OP::weights_t res(N+1);
-      res[0] = 0; res[N] = 0; res[1] = inp[0];
-      for (size_t i = 1; i < N-1; ++i)
-        res[1+i] = (i==1?1:res[i]) * FloatingPoint::exp2(inp[i]);
-      return res;
-    }
+    return {FloatingPoint::to_vec_float80(argv[pos], ',')};
   }
 
 
