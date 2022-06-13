@@ -24,16 +24,19 @@ License, or any later version. */
 
 Examples:
 
-1. Counting reduced ls's for N=6
+1. Counting all 9408 reduced ls's for N=6
     - for all propagation-levels
     - the default branching-type (binary branching)
     - all variable-selections except of first-var,
-    - and the default branching-order:
+    - the default branching-order,
+    - commit-distance 1,
+    - 1 thread,
+    - and no stopping:
 
 MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
+...
 
-
-2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
+2. Counting all 6240 reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
 
 MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1 1 ""

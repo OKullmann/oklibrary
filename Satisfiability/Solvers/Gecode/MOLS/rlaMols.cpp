@@ -13,7 +13,7 @@ License, or any later version. */
 
 Examples:
 
-1. Counting triples of MOLS for N=5
+1. Counting all 36 triples of MOLS for N=5
     - for the domain propagation-level
     - enumerative branching-type
     - max-deg/dom-var variable-selection,
@@ -21,9 +21,9 @@ Examples:
     - eager-pruning lookahead reduction,
     - commit-distance 1,
     - 6 threads,
-    - no stopping:
+    - and no stopping:
 
-./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr 1 6 ""
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr 1 6 ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS"
 #   num_uc=9 num_eq=0 num_peq=3
