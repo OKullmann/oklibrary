@@ -15,22 +15,47 @@ Examples:
 1. Counting all 18 Euler-squares (mutually orthogonal latin squares)
 of order 6, which are reduced:
 
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu dL "" "" 1 3 ""
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-  5    count dom enu   dL   asc  relpr   1       18       0.029        129        3        7     2        4        3       1
-...
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "" ""
+# N: 5
+# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n"
+#   num_uc=5 num_eq=0 num_peq=1
+# no_ps
+# num_runs=1
+# threads=3
+# rt=count-solutions(count)
+# no_stopping
+#   propagation-level: domain-prop(dom)
+#   la-branching-type: enumerative-branching(enu)
+#   distance-type: weighted-delta-literals(wdL)
+#   la-order-heuristic: ascending-order(asc)
+#   la-reduction-type: relaxed-pruning(relpr)
+#   commit-distance: 1
+#   weights: 0 0 1 2 3 4
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+  5    count dom enu  wdL   asc  relpr   1       18       0.119        129        3        7     2  0        4        3       1
+      vals      props     elvals     prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
+   210.250     11.500     15.500     14.500     131.500     246.750     1.750     4.500     0.022     0.075     0.059
+   206.000      0.000      0.000     12.000      97.000     192.000     1.000     0.000     0.014     0.000     0.047
+   223.000     17.000     23.000     17.000     204.000     277.000     2.000     6.000     0.034     0.112     0.064
+     8.500      7.853     10.661      2.887      48.966      37.792     0.500     3.000     0.009     0.052     0.008
+        mu         w      ltau       mind      meand       maxd       sdd        dp        tb
+   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
+   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
+   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
+     0.000     0.000     0.000      0.000      0.000      0.000     0.000     0.000     0.000
 
 Explicitly given parameters:
  - propagation-level "pl"
  - branching-type "lbt"
- - distance "dL"
+ - distance "wdL"
  - implementation-detail "gcd"
  - number of parallel threads = 3.
-For branching-order ("lbo") and some details on
+ - stopping parameter (no stopping by default).
+ For branching-order ("lbo") and some details on
 the reduction-implementation ("lar") the default
-is used. Distance dL does not use weights, but
-the weight-parameter (the last one) needs to be
-there.
+is used. Distance wdL by default does not use
+weights, but the weight-parameter (the last but
+one) needs to be there.
 
 */
 
