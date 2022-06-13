@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Oleg Zaikin, 9.6.2022 (Swansea)
+# Copyright 2022 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# TODOS:
+# 1. DONE As discussed, the application tests must not be run.
+# 2. DONE There needs to a target for just compiling the needed
+#    programs.
+# 3. DONE The README is wrong: other prgrams are also created.
+
+
+# USAGE:
+
+# ./InstallMOLS
+# builds MOLS programs based on Gecode.
+
+set -o errexit
+set -o nounset
+
+program="InstallMOLS"
+version="0.0.1"
+
+echo -e "  Required packages:"
+echo -e "    g++ (version 10.3+), Gecode (version 6.2+)"
+
+cd ..
+make -j 3 gcMols rlaMols laMols
