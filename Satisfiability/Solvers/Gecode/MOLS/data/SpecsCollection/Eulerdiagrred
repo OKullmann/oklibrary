@@ -11,6 +11,8 @@
 # domain-prop min-dom-var bin-branch-min 320 106.088 320959425 1496972 2994583 31
 # real	0m11.454s user	1m46.091s sys	0m2.942s
 # MOLS> time ./gcMols 8 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 16
+# aborted after 377 hours wallclock-time.
+# MOLS> time ./gcMols 8 ./data/SpecsCollection/Eulerdiagrred "" count dom enu mindom "" 1 16
 # XXX
 
 squares A B aux
