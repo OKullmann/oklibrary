@@ -30,27 +30,31 @@ Examples:
     - all variable-selections except of first-var,
     - and the default branching-order:
 
-MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1
+MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
 
 
 2. Counting reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
 
-MOLS>  ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" ""
-# N=8
-# k=1 total_num_sq=1
-# num_ps=0
+MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1 1 ""
+# N: 8
+# k=1 total_num_sq=1: "data/SpecsCollection/LSredsymmuni"
+#   num_uc=4 num_eq=0 num_peq=0
+# no_ps
 # num_runs=4
 # threads=1
 # rt=count-solutions(count)
-#   propagation: domain-prop(dom) default-prop(def) values-prop(val) bounds-prop(bnd)
-#   branching-type: binary-branching(binbr)
-#   variable-heuristics: min-dom-var(mindom)
-#   order-heuristics: ascending-order(asc)
-dom binbr mindom asc 6240 0.046 360765 64 12607 11
-def binbr mindom asc 6240 0.030 302824 1000 14479 13
-val binbr mindom asc 6240 0.029 253886 1000 14479 13
-bnd binbr mindom asc 6240 0.050 325700 487 13453 12
+# no_stopping
+#   propagation-level: domain-prop(dom) default-prop(def) values-prop(val) bounds-prop(bnd)
+#   branching-type: binary-branching(bin)
+#   variable-heuristic: min-dom-var(mindom)
+#   order-heuristic: ascending-order(asc)
+#   commit-distance: 1
+   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+   8    count dom bin    mindom  asc    1        6240       0.062        270963          64       12607      9  0
+   8    count def bin    mindom  asc    1        6240       0.030        236479        1000       14479      9  0
+   8    count val bin    mindom  asc    1        6240       0.028        206400        1000       14479      9  0
+   8    count bnd bin    mindom  asc    1        6240       0.043        261107         487       13453      9  0
 
 */
 
