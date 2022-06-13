@@ -1,6 +1,11 @@
 # Counts for N >= 2:
 # 0, 0, 2, 8, 0, 512
 
+# These are special case of EulerSudokudiag.
+
+# Counts for "semi-diagonal" (not "antidiag A") are
+# 0, 0, 2, 8, 0, 512, 8064.
+
 
 # gcMols:
 
@@ -28,4 +33,5 @@ rred A
 ls A aux
 rprod  c213 A   aux     A
 diag A
+antidiag A
 box A

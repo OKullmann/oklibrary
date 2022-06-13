@@ -1,0 +1,72 @@
+# Counts for N >= 2:
+# 0, 0, 2, 2, 0, 18, >= 587, >= 2193, ?
+
+
+# By [Keedwell, 2011] for all prime powers b (the box-size; so N = b^2)
+# "complete" orthogonal sets of diagonal Sudoku squares for box-size b exist,
+# that is, the maximal number b^2 - b of possible MODSLS.
+# So for N=9 we have 6-MODSLS, for N=16 there are 12-MODSLS, and for
+# N=25 there are 20-MODSLS.
+
+# Thus for all square N the problems here are satisfiable.
+
+# Is N=10 unsatisfiable?
+
+# SelfOrthogonalSudokudiag is a special case (a square is Sudoko iff
+# the transposed is, and a square is diagonal iff the transposed is).
+
+
+# gcMols:
+
+# N=7: best regarding flvs (for counting) is dom+bin+mindom.
+# N=8: best for finding solutions appears dom+bin+mindom+desc.
+# ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" bin mindom desc 1 12 t,180
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9   +count dom bin    mindom desc    1          48    1958.242    3282264744    18582584    37165428     43  1
+# A second run found 587 solutions.
+# Seems very similar to enu.
+# N=9: far best for finding solutions appears dom+enu+mindom+asc (but that might
+# actually be chance):
+# MOLS> ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc 1 12 t,180
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9   +count dom enu    mindom  asc    1        2193    1947.976    3161705464    18436732    35218171     42  1
+# N=10 (satisfiability unknown):
+# MOLS> ./gcMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc 1 12 t,180
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#  10   +count dom enu    mindom  asc    1           0    1837.008    3115914845    16618531    32792338     62  1
+# MOLS> ./gcMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" - mindom - 1 12 t,180
+# also no solution found.
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc "" 1 12
+# aborted after 4min wallclock-time without finding a solution.
+
+
+# laMols with (w)dL:
+
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu dL asc "" 1 12 ""
+# aborted after 3min wallclock-time without finding a solution.
+
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu wdL asc "" 1 12 ""
+# aborted after 3min wallclock-time without finding a solution.
+
+
+# laMols with newvars:
+
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 ""
+# aborted after 3min wallclock-time without finding a solution.
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 "0,8,0,0,0,0,0,0,0"
+# aborted after 9min wallclock-time without finding a solution.
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0"
+# aborted after 460min wallclock-time without a solution found.
+
+
+squares A B aux
+rred A B aux
+ls A B aux
+rprod B aux A
+box A B
+diag A B
+antidiag A B

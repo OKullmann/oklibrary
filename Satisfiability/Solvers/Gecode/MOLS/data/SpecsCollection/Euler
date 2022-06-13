@@ -54,7 +54,8 @@
 
 # N=6:
 
-# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu "" "" "" 1 1 "" ""
+# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 1 "" ""
+#   weights: 0 0 1 2 3 4 5
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  6     satd dom enu  wdL   asc  relpr   1        0      11.077     490910     3988    10905    11  0     6917     3988    2929
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
@@ -67,7 +68,8 @@
 #    12.000     2.000     0.010      3.000       4.000       4.000      0.000      0.000     0.000
 #   310.000     4.000     0.173     59.000     110.333     160.000     76.500     11.000     0.004
 #    84.224     0.609     0.067     13.725      20.511      31.966     13.015      1.509     0.002
-# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu "" "" "" 1 1 "L" ""
+# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 1 "L" ""
+#   weights: 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  6     satd dom enu  wdL   asc  relpr   1        0      11.320     496646     3996    10857    11  0     6861     3996    2865
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
@@ -101,6 +103,7 @@
 
 # MOLS> time ./laMols 9 data/SpecsCollection/Euler "" satd "" - wdL - "" 1 12 "" "nds,100000"
 # best, and only one finding a solution: enu+asc
+#   weights: 0 0 1 2 3 4 5 6 7 8
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  9     satd dom enu  wdL   asc  relpr   1        1    1056.974    3767939    25738    63982    45  1    38244    25742   12502
 #       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
@@ -121,7 +124,7 @@
 # N=6:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" - newv "" "" 1 12 "O" "nds,7000"
-# best, and only one succeeding: enu
+# Best, and only one succeeding: enu
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  6     satd dom enu newv   asc  relpr   1        0      25.734     444527     3728    10577    14  0     6849     3728    3121
 #      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes

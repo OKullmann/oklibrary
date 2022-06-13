@@ -1,0 +1,41 @@
+# Counts for N >= 2:
+# 0, 2, 4, 32, 0, 52782, >= 55589, >= 34872, ?
+
+# Known to exist [Pedersen, Vis, 2009] for all square N;
+# see EulerSudokudiag for a strengthening.
+
+# Is N=10 unsatisfiable ?!
+
+
+# gcMols:
+
+# N=6:
+# MOLS> ./gcMols 6 data/SpecsCollection/EulerSudoku "" count dom bin maxdom "" 1 1 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   6    count dom bin    maxdom  asc    1           0       7.661      43460629      338153      676305     15  0
+
+# N=7:
+# MOLS> ./gcMols 7 data/SpecsCollection/EulerSudoku "" +count "" enu mindom asc 1 12 ""
+# aborted after 16h wallclock-time and 52782 solutions found.
+
+# N=8:
+# MOLS> ./gcMols 8 data/SpecsCollection/EulerSudoku "" count "" enu maxdeg asc 1 12 "t,800"
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8    count dom enu    maxdeg  asc    1       55589    8778.292   16604976905   130638635   199224124     43  1
+
+# N=9:
+# MOLS> ./gcMols 9 data/SpecsCollection/EulerSudoku "" count dom enu mindeg asc 1 12 "t,180"
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9    count dom enu    mindeg  asc    1       34872    1978.289    3791160380    23152010    38626511     46  1
+
+# N=10:
+# MOLS> ./gcMols 10 data/SpecsCollection/EulerSudoku "" count dom - - - 1 12 "t,60"
+# no solutions found.
+
+
+
+squares A B aux
+rred A B aux
+ls A B aux
+rprod B aux A
+box A B
