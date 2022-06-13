@@ -1,15 +1,33 @@
 # Counts for N >= 2:
 # 0, 0, 2, 12, 0, 3840
-#
-# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count "dom" "maxdegdom" "" 12
-# domain-prop max-deg/dom-var bin-branch-min 3840 769.909 1843113096 10742842 21493363 35
-# real	1m10.572s user	12m49.915s sys	0m22.432s
-# The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
-# and runtime is two orders of magnitudes higher.
+
+# What is known about satisfiability? Are all N >= 7 satisfiable?
 
 # A sequence with the same initial part is
 # in SelfOrthogonalidem
 # QUESTION: are these conditions equivalent?
+
+# N=7: The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
+
+
+# gcMols:
+
+# N=7:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - 1 6 "t,80"
+# Best:
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   7    count dom bin mindegdom desc    1        3840       6.736      24100816      215842      439363     19  0
+ 
+# N=8:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - 1 6 "t,80"
+# Best:
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8    count dom bin mindegdom desc    1        5838     470.434    1643212977    13513085    27037910     22  1
+
+
+
 
 squares A aux
 rred A
