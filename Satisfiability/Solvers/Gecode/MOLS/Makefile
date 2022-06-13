@@ -4,6 +4,38 @@
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
+#
+# Make targets:
+# Main Gecode-based MOLS-LS-related solvers:
+#  gcMols
+#  rlaMols
+#  laMols
+# Alternative implementation of gcMols with customised branching:
+#  sgcMols
+# Prototype of a MOLS-LS-related solver:
+#  Euler
+# Debug versions of the solvers are:
+#  gcMols_debug
+#  rlaMols_debug
+#  laMols_debug
+#  sgcMols_debug
+#  Euler_debug
+# Test programs for solvers' components:
+#  TestParsing_debug
+#  TestConditions_debug
+#  TestEncoding_debug
+#  TestConstraints_debug
+#  TestSolvers_debug
+#  TestPartialSquares_debug
+#  TestCommandLine_debug
+#  TestLookaheadReduction_debug
+#  TestLookaheadBranching_debug
+#  TestGcVariables_debug
+#  TestVerification_debug
+#  TestOrthogonalArrays_debug
+#  TestBasicLatinSquares_debug
+#  TestCases_debug
+#  TestOptions_debug
 
 oklibloc = ../../../..
 
