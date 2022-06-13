@@ -6,6 +6,11 @@
 # real	1m10.572s user	12m49.915s sys	0m22.432s
 # The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
 # and runtime is two orders of magnitudes higher.
+#
+# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count - - - - 1 16 ""
+# XXX
+# MOLS> time ./rlaMols 7 data/SpecsCollection/SelfOrthogonaldiag "" count dom - - - - 1 16 ""
+# XXX
 
 # A sequence with the same initial part is
 # in SelfOrthogonalidem
