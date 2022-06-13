@@ -28,4 +28,4 @@ echo -e "  Required packages:"
 echo -e "    g++ (version 10.3+), Gecode (version 6.2+)"
 
 cd ..
-make -j 4
+make -j 3 gcMols rlaMols laMols
