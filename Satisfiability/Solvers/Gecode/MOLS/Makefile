@@ -19,7 +19,7 @@
 #  rlaMols_debug
 #  laMols_debug
 #  sgcMols_debug
-#  Euler_debug 
+#  Euler_debug
 # Test programs for solvers' components:
 #  TestParsing_debug
 #  TestConditions_debug
