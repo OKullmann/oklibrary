@@ -278,7 +278,7 @@ namespace CommandLine {
     using weights_t = OP::weights_t;
     using SPW = OP::SPW;
 
-    typedef weights_t pattern_t; // XXX
+    typedef weights_t pattern_t;
     const pattern_t pat;
     const SPW sp;
     const size_t rep = 1;
@@ -292,12 +292,13 @@ namespace CommandLine {
     }
 
     // The pattern for DIS::newvars does not include domain-size N:
-    static weights_t adapt(const pattern_t& pat,
+    static weights_t adapt(const pattern_t& pat, const size_t start,
                            const size_t N, const OP::DIS dis) {
-      assert(not pat.empty());
+      assert(start < pat.size());
       const size_t target = dis==OP::DIS::newvars ? N-1 : N-2;
       weights_t pat0(pat.begin(), pat.begin() + std::min(target, pat.size()));
-      for (size_t i = 0; pat0.size() < target; i = (i==pat.size()-1 ? 0 : i+1))
+      for (size_t i=start; pat0.size()<target;
+           i = (i==pat.size()-1 ? start : i+1))
         pat0.push_back(pat[i]);
       assert(pat0.size() == target);
       OP::weights_t res(N+1);
@@ -354,7 +355,9 @@ namespace CommandLine {
       }
       else {
         assert(rep == 1);
-        auto w = adapt(pat, N, dis);
+        const size_t start = dis != OP::DIS::newvars ? 0 :
+          (pat.size() == 1 ? 0 : 1);
+        auto w = adapt(pat, start, N, dis);
         res.push_back(w);
       }
       assert(res.size() == size(N,brt,dis));
