@@ -31,6 +31,9 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   8    count dom bin mindegdom desc    1        5838     470.434    1643212977    13513085    27037910     22  1
 
+# N=9:
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
+# XXX
 
 # rlaMols:
 
@@ -71,7 +74,12 @@
 #   339.000      0.000       0.000       0.000       0.000        4.000     1.000     0.000     0.000     0.000     0.000
 #   884.000     81.000     128.000     649.000     847.000     2982.000     7.000     2.000     0.710     0.216     0.728
 #    53.165     12.921      21.648     103.437     208.241      388.196     0.828     0.092     0.084     0.042     0.132
-
+#
+# Two best combinations without stopping:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom enu mindom desc relpr 1 16 ""
+# XXX
+# MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom asc relpr 1 16 ""
+# XXX
 
 # laMols with wdL:
 
