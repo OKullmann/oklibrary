@@ -89,7 +89,21 @@
 # N=8:
 
 # MOLS> ./laMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - newv - "" 1 6 "" "nds,10000"
-# XXX
+# Best enu+ddesc+A-weights:
+#   weights: 0 0 1 2 3 4 5 6 7
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv ddesc  relpr   1       74     195.774     947123     6703    16709    11  1    10006     6707    3299
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   467.679     14.805     22.760      22.042     200.700      429.291     1.646     0.007     0.082     0.049     0.038
+#   278.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   869.000     65.000     82.000     238.000     836.000     2571.000     7.000     1.000     0.502     0.171     0.250
+#    37.655     12.952     18.618      26.861     193.204      362.081     0.847     0.086     0.068     0.040     0.031
+#        mu         w      ltau        mind       meand        maxd        sdd         dp        tb
+#   495.688     3.052     0.016      60.538      70.337      78.752      7.936      7.431     0.084
+#   415.000     2.000     0.005       9.000      37.500      46.000      0.000      0.000     0.036
+#   845.000     6.000     0.023     232.000     233.000     234.000     81.883     10.000     0.172
+#    35.184     0.595     0.003      16.892      18.987      28.991     13.018      1.061     0.015
+# Though one might consider all runs as close to each other.
 
 
 squares A aux
