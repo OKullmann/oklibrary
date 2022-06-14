@@ -99,20 +99,21 @@
 # for some runs we get the behaviour shown above for rla, for other runs we get
 # the node-counts around 900.
 
-# time ./laMols 17 data/SpecsCollection/Sudokudiag "" satd dom enu newv "" "" 1 12 "0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0"
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
-# 17     satd dom enu newv   asc  relpr   1        1     890.725      73287      573     2896   135  1     2323      576    1747
+# MOLS> time ./laMols 17 data/SpecsCollection/Sudokudiag "" satd dom enu newv "" "" 1 12 "0,0,0,8,0" ""
+#   weights: 0 0 1 1 256 256 256 256 256 256 256 256 256 256 256 256 256 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+# 17     satd dom enu newv   asc  relpr   1        1     857.407      68782      471     2645   133  1     2174      473    1701
 #       vals      props     elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
-#   1633.671      3.454      4.997      15.357     1411.523     1509.639     1.145     0.000      2.171     0.006     0.030
-#    452.000      0.000      0.000       0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
-#   4196.000     47.000     68.000     290.000     4179.000     6652.000     4.000     1.000     14.408     0.093     0.414
-#    950.935      6.291      9.098      31.285     1104.029     1138.116     0.399     0.021      2.479     0.013     0.057
-#          mu          w      ltau          mind         meand          maxd          sdd          dp         tb
-#   48126.721      4.936     0.000      4400.257      5269.225      6066.650      634.297      71.597      2.740
-#   12840.000      2.000     0.000       258.000       776.000       779.000        0.000       0.000      0.028
-#   69632.000     14.000     0.001     15107.000     16642.667     21507.000     5996.920     136.000     11.625
-#   13688.524      2.370     0.000      2833.573      2916.055      3019.018      532.870      39.390      2.449
-# real	1m16.813s user	14m51.106s sys	0m9.294s
+#   1687.875      3.206      4.624      14.472     1485.201     1582.085     1.139     0.000      2.222     0.006     0.027
+#    508.000      0.000      0.000       0.000        7.000       12.000     1.000     0.000      0.001     0.000     0.000
+#   4196.000     47.000     69.000     290.000     4179.000     6652.000     4.000     1.000     12.999     0.094     0.364
+#    955.590      6.213      8.987      30.186     1098.830     1135.282     0.385     0.021      2.340     0.012     0.051
+#         mu          w      ltau          mind         meand          maxd          sdd          dp         tb
+#   1922.435      4.980     0.000      4469.168      5335.645      6124.554      626.927      70.253      2.710
+#    526.000      2.000     0.000       258.000      1033.000      1283.000        0.000       0.000      0.075
+#   4196.000     14.000     0.001     15107.000     16642.667     21507.000     5996.920     134.000     11.250
+#    948.356      2.373     0.000      2823.218      2896.960      2989.312      514.098      38.903      2.285
+# real	1m13.816s user	14m17.777s sys	0m8.854s
 # MOLS> time ./laMols 18 data/SpecsCollection/Sudokudiag "" satd dom enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st     larc      lvs   larbc
 # 18     satd dom enu newv ddesc  relpr   1        1    1314.851      70245      370     2577   156  1     2207      373    1834

@@ -130,7 +130,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
+        "0.10.2",
         "14.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -167,13 +167,14 @@ namespace {
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
       " - weights      : comma-separated list of weights for distance\n"
+      "   - specials   : " << Environment::WRPO<SPW>{} << "\n" <<
       " - stop-type    : " << Environment::WRPO<LRST>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
-      "  - special weights are given by \"A\" and \"L\"\n"
+      "  - weights are patterns, with the last entry used for filling\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "  - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<

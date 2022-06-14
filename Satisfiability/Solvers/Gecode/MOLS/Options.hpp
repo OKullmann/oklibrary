@@ -28,9 +28,10 @@ License, or any later version. */
      - LAR
 
     Lookahead-branching for laMols:
-     - LBRT branching-type (lookahead-brt) bin, enu, plus later binbal
+     - LBRT branching-type (lookahead-brt) bin, enu; plus later binbal
      - LBRO branching-order asc, desc, ascd, descd
-     - DIS distance deltaL, wdeltaL, newvars.
+     - DIS distance deltaL, wdeltaL, newvars
+     - SPW special-weights other, zero, one, ap, ld.
 
 TODOS
 

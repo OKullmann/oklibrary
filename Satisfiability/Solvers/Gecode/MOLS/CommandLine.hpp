@@ -355,8 +355,7 @@ namespace CommandLine {
       }
       else {
         assert(rep == 1);
-        const size_t start = dis != OP::DIS::newvars ? 0 :
-          (pat.size() == 1 ? 0 : 1);
+        const size_t start = pat.size()-1;
         auto w = adapt(pat, start, N, dis);
         res.push_back(w);
       }
