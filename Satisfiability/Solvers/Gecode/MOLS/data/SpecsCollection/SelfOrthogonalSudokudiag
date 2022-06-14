@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 2, 0, 10
+# 0, 0, 2, 2, 0, 10, 768
 
 # These are special case of EulerSudokudiag.
 # Satisfiability for N=10 is interesting.
@@ -23,8 +23,73 @@
 # semidiagonal selforthogonal Sudokus (using bin+mindegdom+desc),
 # and then selecting from the solutions the fully diagonal ones, would be
 # much faster.
-# It might be though that bin+maxdegdom is not fastest (it was not checked).
+# It might be though that bin+maxdegdom is not fastest (it was not checked);
+# due to the likely small count it might not be so to find out.
 
+
+# rlaMols:
+
+# N=7:
+
+# ./rlaMols 7 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - - - "" 1 1 "nds,1000"
+# Best nodes- and time-wise: enu+mindom
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   7    count dom enu    mindom  asc  relpr    1         10       1.988      11671       99      253     6  0      154       99
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   450.006     18.377     28.240      63.494     231.955      489.318     1.734     0.065     0.013     0.064     0.094
+#   310.000      1.000      1.000       0.000       7.000       10.000     1.000     0.000     0.000     0.002     0.000
+#   565.000     53.000     78.000     243.000     537.000     1393.000     4.000     2.000     0.039     0.177     0.319
+#    36.617     12.642     20.828      70.898     174.898      330.205     0.732     0.272     0.008     0.046     0.078
+
+# N=8:
+
+# ./rlaMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - - - "" 1 12 "nds,10000"
+# Best is bin+mindom+desc (114):
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom bin    mindom desc  relpr    1        114     449.990     807037     4969    14981    15  1    10012     4972
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   571.527     14.775      22.459     111.633     355.847      607.066     1.697     0.011     0.519     0.041     0.147
+#   315.000      0.000       0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   869.000     86.000     115.000     628.000     836.000     2892.000     7.000     4.000     2.785     0.205     0.561
+#    50.532     13.794      22.088     103.512     230.411      415.733     0.824     0.137     0.364     0.040     0.120
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" +count dom bin mindom desc "" 1 12 ""
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8   +count dom bin    mindom desc  relpr    1        768   15695.454   29755151   179051   537152    23  0   358101   179051
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   564.529     14.578      22.112     112.589     349.140      601.477     1.715     0.002     0.506     0.041     0.147
+#   279.000      0.000       0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   869.000     97.000     149.000     821.000     836.000     3901.000     9.000     4.000     3.598     0.235     0.578
+#    50.605     13.231      21.366     104.392     227.862      395.945     0.785     0.053     0.347     0.039     0.120
+
+
+
+# laMols with wdL:
+
+# N=8:
+
+# MOLS> ./laMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - wdL - "" 1 6 "" "nds,10000"
+# Best: enu+wdl+desc
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu  wdL  desc  relpr   1       78     190.851    1087586     6876    16882    12  1    10006     6879    3127
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   461.434     13.550     20.975      21.228     185.244      393.569     1.597     0.008     0.083     0.046     0.036
+#   270.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   869.000     69.000     92.000     284.000     836.000     2869.000     7.000     1.000     0.671     0.190     0.286
+#    45.741     13.148     18.717      29.098     196.076      380.310     0.848     0.088     0.078     0.039     0.033
+#        mu         w      ltau       mind      meand        maxd        sdd         dp        tb
+#   212.990     3.224     0.092      9.548     15.152      20.916      4.785      7.353     0.092
+#   180.000     2.000     0.023      1.585      8.334       9.288      0.000      0.000     0.014
+#   333.000     6.000     0.146     28.882     60.638     105.742     51.485     11.000     0.192
+#    13.768     0.719     0.025      2.804      7.163      16.022      7.189      1.074     0.014
+
+
+# laMols with newvars:
+
+# N=8:
+
+# MOLS> ./laMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - newv - "" 1 6 "" "nds,10000"
+# XXX
 
 
 squares A aux
