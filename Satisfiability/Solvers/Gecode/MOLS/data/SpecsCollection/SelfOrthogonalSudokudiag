@@ -1,7 +1,8 @@
 # Counts for N >= 2:
-# 0, 0, 2, 8, 0, 512
+# 0, 0, 2, 2, 0, 10
 
 # These are special case of EulerSudokudiag.
+# Satisfiability for N=10 is interesting.
 
 # Counts for "semi-diagonal" (not "antidiag A") are
 # 0, 0, 2, 8, 0, 512, 8064.
@@ -11,21 +12,19 @@
 
 # N=7:
 
-# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - - - 1 6 "t,20"
-# Best: mindeg, both with bin and enu (hardly a difference):
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
-#   7    count dom bin    mindeg  asc    1         512       2.065       8306261       59188      119399     17  0
+# MOLS> ./gcMols 7 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - - - 1 6 "t,20"
+# Best: maxdegdom, both with bin and enu (hardly a difference).
 
 # N=8:
 
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - mindeg - 1 6 "t,20"
-# hardly any differences, but perhaps bin+mindeg+desc is best:
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
-#   8    count dom bin    mindeg desc    1         210     117.489     434182525     2790622     5581731     23  1
-# But bin+mindegdom+desc seems better:
-#   8    count dom bin mindegdom desc    1         263     116.016     429220550     3208130     6416840     21  1
-# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom bin mindegdom desc 1 12 "t,20000"
-# XXX
+# MOLS> ./gcMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom bin maxdegdom "" 1 12 ""
+# aborted after 5h wallclock-time:
+# this seems an example where first creating the larger collection of
+# semidiagonal selforthogonal Sudokus (using bin+mindegdom+desc),
+# and then selecting from the solutions the fully diagonal ones, would be
+# much faster.
+# It might be though that bin+maxdegdom is not fastest (it was not checked).
+
 
 
 squares A aux
