@@ -25,21 +25,50 @@ The main executables
 
 gcMols, rlaMols, laMols
 
-are generated.
+are generated (by just calling the makefile one directory up).
 
 -----------------
 
 USE
 
-gcMols  - (only) branching strategies as provided by Gecode itself.
-rlaMols - branching strategies as in gcMols, but with the lookahead-reduction.
-laMols  - uses look-ahead for reduction and branching.
+Programs (in directory MOLS):
 
-1. Counting all 9408 reduced ls's for N=6:
-MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
+  gcMols  - (only) branching strategies as provided by Gecode itself
+  rlaMols - branching strategies as in gcMols, but with the
+            lookahead-reduction
+  laMols  - uses look-ahead for reduction and branching.
 
-2. Counting all 36 triples of mutually orthogonal latin squares (MOLS) for N=5:
-MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr 1 6 ""
+Call these programs with "-h" to get a basic overview on usage.
 
-3. Counting all 18 pairs of MOLS for N=6:
+-----------------
+
+EXAMPLES:
+
+
+1. Counting all 9408 reduced ls's for N=6, in several combinations:
+
+MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count - "" -first "" 1 1 ""
+
+Remark: the first "1" is a technical parameter; in the future the default
+for this parameter will be set to 0, and then one can use "" instead.
+The second "1" is the number of threads.
+
+
+2. Now counting for N=7, with wallclock-time restricted to 1 s:
+
+MOLS> ./gcMols 7 data/SpecsCollection/LSred "" count - "" - "" 1 1 "t,1"
+
+
+3. Counting all 36 triples of mutually orthogonal latin squares (MOLS) for N=5,
+   using 6 threads:
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" "" 1 6 ""
+
+
+4. Counting all 18 pairs of MOLS for N=6 (providing the specification
+   directly on the commandline), using 3 threads:
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "" ""
+
+-----------------
+
+For compilation of the debug-versions and of tests, see the makefile
+(called "Makefile") in directory MOLS.
