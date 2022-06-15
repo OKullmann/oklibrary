@@ -130,7 +130,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
+        "0.11.1",
         "15.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -293,6 +293,7 @@ int main(const int argc, const char* const argv[]) {
   st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
   cd_output(std::cout, gcdv);
+  seed_output(std::cout, wg);
   std::cout.flush();
 
   for (const size_t N : list_N)
@@ -302,9 +303,9 @@ int main(const int argc, const char* const argv[]) {
       for (const LBRT brt : brtv)
         for (const DIS dis : disv) {
           const auto wv = wg(N, brt, dis);
-          for (const weights_t& weights0 : wv) {
+          for (const auto& weights0 : wv) {
             weights_output(std::cout, weights0);
-            const weights_t* const weights = &weights0;
+            const weights_t* const weights = &weights0.w;
             for (const LBRO bro : brov)
               for (const LAR lar : larv)
                 for (unsigned gcd : gcdv) {

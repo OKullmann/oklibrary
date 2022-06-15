@@ -58,6 +58,7 @@ namespace CommandLine {
   namespace LB = LookaheadBranching;
 
   using size_t = CD::size_t;
+  using weights_t = OP::weights_t;
 
   typedef std::vector<size_t> list_size_t;
   list_size_t read_N([[maybe_unused]]const int argc,
@@ -250,28 +251,49 @@ namespace CommandLine {
   }
 
 
+  struct WeightsWithOrigin {
+    const weights_t w, w0;
+    const OP::SPW sp;
+    WeightsWithOrigin(OP::weights_t w, OP::SPW sp) : w(w), sp(sp) {
+      assert(not w.empty());
+      assert(sp != OP::SPW::other);
+    }
+    WeightsWithOrigin(weights_t w, OP::weights_t w0) :
+      w(w), w0(w0), sp(OP::SPW::other) {
+      assert(not w.empty()); assert(not w0.empty());
+    }
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const WeightsWithOrigin& wo) {
+      if (wo.sp != OP::SPW::other) out << Environment::W0(wo.sp);
+      else Environment::out_line(out, wo.w0);
+      out << " -> ";
+      Environment::out_line(out, wo.w);
+      return out;
+    }
+  };
+
   // Reminder: weights[0] relates to domain-size 0.
-  OP::weights_t weights_zero(const size_t N) {
-    return OP::weights_t(N+1);
+  WeightsWithOrigin weights_zero(const size_t N) {
+    return {weights_t(N+1), OP::SPW::zero};
   }
-  OP::weights_t weights_one(const size_t N) {
+  WeightsWithOrigin weights_one(const size_t N) {
     assert(N >= 1);
-    OP::weights_t res(N+1,1);
+    weights_t res(N+1,1);
     res[0] = 0; res[1] = 0;
-    return res;
+    return {res, OP::SPW::one};
   }
-  OP::weights_t weights_ap(const size_t N) {
-    OP::weights_t res; res.reserve(N+1);
+  WeightsWithOrigin weights_ap(const size_t N) {
+    weights_t res; res.reserve(N+1);
     res.push_back(0);
     for (size_t i = 1; i <= N; ++i) res.push_back(i-1);
-    return res;
+    return {res, OP::SPW::ap};
   }
-  OP::weights_t weights_ld(const size_t N) {
-    OP::weights_t res; res.reserve(N+1);
+  WeightsWithOrigin weights_ld(const size_t N) {
+    weights_t res; res.reserve(N+1);
     res.push_back(0);
     for (size_t i = 1; i <= N; ++i)
       res.push_back(FloatingPoint::log2(i));
-    return res;
+    return {res, OP::SPW::ld};
   }
 
 
@@ -315,6 +337,7 @@ namespace CommandLine {
     const bool randomuse = false;
     const SPW sp;
 
+    const RandGen::gen_uint_t seed = 0;
   private :
     RandGen::UniformRangeS* const U = nullptr;
   public :
@@ -326,7 +349,10 @@ namespace CommandLine {
     WGenerator(pattern_t p) noexcept
       : pat(p), leveluse(uses_levels(pat)), randomuse(uses_random(pat)),
         sp(SPW::other),
-        U(randomuse ? new RandGen::UniformRangeS(num_levels, {}) : nullptr) {
+        seed(randomuse ? RandGen::timestamp_to_eseed() : 0),
+        U(randomuse ?
+          new RandGen::UniformRangeS(num_levels,
+                                     RandGen::transform({seed})) : nullptr) {
       assert(not pat.empty());
     }
     ~WGenerator() noexcept { delete U; }
@@ -340,8 +366,8 @@ namespace CommandLine {
         if (is_random(x)) x.v = translate((*U)(), dis);
       return res;
     }
-    list_weights_t listify(const pattern_t& epat,
-                           const OP::DIS dis) const {
+    list_weights_t transfer(const pattern_t& epat,
+                            const OP::DIS dis) const {
       if (not leveluse) {
         weights_t w; w.reserve(epat.size());
         for (const item_t x : epat) {
@@ -356,17 +382,18 @@ namespace CommandLine {
         for (const item_t x : epat) {
           assert(not is_random(x));
           if (x.v.index() == 1) w.push_back(std::get<1>(x.v));
-            w.push_back(translate(level, dis, std::get<0>(x.v)));
+          else w.push_back(translate(level, dis, std::get<0>(x.v)));
         }
         res.push_back(std::move(w));
       }
       return res;
     }
 
+    typedef std::vector<WeightsWithOrigin> list_weightswo_t;
     // The pattern for DIS::newvars handles domain-sizes 1,...,N-1,
     // while the one for DIS::wdL handles 3,...,N:
-    list_weights_t adapt(const size_t start,
-                         const size_t N, const OP::DIS dis) const {
+    list_weightswo_t adapt(const size_t start,
+                           const size_t N, const OP::DIS dis) const {
       assert(start < pat.size());
       const pattern_t patdr = fill_random(dis);
       assert(patdr.size() == pat.size());
@@ -378,8 +405,8 @@ namespace CommandLine {
            i = (i==pat.size()-1 ? start : i+1))
         epat.push_back(patdr[i]);
       assert(epat.size() == target);
-      const list_weights_t res0v = listify(epat, dis);
-      list_weights_t resv; resv.reserve(res0v.size());
+      list_weights_t res0v = transfer(epat, dis);
+      list_weightswo_t resv; resv.reserve(res0v.size());
       for (const weights_t& res0 : res0v) {
         // Interprete res0 (exponantiate and multiply), obtaining res;
         OP::weights_t res(N+1);
@@ -394,7 +421,7 @@ namespace CommandLine {
           for (size_t i = 1; i < target; ++i)
             res[1+i] = (i==1 ? 1 : res[i]) * FloatingPoint::exp2(res0[i]);
         }
-        resv.push_back(std::move(res));
+        resv.emplace_back(std::move(res), std::move(res0));
       }
       return resv;
     }
@@ -412,9 +439,9 @@ namespace CommandLine {
       return leveluse ? num_levels : 1;
     }
 
-    list_weights_t operator ()(const size_t N,
-                   const OP::LBRT brt, const  OP::DIS dis) const noexcept {
-      list_weights_t res; res.reserve(size(N,brt,dis));
+    list_weightswo_t operator ()(const size_t N, const OP::LBRT brt,
+                                 const  OP::DIS dis) const noexcept {
+      list_weightswo_t res; res.reserve(size(N,brt,dis));
       if (sp != SPW::other) {
         switch (sp) {
         case SPW::zero : res.push_back(weights_zero(N)); break;
@@ -527,10 +554,15 @@ namespace CommandLine {
     out << "#" << std::string(spaces_algoout, ' ') << "commit-distance: ";
     Environment::out_line(out, V); out << "\n";
   }
-  void weights_output(std::ostream& out, const OP::weights_t& wv) {
+  void seed_output(std::ostream& out, const WGenerator& wg) {
+    if (wg.randomuse)
+      out << "#" << std::string(spaces_algoout, ' ') << "seed=" <<
+        wg.seed << "\n";
+  }
+  void weights_output(std::ostream& out, const WeightsWithOrigin& wo) {
     out << "#" << std::string(spaces_algoout, ' ') << "weights: ";
     const auto old = FloatingPoint::fullprec_float80(out);
-    Environment::out_line(out, wv); out << "\n";
+    out << wo << "\n";
     out.precision(old);
   }
 
