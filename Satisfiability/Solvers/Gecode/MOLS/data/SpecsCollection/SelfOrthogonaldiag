@@ -44,6 +44,10 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #  10     satd dom bin mindegdom desc    1           1     211.933     305392753     1992659     3985544     36  0
 
+# N=11,12,13,14
+# time ./gcMols 11,12,13,14 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
+# XXX
+
 
 # rlaMols:
 

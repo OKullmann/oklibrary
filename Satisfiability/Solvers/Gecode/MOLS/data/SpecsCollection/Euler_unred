@@ -17,8 +17,7 @@
 # aborted after 536min wallclock-time.
 
 # MOLS> time ./gcMols 6 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 16
-# XXX
-# Still running after 90 hours wallclock-time.
+# aborted after 143 hours wallclock-time.
 
 # ################################################
 
