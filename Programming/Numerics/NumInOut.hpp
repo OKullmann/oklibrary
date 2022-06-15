@@ -32,6 +32,10 @@ License, or any later version. */
     - read_table_ai(filesystem::path, UIint_t i) returns a vector of pairs
       of vector and F80ai (for index i)
 
+    - struct Pfloat80<POL> wraps variant_t<POL> by providing string-
+      input (either POL- or float80-input) and output
+    - to_vec_pfloat80(string)
+
     - toUInt(string s) converts every string, which is convertible
       to float80, to UInt_t
     - touint(std::string s) converts every string convertible to float80
@@ -272,6 +276,43 @@ namespace FloatingPoint {
       if (l.empty() or l.front() == '#') continue;
       res.push_back(to_vec_float80ai(l, ' ', i));
     }
+    return res;
+  }
+
+
+  template <typename POL>
+  struct Pfloat80 {
+    typedef POL policy_t;
+    typedef FloatingPoint::variant_t<policy_t> variant_t;
+    variant_t v;
+
+    constexpr Pfloat80() noexcept = default;
+    constexpr Pfloat80(const variant_t v) noexcept : v(v) {}
+    Pfloat80(const std::string& s) : v(convert(s)) {}
+
+    static variant_t convert(const std::string& s) noexcept {
+      const auto p = read(policy_t{}, s); // ADL
+      if (p) return p.value();
+      else return to_float80(s);
+    }
+
+    bool operator ==(const Pfloat80&) const noexcept = default;
+    auto operator <=>(const Pfloat80&) const noexcept = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const Pfloat80 pf) {
+      if (pf.v.index() == 0) return out << std::get<0>(pf.v);
+      else return out << std::get<1>(pf.v);
+    }
+
+  };
+
+  template <typename POL>
+  std::vector<Pfloat80<POL>> to_vec_pfloat80(const std::string& s, const char sep) {
+    const auto elements = Environment::isspace(sep) ?
+      Environment::split(Environment::transform_spaces(s,' '), ' ') :
+      Environment::split(Environment::remove_spaces(s), sep);
+    std::vector<Pfloat80<POL>> res; res.reserve(elements.size());
+    for (const auto& x : elements) res.emplace_back(x);
     return res;
   }
 

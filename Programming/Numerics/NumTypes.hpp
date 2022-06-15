@@ -46,9 +46,12 @@ License, or any later version. */
     - is_int(float80)
     - is_integral(float80)
 
+  Extended float80:
    - struct F80ai (float80 with possibly asserted integrality and asserted
      "positivity" (i.e., "+")) and asserted "e0"
-   - equality-comparison and valid for F80ai
+    - equality-comparison and "valid" for F80ai
+   - typedef variant_t<POL>: either value from POL or a float80;
+     extended for Pfloat80<POL> in NumInOut.hpp.
 
   Related to float64:
    - constants pinfinity64, minfinity64, NaN64
@@ -69,6 +72,7 @@ License, or any later version. */
 
 #include <limits>
 #include <type_traits>
+#include <variant>
 
 #include <cstdint>
 #include <cmath>
@@ -377,6 +381,11 @@ namespace FloatingPoint {
     return (not x.isint or is_integral(x.x)) and
       (not x.hasplus or not std::signbit(x.x));
   }
+
+
+  template <typename POL>
+  using variant_t = std::variant<POL, float80>;
+  // See Pfloat80<POL> in NumInOut.hpp for a full wrapper.
 
 }
 

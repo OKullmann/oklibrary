@@ -1,5 +1,5 @@
 # Oliver Kullmann, 2.3.2019 (Swansea)
-# Copyright 2019, 2020, 2021 Oliver Kullmann
+# Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -66,7 +66,7 @@ special_macros = $(machine_macro) $(bogomips_macro) $(git_macro)
 CXX = g++
 
 LStandard_options = --std=c++20 -pedantic
-Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else
+Warning_options = -fmax-errors=5 -Wall -Wextra -Wno-missing-field-initializers -Wno-dangling-else -Wno-abi
 Optimisation_core = -Ofast -DNDEBUG -march=native
 # "plus" means extensions, "minus" means restriction:
 Optimisation_plus = -fwhole-program -static
