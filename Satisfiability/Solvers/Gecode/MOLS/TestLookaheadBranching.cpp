@@ -19,7 +19,7 @@ TODOS:
    - GcBranching struct
    - VVElim struct
    - create_la() function
-   - LRStoppingData struct
+   - DONE LRStoppingData struct
    - ListStoppingDate struct
    - rlaStats struct
    - RlaBranching struct
@@ -48,7 +48,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.10",
+        "0.1.11",
         "15.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -57,11 +57,12 @@ namespace {
 
   using namespace LookaheadBranching;
   using namespace GcVariables;
+  using namespace Options;
 
   namespace GC = Gecode;
   namespace CS = Cases;
-  namespace OP = Options;
   namespace FP = FloatingPoint;
+  namespace ET = Environment;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -141,11 +142,16 @@ int main(const int argc, const char* const argv[]) {
   {LRStoppingData sd;
    assert(sd.st == OP::LRST::none);
    assert(sd.val == 0);
+   assert(not sd);
   }
 
-  {LRStoppingData sd(OP::LRST::inds, 1);
-   assert(sd.st == OP::LRST::inds);
-   assert(sd.val == 1);
+  {for (const LRST lrst : ET::allvals<LRST>())
+     for (size_t val = 0; val <= 2; ++val) {
+       LRStoppingData sd(lrst, val);
+       assert(sd.st == lrst);
+       assert(sd.val == val);
+       assert(lrst == LRST::none ? not sd : sd);
+     }
   }
 
 }
