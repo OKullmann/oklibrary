@@ -65,6 +65,9 @@ Compare also with todos in gcMols.
    - Or one always outputs the total count T, and outputs the local count L
      additionally iff it is > 1, and the form
        T:L.
+   - Best seems
+       L,T
+     in case L > 1, and otherwise just T.
 
 -1. Better time-information
    - The reduction-time is sum of user-times for all running threads.

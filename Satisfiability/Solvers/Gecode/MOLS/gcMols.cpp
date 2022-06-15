@@ -176,17 +176,19 @@ Compare also with todos in rlaMols.
       (that for a large number of solutions it becomes inefficient, since
       only one counting/output-instance (bottleneck)).
 
-4. Cutoff-time
-    - Specify a cutoff-time (wall-clock), after which computation is stopped.
-    - Especially useful for scanning (searching for the best possibility).
-    - Using the Gecode-stop-option can do that.
-    - One stores the target wall-clock-time in the stop-object, and then
+4. DONE Cutoff-time
+    - DONE
+      Specify a cutoff-time (wall-clock), after which computation is stopped.
+    - DONE Especially useful for scanning (searching for the best possibility).
+    - DONE Using the Gecode-stop-option can do that.
+    - NOT DONE
+      One stores the target wall-clock-time in the stop-object, and then
       for every check calls the current-wall-clock.
-    - This parameter goes together with the threads-parameter,
+    - NOT DONE This parameter goes together with the threads-parameter,
       comma-separated, with trailing arguments optional.
-    - Another stopping-criterion is the number of nodes (as given by
+    - DONE Another stopping-criterion is the number of nodes (as given by
       Gecode).
-    - Another statistics-item is needed, which specifies whether stopping
+    - DONE Another statistics-item is needed, which specifies whether stopping
       took place (and for what reason).
 
 BUGS:

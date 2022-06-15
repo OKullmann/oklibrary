@@ -69,23 +69,23 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -1. Early abortion of runs
-    - A further commandline-argument (for rlaMols and laMols).
-    - Syntax: comma-separated pairs, like
+    - DONE A further commandline-argument (for rlaMols and laMols).
+    - DONE Syntax: comma-separated pairs, like
       "satc,20" or "nds, 1000" with the natural meaning
       "satc > 20", "nds > 1000".
-    - Aborting the whole computation (early completion of branches
+    - DONE Aborting the whole computation (early completion of branches
       is handled separately; see below).
-    - List of criterions:
+    - DONE List of criterions:
        - satc > b
        - nds > b
        - lvs > b
        - inds > b
-    - Such pairs can be concatenated by "|" (for logical or).
-    - Using rlaStats::abort, set in rlaStats::add.
-    - Using abort.store there then is handled by a dedicated member.
-      And data-member threshold is expanded to a proper object holding
+    - DONE Such pairs can be concatenated by "|" (for logical or).
+    - DONE Using rlaStats::abort, set in rlaStats::add.
+    - DONE Using abort.store there then is handled by a dedicated member.
+    - DONE And data-member threshold is expanded to a proper object holding
       such data.
-    - A variable indicating whether stopping took place is needed.
+    - DONE A variable indicating whether stopping took place is needed.
     - Later also allowing bounds for total runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
       by the solver).
@@ -104,7 +104,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 1. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
 
-2. Enable many runs for wdL and newvars when using default-weights.
+2. DONE Enable many runs for wdL and newvars when using default-weights.
 
 3. Should the reporting of ltau use engineering notation?
 
