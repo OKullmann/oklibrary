@@ -114,7 +114,11 @@
 
 # N=10:
 # MOLS> time ./rlaMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom asc relpr 1 16 ""
-# XXX
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#  10     satd dom bin mindegdom  asc  relpr    1          1    3740.777    2774794    15841    47811    28  1    31970    15845
+#
+# laMols is about 18x worse timewise than gcMols,
+# but 62x better nodewise and 251x leaveswise.
 
 
 # laMols with wdL:
