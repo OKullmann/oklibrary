@@ -283,7 +283,7 @@ namespace Options {
   };
   constexpr int DISsize = int(DIS::newvars) + 1;
 
-  enum class SPW {
+  enum class SPW { // special patterns for weights
     other=0,
     zero=1,
     one=2,
@@ -291,6 +291,13 @@ namespace Options {
     ld=4
   };
   constexpr int SPWsize = int(SPW::ld) + 1;
+
+  enum class EXW { // experimental weights
+    rand=0,
+    asc=1,
+    desc=2
+  };
+  constexpr int EXWsize = int(EXW::desc) + 1;
 
 }
 namespace Environment {
@@ -412,6 +419,15 @@ namespace Environment {
       estring {"disabled", "zero-weights", "one-weights", "ap-weights",
         "log2-weights"};
   };
+  template <> struct RegistrationPolicies<Options::EXW> {
+    static constexpr const char* name = "experimental-weights";
+    static constexpr const char* sname = "exw";
+    static constexpr int size = Options::EXWsize;
+    static constexpr std::array<const char*, size>
+    string {"r", "a", "d"};
+    static constexpr std::array<const char*, size>
+      estring {"random", "ascending", "descending"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -450,7 +466,13 @@ namespace Options {
   std::ostream& operator <<(std::ostream& out, const SPW sp) {
     return out << Environment::W2(sp);
   }
+  std::ostream& operator <<(std::ostream& out, const EXW ew) {
+    return out << Environment::W2(ew);
+  }
 
+  auto read(EXW, const std::string& s) noexcept {
+    return Environment::read<EXW>(s);
+  }
 }
 
 #endif

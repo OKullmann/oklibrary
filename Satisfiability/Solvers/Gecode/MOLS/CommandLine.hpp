@@ -38,6 +38,7 @@ TODOS:
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
 #include <Numerics/NumBasicFunctions.hpp>
+#include <Transformers/Generators/Random/Distributions.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -273,47 +274,129 @@ namespace CommandLine {
     return res;
   }
 
+
   typedef std::vector<OP::weights_t> list_weights_t;
   struct WGenerator {
+    using float80 = FloatingPoint::float80;
     using weights_t = OP::weights_t;
+    using DIS = OP::DIS;
     using SPW = OP::SPW;
+    using EXW = OP::EXW;
 
-    typedef weights_t pattern_t;
+    static constexpr size_t num_levels = 19;
+    static_assert(num_levels != 0);
+    static float80 translate(size_t level, const DIS dis,
+                             const EXW ew = EXW::rand)
+      noexcept {
+      assert(level < num_levels);
+      if (ew == EXW::desc) level = (num_levels-1) - level;
+      if (dis == DIS::newvars) return float80(-9) + level;
+      assert(dis == DIS::wdeltaL);
+      return 0.1L * (level + 1);
+    }
+
+    typedef FloatingPoint::Pfloat80<EXW> item_t;
+    static bool uses_levels(const item_t x) noexcept {
+      return x.v.index() == 0 and std::get<0>(x.v) != EXW::rand;
+    }
+    static bool is_random(const item_t x) noexcept {
+      return x.v.index() == 0 and std::get<0>(x.v) == EXW::rand;
+    }
+    typedef std::vector<item_t> pattern_t;
+    static bool uses_levels(const pattern_t& pat) noexcept {
+      return std::ranges::any_of(pat, [](item_t x){return uses_levels(x);});
+    }
+    static bool uses_random(const pattern_t& pat) noexcept {
+      return std::ranges::any_of(pat, [](item_t x){return is_random(x);});
+    }
+
     const pattern_t pat;
+    const bool leveluse = false;
+    const bool randomuse = false;
     const SPW sp;
-    const size_t rep = 1;
+
+  private :
+    RandGen::UniformRangeS* const U = nullptr;
+  public :
 
     WGenerator() noexcept : pat{}, sp(SPW::other) {}
     WGenerator(const SPW sp) noexcept : pat{}, sp(sp) {
       assert(sp != SPW::other);
     }
-    WGenerator(pattern_t pat) noexcept : pat(pat), sp(SPW::other) {
+    WGenerator(pattern_t p) noexcept
+      : pat(p), leveluse(uses_levels(pat)), randomuse(uses_random(pat)),
+        sp(SPW::other),
+        U(randomuse ? new RandGen::UniformRangeS(num_levels, {}) : nullptr) {
       assert(not pat.empty());
     }
+    ~WGenerator() noexcept { delete U; }
 
-    // The pattern for DIS::newvars does not include domain-size N:
-    static weights_t adapt(const pattern_t& pat, const size_t start,
-                           const size_t N, const OP::DIS dis) {
-      assert(start < pat.size());
-      const size_t target = dis==OP::DIS::newvars ? N-1 : N-2;
-      weights_t pat0(pat.begin(), pat.begin() + std::min(target, pat.size()));
-      for (size_t i=start; pat0.size()<target;
-           i = (i==pat.size()-1 ? start : i+1))
-        pat0.push_back(pat[i]);
-      assert(pat0.size() == target);
-      OP::weights_t res(N+1);
-      if (dis == OP::DIS::wdeltaL) {
-        res[2] = 1;
-        for (size_t i = 0; i < target; ++i)
-          res[3+i] = res[2+i] * FloatingPoint::exp2(pat0[i]);
+
+    pattern_t fill_random(const OP::DIS dis) const {
+      if (not randomuse) return pat;
+      assert(U);
+      pattern_t res(pat);
+      for (item_t& x : res)
+        if (is_random(x)) x.v = translate((*U)(), dis);
+      return res;
+    }
+    list_weights_t listify(const pattern_t& epat,
+                           const OP::DIS dis) const {
+      if (not leveluse) {
+        weights_t w; w.reserve(epat.size());
+        for (const item_t x : epat) {
+          assert(x.v.index() == 1);
+          w.push_back(std::get<1>(x.v));
+        }
+        return {w};
       }
-      else {
-        assert(dis == OP::DIS::newvars);
-        res[1] = pat0[0];
-        for (size_t i = 1; i < target; ++i)
-          res[1+i] = (i==1 ? 1 : res[i]) * FloatingPoint::exp2(pat0[i]);
+      list_weights_t res; res.reserve(num_levels);
+      for (size_t level = 0; level < num_levels; ++level) {
+        weights_t w; w.reserve(epat.size());
+        for (const item_t x : epat) {
+          assert(not is_random(x));
+          if (x.v.index() == 1) w.push_back(std::get<1>(x.v));
+            w.push_back(translate(level, dis, std::get<0>(x.v)));
+        }
+        res.push_back(std::move(w));
       }
       return res;
+    }
+
+    // The pattern for DIS::newvars handles domain-sizes 1,...,N-1,
+    // while the one for DIS::wdL handles 3,...,N:
+    list_weights_t adapt(const size_t start,
+                         const size_t N, const OP::DIS dis) const {
+      assert(start < pat.size());
+      const pattern_t patdr = fill_random(dis);
+      assert(patdr.size() == pat.size());
+      const size_t target = dis==OP::DIS::newvars ? N-1 : N-2;
+      // Expand patdr to epat, by recycling from "start":
+      pattern_t epat(patdr.begin(),
+                     patdr.begin() + std::min(target, pat.size()));
+      for (size_t i=start; epat.size()<target;
+           i = (i==pat.size()-1 ? start : i+1))
+        epat.push_back(patdr[i]);
+      assert(epat.size() == target);
+      const list_weights_t res0v = listify(epat, dis);
+      list_weights_t resv; resv.reserve(res0v.size());
+      for (const weights_t& res0 : res0v) {
+        // Interprete res0 (exponantiate and multiply), obtaining res;
+        OP::weights_t res(N+1);
+        if (dis == OP::DIS::wdeltaL) {
+          res[2] = 1;
+          for (size_t i = 0; i < target; ++i)
+            res[3+i] = res[2+i] * FloatingPoint::exp2(res0[i]);
+        }
+        else {
+          assert(dis == OP::DIS::newvars);
+          res[1] = res0[0];
+          for (size_t i = 1; i < target; ++i)
+            res[1+i] = (i==1 ? 1 : res[i]) * FloatingPoint::exp2(res0[i]);
+        }
+        resv.push_back(std::move(res));
+      }
+      return resv;
     }
 
     size_t size(const size_t,
@@ -326,7 +409,7 @@ namespace CommandLine {
         assert(brt == OP::LBRT::enu);
         return 4;
       }
-      return rep;
+      return leveluse ? num_levels : 1;
     }
 
     list_weights_t operator ()(const size_t N,
@@ -354,15 +437,14 @@ namespace CommandLine {
         }
       }
       else {
-        assert(rep == 1);
         const size_t start = pat.size()-1;
-        auto w = adapt(pat, start, N, dis);
-        res.push_back(w);
+        res = adapt(start, N, dis);
       }
       assert(res.size() == size(N,brt,dis));
       return res;
     }
   };
+
 
   WGenerator read_weights([[maybe_unused]]const int argc,
                           const char* const argv[], const int pos) {
@@ -372,7 +454,7 @@ namespace CommandLine {
     {const auto sp = Environment::read<OP::SPW>(vecs);
      if (sp) return {sp.value()};
     }
-    return {FloatingPoint::to_vec_float80(argv[pos], ',')};
+    return {FloatingPoint::to_vec_pfloat80<OP::EXW>(argv[pos], ',')};
   }
 
 
