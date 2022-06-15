@@ -1,14 +1,15 @@
 # N: 5
-# k=3 total_num_sq=3: "@squares A B aux\\nrred A B\\nls A B aux\\nrprod A aux B\\ndiag A B\\nantidiag A B\\n"
-#   num_uc=9 num_eq=0 num_peq=1
-# no_ps
-# num_runs=1
-# threads=1
-# rt=sat-decision\(satd\)
-#   propagation-level: domain-prop\(dom\)
-#   branching-type: binary-branching\(bin\)
-#   variable-heuristic: min-dom-var\(mindom\)
-#   order-heuristic: descending-order\(desc\)
-#   commit-distance: 1
-   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
-   5     satd dom bin    mindom desc    1           1       \d+\.\d+           400           0           4      3
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+# .*
+   N .*rt .*pl .*bt .*bv .*bo .*gcd .*satc .*t .*ppc .*flvs .*gnds .*gd .*st.*
+   5 .*satd .*dom .*bin .*mindom .*desc .*1 .*1 .*\d+\.\d\d\d .*400 .*0 .*4 .*3 .*0.*
