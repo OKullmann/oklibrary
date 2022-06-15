@@ -19,6 +19,8 @@ TODOS:
    - GcBranching struct
    - VVElim struct
    - create_la() function
+   - LRStoppingData struct
+   - ListStoppingDate struct
    - rlaStats struct
    - RlaBranching struct
    - BranchingStatistics class
@@ -46,8 +48,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.9",
-        "9.6.2022",
+        "0.1.10",
+        "15.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
@@ -134,6 +136,16 @@ int main(const int argc, const char* const argv[]) {
    CS::Void b(g);
    const ValVec* const vvp = create(0, {1, 2}, OP::BRT::enu, OP::GBO::desc, b);
    assert(eqp(vvp->br, {0, 2, 1}));
+  }
+
+  {LRStoppingData sd;
+   assert(sd.st == OP::LRST::none);
+   assert(sd.val == 0);
+  }
+
+  {LRStoppingData sd(OP::LRST::inds, 1);
+   assert(sd.st == OP::LRST::inds);
+   assert(sd.val == 1);
   }
 
 }
