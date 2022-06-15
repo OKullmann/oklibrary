@@ -1,5 +1,6 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840, >= 5838, ?, >= 1
+# 0, 0, 2, 12, 0, 3840, >= 5838, >= 2, >= 3
+# ?
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
 # Without the diagonality-condition this is true by
@@ -41,8 +42,6 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #  10     satd dom bin mindegdom desc    1           1     211.933     305392753     1992659     3985544     36  0
 #
-# For N=9, counting is a hard problem,
-# while for N=10 sat-decision is simple.
 
 
 # rlaMols:
