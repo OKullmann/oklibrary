@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840, >= 5838
+# 0, 0, 2, 12, 0, 3840, >= 5838, ?, >= 1
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
 # Without the diagonality-condition this is true by
@@ -34,7 +34,7 @@
 # N=9:
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
 # Still running after 48 hours
-# XXX
+# XXX this should have been done using +count XXX and before that the counting for N=8 should have been done.
 
 # N=10:
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
@@ -43,6 +43,7 @@
 #
 # For N=9, counting is a hard problem,
 # while for N=10 sat-decision is simple.
+
 
 # rlaMols:
 
