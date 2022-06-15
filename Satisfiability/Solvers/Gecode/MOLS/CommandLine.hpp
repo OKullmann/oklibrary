@@ -307,14 +307,14 @@ namespace CommandLine {
 
     static constexpr size_t num_levels = 19;
     static_assert(num_levels != 0);
+    static constexpr float80 minval_newv = -9, minval_wdL = 0.2L;
     static float80 translate(size_t level, const DIS dis,
-                             const EXW ew = EXW::rand)
-      noexcept {
+                             const EXW ew = EXW::rand) noexcept {
       assert(level < num_levels);
       if (ew == EXW::desc) level = (num_levels-1) - level;
-      if (dis == DIS::newvars) return float80(-9) + level;
+      if (dis == DIS::newvars) return minval_newv + level;
       assert(dis == DIS::wdeltaL);
-      return 0.1L * (level + 1);
+      return minval_wdL * (level + 1);
     }
 
     typedef FloatingPoint::Pfloat80<EXW> item_t;
