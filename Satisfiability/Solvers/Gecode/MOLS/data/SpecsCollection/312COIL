@@ -5,6 +5,21 @@
 # the only unsatisfiable case for N >= 7).
 # This is an interesting testcase.
 
+
+# gcMols:
+
+# N=7:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/312COIL "" count dom - - - 1 1 "t,2"
+# fastest enu+maxdom.
+
+# N=8:
+# time ./gcMols 8 data/SpecsCollection/312COIL "" count dom - - - 1 6 "t,8"
+# best seems bin+mindom+asc
+# time ./gcMols 8 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12 "t,10000"
+# XXX
+
+
 # MOLS> time ./gcMols 9 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
 # aborted after 3 min wallclock-time (33 solutions found).
 # MOLS> time ./gcMols 10 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
