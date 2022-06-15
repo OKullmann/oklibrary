@@ -321,7 +321,8 @@ namespace RandGen {
   // Checking whether a string uses only ascii-codes, and thus the
   // transformed integer-sequence is platform-independent:
   inline bool valid_ascii(const std::string& s) noexcept {
-    return std::all_of(s.begin(), s.end(), [](const unsigned char x){return x <= 127;});
+    return std::all_of(s.begin(), s.end(),
+                       [](const unsigned char x){return x <= 127;});
   }
   inline vec_seed_t transform(const std::string& s, const EP p) {
     switch (p) {

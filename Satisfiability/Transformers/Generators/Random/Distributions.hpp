@@ -401,8 +401,10 @@ namespace RandGen {
   struct UniformRangeS {
     RandGen_t g;
     UniformRange<RandGen_t> r;
-    UniformRangeS(const gen_uint_t n, const vec_seed_t& seed, const gen_uint_t start = 0) noexcept
+    UniformRangeS(const gen_uint_t n, const vec_seed_t& seed,
+                  const gen_uint_t start = 0) noexcept
       : g(seed), r(g, n, start) {}
+    // For seed of type vec_eseed_t, use transform(seed).
     gen_uint_t operator ()() const noexcept { return r(); }
   };
   // Now a function-object, just taking n as input:
