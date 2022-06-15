@@ -103,7 +103,7 @@
 #   884.000     100.000     144.000     1273.000     847.000     4785.000     11.000     3.000     12.012     0.248     0.918
 #    49.525      13.698      21.540      102.130     209.265      426.191      0.938     0.088      0.870     0.041     0.118
 #
-# The first combination is about 5 % better timewsie,
+# The first combination is about 5 % better timewise,
 # but the second one is about 1.8x better nodewise and 2.3x leaveswise.
 # So the second combination is chosen for further investigation.
 
@@ -115,6 +115,7 @@
 # N=10:
 # MOLS> time ./rlaMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom asc relpr 1 16 ""
 # XXX
+
 
 # laMols with wdL:
 
