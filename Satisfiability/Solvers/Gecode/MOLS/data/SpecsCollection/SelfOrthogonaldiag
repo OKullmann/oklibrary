@@ -87,14 +87,34 @@
 #
 # Two best combinations without stopping:
 # MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom enu mindom desc relpr 1 16 ""
-# XXX
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom enu    mindom desc  relpr    1     103680 1010967.596 1930842771 17188412 43697304    18  0 26508892 17188412
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   437.037     11.466     17.215      75.255     227.969      379.676     1.590     0.004     0.604     0.040     0.143
+#   234.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   884.000     61.000     80.000     863.000     847.000     2745.000     9.000     2.000     5.336     0.178     1.200
+#    35.130      8.152     12.496      86.596     164.279      294.770     0.775     0.063     0.458     0.029     0.115
 # MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom asc relpr 1 16 ""
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
 #   8    count dom bin mindegdom  asc  relpr    1     103680 1064670.275  934011605  7224211 21672632    26  0 14448421  7224211
 #      vals       props      elvals       prunes      mprune       probes     rounds      solc          t   qelvals   qprunes
 #   528.742      13.583      21.008      110.080     323.766      595.627      1.892     0.007      1.175     0.041     0.148
 #   221.000       0.000       0.000        0.000       0.000        2.000      1.000     0.000      0.000     0.000     0.000
 #   884.000     100.000     144.000     1273.000     847.000     4785.000     11.000     3.000     12.012     0.248     0.918
 #    49.525      13.698      21.540      102.130     209.265      426.191      0.938     0.088      0.870     0.041     0.118
+#
+# The first combination is about 5 % better timewsie,
+# but the second one is about 1.8x better nodewise and 2.3x leaveswise.
+# So the second combination is chosen for further investigation.
+
+# N=9:
+
+# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom asc relpr 1 16 ""
+# XXX
+
+# N=10:
+# MOLS> time ./rlaMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom asc relpr 1 16 ""
+# XXX
 
 # laMols with wdL:
 
