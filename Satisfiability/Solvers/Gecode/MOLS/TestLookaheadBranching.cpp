@@ -9,12 +9,7 @@ License, or any later version. */
 
 TODOS:
 
-0. DONE (Loops are now used for wsumdomsizes(), new_vars(), and ValVec.)
-   Use more loops
-   - Most of the tests in here can be simplified (and code-duplication
-     removed) by using loops.
-
-1. Urgently unit-tests are needed, for all components.
+0. Urgently unit-tests are needed, for all components.
    - DONE tr() function
    - DONE wsumdomsizes() function
    - DONE new_vars() function
