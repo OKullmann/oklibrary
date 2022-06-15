@@ -380,7 +380,9 @@ namespace LookaheadBranching {
         }
         else {
           assert(s.sollist().empty());
-          *log << " " << solc; log -> flush(); ;
+          *log << " "; if (solc > 1) *log << solc << ",";
+          *log << sol_counter;
+          log -> flush(); ;
         }
       }
       else {

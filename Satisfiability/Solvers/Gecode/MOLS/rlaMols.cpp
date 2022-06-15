@@ -56,7 +56,7 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr
 
 Compare also with todos in gcMols.
 
--2. +Counting
+-2. DONE +Counting
    - On the one hand, it is informative to see how many solutions per node
      are obtained.
    - On the other hand, one also wants to see the total count.
