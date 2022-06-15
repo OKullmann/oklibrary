@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840, 103680, >= 1, >= 1
+# 0, 0, 2, 12, 0, 3840, 103680, >= 68992, >= 1
 
 # https://oeis.org/A160367
 # Number of idempotent self-orthogonal Latin squares of order n
@@ -19,7 +19,7 @@
 #   8    count dom enu    mindeg  asc    1      103680    9643.709   24611338268   145036270   233082411     19
 # real	14m44.428s user	160m43.714s sys	5m30.751s
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalidem "" +count dom enu mindeg "" 1 16 ""
-# XXX
+# aborted after 321m wallclock-time with 68992 solutions.
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonalidem "" satd dom enu mindeg asc 1 12
 # solution found after 45s wallclock-time.
 # MOLS> time ./gcMols 11 data/SpecsCollection/SelfOrthogonalidem "" satd dom enu mindeg "" 1 12

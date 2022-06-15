@@ -31,17 +31,18 @@
 # Best:
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   8    count dom bin mindegdom desc    1        5838     470.434    1643212977    13513085    27037910     22  1
+# Without stopping:
+# MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
+# XXX
 
 # N=9:
-# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
-# Still running after 48 hours
-# XXX this should have been done using +count XXX and before that the counting for N=8 should have been done.
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" +count dom bin mindegdom desc 1 16 ""
+# XXX
 
 # N=10:
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #  10     satd dom bin mindegdom desc    1           1     211.933     305392753     1992659     3985544     36  0
-#
 
 
 # rlaMols:
@@ -108,7 +109,7 @@
 
 # N=9:
 
-# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom asc relpr 1 16 ""
+# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonaldiag "" +count dom bin mindegdom asc relpr 1 16 ""
 # XXX
 
 # N=10:
