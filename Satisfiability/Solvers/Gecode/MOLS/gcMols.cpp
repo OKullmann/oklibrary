@@ -214,8 +214,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.1",
-        "12.6.2022",
+        "0.14.2",
+        "15.6.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -347,6 +347,7 @@ int main(const int argc, const char* const argv[]) {
   const bool with_log = Options::with_log(rt);
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
+  commandline_output(std::cout, argc, argv);
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);

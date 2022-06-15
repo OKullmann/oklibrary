@@ -496,6 +496,12 @@ namespace CommandLine {
   }
 
 
+  void commandline_output(std::ostream& out, const int argc,
+                          const char* const argv[]) {
+    out << "# command-line: ";
+    Environment::args_output(out, argc, argv);
+    out << "\n";
+  }
   void info_output(std::ostream& out,
                    const list_size_t& list_N,
                    const CD::AConditions& ac, const std::string& name_ac,
