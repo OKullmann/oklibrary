@@ -1,9 +1,12 @@
 # Counts for N >= 2:
-# 0, 0, 0, 18, 0, 360, >= 736, >= 33
+# 0, 0, 0, 18, 0, 360, 1440, >= 631
+
 # Also known as "QG2".
 # Unsatisfiabiblity for N=10 shown by [Dubois, Dequen, 2001] (this is
 # the only unsatisfiable case for N >= 7).
 # This is an interesting testcase.
+
+# Question: are there better representations of orthogonality here?
 
 
 # gcMols:
@@ -17,13 +20,25 @@
 # time ./gcMols 8 data/SpecsCollection/312COIL "" count dom - - - 1 6 "t,8"
 # best seems bin+mindom+asc
 # time ./gcMols 8 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12 "t,10000"
-# XXX
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8   +count dom bin    mindom  asc    1        1440    6134.456   20370102539    68561928   137126735     27  0
+# real	10m20.194s user	102m14.457s sys	1m42.122s
+
+# N=9:
+
+# MOLS> time ./gcMols 9 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12 "t,10000"
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9   +count dom bin    mindom  asc    1         631  114164.718  334158660639   897073415  1794148217     30  1
+# real	166m40.008s user	1902m44.724s sys	24m28.656s
 
 
-# MOLS> time ./gcMols 9 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
-# aborted after 3 min wallclock-time (33 solutions found).
+# N=10:
+
 # MOLS> time ./gcMols 10 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
 # aborted after 105 hours wall-clock (no solution found).
+
+
+# rlaMols:
 
 # MOLS> ./rlaMols 7 data/SpecsCollection/312COIL "" count dom enu mindom asc relpr 1 3
 #     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
@@ -44,7 +59,114 @@
 # MOLS> time ./rlaMols 10 data/SpecsCollection/312COIL "" satd dom enu mindom asc relpr 1 12
 # aborted after 70min wallclock-time (no solution found).
 
-# Question: are there better representations of orthogonality here?
+
+# laMols with wdL:
+
+# N=7:
+
+# MOLS> ./laMols 7 data/SpecsCollection/312COIL "" count dom - wdL asc "" 1 6 "" ""
+#   weights: A -> 0 0 1 2 3 4 5 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      360      51.059     617554     3780     9206     9  0     5426     3780    1646
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   454.318      7.709     11.479      57.916     179.863      242.206     1.381     0.066     0.030     0.025     0.117
+#   331.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.005     0.000
+#   693.000     42.000     50.000     291.000     630.000     1133.000     4.000     1.000     0.158     0.110     0.533
+#    35.947      5.957      8.305      84.036     184.471      257.817     0.569     0.249     0.031     0.018     0.144
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   332.366     3.296     0.046     24.095     27.552     30.729      2.832     4.888     0.054
+#   204.000     2.000     0.029     11.000     14.667     16.000      0.000     0.000     0.014
+#   504.000     5.000     0.080     33.000     34.500     44.000     14.430     7.000     0.096
+#    38.539     0.484     0.014      6.904      5.737      6.944      3.476     0.937     0.013
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815 2.8073549220576041075
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      360      53.565     600365     3720     9086     9  0     5366     3720    1646
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   454.623      8.187     11.831      59.300     184.336      251.080     1.399     0.067     0.033     0.026     0.122
+#   331.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.006     0.000
+#   693.000     42.000     46.000     288.000     630.000     1072.000     4.000     1.000     0.184     0.102     0.534
+#    36.136      6.411      8.668      84.433     183.783      250.128     0.545     0.250     0.032     0.019     0.147
+#        mu         w      ltau       mind      meand       maxd       sdd        dp        tb
+#   219.971     3.259     0.093     11.251     13.361     15.034     1.652     4.888     0.057
+#   156.000     2.000     0.060      5.889      7.516      8.075     0.000     0.000     0.013
+#   292.000     5.000     0.189     14.564     17.387     23.497     7.672     7.000     0.135
+#    17.868     0.467     0.021      2.988      2.576      3.886     2.272     0.937     0.014
+
+# Best weights found:
+# MOLS> ./laMols 7 data/SpecsCollection/312COIL "" count dom enu wdL asc "" 1 6 "0.8" "nds,5046"
+#   weights: 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 -> 0 0 1 1.7411011265922482782 3.0314331330207961645 5.2780316430915770369 9.1895868399762800534 15.999999999999999997
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      360      41.802     560294     3560     8606     8  0     5046     3560    1486
+#      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
+#   460.771      8.226     12.327      56.509     180.758     234.886     1.337     0.071     0.027     0.027     0.117
+#   419.000      2.000      3.000       0.000       2.000       5.000     1.000     0.000     0.000     0.006     0.000
+#   693.000     42.000     48.000     290.000     630.000     965.000     3.000     1.000     0.143     0.100     0.534
+#    27.543      5.398      7.786      83.844     183.148     237.863     0.497     0.257     0.026     0.017     0.143
+#        mu         w      ltau       mind      meand       maxd       sdd        dp        tb
+#   364.462     3.395     0.033     38.741     41.180     44.918      -nan     4.701     0.050
+#   280.000     3.000     0.023     13.447     15.232     16.769     0.000     0.000     0.023
+#   665.000     5.000     0.072     60.766     60.766     72.784     7.958     6.000     0.096
+#    48.774     0.590     0.014     10.349     10.566     12.563      -nan     0.784     0.011
+# A node-count of 5046 seems rather common.
+
+
+# laMols with newvars:
+
+# N=7:
+
+# MOLS> ./laMols 7 data/SpecsCollection/312COIL "" count dom enu newv asc "" 1 6 "" ""
+#   weights: O -> 0 0 1 1 1 1 1 1
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      360      45.729     623785     3800     9266     9  0     5466     3800    1666
+#      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
+#   454.678      7.951     11.713      58.953     180.900     243.168     1.379     0.066     0.027     0.026     0.124
+#   337.000      1.000      2.000       0.000       0.000       2.000     1.000     0.000     0.000     0.005     0.000
+#   693.000     42.000     46.000     291.000     630.000     916.000     3.000     1.000     0.120     0.100     0.538
+#    35.392      5.922      8.187      85.307     183.692     245.998     0.529     0.248     0.027     0.018     0.147
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   479.505     3.280     0.060     19.459     21.357     23.217      1.591     4.889     0.048
+#   351.000     3.000     0.046      9.000     10.333     11.000      0.000     0.000     0.015
+#   651.000     5.000     0.115     25.000     26.250     42.000     13.573     7.000     0.092
+#    38.051     0.451     0.019      5.027      4.730      5.976      2.106     0.918     0.011
+# Best weights found (firs random trials, then one variable at a time):
+# MOLS> ./laMols 7 data/SpecsCollection/312COIL "" count dom enu newv asc "" 1 12 "0, 0, -8, 2, 0, 0" ""
+#   weights: 0 0 -8 2 0 0 -> 0 0 1 0.00390625 0.015625 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      360      34.440     138467     1160     2806     8  0     1646     1160     486
+#      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
+#   490.454     12.530     17.344      69.334     224.124     343.684     1.563     0.219     0.097     0.035     0.132
+#   438.000      2.000      3.000       0.000       2.000       8.000     1.000     0.000     0.000     0.006     0.000
+#   693.000     52.000     65.000     276.000     630.000     916.000     3.000     2.000     0.368     0.127     0.484
+#    34.860     11.703     14.729      83.608     184.768     271.778     0.571     0.494     0.092     0.028     0.128
+#        mu         w      ltau      mind     meand       maxd       sdd        dp        tb
+#   507.193     3.385     0.276     3.159     5.022      6.935     1.572     4.290     0.128
+#   464.000     2.000     0.139     2.043     2.188      2.188     0.000     0.000     0.034
+#   651.000     5.000     0.736     4.051     9.054     13.086     4.093     6.000     0.271
+#    35.273     0.637     0.101     0.630     1.290      2.090     0.907     1.055     0.060
+# A good improvement.
+
+# N=8:
+
+# First random search, and then one-variable-at-a-time refinement yielded:
+# MOLS> ./laMols 8 data/SpecsCollection/312COIL "" count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" "nds,20000"
+#   weights: 0 0 -2 -5 -5 0 0 -> 0 0 1 0.25 0.0078125 0.000244140625 0.000244140625 0.000244140625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv ddesc  relpr   1       40     807.900    2403233    12898    32910    13  1    20012    12901    7111
+#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    652.714     11.967     17.017     113.681      297.143      466.447     1.537     0.002     0.326     0.026     0.146
+#    464.000      0.000      0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1088.000     59.000     83.000     653.000     1008.000     2442.000     5.000     1.000     1.797     0.121     0.770
+#     48.958     10.359     14.116     142.859      267.774      438.973     0.666     0.045     0.304     0.021     0.156
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    683.418     2.847     0.156      5.106      7.867     10.766      2.406      9.152     0.431
+#    577.000     2.000     0.040      2.003      2.003      2.003      0.000      0.000     0.077
+#   1032.000     6.000     0.894     16.064     26.180     48.594     22.414     12.000     0.651
+#     43.141     0.746     0.066      1.633      3.709      7.137      2.853      1.292     0.050
+
+# MOLS> ./laMols 8 data/SpecsCollection/312COIL "" +count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" ""
+# XXX
+
+
 
 squares A aux
 ls A aux
