@@ -33,7 +33,16 @@
 
 # N=9:
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
+# Still running after 48 hours
 # XXX
+
+# N=10:
+# MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#  10     satd dom bin mindegdom desc    1           1     211.933     305392753     1992659     3985544     36  0
+#
+# For N=9, counting is a hard problem,
+# while for N=10 sat-decision is simple.
 
 # rlaMols:
 
