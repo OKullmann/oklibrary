@@ -18,6 +18,8 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
 #   8    count dom enu    mindeg  asc    1      103680    9643.709   24611338268   145036270   233082411     19
 # real	14m44.428s user	160m43.714s sys	5m30.751s
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalidem "" +count dom enu mindeg "" 1 16 ""
+# XXX
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonalidem "" satd dom enu mindeg asc 1 12
 # solution found after 45s wallclock-time.
 # MOLS> time ./gcMols 11 data/SpecsCollection/SelfOrthogonalidem "" satd dom enu mindeg "" 1 12
