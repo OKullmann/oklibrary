@@ -79,7 +79,12 @@
 # MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom enu mindom desc relpr 1 16 ""
 # XXX
 # MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom asc relpr 1 16 ""
-# XXX
+#   8    count dom bin mindegdom  asc  relpr    1     103680 1064670.275  934011605  7224211 21672632    26  0 14448421  7224211
+#      vals       props      elvals       prunes      mprune       probes     rounds      solc          t   qelvals   qprunes
+#   528.742      13.583      21.008      110.080     323.766      595.627      1.892     0.007      1.175     0.041     0.148
+#   221.000       0.000       0.000        0.000       0.000        2.000      1.000     0.000      0.000     0.000     0.000
+#   884.000     100.000     144.000     1273.000     847.000     4785.000     11.000     3.000     12.012     0.248     0.918
+#    49.525      13.698      21.540      102.130     209.265      426.191      0.938     0.088      0.870     0.041     0.118
 
 # laMols with wdL:
 
