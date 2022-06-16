@@ -52,14 +52,11 @@
 #    693.000     42.000     47.000     377.000     630.000     980.000     3.000     2.000     0.073     0.093     0.445
 #     32.017      7.664      9.865     115.844     182.094     317.282     0.652     0.609     0.019     0.020     0.151
 
-# The "special magic" of mindom seems to survive the la-reduction.
-
 # N=8:
 
-# MOLS> time ./rlaMols 8 data/SpecsCollection/312COIL "" +count dom enu mindom asc "" 1 12 "gnds,50000"
-# 50 solutions found.
-# MOLS> time ./rlaMols 8 data/SpecsCollection/312COIL "" +count dom enu mindom asc "" 1 12 "nds,1500000"
-# XXX
+# MOLS> time ./rlaMols 8 data/SpecsCollection/312COIL "" +count dom enu mindom asc "" 1 12 ""
+# will take roughly 90m. XXX
+
 
 # N=9:
 
@@ -158,8 +155,7 @@
 #   464.000     2.000     0.139     2.043     2.188      2.188     0.000     0.000     0.034
 #   651.000     5.000     0.736     4.051     9.054     13.086     4.093     6.000     0.271
 #    35.273     0.637     0.101     0.630     1.290      2.090     0.907     1.055     0.060
-# A good improvement (but just reaching best rla-level -- which due to
-# "mindom" seems a special case.
+# A good improvement (but just reaching best rla-level).
 
 # N=8:
 

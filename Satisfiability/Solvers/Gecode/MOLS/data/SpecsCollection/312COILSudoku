@@ -1,0 +1,134 @@
+# Counts for N >= 2:
+# 0, 0, 0, 8, 0, 48, 480, >= 49
+
+
+# gcMols:
+
+# N=8:
+
+# time ./gcMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu maxdom "" 1 6 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8   +count dom enu    maxdom  asc    1         480    1105.441    5104108041    38903360    45388025     20  0
+# real	3m35.482s user	18m25.445s sys	0m23.451s
+
+# N=9:
+
+# ./gcMols 9 data/SpecsCollection/312COILSudoku "" count dom - - - 1 6 "t,20"
+# bin+mindom+asc seems best:
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9    count dom bin    mindom  asc    1           7     106.822     484766787     1288495     2577060     24  1
+# ./gcMols 9 data/SpecsCollection/312COILSudoku "" count dom bin mindom asc 1 6 "t,180"
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9    count dom bin    mindom  asc    1          49    1013.580    4290117706    11297803    22595756     24  1
+# ./gcMols 9 data/SpecsCollection/312COILSudoku "" +count dom bin mindom asc 1 6 ""
+# XXX to be run on the server XXX OZ
+
+# N=10:
+
+
+
+# rlaMols:
+
+# N=7:
+
+# time ./rlaMols 7 data/SpecsCollection/312COILSudoku "" count dom - - - "" 1 6 "nds,1500"
+# Best seems bin+maxdom+desc (second enu+mindom)
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   7    count dom bin    maxdom desc  relpr    1         48      13.031      68654      502     1505    10  0     1003      502
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   519.278      9.951     13.759     140.107     308.305      421.250     1.562     0.048     0.048     0.026     0.271
+#   400.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   693.000     54.000     72.000     562.000     630.000     1729.000     5.000     1.000     0.264     0.134     0.922
+#    43.034     10.682     14.376     137.057     214.175      354.409     0.656     0.214     0.043     0.027     0.284
+
+# N=8:
+
+# enu+mindom+desc seems best:
+# MOLS> time ./rlaMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu mindom desc "" 1 6 ""
+# XXX aborted after 270s wallclock-time and 25 solutions found; to be run on the server XXX OZ
+
+
+
+# laMols with wdL:
+
+# time ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu wdL "" "" 1 6 "" "nds,1500"
+# All performance very similar, so one can take the default ("A"):
+#   weights: A -> 0 0 1 2 3 4 5 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1       48      18.500     182250     1004     2422     8  0     1418     1004     414
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   480.826     10.542     14.863      62.063     213.166      334.505     1.496     0.034     0.044     0.031     0.111
+#   410.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.005     0.000
+#   693.000     42.000     53.000     275.000     630.000     1238.000     4.000     2.000     0.181     0.111     0.528
+#    36.214      8.164     10.657      86.381     189.466      292.230     0.576     0.210     0.038     0.022     0.135
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   361.063     3.423     0.041     27.200     30.425     34.002      2.887     4.022     0.062
+#   298.000     3.000     0.032     11.000     15.000     15.000      0.000     0.000     0.036
+#   504.000     5.000     0.077     34.000     40.667     70.000     24.088     6.000     0.141
+#    35.433     0.499     0.007      6.143      4.496      7.865      4.165     0.995     0.011
+
+
+
+# laMols with newvars:
+
+# N=7:
+
+# MOLS> time ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu newv "" "" 1 6 "" "nds,1500"
+# Best "Z":
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1       48      13.245     136310      802     1926     8  0     1124      802     322
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   486.101      8.979     13.094      61.472     184.736      276.614     1.375     0.043     0.036     0.027     0.101
+#   397.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.004     0.000
+#   693.000     43.000     60.000     400.000     630.000     1288.000     4.000     2.000     0.194     0.124     0.556
+#    39.504      7.054      9.687      90.411     199.667      311.858     0.560     0.235     0.040     0.019     0.127
+#        mu         w      ltau      mind     meand       maxd       sdd        dp        tb
+#   510.652     3.488     0.371     2.693     3.675      4.568     0.825     4.084     0.058
+#   448.000     2.000     0.191     2.000     2.000      2.000     0.000     0.000     0.030
+#   651.000     5.000     0.805     4.000     9.500     17.000     5.408     6.000     0.096
+#    36.592     0.531     0.084     0.513     1.054      2.178     0.969     1.095     0.012
+
+# The scheme from 312COIL:
+# MOLS> time ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu newv "" "" 1 6 "0, 0, -8, 2, 0" "nds,1500"
+#   weights: 0 0 -8 2 0 0 -> 0 0 1 0.00390625 0.015625 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1       48      13.343     118433      760     1830     7  0     1070      760     310
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   496.328      8.981     13.439      62.832     199.318      278.030     1.377     0.045     0.039     0.027     0.121
+#   381.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.004     0.000
+#   693.000     50.000     67.000     275.000     630.000     1238.000     4.000     1.000     0.191     0.127     0.480
+#    36.035      7.146      9.589      89.826     197.719      284.739     0.522     0.207     0.038     0.019     0.132
+#        mu         w      ltau      mind      meand       maxd       sdd        dp        tb
+#   521.774     3.448     0.268     3.517      5.369      7.081     1.465     3.771     0.067
+#   474.000     2.000     0.135     2.035      2.203      2.203     0.000     0.000     0.043
+#   651.000     5.000     0.731     6.055     13.117     29.211     9.828     5.000     0.127
+#    31.798     0.598     0.090     1.009      2.008      4.127     1.596     0.939     0.011
+# Optimising this scheme one variable at a time (in rounds):
+# MOLS> time ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu newv "" "" 1 6 "0, 0, -2, -4, 0" ""
+#   weights: 0 0 -2 -4 0 0 -> 0 0 1 0.25 0.015625 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1       48       7.775      53420      312      790     6  0      478      312     166
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   524.349     11.236     15.749      80.174     229.477      368.013     1.450     0.100     0.048     0.030     0.116
+#   413.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.005     0.000
+#   693.000     42.000     62.000     260.000     630.000     1231.000     3.000     1.000     0.178     0.118     0.364
+#    35.805      9.154     12.512     102.830     219.994      345.625     0.531     0.301     0.042     0.024     0.128
+#        mu         w      ltau      mind      meand       maxd        sdd        dp        tb
+#   547.530     2.873     0.192     4.164      6.747      9.581      2.354     3.283     0.066
+#   520.000     2.000     0.071     2.203      2.203      2.203      0.000     0.000     0.052
+#   651.000     5.000     0.731     5.344     21.469     32.438     12.627     4.000     0.094
+#    24.273     0.552     0.078     0.693      3.776      6.858      3.070     0.837     0.007
+
+# N=8:
+
+# The scheme from 312COIL:
+# MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" "nds,20000"
+# Optimising this scheme one variable at a time (in rounds):
+# XXX
+
+
+squares A aux
+ls A aux
+idem A
+rprod c312 A    aux A
+box A
