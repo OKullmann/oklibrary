@@ -68,29 +68,12 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
--1. Early abortion of runs
-    - DONE A further commandline-argument (for rlaMols and laMols).
-    - DONE Syntax: comma-separated pairs, like
-      "satc,20" or "nds, 1000" with the natural meaning
-      "satc > 20", "nds > 1000".
-    - DONE Aborting the whole computation (early completion of branches
-      is handled separately; see below).
-    - DONE List of criterions:
-       - satc > b
-       - nds > b
-       - lvs > b
-       - inds > b
-    - DONE Such pairs can be concatenated by "|" (for logical or).
-    - DONE Using rlaStats::abort, set in rlaStats::add.
-    - DONE Using abort.store there then is handled by a dedicated member.
-    - DONE And data-member threshold is expanded to a proper object holding
-      such data.
-    - DONE A variable indicating whether stopping took place is needed.
+1. Early abortion of runs
     - Later also allowing bounds for total runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
       by the solver).
 
-0. Early abortion of branches
+2. Early abortion of branches
    - Considering now say "depth > 10" or "mu < 10000" for making a node,
      after la-reduction, a leaf.
    - Usual syntax: "depth, 10" and "mu, 10000".
@@ -101,12 +84,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      ltau too bad.
    - So perhaps here we handle this after the branching-computation?
 
-1. Once we checked all statistics, remove the gecode-statistics on nodes
+3. Once we checked all statistics, remove the gecode-statistics on nodes
    and failed leaves.
 
-2. DONE Enable many runs for wdL and newvars when using default-weights.
-
-3. Should the reporting of ltau use engineering notation?
+4. Should the reporting of ltau use engineering notation?
 
 */
 

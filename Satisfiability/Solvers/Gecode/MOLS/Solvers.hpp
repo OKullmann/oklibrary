@@ -43,47 +43,8 @@ License, or any later version. */
 
 BUGS:
 
-1. Initial reduction for rlasolver
-   - DONE For SS_SOLVED, the solution found need to be transferred resp.
-     output.
-   - DONE In both cases the statistics need to be completed.
-   - The statistics for this case are all just 0 (resp +-inf for min/max)
-     except for "sat", which is 0 or 1.
-
 
 TODOS:
-
--1. Update and complete rla- and la-solver
-    - Following the model of the (updated) gc-solver.
-    - First rla, then la.
-    - Always providing a complete solution (there is no reason to provide
-      only some of the rt-modes).
-
-0. DONE (A Gecode solution is total.)
-   Is a Gecode "solution" a *total* or a *partial* assignment?
-    - In MPG.pdf, Page 19, one finds
-      "A search engine ensures that constraint propagation is performed and
-       that all variables are assigned as described by the branching(s) of
-       the model passed to the search engine."
-      That sounds as if only total assignments are produced.
-    - Also the test-cases in TestSolvers.cpp, which pose no constraint, return
-      only total assignments.
-    - OK went through occurrences of "solution" in MPG.pdf, and could not find
-      any hint that solutions would not be total. If partial solutions would
-      be possible, that one needed quite some discussion about handling that.
-      So it seems that indeed solutions are always total.
-    - With look-ahead we abort once a "solution" was found: when propagation
-      is carried completely, also this should to total.
-
-1. DONE Statistics for the gc-solver
-    - DONE At least the user-runtime.
-    - DONE Plus possibly everthing Gecode has on offer:
-     - Using the statistics() member function of the search engine
-       (Section 9.3 of MPG.pdf).
-     - Figure 9.5 gives 6 numbers; restart and nogood currently are not used.
-     - The object is of type GC::Search::Statistics
-       https://www.gecode.org/doc/6.2.0/reference/classGecode_1_1Search_1_1Statistics.html
-
 
 */
 
