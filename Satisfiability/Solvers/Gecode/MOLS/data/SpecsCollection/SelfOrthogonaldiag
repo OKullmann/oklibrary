@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840, >= 5838, >= 2, >= 3
+# 0, 0, 2, 12, 0, 3840, 103680, >= 189350, >= 3
 # ?
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
@@ -33,11 +33,15 @@
 #   8    count dom bin mindegdom desc    1        5838     470.434    1643212977    13513085    27037910     22  1
 # Without stopping:
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
-# XXX
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8    count dom bin mindegdom desc    1      103680   28771.498   42205797325   339328328   678864015     36  0
+# real    34m57.550s
+# user    479m31.502s
+# sys     61m35.041s
 
 # N=9:
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" +count dom bin mindegdom desc 1 16 ""
-# XXX
+# aborted after 1228m wallclock-time with 189350 solutions.
 
 # N=10:
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
