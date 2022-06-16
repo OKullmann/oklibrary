@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 8, 0, 48, 480, >= 49
+# 0, 0, 0, 8, 0, 48, 480, 1368
 
 
 # gcMols:
@@ -21,7 +21,10 @@
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   9    count dom bin    mindom  asc    1          49    1013.580    4290117706    11297803    22595756     24  1
 # time ./gcMols 9 data/SpecsCollection/312COILSudoku "" +count dom bin mindom asc 1 16 ""
-# XXX
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9   +count dom bin    mindom  asc    1        1368   28095.360   68363362922   177729155   355461045     34  0
+# real    31m45.012s  user    468m15.361s sys     14m25.904s
+
 
 # N=10:
 
@@ -45,7 +48,14 @@
 
 # enu+mindom+desc seems best:
 # MOLS> time ./rlaMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu mindom desc "" 1 16 ""
-# XXX
+#    N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#    8   +count dom enu    mindom desc  relpr    1        480   66794.438  140612037   736530  1986857    14  0  1250327   736530
+#       vals      props      elvals       prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#    667.841     14.019      18.743      161.703      341.918      519.946     1.591     0.000     0.839     0.028     0.184
+#    468.000      1.000       2.000        0.000        0.000        2.000     1.000     0.000     0.000     0.003     0.000
+#   1088.000     79.000     109.000     1287.000     1008.000     3410.000     7.000     1.000     6.973     0.159     0.865
+#     44.510     10.854      14.079      186.658      272.163      450.801     0.672     0.020     0.726     0.021     0.191
+# real    74m30.448s  user    1113m14.442s sys     46m2.606s
 
 
 
