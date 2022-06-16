@@ -1,6 +1,6 @@
 # Counts for N >= 2:
-# 0, 0, 2, 12, 0, 3840, 103680, >= 189350, >= 3, >= 1, >= 1, >= 1, >= 1
-# ?
+# 0, 0, 2, 12, 0, 3840, 103680, >= 189350, >= 1
+# >= 1, >= 1, >= 1, >= 1
 
 # What is known about satisfiability? Are all N >= 7 satisfiable?
 # Without the diagonality-condition this is true by
@@ -35,31 +35,29 @@
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonaldiag "" count dom bin mindegdom desc 1 16 ""
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   8    count dom bin mindegdom desc    1      103680   28771.498   42205797325   339328328   678864015     36  0
-# real    34m57.550s
-# user    479m31.502s
-# sys     61m35.041s
+# real    34m57.550s  user    479m31.502s sys     61m35.041s
 
 # N=9:
+
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonaldiag "" +count dom bin mindegdom desc 1 16 ""
 # aborted after 1228m wallclock-time with 189350 solutions.
 
 # N=10:
+
 # MOLS> time ./gcMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #  10     satd dom bin mindegdom desc    1           1     211.933     305392753     1992659     3985544     36  0
 
 # N=11,12,13,14
-# time ./gcMols 11,12,13,14 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
+
+# time ./gcMols 11,14 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom desc 1 16 ""
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #  11     satd dom bin mindegdom desc    1           1    1192.394    1773951737    10827329    21654907     47  0
 #  12     satd dom bin mindegdom desc    1           1     598.793     844533513     4775899     9552047     57  0
 #  13     satd dom bin mindegdom desc    1           1      68.326      91047754      498768      997812     69  0
 #  14     satd dom bin mindegdom desc    1           1  225123.288  315928224317  1579721577  3159443469     85  0
-# real    257m27.572s
-# user    3783m2.806s
-# sys     246m2.526s
-# N=11,12,13,14 are satisfiable, where timewise N=13 is the simplest,
-# while N=14 is the hardest.
+# real    257m27.572s  user    3783m2.806s sys     246m2.526s
+
 
 
 # rlaMols:
@@ -136,6 +134,7 @@
 #
 # laMols is about 18x worse timewise than gcMols,
 # but 62x better nodewise and 251x leaveswise.
+
 
 
 # laMols with wdL:
