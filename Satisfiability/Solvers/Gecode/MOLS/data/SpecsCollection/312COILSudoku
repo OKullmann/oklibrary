@@ -155,8 +155,12 @@
 
 # N=9:
 
+# Fixing the position of the weight-block obtained for N=8, and extending it by
+# one place:
 # ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, a, 0" "nds,50000"
-# XXX
+# after one-variable-at-a-time we obtain the slight improvement (not much better
+# just keeping the old block):
+
 
 
 squares A aux
