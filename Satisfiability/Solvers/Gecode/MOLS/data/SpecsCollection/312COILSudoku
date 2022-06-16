@@ -20,8 +20,8 @@
 # ./gcMols 9 data/SpecsCollection/312COILSudoku "" count dom bin mindom asc 1 6 "t,180"
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   9    count dom bin    mindom  asc    1          49    1013.580    4290117706    11297803    22595756     24  1
-# ./gcMols 9 data/SpecsCollection/312COILSudoku "" +count dom bin mindom asc 1 6 ""
-# XXX to be run on the server XXX OZ
+# time ./gcMols 9 data/SpecsCollection/312COILSudoku "" +count dom bin mindom asc 1 16 ""
+# XXX
 
 # N=10:
 
@@ -44,8 +44,8 @@
 # N=8:
 
 # enu+mindom+desc seems best:
-# MOLS> time ./rlaMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu mindom desc "" 1 6 ""
-# XXX aborted after 270s wallclock-time and 25 solutions found; to be run on the server XXX OZ
+# MOLS> time ./rlaMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu mindom desc "" 1 16 ""
+# XXX
 
 
 
