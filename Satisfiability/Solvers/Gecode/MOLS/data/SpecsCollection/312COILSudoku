@@ -123,7 +123,39 @@
 
 # The scheme from 312COIL:
 # MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" "nds,20000"
-# Optimising this scheme one variable at a time (in rounds):
+# Optimising this scheme one variable at a time (one round):
+# MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, 0, 0"  "nds,20000"
+#   weights: 0 0 -1 -2 -6 0 0 -> 0 0 1 0.5 0.125 0.001953125 0.001953125 0.001953125 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv ddesc  relpr   1      126    1093.154    3217717    12773    32785    12  1    20012    12775    7237
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    711.485     15.206      21.972     131.693      320.252      531.869     1.533     0.006     0.439     0.031     0.134
+#    494.000      0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1088.000     98.000     125.000     823.000     1008.000     2921.000     6.000     1.000     3.529     0.163     0.658
+#     63.585     13.475      18.785     166.847      305.580      525.249     0.701     0.079     0.428     0.026     0.147
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    753.573     2.781     0.114      6.493     10.676     14.812      3.593      7.823     0.575
+#    620.000     2.000     0.034      1.127      2.029      2.029      0.000      0.000     0.122
+#   1032.000     6.000     0.883     13.506     32.546     58.139     26.881     11.000     0.977
+#     52.809     0.726     0.045      2.023      5.131      9.804      4.061      1.333     0.064
+# MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, 0, 0" ""
+#   weights: 0 0 -1 -2 -6 0 0 -> 0 0 1 0.5 0.125 0.001953125 0.001953125 0.001953125 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8   +count dom enu newv ddesc  relpr   1      480    9480.611   29635028   126144   320935    12  0   194791   126144   68647
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    689.002     13.658      19.685     120.755      308.427      498.453     1.521     0.002     0.388     0.028     0.135
+#    232.000      0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1088.000     98.000     126.000     867.000     1008.000     3017.000     6.000     1.000     2.870     0.163     1.500
+#     62.064     12.119      16.763     155.240      290.611      489.892     0.676     0.050     0.383     0.024     0.149
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    726.909     2.838     0.114      6.599     10.685     14.809      3.519      8.191     0.519
+#    240.000     2.000     0.034      1.127      2.029      2.029      0.000      0.000     0.001
+#   1032.000     6.000     0.883     13.506     32.546     60.127     26.881     12.000     1.050
+#     55.688     0.702     0.041      1.925      4.817      9.481      3.985      1.299     0.091
+
+# N=9:
+
+# ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, a, 0" "nds,50000"
 # XXX
 
 
