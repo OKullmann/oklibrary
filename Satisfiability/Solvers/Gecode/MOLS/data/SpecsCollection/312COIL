@@ -6,6 +6,8 @@
 # the only unsatisfiable case for N >= 7).
 # This is an interesting testcase.
 
+# A similar problem is SelfOrthogonalidem.
+
 # Question: are there better representations of orthogonality here?
 
 
@@ -31,7 +33,6 @@
 #   9   +count dom bin    mindom  asc    1         631  114164.718  334158660639   897073415  1794148217     30  1
 # real	166m40.008s user	1902m44.724s sys	24m28.656s
 
-
 # N=10:
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/312COIL "" +count dom bin mindom asc 1 12
@@ -40,7 +41,9 @@
 
 # rlaMols:
 
-# MOLS> ./rlaMols 7 data/SpecsCollection/312COIL "" count dom enu mindom asc relpr 1 3
+# N=7:
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/312COIL "" count dom enu mindom asc "" 1 3
 #     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
 #     7    count dom enu    mindom  asc  relpr    1             360     15.352     152128      1110      2851     8      1741      1110
 #       vals      props     elvals      prunes      mprune      probes    rounds      solc         t   qelvals   qprunes
@@ -48,7 +51,19 @@
 #    447.000      3.000      5.000       0.000       8.000      14.000     1.000     0.000     0.000     0.011     0.000
 #    693.000     42.000     47.000     377.000     630.000     980.000     3.000     2.000     0.073     0.093     0.445
 #     32.017      7.664      9.865     115.844     182.094     317.282     0.652     0.609     0.019     0.020     0.151
-# MOLS> ./rlaMols 9 data/SpecsCollection/312COIL "" satd dom enu mindom asc relpr 1 12
+
+# The "special magic" of mindom seems to survive the la-reduction.
+
+# N=8:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/312COIL "" +count dom enu mindom asc "" 1 12 "gnds,50000"
+# 50 solutions found.
+# MOLS> time ./rlaMols 8 data/SpecsCollection/312COIL "" +count dom enu mindom asc "" 1 12 "nds,1500000"
+# XXX
+
+# N=9:
+
+# MOLS> ./rlaMols 9 data/SpecsCollection/312COIL "" satd dom enu mindom asc "" 1 12
 #     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
 #     9     satd dom enu    mindom  asc  relpr    1               1    246.189     473918      2201      6194    21      3993      2207
 #        vals       props      elvals       prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
@@ -143,7 +158,8 @@
 #   464.000     2.000     0.139     2.043     2.188      2.188     0.000     0.000     0.034
 #   651.000     5.000     0.736     4.051     9.054     13.086     4.093     6.000     0.271
 #    35.273     0.637     0.101     0.630     1.290      2.090     0.907     1.055     0.060
-# A good improvement.
+# A good improvement (but just reaching best rla-level -- which due to
+# "mindom" seems a special case.
 
 # N=8:
 
@@ -164,7 +180,18 @@
 #     43.141     0.746     0.066      1.633      3.709      7.137      2.853      1.292     0.050
 
 # MOLS> ./laMols 8 data/SpecsCollection/312COIL "" +count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" ""
-# XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8   +count dom enu newv ddesc  relpr   1     1440  140637.105  444747962  2437110  6185077    13  0  3747967  2437110 1310857
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    636.033     11.614      16.551     107.529      283.931      437.496     1.508     0.000     0.302     0.026     0.144
+#    232.000      0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1088.000     78.000     109.000     840.000     1008.000     3298.000     7.000     1.000     2.518     0.155     1.500
+#     44.772     10.077      13.692     137.588      259.073      413.714     0.643     0.020     0.281     0.021     0.158
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    665.375     2.859     0.151      5.235      8.085     11.105      2.484      9.532     0.411
+#    240.000     2.000     0.040      1.258      2.003      2.003      0.000      0.000     0.002
+#   1032.000     6.000     0.894     16.064     27.614     62.359     22.414     13.000     0.810
+#     38.033     0.722     0.057      1.604      3.678      7.285      2.943      1.146     0.044
 
 
 

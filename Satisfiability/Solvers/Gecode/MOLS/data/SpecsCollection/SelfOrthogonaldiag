@@ -10,7 +10,7 @@
 # with the only possible exceptions of N=10,14, which seem to be unknown.
 
 # A sequence with the same initial part is
-# in SelfOrthogonalidem
+# in SelfOrthogonalidem.
 # QUESTION: are these conditions equivalent?
 
 # N=7: The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
