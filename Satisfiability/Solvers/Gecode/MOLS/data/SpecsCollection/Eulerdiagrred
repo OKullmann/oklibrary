@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 320
+# 0, 0, 2, 4, 0, 320, >= 13
 #
 # https://oeis.org/A287651
 # Number of row-reduced pairs of orthogonal diagonal Latin squares of order n.
@@ -10,10 +10,8 @@
 # MOLS> time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 12
 # domain-prop min-dom-var bin-branch-min 320 106.088 320959425 1496972 2994583 31
 # real	0m11.454s user	1m46.091s sys	0m2.942s
-# MOLS> time ./gcMols 8 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 16
-# aborted after 377 hours wallclock-time.
 # MOLS> time ./gcMols 8 ./data/SpecsCollection/Eulerdiagrred "" +count dom enu mindom "" 1 16 ""
-# XXX
+# aborted after 238m wallclock-time with 13 solutions.
 
 squares A B aux
 rred A B
