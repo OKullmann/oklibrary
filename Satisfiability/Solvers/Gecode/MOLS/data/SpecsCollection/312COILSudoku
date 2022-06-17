@@ -169,9 +169,38 @@
 
 # Fixing the position of the weight-block obtained for N=8, and extending it by
 # one place:
-# ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, a, 0" "nds,50000"
-# after one-variable-at-a-time we obtain the slight improvement (not much better
-# just keeping the old block):
+# ./laMols 9 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, a, 0" "nds,50000"
+# best seems a=7 (but a=0 :
+#   weights: 0 0 -1 -2 -6 7 0 0 -> 0 0 1 0.5 0.125 0.001953125 0.25 0.25 0.25 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  9    count dom enu newv ddesc  relpr   1       84    4470.194   10199813    33543    83555    13  1    50012    33545   16467
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    948.622      18.851      27.417      156.910      385.831      684.898     1.516     0.002     0.742     0.029     0.133
+#    644.000       1.000       2.000        0.000        0.000        2.000     1.000     0.000     0.000     0.002     0.000
+#   1593.000     130.000     169.000     1162.000     1476.000     5148.000     7.000     3.000     5.605     0.158     0.726
+#     73.131      18.147      25.272      209.773      405.312      711.908     0.702     0.056     0.754     0.026     0.135
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    998.873     3.052     0.109      6.564     12.336     18.263      4.881      9.834     0.988
+#    844.000     2.000     0.035      1.754      3.255      3.256      0.000      0.000     0.173
+#   1503.000     6.000     0.362     24.389     42.779     79.652     35.455     13.000     1.452
+#     59.550     0.888     0.036      2.133      5.789     11.758      4.802      1.407     0.080
+#   weights: 0 0 -1 -2 -6 0 0 0 -> 0 0 1 0.5 0.125 0.001953125 0.001953125 0.001953125 0.001953125 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  9    count dom enu newv ddesc  relpr   1       66    5597.657    9996288    31226    81238    14  1    50012    31230   18782
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    942.454      22.488      32.254      213.656      452.948      798.602     1.637     0.001     0.936     0.034     0.191
+#    648.000       1.000       1.000        0.000        0.000        2.000     1.000     0.000     0.000     0.001     0.000
+#   1593.000     122.000     170.000     1281.000     1476.000     4737.000     7.000     2.000     5.998     0.171     0.863
+#     77.483      19.602      27.511      252.542      390.658      694.354     0.754     0.042     0.807     0.029     0.160
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    987.830     2.672     0.095      7.054     11.352     15.574      3.701     11.089     1.072
+#    823.000     2.000     0.029      2.037      2.037      2.037      0.000      0.000     0.143
+#   1503.000     6.000     0.880     21.766     39.109     73.400     28.082     15.000     1.633
+#     65.747     0.865     0.032      2.227      4.813      9.388      3.985      1.508     0.084
+# ./laMols 9 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, 7, 0" "nds,2000000"
+# after 20min wallclock-time only 118 solutions found: after an initial success
+# slow further progress (could be the optimisation, which just goes after that).
+# XXX
 
 
 
