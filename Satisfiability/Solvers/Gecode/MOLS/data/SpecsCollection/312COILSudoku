@@ -166,7 +166,23 @@
 # An improvement over rlaMols by a factor of 10 in node-count.
 # Aiming at a better optimisation:
 # MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, a, -2, -6, 0, 0" "nds,200000"
-# XXX
+# Trying to extend the box of size 3 to a box of size 4 actually yielded the following box of size 2
+# (locally optimal):
+# MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, 0, -2, -6, 0" ""
+#   weights: 0 0 0 -2 -6 0 0 -> 0 0 1 1 0.25 0.00390625 0.00390625 0.00390625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8   +count dom enu newv ddesc  relpr   1      480    9210.844   28071294   116448   293971    12  0   177523   116448   61075
+#       vals      props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    699.824     14.639      21.237     125.893      312.612      516.261     1.531     0.003     0.420     0.030     0.137
+#    232.000      1.000       2.000       0.000        0.000        2.000     1.000     0.000     0.000     0.003     0.000
+#   1088.000     90.000     123.000     927.000     1008.000     2808.000     5.000     1.000     2.901     0.162     1.500
+#     59.637     12.831      17.815     163.314      292.768      499.479     0.685     0.052     0.404     0.025     0.153
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#    739.578     2.907     0.085      9.267     14.557     20.219      4.665      8.143     0.556
+#    240.000     2.000     0.029      2.059      2.059      2.059      0.000      0.000     0.003
+#   1032.000     6.000     0.870     23.504     41.092     76.051     33.762     11.000     1.123
+#     52.019     0.721     0.030      2.926      6.208     12.421      5.167      1.300     0.086
+
 
 # N=9:
 
@@ -204,6 +220,22 @@
 # after 20min wallclock-time only 118 solutions found: after an initial success
 # slow further progress (could be the optimisation, which just goes after that).
 # Aborted after 40min wallclock-time, where the search got stuck by 120 solutions.
+# Rerunning, with new weights (obtained by optimisation for the complete N=8-run):
+# ./laMols 9 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, 0, -2, -6, 0" ""
+#   weights: 0 0 0 -2 -6 0 0 0 -> 0 0 1 1 0.25 0.00390625 0.00390625 0.00390625 0.00390625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  9   +count dom enu newv ddesc  relpr   1     1368  111330.000  209999278   655272  1655125    14  0   999853   655272  344581
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#    992.535      22.059      32.184      186.227      439.838      819.731     1.604     0.001     0.941     0.032     0.139
+#    686.000       1.000       1.000        0.000        0.000        2.000     1.000     0.000     0.000     0.001     0.000
+#   1593.000     139.000     191.000     1865.000     1476.000     5990.000     8.000     6.000     7.625     0.182     0.922
+#     79.158      19.722      28.236      238.251      417.954      791.264     0.781     0.059     0.895     0.028     0.139
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#   1043.101     2.902     0.085      8.464     14.845     21.350      5.524      9.861     1.106
+#    864.000     2.000     0.022      1.008      2.074      2.074      0.000      0.000     0.288
+#   1503.000     6.000     0.864     23.797     47.704     92.590     37.426     14.000     2.369
+#     61.661     0.812     0.028      3.095      6.767     13.408      5.592      1.361     0.111
+
 
 
 
