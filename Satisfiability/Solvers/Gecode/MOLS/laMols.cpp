@@ -68,6 +68,36 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+0. Provide global statistics "open total assignments"
+   - Let muld be the measure log_2(# total assignments).
+   - This is not most efficient for solving, but it is very natural;
+     so perhaps it should always be provided.
+   - We want to have as global variable the number of open total
+     assignments -- this can be used as a good achievement-measure
+     also for unsatisfiable instances.
+   - This global variable ota can be rather easily computed by setting
+     the variable initially to exp2(muld), and then after every
+     la-reduction, for the original muld0 before the reduction and muld
+     after the reduction:
+         ota := ota - exp2(muld0) + exp2(muld).
+     - And after the branching has been computed, the current ota is updated
+       in the same way, for each child.
+     - Since this update is needed for each branch (so that the update can
+       "pick up the old value" exp2(muld0)), we only compute ota for
+       laMols.
+     - Then we don't need the update in the middle, but can use in the
+       above ota-formula "exp2(muld)" for each child, except for the case
+       that we found a leaf, where then "exp2(muld) = 0", that is, only
+       the subtraction takes place.
+   - Perhaps what is reported is log2(ota) (the smaller this number,
+     the more work has been done).
+     One likely needs to output this number with full precision.
+   - Perhaps more informative is the ratio
+       # total-assignments-handled / # total assignments
+       = (exp2(muld_root) - ota) / exp2(muld_root)
+       = 1 - ota / exp2(muld_root).
+   - float80 should be sufficient for a good deal of problems.
+
 1. Early abortion of runs
     - Later also allowing bounds for total runtime; which should perhaps
       anyway be part of the general statistics (not separately handled

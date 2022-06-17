@@ -56,27 +56,6 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr
 
 Compare also with todos in gcMols.
 
-0. Provide global statistics "open total assignments"
-   - Let muld be the measure log_2(# total assignments).
-   - This is not most efficient for solving, but it is very natural;
-     so perhaps it should always be provided.
-   - We want to have as global variable the number of open total
-     assignments -- this can be used as a good achievement-measure
-     also for unsatisfiable instances.
-   - This global variable ota can be rather easily computed by setting
-     the variable initially to exp2(muld), and then after every
-     la-reduction, for the original muld0 before the reduction and muld
-     after the reduction:
-       ota := ota - exp2(muld0) + exp2(muld).
-   - Perhaps what is reported is log2(ota) (the smaller this number,
-     the more work has been done).
-     One likely needs to output this number with full precision.
-   - Perhaps more informative is the ratio
-       # total-assignments-handled / # total assignments
-       = (exp2(muld_root) - ota) / exp2(muld_root)
-       = 1 - ota / exp2(muld_root).
-   - float80 should be sufficient for a good deal of problems.
-
 1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
    - One needs to divide this number by the number of threads, for an
