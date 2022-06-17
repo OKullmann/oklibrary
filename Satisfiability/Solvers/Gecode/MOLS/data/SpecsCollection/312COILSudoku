@@ -164,13 +164,16 @@
 #   1032.000     6.000     0.883     13.506     32.546     60.127     26.881     12.000     1.050
 #     55.688     0.702     0.041      1.925      4.817      9.481      3.985      1.299     0.091
 # An improvement over rlaMols by a factor of 10 in node-count.
+# Aiming at a better optimisation:
+# MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, a, -2, -6, 0, 0" "nds,200000"
+# XXX
 
 # N=9:
 
 # Fixing the position of the weight-block obtained for N=8, and extending it by
 # one place:
 # ./laMols 9 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, a, 0" "nds,50000"
-# best seems a=7 (but a=0 :
+# best seems a=7 (but a=0 would also be okay):
 #   weights: 0 0 -1 -2 -6 7 0 0 -> 0 0 1 0.5 0.125 0.001953125 0.25 0.25 0.25 0
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  9    count dom enu newv ddesc  relpr   1       84    4470.194   10199813    33543    83555    13  1    50012    33545   16467
@@ -200,7 +203,7 @@
 # ./laMols 9 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, 7, 0" "nds,2000000"
 # after 20min wallclock-time only 118 solutions found: after an initial success
 # slow further progress (could be the optimisation, which just goes after that).
-# XXX
+# Aborted after 40min wallclock-time, where the search got stuck by 120 solutions.
 
 
 
