@@ -118,7 +118,7 @@ BUGS:
 
 #include "Euler.hpp"
 
-namespace EulerBBOpt {
+namespace {
 
   // Type of measure for optimising the weights.
   // lvs   : leaves in the backtracking tree
@@ -137,13 +137,13 @@ namespace EulerBBOpt {
 }
 namespace Environment {
   template <>
-  struct RegistrationPolicies<EulerBBOpt::MeasureO> {
-    static constexpr int size = int(EulerBBOpt::MeasureO::laprp)+1;
+  struct RegistrationPolicies<MeasureO> {
+    static constexpr int size = int(MeasureO::laprp)+1;
     static constexpr std::array<const char*, size> string
     {"lvs", "laprp"};
   };
 }
-namespace EulerBBOpt {
+namespace {
   std::ostream& operator <<(std::ostream& out, const MeasureO enm) {
     switch (enm) {
     case MeasureO::laprp : return out << "look-ahead-propagation-calls";
@@ -170,7 +170,7 @@ namespace EulerBBOpt {
       "                     : " << Environment::WRP<Lookahead::BrOrderO>{} << "\n" <<
       "                     : " << Environment::WRP<Lookahead::UpperBoundO>{} << "\n" <<
       " propagation-level   : " << Environment::WRP<Euler::PropO>{} << "\n" <<
-      " measure-type        : " << Environment::WRP<EulerBBOpt::MeasureO>{} << "\n" <<
+      " measure-type        : " << Environment::WRP<MeasureO>{} << "\n" <<
       " - .\n"
  ;
     return true;
@@ -184,13 +184,13 @@ namespace EulerBBOpt {
     LatinSquares::ls_dim_t N, k, m1, m2;
     Lookahead::option_t alg_options;
     Euler::gecode_option_t gecode_options;
-    EulerBBOpt::bbopt_option_t bbopt_options;
+    bbopt_option_t bbopt_options;
     Euler::gecode_intvec_t ls1_partial;
     Euler::gecode_intvec_t ls2_partial;
     const Timing::UserTime timing;
 
     Lookahead::UpperBoundO ub;
-    EulerBBOpt::MeasureO enm;
+    MeasureO enm;
 
     void init(const int argc, const char* const argv[]) {
       Environment::Index index;
@@ -209,10 +209,10 @@ namespace EulerBBOpt {
 
       // Read BBOpt options:
       bbopt_options = argc <= index ?
-        EulerBBOpt::bbopt_option_t{EulerBBOpt::MeasureO::lvs} :
-        Environment::translate<EulerBBOpt::bbopt_option_t>()(argv[index++],
+        bbopt_option_t{MeasureO::lvs} :
+        Environment::translate<bbopt_option_t>()(argv[index++],
                                                              Lookahead::sep);
-        enm = std::get<EulerBBOpt::MeasureO>(bbopt_options);
+        enm = std::get<MeasureO>(bbopt_options);
 
       N = Euler::read_N(error);
       k = Euler::read_k(error);
@@ -253,17 +253,17 @@ namespace EulerBBOpt {
       const Environment::RegistrationPolicies<Lookahead::UpperBoundO> rp_ub;
       const std::string sub = rp_ub.string[int(ub)];
       std::cerr << sub << " ";
-      const Environment::RegistrationPolicies<EulerBBOpt::MeasureO> rp_enm;
+      const Environment::RegistrationPolicies<MeasureO> rp_enm;
       const std::string senm = rp_enm.string[int(enm)];
       std::cerr << senm << " ";
       Euler::print_stat(N, k, m1, m2, 0, solving_time, alg_options,
                         gecode_options, &stat, proginfo, v);
 
       count_t msr = 0;
-      if (enm == EulerBBOpt::MeasureO::lvs) {
+      if (enm == MeasureO::lvs) {
         msr = stat.leaves();
       }
-      else if (enm == EulerBBOpt::MeasureO::laprp) {
+      else if (enm == MeasureO::laprp) {
         msr = stat.la_props(); // look-ahead propagation calls
       }
 
@@ -274,10 +274,10 @@ namespace EulerBBOpt {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (Environment::version_output(std::cout, EulerBBOpt::proginfo, argc, argv)) return 0;
-  if (EulerBBOpt::show_usage(argc, argv)) return 0;
+  if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
+  if (show_usage(argc, argv)) return 0;
 
-  const auto result = Optimisation::bbopt_rounds_app(argc, argv, EulerBBOpt::Func());
+  const auto result = Optimisation::bbopt_rounds_app(argc, argv, Func());
   FloatingPoint::fullprec_float80(std::cout);
   std::cout << result << "\n";
 }
