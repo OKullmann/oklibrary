@@ -31,7 +31,8 @@ License, or any later version. */
      - LBRT branching-type (lookahead-brt) bin, enu; plus later binbal
      - LBRO branching-order asc, desc, ascd, descd
      - DIS distance deltaL, wdeltaL, newvars
-     - SPW special-weights other, zero, one, ap, ld.
+     - SPW special-weights other, zero, one, ap, ld
+     - EXW weights for experiments rand, asc, desc.
 
 TODOS
 
