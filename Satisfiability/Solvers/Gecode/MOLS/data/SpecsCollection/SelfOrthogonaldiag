@@ -125,7 +125,7 @@
 # N=9:
 
 # MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonaldiag "" +count dom bin mindegdom asc relpr 1 16 ""
-# XXX
+# aborted after 1375m wallclock-time with 7173 solutions.
 
 # N=10:
 # MOLS> time ./rlaMols 10 data/SpecsCollection/SelfOrthogonaldiag "" satd dom bin mindegdom asc relpr 1 16 ""
