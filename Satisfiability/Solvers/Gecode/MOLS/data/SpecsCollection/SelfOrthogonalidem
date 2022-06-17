@@ -14,6 +14,9 @@
 # cases --- from the 12 cases altogether, should we have only 3
 # essentially different cases?).
 
+# A special case is SelfOrthogonalSymOrthogonalMateStandard,
+# where we have a second mate.
+
 # QUESTION: Is this the same as SelfOrthogonaldiag ?
 
 

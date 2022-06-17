@@ -9,29 +9,39 @@
 # A SOLSSOM is a self-orthogonal Latin square with a symmetric orthogonal mate.
 # A SOLSSOM is standard if the self-orthogonal Latin square is idempotent and
 # the symmetric mate is reduced.
+# In a sense a special case of SelfOrthogonalidem, though here we have that
+# second (proper) mate.
 #
 # Unsatisfiability for N=10 is a good testcase.
 
 
 # gcMols:
 
-# Counting and N=7, dom+enu+first is best:
+# N=7:
+
+# dom+enu+first is best:
 # MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom enu first "" 1 12
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    7    count dom enu     first  asc    1             480     25.967     75271206      371026      608999     14
 # real	0m2.671s user	0m25.975s sys	0m0.729s
 
-# Counting for N=8, dom+enu+mindom seems best:
+# N=8:
+
+# dom+enu+mindom seems best:
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom enu mindom "" 1 12
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #    8    count dom enu    mindom  asc    1          374400 182268.615 401710680011  1489682475  2857400069     28
 # real	277m28.672s user	3037m48.621s sys	39m24.011s
+
+# N=9:
 
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom enu mindom "" 1 12
 # Found a solution after 1min wallclock-time.
 
 
 # rlaMols:
+
+# N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom enu mindom "" "" 1 12
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
@@ -42,8 +52,25 @@
 #   940.000     65.000     94.000     672.000     912.000     2445.000     5.000     2.000     1.640     0.127     0.449
 #    26.091     12.457     17.333     137.647     284.957      476.733     0.734     0.259     0.279     0.024     0.101
 # real	0m28.728s user	4m59.215s sys	0m2.555s
+
+# N=8:
+
+# N=9:
+
 # MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom enu mindom "" "" 1 12
 # aborted after 11min wallclock-time without finding a solution.
+
+
+# laMols with wdL:
+
+# N=7:
+
+
+
+# laMols with newvars:
+
+# N=7:
+
 
 
 squares A aux B AB
