@@ -62,7 +62,9 @@ Compare also with todos in gcMols.
        the signal-handler must not access "an object with thread storage
        duration", and thus we couldn't have (easily) parallelisation for
        scanning.
-     - For rlaMols the signal-handler can just output rlaStats.
+     - For rlaMols the signal-handler needs to set another (atomic) flag,
+       which will cause output for the first thread who sees it (resetting
+       it after output).
 
 1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
