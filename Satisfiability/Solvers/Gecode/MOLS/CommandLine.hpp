@@ -308,6 +308,7 @@ namespace CommandLine {
     static constexpr size_t num_levels = 19;
     static_assert(num_levels != 0);
     static constexpr float80 minval_newv = -9, minval_wdL = 0.2L;
+    static constexpr float80 scaling_special = 0.1L;
     static float80 translate(size_t level, const DIS dis,
                              const EXW ew = EXW::rand) noexcept {
       assert(level < num_levels);
@@ -468,6 +469,19 @@ namespace CommandLine {
         res = adapt(start, N, dis);
       }
       assert(res.size() == size(N,brt,dis));
+      if (not res.empty() and res[0].sp == OP::SPW::other and
+          dis == OP::DIS::newvars and pat[0].v.index() == 0) {
+        list_weightswo_t nres;
+        for (WeightsWithOrigin& wo : res) {
+          assert(wo.sp == OP::SPW::other);
+          weights_t nw = wo.w, nw0 = wo.w0;
+          assert(nw.size() >= 2 and nw0.size() >= 1);
+          assert(nw0[0] == nw[1]);
+          nw[1] *= scaling_special; nw0[0] = nw[1];
+          nres.emplace_back(std::move(nw), std::move(nw0));
+        }
+        res = std::move(nres);
+      }
       return res;
     }
   };
