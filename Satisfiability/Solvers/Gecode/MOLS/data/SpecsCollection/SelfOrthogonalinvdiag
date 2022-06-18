@@ -1,14 +1,32 @@
 # Counts for N >= 2:
 # 0, 0, 4, 12, 0, 480, 11520, >= 3102
-#
+
+# Compared to SelfOrthogonaldiag, the only change is that the
+# product-condition here is not "c213(A) = aux * A", but
+# has aux in the "wrong place", i.e., "c213(A) = A * aux".
+# THis is equivalent to c231(A) being orthogonal to A, that is,
+# it is the "third self-orthogonality" (the second being
+# 312COIL).
+
+
+# gcMols:
+
+# N=7:
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 480 6.931 21100506 98835 198629 23
 # real	0m0.742s user	0m6.938s sys	0m0.175s
+
+# N=8:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/SelfOrthogonalinvdiag "" count dom maxdegdom "" 12
 # domain-prop max-deg/dom-var bin-branch-min 11520 18039.376 43385683370 158374405 316771849 37
 # real	27m30.417s user	300m39.383s sys	3m46.476s
+
+# N=9:
 # MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalinvdiag "" +count dom enu maxdegdom "" 1 16 ""
 # aborted after 2603m wallclock-time with 3102 solutions.
+
 
 # laMols with wdL:
 
@@ -44,6 +62,7 @@
 #   1047.000     5.000     0.050     239.781     239.781     301.959     89.749     7.000     0.111
 #    122.788     0.752     0.014      43.036      54.554      62.665       -nan     1.127     0.013
 # real	0m6.963s user	0m35.783s sys	0m0.219s
+
 
 
 squares A aux

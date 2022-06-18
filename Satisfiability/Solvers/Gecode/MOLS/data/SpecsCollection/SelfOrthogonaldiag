@@ -14,6 +14,7 @@
 # QUESTION: are these conditions equivalent?
 
 # N=7: The count is higher than for the inverse version ("SelfOrthogonalinvdiag"),
+# which should be just a different problem.
 
 
 # gcMols:

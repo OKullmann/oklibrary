@@ -18,6 +18,8 @@
 # where we have a second mate.
 
 # QUESTION: Is this the same as SelfOrthogonaldiag ?
+# That is, does it follow from "diag A" that already
+# "idem A" must hold?
 
 
 
