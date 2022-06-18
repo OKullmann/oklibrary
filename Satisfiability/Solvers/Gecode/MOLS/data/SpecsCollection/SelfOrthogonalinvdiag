@@ -48,20 +48,8 @@
 #   462.000     5.000     0.069     74.000     74.000     85.000     27.582     7.000     0.098
 #    40.469     0.716     0.016      9.733     13.109     20.511      9.572     1.103     0.012
 
-# Further optimisiaton (one variable at a time, with "a") regarding nds:
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
-#  7    count dom enu  wdL   asc  relpr   1      480      35.774     254406     1990     4986     8  0     2996     1990    1006
-#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
-#   335.747      7.649     11.592      32.549     147.611      292.057     1.632     0.160     0.044     0.035     0.066
-#   267.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
-#   572.000     35.000     49.000     239.000     552.000     1283.000     5.000     2.000     0.317     0.141     0.304
-#    37.091      7.617      9.560      47.889     147.914      322.371     1.029     0.418     0.049     0.027     0.072
-#         mu         w      ltau        mind       meand        maxd        sdd        dp        tb
-#    276.100     2.977     0.034      42.321      51.786      60.494       -nan     5.065     0.050
-#    203.000     2.000     0.005      11.487      19.251      23.825      0.000     0.000     0.018
-#   1047.000     5.000     0.050     239.781     239.781     301.959     89.749     7.000     0.111
-#    122.788     0.752     0.014      43.036      54.554      62.665       -nan     1.127     0.013
-# real	0m6.963s user	0m35.783s sys	0m0.219s
+# Further optimisiaton (one variable at a time, with "a") regarding nds: according to OZ nds=2996 was reached
+# (weights not given).
 
 
 
