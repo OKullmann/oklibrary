@@ -115,8 +115,8 @@ array-columns!
                             {c312, c132=c312^t}.
 
 Indeed quite obvious that
- (a) c213 is row-inversion, c312 is column-inversion (swapping the
-     result-place with the argument-place).
+ (a) c132 is row-inversion, c321 is column-inversion (swapping the
+     result-place with the value-place).
  (b) (c123, c213), (c231, c321), (c312, c132) are transposition-pairs
      (just swapping the first two places).
 
