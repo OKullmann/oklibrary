@@ -446,11 +446,10 @@ namespace Solvers {
     }
   };
   GC::Search::Options make_options(const double t,
-                                   const bool stop,
                                    const unsigned gcd) noexcept {
     GC::Search::Options res;
     res.threads = t;
-    if (stop) res.stop = new rla_stop;
+    res.stop = new rla_stop;
     if (gcd) res.c_d = gcd;
     return res;
   }
@@ -496,7 +495,7 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols0> s(m, make_options(threads, st, gcd));
+    GC::DFS<CT::GenericMols0> s(m, make_options(threads, gcd));
     delete m;
 
     rlaSR res{rt};
@@ -578,7 +577,7 @@ namespace Solvers {
        delete m; return {rt};
      }
     }
-    GC::DFS<CT::GenericMols1> s(m, make_options(threads, st, gcd));
+    GC::DFS<CT::GenericMols1> s(m, make_options(threads, gcd));
     delete m;
 
     laSR res{rt};
