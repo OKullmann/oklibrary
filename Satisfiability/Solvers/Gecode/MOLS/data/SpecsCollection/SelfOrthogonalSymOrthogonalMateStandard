@@ -19,11 +19,13 @@
 
 # N=7:
 
-# dom+enu+first is best:
-# MOLS> time ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom enu first "" 1 12
-#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
-#    7    count dom enu     first  asc    1             480     25.967     75271206      371026      608999     14
-# real	0m2.671s user	0m25.975s sys	0m0.729s
+# Exploration:
+# MOLS> ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count - - - - 1 6 "t,6"
+# "mindom" solved it in all variations, "first" in most; bin+mindom appears
+# to be best:
+# MOLS> ./gcMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom bin mindom "" 1 6 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   7    count dom bin    mindom  asc    1         480      18.450      75250366      348639      698237     19  0
 
 # N=8:
 
@@ -35,41 +37,164 @@
 
 # N=9:
 
-# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom enu mindom "" 1 12
-# Found a solution after 1min wallclock-time.
+# MOLS> time ./gcMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom enu mindom "" 1 12 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9     satd dom enu    mindom  asc    1           1    2534.501    5314615078    16096036    31337982     32  0
+# real	3m50.899s user	42m14.502s sys	0m19.311s
+
 
 
 # rlaMols:
 
 # N=7:
 
-# MOLS> time ./rlaMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom enu mindom "" "" 1 12
-#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
-#   7    count dom enu    mindom  asc  relpr    1        480     299.209     780722     5800    14981    10     9181     5800
-#      vals      props     elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
-#   739.961     14.712     20.389     135.203     357.785      629.493     1.706     0.052     0.348     0.028     0.160
-#   696.000      0.000      0.000       0.000       4.000       11.000     1.000     0.000     0.001     0.000     0.000
-#   940.000     65.000     94.000     672.000     912.000     2445.000     5.000     2.000     1.640     0.127     0.449
-#    26.091     12.457     17.333     137.647     284.957      476.733     0.734     0.259     0.279     0.024     0.101
-# real	0m28.728s user	4m59.215s sys	0m2.555s
+# Exploration:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom - - - "" 1 6 "lvs,6000"
+# Best is bin+maxdom+desc:
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   7    count dom bin    maxdom desc  relpr    1        480     109.327     375623     2192     6575    16  0     4383     2192
+#      vals      props      elvals      prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
+#   778.357     11.443      17.267     139.296     445.797      625.945     1.478     0.110     0.108     0.022     0.166
+#   540.000      0.000       0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     70.000     105.000     511.000     912.000     2477.000     4.000     4.000     0.625     0.134     0.557
+#    52.081     15.411      22.585     131.429     330.402      491.672     0.608     0.352     0.089     0.029     0.150
 
 # N=8:
 
+# MOLS> time ./rlaMols 8 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count dom bin maxdom desc "" 1 12 "satc,2000"
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom bin    maxdom desc  relpr    1       2002    3768.528    4619558    25058    75256    14  1    50198    25060
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc         t   qelvals    qprunes
+#   1175.544      10.532      16.681      165.993      680.946      947.470     1.427     0.040     0.895     0.014      0.157
+#    272.000       0.000       0.000        0.000        0.000        2.000     1.000     0.000     0.000     0.000      0.000
+#   1474.000     188.000     319.000     1198.000     1442.000     6512.000     7.000     5.000     6.530     0.264     57.000
+#     87.527      14.492      22.177      159.723      490.935      712.720     0.648     0.279     0.671     0.019      0.724
+# real	5m20.016s user	62m49.008s sys	0m33.048s
+
 # N=9:
 
-# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd dom enu mindom "" "" 1 12
-# aborted after 11min wallclock-time without finding a solution.
+# Just searching for one solution; exploration:
+# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" satd - - - - "" 1 12 "nds,5000"
+# no solutions found.
+
+# MOLS> time ./rlaMols 9 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" +count dom bin maxdom desc "" 1 12 "nds,60000"
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   9   +count dom bin    maxdom desc  relpr    1          0    9077.840    5790947    29950    89962    18  1    60012    29954
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
+#   1683.096      13.032      20.090      224.760     1001.506     1493.087     1.520     0.000     1.808     0.012     0.110
+#   1108.000       0.000       0.000        0.000        0.000        6.000     1.000     0.000     0.001     0.000     0.000
+#   2180.000     147.000     201.000     1357.000     2144.000     6920.000     6.000     0.000     9.162     0.117     0.406
+#     67.463      13.708      20.809      209.745      678.277      941.510     0.607     0.000     1.115     0.013     0.095
+# real	12m53.187s user	151m18.452s sys	1m18.666s
+# So there seems to be a problem with (just) finding one solution for N=9.
 
 
 # laMols with wdL:
 
 # N=7:
 
+# The given weights:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" - wdL "" "" 1 12 "" ""
+# bin as usual pretty bad, A, L similar:
+#   weights: A -> 0 0 1 2 3 4 5 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      393     197.061     873493     3990     9999     9  1     6009     3992    2017
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   673.708     10.624     15.108      92.204     299.206      448.920     1.435     0.065     0.206     0.022     0.126
+#   566.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     67.000     85.000     558.000     912.000     2805.000     6.000     2.000     1.751     0.116     0.335
+#    68.152     11.222     15.032     105.685     290.805      419.091     0.627     0.305     0.208     0.022     0.105
+#        mu         w      ltau       mind      meand        maxd        sdd        dp        tb
+#   528.517     3.004     0.028     29.950     45.128      56.471     11.668     5.462     0.305
+#   402.000     2.000     0.015     20.000     27.667      30.000      0.000     0.000     0.092
+#   744.000     5.000     0.058     60.000     93.667     163.000     55.554     7.000     0.526
+#    59.554     0.800     0.012      8.024     16.060      27.640     12.089     1.071     0.088
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815 2.8073549220576041075
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      397     198.208     882738     3807     9815     9  1     6008     3809    2199
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   677.608      9.885     14.127      98.360     312.103      461.130     1.465     0.066     0.197     0.021     0.132
+#   505.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     52.000     73.000     394.000     912.000     1584.000     3.000     2.000     1.177     0.107     0.335
+#    66.433     10.271     13.935     108.297     296.607      416.155     0.606     0.307     0.203     0.020     0.107
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   319.177     2.752     0.060     13.131     20.997     28.302      6.710     5.574     0.285
+#   262.000     2.000     0.029      3.907     11.224     11.978      0.000     0.000     0.026
+#   407.000     5.000     0.132     25.237     44.164     76.111     25.718     7.000     0.547
+#    25.596     0.460     0.024      5.388      8.310     15.164      7.185     1.095     0.111
+# Optimising for constant weights:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu wdL "" "" 1 12 "a" "nds,6000"
+# All pretty similar (except for a=3.6,3.8, numerical best a=0.8:
+#   weights: 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 0.80000000000000000001 -> 0 0 1 1.7411011265922482782 3.0314331330207961645 5.2780316430915770369 9.1895868399762800534 15.999999999999999997
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      463     135.218     789918     4149    10154    10  1     6005     4151    1854
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   674.765     11.376     15.687      81.011     302.367      381.385     1.383     0.077     0.105     0.023     0.148
+#   566.000      0.000      0.000       0.000       0.000        3.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     40.000     63.000     324.000     912.000     1257.000     3.000     2.000     0.857     0.092     0.552
+#    63.848     10.214     13.091      80.891     274.895      295.774     0.492     0.331     0.118     0.019     0.114
+#         mu         w      ltau        mind       meand        maxd        sdd        dp        tb
+#    642.525     3.252     0.019      60.553      64.391      68.099      3.245     5.570     0.182
+#    450.000     2.000     0.006      43.825      49.226      55.959      0.000     0.000     0.028
+#   1255.000     5.000     0.033     185.628     185.628     200.731     63.700     8.000     0.566
+#    114.237     0.846     0.007      16.294      20.494      24.273      9.161     1.143     0.127
+# Let's try a 2-block close to the end:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu wdL "" "" 1 12 "a,a,a,0.8" "nds,6000"
+# Best a=0.2 with nds=5516.
+# Optimising the second entry of the block (again):
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu wdL "" "" 1 12 "0.2,0.2,0.2,a" "nds,5516"
+# The values a=0.6,0.8,1.0,1.2 all behave identical (no improvement).
+# Extending the block one place to the left:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu wdL "" "" 1 12 "a,a,0.2,0.8" "nds,5516"
+# doesn't yield an improvement; also one place to the right (the last place)
+# doesn't yield something. So the best found is:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu wdL "" "" 1 12 "0.2,0.2,0.2,0.8" "nds,5516"
+#   weights: 0.2 0.2 0.2 0.80000000000000000001 0.80000000000000000001 -> 0 0 1 1.1486983549970350068 1.3195079107728942593 1.5157165665103980823 2.6390158215457885185 4.5947934199881400267
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1      480     151.353     798742     3720     9236     9  0     5516     3720    1796
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   685.139     12.162     16.740      86.239     321.062      404.031     1.420     0.087     0.149     0.025     0.149
+#   505.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     47.000     65.000     318.000     912.000     1288.000     3.000     2.000     0.800     0.095     0.300
+#    61.305     10.717     14.050      81.778     279.154      292.919     0.516     0.351     0.143     0.020     0.106
+#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
+#   216.751     3.071     0.118     10.394     12.511     15.330       -nan     5.443     0.242
+#   176.000     2.000     0.023      1.984      9.962     10.518      0.000     0.000     0.010
+#   360.000     5.000     0.236     48.028     48.028     52.237     16.674     7.000     0.553
+#    24.292     0.478     0.053      5.976      6.371      8.482       -nan     1.038     0.136
+
 
 
 # laMols with newvars:
 
 # N=7:
+
+# The 4 given weights are not good.
+# Creating 100 random trials found a combination better than nds=5516 achieved
+# by wdL:
+# MOLS> for ((i=0; i<100; ++i)); do ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu newv "" "" 1 12 "0,r,r,r,r,r" "nds,5516" | head -19 | tail +17; done
+# Optimisation by one-variable-at-a-time could only improve it slightly:
+# MOLS> ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu newv "" "" 1 12 "0,4,-3,-4,2,7" "nds,4996"
+#   weights: 0 4 -3 -4 2 7 -> 0 0 16 2 0.125 0.5 64 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      480     212.334     778754     3470     8466     9  0     4996     3470    1526
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   697.110     14.866     20.024     114.327     307.857      538.118     1.721     0.096     0.290     0.029     0.146
+#   559.000      0.000      0.000       0.000       0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   940.000     75.000     96.000     578.000     912.000     2535.000     5.000     2.000     1.727     0.130     0.337
+#    61.211     13.294     16.350     130.668     280.364      505.466     0.893     0.367     0.300     0.023     0.096
+#        mu         w      ltau        mind       meand        maxd        sdd        dp        tb
+#   733.083     3.273     0.012     104.085     142.487     186.648     34.992     5.262     0.367
+#   598.000     2.000     0.002      23.625      38.500      38.500      0.000     0.000     0.049
+#   940.000     5.000     0.038     644.875     644.875     644.875     81.679     7.000     0.744
+#    67.427     1.000     0.009      75.654      75.804      85.878     23.980     0.993     0.124
+# Searching for something better:
+# MOLS> for ((i=0; i<100; ++i)); do ./laMols 7 data/SpecsCollection/SelfOrthogonalSymOrthogonalMateStandard "" count "" enu newv "" "" 1 12 "0,r,r,r,r,r" "nds,4995" | head -19 | tail +17; done
+# no improvement; also none found when fixing some of the places with the
+# values found above.
+# Also the special weight for domain-size one didn't help: negative values
+# seem not to change anything, while positive values impaire.
+
 
 
 
