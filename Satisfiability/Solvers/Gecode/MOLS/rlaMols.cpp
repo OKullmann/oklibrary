@@ -56,6 +56,14 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr
 
 Compare also with todos in gcMols.
 
+-1. Catching SIGUSR1, output the current results:
+     - According to
+       https://en.cppreference.com/w/cpp/utility/program/signal
+       the signal-handler must not access "an object with thread storage
+       duration", and thus we couldn't have (easily) parallelisation for
+       scanning.
+     - For rlaMols the signal-handler can just output rlaStats.
+
 1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
    - One needs to divide this number by the number of threads, for an
@@ -92,8 +100,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
-        "15.6.2022",
+        "0.10.0",
+        "18.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

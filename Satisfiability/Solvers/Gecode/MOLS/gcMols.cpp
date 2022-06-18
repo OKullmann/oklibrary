@@ -127,16 +127,6 @@ Compare also with todos in rlaMols.
          - For (r)laMols: it seems we always have
              lvs = flvs, larc + flvs = gnds.
 
--1. Catching SIGUSR1, output the current results:
-     - According to
-       https://en.cppreference.com/w/cpp/utility/program/signal
-       the signal-handler must not access "an object with thread storage
-       duration", and thus we couldn't have (easily) parallelisation for
-       scanning.
-     - At least for rlaMols, that shouldn't be a problem: the signal-handler
-       can just output rlaStats.
-     - For gcMols, the early abortion-mechanisms (seem below) need suffice.
-
 0. R-header
     - Perhaps we need another option:
        - +- header

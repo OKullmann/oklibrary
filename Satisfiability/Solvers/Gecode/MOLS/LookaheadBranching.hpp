@@ -58,6 +58,7 @@ TODOS:
 
 #include <cassert>
 #include <cstdlib>
+#include <csignal>
 
 #include <gecode/int.hh>
 #include <gecode/search.hh>
@@ -325,6 +326,7 @@ namespace LookaheadBranching {
       st(st.list()), sol_counter(0), lvs_counter(0), log(log), enc(enc) {
       assert(not enc or log);
       abort = false;
+      std::signal(SIGINT, activate_abort);
     }
     rlaStats(const rlaStats&) = delete;
 
@@ -333,25 +335,20 @@ namespace LookaheadBranching {
     const stats_t& stats() const noexcept { return S; }
     const sollist_t& sols() const noexcept { return sols_; }
 
+    static void activate_abort([[maybe_unused]]int dummy=0) noexcept {
+      abort.store(true, std::memory_order_relaxed);
+    }
     void handle_abort() const noexcept {
       for (const auto [s, val] : st)
         switch (s) {
         case OP::LRST::nds :
-          if (S.N() > val) {
-            abort.store(true, std::memory_order_relaxed); return;
-          } else break;
+          if (S.N() > val) {activate_abort(); return;} else break;
         case OP::LRST::lvs :
-          if (lvs_counter > val) {
-            abort.store(true, std::memory_order_relaxed); return;
-          } else break;
+          if (lvs_counter > val) {activate_abort(); return;} else break;
         case OP::LRST::inds :
-          if (S.N() - lvs_counter > val) {
-            abort.store(true, std::memory_order_relaxed); return;
-          } else break;
+          if (S.N()-lvs_counter > val) {activate_abort(); return;} else break;
         case OP::LRST::satc :
-          if (sol_counter > val) {
-            abort.store(true, std::memory_order_relaxed); return;
-          } else break;
+          if (sol_counter > val) {activate_abort(); return;} else break;
         case OP::LRST::none : assert(false);
         }
     }
