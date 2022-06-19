@@ -1,5 +1,5 @@
 DIMENSION               5
-BB_EXE                  ns_Sudoku_wdL
+BB_EXE                  ns_Sudoku7_wdL
 BB_OUTPUT_TYPE          OBJ
 X0                      ( 0.1 0.1 0.1 0.1 0.1 )
 LOWER_BOUND             * 0.01
