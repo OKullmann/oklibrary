@@ -583,6 +583,7 @@ namespace CommandLine {
     out << "#" << std::string(spaces_algoout, ' ') << "weights: ";
     const auto old = FloatingPoint::fullprec_float80(out);
     out << wo << "\n";
+    out.flush();
     out.precision(old);
   }
 

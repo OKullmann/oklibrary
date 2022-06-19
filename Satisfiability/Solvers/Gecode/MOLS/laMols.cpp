@@ -71,7 +71,12 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 0. Provide global statistics "open total assignments"
    - Let muld be the measure log_2(# total assignments).
    - This is not most efficient for solving, but it is very natural;
-     so perhaps it should always be provided.
+     so perhaps it should always be provided:
+     - Likely "vals" for la-reduction should be the measure mu0 (so
+       that it is zero when the problem has been solved).
+     - "mu" for wdL is naturally as given by the weights (generalising
+       mu0).
+     - For newvars possibly mu then is muld; but we always want it?
    - We want to have as global variable the number of open total
      assignments -- this can be used as a good achievement-measure
      also for unsatisfiable instances.
@@ -141,8 +146,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.1",
-        "18.6.2022",
+        "0.13.2",
+        "19.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -227,7 +232,6 @@ namespace {
                     "tr", "qelvals", "qprunes"});
     res.S1.out(out, {"mu", "w", "ltau",
                    "mind", "meand", "maxd", "sdd", "dp", "tb"});
-    out.flush();
     FloatingPoint::undo(out, state);
   }
 
@@ -338,6 +342,7 @@ int main(const int argc, const char* const argv[]) {
                   rs(std::cout, res);
                   if (with_file_output)
                     Environment::out_line(*out, res.b.list_sol, "\n");
+                  std::cout.flush();
                 }
           }
         }
