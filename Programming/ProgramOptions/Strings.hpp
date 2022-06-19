@@ -44,6 +44,7 @@ License, or any later version. */
 
     File access:
     - get_content(std::istream), get_content(std:filesystem::path)
+    - string_or_cin(string)
     - get_lines(std::istream), get_lines(std:filesystem::path)
 
     Alphanumerical sorting of strings:
@@ -71,6 +72,9 @@ License, or any later version. */
 TODOS:
 
 1. Switch to namespace "Strings".
+    - Or possibly stay with "Environment"?
+      Possibly the functionality is (by now) quite entangled with
+      "Environment"?
 
 */
 
@@ -92,6 +96,7 @@ TODOS:
 #include <cctype>
 #include <map>
 #include <utility>
+#include <iostream>
 
 namespace Environment {
 
@@ -304,6 +309,11 @@ namespace Environment {
   }
   tokens_t get_lines(const std::filesystem::path& p) {
     return split(get_content(p), '\n');
+  }
+  // Returns "true" if read from std::cin:
+  std::pair<std::string,bool> cin_or_string(std::string s) {
+    if (s=="cin") return {get_content(std::cin),true};
+    else return {s,false};
   }
 
 
