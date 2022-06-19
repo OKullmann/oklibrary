@@ -146,7 +146,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.2",
+        "0.13.3",
         "19.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -187,14 +187,17 @@ namespace {
       "   - variables  : " << Environment::WRPO<EXW>{} << "\n" <<
       " - stop-type    : " << Environment::WRPO<LRST>{} << "\n\n" <<
       "Here\n"
-      "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
+      "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
-      "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "    - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - weights are patterns, with the last entry used for filling (thus"
       " the tail is always constant)\n"
+      "    - the default for weights (empty string) is \"all specials\"\n"
+      "    - for string \"cin\", the weights are read from standard-input,"
+      " space-separated)\n"
       "  - stop-values are unsigned int; times in seconds\n"
-      "  - pairs of stop-types/values are separated by \"|\"\n"
+      "    - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;
