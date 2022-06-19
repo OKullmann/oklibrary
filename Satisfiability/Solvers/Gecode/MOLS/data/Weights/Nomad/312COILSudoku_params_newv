@@ -1,0 +1,8 @@
+DIMENSION               6
+BB_EXE                  312COILSudoku_newv
+BB_OUTPUT_TYPE          OBJ
+X0                      ( 0 0 -2 -4 0 0 )
+LOWER_BOUND             (-0.9 -9 -9 -9 -9 -9)
+UPPER_BOUND             (0.9 9 9 9 9 9)
+MAX_BB_EVAL             1000
+NB_THREADS_OPENMP       6

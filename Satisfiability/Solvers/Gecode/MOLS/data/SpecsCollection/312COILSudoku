@@ -76,6 +76,22 @@
 #   298.000     3.000     0.032     11.000     15.000     15.000      0.000     0.000     0.036
 #   504.000     5.000     0.077     34.000     40.667     70.000     24.088     6.000     0.141
 #    35.433     0.499     0.007      6.143      4.496      7.865      4.165     0.995     0.011
+# Optimisation with Nomad yields a good improvement:
+# time ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu wdL "" "" 1 6 "3.01, 0.01, 0.01, 3.1, 0.1" ""
+#   weights: 3.01 0.0099999999999999999998 0.0099999999999999999998 3.0999999999999999999 0.1 -> 0 0 1 8.0556444004537504705 8.1116758383202331095 8.1680970056575459975 70.034796880687329987 75.061436750840243422
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu  wdL   asc  relpr   1       48       8.834      79348      456     1094     6  0      638      456     182
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   501.472      8.475     12.901      66.966     187.367      275.406     1.376     0.075     0.036     0.025     0.115
+#   410.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.004     0.000
+#   693.000     46.000     72.000     415.000     630.000     1400.000     4.000     2.000     0.187     0.131     0.994
+#    41.376      8.251     11.286      99.289     210.674      326.972     0.574     0.308     0.042     0.021     0.153
+#         mu         w      ltau       mind      meand        maxd        sdd        dp        tb
+#    944.747     3.500     0.034     23.646     48.983      73.066       -nan     3.544     0.063
+#    894.000     3.000     0.018      8.504     17.070      17.070      0.024     0.000     0.032
+#   1029.000     5.000     0.094     40.009     95.173     173.372     61.354     5.000     0.108
+#     28.742     0.512     0.013      6.966     22.432      40.767       -nan     1.028     0.014
+# real	0m1.732s user	0m8.843s sys	0m0.069s
 
 
 
@@ -128,10 +144,30 @@
 #   520.000     2.000     0.071     2.203      2.203      2.203      0.000     0.000     0.052
 #   651.000     5.000     0.731     5.344     21.469     32.438     12.627     4.000     0.094
 #    24.273     0.552     0.078     0.693      3.776      6.858      3.070     0.837     0.007
+# Finally optimising on domain-size 1:
+# MOLS> ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu newv "" "" 1 6 "a, 0, -2, -4, 0" "nds,478"
+# a = -0.5 is best:
+# MOLS> ./laMols 7 data/SpecsCollection/312COILSudoku "" count dom enu newv "" "" 1 6 "-0.5, 0, -2, -4, 0" ""
+#   weights: -0.5 0 -2 -4 0 0 -> 0 -0.5 1 0.25 0.015625 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1       48       6.301      45917      292      738     6  0      446      292     154
+#      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   534.643     13.659     19.146      82.489     237.908      400.599     1.460     0.108     0.010     0.036     0.118
+#   413.000      1.000      2.000       0.000       0.000        2.000     1.000     0.000     0.000     0.004     0.000
+#   693.000     57.000     76.000     376.000     630.000     1644.000     4.000     2.000     0.097     0.141     0.399
+#    34.529     10.462     14.724     105.829     215.581      360.405     0.605     0.364     0.011     0.028     0.125
+#        mu         w      ltau      mind      meand       maxd       sdd        dp        tb
+#   552.403     2.890     0.255     2.998      4.742      6.328     1.459     3.097     0.013
+#   520.000     2.000     0.117     2.078      2.203      2.203     0.000     0.000     0.011
+#   651.000     5.000     0.731     4.285     12.969     18.938     7.574     4.000     0.094
+#    22.509     0.882     0.108     0.526      2.426      4.193     1.910     0.790     0.011
+# This parameter-tuple is also obtained by Nomad in 100 rounds, when started
+# with (0, 0, -2, -4, 0, 0).
+
 
 # N=8:
 
-# The scheme from 312COIL:
+# The original scheme from 312COIL:
 # MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -2, -5, -5, 0, 0" "nds,20000"
 # Optimising this scheme one variable at a time (one round):
 # MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" count dom enu newv ddesc "" 1 12 "0, 0, -1, -2, -6, 0, 0"  "nds,20000"
@@ -185,6 +221,7 @@
 # Optimising position 1:
 # MOLS> ./laMols 8 data/SpecsCollection/312COILSudoku "" +count dom enu newv ddesc "" 1 12 "a, 0, 0, -2, -6, 0" "nds,177523"
 # Clear best performance for a=0 (the only run which solved the problem).
+# The best weights for N=8 ("-0.5, 0, -2, -4, 0") directly applied yield nds=671425.
 
 # N=9:
 
