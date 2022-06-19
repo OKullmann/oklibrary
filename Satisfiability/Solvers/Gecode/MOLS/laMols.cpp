@@ -146,7 +146,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.3",
+        "0.13.4",
         "19.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -168,9 +168,10 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branch-type"
-      " distance branch-order la-type gcd threads weights"
-      " (stop-type,stop-value)*\n\n"
+      " has " << commandline_args << " command-line arguments:\n"
+      " N  file_cond  file_ps  run-type\n"
+      "   prop-level  branch-type  distance  branch-order  la-type  gcd\n"
+      "   threads  weights  (stop-type,stop-value)*\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -195,7 +196,7 @@ namespace {
       " the tail is always constant)\n"
       "    - the default for weights (empty string) is \"all specials\"\n"
       "    - for string \"cin\", the weights are read from standard-input,"
-      " space-separated)\n"
+      " space-separated\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "    - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
