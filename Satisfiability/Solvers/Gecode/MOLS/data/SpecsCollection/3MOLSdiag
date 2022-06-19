@@ -9,13 +9,28 @@
 # QUESTION: at least some elementary symmetry-breaking is needed to
 # break the symmetries between the 3! = 6 order of A, B, C.
 
+
+
 # gcMols:
-# MOLS> ./gcMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu mindom asc 1 12
-#     N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
-#     7   +count dom enu    mindom  asc    1             192     64.179    160405765      589058     1143000     23
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu mindom asc 1 12 ""
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   7    count dom enu    mindom  asc    1         192      61.207     160405765      589058     1143000     22  0
+
+# N=8:
+
+# MOLS> ./gcMols 8 data/SpecsCollection/3MOLSdiag "" count dom - - - 1 12 "t,60"
+# no satisfying assignment found; allowing roughly 10x more nodes:
+# MOLS> ./gcMols 8 data/SpecsCollection/3MOLSdiag "" count dom - - - 1 16 "gnds,100000000" > AUS_gc_--- &
+# server 33441 XXX
 
 
 # rlaMols:
+
+# N=7:
+
 # MOLS> ./rlaMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu mindom asc relpr 1 12
 #     N       rt  pl  bt        bv   bo    lar  gcd            satc          t        ppc      flvs      gnds    gd      larc       lvs
 #     7   +count dom enu    mindom  asc  relpr    1             192   2265.405    1909619     10913     32128    12     21215     10913
@@ -24,6 +39,140 @@
 #     887.000       0.000       0.000       0.000        0.000        2.000      1.000     0.000     0.000     0.000     0.000
 #    1518.000     130.000     169.000     704.000     1476.000     9947.000     10.000     1.000     8.658     0.133     0.708
 #      45.785      23.227      31.798      94.504      530.738     1052.333      0.904     0.095     0.852     0.026     0.042
+# MOLS> ./rlaMols 7 data/SpecsCollection/3MOLSdiag "" count dom - - - relpr 1 16 nds,25000 > AUS_rla_--- &
+# indeed mindom with bin or enu is best.
+
+# N=8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu mindom - relpr 1 16 nds,100000 > AUS_rla8 &
+# no solution found.
+# MOLS> ./rlaMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu mindom - relpr 1 16 nds,2000000 > AUS_rla8 &
+# server 34433 XXX
+
+
+
+# laMols with wdL:
+
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu wdL "" relpr 1 12 "" ""
+# Hardly any difference between A and L:
+#   weights: A -> 0 0 1 2 3 4 5 6
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7   +count dom enu  wdL   asc  relpr   1      192    5369.911    9464822    33324    84833    13  0    51509    33324   18185
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1171.586      23.048      31.753      52.344      478.828     1063.278     1.614     0.004     0.865     0.027     0.038
+#    741.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1518.000     152.000     191.000     580.000     1476.000     8843.000     9.000     1.000     8.180     0.154     0.333
+#     79.746      24.869      32.721      64.885      521.490     1057.282     0.856     0.061     0.876     0.027     0.024
+#         mu         w      ltau        mind       meand        maxd         sdd         dp        tb
+#    937.589     2.832     0.023      28.282      58.410      86.364      25.323      8.355     0.883
+#    738.000     2.000     0.007       4.000      17.500      18.000       0.000      0.000     0.285
+#   1224.000     6.000     0.060     101.000     267.667     478.000     182.220     12.000     1.581
+#     49.272     0.617     0.009      12.461      29.511      59.308      26.989      1.270     0.156
+
+
+
+# laMols with newv:
+
+# N=7:
+
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu newv "" relpr 1 12 "" ""
+# Best is "O":
+#   weights: O -> 0 0 1 1 1 1 1 1
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7   +count dom enu newv   asc  relpr   1      192    5204.794    8738424    30356    77868    13  0    47512    30356   17156
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
+#   1175.042      25.052      34.234      55.171      490.435     1126.116     1.654     0.004     0.909     0.029     0.037
+#    754.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000     0.000     0.000     0.000
+#   1518.000     158.000     196.000     716.000     1476.000     7723.000     9.000     1.000     7.445     0.160     0.286
+#     79.437      25.972      34.218      66.526      522.088     1071.774     0.872     0.063     0.889     0.029     0.023
+#         mu         w      ltau        mind       meand        maxd        sdd         dp        tb
+#   1232.027     2.769     0.028      25.599      44.648      62.889     16.483      8.292     0.882
+#   1046.000     2.000     0.007       5.000      16.000      16.000      0.000      0.000     0.220
+#   1518.000     5.000     0.078     101.000     124.667     225.000     96.500     12.000     1.492
+#     50.073     0.569     0.012      10.412      19.001      37.177     17.129      1.258     0.191
+# Optimisation for blocks of size 1:
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 "0,a,0" "nds,47512" > AUS_0a0 &
+# a=8 yields a small improvement:
+#   weights: 0 8 0 0 0 0 -> 0 0 256 256 256 256 256 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      192    6170.261    8679821    29947    76930    13  0    46983    29947   17036
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   1174.264      25.285      34.400      55.016      492.144     1137.854     1.662     0.004      1.301     0.029     0.037
+#    745.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
+#   1518.000     158.000     196.000     716.000     1476.000     8965.000     9.000     1.000     15.214     0.160     0.286
+#     80.198      26.210      34.422      66.266      522.132     1076.887     0.877     0.064      1.327     0.029     0.023
+#         mu         w      ltau          mind         meand          maxd           sdd         dp        tb
+#   1231.708     2.758     0.000      6000.057     10315.876     14426.302      3727.219      8.302     1.210
+#   1046.000     2.000     0.000      1025.000      3841.000      3841.000         0.000      0.000     0.274
+#   1518.000     5.000     0.000     22796.000     28089.667     47145.000     20751.500     12.000     2.675
+#     50.485     0.557     0.000      2411.712      4285.366      8349.982      3863.200      1.263     0.392
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 "0,0,a,0" "nds,47512" > AUS_00a0 &
+# a=-6 yields an improvement
+#   weights: 0 0 -6 0 0 0 -> 0 0 1 0.015625 0.015625 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      192    6149.301    6950979    25528    68841    13  0    43313    25528   17785
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   1184.024      27.878      37.048      66.141      558.446     1323.468     1.770     0.004      1.039     0.031     0.042
+#    749.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
+#   1518.000     154.000     201.000     799.000     1476.000     9175.000     9.000     1.000     17.591     0.164     0.286
+#     79.160      27.879      36.617      73.755      524.385     1109.735     0.934     0.066      1.122     0.031     0.023
+#         mu         w      ltau       mind      meand       maxd        sdd         dp        tb
+#   1232.848     2.435     0.126      5.343      8.693     11.972      3.023      8.411     0.853
+#   1034.000     2.000     0.036      1.094      1.262      1.281      0.000      0.000     0.106
+#   1518.000     5.000     1.099     16.453     33.917     69.484     28.623     13.000     3.110
+#     53.564     0.675     0.066      2.335      4.508      8.428      3.797      1.357     0.432
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,0,a,0 nds,43313 > AUS_000a0 &
+# a=-9 best (reached satc=192, but was stopped).
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,0,0,a,0 nds,43313 > AUS_0000a0 &
+# a=-6 best:
+#   weights: 0 0 0 0 -6 0 -> 0 0 1 1 1 0.015625 0.015625 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      192    4337.963    3525135    14972    40375    14  0    25403    14972   10431
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   1214.105      25.670      35.151      82.813      581.202     1333.801     1.777     0.008      1.918     0.029     0.057
+#    872.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
+#   1518.000     136.000     186.000     864.000     1476.000     7924.000     8.000     1.000     14.983     0.148     0.482
+#     70.879      23.852      32.281      87.746      531.335     1095.761     0.906     0.087      1.634     0.027     0.036
+#         mu         w      ltau       mind       meand        maxd        sdd         dp        tb
+#   1257.612     2.435     0.039     17.235      25.956      33.802      7.578      8.049     1.631
+#   1086.000     2.000     0.014      3.000      11.098      11.469      0.000      0.000     0.548
+#   1518.000     4.000     0.125     53.156     109.521     171.234     72.973     12.000     2.520
+#     51.512     0.523     0.012      6.693      10.455      19.477      9.044      1.384     0.314
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,0,0,0,a nds,43313 > AUS_00000a0 &
+# all results very similar (close to 180, all stopped).
+# Optimising on the best two parameters:
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,a,0,-6,0 nds,25403 > AUS_00a0-60 &
+# best a=8:
+#   weights: 0 0 8 0 -6 0 -> 0 0 1 256 256 4 4 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7    count dom enu newv   asc  relpr   1      192    2174.445    1878286     8872    23081    12  0    14209     8872    5337
+#       vals       props      elvals      prunes       mprune       probes    rounds      solc         tr   qelvals   qprunes
+#   1249.732      27.643      37.946     112.528      579.254     1293.507     1.749     0.014      1.368     0.031     0.094
+#   1082.000       0.000       0.000       0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
+#   1518.000     124.000     167.000     847.000     1476.000     6475.000     7.000     2.000     11.631     0.131     1.833
+#     67.577      23.753      31.710     113.444      531.980     1086.963     0.918     0.142      1.416     0.025     0.091
+#         mu         w      ltau         mind         meand          maxd          sdd         dp        tb
+#   1294.706     2.662     0.000     3206.620      4138.635      4989.661      787.788      7.316     1.224
+#   1187.000     2.000     0.000      786.000      1812.500      2060.000        0.000      0.000     0.240
+#   1518.000     4.000     0.001     7428.000     11888.500     16425.000     4542.877     11.000     2.998
+#     58.708     0.583     0.000      911.972      1289.268      2226.121      976.729      1.439     0.618
+# Optimising on the neighbour of the best parameter:
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,0,a,-6,0 nds,25403 > AUS_000a-60 &
+# only a=0 not aborted, so no progress here.
+# Optimising again this parameter, this time as the "middle parameter":
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,8,a,-6,0 nds,14209 > AUS_008a-60 &
+# only a=0 not aborted. Finally optimising the special parameter:
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 a,0,8,0,-6,0 nds,14209 > AUS_a080-60 &
+# no influence for a <= 0.2, and for a >= 0.3 some small impairment.
+# So the result here is "0,0,8,0,-6,0".
+
+# N=8:
+
+# Using the weights from N=7:
+
+# MOLS> ./laMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,8,0,-6,0 nds,200000 > AUS8_0080-60 &
+# server 34605 XXX
+
 
 
 squares A B C AB AC BC
@@ -34,4 +183,3 @@ antidiag A B C
 rprod B AB A
 rprod C AC A
 rprod C BC B
-
