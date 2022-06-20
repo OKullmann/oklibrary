@@ -48,8 +48,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.11",
-        "15.6.2022",
+        "0.1.12",
+        "20.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
@@ -85,7 +85,7 @@ int main(const int argc, const char* const argv[]) {
    for (size_t n = 1; n <= 3; ++n)
      for (size_t dom = 1; dom <= 3; ++dom) {
        const GcIntVarArray V(n, dom);
-       assert(wsumdomsizes(V, &w) == n * w[dom]);
+       assert(wnumvars(V, &w) == n * w[dom]);
      }
   }
 

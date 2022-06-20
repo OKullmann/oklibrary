@@ -570,7 +570,7 @@ namespace LookaheadBranching {
     return d(V,nV);
   }
 
-  float_t wsumdomsizes(const GC::IntVarArray& V,
+  float_t wnumvars(const GC::IntVarArray& V,
                        const OP::weights_t* const w) noexcept {
     float_t sum = 0;
     for (int v = 0; v < V.size(); ++v) {
@@ -594,6 +594,7 @@ namespace LookaheadBranching {
     }
     return sum;
   }
+
 
   struct LaBranching : public GC::Brancher {
     const laParams P;
@@ -653,7 +654,7 @@ namespace LookaheadBranching {
       const measure_t mu = P.d != OP::DIS::wdeltaL ?
         measure_t(GV::sumdomsizes) :
         [this](const GC::IntVarArray& V){
-          return wsumdomsizes(V, weights);};
+          return wnumvars(V, weights);};
       const float_t mu0 = mu(V); stats1.set_vals(mu0);
       const distance_t d = P.d == OP::DIS::newvars ?
         distance_t(
