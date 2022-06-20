@@ -552,21 +552,21 @@ namespace LookaheadBranching {
   typedef FP::float80 muld_t;
   constexpr size_t N_muld = 100;
   static_assert(N_muld >= 10);
-  typedef std::array<muld_t, N_muld+1> given_muld_t;
-  consteval given_muld_t init_muld() noexcept {
+  typedef std::array<muld_t, N_muld+1> given_wmuld_t;
+  consteval given_wmuld_t init_wmuld() noexcept {
     static_assert(std::is_same_v<muld_t, FP::float80>);
-    given_muld_t res; res[0] = FP::minfinity;
+    given_wmuld_t res; res[0] = FP::minfinity;
     for (size_t i = 2; i <= N_muld; ++i) res[i] = FP::log2(i);
     return res;
   }
-  constexpr given_muld_t given_muld = init_muld();
-  static_assert(given_muld.size() == N_muld+1);
-  static_assert(given_muld[0] == FP::minfinity);
-  static_assert(given_muld[1] == 0); static_assert(given_muld[2] == 1);
-  static_assert(given_muld[4] == 2);
+  constexpr given_wmuld_t given_wmuld = init_wmuld();
+  static_assert(given_wmuld.size() == N_muld+1);
+  static_assert(given_wmuld[0] == FP::minfinity);
+  static_assert(given_wmuld[1] == 0); static_assert(given_wmuld[2] == 1);
+  static_assert(given_wmuld[4] == 2);
   constexpr muld_t wmuld(const size_t i) noexcept {
     static_assert(std::is_same_v<muld_t, FP::float80>);
-    return i <= N_muld ? given_muld[i] : FP::log2(i);
+    return i <= N_muld ? given_wmuld[i] : FP::log2(i);
   }
   static_assert(wmuld(0) == FP::minfinity); static_assert(wmuld(8) == 3);
 
