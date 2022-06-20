@@ -47,7 +47,22 @@
 # MOLS> ./rlaMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu mindom - relpr 1 16 nds,100000 > AUS_rla8 &
 # no solution found.
 # MOLS> ./rlaMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu mindom - relpr 1 16 nds,2000000 > AUS_rla8 &
-# server 34433 XXX
+# no solution found:
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom enu    mindom  asc  relpr    1          0  111219.148  187738232  1428508  3428524    30  1  2000016  1428514
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc          t   qelvals   qprunes
+#   1759.301       4.781      10.034      168.913      557.049      404.300     1.030     0.000      0.886     0.006     0.152
+#   1553.000       0.000       0.000        0.000        0.000        3.000     1.000     0.000      0.001     0.000     0.000
+#   2358.000     101.000     158.000     1396.000     2310.000     6509.000     5.000     0.000     14.345     0.091     0.623
+#     49.574       6.676      11.224      270.052      739.965      486.964     0.174     0.000      1.059     0.006     0.248
+#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd st      nds      lvs
+#   8    count dom enu    mindom desc  relpr    1          0   95768.017  186155241  1428506  3428522    30  1  2000016  1428511
+#       vals       props      elvals       prunes       mprune       probes    rounds      solc          t   qelvals   qprunes
+#   1759.016       5.056      10.376      168.722      559.619      410.860     1.030     0.000      0.763     0.006     0.152
+#   1454.000       0.000       0.000        0.000        0.000        2.000     1.000     0.000      0.000     0.000     0.000
+#   2358.000     109.000     164.000     1525.000     2310.000     6163.000     5.000     0.000     14.201     0.095     0.623
+#     49.982       7.204      12.025      269.702      738.831      483.626     0.175     0.000      0.904     0.007     0.247
+
 
 
 
@@ -171,7 +186,40 @@
 # Using the weights from N=7:
 
 # MOLS> ./laMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,8,0,-6,0 nds,200000 > AUS8_0080-60 &
-# server 34605 XXX
+#   weights: 0 0 8 0 -6 0 0 -> 0 0 1 256 256 4 4 4 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv   asc  relpr   1        0   88242.977   44525992   121186   321201    26  1   200015   121193   78822
+#       vals       props      elvals       prunes       mprune        probes     rounds      solc         tr   qelvals   qprunes
+#   1404.294      28.915      37.523      129.035      669.548      1689.560      1.871     0.000      5.298     0.027     0.053
+#    931.000       0.000       0.000        0.000        0.000         2.000      1.000     0.000      0.000     0.000     0.000
+#   2358.000     217.000     260.000     1432.000     2310.000     14431.000     12.000     0.000     51.211     0.162     0.350
+#    146.860      26.028      33.093      142.663      607.587      1414.203      1.008     0.000      4.743     0.023     0.040
+#         mu         w      ltau          mind         meand          maxd           sdd         dp         tb
+#   1491.496     2.540     0.000      4880.245      8694.663     12362.288      3385.041     20.311      4.390
+#   1181.000     2.000     0.000        30.000        85.000        85.000         0.000      0.000      0.190
+#   2358.000     6.000     0.021     24653.000     32499.750     48462.000     22439.500     30.000     10.335
+#    113.792     0.546     0.000      2938.250      3868.259      7151.355      3528.334      2.089      0.966
+# Trying all orders:
+# MOLS> ./laMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu newv - relpr 1 16 0,0,8,0,-6,0 nds,200000 > AUS8_0080-60-bo &
+# no satisfying assignments found; the two descending versions perform less
+# propagation; asc performs the most propagation (eliminations by la-reduction);
+# one needed to see the average tau-value.
+# Moving the block by one place:
+# MOLS> ./laMols 8 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,0,8,0,-6,0 nds,200000 > AUS8_0080-60 &
+#   weights: 0 0 0 8 0 -6 0 -> 0 0 1 1 256 256 4 4 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  8    count dom enu newv   asc  relpr   1        0   55455.400   33737449   123433   323449    30  1   200016   123436   76580
+#       vals       props      elvals       prunes       mprune        probes     rounds      solc         tr   qelvals   qprunes
+#   1718.714      19.390      27.410      100.563      815.985      1597.024      1.725     0.000      3.146     0.016     0.047
+#   1131.000       0.000       0.000        0.000        0.000         2.000      1.000     0.000      0.000     0.000     0.000
+#   2358.000     166.000     292.000     1469.000     2310.000     14995.000     10.000     0.000     37.844     0.161     0.750
+#     99.424      17.812      25.044      115.998      741.136      1502.068      0.905     0.000      3.023     0.014     0.032
+#         mu         w      ltau          mind         meand          maxd           sdd         dp        tb
+#   1773.691     2.616     0.000      3699.087      5924.472      7926.777      1902.443     17.963     3.336
+#   1326.000     2.000     0.000       259.000      1118.000      1284.000         0.000      0.000     0.222
+#   2358.000     7.000     0.001     20791.000     21983.333     26472.000     11167.000     33.000     5.556
+#     94.054     0.619     0.000      1964.957      2349.730      3735.072      1738.336      2.866     0.604
+# Less propagation, so should be worse.
 
 
 
