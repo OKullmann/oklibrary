@@ -12,14 +12,16 @@ License, or any later version. */
 #include <sstream>
 #include <vector>
 
+#include <Numerics/NumInOut.hpp>
+
 #include "Strings.hpp"
 #include "Environment.hpp"
 
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.15",
-        "28.5.2022",
+        "0.2.16",
+        "20.6.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -414,6 +416,11 @@ int main(const int argc, const char* const argv[]) {
    V = {{"", "xy"}, {"ab", "", "z"}};
    out_lines(ss, V, "999", "77");
    assert(ss.str() == "77xy999ab7777z999"); assert(not ss.bad());
+  }
+
+  {std::stringstream ss;
+   FloatingPoint::fixed_width(ss, 3);
+   assert(printsize(ss, FloatingPoint::float80(1224)) == 4+1+3);
   }
 
   {typedef std::vector<std::vector<int>> m_t;

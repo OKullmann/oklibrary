@@ -523,8 +523,9 @@ namespace Environment {
 
   // The printing-size of object x:
   template <typename X>
-  std::string::size_type printsize(std::ostream& out, const X& x) {
-    std::ostringstream ss; ss.flags(out.flags());
+  std::string::size_type printsize(const std::ostream& out, const X& x) {
+    std::ostringstream ss;
+    ss.flags(out.flags()); ss.precision(out.precision());
     ss << x;
     return ss.str().size();
   }
@@ -537,10 +538,9 @@ namespace Environment {
                      const tokens_t& header = {}) {
     if (M.empty() and header.empty()) return;
     typedef std::string::size_type size_t;
-    const size_t cols = [&M,&header]{size_t res = 0;
-      for (const auto& s : header) res = std::max(res, s.size());
+    const size_t cols = [&M,&header]{size_t res = header.size();
       for (const auto& R : M) res = std::max(res, R.size());
-                                     return res;}();
+      return res;}();
     std::vector<size_t> max_size(cols);
     for (size_t i = 0; i < header.size(); ++i)
       max_size[i] = header[i].size();
