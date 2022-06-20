@@ -105,35 +105,6 @@ namespace LookaheadBranching {
   }
 
 
-  /* Distance and measure functions
-  */
-  float_t wsumdomsizes(const GC::IntVarArray& V,
-                       const OP::weights_t* const w) noexcept {
-    float_t sum = 0;
-    for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1);
-      assert(s < w->size());
-      sum += (*w)[s];
-    }
-    return sum;
-  }
-
-  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
-                   const OP::weights_t* const w,
-                   const size_t depth) noexcept {
-    float_t sum = 0;
-    const float_t w1 = FP::exp2((*w)[1] * depth);
-    for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
-      if (sn == s) continue;
-      assert(sn < s);
-      if (sn == 1) sum += w1;
-      else { assert(sn < w->size()); sum += (*w)[sn]; }
-    }
-    return sum;
-  }
-
-
   /*
     Simulating Gecode-branching
   */
@@ -599,6 +570,30 @@ namespace LookaheadBranching {
     return d(V,nV);
   }
 
+  float_t wsumdomsizes(const GC::IntVarArray& V,
+                       const OP::weights_t* const w) noexcept {
+    float_t sum = 0;
+    for (int v = 0; v < V.size(); ++v) {
+      const size_t s = tr(V[v].size(), 1);
+      assert(s < w->size());
+      sum += (*w)[s];
+    }
+    return sum;
+  }
+  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
+                   const OP::weights_t* const w,
+                   const size_t depth) noexcept {
+    float_t sum = 0;
+    const float_t w1 = FP::exp2((*w)[1] * depth);
+    for (int v = 0; v < V.size(); ++v) {
+      const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
+      if (sn == s) continue;
+      assert(sn < s);
+      if (sn == 1) sum += w1;
+      else { assert(sn < w->size()); sum += (*w)[sn]; }
+    }
+    return sum;
+  }
 
   struct LaBranching : public GC::Brancher {
     const laParams P;
@@ -699,6 +694,7 @@ namespace LookaheadBranching {
           }
         }
       }
+
       assert(bestv >= 0);
       stats1.set_tau(opttau);
       const size_t w = optbt.size();
