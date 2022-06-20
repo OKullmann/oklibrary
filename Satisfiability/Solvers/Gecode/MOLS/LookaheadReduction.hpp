@@ -11,12 +11,32 @@ License, or any later version. */
 
   Namespace LookaheadReduction, abbreviated "LR".
 
+   - using size_t
+
+   - typedefs:
+    - float_t for float80
+    - sollist_t for a vector of solutions from GV
+    - lit_t for a pair of int
+    - assignment_t for a vector of lit_t
+    - pruning_table_t for a set of lit_t
+
+   - class ReductionStatistics for the results of one reduction
+
+   - function child_node(m, v, val): making a copy of node m,
+     and assigning there v=val (without propagation)
+   - function probe(m, v, val, stats, with_sols): probes v=val,
+     returning the statistics in stats (including satisfying
+     assignments)
+     - version probe(m, v, val, PV, stats, with_sols) updates the
+       pruning table
+
+   - function lareduction(m, rt, lar) performs la-reduction for m,
+     and returns ReductionStatistics.
+
 
 BUGS:
 
 TODOS:
-
-1. Provide documentation.
 
 */
 
@@ -56,6 +76,7 @@ namespace LookaheadReduction {
   typedef std::vector<GV::solutions_t> sollist_t;
   typedef std::pair<int, int> lit_t;
   typedef std::vector<lit_t> assignment_t;
+
 
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
@@ -135,13 +156,14 @@ namespace LookaheadReduction {
 
     bool operator ==(const ReductionStatistics&) const noexcept = default;
     // Equality without time:
-    friend bool eqwt(ReductionStatistics lhs, ReductionStatistics rhs) noexcept {
+    friend bool eqwt(ReductionStatistics lhs, ReductionStatistics rhs)
+      noexcept {
       return lhs.time(0) == rhs.time(0);
     }
   };
 
 
-  // Make a copy of a given problem and assign either var==val or var!=val:
+  // Make a copy of a given problem and assign var==val:
   template <class SPA>
   std::unique_ptr<SPA> child_node(SPA* const m,
                                        const int v, const int val) noexcept {
