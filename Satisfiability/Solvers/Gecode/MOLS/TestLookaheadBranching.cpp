@@ -48,7 +48,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.12",
+        "0.1.13",
         "20.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -79,6 +79,10 @@ int main(const int argc, const char* const argv[]) {
      for (size_t v = 0; v < n; ++v)
        for (size_t dom = 1; dom <= 3; ++dom)
          assert(tr(GcIntVarArray(n,dom)[v].size(),1) == dom);
+  }
+
+  {for (size_t b = 0, p = 1; p <= 64; ++b, p*=2)
+     assert(wmuld(p) == b);
   }
 
   {const OP::weights_t w = {0, 0, 1, 2};

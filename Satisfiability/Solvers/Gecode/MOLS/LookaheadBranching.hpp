@@ -55,6 +55,7 @@ TODOS:
 #include <algorithm>
 #include <initializer_list>
 #include <map>
+#include <array>
 
 #include <cassert>
 #include <cstdlib>
@@ -547,6 +548,27 @@ namespace LookaheadBranching {
 
   };
 
+
+  typedef FP::float80 muld_t;
+  constexpr size_t N_muld = 100;
+  static_assert(N_muld >= 10);
+  typedef std::array<muld_t, N_muld+1> given_muld_t;
+  consteval given_muld_t init_muld() noexcept {
+    static_assert(std::is_same_v<muld_t, FP::float80>);
+    given_muld_t res;
+    for (size_t i = 2; i <= N_muld; ++i) res[i] = FP::log2(i);
+    return res;
+  }
+  constexpr given_muld_t given_muld = init_muld();
+  static_assert(given_muld[0] == 0);
+  static_assert(given_muld[1] == 0);
+  static_assert(given_muld[2] == 1);
+  constexpr muld_t wmuld(const size_t i) noexcept {
+    static_assert(std::is_same_v<muld_t, FP::float80>);
+    if (i <= N_muld) return given_muld[i];
+    else return FP::log2(i);
+  }
+  static_assert(wmuld(8) == 3);
 
   typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
   typedef std::function<
