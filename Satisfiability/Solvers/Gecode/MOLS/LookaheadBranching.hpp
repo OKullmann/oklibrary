@@ -576,8 +576,7 @@ namespace LookaheadBranching {
                        const OP::weights_t* const w) noexcept {
     float_t sum = 0;
     for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1);
-      assert(s < w->size());
+      const size_t s = tr(V[v].size(), 1); assert(s < w->size());
       sum += (*w)[s];
     }
     return sum;
@@ -687,10 +686,9 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      const measure_t mu = P.d != OP::DIS::wdeltaL ?
-        measure_t(GV::sumdomsizes) :
-        [this](const GC::IntVarArray& V){
-          return wnumvars(V, weights);};
+      const measure_t mu = P.d != OP::DIS::wdeltaL ? muld :
+        measure_t([this](const GC::IntVarArray& V){
+                    return wnumvars(V, weights);});
       const float_t mu0 = mu(V); stats1.set_vals(mu0);
       const distance_t d = P.d == OP::DIS::newvars ?
         distance_t(
