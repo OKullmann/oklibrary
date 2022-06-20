@@ -356,11 +356,13 @@ namespace GenStats {
                             const GBasicStats&) noexcept = default;
 
     // Printing of S as a 4xk matrix:
-    void out(std::ostream& out, const std::vector<std::string>& header) const {
+    void out(std::ostream& out,
+             const std::vector<std::string>& header,
+             const std::string::size_type seps = 2) const {
       typedef std::vector<ovec_t> o_t;
       Environment::print2dformat(out,
                                  o_t{amean(), omin(), omax(), sd_corrected()},
-                                 2, header);
+                                 seps, header);
     }
 
   private :
