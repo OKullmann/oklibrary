@@ -171,8 +171,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.2",
-        "20.6.2022",
+        "0.14.3",
+        "21.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

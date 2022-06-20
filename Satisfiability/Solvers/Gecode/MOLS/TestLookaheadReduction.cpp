@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.5",
-        "6.6.2022",
+        "0.7.6",
+        "20.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -340,7 +340,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
    assert(s.probes() == 3*2 + 3 + 2);
-   assert(s.quotelimvals() == LR::float_t(4) / 12);
+   assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -363,8 +363,8 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
    assert(s.maxprune() == 4*2);
-   assert(s.quotelimvals() == LR::float_t(4) / 12);
-   assert(s.quotprun() == LR::float_t(2) / 9);
+   assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
+   assert(s.quotprun() == 100 * LR::float_t(2) / 9);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
               {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
@@ -386,7 +386,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
    assert(s.probes() == 3*2 + 3 + 2);
-   assert(s.quotelimvals() == LR::float_t(4) / 12);
+   assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -409,8 +409,8 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
    assert(s.maxprune() == 4*2);
-   assert(s.quotelimvals() == LR::float_t(4) / 12);
-   assert(s.quotprun() == LR::float_t(2) / 9);
+   assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
+   assert(s.quotprun() == 100 * LR::float_t(2) / 9);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
               {{{0,2,1},{2,1,0},{1,0,2}}}, {{{0,1,2},{1,2,0},{2,0,1}}},
@@ -435,7 +435,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 4);
        assert(s.elimvals() == 2*2);
        assert(s.probes() == 3 + 2);
-       assert(s.quotelimvals() == LR::float_t(4) / 12);
+       assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, {
@@ -452,7 +452,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 1);
        assert(s.elimvals() == 1);
        assert(s.probes() == 1);
-       assert(s.quotelimvals() == LR::float_t(1) / 12);
+       assert(s.quotelimvals() == 100 * LR::float_t(1) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, { {{{0,2,1},{2,1,0},{1,0,2}}} }));
@@ -466,7 +466,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 2);
        assert(s.elimvals() == 2);
        assert(s.probes() == 3);
-       assert(s.quotelimvals() == LR::float_t(2) / 12);
+       assert(s.quotelimvals() == 100 * LR::float_t(2) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, {
@@ -494,7 +494,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 38);
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
-   assert(s.quotelimvals() == LR::float_t(4) / 12);
+   assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    assert(s.sollist().empty());
   }

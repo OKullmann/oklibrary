@@ -140,8 +140,12 @@ namespace LookaheadReduction {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    float_t quotelimvals() const noexcept {return  float_t(elimvals_)/vals_;}
-    float_t quotprun() const noexcept {return float_t(prunes_)/probes_;}
+    float_t quotelimvals() const noexcept {
+      return 100 * float_t(elimvals_)/vals_;
+    }
+    float_t quotprun() const noexcept {
+      return 100 * float_t(prunes_)/probes_;
+    }
 
     static constexpr size_t num_stats = 11;
     typedef std::array<float_t, num_stats> export_t;
