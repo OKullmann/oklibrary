@@ -72,7 +72,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Let muld be the measure log_2(# total assignments).
    - This is not most efficient for solving, but it is very natural;
      so perhaps it should always be provided:
-     - Likely "vals" for la-reduction should be the measure mu0 (so
+     - DONE
+       Likely "vals" for la-reduction should be the measure mu0 (so
        that it is zero when the problem has been solved); currently it is
        "sumdomsizes".
      - "mu" for wdL is naturally as given by the weights (generalising
@@ -170,8 +171,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.4",
-        "19.6.2022",
+        "0.14.0",
+        "20.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

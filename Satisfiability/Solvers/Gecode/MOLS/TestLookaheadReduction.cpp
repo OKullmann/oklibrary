@@ -331,7 +331,7 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::rel_npr);
-   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.vals() == (27-9) - 2 - 2*2); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 1);
    assert(s.solc() == 4);
@@ -340,7 +340,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
    assert(s.probes() == 3*2 + 3 + 2);
-   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotelimvals() == LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -354,7 +354,7 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::rel_pr);
-   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.vals() == (27-9) - 2 - 2*2); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 1);
    assert(s.solc() == 4);
@@ -363,7 +363,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
    assert(s.maxprune() == 4*2);
-   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotelimvals() == LR::float_t(4) / 12);
    assert(s.quotprun() == LR::float_t(2) / 9);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -377,7 +377,7 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::eag_npr);
-   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.vals() == (27-9) - 2 - 2*2);
    assert(s.props() == 2);
    assert(s.rounds() == 2);
    assert(s.solc() == 4);
@@ -386,7 +386,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
    assert(s.probes() == 3*2 + 3 + 2);
-   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotelimvals() == LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -400,7 +400,7 @@ int main(const int argc, const char* const argv[]) {
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
        LAR::eag_pr);
-   assert(s.vals() == 27 - 2 - 2*2);
+   assert(s.vals() == (27-9) - 2 - 2*2);
    assert(s.props() == 2);
    assert(s.rounds() == 2);
    assert(s.solc() == 4);
@@ -409,7 +409,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
    assert(s.maxprune() == 4*2);
-   assert(s.quotelimvals() == LR::float_t(4) / 21);
+   assert(s.quotelimvals() == LR::float_t(4) / 12);
    assert(s.quotprun() == LR::float_t(2) / 9);
    const auto list_sol = extract(A.e.ldecode(s.sollist()));
    assert(eqp(list_sol, {
@@ -424,7 +424,7 @@ int main(const int argc, const char* const argv[]) {
      assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
      const ReductionStatistics s =
        lareduction<CS::GenericMolsNB>(m.get(), rt, LAR::rel_npr);
-     assert(s.vals() == 27 - 2 - 2*2);
+     assert(s.vals() == (27-9) - 2 - 2*2);
      assert(s.rounds() == 1);
      assert(s.prunes() == 0);
      assert(s.maxprune() == 0);
@@ -435,7 +435,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 4);
        assert(s.elimvals() == 2*2);
        assert(s.probes() == 3 + 2);
-       assert(s.quotelimvals() == LR::float_t(4) / 21);
+       assert(s.quotelimvals() == LR::float_t(4) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, {
@@ -452,7 +452,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 1);
        assert(s.elimvals() == 1);
        assert(s.probes() == 1);
-       assert(s.quotelimvals() == LR::float_t(1) / 21);
+       assert(s.quotelimvals() == LR::float_t(1) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, { {{{0,2,1},{2,1,0},{1,0,2}}} }));
@@ -466,7 +466,7 @@ int main(const int argc, const char* const argv[]) {
        assert(s.solc() == 2);
        assert(s.elimvals() == 2);
        assert(s.probes() == 3);
-       assert(s.quotelimvals() == LR::float_t(2) / 21);
+       assert(s.quotelimvals() == LR::float_t(2) / 12);
        if (with_solutions(rt)) {
         const auto list_sol = extract(A.e.ldecode(s.sollist()));
         assert(eqp(list_sol, {
@@ -485,7 +485,7 @@ int main(const int argc, const char* const argv[]) {
    assert(sumdomsizes(m->V) == 64 - 3*6 - 2*8 - 2*1);
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, LAR::eag_npr);
-   assert(s.vals() == 64 - 3*6 - 2*8 - 2*1);
+   assert(s.vals() == (64-16) - 3*6 - 2*8 - 2*1); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 3);
    assert(s.solc() == 0);
@@ -494,7 +494,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.probes() == 38);
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
-   assert(s.quotelimvals() == LR::float_t(4) / 28);
+   assert(s.quotelimvals() == LR::float_t(4) / 12);
    assert(s.quotprun() == 0);
    assert(s.sollist().empty());
   }

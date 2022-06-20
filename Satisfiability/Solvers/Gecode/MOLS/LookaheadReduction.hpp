@@ -98,7 +98,7 @@ namespace LookaheadReduction {
   public:
 
     explicit ReductionStatistics(const GC::IntVarArray& x) noexcept :
-      vals_(GV::sumdomsizes(x)) { assert(vals_ > 0); }
+    vals_(GV::sumdomsizes(x)-x.size()) { assert(vals_ > 0); }
     explicit ReductionStatistics(const size_t vals) : vals_(vals) {
       assert(vals_ > 0);
     }

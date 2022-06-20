@@ -148,7 +148,7 @@ namespace Cases {
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       const size_t ev = e.ps.elimvals();
       assert(vals >= ev);
-      LR::ReductionStatistics s(vals - ev);
+      LR::ReductionStatistics s(vals - (ev + n));
       const size_t probes = ev==0 ? vals : vals - ev - 1;
       s.inc_rounds();
       for (size_t i = 0; i < probes; ++i) s.inc_probes();
@@ -198,7 +198,7 @@ namespace Cases {
     // Maximal size of pruning-set is N*N*N as well.
     LR::ReductionStatistics laredstats(const OP::LAR lar,
       const OP::RT rt) const noexcept {
-      LR::ReductionStatistics s(vals);
+      LR::ReductionStatistics s(vals - n);
       s.inc_rounds();
       if (N > 2) {
         for (size_t i = 0; i < vals; ++i) s.inc_probes();
