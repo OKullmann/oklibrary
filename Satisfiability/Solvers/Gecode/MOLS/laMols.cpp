@@ -171,7 +171,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.1",
+        "0.14.2",
         "20.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -256,10 +256,10 @@ namespace {
         res.S.N(), res.lvs, res.S1.N()),
       widths);
     out << "\n";
-    res.S.out(out, {"vals", "props", "elvals", "prunes",
+    res.S.out(out, {"mu0", "props", "elvals", "prunes",
                     "mprune", "probes", "rounds", "solc",
                     "tr", "qelvals", "qprunes"});
-    res.S1.out(out, {"mu", "w", "ltau",
+    res.S1.out(out, {"mu1", "w", "ltau",
                    "mind", "meand", "maxd", "sdd", "dp", "tb"});
     FloatingPoint::undo(out, state);
   }
