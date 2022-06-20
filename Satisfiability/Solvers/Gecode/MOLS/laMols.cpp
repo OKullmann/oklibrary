@@ -73,10 +73,14 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - This is not most efficient for solving, but it is very natural;
      so perhaps it should always be provided:
      - Likely "vals" for la-reduction should be the measure mu0 (so
-       that it is zero when the problem has been solved).
+       that it is zero when the problem has been solved); currently it is
+       "sumdomsizes".
      - "mu" for wdL is naturally as given by the weights (generalising
        mu0).
      - For newvars possibly mu then is muld; but we always want it?
+   - muld should use its own floating-point type, which for now is
+     float80, but later could be of higher precision.
+     The computation of muld thus needs to be handled separately.
    - We want to have as global variable the number of open total
      assignments -- this can be used as a good achievement-measure
      also for unsatisfiable instances.
@@ -94,6 +98,12 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
        above ota-formula "exp2(muld)" for each child, except for the case
        that we found a leaf, where then "exp2(muld) = 0", that is, only
        the subtraction takes place.
+   - All distances compute pairs (distance, Delta muld).
+     After the reduction, exp2(muld) is subtracted, and after the
+     branching has been computed, for each branch exp2(newmuld)
+     is added.
+   - The node itself maintains muld (like depth): the commit updates
+     this value (subtracting Delta muld).
    - Perhaps what is reported is log2(ota) (the smaller this number,
      the more work has been done).
      One likely needs to output this number with full precision.
@@ -123,6 +133,20 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    and failed leaves.
 
 4. Should the reporting of ltau use engineering notation?
+   - Otherwise it is often just "0.000".
+    - Currently there is no mechanism to have a special output for
+      one of the numbers.
+    - Perhaps if the number is smaller than 0.1, but bigger than zero,
+      then output is automatically switched by using
+      FloatingPoint::WrapE<float80>.
+    - But having changing formats is perhaps too confusing.
+    - So perhaps a map can be given, from subsets of indices to a function
+      for outputting the corresponding entries.
+   - It should also be standardised in some way.
+    - So that we can optimise the distance by optimising the average ltau.
+   - Possibly qelvals should be given in %, i.e., multiplied by 100.
+    - Possibly same with qprunes.
+    - The multiplication by 100 should happen at "input" of the data.
 
 */
 
