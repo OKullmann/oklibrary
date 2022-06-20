@@ -571,6 +571,30 @@ namespace LookaheadBranching {
   static_assert(wmuld(0) == FP::minfinity); static_assert(wmuld(8) == 3);
 
   typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
+
+  float_t wnumvars(const GC::IntVarArray& V,
+                       const OP::weights_t* const w) noexcept {
+    float_t sum = 0;
+    for (int v = 0; v < V.size(); ++v) {
+      const size_t s = tr(V[v].size(), 1);
+      assert(s < w->size());
+      sum += (*w)[s];
+    }
+    return sum;
+  }
+  float_t muap(const GC::IntVarArray& V) noexcept {
+    const int size = V.size();
+    float_t sum = - float_t(size);
+    for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1);
+    return sum;
+  }
+  float_t muld(const GC::IntVarArray& V) noexcept {
+    const int size = V.size();
+    float_t sum = 0;
+    for (int v = 0; v < size; ++v) sum += wmuld(tr(V[v].size(), 1));
+    return sum;
+  }
+
   typedef std::function<
     float_t(const GC::IntVarArray&,const GC::IntVarArray&)> distance_t;
 
@@ -592,16 +616,6 @@ namespace LookaheadBranching {
     return d(V,nV);
   }
 
-  float_t wnumvars(const GC::IntVarArray& V,
-                       const OP::weights_t* const w) noexcept {
-    float_t sum = 0;
-    for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1);
-      assert(s < w->size());
-      sum += (*w)[s];
-    }
-    return sum;
-  }
   float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
                    const OP::weights_t* const w,
                    const size_t depth) noexcept {

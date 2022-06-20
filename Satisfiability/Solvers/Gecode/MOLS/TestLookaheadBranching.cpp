@@ -48,7 +48,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.13",
+        "0.1.14",
         "20.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
@@ -89,7 +89,10 @@ int main(const int argc, const char* const argv[]) {
    for (size_t n = 1; n <= 3; ++n)
      for (size_t dom = 1; dom <= 3; ++dom) {
        const GcIntVarArray V(n, dom);
-       assert(wnumvars(V, &w) == n * w[dom]);
+       const auto res = n * (dom-1);
+       assert(wnumvars(V, &w) == res);
+       assert(muap(V) == res);
+       assert(muld(V) == n * FP::log2(dom));
      }
   }
 
