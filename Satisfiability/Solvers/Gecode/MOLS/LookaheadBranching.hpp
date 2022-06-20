@@ -560,13 +560,13 @@ namespace LookaheadBranching {
     return res;
   }
   constexpr given_muld_t given_muld = init_muld();
+  static_assert(given_muld.size() == N_muld+1);
   static_assert(given_muld[0] == FP::minfinity);
   static_assert(given_muld[1] == 0); static_assert(given_muld[2] == 1);
   static_assert(given_muld[4] == 2);
   constexpr muld_t wmuld(const size_t i) noexcept {
     static_assert(std::is_same_v<muld_t, FP::float80>);
-    if (i <= N_muld) return given_muld[i];
-    else return FP::log2(i);
+    return i <= N_muld ? given_muld[i] : FP::log2(i);
   }
   static_assert(wmuld(0) == FP::minfinity); static_assert(wmuld(8) == 3);
 
