@@ -13,23 +13,21 @@ License, or any later version. */
 TODOS:
 
 1. Provide depth-etc-facilities
-    - This can be done by providing a derived class from GenericMols0,
+    - DONE This can be done by providing a derived class from GenericMols0,
       which has a parameter "depth" (etc.) in it, and which the (pseudo-)
       copy-constructor copies and updates (increment the depth etc.).
       This is GenericMols1.
-
-    - This is done so in Lookahead::Node, containing also the node-id and
+    - DONE This is done so in Lookahead::Node, containing also the node-id and
       the parent-node-it.
     - However that class doesn't use the copy-mechanism, but relies
       on manual updates in the commit-function.
       The point here seems to be that the commit-function already acts on the
       new "clone" which is the new node, while the copy-function in general
       is used for several purposes (we use it for the lookahead).
-
-    - The depth should also be a reported statistics (per node).
+    - DONE The depth should also be a reported statistics (per node).
     - Such additional node-data likely should not need a destructor, and
       should be packaged into one structure.
-    - This is NodeData: the rood has id=1, and pid=0 (NIL).
+    - DONE This is NodeData: the rood has id=1, and pid=0 (NIL).
     - Since we use Gecode-parallelism, we can not simply take the current
       node-count as id, without further interfering with parallelism.
     - The path is a valid id, which can be extended for each branch by
