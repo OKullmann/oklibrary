@@ -168,6 +168,8 @@ namespace LookaheadReduction {
     static std::vector<std::string> stats_header() noexcept {
       return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
           "solc", "tr", "pelvals"};
+      // leading "p": percentage, "q": quotient;
+      // "f" in "qfppc" for "full".
     }
 
     bool operator ==(const ReductionStatistics&) const noexcept = default;
