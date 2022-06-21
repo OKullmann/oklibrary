@@ -98,11 +98,12 @@ BUGS:
 #include "Solvers.hpp"
 #include "Options.hpp"
 #include "CommandLine.hpp"
+#include "LookaheadReduction.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.3",
+        "0.12.0",
         "21.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -118,6 +119,7 @@ namespace {
   using namespace Solvers;
   using namespace Options;
   using namespace CommandLine;
+  using namespace LookaheadReduction;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -178,9 +180,7 @@ namespace {
         res.S.N(), res.lvs),
       widths);
     out << "\n";
-    res.S.out(out, {"mu0", "props", "elvals", "prunes",
-                    "mprune", "probes", "rounds", "solc",
-                    "t", "qelvals", "qprunes"});
+    res.S.out(out, ReductionStatistics::stats_header());
     out.flush();
     FloatingPoint::undo(out, state);
   }

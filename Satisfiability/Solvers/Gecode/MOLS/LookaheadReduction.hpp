@@ -140,22 +140,34 @@ namespace LookaheadReduction {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    float_t quotelimvals() const noexcept {
-      return 100 * float_t(elimvals_)/vals_;
+    float_t quotprops() const noexcept {
+      return props_ == 0 ? 0 : float_t(elimvals_) / props_;
     }
-    float_t quotprun() const noexcept {
-      return 100 * float_t(prunes_)/probes_;
+    float_t quotprune() const noexcept {
+      return 100 * float_t(prunes_) / probes_;
+    }
+    float_t quotmaxprune() const noexcept {
+      return 100 * float_t(maxprune_) / vals_;
+    }
+    float_t quotprobes() const noexcept {
+      return 100 * float_t(probes_) / vals_;
+    }
+    float_t quotelimvals() const noexcept {
+      return 100 * float_t(elimvals_) / vals_;
     }
 
-    static constexpr size_t num_stats = 11;
+    static constexpr size_t num_stats = 9;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = vals_; res[1] = props_; res[2] = elimvals_;
-      res[3] = prunes_; res[4] = maxprune_; res[5] = probes_;
-      res[6] = rounds_; res[7] = solc_;
-      res[8] = time_; res[9] = quotelimvals(); res[10] = quotprun();
+      res[0] = vals_; res[1] = quotprops(); res[2] = quotprune();
+      res[3] = quotmaxprune(); res[4] = quotprobes(); res[5] = rounds_;
+      res[6] = solc_; res[7] = time_; res[8] = quotelimvals();
       return res;
+    }
+    static std::vector<std::string> stats_header() noexcept {
+      return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
+          "solc", "tr", "pelvals"};
     }
 
     bool operator ==(const ReductionStatistics&) const noexcept = default;

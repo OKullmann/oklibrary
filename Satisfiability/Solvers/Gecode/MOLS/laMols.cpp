@@ -167,11 +167,12 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 #include "Solvers.hpp"
 #include "Options.hpp"
 #include "CommandLine.hpp"
+#include "LookaheadReduction.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.3",
+        "0.15.0",
         "21.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -187,6 +188,7 @@ namespace {
   using namespace Solvers;
   using namespace Options;
   using namespace CommandLine;
+  using namespace LookaheadReduction;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -256,9 +258,7 @@ namespace {
         res.S.N(), res.lvs, res.S1.N()),
       widths);
     out << "\n";
-    res.S.out(out, {"mu0", "props", "elvals", "prunes",
-                    "mprune", "probes", "rounds", "solc",
-                    "tr", "qelvals", "qprunes"});
+    res.S.out(out, ReductionStatistics::stats_header());
     res.S1.out(out, {"mu1", "w", "ltau",
                    "mind", "meand", "maxd", "sdd", "dp", "tb"});
     FloatingPoint::undo(out, state);
