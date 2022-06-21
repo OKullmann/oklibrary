@@ -29,7 +29,8 @@
 # N=10:
 
 # ./gcMols 10 data/SpecsCollection/312COIL/Sudoku "" count dom bin mindom asc 1 16 "t,100000" > 312COILSudoku_gc10 &
-# server 34388 XXX
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#  10    count dom bin    mindom  asc    1           0 1533095.111 4411773969812  9185834162 18371668560     36  1
 
 
 
