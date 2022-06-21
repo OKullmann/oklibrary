@@ -581,17 +581,30 @@ namespace LookaheadBranching {
     }
     return sum;
   }
-  float_t muap(const GC::IntVarArray& V) noexcept {
-    const int size = V.size();
-    float_t sum = - float_t(size);
+  float_t muap(const GC::IntVarArray& V) noexcept { // mu0
+    const int size = V.size(); float_t sum = - float_t(size);
     for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1);
     return sum;
   }
-  float_t muld(const GC::IntVarArray& V) noexcept {
-    const int size = V.size();
-    float_t sum = 0;
+  float_t muld(const GC::IntVarArray& V) noexcept { // mu1
+    const int size = V.size(); float_t sum = 0;
     for (int v = 0; v < size; ++v) sum += wmuld(tr(V[v].size(), 1));
     return sum;
+  }
+  float_t mumi(const GC::IntVarArray& V) noexcept { // mu2
+    const int size = V.size(); float_t sum = 0;
+    for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1) > 1;
+    return sum;
+  }
+  typedef std::array<float_t, 3> canonical_measures_t;
+  canonical_measures_t muall(const GC::IntVarArray& V) noexcept { // mu0-2
+    const int size = V.size(); canonical_measures_t res;
+    res[0] = - float_t(size);
+    for (int v = 0; v < size; ++v) {
+      const auto ds = tr(V[v].size(), 1);
+      res[0] += ds; res[1] += wmuld(ds); res[2] += ds > 1;
+    }
+    return res;
   }
 
   typedef std::function<
