@@ -281,7 +281,8 @@ namespace LookaheadBranching {
   };
 
   struct rlaStats {
-    typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats_t;
+    typedef GenStats::GStdStats<LR::ReductionStatistics::num_stats> stats0_t;
+    typedef std::array<stats0_t, 2> stats_t;
     typedef LR::sollist_t sollist_t;
 
     typedef ListStoppingData::list_t st_t;
@@ -290,7 +291,7 @@ namespace LookaheadBranching {
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
              const ListStoppingData& st) noexcept :
-      st(st.list()), sol_counter(0), lvs_counter(0), log(log), enc(enc) {
+      st(st.list()), sol_counter(0), log(log), enc(enc) {
       assert(not enc or log);
       abort = false;
       std::signal(SIGINT, activate_abort);
@@ -298,8 +299,12 @@ namespace LookaheadBranching {
     rlaStats(const rlaStats&) = delete;
 
     size_t sol_count() const noexcept { return sol_counter; }
-    size_t lvs() const noexcept { return lvs_counter; }
+    size_t inds() const noexcept { return S[0].N(); }
+    size_t lvs() const noexcept { return S[1].N(); }
+    size_t nds() const noexcept { return S[0].N() + S[1].N(); }
+
     const stats_t& stats() const noexcept { return S; }
+
     const sollist_t& sols() const noexcept { return sols_; }
 
     static void activate_abort([[maybe_unused]]int dummy=0) noexcept {
@@ -309,11 +314,11 @@ namespace LookaheadBranching {
       for (const auto [s, val] : st)
         switch (s) {
         case OP::LRST::nds :
-          if (S.N() > val) {activate_abort(); return;} else break;
+          if (nds() > val) {activate_abort(); return;} else break;
         case OP::LRST::lvs :
-          if (lvs_counter > val) {activate_abort(); return;} else break;
+          if (lvs() > val) {activate_abort(); return;} else break;
         case OP::LRST::inds :
-          if (S.N()-lvs_counter > val) {activate_abort(); return;} else break;
+          if (inds() > val) {activate_abort(); return;} else break;
         case OP::LRST::satc :
           if (sol_counter > val) {activate_abort(); return;} else break;
         case OP::LRST::none : assert(false);
@@ -321,8 +326,7 @@ namespace LookaheadBranching {
     }
 
     void add(LR::ReductionStatistics& s) noexcept {
-      S += s.extract();
-      lvs_counter += s.leafcount();
+      S[s.leaf()] += s.extract();
       const size_t solc = s.solc();
       size_t old_sol_counter = sol_counter;
       sol_counter += solc;
@@ -360,8 +364,8 @@ namespace LookaheadBranching {
 
   private :
     sollist_t sols_;
-    stats_t S;
-    size_t sol_counter, lvs_counter;
+    stats_t S; // statistics for inner nodes (S[0]) resp. leaves (S[1])
+    size_t sol_counter;
     std::ostream* const log;
     const EC::EncCond* const enc;
   };
@@ -396,7 +400,7 @@ namespace LookaheadBranching {
         S->add(stats);
       }
       else S->add(stats);
-      if (stats.leafcount()) return new VVElim(*this, {}, {});
+      if (stats.leaf()) return new VVElim(*this, {}, {});
       const int v = GV::gcbv(s.V, P.bv);
       return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
                        std::move(stats.elims()));
@@ -597,7 +601,7 @@ namespace LookaheadBranching {
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
-      if (stats0.leafcount()) {
+      if (stats0.leaf()) {
         if (P.parallel) {
           std::lock_guard<std::mutex> lock(stats_mutex);
           S->add(stats0);

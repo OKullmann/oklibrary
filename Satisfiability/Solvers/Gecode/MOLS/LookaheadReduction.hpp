@@ -90,7 +90,7 @@ namespace LookaheadReduction {
     size_t prunes_ = 0; // number of successful prunings
     size_t maxprune_ = 0; // maximal size of pruning-set
     size_t solc_ = 0; // number of solutions found
-    size_t leafcount_ = 0; // number of leafs as a result of reduction (0 or 1)
+    bool leaf_ = false;
 
     sollist_t sollist_; // list of solutions found
     assignment_t elims_; // list of eliminations (variable != value)
@@ -109,7 +109,7 @@ namespace LookaheadReduction {
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
     void inc_solc() noexcept { ++solc_; }
-    void inc_leafcount() noexcept { assert(!leafcount_); ++leafcount_; }
+    void set_leaf() noexcept { assert(!leaf_); leaf_ = true; }
 
     size_t vals() const noexcept { return vals_; }
     size_t props() const noexcept { return props_; }
@@ -119,7 +119,7 @@ namespace LookaheadReduction {
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t solc() const noexcept { return solc_; }
-    size_t leafcount() const noexcept { return leafcount_; }
+    bool leaf() const noexcept { return leaf_; }
 
     ReductionStatistics& sollist(const GV::solutions_t x) {
       sollist_.push_back(x); return *this;
@@ -278,7 +278,7 @@ namespace LookaheadReduction {
             early_abort = status == GC::SS_SOLVED and
               (rt == OP::RT::sat_decision or rt == OP::RT::sat_solving
                or (test_unique(rt) and stats.solc() >= 2));
-            if (early_abort) { stats.inc_leafcount(); goto END; }
+            if (early_abort) { stats.set_leaf(); goto END; }
           }
         }
 
@@ -297,7 +297,7 @@ namespace LookaheadReduction {
           stats.inc_props();
           if (status != GC::SS_BRANCH) {
             assert(status==GC::SS_FAILED and elimvals.size()==values.size());
-            stats.inc_leafcount();
+            stats.set_leaf();
             goto END;
           }
           stats.maxprune(PT.size()); PT = std::move(PV);

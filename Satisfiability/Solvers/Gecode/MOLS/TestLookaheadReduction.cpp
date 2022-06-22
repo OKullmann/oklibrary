@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.7",
-        "21.6.2022",
+        "0.7.8",
+        "22.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -335,7 +335,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.props() == 2);
    assert(s.rounds() == 1);
    assert(s.solc() == 4);
-   assert(s.leafcount() == 1);
+   assert(s.leaf());
    assert(s.elimvals() == 2*2);
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
@@ -358,7 +358,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.props() == 2);
    assert(s.rounds() == 1);
    assert(s.solc() == 4);
-   assert(s.leafcount() == 1);
+   assert(s.leaf());
    assert(s.elimvals() == 2*2);
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
@@ -381,7 +381,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.props() == 2);
    assert(s.rounds() == 2);
    assert(s.solc() == 4);
-   assert(s.leafcount() == 1);
+   assert(s.leaf());
    assert(s.elimvals() == 2*2);
    assert(s.prunes() == 0);
    assert(s.maxprune() == 0);
@@ -404,7 +404,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.props() == 2);
    assert(s.rounds() == 2);
    assert(s.solc() == 4);
-   assert(s.leafcount() == 1);
+   assert(s.leaf());
    assert(s.elimvals() == 2*2);
    assert(s.probes() == 2*2 + 3 + 2);
    assert(s.prunes() == 2);
@@ -429,7 +429,7 @@ int main(const int argc, const char* const argv[]) {
      assert(s.prunes() == 0);
      assert(s.maxprune() == 0);
      assert(s.quotprune() == 0);
-     assert(s.leafcount() == 1);
+     assert(s.leaf());
      if (count_only(rt)) {
        assert(s.props() == 2);
        assert(s.solc() == 4);
@@ -489,7 +489,7 @@ int main(const int argc, const char* const argv[]) {
    assert(s.props() == 2);
    assert(s.rounds() == 3);
    assert(s.solc() == 0);
-   assert(s.leafcount() == 0);
+   assert(not s.leaf());
    assert(s.elimvals() == 4);
    assert(s.probes() == 38);
    assert(s.prunes() == 0);

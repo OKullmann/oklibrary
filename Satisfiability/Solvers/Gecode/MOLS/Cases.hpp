@@ -209,7 +209,7 @@ namespace Cases {
         s.inc_elimvals();
         s.elim({0,0});
         s.inc_solc();
-        s.inc_leafcount();
+        s.set_leaf();
         if (with_solutions(rt)) s.sollist({0,1,1,0});
         if (not OP::test_sat(rt)) {
           s.inc_probes();

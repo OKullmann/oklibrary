@@ -173,8 +173,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.0",
-        "21.6.2022",
+        "0.16.0",
+        "22.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -256,10 +256,11 @@ namespace {
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
         res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth, res.stopped,
-        res.S.N(), res.lvs, res.S1.N()),
+          res.S[0].N()+res.S[1].N(), res.S[1].N(), res.S[0].N()),
       widths);
     out << "\n";
-    res.S.out(out, ReductionStatistics::stats_header());
+    res.S[0].out(out, ReductionStatistics::stats_header());
+    res.S[1].out(out, ReductionStatistics::stats_header());
     res.S1.out(out, {"mu1", "w", "ltau",
                    "mind", "meand", "maxd", "sdd", "dp", "tb"});
     FloatingPoint::undo(out, state);
