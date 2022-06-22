@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 192
+# 0, 0, 0, 0, 0, 192, >= 40
 
 # The maximal numbers k with kMOLSdiag known are
 # https://oeis.org/A328873
@@ -22,9 +22,18 @@
 # N=8:
 
 # MOLS> ./gcMols 8 data/SpecsCollection/3MOLSdiag "" count dom - - - 1 12 "t,60"
-# no satisfying assignment found; allowing roughly 10x more nodes:
+# no satisfying assignment found; allowing roughly 100x more nodes:
 # MOLS> ./gcMols 8 data/SpecsCollection/3MOLSdiag "" count dom - - - 1 16 "gnds,100000000" > AUS_gc_--- &
-# server 33441 XXX
+# exactly two runs found solutions (40 in both cases), namely first+desc, both for bin and enu:
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   8    count dom bin     first desc    1          40   73637.163  144938428209   789694330  1579388963     35  1
+#   8    count dom enu     first desc    1          40  114503.188  196853523679  1105418962  1570445546     34  1
+
+# N=9:
+
+# MOLS> ./gcMols 9 data/SpecsCollection/3MOLSdiag "" +count dom bin first desc 1 16 "t,100000" > OUT_1655862862704230604 &
+# server 43439 XXX
+
 
 
 # rlaMols:
