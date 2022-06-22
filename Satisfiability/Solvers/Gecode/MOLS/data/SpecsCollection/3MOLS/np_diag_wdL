@@ -1,5 +1,5 @@
 DIMENSION               5
-BB_EXE                  ns_basis_wdL
+BB_EXE                  ns_diag_wdL
 BB_OUTPUT_TYPE          OBJ
 X0                      ( 0.2 1.2 1.2 0.01 1.2 )
 LOWER_BOUND             * 0.01
