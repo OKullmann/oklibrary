@@ -163,9 +163,8 @@
 #  727.597  0.634  0.001   175.745   356.459   740.359      -nan   1.279  0.180
 # A bit better.
 
-
-# TODO: run Nomad-optimisation on server, perhaps with cutoff nds=60000.
 # 3MOLS> nomad np_basis_wdL XXX
+# running on server XXX next time better with "time"
 
 
 
@@ -268,6 +267,10 @@
 # MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 a,0,8,0,-6,0 nds,14209 > AUS_a080-60 &
 # no influence for a <= 0.2, and for a >= 0.3 some small impairment.
 # So the result here is "0,0,8,0,-6,0".
+
+# 3MOLS> time nomad np_basis_newv XXX
+# running on server XXX
+
 
 # N=8:
 

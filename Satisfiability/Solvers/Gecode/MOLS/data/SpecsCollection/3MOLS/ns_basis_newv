@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ../../..
+# Optimise nds:
+cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu newv "" "" 1 10 cin "" | awk 'FNR == 18 {print $16}'
