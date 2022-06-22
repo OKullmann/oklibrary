@@ -79,7 +79,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      - "mu" for wdL is naturally as given by the weights (generalising
        mu0).
      - For newvars possibly mu then is muld; but we always want it?
-   - muld should use its own floating-point type, which for now is
+   - DONE (muld_t)
+     muld should use its own floating-point type, which for now is
      float80, but later could be of higher precision.
      The computation of muld thus needs to be handled separately.
    - We want to have as global variable the number of open total
