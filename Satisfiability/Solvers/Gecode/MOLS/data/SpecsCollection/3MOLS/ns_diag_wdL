@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ../../..
 # Optimise nds:
-cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu wdL "" "" 1 10 cin "nds,25000" | awk 'FNR == 18 {print $16}'
+cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu wdL "" "" 1 10 cin "nds,25000" | awk 'FNR == 18 {print $16 " " $15}'

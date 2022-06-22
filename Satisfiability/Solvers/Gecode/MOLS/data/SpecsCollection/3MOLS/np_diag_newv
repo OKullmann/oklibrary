@@ -1,6 +1,6 @@
 DIMENSION               6
 BB_EXE                  ns_diag_newv
-BB_OUTPUT_TYPE          OBJ
+BB_OUTPUT_TYPE          OBJ EB
 X0                      ( 0 0 8 0 -6 0 )
 LOWER_BOUND             ( -0.9 -9 -9 -9 -9 -9 )
 UPPER_BOUND             ( 0.9 9 9 9 9 9 )
