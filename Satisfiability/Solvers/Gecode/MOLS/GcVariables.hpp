@@ -13,22 +13,17 @@ License, or any later version. */
 
 BUG:
 
-1. FIXED gcintarr leads to undefined behaviour:
-    - DONE The object of the returned VarVec is immediately destroyed.
-    - DONE The solution is to use implicit conversion of
-      GcIntVarArray to VarVec (so that the GcIntVarArray-
-      object is kept), and providing members of VarVec.
-    - The name "GcIntVarArray" is also inappropriate (and too
-      long).
-    - DONE "GcIntVarArray" is somewhat better.
-
 TODOS:
+
+0. Provide documentation.
 
 1. set_var, unset_var need to be tested
     - This needs status().
     - Using a different functionality, based on views, has the additional
       advantage that set_var, unset_var don't need parameter s.
     - But first proper test-cases are needed.
+
+2. Test gcbv.
 
 */
 
@@ -151,6 +146,7 @@ namespace GcVariables {
   }
 
 
+  // Determining a variable according to gc-branching-heuristic bv:
   int gcbv(const GC::IntVarArray& V, const OP::BHV bv) noexcept {
     const auto size = V.size();
     assert(size >= 1);
