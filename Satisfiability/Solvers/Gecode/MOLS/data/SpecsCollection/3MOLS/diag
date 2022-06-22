@@ -165,6 +165,7 @@
 
 
 # TODO: run Nomad-optimisation on server, perhaps with cutoff nds=60000.
+# 3MOLS> nomad np_basis_wdL XXX
 
 
 
