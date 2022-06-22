@@ -163,8 +163,9 @@
 #  727.597  0.634  0.001   175.745   356.459   740.359      -nan   1.279  0.180
 # A bit better.
 
-# 3MOLS> nomad np_basis_wdL XXX
-# running on server XXX next time better with "time"
+# 3MOLS> time nomad np_diag_wdL
+# running on server; first improvement:
+# 2 22879          0.2        1.2        1.2        0.01       1.2
 
 
 
@@ -268,7 +269,7 @@
 # no influence for a <= 0.2, and for a >= 0.3 some small impairment.
 # So the result here is "0,0,8,0,-6,0".
 
-# 3MOLS> time nomad np_basis_newv XXX
+# 3MOLS> time nomad np_diag_newv
 # running on server XXX
 
 
