@@ -6,3 +6,5 @@ LOWER_BOUND             * 0.01
 UPPER_BOUND             * 4
 MAX_BB_EVAL             300
 NB_THREADS_OPENMP       6
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                20000
