@@ -285,7 +285,7 @@ namespace LookaheadBranching {
     typedef LR::sollist_t sollist_t;
 
     typedef ListStoppingData::list_t st_t;
-    st_t st;
+    const st_t st;
     inline static std::atomic_bool abort;
 
     rlaStats(std::ostream* const log, const EC::EncCond* const enc,
