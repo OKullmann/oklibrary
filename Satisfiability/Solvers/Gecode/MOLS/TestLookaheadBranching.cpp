@@ -44,12 +44,13 @@ TODOS:
 #include "Options.hpp"
 #include "GcVariables.hpp"
 #include "Cases.hpp"
+#include "Measures.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.14",
-        "20.6.2022",
+        "0.1.15",
+        "21.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadBranching.cpp",
@@ -58,6 +59,7 @@ namespace {
   using namespace LookaheadBranching;
   using namespace GcVariables;
   using namespace Options;
+  using namespace Measures;
 
   namespace GC = Gecode;
   namespace CS = Cases;

@@ -76,6 +76,7 @@ TODOS:
 #include "Encoding.hpp"
 #include "BasicLatinSquares.hpp"
 #include "Verification.hpp"
+#include "Measures.hpp"
 
 namespace LookaheadBranching {
 
@@ -89,21 +90,15 @@ namespace LookaheadBranching {
   namespace EC = Encoding;
   namespace BS = BasicLatinSquares;
   namespace VR = Verification;
+  namespace MS = Measures;
 
   using size_t = CD::size_t;
   using values_t = GV::values_t;
+  using float_t = MS::float_t;
 
-  typedef FP::float80 float_t;
   typedef std::vector<float_t> vec_t;
 
-
-  // Converting int to size_t:
-  inline constexpr size_t tr(const int size,
-                           [[maybe_unused]] const size_t bound = 0) noexcept {
-    assert(bound <= std::numeric_limits<int>::max());
-    assert(size >= int(bound));
-    return size;
-  }
+  using MS::tr;
 
 
   /*
@@ -549,64 +544,7 @@ namespace LookaheadBranching {
   };
 
 
-  typedef FP::float80 muld_t;
-  constexpr size_t N_muld = 100;
-  static_assert(N_muld >= 10);
-  typedef std::array<muld_t, N_muld+1> given_wmuld_t;
-  consteval given_wmuld_t init_wmuld() noexcept {
-    static_assert(std::is_same_v<muld_t, FP::float80>);
-    given_wmuld_t res; res[0] = FP::minfinity;
-    for (size_t i = 2; i <= N_muld; ++i) res[i] = FP::log2(i);
-    return res;
-  }
-  constexpr given_wmuld_t given_wmuld = init_wmuld();
-  static_assert(given_wmuld.size() == N_muld+1);
-  static_assert(given_wmuld[0] == FP::minfinity);
-  static_assert(given_wmuld[1] == 0); static_assert(given_wmuld[2] == 1);
-  static_assert(given_wmuld[4] == 2);
-  constexpr muld_t wmuld(const size_t i) noexcept {
-    static_assert(std::is_same_v<muld_t, FP::float80>);
-    return i <= N_muld ? given_wmuld[i] : FP::log2(i);
-  }
-  static_assert(wmuld(0) == FP::minfinity); static_assert(wmuld(8) == 3);
-
   typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
-
-  float_t wnumvars(const GC::IntVarArray& V,
-                       const OP::weights_t* const w) noexcept {
-    float_t sum = 0;
-    for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1); assert(s < w->size());
-      sum += (*w)[s];
-    }
-    return sum;
-  }
-  float_t muap(const GC::IntVarArray& V) noexcept { // mu0
-    const int size = V.size(); float_t sum = - float_t(size);
-    for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1);
-    return sum;
-  }
-  float_t muld(const GC::IntVarArray& V) noexcept { // mu1
-    const int size = V.size(); float_t sum = 0;
-    for (int v = 0; v < size; ++v) sum += wmuld(tr(V[v].size(), 1));
-    return sum;
-  }
-  float_t mumi(const GC::IntVarArray& V) noexcept { // mu2
-    const int size = V.size(); float_t sum = 0;
-    for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1) > 1;
-    return sum;
-  }
-  typedef std::array<float_t, 3> canonical_measures_t;
-  canonical_measures_t muall(const GC::IntVarArray& V) noexcept { // mu0-2
-    const int size = V.size(); canonical_measures_t res;
-    res[0] = - float_t(size);
-    for (int v = 0; v < size; ++v) {
-      const auto ds = tr(V[v].size(), 1);
-      res[0] += ds; res[1] += wmuld(ds); res[2] += ds > 1;
-    }
-    return res;
-  }
-
   typedef std::function<
     float_t(const GC::IntVarArray&,const GC::IntVarArray&)> distance_t;
 
@@ -626,21 +564,6 @@ namespace LookaheadBranching {
     {[[maybe_unused]] const auto status = c->status();
      assert(status == GC::SS_BRANCH);}
     return d(V,nV);
-  }
-
-  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
-                   const OP::weights_t* const w,
-                   const size_t depth) noexcept {
-    float_t sum = 0;
-    const float_t w1 = FP::exp2((*w)[1] * depth);
-    for (int v = 0; v < V.size(); ++v) {
-      const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
-      if (sn == s) continue;
-      assert(sn < s);
-      if (sn == 1) sum += w1;
-      else { assert(sn < w->size()); sum += (*w)[sn]; }
-    }
-    return sum;
   }
 
 
@@ -699,14 +622,14 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       std::vector<float_t> optbt;
-      const measure_t mu = P.d != OP::DIS::wdeltaL ? muld :
+      const measure_t mu = P.d != OP::DIS::wdeltaL ? MS::muld :
         measure_t([this](const GC::IntVarArray& V){
-                    return wnumvars(V, weights);});
+                    return MS::wnumvars(V, weights);});
       const float_t mu0 = mu(V); stats1.set_vals(mu0);
       const distance_t d = P.d == OP::DIS::newvars ?
         distance_t(
         [this,depth](const GC::IntVarArray& V, const GC::IntVarArray& nV){
-          return new_vars(V, nV, weights, depth);}) :
+          return MS::new_vars(V, nV, weights, depth);}) :
         distance_t(
         [mu0,&mu](const GC::IntVarArray&, const GC::IntVarArray& nV){
           return mu0 - mu(nV);});
