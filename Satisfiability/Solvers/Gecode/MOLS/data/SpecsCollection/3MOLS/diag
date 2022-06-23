@@ -32,7 +32,9 @@
 # N=9:
 
 # MOLS> ./gcMols 9 data/SpecsCollection/3MOLSdiag "" +count dom bin first desc 1 16 "t,100000" > OUT_1655862862704230604 &
-# server 43439 XXX
+#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
+#   9   +count dom bin     first desc    1           0 1465082.292 2439494776479 10356967908 20713936171     48  1
+
 
 
 
@@ -163,9 +165,17 @@
 #  727.597  0.634  0.001   175.745   356.459   740.359      -nan   1.279  0.180
 # A bit better.
 
+# Nomad found a good improvement:
 # 3MOLS> time nomad np_diag_wdL
-# running on server; first improvement:
-# 2 22879          0.2        1.2        1.2        0.01       1.2
+# Best feasible solution:     #17014 ( 1.19 2 1.29 0.01 1.01 )    Evaluation OK    f = 21468                       h =   0
+# Blackbox evaluations:        102
+# Total model evaluations:     16909
+# Cache hits:                  5
+# Total number of evaluations: 107
+# real    333m32.379s user    6599m7.065s sys     28m25.029s
+# Rerunning with making timeouts infeasible:
+# 3MOLS> time nomad np_diag_wdL
+# running on server XXX
 
 
 
@@ -269,8 +279,18 @@
 # no influence for a <= 0.2, and for a >= 0.3 some small impairment.
 # So the result here is "0,0,8,0,-6,0".
 
+# Nomad found only a small improvement (likely to be ignored):
+# 3MOLS> time nomad np_diag_newv
+# Best feasible solution:     #8521 ( -0.76 -4.5 8.18 0.06 -7.04 -1.28 )  Evaluation OK    f = 14033  h =   0
+# Blackbox evaluations:        137
+# Total model evaluations:     19947
+# Cache hits:                  6
+# Total number of evaluations: 143
+# real    338m9.927s user    6954m0.560s sys     33m5.692s
+# Rerunning with making timeouts infeasible:
 # 3MOLS> time nomad np_diag_newv
 # running on server XXX
+
 
 
 # N=8:
