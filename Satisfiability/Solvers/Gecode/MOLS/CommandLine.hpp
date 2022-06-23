@@ -487,16 +487,17 @@ namespace CommandLine {
   };
 
 
-  WGenerator read_weights([[maybe_unused]]const int argc,
+  std::pair<WGenerator,bool> read_weights([[maybe_unused]]const int argc,
                           const char* const argv[], const int pos) {
     assert(argc >= pos+1);
     const auto [vecs, from_cin] = Environment::cin_or_string(argv[pos]);
     if (vecs.empty()) return {};
     {const auto sp = Environment::read<OP::SPW>(vecs);
-     if (sp) return {sp.value()};
+      if (sp) return {sp.value(),false};
     }
     return {FloatingPoint::to_vec_pfloat80<OP::EXW>(vecs,
-                                                    from_cin ? ' ' : ',')};
+                                                    from_cin ? ' ' : ','),
+        from_cin};
   }
 
 

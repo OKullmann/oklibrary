@@ -173,8 +173,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.0",
-        "22.6.2022",
+        "0.16.1",
+        "23.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -223,8 +223,9 @@ namespace {
       "  - weights are patterns, with the last entry used for filling (thus"
       " the tail is always constant)\n"
       "    - the default for weights (empty string) is \"all specials\"\n"
-      "    - for string \"cin\", the weights are read from standard-input,"
-      " space-separated\n"
+      "    - for input \"cin\", the weights are read from standard-input,"
+      " space-separated,\n"
+      "        and batch-mode is used (no additionaly info-output)\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "    - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
@@ -309,17 +310,26 @@ int main(const int argc, const char* const argv[]) {
 
   const double threads = read_threads(argc, argv, 11);
 
-  const WGenerator wg = read_weights(argc, argv, 12);
+  const auto [wg, batch_mode] = read_weights(argc, argv, 12);
 
   const size_t num_runs =
     mult(pov.size()*brov.size()*larv.size()*gcdv.size(),
          list_N, brtv, disv, wg);
+  if (num_runs != 1 and batch_mode) {
+    std::cerr << error << "In batch-mode the number of runs must be 1, but is "
+              << num_runs << ".\n";
+    return 1;
+  }
 
   const auto stod = read_rlast(argc, argv, 13);
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
+  if (with_file_output and batch_mode) {
+    std::cerr << error << "In batch-mode there can not be file-output.\n";
+    return 1;
+  }
   if (with_file_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
       " but is " << num_runs << ".\n";
@@ -333,17 +343,23 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   const bool with_log = Options::with_log(rt);
+  if (with_log and batch_mode) {
+    std::cerr << error << "In batch-mode there can not be log-output.\n";
+    return 1;
+  }
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
-  commandline_output(std::cout, argc, argv);
-  info_output(std::cout,
-              list_N, ac, name_ac, ps0, name_ps, rt,
-              num_runs, threads, outfile, with_file_output);
-  st_output(std::cout, stod);
-  algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
-  cd_output(std::cout, gcdv);
-  seed_output(std::cout, wg);
-  std::cout.flush();
+  if (not batch_mode) {
+    commandline_output(std::cout, argc, argv);
+    info_output(std::cout,
+                list_N, ac, name_ac, ps0, name_ps, rt,
+                num_runs, threads, outfile, with_file_output);
+    st_output(std::cout, stod);
+    algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
+    cd_output(std::cout, gcdv);
+    seed_output(std::cout, wg);
+    std::cout.flush();
+  }
 
   for (const size_t N : list_N)
     for (const PropO po : pov) {
@@ -353,7 +369,7 @@ int main(const int argc, const char* const argv[]) {
         for (const DIS dis : disv) {
           const auto wv = wg(N, brt, dis);
           for (const auto& weights0 : wv) {
-            weights_output(std::cout, weights0);
+            if (not batch_mode) weights_output(std::cout, weights0);
             const weights_t* const weights = &weights0.w;
             for (const LBRO bro : brov)
               for (const LAR lar : larv)
@@ -378,5 +394,5 @@ int main(const int argc, const char* const argv[]) {
           }
         }
     }
-  if (out) delete out;
+  delete out;
 }
