@@ -8,4 +8,4 @@ MAX_BB_EVAL             300
 NB_THREADS_OPENMP       30
 DISPLAY_ALL_EVAL        yes
 DISPLAY_STATS           BBE OBJ SOL
-MAX_TIME                2000
+MAX_TIME                10000
