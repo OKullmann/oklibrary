@@ -167,7 +167,7 @@
 
 # Nomad found a good improvement:
 # 3MOLS> time nomad np_diag_wdL
-# Best feasible solution:     #17014 ( 1.19 2 1.29 0.01 1.01 )    Evaluation OK    f = 21468                       h =   0
+# Best feasible solution:     #17014 ( 1.19 2 1.29 0.01 1.01 )    Evaluation OK    f = 21468  h =   0
 # Blackbox evaluations:        102
 # Total model evaluations:     16909
 # Cache hits:                  5
@@ -175,7 +175,13 @@
 # real    333m32.379s user    6599m7.065s sys     28m25.029s
 # Rerunning with making timeouts infeasible:
 # 3MOLS> time nomad np_diag_wdL
-# running on server XXX
+# Best feasible solution:     #7812 ( 2.01 2.2 1.31 0.02 2.03 )   Evaluation OK    f = 21481  h =   0
+# Blackbox evaluations:        114
+# Total model evaluations:     9469
+# Cache hits:                  23
+# Total number of evaluations: 137
+# real    354m23.758s user    7076m24.414s sys     28m55.434s
+# Basically the same.
 
 
 
@@ -289,7 +295,17 @@
 # real    338m9.927s user    6954m0.560s sys     33m5.692s
 # Rerunning with making timeouts infeasible:
 # 3MOLS> time nomad np_diag_newv
-# running on server XXX
+# Best feasible solution:     #12904 ( -0.9 -2 5.8 0.1 -8.99 -5 ) Evaluation OK    f = 13785  h =   0
+# Blackbox evaluations:        118
+# Total model evaluations:     11635
+# Cache hits:                  17
+# Total number of evaluations: 135
+# real    334m19.432s user    5984m10.500s sys     27m3.096s
+# Perhaps also basically the same.
+# Attempt at finding good weights by optimising the number of la-reductions
+# at inner nodes:
+# 3MOLS> nomad np_diag_7small_newv
+# XXX
 
 
 
