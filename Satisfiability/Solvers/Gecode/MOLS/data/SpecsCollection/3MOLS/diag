@@ -393,7 +393,28 @@
 # Best feasible solution:     #47245 ( -0.0574 -3.48 -4.2182 6.9965 9 4.95 )      Evaluation OK    f =   0.62600000000000000089    h =   0
 # Blackbox evaluations: 300 Total model evaluations: 48134 Cache hits: 22 Total number of evaluations: 322
 # MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" relpr 1 12 "-0.0574, -3.48, -4.2182, 6.9965, 9, 4.95" ""
-# XXX
+#   weights: -0.0574 -3.48 -4.2181999999999999999 6.9964999999999999999 9 4.9499999999999999998 -> 0 -0.0574 0.089622203000989211373 0.0048151618269028246792 0.61484727423135908581 314.80180440645585194 9730.5119771932554675 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7   +count dom enu newv   asc  relpr   1      192   41847.075   61764197   272072   679983    15  0   407911   272072  135839
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals
+# 971.053  0.891    4.920  123.600  211.053   2.148  0.000  1.623    0.765
+# 763.000  0.000    0.000  110.516  110.474   1.000  0.000  0.093    0.000
+#1224.000  4.000   16.642  128.178  966.841   9.000  0.000  8.890    9.698
+#  41.726  0.343    1.523    1.205   74.623   0.747  0.000  0.642    0.838
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals
+# 895.563  1.654    2.074   12.295    57.696   1.262  0.001  0.523    4.390
+# 505.000  1.040    0.000    0.000     0.205   1.000  0.000  0.000    0.205
+#1083.000  6.000   30.000  125.986  1032.225  10.000  1.000  9.190   21.244
+#  50.447  0.434    1.569   14.437    81.770   0.641  0.027  0.704    2.787
+#    mu1      w   ltau      mind      meand       maxd       sdd      dp     tb
+#548.552  3.003  0.000  2543.865   3718.311   4938.891      -nan   8.841  0.969
+#467.000  2.000  0.000   315.478    790.528    946.990     0.000   0.000  0.077
+#641.000  6.000  0.001  9451.743  10250.911  17038.958  5995.429  16.000  1.963
+# 16.933  0.874  0.000  1192.104   1194.213   2016.252      -nan   1.303  0.106
+# real	60m36.102s user	697m27.080s sys	5m8.465s
+# So there seems a positive correlation between pelvals (for inodes) and
+# goodness of the heuristic, but it seems not very good at finding really
+# good weights.
 
 
 # N=8:
