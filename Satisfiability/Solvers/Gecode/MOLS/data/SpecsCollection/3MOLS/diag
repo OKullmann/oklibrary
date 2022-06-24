@@ -211,6 +211,7 @@
 
 # N=8:
 # 3MOLS> nomad np_diag_8small_wdL
+# running on server XXX
 
 
 
@@ -386,11 +387,13 @@
 #641.000  5.000  0.008  4755.715  11406.817  21346.057  7885.641  12.000  1.779
 # 19.869  0.747  0.000   725.262   1179.680   2232.591      -nan   1.289  0.195
 # Even better pelvals, and a bit fewer nds than before (still pretty bad).
+# A problem might the uncontrolled spread of the tree; need to revisit this
+# approach once deterministicly the tree can be cut at leaves.
 # Now *minimising" pelvals:
 # Best feasible solution:     #47245 ( -0.0574 -3.48 -4.2182 6.9965 9 4.95 )      Evaluation OK    f =   0.62600000000000000089    h =   0
 # Blackbox evaluations: 300 Total model evaluations: 48134 Cache hits: 22 Total number of evaluations: 322
 # MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" relpr 1 12 "-0.0574, -3.48, -4.2182, 6.9965, 9, 4.95" ""
-# 
+# XXX
 
 
 # N=8:
@@ -433,6 +436,10 @@
 #     94.054     0.619     0.000      1964.957      2349.730      3735.072      1738.336      2.866     0.604
 # Less propagation, so should be worse.
 
+# Optimising the number of la-reductions
+# at inner nodes, with nds=1000:
+# 3MOLS> nomad np_diag_8small_newv
+# running on server XXX
 
 
 squares A B C AB AC BC

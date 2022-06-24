@@ -1,0 +1,5 @@
+#!/bin/bash
+boundnds=${2:-1000}
+cd ../../..
+# Maximise pelvals for inner nodes:
+cat $1 | ./laMols  8 data/SpecsCollection/3MOLS/diag "" count dom enu newv "" "" 1 2 cin "nds,${boundnds}" | awk 'FNR == 4 {print -$9}'
