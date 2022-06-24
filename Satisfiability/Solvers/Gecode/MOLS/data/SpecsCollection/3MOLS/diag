@@ -186,7 +186,31 @@
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
 # 3MOLS> nomad np_diag_7small_wdL
-# running on server XXX
+# Best feasible solution:     #18894 ( 1.02 4 0.6013 0.01 0.1621 )        Evaluation OK    f =  -1.5309999999999999165     h =   0
+# Blackbox evaluations: 296 Total model evaluations: 46532 Cache hits: 48 Total number of evaluations: 344
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "1.02, 4, 0.6013, 0.01, 0.1621" ""
+#   weights: 1.02 4 0.60130000000000000002 0.0099999999999999999998 0.1621 -> 0 0 1 2.0279189595800582774 32.446703353280932438 49.224341450520525589 49.566723821488639642 55.460933714026805896
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
+#  7   +count dom enu  wdL   asc  relpr   1      192    2159.690    2739696    11780    30209    12  0    18429    11780    6649
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals
+#1002.006  1.004    8.954  122.588  219.323   2.357  0.000  1.636    1.337
+# 867.000  0.000    0.000  114.978  107.436   1.000  0.000  0.182    0.000
+#1224.000  2.000   22.870  125.959  949.559   9.000  0.000  8.965    8.921
+#  52.324  0.308    2.973    1.342   82.472   0.835  0.000  0.764    1.212
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals
+# 904.551  1.599    7.216   14.961   68.063   1.316  0.016  0.578    5.240
+# 606.000  1.058    0.000    0.000    0.229   1.000  0.000  0.000    0.221
+#1026.000  6.000  192.857  118.582  710.256   7.000  2.000  6.628   18.076
+#  55.063  0.352    9.928   14.515   87.200   0.689  0.137  0.751    3.291
+#      mu1      w   ltau      mind     meand      maxd       sdd      dp     tb
+# 9796.638  2.772  0.002   352.446   552.544   742.891      -nan   7.431  0.939
+# 7827.000  2.000  0.001    32.447   205.194   218.835     0.000   0.000  0.220
+#12429.000  6.000  0.005  1025.578  2401.471  3860.041  1655.078  11.000  1.608
+#  618.927  0.670  0.001   125.040   240.356   478.970      -nan   1.410  0.201
+# The best weights for wdL obtained so far.
+
+# N=8:
+# 3MOLS> nomad np_diag_8small_wdL
 
 
 
@@ -363,7 +387,10 @@
 # 19.869  0.747  0.000   725.262   1179.680   2232.591      -nan   1.289  0.195
 # Even better pelvals, and a bit fewer nds than before (still pretty bad).
 # Now *minimising" pelvals:
-# running on server XXX
+# Best feasible solution:     #47245 ( -0.0574 -3.48 -4.2182 6.9965 9 4.95 )      Evaluation OK    f =   0.62600000000000000089    h =   0
+# Blackbox evaluations: 300 Total model evaluations: 48134 Cache hits: 22 Total number of evaluations: 322
+# MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" relpr 1 12 "-0.0574, -3.48, -4.2182, 6.9965, 9, 4.95" ""
+# 
 
 
 # N=8:
