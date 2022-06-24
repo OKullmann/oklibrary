@@ -174,7 +174,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.0",
+        "0.17.1",
         "24.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -238,7 +238,6 @@ namespace {
 
   constexpr size_t sep_spaces = 0;
   constexpr size_t prec = 3;
-  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 2, 8, 8, 7};
   constexpr size_t wN = 3, wgcd = 4;
 
   void rh(std::ostream& out) {
@@ -246,21 +245,14 @@ namespace {
     Environment::header_policies<RT, PropO, LBRT, DIS, LBRO, LAR>(out);
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
-    Environment::print1d(out,
-      std::make_tuple("satc", "t", "ppc", "flvs", "gnds", "gd", "st",
-                      "nds", "lvs", "inds"),
-      widths);
+    rh_genstats(out);
     out << "\n";
   }
 
   void rs(std::ostream& out, const laSR& res) {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
-    Environment::print1d(out,
-      std::make_tuple(res.b.sol_found, res.ut,
-        res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth, res.stopped,
-          res.S[0].N()+res.S[1].N(), res.S[1].N(), res.S[0].N()),
-      widths);
+    rs_genstats(out, res);
     out << "\n";
     res.S[0].out(out, ReductionStatistics::stats_header());
     res.S[1].out(out, ReductionStatistics::stats_header());
