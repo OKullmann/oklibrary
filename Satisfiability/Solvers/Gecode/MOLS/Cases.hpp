@@ -89,9 +89,9 @@ namespace Cases {
       assert(0); return GC::ExecStatus(0);
     }
   };
-  class GenericMolsNB : public CT::GenericMols0 {
+  class GenericMolsNB : public CT::GenericMols1 {
   public :
-    GenericMolsNB(const EC::EncCond& enc) : GenericMols0(enc) {
+    GenericMolsNB(const EC::EncCond& enc) : GenericMols1(enc) {
       new (*this) Void(*this);
     }
   };
@@ -148,7 +148,7 @@ namespace Cases {
     LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
       const size_t ev = e.ps.elimvals();
       assert(vals >= ev);
-      LR::ReductionStatistics s(vals - (ev + n));
+      LR::ReductionStatistics s(vals - (ev + n), 0);
       const size_t probes = ev==0 ? vals : vals - ev - 1;
       s.inc_rounds();
       for (size_t i = 0; i < probes; ++i) s.inc_probes();
@@ -198,7 +198,7 @@ namespace Cases {
     // Maximal size of pruning-set is N*N*N as well.
     LR::ReductionStatistics laredstats(const OP::LAR lar,
       const OP::RT rt) const noexcept {
-      LR::ReductionStatistics s(vals - n);
+      LR::ReductionStatistics s(vals - n, 0);
       s.inc_rounds();
       if (N > 2) {
         for (size_t i = 0; i < vals; ++i) s.inc_probes();

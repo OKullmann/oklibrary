@@ -169,12 +169,13 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 #include "Options.hpp"
 #include "CommandLine.hpp"
 #include "LookaheadReduction.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.1",
-        "23.6.2022",
+        "0.17.0",
+        "24.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -190,6 +191,7 @@ namespace {
   using namespace Options;
   using namespace CommandLine;
   using namespace LookaheadReduction;
+  using namespace LookaheadBranching;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -262,8 +264,7 @@ namespace {
     out << "\n";
     res.S[0].out(out, ReductionStatistics::stats_header());
     res.S[1].out(out, ReductionStatistics::stats_header());
-    res.S1.out(out, {"mu1", "w", "ltau",
-                   "mind", "meand", "maxd", "sdd", "dp", "tb"});
+    res.S1.out(out, BranchingStatistics::stats_header());
     FloatingPoint::undo(out, state);
   }
 

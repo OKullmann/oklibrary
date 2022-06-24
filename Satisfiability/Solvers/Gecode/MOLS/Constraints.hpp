@@ -94,6 +94,7 @@ namespace Constraints {
     NodeData nodedata() const noexcept { return nd; }
 
     void set_id(const size_t id) noexcept { nd.id = id; }
+    // To be called in commit:
     void update_clone() noexcept { nd.pid = nd.id; ++nd.depth; }
 
   protected :

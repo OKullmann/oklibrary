@@ -80,7 +80,8 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
-    const size_t vals_; // the total number of values
+    const size_t vals_; // measure mu0
+    const size_t depth_;
     Timing::Time_point time_; // total time for the reduction
 
     size_t props_ = 0; // propagation-call-counter
@@ -93,15 +94,16 @@ namespace LookaheadReduction {
     bool leaf_ = false;
 
     sollist_t sollist_; // list of solutions found
-    assignment_t elims_; // list of eliminations (variable != value)
+    assignment_t elims_; // list of eliminations (where variable != value)
 
   public:
 
-    explicit ReductionStatistics(const GC::IntVarArray& x) noexcept :
-    vals_(GV::sumdomsizes(x)-x.size()) { assert(vals_ > 0); }
-    explicit ReductionStatistics(const size_t vals) : vals_(vals) {
-      assert(vals_ > 0);
-    }
+    ReductionStatistics(const GC::IntVarArray& x,
+                        const size_t d) noexcept :
+      vals_(GV::sumdomsizes(x)-x.size()), depth_(d) { assert(vals_ > 0); }
+    ReductionStatistics(const size_t vals,
+                        const size_t d) :
+      vals_(vals), depth_(d) { assert(vals_ > 0); }
 
     void inc_props() noexcept { ++props_; }
     void inc_elimvals() noexcept { ++elimvals_; }
@@ -112,6 +114,7 @@ namespace LookaheadReduction {
     void set_leaf() noexcept { assert(!leaf_); leaf_ = true; }
 
     size_t vals() const noexcept { return vals_; }
+    size_t depth() const noexcept { return depth_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
     size_t prunes() const noexcept { return prunes_; }
@@ -156,18 +159,19 @@ namespace LookaheadReduction {
       return 100 * float_t(elimvals_) / vals_;
     }
 
-    static constexpr size_t num_stats = 9;
+    static constexpr size_t num_stats = 10;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
       res[0] = vals_; res[1] = quotprops(); res[2] = quotprune();
       res[3] = quotmaxprune(); res[4] = quotprobes(); res[5] = rounds_;
       res[6] = solc_; res[7] = time_; res[8] = quotelimvals();
+      res[9] = depth_;
       return res;
     }
     static std::vector<std::string> stats_header() noexcept {
       return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
-          "solc", "tr", "pelvals"};
+          "solc", "tr", "pelvals", "dp"};
       // leading "p": percentage, "q": quotient;
       // "f" in "qfppc" for "full".
     }
@@ -242,7 +246,7 @@ namespace LookaheadReduction {
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
                         const OP::LAR lar) noexcept {
-    ReductionStatistics stats(m->V);
+    ReductionStatistics stats(m->V, m->nodedata().depth);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     pruning_table_t PT;

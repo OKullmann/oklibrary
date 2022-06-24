@@ -464,7 +464,7 @@ namespace Solvers {
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    CT::GenericMols0* const m = new CT::GenericMols0(enc);
+    CT::GenericMols1* const m = new CT::GenericMols1(enc);
     const LB::rlaParams P{rt, lar, bv, bt, bo, threads != 1};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::rlaStats> stats(

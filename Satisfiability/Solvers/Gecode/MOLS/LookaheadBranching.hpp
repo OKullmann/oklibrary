@@ -393,7 +393,7 @@ namespace LookaheadBranching {
     }
 
     const GC::Choice* choice(GC::Space& s0) override {
-      CT::GenericMols0& s = static_cast<CT::GenericMols0&>(s0);
+      CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
       auto stats = LR::lareduction(&s, P.rt, P.lar);
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
@@ -415,7 +415,8 @@ namespace LookaheadBranching {
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       const int v = c.br[0]; assert(v >= 0);
-      CT::GenericMols0* const node = &(static_cast<CT::GenericMols0&>(s));
+      CT::GenericMols1* const node = &(static_cast<CT::GenericMols1&>(s));
+      node->update_clone();
       for (const auto [var,val] : c.elim) {
         assert(var < node->V.size());
         GV::unset_var(s, node->V[var], val);
@@ -461,13 +462,11 @@ namespace LookaheadBranching {
     size_t width_; // width of branching
     float_t ltau_;
     float_t mind_, meand_, maxd_, sdd_;
-    size_t depth_;
     Timing::Time_point time_; // total time for the branching construction
 
   public :
 
-    explicit BranchingStatistics(const size_t depth) noexcept
-      : depth_(depth) {}
+    BranchingStatistics() noexcept = default;
 
     void set_vals(const size_t vals) noexcept {
       assert(vals != 0); vals_ = vals;
@@ -490,17 +489,24 @@ namespace LookaheadBranching {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    static constexpr size_t num_stats = 9;
+    static constexpr size_t num_stats = 8;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
       res[0] = vals_; res[1] = width_; res[2] = ltau_;
       res[3] = mind_; res[4] = meand_; res[5] = maxd_; res[6] = sdd_;
-      res[7] = depth_;
       res[num_stats-1] = time_;
       return res;
     }
+    static std::vector<std::string> stats_header() noexcept {
+      return {"mu1", "w", "ltau", "mind", "meand", "maxd", "sdd", "tb"};
+    }
 
+    bool operator ==(const BranchingStatistics&) const noexcept = default;
+    friend bool eqwt(BranchingStatistics lhs, BranchingStatistics rhs)
+      noexcept {
+      return lhs.time(0) == rhs.time(0);
+    }
   };
 
   const VVElim* create_la(const int v, GV::values_t values,
@@ -611,7 +617,7 @@ namespace LookaheadBranching {
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       const size_t depth = s.nodedata().depth;
-      BranchingStatistics stats1(depth);
+      BranchingStatistics stats1;
 
       CT::GenericMols1* const node = &s;
       for (const auto [var,val] : stats0.elims()) {
@@ -711,8 +717,6 @@ namespace LookaheadBranching {
 
     GC::ExecStatus commit(GC::Space& s0, const GC::Choice& c0,
                           const unsigned a) override {
-      {CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
-       s.update_clone();}
       return RlaBranching::commit0(s0, c0, a);
     }
 
