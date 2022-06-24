@@ -103,7 +103,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.0",
+        "0.14.1",
         "24.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -153,10 +153,6 @@ namespace {
 ;
     return true;
   }
-
-  constexpr size_t sep_spaces = 2;
-  constexpr size_t prec = 3;
-  constexpr size_t wN = 4, wgcd = 5;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";

@@ -191,8 +191,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.2",
-        "15.6.2022",
+        "0.15.0",
+        "24.6.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -244,10 +244,7 @@ namespace {
     return true;
   }
 
-  constexpr size_t sep_spaces = 2;
-  constexpr size_t prec = 3;
   const Environment::wvec_t widths{9, 11, 13, 11, 11, 6, 2};
-  constexpr size_t wN = 4, wgcd = 5;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";

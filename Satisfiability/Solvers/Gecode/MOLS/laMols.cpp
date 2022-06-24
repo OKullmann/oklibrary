@@ -174,7 +174,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.1",
+        "0.17.2",
         "24.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -235,10 +235,6 @@ namespace {
 ;
     return true;
   }
-
-  constexpr size_t sep_spaces = 0;
-  constexpr size_t prec = 3;
-  constexpr size_t wN = 3, wgcd = 4;
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";

@@ -589,13 +589,13 @@ namespace CommandLine {
     out.precision(old);
   }
 
-  const Environment::wvec_t widths{8, 11, 10, 8, 8, 5, 2, 8, 7, 8};
+  const Environment::wvec_t widths_la{8, 11, 10, 8, 8, 5, 2, 8, 7, 8};
   void rh_genstats(std::ostream& out) {
     Environment::print1d(out,
       std::make_tuple("satc", "t",
                       "ppc", "flvs", "gnds", "gd", "st",
                       "nds", "inds", "lvs"),
-      widths);
+      widths_la);
   }
   template <class STATS>
   void rs_genstats(std::ostream& out, const STATS& res) {
@@ -605,8 +605,13 @@ namespace CommandLine {
         res.b.sol_found, res.ut,
         res.gs.propagate, res.gs.fail, res.gs.node, res.gs.depth, res.stopped,
         nds, inds, lvs),
-      widths);
+      widths_la);
   }
+
+  constexpr size_t sep_spaces = 0;
+  constexpr size_t prec = 3;
+  constexpr size_t wN = 3, wgcd = 4;
+
 }
 
 #endif
