@@ -417,6 +417,8 @@
 # Rerunning a bigger nomad-optimisation:
 # 3MOLS> time nomad np_diag_7big_newv
 # running on server2 XXX
+# showing very few bb-evaluation; another attempt:
+# 3MOLS> time nomad np_diag_7big2_newv
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
@@ -543,7 +545,6 @@
 # Best feasible solution: #31505 ( -0.8913 -1.969 -6.9706 -8.1 4.1 -2.3 -8.8 ) f =  -2.1739999999999999325 h = 0
 # Blackbox evaluations: 301 Total model evaluations: 43637 Cache hits: 19 Total number of evaluations: 320
 # MOLS> ./laMols 8 data/SpecsCollection/3MOLS/diag "" count dom enu newv - relpr 1 16 "-0.8913, -1.969, -6.9706, -8.1, 4.1, -2.3, -8.8" nds,200000 > AUS8_newv_nomad &
-# server 47294 XXX new 48860
 #   weights: -0.89129999999999999998 -1.969 -6.9706000000000000001 -8.1000000000000000003 4.0999999999999999999 -2.3 -8.8000000000000000002 -> 0 -0.89129999999999999998 0.25543002067857535457 0.0020366305347548301111 7.4228260956933865802e-06 0.00012728940842217688192 2.5847781755420190202e-05 5.7990828872604582654e-08 0
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  8    count dom enu newv   asc  relpr   1        0   65011.675   44403132   114746   314762    28  1   200016   114750   85266
