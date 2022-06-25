@@ -131,10 +131,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      ltau too bad.
    - So perhaps here we handle this after the branching-computation?
 
-3. Once we checked all statistics, remove the gecode-statistics on nodes
-   and failed leaves.
-
-4. Should the reporting of ltau use engineering notation?
+3. Should the reporting of ltau use engineering notation?
    - Otherwise it is often just "0.000".
     - Currently there is no mechanism to have a special output for
       one of the numbers.
@@ -174,8 +171,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.2",
-        "24.6.2022",
+        "0.18.0",
+        "25.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
