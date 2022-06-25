@@ -415,6 +415,7 @@
 # Perhaps also basically the same.
 
 # Rerunning a bigger nomad-optimisation:
+# 3MOLS> time nomad np_diag_7big_newv
 # running on server2 XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions

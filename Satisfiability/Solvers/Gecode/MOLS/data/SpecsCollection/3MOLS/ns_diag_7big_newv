@@ -1,4 +1,5 @@
 #!/bin/bash
+boundnds=${2:-47512}
 cd ../../..
 # Minimise nds:
-cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu newv "" "" 1 6 cin "" | awk 'FNR == 2 {print $16}'
+cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu newv "" "" 1 6 cin "nds,${boundnds}" | awk 'FNR == 2 {print $16 " " $15}'
