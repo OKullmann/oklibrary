@@ -419,6 +419,7 @@
 # running on server2 XXX
 # showing very few bb-evaluation; another attempt:
 # 3MOLS> time nomad np_diag_7big2_newv
+# running on server2 XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
