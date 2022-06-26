@@ -396,7 +396,7 @@ namespace PartialSquares {
             if (not exclude) res[i].ps[ip][j].flip();
             const auto items = Environment::split(
               sign ? line[j].substr(1) : line[j], ',');
-            for (const std::string item : items) {
+            for (const std::string& item : items) {
               size_t x;
               try {x = FloatingPoint::to_UInt(item);}
               catch (std::exception& e) {

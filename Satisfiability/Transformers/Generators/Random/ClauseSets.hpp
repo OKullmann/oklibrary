@@ -452,7 +452,7 @@ namespace RandGen {
     v.push_back(default_thread_index);
     assert(v.size() == size_type_eseed);
 
-    for (const auto p : par.vp) add_seeds(p,v);
+    for (const auto& p : par.vp) add_seeds(p,v);
     return v;
   }
 

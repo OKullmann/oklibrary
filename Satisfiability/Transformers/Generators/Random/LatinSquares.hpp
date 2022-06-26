@@ -874,7 +874,7 @@ namespace LatinSquares {
     auto end() const noexcept {return S.cend();}
 
     friend std::ostream& operator <<(std::ostream& out, const SetSystem& S) {
-      for (const Set s : S) out << s << ";";
+      for (const Set& s : S) out << s << ";";
       return out;
     }
   };
