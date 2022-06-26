@@ -214,22 +214,26 @@ namespace Environment {
      of P); requirements on P:
 
       - P can be default-constructed, and converted from a pointer-difference.
+      - If P is not an enum, then via member-function code() the code
+        is obtained.
       - The specialisation RegistrationPolicies<P> (in namespace Environment)
         constains the static member "string", a std::array of C-strings, which
         are used in the translation (for a matching string, the corresponding
         index is used to construct an element of P).
       - For output also "estring" can be provided, the long form.
-      - The int "size" contains the size of P.
+      - The int "size" contains the size of P (the number of members).
       - "name" and "sname" provide long and short names of P (optionally).
 
-     So if P is a scoped enum, then the indices must be consecutively 0, ...,
+     So if P is a (scoped) enum, then the indices must be consecutively 0, ...,
      and they must be the indices used for the static "string".
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;
   template<typename P>
   constexpr auto code(P p) {
-    return static_cast<typename std::underlying_type<P>::type>(p);
+    if constexpr (std::is_enum_v<P>)
+      return static_cast<typename std::underlying_type<P>::type>(p);
+    else return p.code();
   }
 
   // For running through all values of a policy:
