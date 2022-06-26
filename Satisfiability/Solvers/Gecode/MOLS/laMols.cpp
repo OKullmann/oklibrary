@@ -86,7 +86,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - DONE
      "+-weights": the weights (as comments).
      normal: on, batchmode: off.
-   - "+-computation": switching off the computation (thus only
+   - DONE
+     "+-computation": switching off the computation (thus only
      information output).
      normal and batchmode: on.
      This is the only option here affecting the computation.
@@ -221,7 +222,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.18.3",
+        "0.18.4",
         "26.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -268,6 +269,7 @@ namespace {
       "   - info       : " << Environment::WRPO<Info>{} << "\n" <<
       "   - weights    : " << Environment::WRPO<Weights>{} << "\n" <<
       "   - headers    : " << Environment::WRPO<Headers>{} << "\n\n" <<
+      "   - compute    : " << Environment::WRPO<Computations>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -436,9 +438,10 @@ int main(const int argc, const char* const argv[]) {
             for (const LBRO bro : brov)
               for (const LAR lar : larv)
                 for (unsigned gcd : gcdv) {
-                  const laSR res =
+                  const laSR res = outopt.with_computations() ?
                     lasolver(enc, rt, brt, dis, bro, lar,
-                             gcd, threads, weights, stod, log);
+                             gcd, threads, weights, stod, log) :
+                    laSR{};
                   if (with_log and
                       rt != RT::enumerate_with_log and
                       rt != RT::unique_s_with_log)

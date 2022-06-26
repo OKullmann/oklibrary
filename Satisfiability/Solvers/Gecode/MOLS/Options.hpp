@@ -305,13 +305,16 @@ namespace Options {
   enum class INFO { on=0, off=1 };
   enum class WGHTS { on=0, off=1 };
   enum class HDS { on=0, off=1 };
+  enum class COMP { on=0, off=1 };
 
-  template <typename P>
+  template <typename P, bool bothon = false>
   struct WrapP {
     typedef P policy_t;
+    static constexpr bool both_on = bothon;
     inline static P def = P::on;
     static void set_def(const bool batch_mode) noexcept {
-      def = batch_mode ? P::off : P::on;
+      if constexpr (not bothon)
+        def = batch_mode ? P::off : P::on;
     }
     static constexpr int size = int(P::off) + 1;
     P o;
@@ -324,12 +327,14 @@ namespace Options {
   typedef WrapP<INFO> Info;
   typedef WrapP<WGHTS> Weights;
   typedef WrapP<HDS> Headers;
-  typedef std::tuple<Info, Weights, Headers> output_options_t;
+  typedef WrapP<COMP, true> Computations;
+  typedef std::tuple<Info, Weights, Headers, Computations> output_options_t;
 
   struct OutputOptions {
     const output_options_t options;
     static void set_def(const bool bm) noexcept {
       Info::set_def(bm); Weights::set_def(bm); Headers::set_def(bm);
+      Computations::set_def(bm);
     }
     OutputOptions(output_options_t o) noexcept : options(o) {}
 
@@ -342,7 +347,9 @@ namespace Options {
     bool with_headers() const noexcept {
       return HDS(std::get<Headers>(options)) == HDS::on;
     }
-
+    bool with_computations() const noexcept {
+      return COMP(std::get<Computations>(options)) == COMP::on;
+    }
   };
 
 }
@@ -501,6 +508,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"show-headers", "not-show-headers"};
   };
+  template <> struct RegistrationPolicies<Options::Computations> {
+    static constexpr const char* name = "perform_computations";
+    static constexpr const char* sname = "pfcomps";
+    static constexpr int size = Options::Computations::size;
+    static constexpr std::array<const char*, size>
+    string {"+computations", "-computations"};
+    static constexpr std::array<const char*, size>
+      estring {"perform_computations", "not-perform_computations"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -550,6 +566,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const Headers h) {
     return out << Environment::W2(h);
+  }
+  std::ostream& operator <<(std::ostream& out, const Computations c) {
+    return out << Environment::W2(c);
   }
 
   auto read(EXW, const std::string& s) noexcept {
