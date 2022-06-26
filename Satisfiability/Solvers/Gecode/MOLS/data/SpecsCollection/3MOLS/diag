@@ -418,13 +418,18 @@
 # 3MOLS> time nomad np_diag_7big_newv
 # 71 19525         -0.9        9         -5         -9          0.0       -3
 # 185 19441         -0.8954     8.9859    -4.9       -8.9986     0.097     -2.94
-# real    1212m23.412s user    45512m56.581s sys     67m27.602s
 # Blackbox evaluations: 235 Total model evaluations: 27261 Cache hits: 40 Total number of evaluations: 275
+# real    1212m23.412s user    45512m56.581s sys     67m27.602s
 # Very few bb-evaluation, and thus insufficient scanning, reaching the "goal"
 # already with evaluation 71. Another attempt, now using "LH_SEARCH 1000 10"
 # instead of "LH_SEARCH 100 0", which seems to work better:
 # 3MOLS> time nomad np_diag_7big2_newv
-# running on server2 XXX
+# 117 14141          0.9        7          7          0         -7         -2
+# 294 13753         -0.9        9          5.28       0.11      -9         -1.67
+# Blackbox evaluations: 510 Total model evaluations: 38360 Cache hits: 44 Total number of evaluations: 554
+# real    1209m58.108s user    69739m5.914s sys     455m8.236s
+# That seems clearly better, and seems capable of finding a good solution
+# unassisted.
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
