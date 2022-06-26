@@ -217,15 +217,15 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.18.0",
-        "25.6.2022",
+        "0.18.1",
+        "26.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 13;
+  constexpr int commandline_args = 14;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -244,7 +244,7 @@ namespace {
       " has " << commandline_args << " command-line arguments:\n"
       " N  file_cond  file_ps  run-type\n"
       "   prop-level  branch-type  distance  branch-order  la-type  gcd\n"
-      "   threads  weights  (stop-type,stop-value)*\n\n"
+      "   threads  weights  (stop-type,stop-value)* formatting\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -259,7 +259,9 @@ namespace {
       " - weights      : comma-separated list of weights for distance\n"
       "   - specials   : " << Environment::WRPO<SPW>{} << "\n" <<
       "   - variables  : " << Environment::WRPO<EXW>{} << "\n" <<
-      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n\n" <<
+      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
+      " - formatting   : comma-separated list of\n" <<
+      "   - info       : " << Environment::WRPO<Info>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -277,6 +279,16 @@ namespace {
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;
     return true;
+  }
+
+
+  OutputOptions read_outpot_options(const std::string& s) {
+    return Environment::translate<output_options_t>()(s,',');
+  }
+  void output_options(std::ostream& out, const OutputOptions& outopt) {
+    out << "# output-options: ";
+    Environment::print1d(out, outopt.options, {0});
+    out << "\n";
   }
 
   void rh(std::ostream& out) {
@@ -355,6 +367,10 @@ int main(const int argc, const char* const argv[]) {
 
   const auto stod = read_rlast(argc, argv, 13);
 
+  OutputOptions::set_def(batch_mode);
+  const auto outopt = read_outpot_options(argv[14]);
+
+
   const std::string outfile = output_filename(proginfo.prg, list_N);
 
   const bool with_file_output = Options::with_file_output(rt);
@@ -381,12 +397,13 @@ int main(const int argc, const char* const argv[]) {
   }
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
-  if (not batch_mode) {
+  if (outopt.with_info()) {
     commandline_output(std::cout, argc, argv);
     info_output(std::cout,
                 list_N, ac, name_ac, ps0, name_ps, rt,
                 num_runs, threads, outfile, with_file_output);
     st_output(std::cout, stod);
+    output_options(std::cout, outopt);
     algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
     cd_output(std::cout, gcdv);
     seed_output(std::cout, wg);
@@ -401,7 +418,7 @@ int main(const int argc, const char* const argv[]) {
         for (const DIS dis : disv) {
           const auto wv = wg(N, brt, dis);
           for (const auto& weights0 : wv) {
-            if (not batch_mode) weights_output(std::cout, weights0);
+            if (outopt.with_info()) weights_output(std::cout, weights0);
             const weights_t* const weights = &weights0.w;
             for (const LBRO bro : brov)
               for (const LAR lar : larv)

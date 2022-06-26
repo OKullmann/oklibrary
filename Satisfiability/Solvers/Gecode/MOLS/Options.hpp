@@ -81,6 +81,7 @@ TODOS
 #include <exception>
 #include <string>
 #include <algorithm>
+#include <tuple>
 
 #include <gecode/int.hh>
 
@@ -300,6 +301,36 @@ namespace Options {
   };
   constexpr int EXWsize = int(EXW::desc) + 1;
 
+
+  enum class INFO { on=0, off=1 };
+  struct Info {
+    inline static INFO def = INFO::on;
+    static void set_def(const bool batch_mode) noexcept {
+      def = batch_mode ? INFO::off : INFO::on;
+    }
+    static constexpr int size = int(INFO::off) + 1;
+    INFO o;
+
+    Info() noexcept : o(def) {}
+    Info(const int code) noexcept : o(INFO(code)) {}
+
+    operator INFO() const noexcept { return o; }
+    int code() const noexcept { return int(o); }
+  };
+
+  typedef std::tuple<Info> output_options_t;
+  struct OutputOptions {
+    const output_options_t options;
+    static void set_def(const bool bm) noexcept {
+      Info::set_def(bm);
+    }
+    OutputOptions(output_options_t o) noexcept : options(o) {}
+
+    bool with_info() const noexcept {
+      return INFO(std::get<Info>(options)) == INFO::on;
+    }
+  };
+
 }
 namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
@@ -429,6 +460,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"random", "ascending", "descending"};
   };
+  template <> struct RegistrationPolicies<Options::Info> {
+    static constexpr const char* name = "show_info";
+    static constexpr const char* sname = "shin";
+    static constexpr int size = Options::Info::size;
+    static constexpr std::array<const char*, size>
+    string {"+info", "-info"};
+    static constexpr std::array<const char*, size>
+      estring {"show-info", "not-show-info"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -469,6 +509,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const EXW ew) {
     return out << Environment::W2(ew);
+  }
+  std::ostream& operator <<(std::ostream& out, const Info info) {
+    return out << Environment::W2(info);
   }
 
   auto read(EXW, const std::string& s) noexcept {
