@@ -69,7 +69,9 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 0. Provide global statistics "open total assignments"
-   - Let muld be the measure log_2(# total assignments).
+   - Let muld be the measure log_2(# total assignments), where the
+     number of total assignments is N^(N^2 * K), where
+       K = cond.num_squares() (so n = N^2 * K).
    - This is not most efficient for solving, but it is very natural;
      so perhaps it should always be provided:
      - DONE
@@ -116,7 +118,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - float80 should be sufficient for a good deal of problems.
 
 1. Early abortion of runs
-    - Later also allowing bounds for total runtime; which should perhaps
+    - Allowing bounds for total runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
       by the solver).
 

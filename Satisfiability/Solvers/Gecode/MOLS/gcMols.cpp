@@ -146,13 +146,7 @@ Compare also with todos in rlaMols.
        - hex-output as an option; perhaps as "+-hex"
     - Perhaps the output-filename should contain a hash of the parameters.
     - Progress-bar:
-     - As the OKsolver has it, but now using float80; compare there.
-     - Only with laMols.
-     - The total number of total assignments is the starting point:
-         N^(N^2 * k).
-     - Whenever a leaf is reached, the number of covered total assignments
-       is subtracted.
-     - Alternatively one could have a monitoring-depth (see also the OKsolver).
+     - One could have a monitoring-depth (see also the OKsolver).
 
 3. Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
