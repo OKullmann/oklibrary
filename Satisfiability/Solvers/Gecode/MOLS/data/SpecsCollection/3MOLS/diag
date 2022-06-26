@@ -185,6 +185,10 @@
 # real    354m23.758s user    7076m24.414s sys     28m55.434s
 # Basically the same.
 
+# Rerunning a bigger nomad-optimisation, from scratch:
+# 3MOLS> time nomad np_diag_7big_wdL
+# running on server2 XXX
+
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
 # 3MOLS> nomad np_diag_7small_wdL
@@ -414,7 +418,7 @@
 # real    334m19.432s user    5984m10.500s sys     27m3.096s
 # Perhaps also basically the same.
 
-# Rerunning a bigger nomad-optimisation:
+# Rerunning a bigger nomad-optimisation, from scratch:
 # 3MOLS> time nomad np_diag_7big_newv
 # 71 19525         -0.9        9         -5         -9          0.0       -3
 # 185 19441         -0.8954     8.9859    -4.9       -8.9986     0.097     -2.94

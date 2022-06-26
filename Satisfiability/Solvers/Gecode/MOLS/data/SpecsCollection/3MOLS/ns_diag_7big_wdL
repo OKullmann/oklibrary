@@ -1,0 +1,5 @@
+#!/bin/bash
+boundnds=${2:-53505}
+cd ../../..
+# Optimise nds:
+cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu wdL "" "" 1 10 cin "nds,${boundnds}" "" | awk 'FNR == 1 {print $16 " " $15}'

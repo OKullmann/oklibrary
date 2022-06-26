@@ -1,0 +1,12 @@
+DIMENSION               5
+BB_EXE                  ns_diag_7big_wdL
+BB_OUTPUT_TYPE          OBJ EB
+X0                      ( 0.2 0.2 0.2 0.2 0.2 )
+LOWER_BOUND             * 0.01
+UPPER_BOUND             * 4
+MAX_BB_EVAL             10000
+NB_THREADS_OPENMP       30
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                72000
+LH_SEARCH               1000 10
