@@ -57,14 +57,12 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS "" count dom enu maxdegdom "" eagpr
 Compare also with todos in gcMols.
 
 -1. Catching SIGUSR1, output the current results:
-     - According to
-       https://en.cppreference.com/w/cpp/utility/program/signal
-       the signal-handler must not access "an object with thread storage
-       duration", and thus we couldn't have (easily) parallelisation for
-       scanning.
-     - For rlaMols the signal-handler needs to set another (atomic) flag,
-       which will cause output for the first thread who sees it (resetting
-       it after output).
+     - The class rlaStats needs another atomic_bool, "report", initially
+       false, which is set to true by the signal-handler "activate_report".
+     - When the add-function finds "report" true, output of stats is done,
+       and report=false.
+     - Possibly output to std::cerr ? Or another log-member, to which in
+       this case output is directed?
 
 1. Better time-information
    - The reduction-time is sum of user-times for all running threads.
