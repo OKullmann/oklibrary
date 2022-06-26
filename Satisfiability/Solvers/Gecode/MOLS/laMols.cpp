@@ -78,9 +78,11 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Collected into one object of type OutputControls.
    - "+-header": switching on/off the headers for the statistics.
      normal: on, batchmode: off.
-   - "+-info": the info given at the beginning (as comments).
+   - DONE
+     "+-info": the info given at the beginning (as comments).
      normal: on, batchmode: off.
-   - "+-weights": the weights (as comments).
+   - DONE
+     "+-weights": the weights (as comments).
      normal: on, batchmode: off.
    - "+-computation": switching off the computation (thus only
      information output).
@@ -217,7 +219,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.18.1",
+        "0.18.2",
         "26.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -261,7 +263,8 @@ namespace {
       "   - variables  : " << Environment::WRPO<EXW>{} << "\n" <<
       " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
       " - formatting   : comma-separated list of\n" <<
-      "   - info       : " << Environment::WRPO<Info>{} << "\n\n" <<
+      "   - info       : " << Environment::WRPO<Info>{} << "\n" <<
+      "   - weights    : " << Environment::WRPO<Weights>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -418,7 +421,7 @@ int main(const int argc, const char* const argv[]) {
         for (const DIS dis : disv) {
           const auto wv = wg(N, brt, dis);
           for (const auto& weights0 : wv) {
-            if (outopt.with_info()) weights_output(std::cout, weights0);
+            if (outopt.with_weights()) weights_output(std::cout, weights0);
             const weights_t* const weights = &weights0.w;
             for (const LBRO bro : brov)
               for (const LAR lar : larv)

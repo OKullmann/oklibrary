@@ -303,32 +303,42 @@ namespace Options {
 
 
   enum class INFO { on=0, off=1 };
-  struct Info {
-    inline static INFO def = INFO::on;
+  enum class WGHTS { on=0, off=1 };
+
+  template <typename P>
+  struct WrapP {
+    typedef P policy_t;
+    inline static P def = P::on;
     static void set_def(const bool batch_mode) noexcept {
-      def = batch_mode ? INFO::off : INFO::on;
+      def = batch_mode ? P::off : P::on;
     }
-    static constexpr int size = int(INFO::off) + 1;
-    INFO o;
-
-    Info() noexcept : o(def) {}
-    Info(const int code) noexcept : o(INFO(code)) {}
-
-    operator INFO() const noexcept { return o; }
+    static constexpr int size = int(P::off) + 1;
+    P o;
+    WrapP() noexcept : o(def) {}
+    WrapP(const int code) noexcept : o(P(code)) {}
+    operator P() const noexcept { return o; }
     int code() const noexcept { return int(o); }
   };
 
-  typedef std::tuple<Info> output_options_t;
+  typedef WrapP<INFO> Info;
+  typedef WrapP<WGHTS> Weights;
+  typedef std::tuple<Info, Weights> output_options_t;
+
   struct OutputOptions {
     const output_options_t options;
     static void set_def(const bool bm) noexcept {
       Info::set_def(bm);
+      Weights::set_def(bm);
     }
     OutputOptions(output_options_t o) noexcept : options(o) {}
 
     bool with_info() const noexcept {
       return INFO(std::get<Info>(options)) == INFO::on;
     }
+    bool with_weights() const noexcept {
+      return WGHTS(std::get<Weights>(options)) == WGHTS::on;
+    }
+
   };
 
 }
@@ -469,6 +479,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"show-info", "not-show-info"};
   };
+  template <> struct RegistrationPolicies<Options::Weights> {
+    static constexpr const char* name = "show_weights";
+    static constexpr const char* sname = "shws";
+    static constexpr int size = Options::Weights::size;
+    static constexpr std::array<const char*, size>
+    string {"+w", "-w"};
+    static constexpr std::array<const char*, size>
+      estring {"show-weights", "not-show-weights"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -512,6 +531,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const Info info) {
     return out << Environment::W2(info);
+  }
+  std::ostream& operator <<(std::ostream& out, const Weights w) {
+    return out << Environment::W2(w);
   }
 
   auto read(EXW, const std::string& s) noexcept {
