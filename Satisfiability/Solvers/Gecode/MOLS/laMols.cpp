@@ -68,6 +68,50 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-2. Complete the info:
+   - program-name, version-number
+
+-1. A further parameter (put last) on controlling the output:
+   - This uses the liberal mode of options (a comma-separated list of
+     options).
+   - Batch-mode has a special set of defaults.
+   - Collected into one object of type OutputControls.
+   - "+-header": switching on/off the headers for the statistics.
+     normal: on, batchmode: off.
+   - "+-info": the info given at the beginning (as comments).
+     normal: on, batchmode: off.
+   - "+-weights": the weights (as comments).
+     normal: on, batchmode: off.
+   - "+-computation": switching off the computation (thus only
+     information output).
+     normal and batchmode: on.
+     This is the only option here affecting the computation.
+   - "+-cond": output of full conditions (+cond -> +info).
+     normal and batchmode: off.
+   - "+-commentout": also statistics-output with leading "#"
+     normal: on, batchmode: off.
+   - "+-hex": in case of solution-output, use hexadecimal notation.
+   - Selection of rows: "allrows, g, ri, rl, b"
+      - allrows is default for normal and batchmode
+      - g is the global statistics-line
+      - ri, rl for "reduction" at inner nodes resp. leaves
+      - b is for branching.
+   - Selection of columns: "allcolumns, satc, ppc, nds, inds, lvs,
+     mu0, pelvals, dp, t, ..."
+      - allcolumns is default for normal and batchmode
+      - t means all times (currently in all 4 "rows").
+      - dp means also all available rows.
+      - It is an error if the variable does not occur at all.
+      - nds, inds, lvs imply g (an error if specified otherwse).
+   - Selection of statistics: "allstats, ave, min, max, stddev".
+      - allstats is default for normal, ave is default for batchmode.
+      - Row "g" ignores these specifications.
+   - Iff at least two "all" are given, the the output is 2d, otherwise 1d
+     (serialised).
+   - "+-stop": the value of st appended, only for 1d-output (otherwise
+     an error).
+      normal and batchmode: off.
+
 0. Provide global statistics "open total assignments"
    - Let muld be the measure log_2(# total assignments), where the
      number of total assignments is N^(N^2 * K), where

@@ -127,23 +127,11 @@ Compare also with todos in rlaMols.
          - For (r)laMols: it seems we always have
              lvs = flvs, larc + flvs = gnds.
 
-0. R-header
-    - Perhaps we need another option:
-       - +- header
-       - +- comments
-       - +- computation
-       - +- cond
-
 1. Output:
-    - More statistics on conditions should be output:
-       - perhaps by default actually the complete conditions are reported,
-         using options "+-cond".
     - More statistics on the partial squares given should be output:
        - total number of squares involved
        - total number of cells involved
        - total number of removed values.
-    - Solution-output:
-       - hex-output as an option; perhaps as "+-hex"
     - Perhaps the output-filename should contain a hash of the parameters.
     - Progress-bar:
      - One could have a monitoring-depth (see also the OKsolver).
