@@ -76,7 +76,9 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      options).
    - Batch-mode has a special set of defaults.
    - Collected into one object of type OutputControls.
-   - "+-header": switching on/off the headers for the statistics.
+
+   - DONE
+     "+-header": switching on/off the headers for the statistics.
      normal: on, batchmode: off.
    - DONE
      "+-info": the info given at the beginning (as comments).
@@ -219,7 +221,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.18.2",
+        "0.18.3",
         "26.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -264,7 +266,8 @@ namespace {
       " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
       " - formatting   : comma-separated list of\n" <<
       "   - info       : " << Environment::WRPO<Info>{} << "\n" <<
-      "   - weights    : " << Environment::WRPO<Weights>{} << "\n\n" <<
+      "   - weights    : " << Environment::WRPO<Weights>{} << "\n" <<
+      "   - headers    : " << Environment::WRPO<Headers>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -303,14 +306,21 @@ namespace {
     out << "\n";
   }
 
-  void rs(std::ostream& out, const laSR& res) {
+  void rs(std::ostream& out, const laSR& res, const bool with_headers) {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
     out << "\n";
-    res.S[0].out(out, ReductionStatistics::stats_header());
-    res.S[1].out(out, ReductionStatistics::stats_header());
-    res.S1.out(out, BranchingStatistics::stats_header());
+    if (with_headers) {
+      res.S[0].out(out, ReductionStatistics::stats_header());
+      res.S[1].out(out, ReductionStatistics::stats_header());
+      res.S1.out(out, BranchingStatistics::stats_header());
+    }
+    else {
+      res.S[0].out(out, {});
+      res.S[1].out(out, {});
+      res.S1.out(out, {});
+    }
     FloatingPoint::undo(out, state);
   }
 
@@ -433,12 +443,12 @@ int main(const int argc, const char* const argv[]) {
                       rt != RT::enumerate_with_log and
                       rt != RT::unique_s_with_log)
                     std::cout << "\n";
-                  rh(std::cout);
+                  if (outopt.with_headers()) rh(std::cout);
                   std::cout.width(wN); std::cout << N << " ";
                   Environment::data_policies(std::cout,
                     std::make_tuple(rt, po, brt, dis, bro, lar));
                   std::cout.width(wgcd); std::cout << gcd << " ";
-                  rs(std::cout, res);
+                  rs(std::cout, res, outopt.with_headers());
                   if (with_file_output)
                     Environment::out_line(*out, res.b.list_sol, "\n");
                   std::cout.flush();

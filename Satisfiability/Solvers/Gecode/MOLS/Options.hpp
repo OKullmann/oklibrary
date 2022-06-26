@@ -304,6 +304,7 @@ namespace Options {
 
   enum class INFO { on=0, off=1 };
   enum class WGHTS { on=0, off=1 };
+  enum class HDS { on=0, off=1 };
 
   template <typename P>
   struct WrapP {
@@ -322,13 +323,13 @@ namespace Options {
 
   typedef WrapP<INFO> Info;
   typedef WrapP<WGHTS> Weights;
-  typedef std::tuple<Info, Weights> output_options_t;
+  typedef WrapP<HDS> Headers;
+  typedef std::tuple<Info, Weights, Headers> output_options_t;
 
   struct OutputOptions {
     const output_options_t options;
     static void set_def(const bool bm) noexcept {
-      Info::set_def(bm);
-      Weights::set_def(bm);
+      Info::set_def(bm); Weights::set_def(bm); Headers::set_def(bm);
     }
     OutputOptions(output_options_t o) noexcept : options(o) {}
 
@@ -337,6 +338,9 @@ namespace Options {
     }
     bool with_weights() const noexcept {
       return WGHTS(std::get<Weights>(options)) == WGHTS::on;
+    }
+    bool with_headers() const noexcept {
+      return HDS(std::get<Headers>(options)) == HDS::on;
     }
 
   };
@@ -488,6 +492,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"show-weights", "not-show-weights"};
   };
+  template <> struct RegistrationPolicies<Options::Headers> {
+    static constexpr const char* name = "show_headers";
+    static constexpr const char* sname = "shhs";
+    static constexpr int size = Options::Headers::size;
+    static constexpr std::array<const char*, size>
+    string {"+headers", "-headers"};
+    static constexpr std::array<const char*, size>
+      estring {"show-headers", "not-show-headers"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -534,6 +547,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const Weights w) {
     return out << Environment::W2(w);
+  }
+  std::ostream& operator <<(std::ostream& out, const Headers h) {
+    return out << Environment::W2(h);
   }
 
   auto read(EXW, const std::string& s) noexcept {
