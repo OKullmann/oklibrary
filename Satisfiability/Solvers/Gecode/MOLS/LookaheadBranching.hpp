@@ -321,8 +321,7 @@ namespace LookaheadBranching {
           if (inds() > val) {activate_abort(); return;} else break;
         case OP::LRST::satc :
           if (sol_counter > val) {activate_abort(); return;} else break;
-        case OP::LRST::none : assert(false);
-        }
+        case OP::LRST::none : assert(false); }
     }
 
     void add(LR::ReductionStatistics& s) noexcept {
