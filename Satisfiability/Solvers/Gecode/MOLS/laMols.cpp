@@ -72,8 +72,6 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - program-name, version-number
 
 -1. A further parameter (put last) on controlling the output:
-   - Handle also the branching-statistics, similarly to the
-     reduction-statistics.
    - "+-cond": output of full conditions (+cond -> +info).
      normal and batchmode: off.
    - "+-commentout": also statistics-output with leading "#"
@@ -185,7 +183,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.19.2",
+        "0.19.3",
         "27.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -298,10 +296,11 @@ namespace {
   void select(std::ostream& out, const laSR& res,
               const SIVA sv, const STAT st, const NOTY nt) {
     assert(sv != SIVA::all);
-    const size_t nti = size_t(nt);
-    assert(nti < res.S.size());
-    const auto val = [&res,st,nti](const std::string& s){
+
+    const auto val = [&res,st,nt](const std::string& s){
       const auto i = ReductionStatistics::index(s);
+      const size_t nti = size_t(nt);
+      assert(nti < res.S.size());
       const auto& R = res.S[nti];
       switch (st) {
       case STAT::ave : return R.amean()[i];
@@ -312,6 +311,19 @@ namespace {
         ss << "ERROR[laMols::single]: STAT-value " << int(st) <<
           " not handled.\n";
         throw std::runtime_error(ss.str());} };
+    const auto val1 = [&res,st](const std::string& s){
+      const auto i = BranchingStatistics::index(s);
+      const auto& R = res.S1;
+      switch (st) {
+      case STAT::ave : return R.amean()[i];
+      case STAT::min : return R.min()[i];
+      case STAT::max : return R.max()[i];
+      case STAT::stddev : return R.sd_corrected()[i];
+      default :std::ostringstream ss;
+        ss << "ERROR[laMols::single]: STAT-value " << int(st) <<
+          " not handled.\n";
+        throw std::runtime_error(ss.str());} };
+
     switch (sv) {
     case SIVA::satc : out << res.b.sol_found; return;
     case SIVA::t : out << res.ut; return;
@@ -319,6 +331,7 @@ namespace {
     case SIVA::nds : out << res.S[0].N()+res.S[1].N(); return;
     case SIVA::inds : out << res.S[0].N(); return;
     case SIVA::lvs : out << res.S[1].N(); return;
+
     case SIVA::mu0 : out << val("mu0"); return;
     case SIVA::qfppc : out << val("qfppc"); return;
     case SIVA::pprunes : out << val("pprunes"); return;
@@ -329,7 +342,16 @@ namespace {
     case SIVA::tr : out << val("tr"); return;
     case SIVA::pelvals : out << val("pelvals"); return;
     case SIVA::dp : out << val("dp"); return;
-      // XXX
+
+    case SIVA::mu1 : out << val1("mu1"); return;
+    case SIVA::w : out << val1("w"); return;
+    case SIVA::ltau : out << val1("ltau"); return;
+    case SIVA::mind : out << val1("mind"); return;
+    case SIVA::meand : out << val1("meand"); return;
+    case SIVA::maxd : out << val1("maxd"); return;
+    case SIVA::sdd : out << val1("sdd"); return;
+    case SIVA::tb : out << val1("tb"); return;
+
     default: {
       std::ostringstream ss;
       ss << "ERROR[laMols::single]: SIVA-value " << int(sv) <<

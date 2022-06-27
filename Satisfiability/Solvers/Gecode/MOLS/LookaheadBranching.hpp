@@ -498,7 +498,16 @@ namespace LookaheadBranching {
       return res;
     }
     static std::vector<std::string> stats_header() noexcept {
-      return {"mu1", "w", "ltau", "mind", "meand", "maxd", "sdd", "tb"};
+      return {"mu1", "w", "ltau",
+          "mind", "meand", "maxd", "sdd",
+          "tb"};
+    }
+    static size_t index(const std::string& s) {
+      const auto words = stats_header();
+      const auto find = std::ranges::find(words, s);
+      if (find != words.end()) return find - words.begin();
+      throw std::runtime_error("ERROR[LB::index]: unknown variable \""
+                               + s + "\"\n");
     }
 
     bool operator ==(const BranchingStatistics&) const noexcept = default;
