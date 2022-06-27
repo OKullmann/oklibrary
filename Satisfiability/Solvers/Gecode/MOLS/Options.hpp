@@ -345,9 +345,11 @@ namespace Options {
   constexpr int STOPsize = int(STOP::off) + 1;
   enum class STAT { ave=0, min=1, max=2, stddev=3 };
   constexpr int STATsize = int(STAT::stddev) + 1;
+  enum class NOTY { inode=0, leaf=1 };
+  constexpr int NOTYsize = int(NOTY::leaf) + 1;
 
   typedef std::tuple<Info, Weights, Headers, Computations,
-                     SIVA, STOP, STAT>
+                     SIVA, STOP, STAT, NOTY>
     output_options_t;
 
   output_options_t adapt(output_options_t in) noexcept {
@@ -382,6 +384,7 @@ namespace Options {
       return std::get<STOP>(options) == STOP::on;
     }
     STAT stat() const noexcept { return std::get<STAT>(options); }
+    NOTY node_type() const noexcept { return std::get<NOTY>(options); }
   };
 
 }
@@ -507,7 +510,7 @@ namespace Environment {
     static constexpr const char* name = "experimental-weights";
     static constexpr int size = Options::EXWsize;
     static constexpr std::array<const char*, size>
-    string {"r", "a", "d"};
+      string {"r", "a", "d"};
     static constexpr std::array<const char*, size>
       estring {"random", "ascending", "descending"};
   };
@@ -515,7 +518,7 @@ namespace Environment {
     static constexpr const char* name = "show-info";
     static constexpr int size = Options::Info::size;
     static constexpr std::array<const char*, size>
-    string {"+info", "-info"};
+      string {"+info", "-info"};
     static constexpr std::array<const char*, size>
       estring {"show-info", "not-show-info"};
   };
@@ -523,7 +526,7 @@ namespace Environment {
     static constexpr const char* name = "show-weights";
     static constexpr int size = Options::Weights::size;
     static constexpr std::array<const char*, size>
-    string {"+w", "-w"};
+      string {"+w", "-w"};
     static constexpr std::array<const char*, size>
       estring {"show-weights", "not-show-weights"};
   };
@@ -531,7 +534,7 @@ namespace Environment {
     static constexpr const char* name = "show-headers";
     static constexpr int size = Options::Headers::size;
     static constexpr std::array<const char*, size>
-    string {"+headers", "-headers"};
+      string {"+headers", "-headers"};
     static constexpr std::array<const char*, size>
       estring {"show-headers", "not-show-headers"};
   };
@@ -539,7 +542,7 @@ namespace Environment {
     static constexpr const char* name = "perform-computations";
     static constexpr int size = Options::Computations::size;
     static constexpr std::array<const char*, size>
-    string {"+computations", "-computations"};
+      string {"+computations", "-computations"};
     static constexpr std::array<const char*, size>
       estring {"perform_computations", "not-perform_computations"};
   };
@@ -547,7 +550,7 @@ namespace Environment {
     static constexpr const char* name = "show-stopped";
     static constexpr int size = Options::STOPsize;
     static constexpr std::array<const char*, size>
-    string {"+stop", "-stop"};
+      string {"+stop", "-stop"};
     static constexpr std::array<const char*, size>
       estring {"show-stopped", "not-show-stopped"};
   };
@@ -555,15 +558,23 @@ namespace Environment {
     static constexpr const char* name = "statistics-type";
     static constexpr int size = Options::STATsize;
     static constexpr std::array<const char*, size>
-    string {"ave", "min", "max", "stddev"};
+      string {"ave", "min", "max", "stddev"};
     static constexpr std::array<const char*, size>
-    estring {"arithmetic-mean", "minimum", "maximum", "standard-deviation"};
+      estring {"arithmetic-mean", "minimum", "maximum", "standard-deviation"};
+  };
+  template <> struct RegistrationPolicies<Options::NOTY> {
+    static constexpr const char* name = "node-type";
+    static constexpr int size = Options::NOTYsize;
+    static constexpr std::array<const char*, size>
+      string {"inode", "leaf"};
+    static constexpr std::array<const char*, size>
+      estring {"inner-node", "leaf-node"};
   };
   template <> struct RegistrationPolicies<Options::SIVA> {
     static constexpr const char* name = "selected-values";
     static constexpr int size = Options::SIVAsize;
     static constexpr std::array<const char*, size>
-    string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
+      string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
         "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
         "solc", "tr", "pelvals", "dp",
         "mu1", "w", "ltau", "mind", "meand", "maxd", "sdd", "tb"};
@@ -629,6 +640,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const STAT s) {
     return out << Environment::W2(s);
+  }
+  std::ostream& operator <<(std::ostream& out, const NOTY n) {
+    return out << Environment::W2(n);
   }
 
   auto read(EXW, const std::string& s) noexcept {
