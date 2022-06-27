@@ -128,12 +128,12 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - float80 should be sufficient for a good deal of problems.
 
 1. Early abortion of runs
-    - Allowing bounds for total runtime; which should perhaps
+    - Allowing bounds for total (wallclock) runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
       by the solver).
 
 2. Early abortion of branches
-   - Considering now say "depth > 10" or "mu < 10000" for making a node,
+   - Considering now say "depth >= 10" or "mu <= 10000" for making a node,
      after la-reduction, a leaf.
    - Usual syntax: "depth, 10" and "mu, 10000".
    - The current handling of "leafcount" needs to be generalised.

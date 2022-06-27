@@ -260,7 +260,7 @@ namespace LookaheadReduction {
     const Timing::Time_point t0 = timing();
     pruning_table_t PT;
 
-    bool early_abort = false;
+    bool early_abort = false; // true iff enough satisfying assignments found
     {int last_red = -1;
     do {
       stats.inc_rounds();
@@ -285,7 +285,7 @@ namespace LookaheadReduction {
             probe(m, v, val, PV, stats, with_solutions(rt)) :
             probe(m, v, val,     stats, with_solutions(rt));
           stats.inc_probes();
-          if (status != GC::SS_BRANCH) {
+          if (status != GC::SS_BRANCH) { // eliminate val for v
             assert(status == GC::SS_SOLVED or status == GC::SS_FAILED);
             stats.inc_elimvals(); elimvals.push_back(val);
             early_abort = status == GC::SS_SOLVED and
