@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "2.5.2022",
+        "0.4.0",
+        "27.6.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestSolvers.cpp",
@@ -50,7 +50,7 @@ int main(const int argc, const char* const argv[]) {
    assert((valid(BasicSR{RT::sat_decision,1,{}})));
    const PSquares ps(2,psquares_t{});
    assert((not valid(BasicSR{RT::sat_decision,1,{ps}})));
-   assert((not valid(BasicSR{RT::sat_decision,2,{}})));
+   assert((valid(BasicSR{RT::sat_decision,2,{}})));
 
    assert(valid(BasicSR{RT::sat_solving}));
    assert((valid(BasicSR{RT::sat_solving,0,{}})));

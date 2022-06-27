@@ -118,11 +118,10 @@ namespace Solvers {
   };
   inline bool valid(const BasicSR sr) noexcept {
     if (sr.rt == RT::sat_decision)
-      return sr.sol_found <= 1 and sr.list_sol.empty();
+      return sr.list_sol.empty();
     else if (sr.rt == RT::sat_solving)
-      return sr.sol_found <= 1 and sr.list_sol.size() == sr.sol_found;
+      return sr.list_sol.size() == sr.sol_found;
     else if (test_unique(sr.rt)) {
-      if (sr.sol_found > 2) return false;
       if (sr.rt == RT::unique_decision or sr.rt == RT::unique_d_with_log)
         return sr.list_sol.empty();
       else return sr.sol_found == sr.list_sol.size();

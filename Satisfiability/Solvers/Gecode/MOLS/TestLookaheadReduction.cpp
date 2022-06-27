@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.9",
-        "24.6.2022",
+        "0.8.0",
+        "27.6.2022",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -430,52 +430,20 @@ int main(const int argc, const char* const argv[]) {
      assert(s.maxprune() == 0);
      assert(s.quotprune() == 0);
      assert(s.leaf());
-     if (count_only(rt)) {
-       assert(s.props() == 2);
-       assert(s.solc() == 4);
-       assert(s.elimvals() == 2*2);
-       assert(s.probes() == 3 + 2);
-       assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
-       if (with_solutions(rt)) {
-        const auto list_sol = extract(A.e.ldecode(s.sollist()));
-        assert(eqp(list_sol, {
-                    {{{0,2,1},{2,1,0},{1,0,2}}}, {{{2,0,1},{0,1,2},{1,2,0}}},
-                    {{{1,0,2},{2,1,0},{0,2,1}}}, {{{1,2,0},{0,1,2},{2,0,1}}}
-                  }));
-       }
-       else {
-         assert(s.sollist().empty());
-       }
+     assert(s.props() == 2);
+     assert(s.solc() == 4);
+     assert(s.elimvals() == 2*2);
+     assert(s.probes() == 3 + 2);
+     assert(s.quotelimvals() == 100 * LR::float_t(4) / 12);
+     if (with_solutions(rt)) {
+       const auto list_sol = extract(A.e.ldecode(s.sollist()));
+       assert(eqp(list_sol, {
+                  {{{0,2,1},{2,1,0},{1,0,2}}}, {{{2,0,1},{0,1,2},{1,2,0}}},
+                  {{{1,0,2},{2,1,0},{0,2,1}}}, {{{1,2,0},{0,1,2},{2,0,1}}}
+                }));
      }
-     else if (test_sat(rt)) {
-       assert(s.props() == 0);
-       assert(s.solc() == 1);
-       assert(s.elimvals() == 1);
-       assert(s.probes() == 1);
-       assert(s.quotelimvals() == 100 * LR::float_t(1) / 12);
-       if (with_solutions(rt)) {
-        const auto list_sol = extract(A.e.ldecode(s.sollist()));
-        assert(eqp(list_sol, { {{{0,2,1},{2,1,0},{1,0,2}}} }));
-       }
-       else {
-         assert(s.sollist().empty());
-       }
-     }
-     else if (test_unique(rt)) {
-       assert(s.props() == 0);
-       assert(s.solc() == 2);
-       assert(s.elimvals() == 2);
-       assert(s.probes() == 3);
-       assert(s.quotelimvals() == 100 * LR::float_t(2) / 12);
-       if (with_solutions(rt)) {
-        const auto list_sol = extract(A.e.ldecode(s.sollist()));
-        assert(eqp(list_sol, {
-                    {{{0,2,1},{2,1,0},{1,0,2}}}, {{{2,0,1},{0,1,2},{1,2,0}}}
-                  }));
-       }
-       else {
-         assert(s.sollist().empty());
-       }
+     else {
+       assert(s.sollist().empty());
      }
    }
   }
