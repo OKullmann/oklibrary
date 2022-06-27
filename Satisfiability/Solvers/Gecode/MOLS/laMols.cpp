@@ -72,10 +72,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - program-name, version-number
 
 -1. A further parameter (put last) on controlling the output:
-   - This uses the liberal mode of options (a comma-separated list of
+   - DONE This uses the liberal mode of options (a comma-separated list of
      options).
-   - Batch-mode has a special set of defaults.
-   - Collected into one object of type OutputControls.
+   - DONE Batch-mode has a special set of defaults.
+   - DONE Collected into one object of type OutputOptions.
 
    - DONE
      "+-header": switching on/off the headers for the statistics.
@@ -96,12 +96,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - "+-commentout": also statistics-output with leading "#"
      normal: on, batchmode: off.
    - "+-hex": in case of solution-output, use hexadecimal notation.
-   - NOT DONE (the single values are unique, and thus determine the row)
-     Selection of rows: "allrows, g, ri, rl, b"
-      - allrows is default for normal and batchmode
-      - g is the global statistics-line
-      - ri, rl for "reduction" at inner nodes resp. leaves
-      - b is for branching.
+   - Selection of node-type: "inode, leaf".
    - Selection of columns: "allcolumns, satc, ppc, nds, inds, lvs,
      mu0, pelvals, dp, t, ..."
       - DONE allcolumns is default for normal and batchmode
@@ -112,13 +107,15 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
       - NOT DONE (the variable always overwrites other choices)
         It is an error if the variable does not occur at all.
       - DONE nds, inds, lvs imply g (an error if specified otherwse).
-   - Selection of statistics: "allstats, ave, min, max, stddev".
+   - DONE
+     Selection of statistics: "allstats, ave, min, max, stddev".
       - allstats is default for normal, ave is default for batchmode.
       - Row "g" ignores these specifications.
    - NOT DONE (only single values for now)
      Iff at least two "all" are given, the the output is 2d, otherwise 1d
      (serialised).
-   - "+-stop": the value of st appended, only for 1d-output (otherwise
+   - DONE (but default always on)
+     "+-stop": the value of st appended, only for 1d-output (otherwise
      an error).
       normal and batchmode: off.
 
@@ -227,7 +224,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.19.0",
+        "0.19.1",
         "27.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -275,7 +272,9 @@ namespace {
       "   - weights    : " << Environment::WRPO<Weights>{} << "\n" <<
       "   - headers    : " << Environment::WRPO<Headers>{} << "\n" <<
       "   - compute    : " << Environment::WRPO<Computations>{} << "\n" <<
-      "   - values     : " << Environment::WRPO<SIVA>{} << "\n\n" <<
+      "   - values     : " << Environment::WRPO<SIVA>{} << "\n" <<
+      "   - stop-info  : " << Environment::WRPO<STOP>{} << "\n" <<
+      "   - stat-type  : " << Environment::WRPO<STAT>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -289,6 +288,8 @@ namespace {
       "        and batch-mode is used (no additionaly info-output)\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "    - pairs of stop-types/values are separated by \"|\"\n"
+      "  - formatting uses the given defaults for fields not specified\n"
+      "    (which are flipped in batch-mode for the first three fields)\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
 ;
@@ -331,8 +332,20 @@ namespace {
     }
     FloatingPoint::undo(out, state);
   }
-  void select(std::ostream& out, const laSR& res, const SIVA sv) {
+  void select(std::ostream& out, const laSR& res,
+              const SIVA sv, const STAT st) {
     assert(sv != SIVA::all);
+    const auto val0 = [&res,st](const std::string& s){
+      const auto i = ReductionStatistics::index(s);
+      switch (st) {
+      case STAT::ave : return res.S[0].amean()[i];
+      case STAT::min : return res.S[0].min()[i];
+      case STAT::max : return res.S[0].max()[i];
+      case STAT::stddev : return res.S[0].sd_corrected()[i];
+      default :std::ostringstream ss;
+        ss << "ERROR[laMols::single]: STAT-value " << int(st) <<
+          " not handled.\n";
+        throw std::runtime_error(ss.str());} };
     switch (sv) {
     case SIVA::satc : out << res.b.sol_found; return;
     case SIVA::t : out << res.ut; return;
@@ -340,6 +353,9 @@ namespace {
     case SIVA::nds : out << res.S[0].N()+res.S[1].N(); return;
     case SIVA::inds : out << res.S[0].N(); return;
     case SIVA::lvs : out << res.S[1].N(); return;
+    case SIVA::mu0 : out << val0("mu0"); return;
+    case SIVA::qfppc : out << val0("qfppc"); return;
+      // XXX
     default: {
       std::ostringstream ss;
       ss << "ERROR[laMols::single]: SIVA-value " << int(sv) <<
@@ -468,8 +484,13 @@ int main(const int argc, const char* const argv[]) {
                       rt != RT::unique_s_with_log)
                     std::cout << "\n";
                   if (outopt.single_valued()) {
-                    select(std::cout, res, outopt.values());
+                    const auto old =
+                      FloatingPoint::fullprec_float80(std::cout);
+                    select(std::cout, res, outopt.values(), outopt.stat());
+                    if (outopt.with_stop())
+                      std::cout << " " << res.stopped;
                     std::cout << std::endl;
+                    std::cout.precision(old);
                   }
                   else {
                     if (outopt.with_headers()) rh(std::cout);

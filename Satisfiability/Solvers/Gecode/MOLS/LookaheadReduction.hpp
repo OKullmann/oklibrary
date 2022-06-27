@@ -49,6 +49,8 @@ TODOS:
 #include <algorithm>
 #include <utility>
 #include <array>
+#include <string>
+#include <exception>
 
 #include <cassert>
 
@@ -174,6 +176,13 @@ namespace LookaheadReduction {
           "solc", "tr", "pelvals", "dp"};
       // leading "p": percentage, "q": quotient;
       // "f" in "qfppc" for "full".
+    }
+    static size_t index(const std::string& s) {
+      const auto words = stats_header();
+      const auto find = std::ranges::find(words, s);
+      if (find != words.end()) return find - words.begin();
+      throw std::runtime_error("ERROR[LR::index]: unknown variable \""
+                               + s + "\"\n");
     }
 
     bool operator ==(const ReductionStatistics&) const noexcept = default;
