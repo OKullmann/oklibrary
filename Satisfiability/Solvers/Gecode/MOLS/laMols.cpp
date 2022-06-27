@@ -96,22 +96,27 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - "+-commentout": also statistics-output with leading "#"
      normal: on, batchmode: off.
    - "+-hex": in case of solution-output, use hexadecimal notation.
-   - Selection of rows: "allrows, g, ri, rl, b"
+   - NOT DONE (the single values are unique, and thus determine the row)
+     Selection of rows: "allrows, g, ri, rl, b"
       - allrows is default for normal and batchmode
       - g is the global statistics-line
       - ri, rl for "reduction" at inner nodes resp. leaves
       - b is for branching.
    - Selection of columns: "allcolumns, satc, ppc, nds, inds, lvs,
      mu0, pelvals, dp, t, ..."
-      - allcolumns is default for normal and batchmode
-      - t means all times (currently in all 4 "rows").
-      - dp means also all available rows.
-      - It is an error if the variable does not occur at all.
-      - nds, inds, lvs imply g (an error if specified otherwse).
+      - DONE allcolumns is default for normal and batchmode
+      - NOT DONE (only single values for now)
+        t means all times (currently in all 4 "rows").
+      - NOT DONE (only single values for now)
+        dp means also all available rows.
+      - NOT DONE (the variable always overwrites other choices)
+        It is an error if the variable does not occur at all.
+      - DONE nds, inds, lvs imply g (an error if specified otherwse).
    - Selection of statistics: "allstats, ave, min, max, stddev".
       - allstats is default for normal, ave is default for batchmode.
       - Row "g" ignores these specifications.
-   - Iff at least two "all" are given, the the output is 2d, otherwise 1d
+   - NOT DONE (only single values for now)
+     Iff at least two "all" are given, the the output is 2d, otherwise 1d
      (serialised).
    - "+-stop": the value of st appended, only for 1d-output (otherwise
      an error).
@@ -222,8 +227,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.18.4",
-        "26.6.2022",
+        "0.19.0",
+        "27.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -268,8 +273,9 @@ namespace {
       " - formatting   : comma-separated list of\n" <<
       "   - info       : " << Environment::WRPO<Info>{} << "\n" <<
       "   - weights    : " << Environment::WRPO<Weights>{} << "\n" <<
-      "   - headers    : " << Environment::WRPO<Headers>{} << "\n\n" <<
-      "   - compute    : " << Environment::WRPO<Computations>{} << "\n\n" <<
+      "   - headers    : " << Environment::WRPO<Headers>{} << "\n" <<
+      "   - compute    : " << Environment::WRPO<Computations>{} << "\n" <<
+      "   - values     : " << Environment::WRPO<SIVA>{} << "\n\n" <<
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
@@ -324,6 +330,21 @@ namespace {
       res.S1.out(out, {});
     }
     FloatingPoint::undo(out, state);
+  }
+  void select(std::ostream& out, const laSR& res, const SIVA sv) {
+    assert(sv != SIVA::all);
+    switch (sv) {
+    case SIVA::satc : out << res.b.sol_found; return;
+    case SIVA::t : out << res.ut; return;
+    case SIVA::ppc : out << res.gs.propagate; return;
+    case SIVA::nds : out << res.S[0].N()+res.S[1].N(); return;
+    case SIVA::inds : out << res.S[0].N(); return;
+    case SIVA::lvs : out << res.S[1].N(); return;
+    default: {
+      std::ostringstream ss;
+      ss << "ERROR[laMols::single]: SIVA-value " << int(sv) <<
+        " not handled.\n";
+      throw std::runtime_error(ss.str());} }
   }
 
   size_t mult(const size_t basis, const list_size_t& list_N,
@@ -446,15 +467,21 @@ int main(const int argc, const char* const argv[]) {
                       rt != RT::enumerate_with_log and
                       rt != RT::unique_s_with_log)
                     std::cout << "\n";
-                  if (outopt.with_headers()) rh(std::cout);
-                  std::cout.width(wN); std::cout << N << " ";
-                  Environment::data_policies(std::cout,
-                    std::make_tuple(rt, po, brt, dis, bro, lar));
-                  std::cout.width(wgcd); std::cout << gcd << " ";
-                  rs(std::cout, res, outopt.with_headers());
-                  if (with_file_output)
-                    Environment::out_line(*out, res.b.list_sol, "\n");
-                  std::cout.flush();
+                  if (outopt.single_valued()) {
+                    select(std::cout, res, outopt.values());
+                    std::cout << std::endl;
+                  }
+                  else {
+                    if (outopt.with_headers()) rh(std::cout);
+                    std::cout.width(wN); std::cout << N << " ";
+                    Environment::data_policies(std::cout,
+                      std::make_tuple(rt, po, brt, dis, bro, lar));
+                    std::cout.width(wgcd); std::cout << gcd << " ";
+                    rs(std::cout, res, outopt.with_headers());
+                    if (with_file_output)
+                      Environment::out_line(*out, res.b.list_sol, "\n");
+                    std::cout.flush();
+                  }
                 }
           }
         }

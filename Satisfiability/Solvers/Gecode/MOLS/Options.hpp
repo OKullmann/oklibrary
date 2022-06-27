@@ -319,7 +319,9 @@ namespace Options {
     static constexpr int size = int(P::off) + 1;
     P o;
     WrapP() noexcept : o(def) {}
+    WrapP(const P p) noexcept : o(p) {}
     WrapP(const int code) noexcept : o(P(code)) {}
+
     operator P() const noexcept { return o; }
     int code() const noexcept { return int(o); }
   };
@@ -328,7 +330,26 @@ namespace Options {
   typedef WrapP<WGHTS> Weights;
   typedef WrapP<HDS> Headers;
   typedef WrapP<COMP, true> Computations;
-  typedef std::tuple<Info, Weights, Headers, Computations> output_options_t;
+
+  // Single values:
+  enum class SIVA {
+    all=0,satc=1,t=2,ppc=3,nds=4,inds=5,lvs=6,
+    mu0=7, qfppc=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
+      tr=14,pelvals=15,dp=16,
+    mu1=17,w=18,ltau=19,mind=20,meand=21,maxd=22,sdd=23,tb=24
+  };
+  constexpr int SIVAsize = int(SIVA::tb) + 1;
+
+  typedef std::tuple<Info, Weights, Headers, Computations, SIVA>
+    output_options_t;
+
+  output_options_t adapt(output_options_t in) noexcept {
+    if (std::get<SIVA>(in) == SIVA::all) return in;
+    std::get<Info>(in) = INFO::off;
+    std::get<Weights>(in) = WGHTS::off;
+    std::get<Headers>(in) = HDS::off;
+    return in;
+  }
 
   struct OutputOptions {
     const output_options_t options;
@@ -336,7 +357,7 @@ namespace Options {
       Info::set_def(bm); Weights::set_def(bm); Headers::set_def(bm);
       Computations::set_def(bm);
     }
-    OutputOptions(output_options_t o) noexcept : options(o) {}
+    OutputOptions(output_options_t o) noexcept : options(adapt(o)) {}
 
     bool with_info() const noexcept {
       return INFO(std::get<Info>(options)) == INFO::on;
@@ -350,6 +371,8 @@ namespace Options {
     bool with_computations() const noexcept {
       return COMP(std::get<Computations>(options)) == COMP::on;
     }
+    SIVA values() const noexcept { return std::get<SIVA>(options); }
+    bool single_valued() const noexcept { return values() != SIVA::all; }
   };
 
 }
@@ -482,7 +505,7 @@ namespace Environment {
       estring {"random", "ascending", "descending"};
   };
   template <> struct RegistrationPolicies<Options::Info> {
-    static constexpr const char* name = "show_info";
+    static constexpr const char* name = "show-info";
     static constexpr const char* sname = "shin";
     static constexpr int size = Options::Info::size;
     static constexpr std::array<const char*, size>
@@ -491,7 +514,7 @@ namespace Environment {
       estring {"show-info", "not-show-info"};
   };
   template <> struct RegistrationPolicies<Options::Weights> {
-    static constexpr const char* name = "show_weights";
+    static constexpr const char* name = "show-weights";
     static constexpr const char* sname = "shws";
     static constexpr int size = Options::Weights::size;
     static constexpr std::array<const char*, size>
@@ -500,7 +523,7 @@ namespace Environment {
       estring {"show-weights", "not-show-weights"};
   };
   template <> struct RegistrationPolicies<Options::Headers> {
-    static constexpr const char* name = "show_headers";
+    static constexpr const char* name = "show-headers";
     static constexpr const char* sname = "shhs";
     static constexpr int size = Options::Headers::size;
     static constexpr std::array<const char*, size>
@@ -509,13 +532,23 @@ namespace Environment {
       estring {"show-headers", "not-show-headers"};
   };
   template <> struct RegistrationPolicies<Options::Computations> {
-    static constexpr const char* name = "perform_computations";
+    static constexpr const char* name = "perform-computations";
     static constexpr const char* sname = "pfcomps";
     static constexpr int size = Options::Computations::size;
     static constexpr std::array<const char*, size>
     string {"+computations", "-computations"};
     static constexpr std::array<const char*, size>
       estring {"perform_computations", "not-perform_computations"};
+  };
+  template <> struct RegistrationPolicies<Options::SIVA> {
+    static constexpr const char* name = "selected-values";
+    static constexpr const char* sname = "selval";
+    static constexpr int size = Options::SIVAsize;
+    static constexpr std::array<const char*, size>
+    string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
+        "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
+        "solc", "tr", "pelvals", "dp",
+        "mu1", "w", "ltau", "mind", "meand", "maxd", "sdd", "tb"};
   };
 }
 namespace Options {
@@ -569,6 +602,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const Computations c) {
     return out << Environment::W2(c);
+  }
+  std::ostream& operator <<(std::ostream& out, const SIVA sv) {
+    return out << Environment::W0(sv);
   }
 
   auto read(EXW, const std::string& s) noexcept {
