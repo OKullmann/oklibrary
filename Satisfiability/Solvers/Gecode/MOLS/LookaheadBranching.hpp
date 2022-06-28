@@ -11,6 +11,56 @@ License, or any later version. */
 
   Namespace LookaheadBranching, abbreviated "LB".
 
+  Simulating Gecode-branching:
+
+    - using size_t
+    - using values_t, a vector of int
+    - using float_t, defined as float80
+
+    - typedef vec_t for vector of float_t
+
+
+    - ValVec, derived from GC::Choice, containing an object
+      of values_t (vector of int)
+
+    - helper function append(int, values_t, bool) : adds the int
+      to the front of the vector, where the vector is either taken
+      in order or reversed
+    - create(int v, values_t values, BRT bt, GBO bo, GC::Brancher& b)
+        -> const ValVec*
+      creates a branching
+
+    - class GcBranching, derived from GC::Brancher
+      for (just) simulating Gecode-branching
+
+
+    - VVElim, derived from ValVec, adds a member for the "assignment"
+      found in la-reduction (the eliminated values)
+
+    - create_la: similar to create above, but now producing a const VVElim*
+
+
+    For rlaMols, and handling of statistics for la-reduction:
+
+     - struct rlaParams for the parameters needed for la-reduction
+
+     - struct StoppingData<STO> for one stopping-data item with value;
+         instances: here LRStoppingData = StoppingData<OP::LRST>,
+         in Solvers.hpp: GcStoppingData = StoppingData<OP::STO>
+     - ListStoppingData, a wrapper for a vector of LRStoppingData
+
+     - class rlaStats: contains
+       - an array S of size 2 of the extracted data from
+         LR::ReductionStatistics (for inner nodes and leaves)
+       - a member of type ListStoppingData
+       - an atomic_bool (set by member-function activate_abort, read
+         by the Gecode-DFS-handler)
+       - the list of solutions, and the counter of solutions
+       - a pointer to the log-stream
+       - a pointer to the Encoding-object
+      Solvers::rlasolver creates one sglobal rlaStats-object, to aggregate
+      the statistics.
+
 BUGS:
 
 TODOS:
@@ -106,7 +156,6 @@ namespace LookaheadBranching {
   */
 
   struct ValVec : GC::Choice {
-    using values_t = GV::values_t;
     const values_t br; // br[0] is the variable (if br is not empty)
 
     ValVec(const GC::Brancher& b, const values_t branching) noexcept
@@ -127,7 +176,7 @@ namespace LookaheadBranching {
     else std::copy(values.rbegin(), values.rend(), br.begin()+1);
     return br;
   }
-  const ValVec* create(const int v, GV::values_t values,
+  const ValVec* create(const int v, values_t values,
                        const OP::BRT bt, const OP::GBO bo,
                        GC::Brancher& b) noexcept {
     assert(values.size() >= 2);
@@ -196,7 +245,6 @@ namespace LookaheadBranching {
 
 
   struct VVElim : ValVec {
-    using ValVec::values_t;
     using ValVec::br;
     using assignment_t = LR::assignment_t;
     const assignment_t elim;
@@ -241,7 +289,7 @@ namespace LookaheadBranching {
   struct StoppingData {
     typedef STO st_t;
     const st_t st;
-    const size_t val; // the count for time is in seconds
+    const size_t val; // if this is time, then in seconds
     constexpr StoppingData() noexcept : st(STO::none), val(0) {}
     constexpr StoppingData(const STO st, const size_t val)
       noexcept : st(st), val(val) {}

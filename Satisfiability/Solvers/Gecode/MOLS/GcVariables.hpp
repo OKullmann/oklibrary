@@ -10,6 +10,13 @@ License, or any later version. */
 
   Namespace GcVariables, abbreviated "GV".
 
+    - using size_t
+
+    - typdef VarVec = GC::IntVarArray
+    - class GcIntArraySpace, derived from GC::Space,
+      a wrapper around VarVec
+    - class GcIntVarArray, a wrapper around GcIntArraySpace,
+      to simulate a "pure" VarVec
 
 BUG:
 
@@ -30,6 +37,7 @@ TODOS:
 #ifndef GCVARIABLES_FQM6cOCEcZ
 #define GCVARIABLES_FQM6cOCEcZ
 
+#include <vector>
 #include <ostream>
 
 #include <cassert>
