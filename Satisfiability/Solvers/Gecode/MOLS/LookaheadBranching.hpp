@@ -265,34 +265,6 @@ namespace LookaheadBranching {
   };
 
 
-  struct VVElim : ValVec {
-    using ValVec::br;
-    using assignment_t = LR::assignment_t;
-    const assignment_t elim;
-
-    VVElim(const GC::Brancher& b, values_t br, assignment_t elim)
-      noexcept : ValVec(b, br), elim(elim) {}
-  };
-
-  const VVElim* create_la(const int v, GV::values_t values,
-                          const OP::BRT bt, const OP::GBO bo,
-                          GC::Brancher& b,
-                          VVElim::assignment_t a) noexcept {
-    assert(values.size() >= 2);
-    switch (bt) {
-    case OP::BRT::bin :
-      return new VVElim(b,
-        {v, bo==OP::GBO::asc ? values.front() : values.back()}, std::move(a));
-    case OP::BRT::enu : {
-      assert(values.size() >= 2);
-      return new VVElim(b,
-                        append(v, std::move(values), bo==OP::GBO::asc),
-                        std::move(a));
-    }
-    default : assert(false); return nullptr;}
-  }
-
-
   /*
     Using simulated Gecode-branching with lookahead-reduction
   */
@@ -437,6 +409,34 @@ namespace LookaheadBranching {
     std::ostream* const log;
     const EC::EncCond* const enc;
   };
+
+
+  struct VVElim : ValVec {
+    using ValVec::br;
+    using assignment_t = LR::assignment_t;
+    const assignment_t elim;
+
+    VVElim(const GC::Brancher& b, values_t br, assignment_t elim)
+      noexcept : ValVec(b, br), elim(elim) {}
+  };
+
+  const VVElim* create_la(const int v, GV::values_t values,
+                          const OP::BRT bt, const OP::GBO bo,
+                          GC::Brancher& b,
+                          VVElim::assignment_t a) noexcept {
+    assert(values.size() >= 2);
+    switch (bt) {
+    case OP::BRT::bin :
+      return new VVElim(b,
+        {v, bo==OP::GBO::asc ? values.front() : values.back()}, std::move(a));
+    case OP::BRT::enu : {
+      assert(values.size() >= 2);
+      return new VVElim(b,
+                        append(v, std::move(values), bo==OP::GBO::asc),
+                        std::move(a));
+    }
+    default : assert(false); return nullptr;}
+  }
 
 
   struct RlaBranching : public GC::Brancher {
