@@ -161,9 +161,11 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 3. Should the reporting of ltau use engineering notation?
    - UPDATE: See "Measure the variation of considered branchings for one node"
      in LookaheadBranching.hpp; so we don't report ltau anymore.
-     The new reported "distances", standardised by multipliying ltau (thus
-     they are the negative logarithms of the branch-probabilities) need to be
-     observed, whether they have this scaling-problem.
+     The new reported probabilities need to be observed, whether they have
+     this scaling-problem.
+     DONE (now reporting the probabilities:
+     Perhaps these values should report the binary logarithm, not the
+     natural logarithm.
 
    - Otherwise it is often just "0.000".
     - Currently there is no mechanism to have a special output for
@@ -179,6 +181,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Possibly qelvals should be given in %, i.e., multiplied by 100.
     - Possibly same with qprunes.
     - The multiplication by 100 should happen at "input" of the data.
+
+4. Better values for qfppc
+   - In case no values were eliminated, perhaps qfppc=1 is then
+     more appropriate.
 
 */
 
@@ -204,7 +210,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.21.0",
+        "0.21.1",
         "29.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -367,9 +373,9 @@ namespace {
     case SIVA::mu1 : out << val1("mu1"); return;
     case SIVA::w : out << val1("w"); return;
     case SIVA::ltau : out << val1("ltau"); return;
-    case SIVA::mind : out << val1("mind"); return;
-    case SIVA::meand : out << val1("meand"); return;
-    case SIVA::maxd : out << val1("maxd"); return;
+    case SIVA::minp : out << val1("minp"); return;
+    case SIVA::meanp : out << val1("meanp"); return;
+    case SIVA::maxp : out << val1("maxp"); return;
     case SIVA::sdd : out << val1("sdd"); return;
     case SIVA::tb : out << val1("tb"); return;
 

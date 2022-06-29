@@ -135,6 +135,7 @@ TODOS:
 #include <gecode/search.hh>
 
 #include <Numerics/NumTypes.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 #include <Numerics/Statistics.hpp>
 #include <Numerics/Tau.hpp>
 
@@ -528,7 +529,7 @@ namespace LookaheadBranching {
     size_t vals_; // XXX
     size_t width_; // width of branching
     float_t ltau_;
-    float_t mind_, meand_, maxd_, sdd_; // distances multiplied with ltau
+    float_t minp_, meanp_, maxp_, sdd_; // the branch-probabilities
     Timing::Time_point time_; // total time for the branching construction
 
   public :
@@ -547,7 +548,7 @@ namespace LookaheadBranching {
     template <class STATS>
     void set_dist(const STATS& s) noexcept {
       assert(s.N() == width_);
-      mind_ = s.min(); meand_ = s.amean(); maxd_ = s.max();
+      minp_ = s.min(); meanp_ = s.amean(); maxp_ = s.max();
       sdd_ = s.sd_population();
     }
 
@@ -561,13 +562,13 @@ namespace LookaheadBranching {
     export_t extract() const noexcept {
       export_t res;
       res[0] = vals_; res[1] = width_; res[2] = ltau_;
-      res[3] = mind_; res[4] = meand_; res[5] = maxd_; res[6] = sdd_;
+      res[3] = minp_; res[4] = meanp_; res[5] = maxp_; res[6] = sdd_;
       res[num_stats-1] = time_;
       return res;
     }
     static std::vector<std::string> stats_header() noexcept {
       return {"mu1", "w", "ltau",
-          "mind", "meand", "maxd", "sdd",
+          "minp", "meanp", "maxp", "sdd",
           "tb"};
     }
     static size_t index(const std::string& s) {
@@ -758,7 +759,8 @@ namespace LookaheadBranching {
       stats1.set_width(w);
       assert(w >= 2);
       {GenStats::StdStats statsd;
-       for (const auto d : optbt) statsd += opttau * d;
+       for (const auto d : optbt)
+         statsd += FP::exp(- opttau * d);
        stats1.set_dist(statsd);
       }
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
