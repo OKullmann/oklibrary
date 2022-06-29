@@ -76,6 +76,8 @@ BUGS:
 
 TODOS:
 
+-1. Implement sorting of branchings for binary branching.
+
 0. Provide documentation.
 
 1. Provide and use better statistics-functions for the branches
@@ -586,20 +588,31 @@ namespace LookaheadBranching {
     }
   };
 
-  const VVElim* create_la(const int v, GV::values_t values,
-                          const OP::LBRT bt,
-                          GC::Brancher& b,
-                          VVElim::assignment_t a) {
+
+  struct VVEMeasure : VVElim {
+    using VVElim::br;
+    using VVElim::elim;
+    vec_t m;
+
+    VVEMeasure(const GC::Brancher& b, values_t br, assignment_t elim,
+               vec_t m) noexcept : VVElim(b,br,elim), m(m) {}
+  };
+
+  const VVEMeasure* create_la(const int v, GV::values_t values,
+                              const OP::LBRT bt,
+                              GC::Brancher& b,
+                              VVElim::assignment_t a,
+                              vec_t m) {
     assert(not values.empty());
     switch (bt) {
     case OP::LBRT::bin : {
       assert(values.size() == 1);
-      return new VVElim(b, {v, values[0]}, std::move(a));
+      return new VVEMeasure(b, {v, values[0]}, std::move(a), std::move(m));
     }
     case OP::LBRT::enu : {
       assert(values.size() >= 2);
-      return new VVElim(b, append(v, std::move(values), true),
-                        std::move(a));
+      return new VVEMeasure(b, append(v, std::move(values), true),
+                            std::move(a), std::move(m));
     }
     default : throw std::runtime_error("LookaheadBranching::create_la: "
                                        "non-handled LBRT");}
@@ -758,27 +771,36 @@ namespace LookaheadBranching {
       const size_t w = optbt.size();
       stats1.set_width(w);
       assert(w >= 2);
+      vec_t mv; mv.reserve(w);
       {GenStats::StdStats statsd;
-       for (const auto d : optbt)
-         statsd += FP::exp(- opttau * d);
-       stats1.set_dist(statsd);
+        for (const auto d : optbt) {
+          const float_t m = opttau * d;
+          mv.push_back(m);
+          statsd += FP::exp(-m);
+        }
+        stats1.set_dist(statsd);
       }
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
         assert(w == values.size());
-        if (P.bo == OP::LBRO::desc) std::ranges::reverse(values);
+        if (P.bo == OP::LBRO::desc) {
+          std::ranges::reverse(values);
+          std::ranges::reverse(mv);
+        }
         else if (P.bo == OP::LBRO::ascd or P.bo == OP::LBRO::descd) {
-          std::vector<std::pair<int, float_t>> valdist;
+          std::vector<std::tuple<int, float_t, float_t>> valdist;
           valdist.reserve(w);
           for (size_t i = 0; i < w; ++i)
-            valdist.emplace_back(values[i], optbt[i]);
-          std::ranges::sort(valdist, {}, [](const auto& p){return p.second;});
-          if (P.bo == OP::LBRO::ascd)
-            for (size_t i = 0; i < w; ++i) values[i] = valdist[i].first;
-          else
-            for (size_t i = 0; i < w; ++i) values[i] = valdist[(w-1)-i].first;
+            valdist.emplace_back(values[i], optbt[i], mv[i]);
+          std::ranges::sort(valdist, {}, [](const auto& p){
+                              return std::get<1>(p);});
+          for (size_t i = 0; i < w; ++i) {
+            const size_t ip = P.bo == OP::LBRO::ascd ? i : (w-1)-i;
+            values[i] = std::get<0>(valdist[ip]);
+            mv[i] = std::get<2>(valdist[ip]);
+          }
         }
       }
       stats1.time(timing()-t0);
@@ -787,18 +809,24 @@ namespace LookaheadBranching {
         S->add(stats0, stats1);
       } else S->add(stats0, stats1);
       return create_la(bestv, std::move(values), P.bt, *this,
-                       std::move(stats0.elims()));
+                       std::move(stats0.elims()), std::move(mv));
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
     }
 
-    GC::ExecStatus commit(GC::Space& s0, const GC::Choice& c0,
+    GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
-      return RlaBranching::commit0(s0, c0, a);
+      const VVEMeasure& c = static_cast<const VVEMeasure&>(c0);
+      const size_t w = c.br.size();
+      if (w == 0) return GC::ExecStatus::ES_FAILED;
+      assert(a < w); assert(c.m.size() == w);
+      CT::GenericMols2* const node = &(static_cast<CT::GenericMols2&>(s));
+      node->update_clone(c.m[a]);
+      return RlaBranching::commit0(s, c0, a);
     }
 
-};
+  };
 
 }
 

@@ -52,6 +52,7 @@ TODOS:
 #include <gecode/search.hh>
 
 #include "Encoding.hpp"
+#include "Measures.hpp"
 
 namespace Constraints {
 
@@ -59,6 +60,7 @@ namespace Constraints {
   namespace EC = Encoding;
 
   using size_t = EC::size_t;
+  using float_t = Measures::float_t;
 
 
   struct GenericMols0 : GC::Space {
@@ -103,6 +105,38 @@ namespace Constraints {
 
   private :
     NodeData nd;
+
+  };
+
+
+  struct NodeMeasures {
+    float_t lestlvs;
+    constexpr NodeMeasures() noexcept : lestlvs(0) {};
+    constexpr bool operator ==(const NodeMeasures&) const noexcept = default;
+  };
+ std::ostream& operator <<(std::ostream& out, const NodeMeasures& d) {
+    return out << d.lestlvs;
+  }
+
+  struct GenericMols2 : GenericMols1 {
+    using GenericMols1::VarVec;
+    using GenericMols1::Var;
+    using GenericMols1::V;
+
+    GenericMols2(const EC::EncCond& enc) : GenericMols1(enc) {}
+    NodeMeasures nodemeasures() const noexcept { return nm; }
+
+    // Assumes that GenericMols1::update_clone() is called separately:
+    void update_clone(const float_t d) noexcept {
+      nm.lestlvs += d;
+    }
+
+  protected :
+    GenericMols2(GenericMols2& gm) : GenericMols1(gm), nm(gm.nm) {}
+    GC::Space* copy() override { return new GenericMols2(*this); }
+
+  private :
+    NodeMeasures nm;
 
   };
 
