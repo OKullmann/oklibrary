@@ -127,6 +127,13 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
        = 1 - ota / exp2(muld_root).
    - float80 should be sufficient for a good deal of problems.
 
+   - CHANGE: it seems more informative to have each node reporting
+     on the change in ota; see "Update member vals_ of BranchingStatistics"
+     in LookaheadBranching.hpp.
+     Additionally it should also be interesting, now as a global variable,
+     to see the total current change achieved (the above "ota").
+     This is just one global variable, maintained by the branching statistics.
+
 1. Early abortion of runs
     - Allowing bounds for total (wallclock) runtime; which should perhaps
       anyway be part of the general statistics (not separately handled
@@ -138,12 +145,26 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Usual syntax: "depth, 10" and "mu, 10000".
    - The current handling of "leafcount" needs to be generalised.
    - Then we need to count three types of leaves: falsified, satisfied,
-     and completed-early.
+     and "completed-early" (perhaps "closed"?).
    - One could also include criteria related to the branching, e.g.,
      ltau too bad.
-   - So perhaps here we handle this after the branching-computation?
+   - So we handle this after the branching-computation, just expanding
+     S->add(stats0, stats1) by adding the information on whether we
+     have a "pseudo-leaf" (no branching), and in such a case adding
+     the reduction-statistics to the third type of reduction-statistics.
+     We have an early check-point for pseudo-leaves, which can then
+     expand the operation S->add(stats0).
+   - Instead of just having "ClosingData" (similar to "StoppingData"),
+     now this object also handles the decision whether the branch
+     is to be closed.
 
 3. Should the reporting of ltau use engineering notation?
+   - UPDATE: See "Measure the variation of considered branchings for one node"
+     in LookaheadBranching.hpp; so we don't report ltau anymore.
+     The new reported "distances", standardised by multipliying ltau (thus
+     they are the negative logarithms of the branch-probabilities) need to be
+     observed, whether they have this scaling-problem.
+
    - Otherwise it is often just "0.000".
     - Currently there is no mechanism to have a special output for
       one of the numbers.
@@ -183,8 +204,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.20.0",
-        "27.6.2022",
+        "0.21.0",
+        "29.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

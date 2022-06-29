@@ -57,9 +57,20 @@ License, or any later version. */
          by the Gecode-DFS-handler)
        - the list of solutions, and the counter of solutions
        - a pointer to the log-stream
-       - a pointer to the Encoding-object
-      Solvers::rlasolver creates one sglobal rlaStats-object, to aggregate
-      the statistics.
+       - a pointer to the Encoding-object.
+      The main member function is add(LR::ReductionStatistics).
+      Solvers::rlasolver creates one global (singleton) rlaStats-object,
+      to aggregate the statistics (and handle abort).
+
+    - class RlaBranching, derived from GC::Brancher:
+       - choice calls the add-function of rlaStats (possibly locked)
+       - commit calls commit0
+       - commit0 calles update_clone() for the current node, and
+         eliminates all values from the la-reduction.
+
+
+    For laMols:
+
 
 BUGS:
 
@@ -76,9 +87,11 @@ TODOS:
 2. Measure the variation of considered branchings for one node:
     - Just the basic statistics for (l)tau, over all branchings
       considered.
-    - The problem here is that the tau-values are very small; some
-      standardisation would be helpful.
-    - Perhaps the numbers should be divided by the mean.
+    - But the range, max-tau / min-tau, seems most informative,
+      perhaps multiplied by 100 (as a percentage).
+      This also provides a standardisation.
+    - This should replace the current ltau-value (which isn't very
+      informative).
 
 3. Update member "vals_" of BranchingStatistics
     - More general, it is the "measure".
@@ -87,6 +100,13 @@ TODOS:
       from the root: this would be kind of an "inverted measure".
     - The statistics-output currently uses "mu", which could also
       be used for that "inverted measure".
+    - It seems best to have the reduction statistics besides depth
+      also report exp(sum of distances * ltau), the random variable
+      predicting the leaf-count.
+      So the node besides depth needs also to have this sum.
+    - Then for BranchingStatistics we don't report otherwise on tau;
+      the measure-component "vals_" should be replaced by the relative
+      change in total-open-assignment-count (as achieved by this node).
 
 */
 
@@ -508,7 +528,7 @@ namespace LookaheadBranching {
     size_t vals_; // XXX
     size_t width_; // width of branching
     float_t ltau_;
-    float_t mind_, meand_, maxd_, sdd_;
+    float_t mind_, meand_, maxd_, sdd_; // distances multiplied with ltau
     Timing::Time_point time_; // total time for the branching construction
 
   public :
@@ -738,7 +758,7 @@ namespace LookaheadBranching {
       stats1.set_width(w);
       assert(w >= 2);
       {GenStats::StdStats statsd;
-       for (const auto d : optbt) statsd += d;
+       for (const auto d : optbt) statsd += opttau * d;
        stats1.set_dist(statsd);
       }
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
