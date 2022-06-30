@@ -125,25 +125,44 @@
 # 18.874  0.595  0.022  0.156  0.085  0.141   -nan  0.160
 # Both runs appear very similar.
 
-# MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu wdL "" "" 1 12 "0.2" ""
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
-#  7   +count dom enu  wdL   asc  relpr   1      192    5454.141    9881317    34688    88193    14  0    53505    34688   18817
-#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals
-# 946.484  0.933    5.475  123.834   214.207   2.220  0.000  1.491    1.014
-# 814.000  0.000    0.000  115.353   114.831   1.000  0.000  0.161    0.000
-#1224.000  1.500   14.217  126.882  1007.859   9.000  1.000  9.793    8.188
-#  43.630  0.301    1.891    1.142    76.684   0.749  0.021  0.671    1.026
-#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals
-#837.862  1.667    2.798   11.251    58.818   1.269  0.005  0.491    4.953
-#467.000  1.046    0.000    0.000     0.366   1.000  0.000  0.000    0.264
-#970.000  6.000   44.444  119.287  1011.785   9.000  1.000  8.659   20.022
-# 68.062  0.455    2.114   12.184    88.324   0.688  0.073  0.735    3.713
-#    mu1      w   ltau    mind   meand     maxd     sdd      dp     tb
-#357.957  2.843  0.091   7.408  15.182   22.451    -nan   8.376  0.871
-#315.000  2.000  0.025   1.490   4.839    5.033   0.000   0.000  0.141
-#430.000  6.000  0.257  27.282  70.075  123.334  47.661  12.000  1.397
-# 12.160  0.622  0.037   3.328   7.844   15.702    -nan   1.269  0.169
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "0.2" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    5679.574    9881317    13  0    53505   18817    34688
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 946.484  0.933    5.475  123.834   214.207   2.220  0.000  1.610    1.014   8.376
+# 814.000  0.000    0.000  115.353   114.831   1.000  0.000  0.239    0.000   0.000
+#1224.000  1.500   14.217  126.882  1007.859   9.000  1.000  9.664    8.188  12.000
+#  43.630  0.301    1.891    1.142    76.684   0.749  0.021  0.664    1.026   1.269
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+#837.862  1.667    2.798   11.251    58.818   1.269  0.005  0.529    4.953   9.915
+#467.000  1.046    0.000    0.000     0.366   1.000  0.000  0.000    0.264   8.000
+#970.000  6.000   44.444  119.287  1011.785   9.000  1.000  8.807   20.022  13.000
+# 68.062  0.455    2.114   12.184    88.324   0.688  0.073  0.779    3.713   0.924
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#357.957  2.843  0.091  0.236  0.369  0.550   -nan  0.940
+#315.000  2.000  0.025  0.001  0.167  0.250  0.000  0.243
+#430.000  6.000  0.257  0.500  0.500  0.932  0.432  1.787
+# 12.160  0.622  0.037  0.152  0.084  0.145   -nan  0.102
 # Similar to the above.
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "0.1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    5642.141    9965670    13  0    54121   19089    35032
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 945.999  0.932    5.487  123.826   215.482   2.234  0.000  1.563    1.034   8.391
+# 814.000  0.000    0.000  115.353   115.092   1.000  0.000  0.280    0.000   0.000
+#1224.000  1.500   14.217  126.882  1007.859   9.000  1.000  9.675    8.188  12.000
+#  43.680  0.302    1.865    1.146    76.248   0.751  0.020  0.660    1.043   1.272
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#837.663  1.673    2.782   11.175   57.604   1.260  0.005  0.500    4.916   9.928
+#467.000  1.067    0.000    0.000    0.271   1.000  0.000  0.000    0.264   8.000
+#970.000  6.000   44.444  120.021  955.779   9.000  1.000  8.220   20.941  13.000
+# 67.779  0.457    2.085   12.114   85.210   0.659  0.072  0.730    3.675   0.930
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#289.334  2.835  0.154  0.239  0.370  0.548   -nan  0.907
+#269.000  2.000  0.039  0.001  0.167  0.250  0.000  0.246
+#329.000  6.000  0.489  0.500  0.500  0.925  0.418  1.894
+#  6.804  0.622  0.069  0.153  0.084  0.146   -nan  0.131
+# Very similar to 0.2.
 
 # MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" +count dom enu wdL "" "" 1 12 "r,r,r,r,r" ""
 #   weights: 2.4000000000000000001 2.2 0.60000000000000000002 0.60000000000000000002 2.8 -> 0 0 1 5.2780316430915770378 24.251465064166369321 36.758347359905120224 55.715236050951944917 388.02344102666190914
@@ -193,6 +212,14 @@
 # real    1203m56.562s user    66923m38.538s sys     462m48.288s
 # Basically the same as above. Running it again, now with VNS_MADS_SEARCH:
 # 3MOLS> time nomad np_diag_7big2_wdL
+# 100 21881          1.2        2.2        1.2        0.01       0.2
+# 309 21473          1.59       2.04       1.27       0.01       2.01
+# Blackbox evaluations: 329 Total model evaluations: 37538 Cache hits: 55 Total number of evaluations: 384
+# real    1218m10.172s user    59616m14.366s sys     351m46.432s
+# No difference visible, even less evaluations. The much better solution
+# below is never found. Below the starting point "0.1" was used,
+# instead of "0.1" above; trying this:
+# 3MOLS> time nomad np_diag_7big3_wdL
 # running on server2 XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions
@@ -219,6 +246,8 @@
 # 7827.000  2.000  0.001  0.000  0.167  0.250  0.000  0.080
 #12429.000  6.000  0.005  0.500  0.500  0.946  0.446  1.405
 #  618.927  0.670  0.001  0.143  0.093  0.116   -nan  0.206
+# Repeating, with new settings: XXX
+
 
 # N=8:
 
