@@ -210,7 +210,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.22.1",
+        "0.22.2",
         "30.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -259,6 +259,7 @@ namespace {
       "   - headers    : " << Environment::WRPO<Headers>{} << "\n" <<
       "   - compute    : " << Environment::WRPO<Computations>{} << "\n" <<
       "   - values     : " << Environment::WRPO<SIVA>{} << "\n" <<
+      "   - negation   : " << Environment::WRPO<NEG>{} << "\n" <<
       "   - stop-info  : " << Environment::WRPO<STOP>{} << "\n" <<
       "   - stat-type  : " << Environment::WRPO<STAT>{} << "\n" <<
       "   - node-type  : " << Environment::WRPO<NOTY>{} << "\n\n" <<
@@ -326,7 +327,7 @@ namespace {
     FloatingPoint::undo(out, state);
   }
   void select(std::ostream& out, const laSR& res,
-              const SIVA sv, const STAT st, const NOTY nt) {
+              const SIVA sv, const STAT st, const NOTY nt, const bool neg) {
     assert(sv != SIVA::all);
 
     const auto val = [&res,st,nt](const std::string& s){
@@ -368,6 +369,7 @@ namespace {
           " not handled.\n";
         throw std::runtime_error(ss.str());} };
 
+    if (neg) out << "-";
     switch (sv) {
     case SIVA::satc : out << res.b.sol_found; return;
     case SIVA::t : out << res.ut; return;
@@ -529,7 +531,7 @@ int main(const int argc, const char* const argv[]) {
                     const auto old =
                       FloatingPoint::fullprec_float80(std::cout);
                     select(std::cout, res, outopt.values(),
-                           outopt.stat(), outopt.node_type());
+                           outopt.stat(),outopt.node_type(),outopt.negated());
                     if (outopt.with_stop())
                       std::cout << " " << res.stopped;
                     std::cout << std::endl;

@@ -307,6 +307,7 @@ namespace Options {
   enum class HDS { on=0, off=1 };
   enum class COMP { on=0, off=1 };
 
+  // Wrapper for different default in batchmode:
   template <typename P, bool bothon = false>
   struct WrapP {
     typedef P policy_t;
@@ -342,6 +343,8 @@ namespace Options {
   constexpr int SIVAsize = int(SIVA::estlvs) + 1;
 
   // Additional specifications, ignored if not relevant:
+  enum class NEG { off=0, on=1 };
+  constexpr int NEGsize = int(NEG::on) + 1;
   enum class STOP { on=0, off=1 };
   constexpr int STOPsize = int(STOP::off) + 1;
   enum class STAT { ave=0, min=1, max=2, stddev=3 };
@@ -350,9 +353,10 @@ namespace Options {
   constexpr int NOTYsize = int(NOTY::leaf) + 1;
 
   typedef std::tuple<Info, Weights, Headers, Computations,
-                     SIVA, STOP, STAT, NOTY>
+                     SIVA, NEG, STOP, STAT, NOTY>
     output_options_t;
 
+  // Adapt to output of single value:
   output_options_t adapt(output_options_t in) noexcept {
     if (std::get<SIVA>(in) == SIVA::all) return in;
     std::get<Headers>(in) = HDS::off;
@@ -380,6 +384,9 @@ namespace Options {
       return COMP(std::get<Computations>(options)) == COMP::on;
     }
     SIVA values() const noexcept { return std::get<SIVA>(options); }
+    bool negated() const noexcept {
+      return std::get<NEG>(options) == NEG::on;
+    }
     bool single_valued() const noexcept { return values() != SIVA::all; }
     bool with_stop() const noexcept {
       return std::get<STOP>(options) == STOP::on;
@@ -547,6 +554,24 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"perform_computations", "not-perform_computations"};
   };
+  template <> struct RegistrationPolicies<Options::SIVA> {
+    static constexpr const char* name = "selected-values";
+    static constexpr int size = Options::SIVAsize;
+    static constexpr std::array<const char*, size>
+      string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
+        "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
+        "solc", "tr", "pelvals", "dp",
+        "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
+        "estlvs"};
+  };
+  template <> struct RegistrationPolicies<Options::NEG> {
+    static constexpr const char* name = "negation-sign";
+    static constexpr int size = Options::NEGsize;
+    static constexpr std::array<const char*, size>
+      string {"+sign", "-sign"};
+    static constexpr std::array<const char*, size>
+      estring {"no-negation-sign", "with-negation-sign"};
+  };
   template <> struct RegistrationPolicies<Options::STOP> {
     static constexpr const char* name = "show-stopped";
     static constexpr int size = Options::STOPsize;
@@ -570,16 +595,6 @@ namespace Environment {
       string {"inode", "leaf"};
     static constexpr std::array<const char*, size>
       estring {"inner-node", "leaf-node"};
-  };
-  template <> struct RegistrationPolicies<Options::SIVA> {
-    static constexpr const char* name = "selected-values";
-    static constexpr int size = Options::SIVAsize;
-    static constexpr std::array<const char*, size>
-      string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
-        "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
-        "solc", "tr", "pelvals", "dp",
-        "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
-        "estlvs"};
   };
 }
 namespace Options {
@@ -636,6 +651,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const SIVA sv) {
     return out << Environment::W0(sv);
+  }
+  std::ostream& operator <<(std::ostream& out, const NEG n) {
+    return out << Environment::W2(n);
   }
   std::ostream& operator <<(std::ostream& out, const STOP s) {
     return out << Environment::W2(s);
