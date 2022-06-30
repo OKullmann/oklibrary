@@ -162,8 +162,10 @@ namespace Solvers {
     using GBasicSR::ut;
     using rlaSR::S;
 
-    typedef LB::laStats::stats_t stats1_t;
-    stats1_t S1;
+    typedef LB::laStats::bstats_t bstats_t;
+    typedef LB::laStats::mstats_t mstats_t;
+    bstats_t bS;
+    mstats_t mS;
 
     bool operator ==(const laSR&) const noexcept = default;
   };
@@ -543,7 +545,7 @@ namespace Solvers {
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
-    CT::GenericMols1* const m = new CT::GenericMols1(enc);
+    CT::GenericMols2* const m = new CT::GenericMols2(enc);
     const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::laStats> stats(
@@ -582,7 +584,8 @@ namespace Solvers {
     res.update(s);
     res.b.sol_found = stats->rla().sol_count();
     res.S = stats->rla().stats();
-    res.S1 = stats->stats();
+    res.bS = stats->bstats();
+    res.mS = stats->mstats();
     if (with_file_output(rt)) {
       if (res.b.sol_found != stats->rla().sols().size())
         std::cerr << "\nERROR[Solvers::lasolver]: stated solution-count "

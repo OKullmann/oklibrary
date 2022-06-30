@@ -336,9 +336,10 @@ namespace Options {
     all=0,satc=1,t=2,ppc=3,nds=4,inds=5,lvs=6,
     mu0=7,qfppc=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
       tr=14,pelvals=15,dp=16,
-    mu1=17,w=18,ltau=19,minp=20,meanp=21,maxp=22,sdd=23,tb=24
+    mu1=17,w=18,ltau=19,minp=20,meanp=21,maxp=22,sdd=23,tb=24,
+    estlvs=25
   };
-  constexpr int SIVAsize = int(SIVA::tb) + 1;
+  constexpr int SIVAsize = int(SIVA::estlvs) + 1;
 
   // Additional specifications, ignored if not relevant:
   enum class STOP { on=0, off=1 };
@@ -577,7 +578,8 @@ namespace Environment {
       string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
         "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
         "solc", "tr", "pelvals", "dp",
-        "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb"};
+        "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
+        "estlvs"};
   };
 }
 namespace Options {

@@ -589,10 +589,11 @@ namespace CommandLine {
     out.precision(old);
   }
 
+  constexpr size_t wnds = 8;
   const Environment::wvec_t widths_la{
     8, 11,
     10, 5, 2,
-    8, 7, 8};
+    wnds, wnds-1, wnds};
   void rh_genstats(std::ostream& out) {
     Environment::print1d(out,
       std::make_tuple("satc", "t",

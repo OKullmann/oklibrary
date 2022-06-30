@@ -71,7 +71,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 -2. Complete the info:
    - program-name, version-number
 
--1. A further parameter (put last) on controlling the output:
+-1. Controlling the output:
    - "+-cond": output of full conditions (+cond -> +info).
      normal and batchmode: off.
    - "+-commentout": also statistics-output with leading "#"
@@ -210,7 +210,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.21.2",
+        "0.22.0",
         "29.6.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -300,6 +300,7 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
+    out << " "; out.width(wnds); out << "plvs";
     out << "\n";
   }
 
@@ -307,16 +308,20 @@ namespace {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
+    {const auto plvs = res.mS.N() - res.S[1].N();
+     out << " "; out.width(wnds); out << plvs;}
     out << "\n";
     if (with_headers) {
       res.S[0].out(out, ReductionStatistics::stats_header());
       res.S[1].out(out, ReductionStatistics::stats_header());
-      res.S1.out(out, BranchingStatistics::stats_header());
+      res.mS.out(out, MeasureStatistics::stats_header());
+      res.bS.out(out, BranchingStatistics::stats_header());
     }
     else {
       res.S[0].out(out, {});
       res.S[1].out(out, {});
-      res.S1.out(out, {});
+      res.mS.out(out, {});
+      res.bS.out(out, {});
     }
     FloatingPoint::undo(out, state);
   }
@@ -335,19 +340,31 @@ namespace {
       case STAT::max : return R.max()[i];
       case STAT::stddev : return R.sd_corrected()[i];
       default :std::ostringstream ss;
-        ss << "ERROR[laMols::single]: STAT-value " << int(st) <<
+        ss << "ERROR[laMols::single::val]: STAT-value " << int(st) <<
           " not handled.\n";
         throw std::runtime_error(ss.str());} };
-    const auto val1 = [&res,st](const std::string& s){
-      const auto i = BranchingStatistics::index(s);
-      const auto& R = res.S1;
+    const auto valm = [&res,st](const std::string& s){
+      const auto i = MeasureStatistics::index(s);
+      const auto& R = res.mS;
       switch (st) {
       case STAT::ave : return R.amean()[i];
       case STAT::min : return R.min()[i];
       case STAT::max : return R.max()[i];
       case STAT::stddev : return R.sd_corrected()[i];
       default :std::ostringstream ss;
-        ss << "ERROR[laMols::single]: STAT-value " << int(st) <<
+        ss << "ERROR[laMols::single::valm]: STAT-value " << int(st) <<
+          " not handled.\n";
+        throw std::runtime_error(ss.str());} };
+    const auto valb = [&res,st](const std::string& s){
+      const auto i = BranchingStatistics::index(s);
+      const auto& R = res.bS;
+      switch (st) {
+      case STAT::ave : return R.amean()[i];
+      case STAT::min : return R.min()[i];
+      case STAT::max : return R.max()[i];
+      case STAT::stddev : return R.sd_corrected()[i];
+      default :std::ostringstream ss;
+        ss << "ERROR[laMols::single::valb]: STAT-value " << int(st) <<
           " not handled.\n";
         throw std::runtime_error(ss.str());} };
 
@@ -370,14 +387,16 @@ namespace {
     case SIVA::pelvals : out << val("pelvals"); return;
     case SIVA::dp : out << val("dp"); return;
 
-    case SIVA::mu1 : out << val1("mu1"); return;
-    case SIVA::w : out << val1("w"); return;
-    case SIVA::ltau : out << val1("ltau"); return;
-    case SIVA::minp : out << val1("minp"); return;
-    case SIVA::meanp : out << val1("meanp"); return;
-    case SIVA::maxp : out << val1("maxp"); return;
-    case SIVA::sdd : out << val1("sdd"); return;
-    case SIVA::tb : out << val1("tb"); return;
+    case SIVA::mu1 : out << valb("mu1"); return;
+    case SIVA::w : out << valb("w"); return;
+    case SIVA::ltau : out << valb("ltau"); return;
+    case SIVA::minp : out << valb("minp"); return;
+    case SIVA::meanp : out << valb("meanp"); return;
+    case SIVA::maxp : out << valb("maxp"); return;
+    case SIVA::sdd : out << valb("sdd"); return;
+    case SIVA::tb : out << valb("tb"); return;
+
+    case SIVA::estlvs : out << valm("estlvs"); return;
 
     default: {
       std::ostringstream ss;

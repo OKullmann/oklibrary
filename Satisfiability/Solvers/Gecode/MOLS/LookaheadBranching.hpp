@@ -81,12 +81,17 @@ TODOS:
 0. Provide documentation.
 
 1. Provide and use better statistics-functions for the branches
+    - The problems is rounding-errors, yielding "nan".
     - There needs to be a general facility, which takes as input
-      as vector of values, and provides, using the most exact
+      a vector of values, and provides, using the most exact
       computations, all basic statistics.
     - Likely this should include the median.
 
-2. Measure the variation of considered branchings for one node:
+2. For estlvs, don't use correced standard-deviation
+    - Here we have the complete population.
+    - Actually this holds also for some other measures.
+
+3. Measure the variation of considered branchings for one node:
     - Just the basic statistics for (l)tau, over all branchings
       considered.
     - But the range, max-tau / min-tau, seems most informative,
@@ -95,7 +100,7 @@ TODOS:
     - This should replace the current ltau-value (which isn't very
       informative).
 
-3. Update member "vals_" of BranchingStatistics
+4. Update member "vals_" of BranchingStatistics
     - More general, it is the "measure".
     - What to do when only the distances are available?
     - One could use the sum of the distances along the path
@@ -577,8 +582,8 @@ namespace LookaheadBranching {
       const auto words = stats_header();
       const auto find = std::ranges::find(words, s);
       if (find != words.end()) return find - words.begin();
-      throw std::runtime_error("ERROR[LB::index]: unknown variable \""
-                               + s + "\"\n");
+      throw std::runtime_error("ERROR[LB::BranchingStatistics::index]: "
+        "unknown variable \"" + s + "\"\n");
     }
 
     bool operator ==(const BranchingStatistics&) const noexcept = default;
@@ -588,6 +593,41 @@ namespace LookaheadBranching {
     }
   };
 
+  enum class NodeType { inode=0, leaf=1, pleaf=2};
+
+  class MeasureStatistics {
+    const float_t lestlvs_;
+    NodeType nt_;
+
+  public :
+
+    MeasureStatistics(const CT::GenericMols2& node) noexcept :
+      lestlvs_(node.nodemeasures().lestlvs) {}
+
+    void set_nodetype(const NodeType nt) noexcept { nt_ = nt; } // XXX
+    NodeType nodetype() const noexcept { return nt_; }
+
+    static constexpr size_t num_stats = 1;
+    typedef std::array<float_t, num_stats> export_t;
+    export_t extract() const noexcept {
+      export_t res;
+      res[0] = FP::exp(lestlvs_);
+      return res;
+    }
+    static std::vector<std::string> stats_header() noexcept {
+      return {"estlvs"};
+    }
+    static size_t index(const std::string& s) {
+      const auto words = stats_header();
+      const auto find = std::ranges::find(words, s);
+      if (find != words.end()) return find - words.begin();
+      throw std::runtime_error("ERROR[LB::MeasureStatistics::index]: "
+        "unknown variable \"" + s + "\"\n");
+    }
+
+    bool operator ==(const MeasureStatistics&) const noexcept = default;
+  };
+
 
   struct VVEMeasure : VVElim {
     using VVElim::br;
@@ -595,7 +635,10 @@ namespace LookaheadBranching {
     vec_t m;
 
     VVEMeasure(const GC::Brancher& b, values_t br, assignment_t elim,
-               vec_t m) noexcept : VVElim(b,br,elim), m(m) {}
+               vec_t m) noexcept : VVElim(b,br,elim), m(m) {
+      assert((br.size()==2 and m.size()==2) or
+              br.size()-1 == m.size());
+    }
   };
 
   const VVEMeasure* create_la(const int v, GV::values_t values,
@@ -604,6 +647,7 @@ namespace LookaheadBranching {
                               VVElim::assignment_t a,
                               vec_t m) {
     assert(not values.empty());
+    assert(values.size() == m.size());
     switch (bt) {
     case OP::LBRT::bin : {
       assert(values.size() == 1);
@@ -619,10 +663,12 @@ namespace LookaheadBranching {
   }
 
   struct laStats {
-    typedef GenStats::GStdStats<BranchingStatistics::num_stats> stats_t;
+    typedef GenStats::GStdStats<MeasureStatistics::num_stats> mstats_t;
+    typedef GenStats::GStdStats<BranchingStatistics::num_stats> bstats_t;
   private :
     rlaStats rla_;
-    stats_t S;
+    mstats_t mS;
+    bstats_t bS;
   public :
 
     laStats(std::ostream* const log, const EC::EncCond* const enc,
@@ -630,15 +676,18 @@ namespace LookaheadBranching {
       : rla_(log, enc, st) {}
 
     const rlaStats& rla() const noexcept { return rla_; }
-    const stats_t& stats() const noexcept { return S; }
+    const mstats_t& mstats() const noexcept { return mS; }
+    const bstats_t& bstats() const noexcept { return bS; }
 
-    void add(LR::ReductionStatistics& s0) noexcept {
+    void add(LR::ReductionStatistics& s0,
+             const MeasureStatistics& s1) noexcept {
       rla_.add(s0);
+      mS += s1.extract();
     }
     void add(LR::ReductionStatistics& s0,
-             const BranchingStatistics& s1) noexcept {
+             const BranchingStatistics& s2) noexcept {
       rla_.add(s0);
-      S += s1.extract();
+      bS += s2.extract();
     }
 
   };
@@ -695,29 +744,34 @@ namespace LookaheadBranching {
     }
 
     const GC::Choice* choice(GC::Space& s0) override {
-      CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
+      CT::GenericMols2& s = static_cast<CT::GenericMols2&>(s0);
+
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
-      if (stats0.leaf()) {
-        if (P.parallel) {
-          std::lock_guard<std::mutex> lock(stats_mutex);
-          S->add(stats0);
-        } else S->add(stats0);
-        return new VVElim(*this, {}, {});
+      {MeasureStatistics mstats(s);
+       mstats.set_nodetype(stats0.leaf() ? NodeType::leaf : // XXX
+                           NodeType::inode);
+       if (mstats.nodetype() != NodeType::inode) {
+         if (P.parallel) {
+           std::lock_guard<std::mutex> lock(stats_mutex);
+           S->add(stats0, mstats);
+         } else S->add(stats0, mstats);
+         return new VVElim(*this, {}, {});
+       }
       }
+
       Timing::UserTime timing;
       const Timing::Time_point t0 = timing();
       const size_t depth = s.nodedata().depth;
-      BranchingStatistics stats1;
+      BranchingStatistics bstats;
 
-      CT::GenericMols1* const node = &s;
       for (const auto [var,val] : stats0.elims()) {
-        assert(var < node->V.size()); GV::unset_var(s, node->V[var], val);
+        assert(var < s.V.size()); GV::unset_var(s, s.V[var], val);
       }
-      {[[maybe_unused]] const auto status = node->status();
+      {[[maybe_unused]] const auto status = s.status();
        assert(status == GC::SS_BRANCH);
       }
 
-      const auto& V = node->V;
+      const auto& V = s.V;
       const auto n = V.size();
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
@@ -725,7 +779,7 @@ namespace LookaheadBranching {
       const measure_t mu = P.d != OP::DIS::wdeltaL ? MS::muld :
         measure_t([this](const GC::IntVarArray& V){
                     return MS::wnumvars(V, weights);});
-      const float_t mu0 = mu(V); stats1.set_vals(mu0);
+      const float_t mu0 = mu(V); bstats.set_vals(mu0);
       const distance_t d = P.d == OP::DIS::newvars ?
         distance_t(
         [this,depth](const GC::IntVarArray& V, const GC::IntVarArray& nV){
@@ -740,8 +794,8 @@ namespace LookaheadBranching {
         const auto values = GV::values(V, v);
         if (P.bt == OP::LBRT::bin) {
           for (const int val : values) {
-            const float_t a = branch_distance(node, v, val, true, d),
-              b = branch_distance(node, v, val, false, d);
+            const float_t a = branch_distance(&s, v, val, true, d),
+              b = branch_distance(&s, v, val, false, d);
             assert(a > 0 and b > 0);
             const float_t tau =  Tau::ltau(a,b);
             assert(tau > 0 and tau < FP::pinfinity);
@@ -754,7 +808,7 @@ namespace LookaheadBranching {
           std::vector<float_t> branchtuple;
           branchtuple.reserve(values.size());
           for (const int val : values) {
-            const float_t t = branch_distance(node, v, val, true, d);
+            const float_t t = branch_distance(&s, v, val, true, d);
             assert(t > 0);
             branchtuple.push_back(t);
           }
@@ -767,19 +821,20 @@ namespace LookaheadBranching {
       }
 
       assert(bestv >= 0);
-      stats1.set_tau(opttau);
+      bstats.set_tau(opttau);
       const size_t w = optbt.size();
-      stats1.set_width(w);
+      bstats.set_width(w);
       assert(w >= 2);
       vec_t mv; mv.reserve(w);
       {GenStats::StdStats statsd;
-        for (const auto d : optbt) {
-          const float_t m = opttau * d;
-          mv.push_back(m);
-          statsd += FP::exp(-m);
-        }
-        stats1.set_dist(statsd);
+       for (const auto d : optbt) {
+         const float_t m = opttau * d;
+         mv.push_back(m);
+         statsd += FP::exp(-m);
+       }
+       bstats.set_dist(statsd);
       }
+      assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
@@ -803,11 +858,11 @@ namespace LookaheadBranching {
           }
         }
       }
-      stats1.time(timing()-t0);
+      bstats.time(timing()-t0);
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
-        S->add(stats0, stats1);
-      } else S->add(stats0, stats1);
+        S->add(stats0, bstats);
+      } else S->add(stats0, bstats);
       return create_la(bestv, std::move(values), P.bt, *this,
                        std::move(stats0.elims()), std::move(mv));
     }
@@ -820,9 +875,9 @@ namespace LookaheadBranching {
       const VVEMeasure& c = static_cast<const VVEMeasure&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
-      assert(a < w); assert(c.m.size() == w);
-      CT::GenericMols2* const node = &(static_cast<CT::GenericMols2&>(s));
-      node->update_clone(c.m[a]);
+      assert(a < c.m.size());
+      CT::GenericMols2& node = static_cast<CT::GenericMols2&>(s);
+      node.update_clone(c.m[a]);
       return RlaBranching::commit0(s, c0, a);
     }
 
