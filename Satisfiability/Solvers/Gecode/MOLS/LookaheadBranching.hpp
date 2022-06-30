@@ -11,14 +11,13 @@ License, or any later version. */
 
   Namespace LookaheadBranching, abbreviated "LB".
 
-  Simulating Gecode-branching:
-
     - using size_t
     - using values_t, a vector of int
     - using float_t, defined as float80
 
     - typedef vec_t for vector of float_t
 
+  Simulating Gecode-branching:
 
     - ValVec, derived from GC::Choice, containing an object
       of values_t (vector of int)
@@ -32,12 +31,6 @@ License, or any later version. */
 
     - class GcBranching, derived from GC::Brancher
       for (just) simulating Gecode-branching
-
-
-    - VVElim, derived from ValVec, adds a member for the "assignment"
-      found in la-reduction (the eliminated values)
-
-    - create_la: similar to create above, but now producing a const VVElim*
 
 
     For rlaMols, and handling of statistics for la-reduction:
@@ -62,6 +55,10 @@ License, or any later version. */
       Solvers::rlasolver creates one global (singleton) rlaStats-object,
       to aggregate the statistics (and handle abort).
 
+     - VVElim, derived from ValVec, adds a member for the "assignment"
+       found in la-reduction (the eliminated values)
+     - create_la: similar to create above, but now producing a const VVElim*
+
     - class RlaBranching, derived from GC::Brancher:
        - choice calls the add-function of rlaStats (possibly locked)
        - commit calls commit0
@@ -69,7 +66,35 @@ License, or any later version. */
          eliminates all values from the la-reduction.
 
 
-    For laMols:
+    For laMols, and handling of statistics for measures and branching:
+
+     - struct laParams
+     - class BranchingStatistics
+     - scoped num NodeType
+     - class MeasureStatistics
+
+     - VVEMeasure, derived from VVElim, adds a vector for measures of
+       the branches
+     - create_la: similar to create_la above, now procuding VVEMeasure*
+
+     - class laStats: the class for the global statistics object
+       - an object rla_ of type rlaStats
+       - an object mS for the measure-aggregates
+       - an object bS for the branching-aggregates
+      Two add-functions: one for leafs or pseudo-leaves,
+      one for inner nodes.
+
+     - typedef measure_t for "measures"
+     - typedef distance_t for "distances"
+     - function branch_distance, which for a node m, variable v, value val,
+       and a distance d computaes the distance (using lookahead)
+
+     - class LaBranching, derived from GC::Brancher:
+      - similar to RlaBranching above, but now providing
+       - MeasureStatistics for pseudo-leaves
+       - BranchingStatistics for inner nodes
+      - commit calls update_clone(m), where m is the measure of the
+        the branch (before calling commit0).
 
 
 BUGS:
@@ -77,8 +102,6 @@ BUGS:
 TODOS:
 
 -1. Implement sorting of branchings for binary branching.
-
-0. Provide documentation.
 
 1. Provide and use better statistics-functions for the branches
     - The problems is rounding-errors, yielding "nan".
