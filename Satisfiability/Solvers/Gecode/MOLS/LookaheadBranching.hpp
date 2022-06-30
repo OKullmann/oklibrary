@@ -176,8 +176,6 @@ namespace LookaheadBranching {
 
   typedef std::vector<float_t> vec_t;
 
-  using MS::tr;
-
 
   /*
     Simulating Gecode-branching
