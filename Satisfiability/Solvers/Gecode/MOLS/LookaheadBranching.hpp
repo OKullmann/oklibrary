@@ -647,7 +647,7 @@ namespace LookaheadBranching {
                               VVElim::assignment_t a,
                               vec_t m) {
     assert(not values.empty());
-    assert(values.size() == m.size());
+    assert((values.size()==1 and m.size()==2) or values.size() == m.size());
     switch (bt) {
     case OP::LBRT::bin : {
       assert(values.size() == 1);
