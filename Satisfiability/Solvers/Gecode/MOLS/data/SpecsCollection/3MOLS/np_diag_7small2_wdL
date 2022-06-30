@@ -1,6 +1,6 @@
 DIMENSION               5
 BB_EXE                  ns_diag_7small_wdL
-BB_OUTPUT_TYPE          OBJ
+BB_OUTPUT_TYPE          OBJ EB
 X0                      ( 0.1 0.1 0.1 0.1 0.1 )
 LOWER_BOUND             * 0.01
 UPPER_BOUND             * 4
