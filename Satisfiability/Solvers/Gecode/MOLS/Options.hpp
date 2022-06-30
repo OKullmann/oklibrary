@@ -32,7 +32,25 @@ License, or any later version. */
      - LBRO branching-order asc, desc, ascd, descd
      - DIS distance deltaL, wdeltaL, newvars
      - SPW special-weights other, zero, one, ap, ld
-     - EXW weights for experiments rand, asc, desc.
+     - EXW weights for experiments rand, asc, desc
+
+    Output-options:
+     - INFO on, off
+     - WGHTS on, off
+     - HDS (headers) on, off
+     - COMP on, off
+     - WrapP<POL> to control default-values for batchmode
+       resulting in Info, Weights, Headers, Computations
+     - SIVA the output-variables; output-modifiers:
+       - NEG off, on
+       - STOP on, off
+       - STAT ave, min, max, stddev
+       - NOTY inode, leaf
+
+     - output_options_t: tuple of the above
+     - function adapt(output_options_t) -> output_options_t
+
+     - struct OutputOptions: wrapper around output_options_t.
 
 TODOS
 
