@@ -246,7 +246,37 @@
 # 7827.000  2.000  0.001  0.000  0.167  0.250  0.000  0.080
 #12429.000  6.000  0.005  0.500  0.500  0.946  0.446  1.405
 #  618.927  0.670  0.001  0.143  0.093  0.116   -nan  0.206
-# Repeating, with new settings: XXX
+# Best weights found yet!
+# Repeating with new settings:
+# First without negative sign, so minimising pelvals at inner nodes:
+# 3MOLS> nomad np_diag_7small2_wdL
+# 48   0.438138   2.1        0.01       2.1        0.1        0.1
+# 186   0.412665   3.95       0.21       2.01       0.13       0.3
+# Blackbox evaluations: 493 Total model evaluations: 74966 Cache hits: 76 Total number of evaluations: 569
+# Indeed that yields a very high node-count (worst found yet):
+# MOLS> ./laMols_debug 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "3.95, 0.21, 2.01, 0.13, 0.3" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1      192  176697.875  199014094    19  0  1528347  473832  1054515        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 933.661  0.824    4.907  124.390   207.846   2.086  0.000  1.713    0.589  11.270
+# 793.000  0.000    0.000  114.509   109.660   1.000  0.000  0.075    0.000   0.000
+#1224.000  2.333   18.339  128.050  1008.976   9.000  0.000  9.354    8.499  18.000
+#  37.239  0.415    1.735    0.935    80.423   0.819  0.000  0.739    0.672   1.628
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 875.156  1.718    2.182   16.039    70.425   1.344  0.000   0.651    4.220  12.611
+# 531.000  1.036    0.000    0.000     0.221   1.000  0.000   0.000    0.221   7.000
+#1015.000  6.000  120.000  125.562  1061.984  10.000  1.000  10.101   18.450  19.000
+#  50.780  0.502    1.950   18.015    93.653   0.729  0.013   0.833    2.550   1.491
+#            estlvs
+#     248626248.376
+#          4097.481
+#11841914149558.083
+#   31726002761.337
+#      mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#12839.783  3.226  0.002  0.231  0.335  0.452   -nan  1.182
+# 9774.000  2.000  0.000  0.000  0.167  0.197  0.000  0.096
+#19469.000  6.000  0.004  0.500  0.500  0.989  0.489  2.432
+#  872.449  0.890  0.001  0.149  0.096  0.131   -nan  0.164
 
 
 # N=8:
