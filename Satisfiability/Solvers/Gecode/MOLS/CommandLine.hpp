@@ -592,12 +592,12 @@ namespace CommandLine {
   constexpr size_t wnds = 8;
   const Environment::wvec_t widths_la{
     8, 11,
-    10, 5, 2,
+    10, 2,
     wnds, wnds-1, wnds};
   void rh_genstats(std::ostream& out) {
     Environment::print1d(out,
       std::make_tuple("satc", "t",
-                      "ppc", "gd", "st",
+                      "ppc", "st",
                       "nds", "inds", "lvs"),
       widths_la);
   }
@@ -607,7 +607,7 @@ namespace CommandLine {
     Environment::print1d(out,
       std::make_tuple(
         res.b.sol_found, res.ut,
-        res.gs.propagate, res.gs.depth, res.stopped,
+        res.gs.propagate, res.stopped,
         nds, inds, lvs),
       widths_la);
   }
