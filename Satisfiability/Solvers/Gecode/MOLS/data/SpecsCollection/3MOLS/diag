@@ -221,6 +221,10 @@
 # instead of "0.1" above; trying this:
 # 3MOLS> time nomad np_diag_7big3_wdL
 # running on server2 XXX
+# This failed to discover the value nds=18429 found below.
+# Perhaps this value is just an outlier? Trying to improve it:
+# 3MOLS> time nomad np_diag_7big4_wdL
+# running on server XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
@@ -229,23 +233,28 @@
 # Blackbox evaluations: 296 Total model evaluations: 46532 Cache hits: 48 Total number of evaluations: 344
 # MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "1.02, 4, 0.6013, 0.01, 0.1621" "" ""
 #   weights: 1.02 4 0.60130000000000000002 0.0099999999999999999998 0.1621 -> 0 0 1 2.0279189595800582774 32.446703353280932438 49.224341450520525589 49.566723821488639642 55.460933714026805896
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs
-#  7   +count dom enu  wdL   asc  relpr   1      192    2123.984    2739696    12  0    18429    6649    11780
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    1941.186    2739696    12  0    18429    6649    11780        0
 #     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-#1002.006  1.004    8.954  122.588  219.323   2.357  0.000  1.576    1.337   7.431
-# 867.000  0.000    0.000  114.978  107.436   1.000  0.000  0.079    0.000   0.000
-#1224.000  2.000   22.870  125.959  949.559   9.000  0.000  8.781    8.921  11.000
-#  52.324  0.308    2.973    1.342   82.472   0.835  0.000  0.749    1.212   1.410
+#1002.006  1.004    8.954  122.588  219.323   2.357  0.000  1.349    1.337   7.431
+# 867.000  0.000    0.000  114.978  107.436   1.000  0.000  0.065    0.000   0.000
+#1224.000  2.000   22.870  125.959  949.559   9.000  0.000  8.651    8.921  11.000
+#  52.324  0.308    2.973    1.342   82.472   0.835  0.000  0.790    1.212   1.410
 #     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-# 904.551  1.599    7.216   14.961   68.063   1.316  0.016  0.557    5.240   9.021
+# 904.551  1.599    7.216   14.961   68.063   1.316  0.016  0.483    5.240   9.021
 # 606.000  1.058    0.000    0.000    0.229   1.000  0.000  0.000    0.221   6.000
-#1026.000  6.000  192.857  118.582  710.256   7.000  2.000  6.578   18.076  12.000
-#  55.063  0.352    9.928   14.515   87.200   0.689  0.137  0.720    3.291   1.032
+#1026.000  6.000  192.857  118.582  710.256   7.000  2.000  6.709   18.076  12.000
+#  55.063  0.352    9.928   14.515   87.200   0.689  0.137  0.675    3.291   1.032
+#      estlvs
+#   45305.620
+#    1452.824
+#14921251.842
+#  356456.428
 #      mu1      w   ltau   minp  meanp   maxp    sdd     tb
-# 9796.638  2.772  0.002  0.287  0.383  0.505   -nan  0.905
-# 7827.000  2.000  0.001  0.000  0.167  0.250  0.000  0.080
-#12429.000  6.000  0.005  0.500  0.500  0.946  0.446  1.405
-#  618.927  0.670  0.001  0.143  0.093  0.116   -nan  0.206
+# 9796.638  2.772  0.002  0.287  0.383  0.505   -nan  0.777
+# 7827.000  2.000  0.001  0.000  0.167  0.250  0.000  0.073
+#12429.000  6.000  0.005  0.500  0.500  0.946  0.446  1.463
+#  618.927  0.670  0.001  0.143  0.093  0.116   -nan  0.305
 # Best weights found yet!
 # Repeating with new settings:
 # First without negative sign, so minimising pelvals at inner nodes:
@@ -277,7 +286,36 @@
 # 9774.000  2.000  0.000  0.000  0.167  0.197  0.000  0.096
 #19469.000  6.000  0.004  0.500  0.500  0.989  0.489  2.432
 #  872.449  0.890  0.001  0.149  0.096  0.131   -nan  0.164
-
+# Now corrected, maximising pelvals at inner nodes:
+# 3MOLS> nomad np_diag_7small2_wdL
+# 315  -1.781802   4.0        0.03       0.01       0.01       4
+# Blackbox evaluations: 438 Total model evaluations: 66828 Cache hits: 112 Total number of evaluations: 550
+# Reached a better value, but performs considerably worse:
+# MOLS> ./laMols_debug 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "4.0,0.03,0.01,0.01,4" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    5303.301    7137312    14  0    36660   12901    23759        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 974.940  0.999    6.391  122.819  237.685   2.404  0.000  1.935    1.581   7.526
+# 780.000  0.000    0.000  109.130  110.316   1.000  0.000  0.040    0.000   0.000
+#1224.000  2.000   16.434  127.798  839.234   8.000  0.000  9.364   12.200  12.000
+#  50.543  0.231    1.960    1.715   84.840   0.836  0.000  1.071    1.472   1.338
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 852.948  1.597    3.949   13.442    74.766   1.386  0.008   0.651    5.618   8.984
+# 444.000  1.045    0.000    0.000     0.279   1.000  0.000   0.000    0.253   6.000
+#1017.000  6.000   50.000  120.773  1004.676  10.000  2.000  11.493   21.624  13.000
+#  76.202  0.418    2.874   13.970   106.393   0.859  0.093   1.037    4.229   1.097
+#       estlvs
+#   123399.785
+#     2826.522
+#234312769.403
+#  2275368.185
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#3782.793  2.842  0.010  0.234  0.380  0.563   -nan  1.121
+#3516.000  2.000  0.003  0.000  0.200  0.250  0.000  0.048
+#4170.000  5.000  0.071  0.500  0.500  0.985  0.485  2.268
+#  89.346  0.804  0.005  0.146  0.103  0.141   -nan  0.413
+# Alternatively minimising estlvs for a given depth:
+# 3MOLS> nomad np_diag_7small3_wdL XXX in preparation XXX
 
 # N=8:
 
