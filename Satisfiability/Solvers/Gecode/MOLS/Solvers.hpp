@@ -70,6 +70,7 @@ TODOS:
 #include "Parsing.hpp"
 #include "PartialSquares.hpp"
 #include "Options.hpp"
+#include "LookaheadReduction.hpp"
 #include "LookaheadBranching.hpp"
 #include "BasicLatinSquares.hpp"
 #include "Verification.hpp"
@@ -84,6 +85,7 @@ namespace Solvers {
   namespace PR = Parsing;
   namespace PS = PartialSquares;
   namespace OP = Options;
+  namespace LR = LookaheadReduction;
   namespace LB = LookaheadBranching;
   namespace BS = BasicLatinSquares;
   namespace VR = Verification;
@@ -153,6 +155,13 @@ namespace Solvers {
     typedef LB::rlaStats::stats_t stats_t;
     stats_t S;
 
+    void outS(std::ostream& out, const bool with_header) const {
+      const auto header = with_header ?
+        LR::ReductionStatistics::stats_header() :
+        LR::ReductionStatistics::header_t{};
+      S[0].out(out, header); S[1].out(out, header);
+    }
+
     bool operator ==(const rlaSR&) const noexcept = default;
   };
 
@@ -166,6 +175,19 @@ namespace Solvers {
     typedef LB::laStats::mstats_t mstats_t;
     bstats_t bS;
     mstats_t mS;
+
+    void outbS(std::ostream& out, const bool with_header) const {
+      const auto header = with_header ?
+        LB::BranchingStatistics::stats_header() :
+        LB::BranchingStatistics::header_t{};
+      bS.out(out, header);
+    }
+    void outmS(std::ostream& out, const bool with_header) const {
+      const auto header = with_header ?
+        LB::MeasureStatistics::stats_header() :
+        LB::MeasureStatistics::header_t{};
+      mS.out(out, header);
+    }
 
     bool operator ==(const laSR&) const noexcept = default;
   };

@@ -210,8 +210,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.22.2",
-        "30.6.2022",
+        "0.22.3",
+        "1.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -312,18 +312,9 @@ namespace {
     {const auto plvs = res.mS.N() - res.S[1].N();
      out << " "; out.width(wnds); out << plvs;}
     out << "\n";
-    if (with_headers) {
-      res.S[0].out(out, ReductionStatistics::stats_header());
-      res.S[1].out(out, ReductionStatistics::stats_header());
-      res.mS.out(out, MeasureStatistics::stats_header());
-      res.bS.out(out, BranchingStatistics::stats_header());
-    }
-    else {
-      res.S[0].out(out, {});
-      res.S[1].out(out, {});
-      res.mS.out(out, {});
-      res.bS.out(out, {});
-    }
+    res.outS(out, with_headers);
+    res.outmS(out, with_headers);
+    res.outbS(out, with_headers);
     FloatingPoint::undo(out, state);
   }
   void select(std::ostream& out, const laSR& res,

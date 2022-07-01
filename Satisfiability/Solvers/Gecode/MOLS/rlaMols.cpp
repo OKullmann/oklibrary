@@ -101,8 +101,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.16.0",
-        "27.6.2022",
+        "0.16.1",
+        "1.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -166,8 +166,7 @@ namespace {
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
     out << "\n";
-    res.S[0].out(out, ReductionStatistics::stats_header());
-    res.S[1].out(out, ReductionStatistics::stats_header());
+    res.outS(out, true);
     out.flush();
     FloatingPoint::undo(out, state);
   }

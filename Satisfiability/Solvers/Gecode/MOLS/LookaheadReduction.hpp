@@ -171,7 +171,8 @@ namespace LookaheadReduction {
       res[9] = depth_;
       return res;
     }
-    static std::vector<std::string> stats_header() noexcept {
+    typedef std::vector<std::string> header_t;
+    static header_t stats_header() noexcept {
       return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
           "solc", "tr", "pelvals", "dp"};
       // leading "p": percentage, "q": quotient;

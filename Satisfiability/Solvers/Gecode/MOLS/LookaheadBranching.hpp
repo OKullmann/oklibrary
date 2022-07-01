@@ -594,7 +594,8 @@ namespace LookaheadBranching {
       res[num_stats-1] = time_;
       return res;
     }
-    static std::vector<std::string> stats_header() noexcept {
+    typedef std::vector<std::string> header_t;
+    static header_t stats_header() noexcept {
       return {"mu1", "w", "ltau",
           "minp", "meanp", "maxp", "sdd",
           "tb"};
@@ -635,7 +636,8 @@ namespace LookaheadBranching {
       res[0] = FP::exp(lestlvs_);
       return res;
     }
-    static std::vector<std::string> stats_header() noexcept {
+    typedef std::vector<std::string> header_t;
+    static header_t stats_header() noexcept {
       return {"estlvs"};
     }
     static size_t index(const std::string& s) {
