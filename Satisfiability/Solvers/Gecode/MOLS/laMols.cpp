@@ -112,6 +112,11 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
        above ota-formula "exp2(muld)" for each child, except for the case
        that we found a leaf, where then "exp2(muld) = 0", that is, only
        the subtraction takes place.
+   - A problem here is that pseudo-leaves should also compute their branchings,
+     so that ota is accurate for them.
+     So perhaps pseudoleaves should have their data submitted to the global
+     statistics not together with the leaves, but later, together with
+     the inner nodes.
    - All distances compute pairs (distance, Delta muld).
      After the reduction, exp2(muld) is subtracted, and after the
      branching has been computed, for each branch exp2(newmuld)
@@ -210,8 +215,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.22.4",
-        "1.7.2022",
+        "0.23.0",
+        "2.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

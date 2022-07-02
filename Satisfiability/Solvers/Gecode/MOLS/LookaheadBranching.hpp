@@ -787,13 +787,6 @@ namespace LookaheadBranching {
       const size_t depth = s.nodedata().depth;
       BranchingStatistics bstats;
 
-      for (const auto [var,val] : stats0.elims()) {
-        assert(var < s.V.size()); GV::unset_var(s, s.V[var], val);
-      }
-      {[[maybe_unused]] const auto status = s.status();
-       assert(status == GC::SS_BRANCH);
-      }
-
       const auto& V = s.V;
       const auto n = V.size();
       int bestv = -1, bestval = -1;
