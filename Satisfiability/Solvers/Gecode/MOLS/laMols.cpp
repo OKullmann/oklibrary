@@ -68,6 +68,33 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-3. Provide repetition and randomisation
+   - Perhaps the syntax is "m * N" for m runs (with N, or a sequence
+     of N's).
+   - This is already useful for using randomised weights.
+    - So the seed needs to be incremented for each round.
+   - We need also to provide a randomised order of branches:
+    - Now providing explicitly the sequence of seeds (64-bit).
+    - The seeds are additional arguments to the braching-order;
+      a new option "rand" is introduced, and after a comma come the
+      seeds.
+    - For the repetitions the final element is added to the sequence,
+      incremented for each round.
+    - Aborting with lvs=1 (that is, just following one branch to the
+      end), the value for estlvs can be probed this way.
+   - Perhaps for single-value-output at the end a statistics on this
+     value is provided.
+     However this appears not to be useful, since a run for lvs=1 should
+     only be performed with threads=1, and so parallelisation must be
+     provided from the outside, by a program "TAUscan", which forwards
+     selected parameters to laMols, running M leaf-probles in parallel (with
+     a given number of threads), collecting the results for estlvs and
+     returning statistics on them (the standard 5).
+   - What if randomisation is on for both weights and branching-order?
+    - As we have it now, the weight is only chosen once, and randomisation
+      for the weights is completely independent.
+   - Perhaps we better leave repetition to external tools?
+
 -2. Complete the info:
    - program-name, version-number
 
@@ -77,6 +104,9 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - "+-commentout": also statistics-output with leading "#"
      normal: on, batchmode: off.
    - "+-hex": in case of solution-output, use hexadecimal notation.
+   - Perhaps for the weights-info also N could be output, together with
+     the number of essential weights?
+     Like "N=8,numw=6". One could also state the number of given weights.
 
 0. Provide global statistics "open total assignments"
    - Let muld be the measure log_2(# total assignments), where the
@@ -117,6 +147,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      So perhaps pseudoleaves should have their data submitted to the global
      statistics not together with the leaves, but later, together with
      the inner nodes.
+     This seems also appropriate for the other branching-measures, to obtain
+     them for the pseudoleaves (perhaps best separately).
    - All distances compute pairs (distance, Delta muld).
      After the reduction, exp2(muld) is subtracted, and after the
      branching has been computed, for each branch exp2(newmuld)
@@ -186,6 +218,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Possibly qelvals should be given in %, i.e., multiplied by 100.
     - Possibly same with qprunes.
     - The multiplication by 100 should happen at "input" of the data.
+   - estlvs can be very big, so should also use engineering notation.
 
 4. Better values for qfppc
    - In case no values were eliminated, perhaps qfppc=1 is then
