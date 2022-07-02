@@ -225,6 +225,11 @@
 # This failed to discover the value nds=18429 found below.
 # Perhaps this value is just an outlier? Trying to improve it:
 # 3MOLS> time nomad np_diag_7big4_wdL
+# 224 15701          5          5          0.7013     0.001      0.001
+# Blackbox evaluations: 520 Total model evaluations: 52579 Cache hits: 67 Total number of evaluations: 587
+# real    1209m47.552s user    55447m4.674s sys     101m10.861s
+# nds=15701 is a good improvement; considering a wider range:
+# 3MOLS> time nomad np_diag_7big5_wdL
 # running on server XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions
