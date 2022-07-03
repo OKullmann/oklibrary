@@ -62,10 +62,12 @@ License, or any later version. */
        unsigned int, allowing also "r" and "t", using
       - device_to_eseed()
       - timestamp_to_eseed()
+      - to_gen_uint_t(s, bool allow_extensions)
       - to_eseed(unsigned long long, bool allow_extensions)
      - add_seeds(std::string_view, vec_eseed_t&) for adding
-       user-specified seeds from the command-line.
-     - to_gen_uint_t(s, bool allow_extensions)
+       user-specified seeds from the command-line (returning the number
+       of seeds added)
+     - extract_seeds(std::string_view) just returns the eseed-vector
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
@@ -80,7 +82,7 @@ License, or any later version. */
     - RandGen_t is a wrapper around randgen_t, allowing only initialisation
       with vec_seed_t, vec_eseed_t, or a list of seed_t: the direct
       initialisation with a single seed is not allowed (to avoid weak seeds,
-      and unknowlingly duplicated runs).
+      and unknowingly duplicated runs).
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
       unsigned 64-bit integers:
@@ -366,11 +368,14 @@ namespace RandGen {
     const auto [div, mod] = std::lldiv(ts, P264);
     return gen_uint_t(div) ^ gen_uint_t(mod);
   }
-  constexpr int bits_reading_eseed = std::numeric_limits<unsigned long long>::digits;
-  inline constexpr gen_uint_t to_gen_uint_t(const unsigned long long s, const bool allow_extensions) {
+  constexpr int bits_reading_eseed =
+    std::numeric_limits<unsigned long long>::digits;
+  inline constexpr gen_uint_t to_gen_uint_t(const unsigned long long s,
+                                            const bool allow_extensions) {
     if (s <= randgen_max) return s;
     else if (not allow_extensions)
-      throw std::domain_error("RandGen::to_eseed(unsigned long long): " + std::to_string(s));
+      throw std::domain_error("RandGen::to_eseed(unsigned long long): " +
+                              std::to_string(s));
     else {
       typedef unsigned long long ull;
       constexpr ull P264{ull(randgen_max) + 1};
@@ -380,7 +385,8 @@ namespace RandGen {
   }
   static_assert(to_gen_uint_t(0, false) == 0);
   static_assert(to_gen_uint_t(randgen_max,false) == randgen_max);
-  inline gen_uint_t to_gen_uint_t(const std::string& s, const bool allow_extensions) {
+  inline gen_uint_t to_gen_uint_t(const std::string& s,
+                                  const bool allow_extensions) {
     std::size_t converted;
     unsigned long long n;
     try { n = std::stoull(s,&converted); }
@@ -398,7 +404,8 @@ namespace RandGen {
     return to_gen_uint_t(n, allow_extensions);
   }
 
-  inline gen_uint_t to_eseed(const std::string& s, const bool allow_extensions = false) {
+  inline gen_uint_t to_eseed(const std::string& s,
+                             const bool allow_extensions = false) {
     if (s == "r") return device_to_eseed();
     else if (s == "t") return timestamp_to_eseed();
     else return to_gen_uint_t(s, allow_extensions);
@@ -412,7 +419,9 @@ namespace RandGen {
     for (const auto& x : seeds) v.push_back(to_eseed(x));
     return size;
   }
-
+  vec_eseed_t extract_seeds(const std::string_view s) {
+    vec_eseed_t res; add_seeds(s, res); return res;
+  }
 
   inline randgen_t init(const vec_seed_t& v) {
     std::seed_seq s(v.begin(), v.end());
