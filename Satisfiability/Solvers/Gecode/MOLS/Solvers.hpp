@@ -559,6 +559,7 @@ namespace Solvers {
                 const unsigned gcd,
                 const double threads,
                 const OP::weights_t* const weights,
+                RandGen::RandGen_t* const randgen,
                 LB::ListStoppingData st,
                 std::ostream* const log) {
     assert(valid(rt));
@@ -575,7 +576,7 @@ namespace Solvers {
                       log and OP::with_solutions(rt) ? &enc : nullptr,
                       st));
 
-    new (*m) LB::LaBranching(*m, P, stats.get(), weights);
+    new (*m) LB::LaBranching(*m, P, stats.get(), weights, randgen);
     {const auto status = m->status();
      if (status == GC::SS_SOLVED) {
        laSR res{rt};
