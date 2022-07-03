@@ -156,6 +156,7 @@ TODOS:
 #include <initializer_list>
 #include <map>
 #include <array>
+#include <numeric>
 
 #include <cassert>
 #include <cstdlib>
@@ -168,6 +169,7 @@ TODOS:
 #include <Numerics/NumBasicFunctions.hpp>
 #include <Numerics/Statistics.hpp>
 #include <Numerics/Tau.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 
 #include "Conditions.hpp"
 #include "Options.hpp"
@@ -744,17 +746,22 @@ namespace LookaheadBranching {
     typedef const OP::weights_t* weights_pt;
     const weights_pt weights;
   private :
+    typedef RandGen::RandGen_t* randgen_pt;
+    const randgen_pt randgen;
     laStats* const S;
     inline static std::mutex stats_mutex;
 
     LaBranching(GC::Space& home, LaBranching& b)
-      : GC::Brancher(home,b), P(b.P), weights(b.weights), S(b.S) {}
+      : GC::Brancher(home,b), P(b.P), weights(b.weights),
+        randgen(b.randgen), S(b.S) {}
   public :
     LaBranching(const GC::Home home,
                 const laParams P, laStats* const S,
-                const weights_pt w)
-      : GC::Brancher(home), P(P), weights(w), S(S) {
+                const weights_pt w, const randgen_pt rg)
+      : GC::Brancher(home), P(P), weights(w), randgen(rg), S(S) {
       assert(S); assert(weights);
+      assert((not needs_randgen(P.bo) or rg) and
+             (not rg or needs_randgen(P.bo)));
     }
 
     GC::Brancher* copy(GC::Space& home) override {
@@ -856,11 +863,14 @@ namespace LookaheadBranching {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
         assert(w == values.size());
-        if (P.bo == OP::LBRO::desc) {
-          std::ranges::reverse(values);
-          std::ranges::reverse(mv);
+        using OP::LBRO;
+        switch (P.bo) {
+        case LBRO::asc : break;
+        case LBRO::desc : {
+          std::ranges::reverse(values); std::ranges::reverse(mv); break;
         }
-        else if (P.bo == OP::LBRO::ascd or P.bo == OP::LBRO::descd) {
+        case LBRO::ascd : ; [[fallthrough]];
+        case LBRO::descd : {
           std::vector<std::tuple<int, float_t, float_t>> valdist;
           valdist.reserve(w);
           for (size_t i = 0; i < w; ++i)
@@ -868,11 +878,22 @@ namespace LookaheadBranching {
           std::ranges::sort(valdist, {}, [](const auto& p){
                               return std::get<1>(p);});
           for (size_t i = 0; i < w; ++i) {
-            const size_t ip = P.bo == OP::LBRO::ascd ? i : (w-1)-i;
+            const size_t ip = P.bo == LBRO::ascd ? i : (w-1)-i;
             values[i] = std::get<0>(valdist[ip]);
             mv[i] = std::get<2>(valdist[ip]);
           }
+          break;
         }
+        case LBRO::rand : {
+          std::vector<size_t> indices(w);
+          std::iota(indices.begin(), indices.end(), 0);
+          RandGen::shuffle(indices.begin(), indices.end(), *randgen);
+          for (size_t i = 0; i < w; ++i) {
+            const auto oldval = values; const auto oldmv = mv;
+            const size_t j = indices[i];
+            values[i] = oldval[j]; mv[i] = oldmv[j];
+          }
+        }}
       }
       bstats.time(timing()-t0);
       if (P.parallel) {

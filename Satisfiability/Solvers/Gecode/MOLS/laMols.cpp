@@ -248,7 +248,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.23.1",
+        "0.24.0",
         "3.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -558,7 +558,9 @@ int main(const int argc, const char* const argv[]) {
                 for (unsigned gcd : gcdv) {
                   const laSR res = outopt.with_computations() ?
                     lasolver(enc, rt, brt, dis, bro, lar,
-                             gcd, threads, weights, stod, log) :
+                             gcd, threads, weights,
+                             needs_randgen(bro) ? randgen.get() : nullptr,
+                             stod, log) :
                     laSR{};
                   if (with_log and
                       rt != RT::enumerate_with_log and
