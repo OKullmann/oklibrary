@@ -248,7 +248,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.24.1",
+        "0.24.2",
         "3.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -285,7 +285,7 @@ namespace {
       " - branch-type  : " << Environment::WRPO<LBRT>{} << "\n" <<
       " - distance     : " << Environment::WRPO<DIS>{} << "\n" <<
       " - branch-order : " << Environment::WRPO<LBRO>{} << "\n" <<
-      " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
+      " - la-type      : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
       " - weights      : comma-separated list of weights for distance\n"
