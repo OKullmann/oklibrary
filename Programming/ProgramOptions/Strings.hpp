@@ -213,8 +213,11 @@ namespace Environment {
 
 
   // Remove all whitespace:
-  inline void remove_spaces(std::string& s) noexcept {
+  inline void mremove_spaces(std::string& s) noexcept {
     s.erase(std::remove_if(s.begin(), s.end(), isspace), s.end());
+  }
+  inline void remove_spaces(std::string& s) noexcept {
+    mremove_spaces(s);
   }
   inline std::string remove_spaces(const std::string& s) noexcept {
     std::string res = s;
