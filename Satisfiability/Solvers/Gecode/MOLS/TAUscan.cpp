@@ -74,17 +74,26 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string
-    Narg = argv[1],
-    filecondarg = argv[2],
-    filepsarg = argv[3],
-    runtypearg = argv[4],
-    proplevelarg = argv[5],
-    distancearg = argv[6],
-    latypearg = argv[7],
-    weightsarg = argv[8],
-
-    Marg = argv[9], threadsarg = argv[10];
-  const size_t M = read_M(Marg), threads = read_threads(threadsarg);
-
+    Narg_1 = argv[1],
+    filecondarg_2 = argv[2],
+    filepsarg_3 = argv[3],
+    runtypearg_4 = argv[4],
+    proplevelarg_5 = argv[5],
+    distancearg_7 = argv[6],
+    latypearg_9 = argv[7],
+    weightsarg_12 = argv[8];
+  const std::string Marg = argv[9], threadsarg = argv[10];
   
+  const size_t
+    M = read_M(Marg),
+    threads = read_threads(threadsarg);
+
+  const std::string
+    branchtypearg_6 = "enu",
+    branchorderarg_8 = "rand;", // XXX
+    gcdarg_10 = "1",
+    threadsarg_11 = "1",
+    stoparg_13 = "lvs,0",
+    formattingarg_14 = "estlvs,-info,-w,-stop";
+
 }
