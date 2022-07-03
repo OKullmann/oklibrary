@@ -228,9 +228,37 @@
 # 224 15701          5          5          0.7013     0.001      0.001
 # Blackbox evaluations: 520 Total model evaluations: 52579 Cache hits: 67 Total number of evaluations: 587
 # real    1209m47.552s user    55447m4.674s sys     101m10.861s
-# nds=15701 is a good improvement; considering a wider range:
+# nds=15701 is a good improvement (best value yet).
+# MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count "" enu wdL "" "" 1 12 "5,5,0.7013,0.001,0.001" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    1674.422    2231642  0    15701    5661    10040        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1010.370  0.995   10.069  122.468  210.469   2.303  0.000  1.393    1.304   7.329
+# 882.000  0.000    0.000  117.745  106.078   1.000  0.000  0.245    0.000   0.000
+#1224.000  2.000   20.283  125.247  591.122   6.000  0.000  5.251    5.490  10.000
+#  54.039  0.331    2.901    1.219   72.786   0.750  0.000  0.652    1.086   1.404
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 913.975  1.595    9.694   15.764   66.157   1.296  0.019  0.499    5.115   8.955
+# 659.000  1.056    0.000    0.000    0.229   1.000  0.000  0.000    0.229   6.000
+#1019.000  5.000  192.857  104.228  619.272   6.000  2.000  6.501   16.049  11.000
+#  51.125  0.322   13.839   14.535   82.766   0.647  0.159  0.639    3.066   0.983
+#    estlvs
+# 24433.657
+#  1240.974
+#824152.482
+# 41357.665
+#       mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#324183.486  2.773  0.000  0.299  0.384  0.494   -nan  0.836
+#278620.000  2.000  0.000  0.009  0.250  0.250  0.000  0.285
+#417907.000  4.000  0.000  0.500  0.500  0.867  0.371  1.286
+# 21656.473  0.699  0.000  0.143  0.096  0.105   -nan  0.231#
+# real	2m42.441s user	27m54.429s sys	0m11.896s
+# Considering a wider range, no improvement was found:
 # 3MOLS> time nomad np_diag_7big5_wdL
-# running on server XXX
+# 1 15701          5          5          0.7013     0.001      0.001    (Phase One)
+# 319 15701          5.5048     5.013      0.7013     0.0001     0.0001
+# Blackbox evaluations: 640 Total model evaluations: 23776 Cache hits: 37 Total number of evaluations: 677
+# real    1208m37.960s user    57683m59.252s sys     110m26.090s
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
@@ -547,6 +575,9 @@
 # real    1209m58.108s user    69739m5.914s sys     455m8.236s
 # That seems clearly better, and seems capable of finding a good solution
 # unassisted.
+# Rerunning, with VNS_MADS_SEARCH, and somewhat larger range:
+# time nomad np_diag_7big3_newv
+# running on server XXX
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
