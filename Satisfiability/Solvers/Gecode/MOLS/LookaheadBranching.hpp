@@ -752,7 +752,7 @@ namespace LookaheadBranching {
   public :
     LaBranching(const GC::Home home,
                 const laParams P, laStats* const S,
-                const weights_pt w = nullptr)
+                const weights_pt w)
       : GC::Brancher(home), P(P), weights(w), S(S) {
       assert(S); assert(weights);
     }
