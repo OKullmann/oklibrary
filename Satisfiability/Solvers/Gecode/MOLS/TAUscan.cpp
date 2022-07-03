@@ -13,15 +13,17 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <string>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "CommandLine.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.3",
         "3.7.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -33,7 +35,7 @@ namespace {
   using namespace CommandLine;
 
   constexpr int commandline_args_transfer = 8;
-  constexpr int commandline_args = commandline_args_transfer  + 1;
+  constexpr int commandline_args = commandline_args_transfer  + 2;
   static_assert(commandline_args_laMols == 14);
 
   bool show_usage(const int argc, const char* const argv[]) {
@@ -43,12 +45,20 @@ namespace {
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n"
       " N file_cond file_ps run-type prop-level distance la-type weights"
-      "  M\n\n"
+      "  M threads\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to laMols\n"
-      " - M    : number of runs.\n\n"
+      " - M        : number of runs (unsigned integer)\n"
+      " - threads  : number of threads (unsigned integer).\n\n"
 ;
     return true;
+  }
+
+  size_t read_M(const std::string& arg) {
+    return FloatingPoint::to_UInt(arg);
+  }
+  size_t read_threads(const std::string& arg) {
+    return FloatingPoint::to_UInt(arg);
   }
 
 }
@@ -63,4 +73,18 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  const std::string
+    Narg = argv[1],
+    filecondarg = argv[2],
+    filepsarg = argv[3],
+    runtypearg = argv[4],
+    proplevelarg = argv[5],
+    distancearg = argv[6],
+    latypearg = argv[7],
+    weightsarg = argv[8],
+
+    Marg = argv[9], threadsarg = argv[10];
+  const size_t M = read_M(Marg), threads = read_threads(threadsarg);
+
+  
 }
