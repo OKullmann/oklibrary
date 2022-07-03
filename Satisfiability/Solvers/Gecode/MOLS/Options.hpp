@@ -279,9 +279,13 @@ namespace Options {
     asc = 0,
     desc = 1,
     ascd = 2,
-    descd = 3
+    descd = 3,
+    rand=4,
   };
-  constexpr int LBROsize = int(LBRO::descd) + 1;
+  constexpr int LBROsize = int(LBRO::rand) + 1;
+  constexpr bool needs_randgen(const LBRO bro) noexcept {
+    return bro == LBRO::rand;
+  }
 
 
   // Algorithmic options for lookahead-reduction, in two dimensions:
@@ -499,10 +503,11 @@ namespace Environment {
     static constexpr const char* sname = "lbo";
     static constexpr int size = Options::LBROsize;
     static constexpr std::array<const char*, size>
-      string {"asc", "desc", "dasc", "ddesc"};
+      string {"asc", "desc", "dasc", "ddesc", "rand"};
     static constexpr std::array<const char*, size>
     estring {"ascending-order", "descending-order",
-        "distances-ascending", "distances-descending"};
+        "distances-ascending", "distances-descending",
+        "random-order"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";

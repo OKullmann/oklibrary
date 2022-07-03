@@ -248,8 +248,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.23.0",
-        "2.7.2022",
+        "0.23.1",
+        "3.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -306,6 +306,9 @@ namespace {
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "    - these lists can have a leading + (inclusion) or - (exclusion)\n"
+      "  - for branch-order \"rand\" a comma-separated seed-sequence can be"
+      " given after \";\"\n"
+      "    - this sequence can include \"t\" (timestamp) and \"r\" (random)\n"
       "  - weights are patterns, with the last entry used for filling (thus"
       " the tail is always constant)\n"
       "    - the default for weights (empty string) is \"all specials\"\n"
@@ -471,13 +474,17 @@ int main(const int argc, const char* const argv[]) {
                                           "branching-type");
   const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  const list_lbro_t brov = read_opt<LBRO>(argc, argv, 8, "bro",
-                                          "order-heuristics");
+  const auto [brov, randgen, seeds] = read_lbro(argc, argv, 8);
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
 
   const double threads = read_threads(argc, argv, 11);
+  if (threads != 1 and randgen) {
+    std::cerr << error << "In the presence of branching-order rand the"
+      " number of threads must be 1, but is " << threads << ".\n";
+    return 1;
+  }
 
   const auto [wg, batch_mode] = read_weights(argc, argv, 12);
 
@@ -530,8 +537,9 @@ int main(const int argc, const char* const argv[]) {
     st_output(std::cout, stod);
     output_options(std::cout, outopt);
     algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
+    if (randgen) oseed_output(std::cout, seeds);
     cd_output(std::cout, gcdv);
-    seed_output(std::cout, wg);
+    wseed_output(std::cout, wg);
     std::cout.flush();
   }
 

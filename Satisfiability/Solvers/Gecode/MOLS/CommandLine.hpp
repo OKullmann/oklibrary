@@ -32,6 +32,7 @@ TODOS:
 #include <optional>
 #include <type_traits>
 #include <algorithm>
+#include <memory>
 
 #include <cassert>
 
@@ -150,12 +151,8 @@ namespace CommandLine {
   typedef std::vector<OP::LBRO> list_lbro_t;
 
   template <typename OPT>
-  std::vector<OPT> read_opt([[maybe_unused]]const int argc,
-                            const char* const argv[],
-                            const int index, const std::string err1,
-                            const std::string err2) {
-    assert(argc > index);
-    const std::string opts = argv[index];
+  std::vector<OPT> read_opt(const std::string opts,
+                            const std::string err1, const std::string err2) {
     if (opts.empty()) return {OPT(0)};
     const bool exclude = opts[0] == '-';
     const bool sign = exclude or (opts[0] == '+');
@@ -192,10 +189,46 @@ namespace CommandLine {
       return res;
     }
   }
+  template <typename OPT>
+  std::vector<OPT> read_opt([[maybe_unused]]const int argc,
+                            const char* const argv[],
+                            const int index, const std::string err1,
+                            const std::string err2) {
+    assert(argc > index);
+    return read_opt<OPT>(argv[index], err1, err2);
+  }
+
+  std::tuple<list_lbro_t,
+             std::unique_ptr<RandGen::RandGen_t>,
+             RandGen::vec_eseed_t>
+  read_lbro([[maybe_unused]]const int argc,
+            const char* const argv[], const int pos) {
+    assert(argc > pos);
+    const std::string s = argv[pos];
+    const auto find = s.find(';');
+    const bool found = find != std::string::npos;
+    using OP::LBRO;
+    list_lbro_t list = read_opt<LBRO>(s.substr(0,find),
+                                                "bro", "order-heuristics");
+    const bool needs_rand = std::ranges::any_of(list,
+                            [](const LBRO b){return needs_randgen(b);});
+    using namespace RandGen;
+    if (not needs_rand) {
+      if (not found) return {list, nullptr, RandGen::vec_eseed_t{}};
+      else {
+        std::ostringstream ss;
+        ss << "ERROR[CommandLine::read_lbro]: \";\" present, but no need for "
+          "additional parameters.\n";
+        throw std::runtime_error(ss.str());
+      }
+    }
+    vec_eseed_t seeds = found ? extract_seeds(s.substr(find+1)):vec_eseed_t{};
+    return std::make_tuple(list, std::make_unique<RandGen_t>(seeds), seeds);
+  }
 
   double read_threads([[maybe_unused]]const int argc,
                       const char* const argv[], const int pos) {
-    assert(argc >= pos+1);
+    assert(argc > pos);
     const std::string x = argv[pos];
     if (x.empty()) return 1;
     else return FloatingPoint::to_float64(x);
@@ -571,14 +604,20 @@ namespace CommandLine {
       algo_output<I+1>(out, t);
     }
   }
+  void oseed_output(std::ostream& out, const RandGen::vec_eseed_t& seeds) {
+    out << "#" << std::string(spaces_algoout, ' ') << "order-seeds: ";
+    if (seeds.empty()) out << "(empty)";
+    else out << RandGen::ESW{seeds};
+    out << "\n";
+  }
   template <class VEC>
   void cd_output(std::ostream& out, const VEC& V) {
     out << "#" << std::string(spaces_algoout, ' ') << "commit-distance: ";
     Environment::out_line(out, V); out << "\n";
   }
-  void seed_output(std::ostream& out, const WGenerator& wg) {
+  void wseed_output(std::ostream& out, const WGenerator& wg) {
     if (wg.randomuse)
-      out << "#" << std::string(spaces_algoout, ' ') << "seed=" <<
+      out << "#" << std::string(spaces_algoout, ' ') << "weight-seed=" <<
         wg.seed << "\n";
   }
   void weights_output(std::ostream& out, const WeightsWithOrigin& wo) {
