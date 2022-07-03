@@ -10,6 +10,8 @@
 /sgcMols_debug
 /rlaMols
 /rlaMols_debug
+/TAUscan
+/TAUscan_debug
 /TestParsing_debug
 /TestConditions_debug
 /TestEncoding_debug

@@ -248,7 +248,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.24.0",
+        "0.24.1",
         "3.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -256,7 +256,6 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 14;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -266,6 +265,8 @@ namespace {
   using namespace CommandLine;
   using namespace LookaheadReduction;
   using namespace LookaheadBranching;
+
+  constexpr int commandline_args = commandline_args_laMols;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))

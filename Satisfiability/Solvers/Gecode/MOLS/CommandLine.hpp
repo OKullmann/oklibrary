@@ -61,6 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
+  constexpr int commandline_args_laMols = 14;
+
   typedef std::vector<size_t> list_size_t;
   list_size_t read_N([[maybe_unused]]const int argc,
                 const char* const argv[]) {

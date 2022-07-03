@@ -22,7 +22,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols
+opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables Cases Options Measures
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -87,6 +87,12 @@ laMols : Optimisation_plus = -fwhole-program
 laMols : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp Verification.hpp GcVariables.hpp
 laMols_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 laMols_debug : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hpp Solvers.hpp PartialSquares.hpp CommandLine.hpp Options.hpp LookaheadBranching.hpp LookaheadReduction.hpp Verification.hpp GcVariables.hpp
+
+
+TAUscan : LDFLAGS += -pthread
+TAUscan : TAUscan.cpp CommandLine.hpp
+TAUscan_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
+TAUscan_debug : TAUscan.cpp CommandLine.hpp
 
 # -------------------------
 
