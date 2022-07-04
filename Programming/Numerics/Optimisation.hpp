@@ -317,7 +317,7 @@ namespace Optimisation {
     return res;
   }
 
-  // Node for computing f(x) and storing i at target->y :
+  // Node for computing y=f(x) and storing y at target->y :
   struct Computation {
     const vec_t x;
     y_t opt;
@@ -325,7 +325,8 @@ namespace Optimisation {
     point_t* const target;
     Computation* next;
 
-    Computation(const vec_t x, const y_t opt, const function_t f, point_t* const t) noexcept :
+    Computation(const vec_t x, const y_t opt, const function_t f,
+                point_t* const t) noexcept :
       x(x), opt(opt), f(f), target(t), next(nullptr) {}
     Computation(const Computation&) = default;
     Computation(Computation&&) = delete;
