@@ -9,6 +9,8 @@ License, or any later version. */
 
   Tools for making system calls on POSIX systems
 
+  Namespace SystemCalls, abbreviated "SC".
+
   OKlib/General/SystemHandling.hpp contains older code on the topic.
 
    - Pid_t (typedef)
@@ -30,7 +32,7 @@ License, or any later version. */
      bool cinexec) -> ReturnValue
      makes a system-call, handling the three streams
 
-   - esystem(string command, string cin,  bool cinexec) > EReturnValue
+   - esystem(string command, string cin,  bool cinexec) -> EReturnValue
      handles cout and cerr internally
 
 
@@ -94,7 +96,8 @@ namespace SystemCalls {
     const ExitStatus s;
     const int val;
     const bool continued;
-    ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)), continued(WIFCONTINUED(ret)) {}
+    ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)),
+                                          continued(WIFCONTINUED(ret)) {}
     operator std::string() const noexcept {
       return std::to_string(int(s)) + " " + std::to_string(val) + " " +
         std::to_string(continued);
