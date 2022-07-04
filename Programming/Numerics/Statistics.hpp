@@ -188,7 +188,8 @@ namespace GenStats {
       const IN inp = *i;
       const OUT diff = OUT(inp) - m, sq = diff*diff;
       const OUT t = sum + sq;
-      c += (sum - t) + sq;
+      if (sum >= sq) c += (sum - t) + sq;
+      else c += (sq - t) + sum;
       sum = t;
     }
     return sum + c;
