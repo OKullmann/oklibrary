@@ -10,6 +10,13 @@ License, or any later version. */
   Running M randomsised runs on laMols going down one branch,
   collecting statistics estlvs and printing them to standard output
 
+TODOS:
+
+1. Add a further commandline-argument for selecting the output:
+    - Best to use OP::STAT.
+    - Where here in case of an empty string the current output (all
+      statistics) is shown.
+
 */
 
 #include <iostream>
@@ -17,14 +24,17 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <SystemSpecifics/ParSysCalls.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "CommandLine.hpp"
+#include "LookaheadBranching.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "3.7.2022",
+        "0.2.0",
+        "4.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -33,22 +43,25 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace CommandLine;
+  namespace PSC = ParSysCalls;
+  namespace LB = LookaheadBranching;
 
   constexpr int commandline_args_transfer = 9;
   constexpr int commandline_args = commandline_args_transfer  + 2;
   static_assert(commandline_args_laMols == 14);
+  const std::string solver_call = "./laMols";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " has " << commandline_args << " command-line arguments:\n"
+      " has " << commandline_args << " command-line arguments:\n\n"
       " N file_cond file_ps run-type prop-level distance init-seeds la-type weights"
       "  M threads\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
-      " transferred to laMols\n"
-      "  - where init-seeds is the initial seed-sequence for random branching\n"
+      " transferred to \"" << solver_call << "\"\n"
+      "  - init-seeds is the initial seed-sequence for random branching\n"
       " - M        : number of runs (unsigned integer)\n"
       " - threads  : number of threads (unsigned integer).\n\n"
 ;
@@ -124,8 +137,10 @@ int main(const int argc, const char* const argv[]) {
     stoparg_13 = "lvs,0",
     formattingarg_14 = "estlvs,-info,-w,-stop";
 
+  PSC::vargs_t calls; calls.reserve(M);
   for (size_t seed = 0; seed < M; ++seed) {
-    const std::string branchorderarg_8 = branchorderarg + std::to_string(seed);
+    const std::string branchorderarg_8 =
+      Environment::qu(branchorderarg + std::to_string(seed));
     const std::string argument_list =
       Narg_1 + " " + filecondarg_2 + " " + filepsarg_3 + " " +
       runtypearg_4 + " " + proplevelarg_5 + " " +
@@ -133,7 +148,21 @@ int main(const int argc, const char* const argv[]) {
       branchorderarg_8 + " " + latypearg_9 + " " + gcdarg_10 + " " +
       threadsarg_11 + " " + weightsarg_12 + " " + stoparg_13 + " " +
       formattingarg_14;
-
-    std::cerr << argument_list << "\n";
+    calls.push_back({solver_call + " " + argument_list});
   }
+  const auto res = PSC::run_parallel(calls, threads);
+  assert(res.size() == M);
+
+  LB::vec_t results; results.reserve(M);
+  for (const auto& r : res) {
+    if (not r) {
+      std::cerr << error << "A " << solver_call << "-run resulted in an"
+        " error:\n" << r.value().err << "\n";
+      return 1;
+    }
+    results.push_back(FloatingPoint::to_float80(
+      Environment::remove_leadingtrailing_spaces(r.value().out)));
+  }
+  const GenStats::StdVFourStats stats(results);
+  std::cout << stats.extract() << "\n";
 }
