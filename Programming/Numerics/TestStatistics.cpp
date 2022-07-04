@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "21.5.2022",
+        "0.3.1",
+        "4.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -60,6 +60,13 @@ int main(const int argc, const char* const argv[]) {
    ss.str("");
    ss << eb;
    assert(ss.str() == "1 : 2 3 4; 5 77");
+  }
+
+  {std::vector<double> Peters{1, 1e100, 1, -1e100};
+   assert(sum_kbn<double>(Peters.begin(), Peters.end()) == 2);
+   Sum_kbn<double> s;
+   (((s += 1) += 1e100) += 1) += -1e100;
+   assert(s.sum() == 2);
   }
 
   {typedef BasicStats<FP::UInt_t, FP::float80> bst;

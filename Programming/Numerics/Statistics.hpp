@@ -12,6 +12,17 @@ License, or any later version. */
    One-dimensional sequences (count, min, max, arithmetic mean, standard
    deviation and median):
 
+    General arithmetic facilities:
+
+    - function sum_kbn(begin, end) : more precise summation
+    - class Sum_kbn : same algorithm, now based on +=
+    - function sumdiffsq_kbn(begin, end, m) : for all x from the sequence,
+      the sum of (x-m)^2 (again using more precise summation)
+
+    - supremum<IN>(), infimum<IN>() : choosing infinities iff possible
+    - min_element(begin, end), max_element(begin, end) (using the
+      above suprema/infima)
+
     Containers for output of the basic measures (at once):
 
     - class BStatsR<OUT> (reporting the basic statistics)
@@ -20,10 +31,16 @@ License, or any later version. */
     Complete classes for computing the basic statistics:
 
     - helper class CoreStats<IN> for sum, sum-of-squares, min and max
-    - class BasicStats<IN, OUT>: complete class for one quantity
+    - class BasicStats<IN, OUT>: complete class for one quantity (see below
+      for k quantities)
     - typedef StdStats for BasicStats with float80
 
-    - generalised to k quantities:
+    - FourStats<IN, OUT, RAN> : the four basic statistics for a range,
+      computed with the kbn-algorithms
+    - alias StdFourStats for IN=OUT=float80
+    - typedef StdVFourStats furthermore has RAN=vector<float80>
+
+    - BasicStats generalised to k quantities:
         GBasicStats<k,IN,OUT> and GStdStats<k>
 
     - function median<OUT, V>(V v)
@@ -44,6 +61,8 @@ License, or any later version. */
 
 TODOS:
 
+0. Update tests.
+
 1. Improve documentation
   - For a general overview on statistics see
    https://en.wikipedia.org/wiki/Consistent_estimator
@@ -51,6 +70,13 @@ TODOS:
    https://en.wikipedia.org/wiki/Standard_deviation#Uncorrected_sample_standard_deviation
 
 2. See todos in DifferentialEquations/Ode1.cpp.
+
+3. Use kbn-algorithm throughout
+  - See
+    https://en.wikipedia.org/wiki/Kahan_summation_algorithm#Further_enhancements
+  - Currently only used in FourStats, but likely should be used throughout --
+    for us precision is more important than the speed of these calculations
+    (which are mostly likely small compared to the other costs).
 
 */
 
@@ -123,22 +149,117 @@ namespace GenStats {
   };
 
 
+  // Kahan-Babushka-Neumaier algorithm:
+  template <typename IN, class IT>
+  IN sum_kbn(const IT begin, const IT end) noexcept {
+    IN sum{0}, c{0};
+    for (IT i = begin; i != end; ++i) {
+      const IN inp = *i;
+      const IN t = sum + inp;
+      const IN asum = sum >= 0 ? sum : -sum,
+        ainp = inp >= 0 ? inp : -inp;
+      if (asum >= ainp) c += (sum - t) + inp;
+      else c += (inp - t) + sum;
+      sum = t;
+    }
+    return sum + c;
+  }
+  template <typename IN>
+  struct Sum_kbn {
+    typedef IN input_t;
+    Sum_kbn() noexcept : sum_{0}, c_{0} {}
+    Sum_kbn& operator +=(const IN x) noexcept {
+      const IN t = sum_ + x;
+      const IN asum = sum_ >= 0 ? sum_ : -sum_,
+        ax = x >= 0 ? x : -x;
+      if (asum >= ax) c_ += (sum_ - t) + x;
+      else c_ += (x - t) + sum_;
+      sum_ = t;
+      return *this;
+    }
+    IN sum() const noexcept { return sum_ + c_; }
+  private :
+    IN sum_, c_;
+  };
+  template <typename IN, typename OUT, class IT>
+  OUT sumdiffsq_kbn(const IT begin, const IT end, const OUT m) noexcept {
+    OUT sum{0}, c{0};
+    for (IT i = begin; i != end; ++i) {
+      const IN inp = *i;
+      const OUT diff = OUT(inp) - m, sq = diff*diff;
+      const OUT t = sum + sq;
+      c += (sum - t) + sq;
+      sum = t;
+    }
+    return sum + c;
+  }
+
+
+  template <typename IN>
+  consteval IN supremum() noexcept {
+    if constexpr (std::numeric_limits<IN>::has_infinity)
+      return std::numeric_limits<IN>::infinity();
+    else return std::numeric_limits<IN>::max();
+  }
+  template <typename IN>
+  consteval IN infimum() noexcept {
+    if constexpr (std::numeric_limits<IN>::has_infinity)
+      return -std::numeric_limits<IN>::infinity();
+    else return std::numeric_limits<IN>::lowest();
+  }
+
+  template <typename IN, class IT>
+  IN min_element(IT begin, const IT end) noexcept {
+    if (begin == end) return supremum<IN>();
+    IN min = *begin;
+    while (++begin != end) {
+      const IN x = *begin;
+      if (x < min) min = x;
+    }
+    return min;
+  }
+  template <typename IN, class IT>
+  IN max_element(IT begin, const IT end) noexcept {
+    if (begin == end) return infimum<IN>();
+    IN max = *begin;
+    while (++begin != end) {
+      const IN x = *begin;
+      if (x > max) max = x;
+    }
+    return max;
+  }
+
+
+  template <typename IN, typename OUT, class RAN>
+  struct FourStats {
+    typedef RAN::size_type count_t;
+    const count_t N;
+    typedef IN input_t;
+    const IN min, max, sum;
+    typedef OUT output_t;
+    const OUT amean, sum_sqd, var, varub, sd, sdc;
+    FourStats(const RAN& r) noexcept
+    : N(r.size()),
+      min(min_element<IN>(r.begin(), r.end())),
+      max(max_element<IN>(r.begin(), r.end())),
+      sum(sum_kbn<IN>(r.begin(), r.end())),
+      amean(OUT(sum)/OUT(N)),
+      sum_sqd(sumdiffsq_kbn<IN,OUT>(r.begin(), r.end(), amean)),
+      var(sum_sqd/OUT(N)), varub(sum_sqd/OUT(N-1)),
+      sd(std::sqrt(var)), sdc(std::sqrt(varub)) {}
+  };
+  template <class RAN>
+  using StdFourStats =
+    FourStats<FloatingPoint::float80, FloatingPoint::float80, RAN>;
+  using StdVFourStats = StdFourStats<std::vector<FloatingPoint::float80>>;
+
+
   template <typename IN>
   struct CoreStats {
     typedef IN input_t;
     input_t sum_, sum_sq_, min_, max_;
     constexpr CoreStats() noexcept :
-      sum_(0), sum_sq_(0), min_(max()), max_(min()) {}
-    static constexpr input_t max() noexcept {
-      if constexpr (std::numeric_limits<input_t>::has_infinity)
-        return std::numeric_limits<input_t>::infinity();
-      else return std::numeric_limits<input_t>::max();
-    }
-    static constexpr input_t min() noexcept {
-      if constexpr (std::numeric_limits<input_t>::has_infinity)
-        return -std::numeric_limits<input_t>::infinity();
-      else return std::numeric_limits<input_t>::lowest();
-    }
+      sum_(0), sum_sq_(0), min_(supremum<IN>()), max_(infimum<IN>()) {}
     constexpr CoreStats(const input_t sum0, const input_t sum_sq0,
                         const input_t min0, const input_t max0) noexcept :
     sum_(sum0), sum_sq_(sum_sq0), min_(min0), max_(max0) {
