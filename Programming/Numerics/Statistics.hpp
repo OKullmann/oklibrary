@@ -247,6 +247,9 @@ namespace GenStats {
       sum_sqd(sumdiffsq_kbn<IN,OUT>(r.begin(), r.end(), amean)),
       var(sum_sqd/OUT(N)), varub(sum_sqd/OUT(N-1)),
       sd(std::sqrt(var)), sdc(std::sqrt(varub)) {}
+    BStatsR<OUT> extract() const noexcept {
+      return {N, min, amean, max, sdc};
+    }
   };
   template <class RAN>
   using StdFourStats =
