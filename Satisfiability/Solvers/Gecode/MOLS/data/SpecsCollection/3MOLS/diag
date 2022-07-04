@@ -236,7 +236,6 @@
 # below is never found. Below the starting point "0.1" was used,
 # instead of "0.1" above; trying this:
 # 3MOLS> time nomad np_diag_7big3_wdL
-# running on server2 XXX
 # This failed to discover the value nds=18429 found below.
 # Perhaps this value is just an outlier? Trying to improve it:
 # 3MOLS> time nomad np_diag_7big4_wdL
@@ -624,6 +623,9 @@
 # Blackbox evaluations: 382 Total model evaluations: 44387 Cache hits: 64 Total number of evaluations: 446
 # real    1201m56.819s user    58687m56.806s sys     113m49.754s
 # Similar to above.
+# Trying a focussed search, starting with the best value found:
+# time nomad np_diag_7big31_newv
+# running on server2 XXX
 
 # Evaluating for estlvs (the whole tree):
 # time nomad np_diag_7big4_newv
