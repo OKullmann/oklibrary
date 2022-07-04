@@ -248,7 +248,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.24.3",
+        "0.24.4",
         "4.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -460,7 +460,8 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc !=  commandline_args + 1) {
     std::cerr << error << "Exactly " << commandline_args << " command-line"
-      " arguments needed, but the real number is " << argc-1 << ".\n";
+      " arguments needed, but the real number is " << argc-1 << ":\n";
+    commandline_output(std::cerr, argc, argv);
     return 1;
   }
 
