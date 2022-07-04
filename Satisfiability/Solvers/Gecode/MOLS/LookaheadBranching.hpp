@@ -103,12 +103,14 @@ TODOS:
 
 -1. Implement sorting of branchings for binary branching.
 
-1. Provide and use better statistics-functions for the branches
-    - The problems is rounding-errors, yielding "nan".
-    - There needs to be a general facility, which takes as input
+1. DONE Provide and use better statistics-functions for the branches
+    - DONE The problems is rounding-errors, yielding "nan".
+    - DONE
+      There needs to be a general facility, which takes as input
       a vector of values, and provides, using the most exact
       computations, all basic statistics.
-    - Likely this should include the median.
+    - DONE (not included for now)
+      Likely this should include the median.
 
 2. For estlvs, don't use correced standard-deviation
     - Here we have the complete population.
@@ -577,9 +579,9 @@ namespace LookaheadBranching {
     }
     template <class STATS>
     void set_dist(const STATS& s) noexcept {
-      assert(s.N() == width_);
-      minp_ = s.min(); meanp_ = s.amean(); maxp_ = s.max();
-      sdd_ = s.sd_population();
+      assert(s.N == width_);
+      minp_ = s.min; meanp_ = s.amean; maxp_ = s.max;
+      sdd_ = s.sd;
     }
 
     BranchingStatistics& time(const Timing::Time_point t) noexcept {
@@ -849,13 +851,13 @@ namespace LookaheadBranching {
       bstats.set_width(w);
       assert(w >= 2);
       vec_t mv; mv.reserve(w);
-      {GenStats::StdStats statsd;
+      {vec_t statsd; statsd.reserve(w);
        for (const auto d : optbt) {
          const float_t m = opttau * d;
          mv.push_back(m);
-         statsd += FP::exp(-m);
+         statsd.push_back(FP::exp(-m));
        }
-       bstats.set_dist(statsd);
+       bstats.set_dist(GenStats::StdVFourStats(statsd));
       }
       assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
