@@ -763,7 +763,7 @@
 
 
 # New standard way of optimising on small samples:
-# 3MOLS/TAU_diag_7_ave> nomad np_wdL
+# 3MOLS/TAU_diag_7_wdL_ave> nomad np
 # running on server2 XXX
 
 
