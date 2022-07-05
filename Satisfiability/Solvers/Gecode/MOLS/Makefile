@@ -91,9 +91,9 @@ laMols_debug : laMols.cpp Parsing.hpp Conditions.hpp Encoding.hpp Constraints.hp
 
 TAUscan : LDFLAGS += -pthread
 TAUscan : Optimisation_plus = -fwhole-program
-TAUscan : TAUscan.cpp CommandLine.hpp
+TAUscan : TAUscan.cpp CommandLine.hpp Options.hpp
 TAUscan_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
-TAUscan_debug : TAUscan.cpp CommandLine.hpp
+TAUscan_debug : TAUscan.cpp CommandLine.hpp Options.hpp
 
 # -------------------------
 

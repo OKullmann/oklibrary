@@ -12,16 +12,20 @@ License, or any later version. */
 
 TODOS:
 
-1. Add a further commandline-argument for selecting the output:
-    - Best to use OP::STAT.
-    - Where here in case of an empty string the current output (all
+1. DONE Add a further commandline-argument for selecting the output:
+    - DONE (not done)
+      Best to use OP::STAT.
+    - DONE (not done)
+      Where here in case of an empty string the current output (all
       statistics) is shown.
-    - But we need our own STAT-type anyway, since for example
+    - DONE
+      But we need our own STAT-type anyway, since for example
         ave + stddev
       seems an interesting option for optimisation;
       call it "avepsd", with string "ave+sd".
-    - We put this option, call it STTS, also into Options.hpp ?
-    - Perhaps the default is our current "best guess", that is,
+    - DONE (yes)
+      We put this option, call it STTS, also into Options.hpp ?
+    - DONE Perhaps the default is our current "best guess", that is,
       ave for now?
 
 2. We should provide the possibility to specify the solver-path ("./laMols")
@@ -41,11 +45,12 @@ TODOS:
 
 #include "CommandLine.hpp"
 #include "LookaheadBranching.hpp"
+#include "Options.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.4.0",
         "5.7.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -55,11 +60,12 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace CommandLine;
+  using namespace Options;
   namespace PSC = ParSysCalls;
   namespace LB = LookaheadBranching;
 
   constexpr int commandline_args_transfer = 9;
-  constexpr int commandline_args_own = 2;
+  constexpr int commandline_args_own = 3;
   constexpr int commandline_args =
     commandline_args_transfer  + commandline_args_own;
   static_assert(commandline_args_laMols == 14);
@@ -71,13 +77,15 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n\n"
-      " N file_cond file_ps run-type prop-level distance init-seeds la-type weights"
-      "  M threads\n\n"
+      " N file_cond file_ps run-type prop-level distance init-seeds la-type"
+      " weights"
+      "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to \"" << solver_call << "\"\n"
       "  - init-seeds is the initial seed-sequence for random branching\n"
-      " - M        : number of runs (unsigned integer)\n"
-      " - threads  : number of threads (unsigned integer).\n\n"
+      " - M         : number of runs (unsigned integer)\n"
+      " - threads   : number of threads (unsigned integer)\n"
+      " - selection : " << Environment::WRPO<STTS>{} << "\n\n"
 ;
     return true;
   }
@@ -142,6 +150,13 @@ int main(const int argc, const char* const argv[]) {
   const size_t
     M = read_M(Marg),
     threads = read_threads(threadsarg);
+  const auto select0 = Environment::read<STTS>(argv[12]);
+  if (not select0) {
+    std::cerr << error << "Unknown selection-option \"" << argv[12] <<
+      "\".\n";
+    return 1;
+  }
+  const STTS select = select0.value();
 
   const std::string
     branchtypearg_6 = "enu",
@@ -178,5 +193,14 @@ int main(const int argc, const char* const argv[]) {
       Environment::remove_leadingtrailing_spaces(r.value().out)));
   }
   const GenStats::StdVFourStats stats(results);
-  std::cout << stats.extract() << "\n";
+  [[maybe_unused]]
+    const auto oldprec = FloatingPoint::fullprec_float80(std::cout);
+  switch (select) {
+  case STTS::ave : std::cout << stats.amean; break;
+  case STTS::min : std::cout << stats.min; break;
+  case STTS::max : std::cout << stats.max; break;
+  case STTS::stddev : std::cout << stats.sdc; break;
+  case STTS::avepsd : std::cout << stats.amean + stats.sdc; break;
+  case STTS::all : std::cout << stats.extract(); }
+  std::cout << "\n";
 }

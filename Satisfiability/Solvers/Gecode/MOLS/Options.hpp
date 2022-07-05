@@ -418,6 +418,12 @@ namespace Options {
     NOTY node_type() const noexcept { return std::get<NOTY>(options); }
   };
 
+
+  // Stats for TAUscan:
+  enum class STTS { ave=0, min=1, max=2, stddev=3,
+                    avepsd=4, all=5 };
+  constexpr int STTSsize = int(STTS::all) + 1;
+
 }
 namespace Environment {
   template <> struct RegistrationPolicies<Options::RT> {
@@ -620,6 +626,15 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"inner-node", "leaf-node"};
   };
+  template <> struct RegistrationPolicies<Options::STTS> {
+    static constexpr const char* name = "statistics-TAUscan";
+    static constexpr int size = Options::STTSsize;
+    static constexpr std::array<const char*, size>
+      string {"ave", "min", "max", "stddev", "ave+sd", "all"};
+    static constexpr std::array<const char*, size>
+      estring {"arithmetic-mean", "minimum", "maximum", "standard-deviation",
+        "mean+deviation", "four-statistics"};
+  };
 }
 namespace Options {
   std::ostream& operator <<(std::ostream& out, const RT rt) {
@@ -687,6 +702,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const NOTY n) {
     return out << Environment::W2(n);
+  }
+  std::ostream& operator <<(std::ostream& out, const STTS s) {
+    return out << Environment::W2(s);
   }
 
   auto read(EXW, const std::string& s) noexcept {
