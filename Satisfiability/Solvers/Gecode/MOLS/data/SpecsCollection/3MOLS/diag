@@ -362,8 +362,11 @@
 #3516.000  2.000  0.003  0.000  0.200  0.250  0.000  0.048
 #4170.000  5.000  0.071  0.500  0.500  0.985  0.485  2.268
 #  89.346  0.804  0.005  0.146  0.103  0.141   -nan  0.413
-# Alternatively minimising estlvs for a given depth:
-# 3MOLS> nomad np_diag_7small3_wdL XXX in preparation XXX
+
+# New standard way of optimising on small samples:
+# 3MOLS/TAU_diag_7_wdL_ave> nomad np
+# running on server2 XXX
+
 
 # N=8:
 
@@ -763,8 +766,8 @@
 
 
 # New standard way of optimising on small samples:
-# 3MOLS/TAU_diag_7_wdL_ave> nomad np
-# running on server2 XXX
+# 3MOLS/TAU_diag_7_newv_ave> nomad np
+# running on server XXX
 
 
 # N=8:
