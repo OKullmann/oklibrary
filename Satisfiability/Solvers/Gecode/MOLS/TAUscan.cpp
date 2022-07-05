@@ -8,7 +8,7 @@ License, or any later version. */
 /*
 
   Running M randomsised runs on laMols going down one branch,
-  collecting statistics estlvs and printing them to standard output
+  collecting statistics on estlvs and printing them to standard output
 
 TODOS:
 
@@ -16,6 +16,18 @@ TODOS:
     - Best to use OP::STAT.
     - Where here in case of an empty string the current output (all
       statistics) is shown.
+    - But we need our own STAT-type anyway, since for example
+        ave + stddev
+      seems an interesting option for optimisation;
+      call it "avepsd", with string "ave+sd".
+    - We put this option, call it STTS, also into Options.hpp ?
+    - Perhaps the default is our current "best guess", that is,
+      ave for now?
+
+2. We should provide the possibility to specify the solver-path ("./laMols")
+   as a command-line argument.
+    - Likely best for the experiments to make a local copy, in an
+      experiment-directory.
 
 */
 
@@ -47,7 +59,9 @@ namespace {
   namespace LB = LookaheadBranching;
 
   constexpr int commandline_args_transfer = 9;
-  constexpr int commandline_args = commandline_args_transfer  + 2;
+  constexpr int commandline_args_own = 2;
+  constexpr int commandline_args =
+    commandline_args_transfer  + commandline_args_own;
   static_assert(commandline_args_laMols == 14);
   const std::string solver_call = "./laMols";
 
