@@ -29,7 +29,7 @@ License, or any later version. */
 
     Lookahead-branching for laMols:
      - LBRT branching-type (lookahead-brt) bin, enu; plus later binbal
-     - LBRO branching-order asc, desc, ascd, descd
+     - LBRO branching-order asc, desc, ascd, descd, rand, tauprobfirst
      - DIS distance deltaL, wdeltaL, newvars
      - SPW special-weights other, zero, one, ap, ld
      - EXW weights for experiments rand, asc, desc
@@ -281,10 +281,11 @@ namespace Options {
     ascd = 2,
     descd = 3,
     rand=4,
+    tauprobfirst=5
   };
-  constexpr int LBROsize = int(LBRO::rand) + 1;
+  constexpr int LBROsize = int(LBRO::tauprobfirst) + 1;
   constexpr bool needs_randgen(const LBRO bro) noexcept {
-    return bro == LBRO::rand;
+    return bro == LBRO::rand or bro == LBRO::tauprobfirst;
   }
 
 
@@ -503,11 +504,11 @@ namespace Environment {
     static constexpr const char* sname = "lbo";
     static constexpr int size = Options::LBROsize;
     static constexpr std::array<const char*, size>
-      string {"asc", "desc", "dasc", "ddesc", "rand"};
+      string {"asc", "desc", "dasc", "ddesc", "rand", "tprob"};
     static constexpr std::array<const char*, size>
     estring {"ascending-order", "descending-order",
         "distances-ascending", "distances-descending",
-        "random-order"};
+        "random-order", "tauprob-first"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
     static constexpr const char* name = "la-reduction-type";

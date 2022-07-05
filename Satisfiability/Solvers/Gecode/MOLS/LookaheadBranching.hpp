@@ -172,6 +172,7 @@ TODOS:
 #include <Numerics/Statistics.hpp>
 #include <Numerics/Tau.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
+#include <Transformers/Generators/Random/FPDistributions.hpp>
 
 #include "Conditions.hpp"
 #include "Options.hpp"
@@ -850,15 +851,13 @@ namespace LookaheadBranching {
       const size_t w = optbt.size();
       bstats.set_width(w);
       assert(w >= 2);
-      vec_t mv; mv.reserve(w);
-      {vec_t statsd; statsd.reserve(w);
-       for (const auto d : optbt) {
-         const float_t m = opttau * d;
-         mv.push_back(m);
-         statsd.push_back(FP::exp(-m));
-       }
-       bstats.set_dist(GenStats::StdVFourStats(statsd));
+      vec_t mv, pv; mv.reserve(w); pv.reserve(w);
+      for (const auto d : optbt) {
+        const float_t m = opttau * d;
+        mv.push_back(m);
+        pv.push_back(FP::exp(-m));
       }
+      bstats.set_dist(GenStats::StdVFourStats(pv));
       assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
       if (P.bt != OP::LBRT::bin) {
@@ -890,10 +889,18 @@ namespace LookaheadBranching {
           std::vector<size_t> indices(w);
           std::iota(indices.begin(), indices.end(), 0);
           RandGen::shuffle(indices.begin(), indices.end(), *randgen);
+          const auto oldval = values; const auto oldmv = mv;
           for (size_t i = 0; i < w; ++i) {
-            const auto oldval = values; const auto oldmv = mv;
             const size_t j = indices[i];
             values[i] = oldval[j]; mv[i] = oldmv[j];
+          }
+          break;
+        }
+        case LBRO::tauprobfirst : {
+          const size_t chosen = RandGen::Discrete(*randgen, pv)();
+          if (chosen != 0) {
+            std::swap(values[0], values[chosen]);
+            std::swap(mv[0], mv[chosen]);
           }
         }}
       }
