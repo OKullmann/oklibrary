@@ -549,7 +549,7 @@
 # Optimising on the best two parameters:
 # MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,a,0,-6,0 nds,25403 > AUS_00a0-60 &
 # best a=8:
-#  ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 0,0,8,0,-6,0 "" ""
+# ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 0,0,8,0,-6,0 "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs     plvs
 #  7   +count dom enu newv   asc  relpr   1      192    1701.994    1878286    12  0    14209    5337     8872        0
 #     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
@@ -625,11 +625,63 @@
 # Similar to above.
 # Trying a focussed search, starting with the best value found:
 # time nomad np_diag_7big31_newv
-# running on server2 XXX
+# 325 13721          0.32       9.32       5.25       0.12     -10         -1.29
+# Blackbox evaluations: 634 Total model evaluations: 68934 Cache hits: 61 Total number of evaluations: 695
+# real    1203m2.917s user    54722m11.554s sys     320m45.140s
+# ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 0.32,9.32,5.25,0.12,-10,-1.29 "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1      192    1701.791    1813002  0    13721    5137     8584        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1018.065  0.975   10.469  122.347  206.568   2.278  0.000  1.545    1.286   7.274
+# 911.000  0.000    0.000  117.057  102.909   1.000  0.000  0.032    0.000   0.000
+#1224.000  2.000   23.679  125.247  606.646   6.000  0.000  5.643    5.848  11.000
+#  51.097  0.376    3.019    1.196   78.054   0.801  0.000  0.710    1.131   1.442
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 923.877  1.552    8.826   18.912   85.044   1.425  0.022  0.725    5.690   8.996
+# 752.000  1.044    0.000    0.000    0.253   1.000  0.000  0.000    0.253   6.000
+#1026.000  4.000  183.333  121.178  668.905   7.000  2.000  6.586   17.006  12.000
+#  46.856  0.309   10.383   17.061  100.067   0.825  0.201  0.862    3.108   0.995
+#    estlvs
+# 17794.593
+#   903.716
+#237892.365
+# 19222.617
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#559.516  2.671  0.000  0.327  0.393  0.474  0.066  0.955
+#522.000  2.000  0.000  0.036  0.250  0.250  0.000  0.039
+#641.000  4.000  0.000  0.500  0.500  0.856  0.370  1.882
+# 20.859  0.573  0.000  0.123  0.087  0.098  0.067  0.209
+# The current champion (by a tiny margin).
 
-# Evaluating for estlvs (the whole tree):
+# Optimising for estlvs (the whole tree):
 # time nomad np_diag_7big4_newv
-# running on server XXX
+# 350 18394.179926  -1         10          5          0        -10        -10
+# Blackbox evaluations: 362 Total model evaluations: 29725 Cache hits: 56 Total number of evaluations: 418
+# real    1206m58.853s user    60777m19.928s sys     118m18.302s
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 -1,10,5,0,-10,-10 "" ""
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1      192    1613.494    1843234  0    14033    5273     8760        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1015.792  0.973   10.447  122.418  206.893   2.271  0.000  1.284    1.266   7.301
+# 911.000  0.000    0.000  117.057  102.909   1.000  0.000  0.144    0.000   0.000
+#1224.000  2.000   23.679  125.247  606.646   6.000  0.000  5.147    5.848  11.000
+#  52.742  0.373    2.966    1.223   77.248   0.794  0.000  0.682    1.109   1.437
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 922.320  1.547    8.654   19.316   86.482   1.432  0.022  0.622    5.723   9.034
+# 788.000  1.044    0.000    0.000    0.253   1.000  0.000  0.000    0.253   6.000
+#1026.000  4.000  183.333  121.178  668.905   7.000  2.000  6.550   17.006  12.000
+#  46.605  0.290    9.844   17.417  101.624   0.836  0.180  0.777    3.071   0.987
+#    estlvs
+# 18394.180
+#   901.570
+#251188.374
+# 19967.972
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#558.816  2.661  0.000  0.331  0.394  0.472  0.063  0.798
+#522.000  2.000  0.000  0.038  0.250  0.250  0.000  0.158
+#641.000  4.000  0.000  0.500  0.500  0.767  0.284  1.329
+# 21.217  0.579  0.000  0.123  0.087  0.095  0.064  0.263
+# A good solution.
 
 # Attempt at finding good weights by optimising the number of la-reductions
 # at inner nodes, with nds=1000:
