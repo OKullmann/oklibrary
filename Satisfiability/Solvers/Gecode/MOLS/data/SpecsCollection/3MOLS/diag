@@ -549,7 +549,7 @@
 # Optimising on the best two parameters:
 # MOLS> ./laMols 7 data/SpecsCollection/3MOLSdiag "" count dom enu newv "" relpr 1 16 0,0,a,0,-6,0 nds,25403 > AUS_00a0-60 &
 # best a=8:
-#  ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" relpr 1 12 0,0,8,0,-6,0 "" ""
+#  ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 0,0,8,0,-6,0 "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc    gd st      nds    inds      lvs     plvs
 #  7   +count dom enu newv   asc  relpr   1      192    1701.994    1878286    12  0    14209    5337     8872        0
 #     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
