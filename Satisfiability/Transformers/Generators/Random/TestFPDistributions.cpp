@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.4.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "31.12.2021",
+        "0.0.4",
+        "4.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/FPDistributions.cpp",
@@ -24,6 +24,11 @@ namespace {
 
   using namespace RandGen;
   namespace FP = FloatingPoint;
+
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 
 }
 
@@ -137,5 +142,24 @@ int main(const int argc, const char* const argv[]) {
     assert(count[2] == 3329);
    }
 
+  }
+
+  {typedef std::vector<FP::float80> v_t;
+   assert(eqp(cummulative_probabilities(v_t{1}), {1}));
+   assert(eqp(cummulative_probabilities(v_t{0,1}), {0,1}));
+   assert(eqp(cummulative_probabilities(v_t{1,0}), {1,1}));
+   assert(eqp(cummulative_probabilities(v_t{0,0,0.5,0,0.5}), {0,0,0.5,0.5,1}));
+  }
+
+  {RandGen_t g;
+   const Discrete D(g, {0, 0, 0.5, 0, 0.5, 0, 0});
+   assert(D.N == 7);
+   unsigned count_2 = 0;
+   for (unsigned i = 0; i < 1000; ++i) {
+     const auto res = D();
+     assert(res == 2 or res == 4);
+     count_2 += res == 2;
+   }
+   assert(count_2 == 522);
   }
 }

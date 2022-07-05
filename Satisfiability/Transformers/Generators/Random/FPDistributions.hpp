@@ -19,9 +19,14 @@ License, or any later version. */
         Uniform80RangeI U(g, a, b);
       one obtains a generator U() producing float80-numbers x in the interval
       a <= x <= b.
-
    The values are quite well equally distributed, but not all possible
    values are obtained (the denominator is 2^-64).
+
+    - function cummulative_probabilities(s) for a probability-distribution s
+      computes the vector of cummulative probabilities of the same length;
+    - Discrete D(g, s) then yields a generator D() for random number from
+      {0, ..., size(s)-1} according to the distribution s (by the simplest
+      algorithm, the "roulette wheel").
 
 
 TODOS:
@@ -35,12 +40,24 @@ TODOS:
    https://github.com/DiscreteLogarithm/canonical-random-float/blob/master/canonical_float_random.hpp
    is indeed rather simple, so we could mimic that.
 
+2. Improve function cummulative_probabilities
+    - The kbn-algorithm as in Generators/Statistics.hpp is used here.
+    - One could also sort the probabilities.
+    - And one could work from both sides (which should be better than the
+      current version, which works only from the left, and then "nails"
+      the right end).
+    - For more time-efficient algorithms (when calling the generator many
+      times) apparently Vose's algorithm seems best; see
+      https://www.keithschwarz.com/darts-dice-coins/
+      for on overview.
+
 */
 
 #ifndef FPDISTRIBUTIONS_T77fC5Vr08
 #define FPDISTRIBUTIONS_T77fC5Vr08
 
 #include <type_traits>
+#include <vector>
 
 #include <cassert>
 #include <cfenv>
@@ -115,6 +132,58 @@ namespace RandGen {
       return U();
     }
 
+  };
+
+
+  // More precise summation (as in RandGen::sum_kbn):
+  template <class VEC>
+  std::vector<FloatingPoint::float80> cummulative_probabilities(const VEC& s) {
+    typedef typename VEC::size_type size_t;
+    const size_t size = s.size();
+    assert(size > 0);
+    std::vector<FloatingPoint::float80> res(size);
+    res[0] = s[0]; res[size-1] = 1;
+    FloatingPoint::float80 sum = s[0], c = 0;
+    for (size_t i = 1; i < size-1; ++i) {
+      const FloatingPoint::float80 x = s[i];
+      assert(x >= 0 and x <= 1);
+      const auto t = sum + x;
+      if (sum >= x) c += (sum - t) + x;
+      else c += (x - t) + sum;
+      sum = t;
+      res[i] = sum + c;
+    }
+    return res;
+  }
+
+  /* Construction with vector s of size N > 0, return an element
+     of 0, ..., N-1 according to the probabilities in s, by operator ().
+  */
+  template <class RG>
+  class Discrete {
+    static_assert(std::is_same_v<RG,RandGen_t>
+                  or std::is_same_v<RG, randgen_t>);
+    RG& g;
+  public :
+    typedef RG rg_t;
+    typedef FloatingPoint::float80 float80;
+    typedef std::vector<float80> vec_t;
+    const vec_t cump;
+    const gen_uint_t N;
+
+    template <class VEC>
+    Discrete(rg_t& g, const VEC& s) noexcept :
+      g(g), cump(cummulative_probabilities(s)), N(s.size()) { assert(N > 0); }
+    Discrete(rg_t& g, const vec_t& s) noexcept :
+      g(g), cump(cummulative_probabilities(s)), N(s.size()) { assert(N > 0); }
+
+    gen_uint_t operator ()() const noexcept {
+      const float80 r = Uniform80Range(g)();
+      assert(r >= 0 and r < 1);
+      gen_uint_t i = 0;
+      while (r >= cump[i]) ++i;
+      return i;
+    }
   };
 
 }
