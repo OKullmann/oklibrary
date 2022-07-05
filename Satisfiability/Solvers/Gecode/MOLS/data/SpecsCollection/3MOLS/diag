@@ -762,6 +762,11 @@
 # good weights.
 
 
+# New standard way of optimising on small samples:
+# 3MOLS/TAU_diag_7_ave> nomad np_wdL
+# running on server2 XXX
+
+
 # N=8:
 
 # Using the weights from N=7:
