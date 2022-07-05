@@ -365,8 +365,32 @@
 
 # New standard way of optimising on small samples:
 # 3MOLS/TAU_diag_7_wdL_ave> nomad np
-# running on server2 XXX
-# 213 10699.172742   3.66       1.6        1.28       0.0301     1.6301
+# 2038  7292.295651   0.0001     6.062949   0.721762   0.003164   4.951234
+# Blackbox evaluations: 2286 Blackbox evaluation (not counting): 2 Total model evaluations: 363112 Cache hits: 317 Total number of evaluations: 2605
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 12 "0.0001,6.062949,0.721762,0.003164,4.951234" "" ""
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1      192    1740.195    2227948  0    15701    5645    10056        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1010.768  0.995   10.034  122.472  209.898   2.298  0.000  1.490    1.296   7.335
+# 882.000  0.000    0.000  117.745  106.078   1.000  0.000  0.145    0.000   0.000
+#1224.000  2.000   20.283  125.247  591.122   6.000  0.000  5.360    5.490  10.000
+#  54.050  0.332    2.882    1.216   72.645   0.750  0.000  0.657    1.088   1.400
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 914.547  1.592    9.128   15.861   66.073   1.294  0.019  0.535    5.129   8.976
+# 659.000  1.056    0.000    0.000    0.229   1.000  0.000  0.000    0.229   6.000
+#1019.000  5.000  192.857  104.228  619.272   6.000  2.000  6.745   16.049  11.000
+#  50.696  0.308   10.924   14.665   82.592   0.647  0.158  0.670    3.050   0.964
+#    estlvs
+# 24200.337
+#  1238.848
+#826353.948
+# 41018.385
+#      mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#21441.860  2.781  0.001  0.298  0.383  0.493  0.085  0.896
+#18376.000  2.000  0.000  0.009  0.250  0.250  0.000  0.161
+#27709.000  4.000  0.002  0.500  0.500  0.866  0.366  1.407
+# 1447.210  0.704  0.000  0.143  0.096  0.103  0.079  0.205
+# Best nds-value reproduced.
 
 
 # N=8:
@@ -447,6 +471,9 @@
 # The worst runtime-wise, dasc, apparently has a lot more work to do for
 # inference than the best, ddesc.
 
+# New standard way of optimising on small samples:
+# 3MOLS/TAU_diag_8_wdL_ave> nomad np
+# running on server2 XXX
 
 
 # laMols with newv:
@@ -768,7 +795,32 @@
 
 # New standard way of optimising on small samples:
 # 3MOLS/TAU_diag_7_newv_ave> nomad np
-# running on server XXX
+# 1411  5792.316509  -1          8.0428     5.8333    -2.1033    -9.9917     6.5033
+# Blackbox evaluations: 1457 Total model evaluations: 217689 Cache hits: 142 Total number of evaluations: 1599
+# MOLS> ./laMols 7 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 12 "-1,8.0428,5.8333,-2.1033,-9.9917,6.5033" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1      192    1643.501    1807716  0    14111    5483     8628        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1010.315  0.966   10.393  122.512  215.469   2.339  0.000  1.251    1.296   7.369
+# 907.000  0.000    0.000  117.057  107.534   1.000  0.000  0.029    0.000   0.000
+#1224.000  2.000   21.739  125.247  606.646   6.000  0.000  5.269    5.848  10.000
+#  56.083  0.343    2.703    1.242   82.568   0.850  0.000  0.826    1.095   1.447
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 919.309  1.521    7.730   21.135   96.897   1.495  0.022  0.636    6.132   9.069
+# 772.000  1.044    0.000    0.000    0.380   1.000  0.000  0.000    0.187   5.000
+#1067.000  4.000  180.952  121.178  668.905   7.000  1.000  6.259   17.417  11.000
+#  48.728  0.272    9.411   17.988  103.261   0.866  0.148  0.794    2.999   1.027
+#    estlvs
+# 19928.241
+#   387.637
+#301340.089
+# 22781.257
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#556.872  2.573  0.000  0.356  0.406  0.462  0.048  0.747
+#517.000  2.000  0.000  0.057  0.250  0.250  0.000  0.035
+#641.000  4.000  0.000  0.500  0.500  0.790  0.323  1.324
+# 22.169  0.521  0.000  0.113  0.084  0.094  0.058  0.360
+# Amongst the best solutions found.
 
 
 # N=8:
@@ -889,6 +941,10 @@
 # The worst time-wise ddesc, seems to have basically the same performance as
 # the best time-wise desc -- excdept that the runtime is much higher??
 # Apparently in this direction there is the harder part of the search-space?
+
+# New standard way of optimising on small samples:
+# 3MOLS/TAU_diag_8_newv_ave> nomad np
+# running on server XXX
 
 
 squares A B C AB AC BC
