@@ -33,8 +33,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "4.7.2022",
+        "0.3.0",
+        "5.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -82,9 +82,10 @@ namespace {
     return FloatingPoint::to_UInt(arg);
   }
 
+  const std::string bro = "tprob";
   std::string seed_arg(std::string initseedarg) {
     Environment::remove_spaces(initseedarg);
-    std::string res = "rand;" + initseedarg;
+    std::string res = bro + ";" + initseedarg;
     const char last = res.back();
     if (last != ';' and last != ',') res.push_back(',');
     return res;
@@ -152,7 +153,6 @@ int main(const int argc, const char* const argv[]) {
   }
   const auto res = PSC::run_parallel(calls, threads);
   assert(res.size() == M);
-
   LB::vec_t results; results.reserve(M);
   for (const auto& r : res) {
     if (not r) {
