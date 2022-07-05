@@ -366,6 +366,7 @@
 # New standard way of optimising on small samples:
 # 3MOLS/TAU_diag_7_wdL_ave> nomad np
 # running on server2 XXX
+# 213 10699.172742   3.66       1.6        1.28       0.0301     1.6301
 
 
 # N=8:

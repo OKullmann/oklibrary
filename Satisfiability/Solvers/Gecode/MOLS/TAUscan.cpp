@@ -10,6 +10,21 @@ License, or any later version. */
   Running M randomsised runs on laMols going down one branch,
   collecting statistics on estlvs and printing them to standard output
 
+BUGS:
+
+1. File access error:
+
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  ERROR[Environment::get_content(p)]: Can't open file
+  SystemCalls_esystem_out_1657033265110086420_2235
+/home/kullmann/oklibrary/Satisfiability/Solvers/Gecode/MOLS/data/SpecsCollection/3MOLS/TAU_diag_7_wdL_ave/./ns: line 2:  2225 Done                    cat $1
+      2235 Aborted                 (core dumped) | ./TAUscan 7 ../diag "" count "" wdL t "" cin 100 10 ""
+Warning: Evaluation error with point #75981 ( 7 6.0001 0.0001 0.0001 7 )        Evaluation error         : output is empty
+Warning: Evaluator returned exit status 34304 for point: ( 7 6.0001 0.0001 0.0001 7 )
+
+ (a) Erroneous results likely should just be ignored.
+ (b) The uniqueness of file-names needs to be checked.
+
 TODOS:
 
 1. DONE Add a further commandline-argument for selecting the output:
