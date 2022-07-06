@@ -9,6 +9,6 @@ DISPLAY_ALL_EVAL        no
 DISPLAY_STATS           BBE OBJ SOL
 MAX_TIME                100000
 LH_SEARCH               1000 10
-VNS_MADS_SEARCH         yes
+VNS_MADS_SEARCH         no # not compatible with below for version 4.2
 MEGA_SEARCH_POLL        true
 SPECULATIVE_SEARCH_MAX  10
