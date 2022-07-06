@@ -10,5 +10,5 @@ DISPLAY_STATS           BBE OBJ SOL
 MAX_TIME                100000
 LH_SEARCH               1000 10
 VNS_MADS_SEARCH         yes
-MEGA_SEARCH_POLL        yes
+MEGA_SEARCH_POLL        true
 SPECULATIVE_SEARCH      10
