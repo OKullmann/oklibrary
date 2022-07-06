@@ -14,12 +14,6 @@ BUGS:
 
 TODOS:
 
-2. We should provide the possibility to specify the solver-path ("./laMols")
-   as a command-line argument.
-    - Likely best for the experiments to make a local copy, in an
-      experiment-directory.
-    - So then acutally "./laMols" seems appropriate.
-
 */
 
 #include <iostream>
