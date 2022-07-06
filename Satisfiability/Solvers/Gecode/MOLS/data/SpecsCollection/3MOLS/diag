@@ -512,6 +512,7 @@
 
 # Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
 # probes):
+# TAU_diag_8_wdL_ave$ nomad np
 # running on server2 XXX
 
 
@@ -1026,6 +1027,7 @@
 # 10000 : 1.57372297820419518724e+04 3.95585627425495674135e+09 1.01554226262703262872e+12; 2.52783729632213383913e+10
 # Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
 # probes):
+# TAU_diag_8_newv_ave> nomad np
 # running on server XXX
 
 
