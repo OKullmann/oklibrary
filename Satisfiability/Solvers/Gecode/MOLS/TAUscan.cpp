@@ -31,7 +31,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.6.0",
         "6.7.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -45,7 +45,7 @@ namespace {
   namespace PSC = ParSysCalls;
   namespace LB = LookaheadBranching;
 
-  constexpr int commandline_args_transfer = 9;
+  constexpr int commandline_args_transfer = 6;
   constexpr int commandline_args_own = 3;
   constexpr int commandline_args =
     commandline_args_transfer  + commandline_args_own;
@@ -58,13 +58,15 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n\n"
-      " N file_cond file_ps run-type prop-level distance init-seeds la-type"
-      " weights"
+      " N file_cond file_ps distance init-seeds weights"
       "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
-      " transferred to \"" << solver_call << "\"\n"
-      "  - init-seeds is the initial seed-sequence for random branching\n"
-      " - M         : number of runs (unsigned integer)\n"
+      " transferred to \"" << solver_call << "\":\n"
+      "   - init-seeds is the initial seed-sequence for random branching\n"
+      "     - may be empty\n"
+      "     - may be \"hash\", hashing the weights\n"
+      "   - weights may be \"cin\"\n"
+      " - M         : number of runs or \"probes\" (unsigned integer)\n"
       " - threads   : number of threads (unsigned integer)\n"
       " - selection : " << Environment::WRPO<STTS>{} << "\n\n"
 ;
@@ -124,20 +126,20 @@ int main(const int argc, const char* const argv[]) {
     Narg_1 = argv[1],
     filecondarg_2 = qu(argv[2]),
     filepsarg_3 = qu(argv[3]),
-    runtypearg_4 = que(argv[4]),
-    proplevelarg_5 = que(argv[5]),
-    distancearg_7 = que(argv[6]),
-    initseedarg = argv[7],
-    latypearg_9 = que(argv[8]),
-    weightsarg = argv[9];
-  const std::string Marg = argv[10], threadsarg = argv[11];
+    runtypearg_4 = "count",
+    proplevelarg_5 = "dom",
+    distancearg_7 = que(argv[4]),
+    initseedarg = argv[5],
+    latypearg_9 = "relpr",
+    weightsarg = argv[6];
+  const std::string Marg = argv[7], threadsarg = argv[8];
   
   const size_t
     M = read_M(Marg),
     threads = read_threads(threadsarg);
-  const auto select0 = Environment::read<STTS>(argv[12]);
+  const auto select0 = Environment::read<STTS>(argv[9]);
   if (not select0) {
-    std::cerr << error << "Unknown selection-option \"" << argv[12] <<
+    std::cerr << error << "Unknown selection-option \"" << argv[9] <<
       "\".\n";
     return 1;
   }
