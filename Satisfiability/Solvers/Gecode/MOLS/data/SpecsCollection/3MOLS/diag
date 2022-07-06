@@ -471,9 +471,20 @@
 # The worst runtime-wise, dasc, apparently has a lot more work to do for
 # inference than the best, ddesc.
 
-# New standard way of optimising on small samples:
+# New standard way of optimising on small samples (MAX_TIME 20000, rep=100):
 # 3MOLS/TAU_diag_8_wdL_ave> nomad np
-# running on server2 XXX
+# 1 787392055104.513428   0.1        0.1        0.1        0.1        0.1        0.1
+# 291   8527605832.404465   3.331      1.62       2.07       2.0919     0.0001     1.3313
+# Blackbox evaluations: 1349 Blackbox evaluation (not counting): 1 Cache hits: 109 Total number of evaluations: 1459
+# Running the probing:
+# MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom wdL "" "" "3.331,1.62,2.07,2.0919,0.0001,1.3313" 100 10 all
+# 100 : 4.66772563090476913610e+08 1.69281958759061404113e+10 1.05327462119589589298e+11; 2.22383456476665715147e+10
+# Average nearly twice as much as reported by nomad (we use "t" currently when
+# calling nomad -- but also running it with "t" many times, always similar
+# results are obtained -- perhaps rep is too low).
+# Testing it:
+# MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 16 "3.331,1.62,2.07,2.0919,0.0001,1.3313" "nds,2000000" ""
+# running on server2 46551 XXX
 
 
 # laMols with newv:
@@ -942,9 +953,20 @@
 # the best time-wise desc -- excdept that the runtime is much higher??
 # Apparently in this direction there is the harder part of the search-space?
 
-# New standard way of optimising on small samples:
+# New standard way of optimising on small sample(MAX_TIME 20000s, rep=100):
 # 3MOLS/TAU_diag_8_newv_ave> nomad np
-# running on server XXX
+# 1 557728475698.289551   0          0          0          0          0          0          0
+# 429   1167992143.236624  -0.08       5         10        -10         -1.64      -8          5
+# Blackbox evaluations: 824 Total model evaluations: 102662 Cache hits: 55 Total number of evaluations: 879
+# Running the probing:
+# MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom newv "" "" "-0.08,5,10,-10,-1.64,-8,5" 100 10 all
+# 100 : 1.00890108930497324491e+06 5.99235159779568377603e+09 4.65385494050843425006e+11; 4.64729037751875022203e+10
+# 5x higher than the value above reported; so perhaps rep is too low.
+# Perhaps the target should always be to have the standard-devision similar to
+# average.
+# Testing it:
+# MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 16 "-0.08,5,10,-10,-1.64,-8,5" "nds,2000000" ""
+# running on server 80445 XXX
 
 
 squares A B C AB AC BC
