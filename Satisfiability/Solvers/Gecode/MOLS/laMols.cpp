@@ -195,7 +195,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      now this object also handles the decision whether the branch
      is to be closed.
 
-3. Should the reporting of ltau use engineering notation?
+3. Should the reporting of ltau/estlvs use engineering notation?
    - UPDATE: See "Measure the variation of considered branchings for one node"
      in LookaheadBranching.hpp; so we don't report ltau anymore.
      The new reported probabilities need to be observed, whether they have
@@ -218,7 +218,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Possibly qelvals should be given in %, i.e., multiplied by 100.
     - Possibly same with qprunes.
     - The multiplication by 100 should happen at "input" of the data.
-   - estlvs can be very big, so should also use engineering notation.
+   - estlvs can be very big, so should use engineering notation.
 
 4. Better values for qfppc
    - In case no values were eliminated, perhaps qfppc=1 is then
