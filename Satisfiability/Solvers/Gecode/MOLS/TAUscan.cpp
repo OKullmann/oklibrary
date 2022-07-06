@@ -23,8 +23,9 @@ Warning: Evaluation error with point #75981 ( 7 6.0001 0.0001 0.0001 7 )        
 Warning: Evaluator returned exit status 34304 for point: ( 7 6.0001 0.0001 0.0001 7 )
 
  (a) The uniqueness of file-names needs to be checked:
-    - A hash-value of the inputs should be part of the filenames created
+    - DONE A hash-value of the inputs should be part of the filenames created
       (by esystem).
+    - Let's run server2 again to see whether the error still occurs.
 
 TODOS:
 
@@ -56,7 +57,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
+        "0.4.2",
         "6.7.2022",
         __FILE__,
         "Oliver Kullmann",
