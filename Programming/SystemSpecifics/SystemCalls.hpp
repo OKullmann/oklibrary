@@ -70,6 +70,7 @@ TODOS:
 
 #include <cassert>
 #include <cstdlib> // for system
+#include <cstdint>
 
 #include <sys/types.h> // for pid_t
 #include <unistd.h> // for getpid
@@ -159,8 +160,12 @@ namespace SystemCalls {
   };
   EReturnValue esystem(const std::string command, const std::string& cin, const bool cinexec=false) {
     const std::string error = "ERROR[SystemCalls::esystem]: ";
-    const std::string out_stem = "esystem_out_";
-    const std::string err_stem = "esystem_err_";
+    using Environment::hash;
+    const std::uint64_t hcom = hash(command), hcin = hash(cin);
+    const std::string h = "_" + std::to_string(hcom) + "_" +
+      std::to_string(hcin) + "_" + std::to_string(cinexec) + "_";
+    const std::string out_stem = "esystem_out" + h;
+    const std::string err_stem = "esystem_err" + h;
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string out = system_filename(out_stem + timestamp);
