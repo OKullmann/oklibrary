@@ -60,8 +60,18 @@ License, or any later version. */
 TODOS:
 
 1. The current 7 versions should be extended to 12 versions:
+    - UPDATE this todo (likely it is completed), and transfer to
+      documentation).
     - The 6 conjugates and their 6 transposed forms.
     - Then we should also have all their 11 self-forms as unary conditions.
+
+2. Some unary conditions need parameters
+    - For example
+       rls a b  SQ
+      where now the index range {a, ..., b} is considered,
+      and where for negative b instead N+b is considered (so b=-1
+      means N-1).
+    - This generalises the current "rlsm1" (= rls 0 -2) and so on.
 
 */
 

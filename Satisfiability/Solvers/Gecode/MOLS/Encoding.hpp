@@ -39,6 +39,8 @@ TODOS:
   the case for Latin squares.
 
 2. The 6 conjugates
+  UPDATE: parts of the following need to be transferred to the
+  documentation.
 
   Consider a Latin square A of order N.
 
@@ -135,7 +137,7 @@ Indeed quite obvious that
    conjugates (affecting the value) exist.
 
 
-4. DONE (needs documentation>
+4. DONE (but needs documentation>
    New unary conditions: "box"
 
    Let k be maximal with k^2 <= N, that is, k = floor(sqrt(N)).
