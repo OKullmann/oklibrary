@@ -14,11 +14,6 @@ BUGS:
 
 TODOS:
 
-1. DONE Make computations deterministic
-    - Instead of "t" (used by the nomad-script) a hash of the weights-string
-      should be used (provided by TAUscan itself).
-    - Triggered by "hash", which is automatically used when using "cin".
-
 2. We should provide the possibility to specify the solver-path ("./laMols")
    as a command-line argument.
     - Likely best for the experiments to make a local copy, in an
