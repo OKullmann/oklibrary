@@ -484,7 +484,35 @@
 # results are obtained -- perhaps rep is too low).
 # Testing it:
 # MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/diag "" +count dom enu wdL "" "" 1 16 "3.331,1.62,2.07,2.0919,0.0001,1.3313" "nds,2000000" ""
-# running on server2 46551 XXX
+# aborted early:
+#   weights: 3.331 1.62 2.0699999999999999999 2.0918999999999999999 0.0001 1.3313 -> 0 0 1 10.063079774688143688 30.931395106079142429 129.8768059623526816 553.67669962917449361 553.71507890361239068 1393.3094532976583506
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  8   +count dom enu  wdL   asc  relpr   1        0  352320.712  205233346  1  1380030  537974   842056        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1294.828  0.983    9.526  122.523   191.907   2.176  0.000   4.702    0.557  18.373
+# 833.000  0.000    0.000  104.171   103.220   1.000  0.000   1.026    0.000   0.000
+#1974.000  3.000   23.616  131.462  1007.136  10.000  0.000  28.273   13.531  28.000
+#  91.664  0.343    2.225    1.250    64.428   0.680  0.000   1.700    0.625   2.047
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1192.554  1.609    2.918   18.011    55.601   1.308  0.000   1.450    2.429  20.158
+# 526.000  1.019    0.000    0.000     0.166   1.000  0.000   0.000    0.166  13.000
+#1489.000  6.000  105.455  127.059  1350.887  13.000  0.000  38.846   19.167  29.000
+#  86.891  0.428    2.530   23.710    86.270   0.693  0.000   2.199    1.927   1.762
+#                    estlvs
+#      5434467626627341.797
+#             135390792.628
+#2287664133405637950592.000
+#   3525628240493446261.250
+#       mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 82181.784  2.566  0.000  0.304  0.412  0.556  0.115  3.247
+# 18336.000  2.000  0.000  0.000  0.143  0.153  0.000  0.072
+#186046.000  7.000  0.002  0.500  0.500  0.991  0.491  5.231
+# 10998.604  0.636  0.000  0.161  0.092  0.124  0.107  0.358
+# real    378m19.544s user    5872m2.655s sys     19m12.568s
+
+# Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
+# probes):
+# running on server2 XXX
 
 
 # laMols with newv:
@@ -962,11 +990,43 @@
 # MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom newv "" "" "-0.08,5,10,-10,-1.64,-8,5" 100 10 all
 # 100 : 1.00890108930497324491e+06 5.99235159779568377603e+09 4.65385494050843425006e+11; 4.64729037751875022203e+10
 # 5x higher than the value above reported; so perhaps rep is too low.
-# Perhaps the target should always be to have the standard-devision similar to
-# average.
 # Testing it:
 # MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/diag "" +count dom enu newv "" "" 1 16 "-0.08,5,10,-10,-1.64,-8,5" "nds,2000000" ""
-# running on server 80445 XXX
+# aborted early:
+#   weights: -0.079999999999999999998 5 10 -10 -1.64 -8 5 -> 0 -0.079999999999999999998 32 32768 32 10.267407180503233585 0.04010705929884075619 1.2834258975629041981 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  8   +count dom enu newv   asc  relpr   1        0  346307.006  198712668  1  1646843  433400  1213443        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1532.970  0.597   30.692  119.102   118.215   1.764  0.000   4.179    0.415  18.919
+#1105.000  0.000    0.000  102.658    63.736   1.000  0.000   1.595    0.000   0.000
+#1974.000  5.000   62.500  125.520  1083.181  11.000  0.000  46.887    9.379  26.000
+#  50.157  0.531   10.101    1.666    76.277   0.876  0.000   2.988    1.023   1.929
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1438.902  1.823   21.160   12.052   40.354   1.154  0.000   1.540    2.932  20.675
+# 924.000  1.038    0.000    0.000    0.125   1.000  0.000   0.000    0.125  10.000
+#1756.000  7.000  600.000  119.209  833.750   8.000  0.000  36.295   17.101  27.000
+#  49.955  0.538   25.397   12.529   58.242   0.463  0.000   2.264    2.172   1.552
+#                                                                               estlvs
+#     4579564318750197536503794916928654158147195247753473000768530290073770393600.000
+#                                                                            40164.751
+#781428385301682167442071019590726605274849960045393268821809961191345352765079552.000
+#  1497475410175988078949848941091627206425849725108521079756227939546289351426048.000
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#770.302  3.801  0.001  0.231  0.312  0.412  0.082  4.270
+#637.000  2.000  0.000  0.000  0.167  0.200  0.000  0.491
+#933.000  6.000  0.016  0.500  0.500  0.999  0.499  6.586
+# 23.020  1.377  0.001  0.141  0.136  0.213  0.125  0.520
+# real    372m26.402s user    5771m48.873s sys     134m20.104s
+# A much higher average width than the snippet for wdL above  (which has
+# fewer nodes).
+
+# Perhaps the target should always be to have the standard-devision similar to
+# average. Using 10000 probes:
+# MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom newv "" "" "-0.08,5,10,-10,-1.64,-8,5" 10000 10 all
+# 10000 : 1.57372297820419518724e+04 3.95585627425495674135e+09 1.01554226262703262872e+12; 2.52783729632213383913e+10
+# Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
+# probes):
+# running on server XXX
 
 
 squares A B C AB AC BC
