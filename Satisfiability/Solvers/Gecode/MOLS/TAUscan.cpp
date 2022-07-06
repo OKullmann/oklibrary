@@ -22,31 +22,22 @@ terminate called after throwing an instance of 'std::runtime_error'
 Warning: Evaluation error with point #75981 ( 7 6.0001 0.0001 0.0001 7 )        Evaluation error         : output is empty
 Warning: Evaluator returned exit status 34304 for point: ( 7 6.0001 0.0001 0.0001 7 )
 
- (a) Erroneous results likely should just be ignored.
- (b) The uniqueness of file-names needs to be checked.
+ (a) The uniqueness of file-names needs to be checked:
+    - A hash-value of the inputs should be part of the filenames created
+      (by esystem).
 
 TODOS:
 
-1. DONE Add a further commandline-argument for selecting the output:
-    - DONE (not done)
-      Best to use OP::STAT.
-    - DONE (not done)
-      Where here in case of an empty string the current output (all
-      statistics) is shown.
-    - DONE
-      But we need our own STAT-type anyway, since for example
-        ave + stddev
-      seems an interesting option for optimisation;
-      call it "avepsd", with string "ave+sd".
-    - DONE (yes)
-      We put this option, call it STTS, also into Options.hpp ?
-    - DONE Perhaps the default is our current "best guess", that is,
-      ave for now?
+1. Make computations deterministic
+    - Instead of "t" (used by the nomad-script) a hash of the weights-string
+      should be used (provided by TAUscan itself).
+    - Triggered by "hash", which is automatically used when using "cin".
 
 2. We should provide the possibility to specify the solver-path ("./laMols")
    as a command-line argument.
     - Likely best for the experiments to make a local copy, in an
       experiment-directory.
+    - So then acutally "./laMols" seems appropriate.
 
 */
 
@@ -65,8 +56,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "5.7.2022",
+        "0.4.1",
+        "6.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -208,8 +199,10 @@ int main(const int argc, const char* const argv[]) {
       Environment::remove_leadingtrailing_spaces(r.value().out)));
   }
   const GenStats::StdVFourStats stats(results);
-  [[maybe_unused]]
-    const auto oldprec = FloatingPoint::fullprec_float80(std::cout);
+  [[maybe_unused]] const auto oldprec =
+    FloatingPoint::fullprec_float80(std::cout);
+  [[maybe_unused]] const auto oldstate =
+    std::cout.setf(std::ios_base::scientific, std::ios_base::floatfield);
   switch (select) {
   case STTS::ave : std::cout << stats.amean; break;
   case STTS::min : std::cout << stats.min; break;
