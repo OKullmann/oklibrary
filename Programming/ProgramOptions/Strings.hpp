@@ -11,6 +11,7 @@ License, or any later version. */
 
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
+    - hash(string) (simple function for using in id's etc.)
 
     Filename handling:
     - basename(string) extracts the part of the string before "."
@@ -98,6 +99,8 @@ TODOS:
 #include <utility>
 #include <iostream>
 
+#include <cstdint>
+
 namespace Environment {
 
 // Turning the value of a macro into a string:
@@ -106,6 +109,14 @@ namespace Environment {
 
   inline std::string qu(std::string s) {
     return "\"" + s + "\"";
+  }
+
+  std::uint64_t hash(const std::string& s) noexcept {
+    std::uint64_t h(525201411107845655ull);
+    for (const char x : s) {
+      h ^= x; h *= 0x5bd1e9955bd1e995; h ^= h >> 47;
+    }
+    return h;
   }
 
 

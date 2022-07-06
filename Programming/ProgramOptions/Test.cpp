@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.16",
-        "20.6.2022",
+        "0.2.17",
+        "6.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -47,6 +47,10 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   using namespace Environment;
+
+  {assert(hash("") == 525201411107845655ULL);
+   assert(hash("XXX") == 14474473597063577439ULL);
+  }
 
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
    assert(replace("", ' ', 'x') == "");
