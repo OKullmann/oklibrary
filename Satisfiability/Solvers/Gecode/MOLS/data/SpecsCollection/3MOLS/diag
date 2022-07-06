@@ -1028,6 +1028,11 @@
 # Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
 # probes):
 # TAU_diag_8_newv_ave> nomad np
+# interrupted:
+# 1 598386687678.785767   0          0          0          0          0          0          0
+# 101   4680810295.619754  -1         10         -2         -8         10        -10         10
+# New run with more parallelism:
+# TAU_diag_8_newv_ave> time nomad np2
 # running on server XXX
 
 
