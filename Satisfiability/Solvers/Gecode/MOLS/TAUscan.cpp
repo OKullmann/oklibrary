@@ -29,7 +29,7 @@ Warning: Evaluator returned exit status 34304 for point: ( 7 6.0001 0.0001 0.000
 
 TODOS:
 
-1. Make computations deterministic
+1. DONE Make computations deterministic
     - Instead of "t" (used by the nomad-script) a hash of the weights-string
       should be used (provided by TAUscan itself).
     - Triggered by "hash", which is automatically used when using "cin".
@@ -57,7 +57,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.5.0",
         "6.7.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -111,10 +111,14 @@ namespace {
     return FloatingPoint::to_UInt(arg);
   }
 
-  const std::string bro = "tprob";
-  std::string seed_arg(std::string initseedarg) {
-    Environment::remove_spaces(initseedarg);
-    std::string res = bro + ";" + initseedarg;
+  const std::string bro = "tprob;";
+  std::string seed_arg(std::string initseedarg,
+                       const std::string& weightsarg) {
+    Environment::mremove_spaces(initseedarg);
+    std::string res = bro;
+    if (initseedarg == "hash")
+      return res + std::to_string(Environment::hash(weightsarg)) + ",";
+    res += initseedarg;
     const char last = res.back();
     if (last != ';' and last != ',') res.push_back(',');
     return res;
@@ -167,10 +171,10 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string
     branchtypearg_6 = "enu",
-    branchorderarg = seed_arg(initseedarg), // running seed appended
     gcdarg_10 = "1",
     threadsarg_11 = "1",
     weightsarg_12 = weights_arg(weightsarg), // cin read
+    branchorderarg = seed_arg(initseedarg, weightsarg_12),
     stoparg_13 = "lvs,0",
     formattingarg_14 = "estlvs,-info,-w,-stop";
 
