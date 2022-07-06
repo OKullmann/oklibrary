@@ -513,7 +513,17 @@
 # Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
 # probes):
 # TAU_diag_8_wdL_ave$ nomad np
+# interrupted:
+# 1 687086980556.890991   0.1        0.1        0.1        0.1        0.1        0.1
+# 168  14490380443.536692   2.0124     2.0001     2.01       2.03       0.0001     1.1001
+# Reproduction:
+# MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom wdL "hash" "" "2.0124, 2.0001, 2.01, 2.03, 0.0001, 1.1001" 1000 10 all
+# 1000 : 7.03829222958371356799e+07 1.44903804435366919907e+10 2.83840122064811459333e+11; 2.57309433154002860673e+10
+# real	10m49.124s user	106m18.484s sys	0m8.709s
+# New run with more parallelism:
+# TAU_diag_8_wdL_ave> time nomad np2
 # running on server2 XXX
+
 
 
 # laMols with newv:
@@ -1031,6 +1041,10 @@
 # interrupted:
 # 1 598386687678.785767   0          0          0          0          0          0          0
 # 101   4680810295.619754  -1         10         -2         -8         10        -10         10
+# Reproduction:
+# MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom newv "hash" "" " -1 ,10 ,-2 ,-8 ,10 ,-10 ,10" 1000 10 all
+# 1000 : 4.25776478580125100734e+05 4.68081029561975406716e+09 1.13082273790101593412e+11; 9.83215234172498298436e+09
+# real	10m18.000s user	101m35.717s sys	0m10.010s
 # New run with more parallelism:
 # TAU_diag_8_newv_ave> time nomad np2
 # running on server XXX
