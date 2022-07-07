@@ -52,7 +52,7 @@
 # MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu wdL asc "" 1 12 ""
 # aborted after 3min wallclock-time without finding a solution.
 
-# TASK: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
+# TASK OZ: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
 
 
 # laMols with newvars:
@@ -64,7 +64,7 @@
 # MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0"
 # aborted after 460min wallclock-time without a solution found.
 
-# TASK: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
+# TASK OZ: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
 
 
 

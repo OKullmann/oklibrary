@@ -69,7 +69,7 @@
 # N=8:
 
 # MOLS> ./laMols 8 data/SpecsCollection/SelfOrthogonalSudokudiag "" count dom - wdL - "" 1 6 "" "nds,10000"
-# Best: enu+wdl+desc
+# Best: enu+wdL+desc
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
 #  8    count dom enu  wdL  desc  relpr   1       78     190.851    1087586     6876    16882    12  1    10006     6879    3127
 #      vals      props     elvals      prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
@@ -82,6 +82,9 @@
 #   180.000     2.000     0.023      1.585      8.334       9.288      0.000      0.000     0.014
 #   333.000     6.000     0.146     28.882     60.638     105.742     51.485     11.000     0.192
 #    13.768     0.719     0.025      2.804      7.163      16.022      7.189      1.074     0.014
+
+# TASK OZ: Using nomad+TAUscan for finding weights for N=8,9,10 (it seems N=6,7 are too trivial).
+
 
 
 # laMols with newvars:
@@ -104,6 +107,9 @@
 #   845.000     6.000     0.023     232.000     233.000     234.000     81.883     10.000     0.172
 #    35.184     0.595     0.003      16.892      18.987      28.991     13.018      1.061     0.015
 # Though one might consider all runs as close to each other.
+
+# TASK OZ: Using nomad+TAUscan for finding weights for N=8,9,10 (it seems N=6,7 are too trivial).
+
 
 
 squares A aux
