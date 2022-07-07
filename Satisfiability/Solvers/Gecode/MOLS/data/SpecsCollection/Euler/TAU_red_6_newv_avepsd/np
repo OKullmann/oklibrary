@@ -1,0 +1,14 @@
+DIMENSION               5
+BB_EXE                  ns
+BB_OUTPUT_TYPE          OBJ
+X0                      ( 0 0 0 0 0 )
+LOWER_BOUND             ( -1 -10 -10 -10 -10 )
+UPPER_BOUND             ( 1 10 10 10 10 )
+NB_THREADS_OPENMP       10
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                600
+LH_SEARCH               100 10
+VNS_MADS_SEARCH         no # not compatible with below for version 4.2
+MEGA_SEARCH_POLL        true
+SPECULATIVE_SEARCH_MAX  10
