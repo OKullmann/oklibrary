@@ -68,33 +68,6 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
--3. DONE Provide repetition and randomisation
-   - Perhaps the syntax is "m * N" for m runs (with N, or a sequence
-     of N's).
-   - This is already useful for using randomised weights.
-    - So the seed needs to be incremented for each round.
-   - DONE We need also to provide a randomised order of branches:
-    - Now providing explicitly the sequence of seeds (64-bit).
-    - The seeds are additional arguments to the braching-order;
-      a new option "rand" is introduced, and after a comma come the
-      seeds.
-    - For the repetitions the final element is added to the sequence,
-      incremented for each round.
-    - Aborting with lvs=1 (that is, just following one branch to the
-      end), the value for estlvs can be probed this way.
-   - DONE Perhaps for single-value-output at the end a statistics on this
-     value is provided.
-     However this appears not to be useful, since a run for lvs=1 should
-     only be performed with threads=1, and so parallelisation must be
-     provided from the outside, by a program "TAUscan", which forwards
-     selected parameters to laMols, running M leaf-probles in parallel (with
-     a given number of threads), collecting the results for estlvs and
-     returning statistics on them (the standard 5).
-   - What if randomisation is on for both weights and branching-order?
-    - As we have it now, the weight is only chosen once, and randomisation
-      for the weights is completely independent.
-   - YES Perhaps we better leave repetition to external tools?
-
 -2. Complete the info:
    - program-name, version-number
 

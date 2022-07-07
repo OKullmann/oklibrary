@@ -81,7 +81,8 @@ Compare also with todos in rlaMols.
      - It seems "def,val,bnd <= dom".
      - But apparently NOT "bas <= adv".
 
--4. Add parameters for "cloning-distance" and "cloning-adaptation":
+-4. DONE (what we have is enough)
+    Add parameters for "cloning-distance" and "cloning-adaptation":
      - This are the variables res.c_d, res.a_d = 1 for the
        make_options functions;
      - DONE We can use value "0" for "ignore" for c_d, or we use the empty
@@ -136,7 +137,8 @@ Compare also with todos in rlaMols.
     - Progress-bar:
      - One could have a monitoring-depth (see also the OKsolver).
 
-3. Implement an additional parallelisation-mode "scanning"
+3. DONE (not done, to avoid complications)
+   Implement an additional parallelisation-mode "scanning"
     - In our standard way, for running the combinations in parallel.
     - We also need parallelism when optimising weights.
     - Shouldn't be a problem with gcMols, but for rlaMols, the static
