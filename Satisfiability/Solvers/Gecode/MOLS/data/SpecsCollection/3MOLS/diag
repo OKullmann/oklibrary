@@ -520,8 +520,24 @@
 # MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom wdL "hash" "" "2.0124, 2.0001, 2.01, 2.03, 0.0001, 1.1001" 1000 10 all
 # 1000 : 7.03829222958371356799e+07 1.44903804435366919907e+10 2.83840122064811459333e+11; 2.57309433154002860673e+10
 # real	10m49.124s user	106m18.484s sys	0m8.709s
+
 # New run with more parallelism:
 # TAU_diag_8_wdL_ave> time nomad np2
+# 1045   4179877982.963272   5.234801   0.624936   0.00013    0.522247   0.0001     0.046734
+# Blackbox evaluations: 1525 Total model evaluations: 98547 Cache hits: 457 Total number of evaluations: 1982
+# real    1302m35.808s user    110149m27.374s sys     169m52.590s
+# Reproduction:
+# MOLS> time ./TAUscan 8 data/SpecsCollection/3MOLS/diag "" wdL hash "5.234801, 0.624936, 0.00013, 0.522247, 0.0001, 0.046734" 1000 10 all
+# 1000 : 2.51425879362275685253e+06 5.04094843491035544639e+09 1.86808621676082338721e+11; 1.07324616562188845417e+10
+# real	9m36.303s user	94m45.978s sys	0m8.682s
+# relatively close, but not exactly?
+# Again:
+# MOLS> time ./TAUscan 8 data/SpecsCollection/3MOLS/diag "" wdL hash "5.2348, 0.624936, 0.000130157, 0.522247, 0.0001, 0.0467343" 1000 10 all
+# 1000 : 1.47568945437745060622e+06 4.35731807263597413152e+09 1.06290511345744708680e+11; 7.10339008639247132931e+09
+# one needs to figure out what exactly the input was (for the hashing).
+
+# Testing it:
+# MOLS> time ./laMols 8 ../diag "" +count dom enu wdL "" "" 1 16 "5.234801, 0.624936, 0.00013, 0.522247, 0.0001, 0.046734" "nds,2000000" ""
 # running on server2 XXX
 
 
@@ -1031,8 +1047,8 @@
 # A much higher average width than the snippet for wdL above  (which has
 # fewer nodes).
 
-# Perhaps the target should always be to have the standard-devision similar to
-# average. Using 10000 probes:
+# Perhaps the target should always be to have the standard-deviation similar to
+# the average. Using 10000 probes:
 # MOLS> time ./TAUscan_debug 8 data/SpecsCollection/3MOLS/diag "" count dom newv "" "" "-0.08,5,10,-10,-1.64,-8,5" 10000 10 all
 # 10000 : 1.57372297820419518724e+04 3.95585627425495674135e+09 1.01554226262703262872e+12; 2.52783729632213383913e+10
 # Rerunning with MAX_TIME=100000, rep = 1000 (and with reproducible
@@ -1047,7 +1063,13 @@
 # real	10m18.000s user	101m35.717s sys	0m10.010s
 # New run with more parallelism:
 # TAU_diag_8_newv_ave> time nomad np2
-# running on server XXX
+# 736   3517119261.968044  -0.999999   0.002044   9.999321  -9.99796    8.000589  -9.004012  -2.001796
+# A termination criterion is reached: Ctrl-C (Base) No more points to evaluate
+# Blackbox evaluations: 778 Total model evaluations: 54666 Cache hits: 63 Total number of evaluations: 841
+# real    1207m39.013s user    99924m35.852s sys     147m48.064s
+# Reproduction:
+# MOLS> time ./TAUscan 8 data/SpecsCollection/3MOLS/diag "" newv hash "-0.999999, 0.002044, 9.999321, -9.99796, 8.000589, -9.004012, -2.001796" 1000 10 all
+# 1000 : 5.30761987322814181347e+04 4.34160007656463936809e+09 1.69386653377397218570e+11; 8.91165006126541005075e+09
 
 
 squares A B C AB AC BC
