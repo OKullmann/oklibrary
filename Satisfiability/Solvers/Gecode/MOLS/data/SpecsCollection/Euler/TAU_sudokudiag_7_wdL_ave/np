@@ -4,10 +4,10 @@ BB_OUTPUT_TYPE          OBJ
 X0                      ( 0.1 0.1 0.1 0.1 0.1 )
 LOWER_BOUND             * 0.0001
 UPPER_BOUND             * 7
-MAX_BB_EVAL             10000
 NB_THREADS_OPENMP       10
 DISPLAY_ALL_EVAL        no
 DISPLAY_STATS           BBE OBJ SOL
 MAX_TIME                10000
 LH_SEARCH               1000 10
-VNS_MADS_SEARCH         yes
+MEGA_SEARCH_POLL        true
+SPECULATIVE_SEARCH_MAX  10

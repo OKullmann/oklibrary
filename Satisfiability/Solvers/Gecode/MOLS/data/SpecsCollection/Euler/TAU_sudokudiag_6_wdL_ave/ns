@@ -1,2 +1,2 @@
 #!/bin/bash
-cat $1 | ./TAUscan 6 ../sudokudiag "" count "" wdL t "" cin 100 10 ""
+cat $1 | ./TAUscan 6 ../sudokudiag "" wdL hash cin 100 1 ""
