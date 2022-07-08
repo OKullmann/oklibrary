@@ -54,6 +54,24 @@
 
 # TASK OZ: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
 
+# N=6:
+
+# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
+# TAU_sudokudiag_6_wdL_ave> nomad np
+# running on server XXX
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=100):
+# TAU_sudokudiag_7_wdL_ave> nomad np
+# running on server XXX
+
+# N=8:
+
+# Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
+# TAU_sudokudiag_8_wdL_ave> nomad np
+# running on server XXX
+
 
 # laMols with newvars:
 
@@ -65,7 +83,23 @@
 # aborted after 460min wallclock-time without a solution found.
 
 # TASK OZ: Using nomad+TAUscan for finding weights for N=6,7,8,9,10.
+# N=6:
 
+# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
+# TAU_sudokudiag_6_newv_ave> nomad np
+# running on server XXX
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_sudokudiag_7_newv_ave> nomad np
+# running on server XXX
+
+# N=8:
+
+# Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
+# TAU_sudokudiag_8_newv_ave> nomad np
+# running on server XXX
 
 
 squares A B aux
