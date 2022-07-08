@@ -106,13 +106,14 @@
 # 75215.000  2.000  0.000  0.003  0.200  0.211  0.000  0.036
 #126020.000  5.000  0.000  0.500  0.500  0.943  0.443  0.641
 #  8612.994  0.705  0.000  0.155  0.097  0.128  0.104  0.041
-real    1m54.578s user    1m59.245s sys     0m0.020s
+# real    1m54.578s user    1m59.245s sys     0m0.020s
 # Looks decent.
 
 # N=8:
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
-
+# /TAU_sudokudiag_8_wdL_ave$ nomad np
+# running on server2
  
 
 squares A B C AB AC BC
