@@ -114,6 +114,16 @@
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
 # /TAU_sudokudiag_8_wdL_ave$ nomad np
 # running on server2
+
+
+# laMols with newvars:
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_sudokudiag_7_newv_ave> nomad np
+# running on server XXX
+
  
 
 squares A B C AB AC BC
