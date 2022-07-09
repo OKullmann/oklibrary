@@ -124,6 +124,11 @@
 # TAU_sudokudiag_8_wdL_ave$ time ./laMols 8 ../sudokudiag "" +count dom enu wdL -rand,tprob "" 1 16 "0.0003,4.089946,1.637213,0.346488,0.003309,1.689764" nds,50000 ""
 # XXX
 
+# Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
+# TAU_sudokudiag_8_wdL_avepsd$ nomad np
+# running on server2 XXX
+
+
 
 # laMols with newvars:
 
