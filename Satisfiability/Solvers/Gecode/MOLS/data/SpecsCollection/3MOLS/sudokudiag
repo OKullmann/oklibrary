@@ -112,8 +112,17 @@
 # N=8:
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
-# /TAU_sudokudiag_8_wdL_ave$ nomad np
-# running on server2
+# TAU_sudokudiag_8_wdL_ave$ nomad np
+# 406   4221668767.157094   0.0003     4.089946   1.637213   0.346488   0.003309   1.689764
+# Blackbox evaluations: 1126 Total model evaluations: 2015 Cache hits: 410 Total number of evaluations: 1536
+# Reproduction:
+# TAU_sudokudiag_8_wdL_ave$ > time ./TAUscan 8 ../sudokudiag "" wdL hash "0.0003,4.089946,1.637213,0.346488,0.003309,1.689764" 1000 10 all
+# 1000 : 2.38415424927791747377e+07 4.10677722548027876690e+10 2.58097769772864280872e+13; 8.39890866469344075382e+11
+# real    4m42.475s user    46m27.313s sys     0m10.105s
+# Again failure in reproduction (is this is server2-issue?).
+# Testing it (server2):
+# TAU_sudokudiag_8_wdL_ave$ time ./laMols 8 ../sudokudiag "" +count dom enu wdL -rand,tprob "" 1 16 "0.0003,4.089946,1.637213,0.346488,0.003309,1.689764" nds,50000 ""
+# XXX
 
 
 # laMols with newvars:
@@ -121,10 +130,41 @@
 # N=7:
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# (remark: that value for rep is close to the number of leaves)
 # TAU_sudokudiag_7_newv_ave> nomad np
-# running on server XXX
+# 360 1159.613334   0.0113    10         -9.9997     8.0076    -8.5277   -10
+# Blackbox evaluations: 470 Total model evaluations: 42471 Cache hits: 80 Total number of evaluations: 550
+# Reproduction:
+# TAU_sudokudiag_7_newv_ave> time ./TAUscan 7 ../sudokudiag "" newv hash "0.0113,10,-9.9997,8.0076,-8.5277,-10" 1000 10 all
+# 1000 : 1.73755751012260846497e+02 1.15961333418224730962e+03 9.84727547262512535120e+03; 1.00900834407759805811e+03
+# real    1m43.417s user    16m38.752s sys     0m4.399s
+# Testing it (on server2):
+# TAU_sudokudiag_7_newv_ave> time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "0.0113,10,-9.9997,8.0076,-8.5277,-10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       24     309.471     322865  0     2107     877     1230        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#1067.648  1.009    9.630  121.566  198.231   2.292  0.000  1.486    1.286  5.035
+# 951.000  0.000    0.206  112.030  103.397   1.000  0.000  0.032    0.000  0.000
+#1209.000  2.000   21.045  124.076  529.417   6.000  0.000  7.746    9.868  9.000
+#  42.545  0.286    3.324    1.335   67.821   0.675  0.000  1.247    1.301  1.381
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 978.036  1.582   18.229   14.259   65.783   1.285  0.020  0.586    5.965   6.554
+# 748.000  1.033    0.000    0.000    0.209   1.000  0.000  0.000    0.209   4.000
+#1086.000  5.000  188.235  105.269  483.855   5.000  6.000  6.448   27.013  10.000
+#  47.202  0.317   19.919   13.849   80.455   0.637  0.342  0.893    3.216   1.178
+#   estlvs
+# 2333.492
+#  173.756
+#32633.841
+# 2531.312
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#579.479  2.401  0.000  0.322  0.442  0.576  0.120  0.943
+#531.000  2.000  0.000  0.017  0.200  0.212  0.000  0.038
+#637.000  5.000  0.001  0.500  0.500  0.962  0.462  2.151
+# 19.199  0.681  0.000  0.131  0.093  0.124  0.092  0.672
+# real    0m49.128s user    5m9.477s sys     0m0.696s
+# Possibly rather similar to wdL.
 
- 
 
 squares A B C AB AC BC
 ls A B C AB AC BC
