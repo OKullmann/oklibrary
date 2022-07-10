@@ -187,7 +187,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Possibly qelvals should be given in %, i.e., multiplied by 100.
     - Possibly same with qprunes.
     - The multiplication by 100 should happen at "input" of the data.
-   - estlvs can be very big, so should use engineering notation.
+   - DONE
+     estlvs can be very big, so should use engineering notation.
 
 4. Better values for qfppc
    - In case no values were eliminated, perhaps qfppc=1 is then
@@ -217,8 +218,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.25.0",
-        "5.7.2022",
+        "0.25.1",
+        "10.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

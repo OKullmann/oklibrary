@@ -165,6 +165,7 @@ namespace Solvers {
     bool operator ==(const rlaSR&) const noexcept = default;
   };
 
+  const size_t precision_engineering = 6;
   struct laSR : rlaSR {
     using GBasicSR::b;
     using GBasicSR::gs;
@@ -186,7 +187,12 @@ namespace Solvers {
       const auto header = with_header ?
         LB::MeasureStatistics::stats_header() :
         LB::MeasureStatistics::header_t{};
+      const auto oldflags =
+        out.setf(std::ios_base::scientific, std::ios_base::floatfield);
+      const auto oldprecision = out.precision(precision_engineering);
       mS.out(out, header);
+      out.precision(oldprecision);
+      out.flags(oldflags);
     }
 
     bool operator ==(const laSR&) const noexcept = default;
