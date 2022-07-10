@@ -94,10 +94,6 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      - "mu" for wdL is naturally as given by the weights (generalising
        mu0).
      - For newvars possibly mu then is muld; but we always want it?
-   - DONE (muld_t)
-     muld should use its own floating-point type, which for now is
-     float80, but later could be of higher precision.
-     The computation of muld thus needs to be handled separately.
    - We want to have as global variable the number of open total
      assignments -- this can be used as a good achievement-measure
      also for unsatisfiable instances.
@@ -168,7 +164,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      now this object also handles the decision whether the branch
      is to be closed.
 
-3. Should the reporting of ltau/estlvs use engineering notation?
+3. Reporting of ltau/estlvs should use engineering notation
    - UPDATE: See "Measure the variation of considered branchings for one node"
      in LookaheadBranching.hpp; so we don't report ltau anymore.
      The new reported probabilities need to be observed, whether they have
