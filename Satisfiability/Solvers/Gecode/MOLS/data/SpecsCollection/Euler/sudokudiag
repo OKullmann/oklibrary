@@ -70,6 +70,16 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_wdL_ave> nomad np
+# 845 2327725518.448992   0.0011     3.717205   0.7554     0.0001     0.000103   0.0079
+# Blackbox evaluations: 1134 Cache hits: 420 Total number of evaluations: 1554
+# Reproduction:
+# time ./TAUscan 8 ../sudokudiag "" wdL hash "0.0011,3.717205,0.7554,0.0001,0.000103,0.0079" 1000 10 all
+# 1000 : 3.80687517248157153858e+06 2.80377110592548625590e+09 2.24546272654005594388e+11; 9.86473193100444523990e+09
+# real    2m32.250s user    25m2.382s
+# Failure in reproduction.
+
+# Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
+# TAU_sudokudiag_8_wdL_avepsd> nomad np
 # running on server XXX
 
 
