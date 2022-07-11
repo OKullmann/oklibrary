@@ -43,9 +43,22 @@
 
 # N=7:
 
-# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_wdL_ave> nomad np
-# running on server2
+# 490  1214577.907397   7          1.100002   2.099992   0.0001     0.100012
+# Blackbox evaluations: 529 Total model evaluations: 48282 Cache hits: 24 Total number of evaluations: 553
+# Reproduction:
+# TAU_symmb_7_wdL_ave$ > time ./TAUscan 7 ../symmb "" wdL hash "7,1.100002,2.099992,0.0001,0.100012" 1000 10 all
+# 1000 : 1.32682356424083081254e+04 1.65880469067761993540e+06 8.87526403909107470317e+07; 4.42797351995885024053e+06
+# real    1m18.259s user    12m45.314s sys     0m1.653s
+# Reproduction failed.
+# Testing it:
+# 3MOLS/TAU_symmb_7_wdL_ave$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "7,1.100002,2.099992,0.0001,0.100012" "" ""
+# running on server2 XXX
+
+# Optimising TAUscan on ave+sd via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_symmb_7_wdL_avepsd> nomad np
+# running on server2 XXX
 
 
 
