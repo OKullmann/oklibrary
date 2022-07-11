@@ -103,15 +103,6 @@ TODOS:
 
 -1. Implement sorting of branchings for binary branching.
 
-1. DONE Provide and use better statistics-functions for the branches
-    - DONE The problems is rounding-errors, yielding "nan".
-    - DONE
-      There needs to be a general facility, which takes as input
-      a vector of values, and provides, using the most exact
-      computations, all basic statistics.
-    - DONE (not included for now)
-      Likely this should include the median.
-
 2. For estlvs, don't use correced standard-deviation
     - Here we have the complete population.
     - Actually this holds also for some other measures.
