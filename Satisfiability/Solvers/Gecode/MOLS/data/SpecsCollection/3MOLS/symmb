@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 1, 8, 0, >= 64
+# 0, 0, 1, 8, 0, 64
 
 # QUESTION: also for C there should be additional symmetry-breaking?
 # "wcred C" is wrong (unsolvable for N=4).
@@ -18,12 +18,20 @@
 
 # rlaMols:
 
-# time ./rlaMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enu maxdegdom "" "" 1 6
-# aborted after 8 min wallclock-time (4 solutions found).
-
-# Rerunning for longer:
 # MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server2 XXX
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu maxdegdom  asc  relpr   1       64   90238.159  128552167  0  1546430  660303   886127
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 871.530  0.444   20.566  124.000  126.086   1.497  0.000   1.480    0.163  15.908
+# 588.000  0.000    2.811   74.689   74.278   1.000  0.000   0.075    0.000   0.000
+#1104.000  3.000   84.493  129.762  757.654   8.000  1.000  10.599   28.631  29.000
+#  38.222  0.510    5.941    0.523   39.328   0.630  0.003   0.615    0.352   2.857
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#821.221  1.897    1.454   17.407   29.456   1.123  0.000   0.391    2.414  18.636
+#270.000  1.065    0.000    0.000    0.247   1.000  0.000   0.000    0.247  11.000
+#902.000  5.000  119.403  126.579  777.803   8.000  1.000  11.219   24.362  30.000
+# 35.200  0.403    2.728   23.048   46.710   0.408  0.008   0.611    1.302   2.743
+# real    115m20.932s user    1503m58.171s sys     116m45.786s
 
 
 
