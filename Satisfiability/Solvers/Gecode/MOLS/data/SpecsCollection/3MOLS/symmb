@@ -1,10 +1,13 @@
 # Counts for N >= 2:
-# 0, 0, 1, 8, 0, >= 4
+# 0, 0, 1, 8, 0, >= 64
 
 # QUESTION: also for C there should be additional symmetry-breaking?
 # "wcred C" is wrong (unsolvable for N=4).
 
+
+
 # gcMols:
+
 # Old run:
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enumbr maxdegdom desc 12
 # aborted after 6h wallclock without finding a solution. New run:
@@ -12,9 +15,16 @@
 # aborted after 8 min wallclock-time without finding a solution.
 
 
+
 # rlaMols:
+
 # time ./rlaMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enu maxdegdom "" "" 1 6
 # aborted after 8 min wallclock-time (4 solutions found).
+
+# Rerunning for longer:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server2 XXX
+
 
 
 squares A B C AB AC BC
