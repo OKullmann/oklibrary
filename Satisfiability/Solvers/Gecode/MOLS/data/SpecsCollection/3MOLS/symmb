@@ -8,6 +8,8 @@
 
 # gcMols:
 
+# N=7:
+
 # Old run:
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enumbr maxdegdom desc 12
 # aborted after 6h wallclock without finding a solution. New run:
@@ -17,6 +19,8 @@
 
 
 # rlaMols:
+
+# N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom "" "" 1 16 ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
@@ -32,6 +36,16 @@
 #902.000  5.000  119.403  126.579  777.803   8.000  1.000  11.219   24.362  30.000
 # 35.200  0.403    2.728   23.048   46.710   0.408  0.008   0.611    1.302   2.743
 # real    115m20.932s user    1503m58.171s sys     116m45.786s
+
+
+
+# laMols with wdL:
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_symmb_7_wdL_ave> nomad np
+# running on server2
 
 
 
