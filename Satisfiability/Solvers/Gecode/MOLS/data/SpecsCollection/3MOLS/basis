@@ -14,6 +14,9 @@
 # MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS "" +count dom enu maxdegdom "" "" 1 12
 # aborted after 90s wallclock-time (8 solutions found).
 # As 3MOLSsymmb, this seems to be one of the rare case where plain rlaMols is better than gcMols.
+# Rerunning for longer:
+# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
