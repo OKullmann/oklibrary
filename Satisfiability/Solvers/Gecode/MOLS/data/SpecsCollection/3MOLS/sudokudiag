@@ -152,7 +152,17 @@
 
 # Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_wdL_avepsd$ nomad np
+# 842  92992066967.545563   1.6199     1.59065    4.45775    0.0001     0.0001     0.351
+# Blackbox evaluations: 1077 Cache hits: 328 Total number of evaluations: 1405
+# Reproduction:
+# TAU_sudokudiag_8_wdL_avepsd$ > time ./TAUscan 8 ../sudokudiag "" wdL hash "1.6199,1.59065,4.45775,0.0001,0.0001,0.351" 1000 10 all
+# 1000 : 1.22702143278365083188e+07 2.31189781274842955749e+10 1.00609288535212545657e+12; 7.28479650769177289903e+10
+# real    4m42.584s user    46m18.404s sys     0m9.902s
+# Again failure in reproduction; looks better than above.
+# Running it for longer:
+# TAU_sudokudiag_8_wdL_avepsd$ time ./laMols 8 ../sudokudiag "" +count dom enu wdL dasc "" 1 16 "1.6199,1.59065,4.45775,0.0001,0.0001,0.351" "" ""
 # running on server2 XXX
+
 
 
 
