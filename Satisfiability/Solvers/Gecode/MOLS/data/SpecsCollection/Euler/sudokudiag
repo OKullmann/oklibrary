@@ -109,6 +109,16 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_newv_ave> nomad np
+# 1058 2627044713.650797   0.0126     0.0051     0.0101     0.59105    0.9438     0.0001
+# Blackbox evaluations: 1197 Cache hits: 377 Total number of evaluations: 1574
+# Reproduction:
+# time ./TAUscan 8 ../sudokudiag "" newv hash "0.0126,0.0051,0.0101,0.59105,0.9438,0.0001" 1000 10 all
+# 1000 : 5.24217234266035630426e+07 2.65492169238797818660e+09 2.86036817427294966355e+10; 3.40837561298379552970e+09
+# real    4m39.637s user    38m44.672s sys     0m2.909s
+# Failure in reproduction.
+
+# Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
+# TAU_sudokudiag_8_newv_avepsd> nomad np
 # running on server XXX
 
 
