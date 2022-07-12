@@ -56,9 +56,23 @@
 
 # N=6:
 
-# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
+# Optimising TAUscan on ave via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_wdL_ave> nomad np
-# running on server XXX
+# 753   5.041725   2.739548   2.732939   1.645779   0.61019
+# Blackbox evaluations: 987 Total model evaluations: 87726 Cache hits: 335 Total number of evaluations: 1322
+# Reproduction:
+# time ./TAUscan 6 ../sudokudiag "" wdL hash "2.739548,2.732939,1.645779,0.61019" 100 1 all
+# 100 : 3.62115027366100835802e+00 6.38989216433905085017e+00 1.90530866400931112037e+01; 4.94551465328500400049e+00
+# real    0m5.354s user    0m4.964s sys     0m0.396s
+
+# Alternative optimisation on ave+sd (MAX_TIME 600s, rep=100):
+# 859   7.412977   4.071902   6.134798   1.085      7.0
+# Blackbox evaluations: 969 Total model evaluations: 90004 Cache hits: 359 Total number of evaluations: 1328
+# Reproduction:
+# time ./TAUscan 6 ../sudokudiag "" wdL hash "4.071902,6.134798,1.085,7.0" 100 1 all
+# 100 : 4.09219811198067823016e+00 5.52539513510423356546e+00 1.16632512390651822617e+01; 2.88393057263846043308e+00
+# real    0m4.562s user    0m4.271s sys     0m0.281s
+# Failure in reproduction
 
 # N=7:
 
@@ -111,6 +125,9 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_newv_ave> nomad np
+# running on server XXX
+
+# Alternative optimisation on ave+sd (MAX_TIME 600s, rep=100):
 # running on server XXX
 
 # N=7:
