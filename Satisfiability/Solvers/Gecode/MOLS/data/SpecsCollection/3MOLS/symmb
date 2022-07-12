@@ -54,12 +54,48 @@
 # Reproduction failed.
 # Testing it:
 # 3MOLS/TAU_symmb_7_wdL_ave$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "7,1.100002,2.099992,0.0001,0.100012" "" ""
-# running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1       64  206611.863  262756875  0  2256403  707199  1549204        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 833.320  0.679   12.899  125.915  158.190   1.843  0.000   1.694    0.328  10.764
+# 551.000  0.000    2.873   60.796    7.825   1.000  0.000   0.049    0.000   0.000
+#1104.000  5.000  810.169  134.286  953.446   9.000  0.000  29.991   25.000  18.000
+#  34.580  0.527    4.013    0.951   64.251   0.804  0.000   1.006    0.479   1.613
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#775.700  1.775    4.659   17.320   43.166   1.227  0.000   0.527    2.668  12.106
+#270.000  1.020    0.000    0.000    0.244   1.000  0.000   0.000    0.244   6.000
+#907.000  6.000  400.000  127.994  958.419   9.000  1.000  25.111   20.970  19.000
+# 42.694  0.614    5.082   25.064   73.545   0.587  0.006   0.929    1.852   1.466
+#      estlvs
+#6.030184e+09
+#9.666645e+03
+#6.025207e+15
+#5.469587e+12
+#       mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#154735.511  3.191  0.000  0.209  0.340  0.511  0.133   1.442
+# 34571.000  2.000  0.000  0.000  0.167  0.177  0.000   0.063
+#268851.000  6.000  0.000  0.500  0.500  0.990  0.490  20.690
+# 11678.796  0.932  0.000  0.133  0.098  0.173  0.109   0.559
+# real    262m20.139s user    3443m31.875s sys     145m33.751s
+# Considerably worse than rlaMols.
 
 # Optimising TAUscan on ave+sd via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_wdL_avepsd> nomad np
+# 423  4485388.45589    7          7.0        6.000001   0.0001     5.1
+# Blackbox evaluations: 526 Total model evaluations: 50360 Cache hits: 67 Total number of evaluations: 593
+# Reproduction:
+# TAU_symmb_7_wdL_avepsd$ time ./TAUscan 7 ../symmb "" wdL hash "7,7.0,6.000001,0.0001,5.1" 1000 10 all
+# 1000 : 1.41884047413830706290e+04 2.12834580793314783455e+06 8.18188132397274710383e+07; 5.63517297822012325742e+06
+# real    1m15.117s user    12m18.977s sys     0m1.660s
+# Reproduction failed; values worse than above.
+# Testing it:
+# 3MOLS/TAU_symmb_7_wdL_avepsd$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "7,7.0,6.000001,0.0001,5.1" "" ""
 # running on server2 XXX
 
+# Optimising ave+sd again, now starting with the above optimum (rounded), and
+# with MAX_TIME 40000s, rep=2000:
+# TAU_symmb_7_wdL_avepsd> nomad np2
+# running on server2
 
 
 squares A B C AB AC BC
