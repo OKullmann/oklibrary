@@ -106,9 +106,7 @@
 # time ./TAUscan 8 ../sudokudiag "" wdL hash "5.72,1.13,0.36,0.0001,0.02,1.1" 1000 10 all
 # 1000 : 8.46197787711030823084e+06 2.46430144698034995794e+09 2.62001716718076810017e+10; 2.76804227432580180140e+09
 # real    2m36.607s user    25m49.592s sys     0m4.206s
-# Failure in reproduction.
-# Usually on the reproduced run the objective function's value is about 5-20 % worse, but here it is
-# about 2 times better.
+# Success in reproduction.
 
 
 # laMols with newvars:
