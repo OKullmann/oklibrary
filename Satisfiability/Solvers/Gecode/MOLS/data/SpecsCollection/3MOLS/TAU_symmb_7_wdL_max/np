@@ -11,3 +11,4 @@ MAX_TIME                40000
 LH_SEARCH               1000 10
 MEGA_SEARCH_POLL        true
 SPECULATIVE_SEARCH_MAX  10
+HISTORY_FILE            LOG
