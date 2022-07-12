@@ -90,12 +90,41 @@
 # Reproduction failed; values worse than above.
 # Testing it:
 # 3MOLS/TAU_symmb_7_wdL_avepsd$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "7,7.0,6.000001,0.0001,5.1" "" ""
-# running on server2 XXX
-
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1       64  284190.346  311637216  0  2869012  848730  2020282        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 836.153  0.683   12.628  125.913  160.498   1.857  0.000   1.957    0.321  10.736
+# 574.000  0.000    2.873   63.033    6.582   1.000  0.000   0.021    0.000   0.000
+#1104.000  5.000  917.308  134.495  973.436  10.000  0.000  28.300   23.659  20.000
+#  32.776  0.529    3.888    0.970   65.408   0.816  0.000   1.094    0.465   1.546
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#784.225  1.698    4.872   18.017    44.322   1.233  0.000   0.618    2.639  12.042
+#270.000  1.024    0.000    0.000     0.241   1.000  0.000   0.000    0.241   6.000
+#907.000  6.000  342.857  129.403  1176.632  11.000  1.000  25.527   19.542  21.000
+# 41.366  0.482    5.063   25.342    73.399   0.586  0.006   1.036    1.812   1.393
+#      estlvs
+#7.485685e+12
+#1.418840e+04
+#1.512121e+19
+#1.063850e+16
+#          mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#116223318.084  3.380  0.000  0.209  0.325  0.474  0.116   1.639
+#  2064384.000  2.000  0.000  0.000  0.167  0.167  0.000   0.027
+#237153924.000  6.000  0.000  0.500  0.500  1.000  0.500  19.277
+# 10791450.261  1.046  0.000  0.129  0.099  0.172  0.103   0.563
+# real    347m45.542s user    4736m30.372s sys     145m23.707s
+# Clearly worse than above; perhaps bad luck?
 # Optimising ave+sd again, now starting with the above optimum (rounded), and
 # with MAX_TIME 40000s, rep=2000:
 # TAU_symmb_7_wdL_avepsd> nomad np2
 # running on server2 XXX
+
+# Alternative optimisation on sd:
+# TAU_symmb_7_wdL_sd$ nomad np XXX
+
+# Alternative optimisation on max:
+# TAU_symmb_7_wdL_max$ nomad np XXX
+
 
 
 squares A B C AB AC BC
