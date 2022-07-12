@@ -139,7 +139,13 @@
 
 # Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_newv_avepsd> nomad np
-# running on server XXX
+# 967 6062398371.445838   0.0001     0.0201     0.0001     0.21       0.0001     1.33
+# Blackbox evaluations: 1205 Total model evaluations: 101032 Cache hits: 436 Total number of evaluations: 1641
+# Reproduction:
+# time ./TAUscan 8 ../sudokudiag "" newv hash "0.0001,0.0201,0.0001,0.21,0.0001,1.33" 1000 10 all
+# 1000 : 9.23472943233336260382e+07 2.91823309719039523462e+09 4.59202317326371462196e+10; 3.33643219877778795315e+09
+# real 2m28.504s user 24m21.975s sys 0m4.094s
+# Failure in reproduction.
 
 
 squares A B aux
