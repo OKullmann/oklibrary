@@ -630,7 +630,7 @@ namespace Environment {
     static constexpr const char* name = "statistics-TAUscan";
     static constexpr int size = Options::STTSsize;
     static constexpr std::array<const char*, size>
-      string {"ave", "min", "max", "stddev", "ave+sd", "all"};
+      string {"ave", "min", "max", "sd", "ave+sd", "all"};
     static constexpr std::array<const char*, size>
       estring {"arithmetic-mean", "minimum", "maximum", "standard-deviation",
         "mean+deviation", "four-statistics"};
