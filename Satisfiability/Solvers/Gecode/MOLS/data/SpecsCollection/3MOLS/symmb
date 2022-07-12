@@ -117,10 +117,22 @@
 # Optimising ave+sd again, now starting with the above optimum (rounded), and
 # with MAX_TIME 40000s, rep=2000:
 # TAU_symmb_7_wdL_avepsd> nomad np2
+# 821 4843611.042385   7.0        6.9536     5.5037     0.0045     3.95
+# Blackbox evaluations: 1078 Total model evaluations: 92241 Cache hits: 384 Total number of evaluations: 1462
+# Rather similar to above.
+# Rerunning TAUscan:
+# TAU_symmb_7_wdL_avepsd$ time ./TAUscan 7 ../symmb "" wdL hash "7,6.9536,5.5037,0.0045,3.95" 2000 10 all
+# 2000 : 1.98041310442789615927e+04 1.71825372196813504092e+06 3.70940920394601094777e+07; 3.28494095604215134244e+06
+# real    2m29.849s user    24m28.476s sys     0m3.578s
+# Similar to above.
+# Testing it:
+# 3MOLS/TAU_symmb_7_wdL_avepsd$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "7,6.9536,5.5037,0.0045,3.95" "" ""
 # running on server2 XXX
 
+
 # Alternative optimisation on sd:
-# TAU_symmb_7_wdL_sd$ nomad np XXX
+# TAU_symmb_7_wdL_sd$ nomad np
+# running on server2 XXX
 
 # Alternative optimisation on max:
 # TAU_symmb_7_wdL_max$ nomad np XXX
