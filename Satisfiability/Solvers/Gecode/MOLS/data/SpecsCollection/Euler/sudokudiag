@@ -86,7 +86,15 @@
 
 # Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_wdL_avepsd> nomad np
-# running on server XXX
+# 296  5232343721.306151   5.72       1.13       0.36       0.0001     0.02       1.1
+# Blackbox evaluations: 1181 Total model evaluations: 91787 Cache hits: 409 Total number of evaluations: 1590
+# Reproduction:
+# time ./TAUscan 8 ../sudokudiag "" wdL hash "5.72,1.13,0.36,0.0001,0.02,1.1" 1000 10 all
+# 1000 : 8.46197787711030823084e+06 2.46430144698034995794e+09 2.62001716718076810017e+10; 2.76804227432580180140e+09
+# real    2m36.607s user    25m49.592s sys     0m4.206s
+# Failure in reproduction.
+# Usually on the reproduced run the objective function's value is about 5-20 % worse, but here it is
+# about 2 times better.
 
 
 # laMols with newvars:
