@@ -171,8 +171,6 @@
 # 1333.412  0.843  0.001  0.157  0.096  0.132  0.100  0.676
 # real    2696m3.087s user    42901m7.267s sys     103m28.904s
 
-
-
 # Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_wdL_avepsd$ nomad np
 # 842  92992066967.545563   1.6199     1.59065    4.45775    0.0001     0.0001     0.351
@@ -184,8 +182,30 @@
 # Again failure in reproduction; looks better than above.
 # Running it for longer:
 # TAU_sudokudiag_8_wdL_avepsd$ time ./laMols 8 ../sudokudiag "" +count dom enu wdL dasc "" 1 16 "1.6199,1.59065,4.45775,0.0001,0.0001,0.351" "" ""
-# running on server2 XXX
-
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  8   +count dom enu  wdL  dasc  relpr   1        0  431888.249  272200484  1  1768645  547708  1220937        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1417.498  0.835    7.337  121.246   185.824   2.113  0.000   5.341    0.450  18.637
+#1009.000  0.000    0.000  107.060   104.336   1.000  0.000   1.091    0.000   0.000
+#1956.000  5.000   19.466  127.056  1054.730  10.000  0.000  42.692    7.182  32.000
+# 143.414  0.449    1.780    1.782    76.752   0.854  0.000   2.603    0.557   3.982
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1359.078  1.866    2.847   14.409    49.420   1.274  0.000   1.634    2.673  19.736
+# 728.000  1.027    0.000    0.000     0.132   1.000  0.000   0.000    0.132   9.000
+#1694.000  7.000  250.000  125.181  1312.838  13.000  0.000  50.482   19.933  33.000
+# 140.790  0.569    2.987   20.601    78.888   0.645  0.000   2.510    1.894   3.920
+#                   estlvs
+#     1434058703396242.810
+#               261953.235
+#245873838161562126768.000
+#   424303301095082868.969
+#      mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#44755.493  3.230  0.001  0.233  0.341  0.477  0.105   3.599
+#25413.000  2.000  0.000  0.000  0.143  0.161  0.000   0.349
+#68356.000  7.000  0.009  0.500  0.500  0.999  0.499  26.352
+# 5714.308  1.059  0.000  0.144  0.103  0.142  0.090   0.752
+# real    473m50.303s user    7198m11.128s sys     164m36.274s
+# Definitely looks different than above; smaller pelvals, estlvs is better.
 
 
 
