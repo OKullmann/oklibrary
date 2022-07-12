@@ -95,7 +95,7 @@
 # Optimising ave+sd again, now starting with the above optimum (rounded), and
 # with MAX_TIME 40000s, rep=2000:
 # TAU_symmb_7_wdL_avepsd> nomad np2
-# running on server2
+# running on server2 XXX
 
 
 squares A B C AB AC BC
