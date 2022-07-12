@@ -1,0 +1,15 @@
+C:      count achieved
+CE:     count envisaged
+U:      unsatisfiability achieved
+UE:     unsatisfiability envisaged (known to be UNSAT)
+S:      satisfiability achieved
+SE:     satisfiability envisaged (known to be SAT)
+?:      unknown
+
+
+N:              6       7       8       9       10      11
+
+basis           UE      SE      SE      SE      SE      SE
+symmb           U       C       SE      SE      ?       SE
+diag            U       C       SE      SE      SE      SE
+sudokudiag      U       C       S       S       ?       ?
