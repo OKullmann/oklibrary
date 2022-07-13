@@ -137,7 +137,18 @@
 # Still failure in reproduction.
 
 # Alternative optimisation on ave+sd (MAX_TIME 600s, rep=100):
-# running on server XXX
+# 639   6.4147    -0.177512   3.349368  -9.720275   4.007721  -7.894675
+# Blackbox evaluations: 817 Total model evaluations: 73038 Cache hits: 283 Total number of evaluations: 1100
+# Reproduction:
+# time ./TAUscan 6 ../sudokudiag "" newv hash "-0.177512,3.349368,-9.720275,4.007721,-7.894675" 100 1 all
+# 100 : 5.22297803152840920370e+00 1.96916257644697509938e+01 7.16214370546247748872e+02; 7.15951210311202867129e+01
+# real    0m6.044s user    0m5.779s sys     0m0.254s
+# Failure in reproduction.
+# Reproduction on the full-precision weights from the log-file:
+# time ./TAUscan 6 ../sudokudiag "" newv hash "-0.17751223667932000683,3.3493682759230400947,-9.7202753209788994582,4.0077208075690400335,-7.8946745004259701872" 100 1 all
+# 100 : 4.71676218187502118567e+00 5.67231905817401228743e+00 1.17738690317435045294e+01; 1.55140314784343045205e+00
+# real    0m5.399s user    0m5.065s sys     0m0.325s
+# Still failure in reproduction.
 
 # N=7:
 
