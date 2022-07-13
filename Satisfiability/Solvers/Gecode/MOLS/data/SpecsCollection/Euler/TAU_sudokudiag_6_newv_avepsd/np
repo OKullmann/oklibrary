@@ -11,4 +11,4 @@ MAX_TIME                600
 LH_SEARCH               100 10
 MEGA_SEARCH_POLL        true
 SPECULATIVE_SEARCH_MAX  10
-HISTORY_FILE            LOG
+HISTORY_FILE            /home/oleg/src/OKlib/Satisfiability/Solvers/Gecode/MOLS/data/SpecsCollection/Euler/TAU_sudokudiag_6_newv_avepsd/LOG
