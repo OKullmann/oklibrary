@@ -81,14 +81,11 @@
 # 554 1035.026673   0.896981   5.237416   0.934715   0.0001     7
 # Blackbox evaluations: 1184 Cache hits: 413 Total number of evaluations: 1597
 # Reproduction:
-# time ./TAUscan 7 ../sudokudiag "" wdL hash "0.896981,5.237416,0.934715,0.0001,7" 1000 10 all
+# TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "0.896981,5.237416,0.934715,0.0001,7" 1000 10 all
 # 1000 : 1.98270819999876641918e+02 1.40225729768125966057e+03 1.55270775868169501681e+04; 1.29604669925694416599e+03
 # real 2m31.527s user 10m39.295s sys 0m1.622s
 # Failure in reproduction.
-# time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "0.896981,5.237416,0.934715,0.0001,7" "" ""
-
-#   weights: 0.896981 5.2374159999999999999 0.93471500000000000001 0.0001 7 -> 0 0 1 1.8621651151634801573 70.248572307707807971 134.28105809708496363 134.29036607335337235 17189.16685738923166
-# 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+# TAU_sudokudiag_7_wdL_ave> time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "0.896981,5.237416,0.934715,0.0001,7" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  7   +count dom enu  wdL   asc  relpr   1       18     160.159     213898  0     2282     908     1374        0
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
@@ -185,13 +182,11 @@
 # 376 1188.947676  -0.997257   5.000627  -1.008037  -9.999099   4.00161   -9.5205
 # Blackbox evaluations: 413 Cache hits: 60 Total number of evaluations: 473
 # Reproduction:
-# time ./TAUscan 7 ../sudokudiag "" newv hash "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" 1000 10 all
+# TAU_sudokudiag_7_newv_ave> time ./TAUscan 7 ../sudokudiag "" newv hash "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" 1000 10 all
 # 1000 : 2.28333305682993266350e+02 1.28073917559365581942e+03 1.04267487693232195332e+04; 1.00126587972301564050e+03
 # real 2m44.360s user	11m27.661s sys	0m1.838s
 # Failure in reproduction.
-# time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" "" ""
-#   weights: -0.997257 5.000627 -1.008037 -9.9990990000000000001 4.0016099999999999999 -9.5205 -> 0 -0.997257 32.013910327548810844 15.918031155506930275 0.015554663553260044038 0.24915250773160500343 0.00033924166729825799559 0
-# 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+# TAU_sudokudiag_7_newv_ave> time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  7   +count dom enu newv   asc  relpr   1       18     150.660     186165  0     2254    1001     1253        0
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
