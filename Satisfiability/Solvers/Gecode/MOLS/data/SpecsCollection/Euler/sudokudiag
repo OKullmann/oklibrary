@@ -19,9 +19,10 @@
 # gcMols:
 
 # N=7: best regarding flvs (for counting) is dom+bin+mindom.
-# ./gcMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" bin mindom asc 1 16 ""
+# MOLS> time ./gcMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" bin mindom asc 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7   +count dom bin    mindom  asc   1        18      14.830      27426948      203948      407931     25  0
+# real	0m1.591s user	0m8.416s sys	0m0.218s
 # N=8: best for finding solutions appears dom+bin+mindom+desc.
 # ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" bin mindom desc 1 12 t,180
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
