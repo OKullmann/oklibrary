@@ -276,6 +276,12 @@
 # running on server2 XXX
 
 
+# Optimising TAUscan on sd via Nomad (MAX_TIME 20000s, rep=1000):
+# TAU_symmb_7_newv_sd> nomad np
+# running on server XXX
+
+
+
 squares A B C AB AC BC
 ls A B C AB AC BC
 red A
