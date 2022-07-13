@@ -164,6 +164,12 @@
 # real    0m28.970s user    2m16.175s sys     0m2.832s
 # Runtime-wise about 10 % better than ave, but leaves-wise about 20 % worse tha ave.
 
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# XXX running on server
+
 # N=8:
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
@@ -286,6 +292,12 @@
 # 1000 : 9.23472943233336260382e+07 2.91823309719039523462e+09 4.59202317326371462196e+10; 3.33643219877778795315e+09
 # real 2m28.504s user 24m21.975s sys 0m4.094s
 # Failure in reproduction.
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# XXX running on server
 
 
 squares A B aux
