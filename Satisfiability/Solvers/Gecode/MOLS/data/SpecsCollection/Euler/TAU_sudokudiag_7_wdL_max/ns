@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 7 ../sudokudiag "" wdL hash cin 100 10 max
