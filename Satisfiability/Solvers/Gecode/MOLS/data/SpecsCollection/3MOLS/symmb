@@ -156,7 +156,17 @@
 
 # Alternative optimisation on sd:
 # TAU_symmb_7_wdL_sd$ nomad np
+# 337  1747209.120771   4.601601   0.0001     1.411971   0.0001     2.00819
+# Blackbox evaluations: 1070 Total model evaluations: 95132 Cache hits: 333 Total number of evaluations: 1403
+# Rerunning TAUscan:
+# TAU_symmb_7_wdL_sd$ time ./TAUscan 7 ../symmb "" wdL hash "4.601601,0.0001,1.411971,0.0001,2.00819" 2000 10 all
+# 2000 : 7.91633514993036642471e+03 1.26572966642476833965e+06 6.17509844789211209354e+07; 2.70512831742113817836e+06
+# real    2m29.354s user    24m30.250s sys     0m3.634s
+# These numbers look best yet.
+# Testing it:
+# 3MOLS/TAU_symmb_7_wdL_sd$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "4.601601,0.0001,1.411971,0.0001,2.00819" "" ""
 # running on server2 XXX
+
 
 # Alternative optimisation on max:
 # TAU_symmb_7_wdL_max$ nomad np XXX
