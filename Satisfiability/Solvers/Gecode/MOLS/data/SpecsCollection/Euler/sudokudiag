@@ -229,6 +229,7 @@
 #316.000  4.000  0.033  0.500  0.500  0.863  0.363  0.747
 # 15.928  0.458  0.002  0.107  0.073  0.108  0.080  0.190
 # real    0m22.198s user    2m30.670s sys     0m6.047s
+# About 5 % better runtime-wise and leaves-wise than wdL.
 
 # N=8:
 
