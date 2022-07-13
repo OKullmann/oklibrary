@@ -19,6 +19,9 @@
 # gcMols:
 
 # N=7: best regarding flvs (for counting) is dom+bin+mindom.
+# ./gcMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" bin mindom asc 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom bin    mindom  asc   1        18      14.830      27426948      203948      407931     25  0
 # N=8: best for finding solutions appears dom+bin+mindom+desc.
 # ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" bin mindom desc 1 12 t,180
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
@@ -40,6 +43,20 @@
 
 # rlaMols:
 
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" enu mindom asc "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu    mindom  asc  relpr   1       18     271.764     314643  0     5265    2416     2849
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#467.210  0.938   11.082  123.535  204.761   2.239  0.000  0.778    1.615   6.605
+#373.000  0.000    0.278   61.972   96.404   1.000  0.000  0.100    0.000   0.000
+#596.000  2.000   39.344  129.082  748.869   7.000  0.000  4.197   37.010  11.000
+# 29.617  0.384    5.404    2.648   80.963   0.848  0.000  0.456    2.014   1.353
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#421.393  1.599   10.883   25.531   99.791   1.524  0.006  0.404   10.908   8.317
+#120.000  1.097    0.000    0.000    0.568   1.000  0.000  0.000    0.568   5.000
+#507.000  5.000  300.000  121.142  796.119   9.000  1.000  3.762   27.897  12.000
+# 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.473    5.368   0.903
+# real    0m27.332s user    4m31.773s sys     0m27.402s
 # MOLS> time ./rlaMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc "" 1 12
 # aborted after 4min wallclock-time without finding a solution.
 
