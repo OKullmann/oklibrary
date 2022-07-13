@@ -170,7 +170,18 @@
 
 # Alternative optimisation on max:
 # TAU_symmb_7_wdL_max$ nomad np XXX
-# running on server XXX
+# 722  43574833.08134    5.910021   6.03105    6.981906   0.0001     6.904023
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 729 Total model evaluations: 68593 Cache hits: 224 Total number of evaluations: 953
+# Rerunning TAUscan:
+# TAU_symmb_7_wdL_max$ time ./TAUscan 7 ../symmb "" wdL hash "5.910021,6.03105,6.981906,0.0001,6.904023" 2000 10 all
+# 2000 : 1.58149724061496246907e+04 1.84091110072332563993e+06 1.27634867932385437627e+08; 4.42543372753915729072e+06
+# real    4m2.257s user    39m33.500s sys     0m9.047s
+# Numbers look worse that above.
+# Testing it:
+# 3MOLS/TAU_symmb_7_wdL_max$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "5.910021,6.03105,6.981906,0.0001,6.904023" "" ""
+# running on server2 XXX
+
 
 
 
