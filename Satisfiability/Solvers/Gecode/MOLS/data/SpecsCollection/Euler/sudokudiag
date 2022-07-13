@@ -127,6 +127,7 @@
 #16664.000  4.000  0.002  0.500  0.500  0.929  0.429  0.837
 # 1454.889  0.578  0.000  0.137  0.088  0.125  0.096  0.127
 # real    0m14.812s user    2m40.164s sys     0m15.770s
+# The number of leaves and the runtime is about 2 times better than on rlaMols.
 
 
 # N=8:
