@@ -99,9 +99,9 @@
 # 554 1035.026673   0.896981   5.237416   0.934715   0.0001     7
 # Blackbox evaluations: 1184 Cache hits: 413 Total number of evaluations: 1597
 # Reproduction:
-# TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "0.896981,5.237416,0.934715,0.0001,7" 1000 10 all
-# 1000 : 1.98270819999876641918e+02 1.40225729768125966057e+03 1.55270775868169501681e+04; 1.29604669925694416599e+03
-# real 2m31.527s user 10m39.295s sys 0m1.622s
+# TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "0.896981,5.237416,0.934715,0.0001,7" 100 10 all
+# 100 : 2.41166889536214376619e+02 1.31864563519242289147e+03 5.98068703983010299652e+03; 1.05679070384081706568e+03
+# real    0m4.536s user    0m39.282s sys     0m0.398s
 # Failure in reproduction.
 # TAU_sudokudiag_7_wdL_ave> time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "0.896981,5.237416,0.934715,0.0001,7" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
@@ -131,7 +131,38 @@
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
 # TAU_sudokudiag_7_wdL_avepsd> nomad np
-# XXX Running on server.
+# 585  1814.964923   4.089999   6.999999   0.110002   0.0001     4.999999
+# Blackbox evaluations: 1087 Total model evaluations: 99237 Cache hits: 375 Total number of evaluations: 1462
+# Reproduction:
+# TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "4.089999,6.999999,0.110002,0.0001,4.999999" 100 10 all
+# 100 : 3.60482152037264433508e+02 1.70786660062998327003e+03 1.64301985317896331011e+04; 2.07220955349689412128e+03
+# real    0m4.097s user    0m38.522s sys     0m0.420s
+# Failure in reproduction.
+# TAU_sudokudiag_7_wdL_ave> time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "4.089999,6.999999,0.110002,0.0001,4.999999" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1       18     136.166     252064  0     2647     993     1654        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#475.955  1.043   14.410  122.606  208.370   2.382  0.000  0.389    2.196   5.515
+#368.000  0.000    0.278   58.407   97.375   1.000  0.000  0.033    0.000   0.000
+#596.000  2.000   40.309  128.643  626.380   7.000  0.000  2.424   36.062  10.000
+# 32.501  0.290    6.521    3.444   73.389   0.782  0.000  0.352    2.510   1.366
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#403.401  1.676   19.785   22.008   80.018   1.362  0.011  0.148   10.406   7.004
+#126.000  1.100    0.000    0.000    0.478   1.000  0.000  0.000    0.478   5.000
+#505.000  4.000  300.000  118.126  629.724   7.000  1.000  2.470   26.180  11.000
+# 45.954  0.369   23.477   16.447   92.761   0.800  0.104  0.240    5.625   1.119
+#     estlvs
+#  12919.336
+#    180.066
+#6392864.202
+# 161691.578
+#       mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#225677.591  2.665  0.000  0.263  0.398  0.552  0.131  0.235
+# 27384.000  2.000  0.000  0.001  0.167  0.256  0.000  0.039
+#295744.000  6.000  0.000  0.500  0.500  0.967  0.467  0.744
+# 22150.427  0.672  0.000  0.135  0.093  0.138  0.096  0.183
+# real    0m28.970s user    2m16.175s sys     0m2.832s
+# Runtime-wise about 10 % better than ave, but leaves-wise about 20 % worse tha ave.
 
 # N=8:
 
