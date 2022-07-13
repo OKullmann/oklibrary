@@ -273,12 +273,26 @@
 
 # Optimising TAUscan on ave+sd via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_avepsd> nomad np
-# running on server2 XXX
+# 150    822608.461576  -0.04      10         -5          2        -10          6
+# 487    799387.88076   -0.03998   10         -5.00005    2.00003   -9.999871   5.999987
+# 621    757658.692957  -0.03998   10.0       -5.00005    2.00003   -9.999861   5.999987
+# Rerunning TAUscan:
+# TAU_symmb_7_newv_avepsd$ time ./TAUscan 7 ../symmb "" newv hash "-0.03998,10.0,-5.00005,2.00003,-9.999861,5.999987" 1000 10 all
+# 1000 : 1.28702764025152978036e+04 3.91817360533761674503e+05 8.70306953362918444782e+06; 6.50881586224200673087e+05
+# real    1m30.998s user    14m54.633s sys     0m1.831s
+# Testing it:
+# TAU_symmb_7_newv_avepsd$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "-0.03998,10.0,-5.00005,2.00003,-9.999861,5.999987" "" ""
+# Running on server2 XXX
 
 
 # Optimising TAUscan on sd via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_sd> nomad np
 # running on server XXX
+
+
+# Optimising TAUscan on max via Nomad (MAX_TIME 20000s, rep=1000):
+# TAU_symmb_7_newv_max> nomad np
+# running on server2 XXX
 
 
 
