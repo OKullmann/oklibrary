@@ -235,8 +235,22 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=2000):
 # TAU_symmb_7_newv_ave> nomad np
+# 1 16462218.83587    0          0          0          0          0          0
+# 41   315225.907721   0         10        -10          4        -10         10
+# 716   297990.827352   0.21       9.99      -9.8        3.99      -9.8        9.8
+# Blackbox evaluations: 977 Total model evaluations: 90290 Cache hits: 334 Total number of evaluations: 1311
+# Looks very promising.
+# Rerunning TAUscan:
+# TAU_symmb_7_newv_ave$ time ./TAUscan 7 ../symmb "" newv hash "0.21,9.99,-9.8,3.99,-9.8,9.8" 2000 10 all
+# 2000 : 3.48376971753722168712e+03 2.98618840820471308575e+05 1.78857660755591507314e+07; 9.46545103711694365700e+05
+# real    2m56.240s user    28m51.743s sys     0m3.667s
+# Testing it:
+# 3MOLS/TAU_symmb_7_newv_ave$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "0.21,9.99,-9.8,3.99,-9.8,9.8" "" ""
 # running on server2 XXX
 
+# Optimising TAUscan on ave+sd via Nomad (MAX_TIME 20000s, rep=1000):
+# TAU_symmb_7_newv_avepsd> nomad np
+# running on server2 XXX
 
 
 squares A B C AB AC BC
