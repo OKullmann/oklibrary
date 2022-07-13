@@ -123,7 +123,18 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_newv_ave> nomad np
-# running on server XXX
+# 558   4.468848  -1        -10         -6.000005  10          9.999999
+# Blackbox evaluations: 808 Total model evaluations: 74658 Cache hits: 249 Total number of evaluations: 1057
+# Reproduction:
+# time ./TAUscan 6 ../sudokudiag "" newv hash "-1,-10,-6.000005,10,9.999999" 100 1 all
+# 100 : 3.98036497072713720555e+00 6.17463945773979181950e+00 2.30097463187664220598e+01; 5.40108729526668134664e+00
+# real    0m5.294s user    0m4.967s sys     0m0.318s
+# Failure in reproduction.
+# Reproduction on the full-precision weights from the log-file:
+# time ./TAUscan 6 ../sudokudiag "" newv hash "-1,10,-6.0000050000048004151,10,9.9999993801000002236" 100 1 all
+# 100 : 4.53670570223933163978e+00 2.15165709133775312802e+01 5.45459496195118597961e+02; 5.88265021714370999299e+01
+# real    0m6.024s user    0m5.690s sys     0m0.323s
+# Still failure in reproduction.
 
 # Alternative optimisation on ave+sd (MAX_TIME 600s, rep=100):
 # running on server XXX
@@ -138,7 +149,7 @@
 # time ./TAUscan 7 ../sudokudiag "" newv hash "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" 1000 10 all
 # 1000 : 2.28333305682993266350e+02 1.28073917559365581942e+03 1.04267487693232195332e+04; 1.00126587972301564050e+03
 # real 2m44.360s user	11m27.661s sys	0m1.838s
-# # Failure in reproduction.
+# Failure in reproduction.
 
 # N=8:
 
