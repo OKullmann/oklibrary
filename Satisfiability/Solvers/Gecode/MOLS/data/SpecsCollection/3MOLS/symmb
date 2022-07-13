@@ -246,7 +246,30 @@
 # real    2m56.240s user    28m51.743s sys     0m3.667s
 # Testing it:
 # 3MOLS/TAU_symmb_7_newv_ave$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "0.21,9.99,-9.8,3.99,-9.8,9.8" "" ""
-# running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       64  110893.205   69944852  0   703311  306411   396900        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 880.038  0.733   14.706  124.535   167.540   2.041  0.000   2.283    0.459  11.825
+# 590.000  0.000    2.555   59.224     7.020   1.000  0.000   0.023    0.000   0.000
+#1104.000  3.000  901.887  132.888  1171.067  12.000  0.000  25.073   24.404  19.000
+#  44.542  0.486    4.588    1.434    78.813   0.945  0.000   1.316    0.655   1.839
+#    mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#830.874  1.679     3.551   27.075    69.633   1.463  0.000   1.081    3.777  13.513
+#270.000  1.036     0.000    0.000     0.243   1.000  0.000   0.000    0.233   8.000
+#930.000  6.000  1233.333  130.528  1088.145  11.000  1.000  22.720   30.072  20.000
+# 55.630  0.451     7.184   29.860    94.395   0.824  0.013   1.455    2.081   1.545
+#      estlvs
+#3.926826e+08
+#3.483770e+03
+#1.402021e+13
+#4.485932e+10
+#    mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#498.020  2.295  0.000  0.342  0.458  0.581  0.115   1.815
+#252.000  2.000  0.000  0.000  0.167  0.187  0.000   0.030
+#593.000  6.000  0.011  0.500  0.500  0.994  0.494  13.470
+# 18.672  0.628  0.000  0.124  0.084  0.117  0.088   0.480
+# real    129m55.128s user    1848m13.216s sys     38m2.260s
+# Best result obtained yet (leaf-wise; time-wise rlaMols is somewhat better).
 
 # Optimising TAUscan on ave+sd via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_avepsd> nomad np
