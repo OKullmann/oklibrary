@@ -129,6 +129,9 @@
 # real    0m14.812s user    2m40.164s sys     0m15.770s
 # The number of leaves and the runtime is about 2 times better than on rlaMols.
 
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
+# TAU_sudokudiag_7_wdL_avepsd> nomad np
+# XXX Running on server.
 
 # N=8:
 
