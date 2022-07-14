@@ -15,6 +15,43 @@
 # real	34m55.367s user	141m0.451s sys	2m36.454s
 
 
+# laMols with wdL:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_symmb_7_wdL_ave> nomad np
+# XXX running on server
+
+# # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_wdL_avepsd> nomad np
+# XXX running on server
+
+# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_wdL_sd> nomad np
+# XXX running on server
+
+# # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_wdL_max> nomad np
+# XXX running on server
+
+
+# laMols with newvars:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_symmb_7_newv_ave> nomad np
+# XXX running on server
+
+# # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_newv_avepsd> nomad np
+# XXX running on server
+
+# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_newv_sd> nomad np
+# XXX running on server
+
+# # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_newv_max> nomad np
+# XXX running on server
+
 squares A B aux
 red A
 rred B aux
