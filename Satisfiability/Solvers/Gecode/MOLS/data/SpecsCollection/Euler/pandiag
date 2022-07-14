@@ -94,6 +94,8 @@
 # solves all problems quickly.
 # enu seems even better.
 
+# bin/enu + mindom somewhat slower for N=10.
+
 # N = 11:
 
 # ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 12 ""
@@ -109,6 +111,8 @@
 #1027.000  1.081    0.000    0.426    1.023   1.000  0.000   0.005    0.255  3.000
 #2427.000  7.000    1.714   87.143  247.373   3.000  1.000  10.942   11.998  7.000
 # 453.143  1.010    0.261   14.963   50.030   0.459  0.138   1.806    1.507  0.855
+
+# bin/enu + mindom much worse.
 
 # N = 12:
 
@@ -126,6 +130,11 @@
 #2697.000  1.041    0.000    0.000    0.167   1.000  0.000   0.002    0.167   7.000
 #3128.000  9.000    1.726  107.739  452.801   5.000  0.000  34.096    5.263  15.000
 #  65.122  1.006    0.252   23.737   78.031   0.687  0.000   5.764    0.618   1.332
+# ./rlaMols 12 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 16 ""
+# running on server2 XXX
+
+# ./rlaMols 12 data/SpecsCollection/Euler/pandiag "" +count dom enu mindom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
