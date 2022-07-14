@@ -9,7 +9,7 @@ SE:     satisfiability envisaged (known to be SAT)
 
 N:              6       7       8       9       10      11
 
-basis           UE      SE      SE      SE      SE      SE
+basis           UE      CE      CE      CE      SE      SE
 red             U       C       CE      CE      SE      SE
 symmb           U       C       SE      SE      ?       ?
 diag            U       C       SE      SE      ?       ?
