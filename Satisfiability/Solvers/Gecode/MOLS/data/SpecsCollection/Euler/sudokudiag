@@ -271,6 +271,72 @@
 # real    0m22.198s user    2m30.670s sys     0m6.047s
 # About 5 % better runtime-wise and leaves-wise than wdL.
 
+# Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
+# 777  4730.341461  -0.87       2.0        0.33      -3.37      -2.999999   5.0
+# Blackbox evaluations: 1250 Total model evaluations: 108451 Cache hits: 284 Total number of evaluations: 1534
+# Reproduction:
+# TAU_sudokudiag_7_newv_max> time ./TAUscan 7 ../sudokudiag "" newv hash "-0.87,2.0,0.33,-3.37,-2.999999,5.0" 1000 10 all
+# 1000 : 2.14741684722085767356e+02 1.29565715888868501149e+03 7.00310035186588292655e+03; 7.90312131742864885653e+02
+# real    0m40.694s user    6m36.096s sys     0m3.853s
+# TAU_sudokudiag_7_newv_max> time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "-0.87,2.0,0.33,-3.37,-2.999999,5.0" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       18     172.867     186510  0     2210     938     1272        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#476.559  1.054   14.619  122.664  208.903   2.392  0.000  0.870    2.193  5.513
+#368.000  0.000    0.278   60.274  109.283   1.000  0.000  0.139    0.000  0.000
+#596.000  2.000   37.311  126.824  609.756   7.000  0.000  3.455   37.900  9.000
+# 29.891  0.272    6.308    3.203   72.047   0.766  0.000  0.391    2.489  1.286
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#409.353  1.607   20.012   24.757   93.335   1.406  0.014  0.419   12.039   7.135
+#126.000  1.100    0.000    0.000    0.543   1.000  0.000  0.000    0.543   5.000
+#488.000  4.000  254.545  112.698  634.192   6.000  1.000  3.238   26.022  10.000
+# 36.822  0.285   20.080   14.455   90.180   0.808  0.118  0.435    4.990   0.926
+#      estlvs
+#1.839897e+03
+#2.147417e+02
+#8.933251e+03
+#1.275343e+03
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#265.996  2.355  0.019  0.346  0.441  0.545  0.095  0.528
+#138.000  2.000  0.007  0.050  0.250  0.266  0.000  0.160
+#316.000  4.000  0.078  0.500  0.500  0.827  0.349  0.799
+# 15.371  0.488  0.008  0.105  0.080  0.110  0.074  0.136
+# real    0m16.026s user    2m52.877s sys     0m14.465s
+# leaf-wise and time-wise a bit worse than on ave.
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
+# 1147  655.475808  -1.0       -1.679323  -0.459947  -6.12029   -5.32       2.500406
+# Blackbox evaluations: 1231 Total model evaluations: 106379 Cache hits: 352 Total number of evaluations: 1583
+# Reproduction:
+# TAU_sudokudiag_7_newv_sd> time ./TAUscan 7 ../sudokudiag "" newv hash "-1.679323,-0.459947,-6.12029,-5.32,2.500406" 1000 10 all
+# 1000 : 6.94327122215818667780e+01 2.61282299603620233452e+03 1.02541532218379500023e+05; 6.34300971355337999169e+03
+# real    0m43.209s user    6m55.924s sys     0m3.527s
+# TAU_sudokudiag_7_newv_sd> time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "-1.679323,-0.459947,-6.12029,-5.32,2.500406" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       18     209.411     355978  0     4101    1553     2548        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#460.837  1.010    9.247  123.574  234.576   2.339  0.000  0.333    2.178  5.659
+#374.000  0.000    0.151  106.713  110.538   1.000  0.000  0.056    0.000  0.000
+#596.000  1.600   22.699  129.412  736.261   8.000  0.000  2.183   12.269  9.000
+# 31.463  0.231    3.543    2.056   73.891   0.781  0.000  0.280    1.822  1.233
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#397.409  1.645    7.605   22.188   92.856   1.468  0.007  0.132    9.638   7.198
+#186.000  1.081    0.000    0.000    0.533   1.000  0.000  0.000    0.533   5.000
+#489.000  5.000  166.667  122.348  814.224   8.000  1.000  2.713   26.875  10.000
+# 40.170  0.403   10.493   18.464  109.977   0.912  0.084  0.206    5.554   0.932
+#      estlvs
+#2.511356e+04
+#6.943271e+01
+#6.128821e+06
+#1.486031e+05
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#262.677  2.640  0.489  0.293  0.412  0.549  0.117  0.181
+#221.000  2.000  0.118  0.000  0.167  0.251  0.000  0.043
+#316.000  6.000  8.304  0.500  0.500  0.994  0.494  0.614
+# 13.447  0.832  0.370  0.152  0.108  0.126  0.089  0.129
+# real    0m41.169s user    3m29.413s sys     0m1.202s
+# leaf-wise about 2x worse than on ave, time-wise about 30 % worse.
+
 # N=8:
 
 # Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
@@ -292,14 +358,6 @@
 # 1000 : 9.23472943233336260382e+07 2.91823309719039523462e+09 4.59202317326371462196e+10; 3.33643219877778795315e+09
 # real 2m28.504s user 24m21.975s sys 0m4.094s
 # Failure in reproduction.
-
-# Alternative optimisation on max (MAX_TIME 10000s, rep=100):
-# 777  4730.341461  -0.87       2.0        0.33      -3.37      -2.999999   5.0
-# Blackbox evaluations: 1250 Total model evaluations: 108451 Cache hits: 284 Total number of evaluations: 1534
-# Reproduction: XXX
-
-# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
-# XXX running on server
 
 
 squares A B aux
