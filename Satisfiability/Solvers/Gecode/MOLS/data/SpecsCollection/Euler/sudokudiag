@@ -293,10 +293,12 @@
 # real 2m28.504s user 24m21.975s sys 0m4.094s
 # Failure in reproduction.
 
-# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
-# XXX running on server
-
 # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# 777  4730.341461  -0.87       2.0        0.33      -3.37      -2.999999   5.0
+# Blackbox evaluations: 1250 Total model evaluations: 108451 Cache hits: 284 Total number of evaluations: 1534
+# Reproduction: XXX
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
 # XXX running on server
 
 
