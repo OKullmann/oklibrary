@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 12, 0, 0, 0
-# >= 7
+# 56
 
 # See ../Pandiagonal for the basic data (k=1); so a necessary
 # condition for satisfiability is that N is not divisible by 2 or 3.
@@ -63,15 +63,15 @@
 # N=11:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom "" 1 16 ""
-# running on server2 XXX
+# aborted after one hour wallclock without finding a solution
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindom "" 1 16 ""
-# running on server2 XXX
+# aborted after one hour wallclock without finding a solution
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX
+# aborted after one hour wallclock without finding a solution
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
-# running on server2 XXX
+# aborted after one hour wallclock: found 7 solutions quickly.
 
 
 # N=12:
@@ -82,7 +82,50 @@
 # MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom bin mindom "" 1 16 ""
 # running on server2 XXX
 # MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom enu mindom "" 1 16 ""
-# running on server2 XXX
+# aborted after one hour wallclock without finding a solution
+
+
+
+# rlaMols:
+
+# 2 <= N <= 10:
+
+# ./rlaMols 2,10 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" "" 1 1 ""
+# solves all problems quickly.
+# enu seems even better.
+
+# N = 11:
+
+# ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 12 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 11   +count dom enu mindegdom  asc  relpr   1       56     774.834     602582  0     3327     424     2903
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#2304.974  1.119    7.161  109.173  182.897   2.104  0.000   5.820    1.213  3.335
+#1266.000  0.000    0.000   64.064   58.294   1.000  0.000   0.531    0.000  0.000
+#2530.000  3.500   86.721  114.961  408.440   4.000  0.000  14.341   17.598  6.000
+# 300.355  0.365   20.225   12.187   43.149   0.393  0.000   2.365    3.584  0.956
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#2190.531  2.094    0.143   13.468   41.316   1.241  0.019   1.304    1.654  4.450
+#1027.000  1.081    0.000    0.426    1.023   1.000  0.000   0.005    0.255  3.000
+#2427.000  7.000    1.714   87.143  247.373   3.000  1.000  10.942   11.998  7.000
+# 453.143  1.010    0.261   14.963   50.030   0.459  0.138   1.806    1.507  0.855
+
+# N = 12:
+
+# ./rlaMols 12 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 12 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12   +count dom enu mindegdom  asc  relpr   1        0    8163.754    1891684  1    18543    2133    16410
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#3064.277  0.914    0.794  112.435  191.021   2.097  0.000  13.939    0.173   7.902
+#2763.000  0.000    0.000  111.458  111.038   1.000  0.000   6.973    0.000   0.000
+#3456.000  2.000    2.550  113.702  365.403   4.000  0.000  28.053    0.596  14.000
+#  78.808  0.334    0.354    0.248   42.587   0.598  0.000   3.137    0.100   1.637
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#3012.094  2.009    0.144   17.769   57.115   1.402  0.000   4.124    0.851   9.128
+#2697.000  1.041    0.000    0.000    0.167   1.000  0.000   0.002    0.167   7.000
+#3128.000  9.000    1.726  107.739  452.801   5.000  0.000  34.096    5.263  15.000
+#  65.122  1.006    0.252   23.737   78.031   0.687  0.000   5.764    0.618   1.332
 
 
 
