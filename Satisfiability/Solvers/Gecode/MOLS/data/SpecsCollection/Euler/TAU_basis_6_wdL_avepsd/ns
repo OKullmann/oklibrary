@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 6 ../basis "" wdL hash cin 100 1 ave+sd
