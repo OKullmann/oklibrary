@@ -74,6 +74,17 @@
 # running on server2 XXX
 
 
+# N=12:
+
+# MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom bin mindom "" 1 16 ""
+# running on server2 XXX
+# MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom enu mindom "" 1 16 ""
+# running on server2 XXX
+
+
 
 squares A B aux
 rred A B aux

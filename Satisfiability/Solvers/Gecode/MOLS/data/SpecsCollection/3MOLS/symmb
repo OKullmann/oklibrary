@@ -8,13 +8,23 @@
 
 # gcMols:
 
+# N=6:
+
+MOLS$ ./gcMols 6 data/SpecsCollection/3MOLS/symmb "" count - - - - 1 1 "t,5"
+# Clearly best is dom+maxdegdom (bin or enu):
+#  6    count dom bin maxdegdom  asc   1         0       0.108        563087        3412        6823     11  0
+#  6    count dom bin maxdegdom desc   1         0       0.108        563046        3412        6823     14  0
+#  6    count dom enu maxdegdom  asc   1         0       0.105        555271        3412        6092     11  0
+#  6    count dom enu maxdegdom desc   1         0       0.105        555271        3412        6092     14  0
+
 # N=7:
 
 # Old run:
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enumbr maxdegdom desc 12
 # aborted after 6h wallclock without finding a solution. New run:
-# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLSsymmb "" +count dom enu maxdegdom desc 1 12
-# aborted after 8 min wallclock-time without finding a solution.
+
+# MOLS$ time ./gcMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom desc 1 16 "gnds,600000000"
+# running on server2 XXX
 
 
 
