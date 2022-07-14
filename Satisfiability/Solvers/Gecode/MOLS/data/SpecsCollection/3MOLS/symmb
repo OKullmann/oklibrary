@@ -282,18 +282,103 @@
 # real    1m30.998s user    14m54.633s sys     0m1.831s
 # Testing it:
 # TAU_symmb_7_newv_avepsd$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "-0.03998,10.0,-5.00005,2.00003,-9.999861,5.999987" "" ""
-# Running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       64  102206.516   69850657  0   687748  296998   390750        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 874.628  0.723   14.844  124.577  162.174   2.001  0.000   2.128    0.423  12.105
+# 658.000  0.000    2.811   58.879   13.674   1.000  0.000   0.020    0.000   0.000
+#1104.000  3.000  416.522  127.513  874.634   9.000  0.000  23.729   23.983  19.000
+#  33.680  0.488    3.649    1.129   74.280   0.911  0.000   1.279    0.611   1.781
+#    mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#822.763  1.687     3.680   25.488   63.420   1.420  0.000   0.943    3.503  13.814
+#270.000  1.027     0.000    0.000    0.240   1.000  0.000   0.000    0.228   9.000
+#917.000  6.000  1100.000  126.494  868.743   9.000  1.000  24.789   24.827  20.000
+# 42.115  0.469     7.537   29.898   90.290   0.788  0.013   1.364    2.058   1.425
+#      estlvs
+#1.772336e+06
+#1.268052e+04
+#2.458910e+10
+#4.780978e+07
+#    mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#495.846  2.316  0.000  0.337  0.454  0.580  0.116   1.756
+#252.000  2.000  0.000  0.000  0.167  0.194  0.000   0.028
+#593.000  6.000  0.002  0.500  0.500  0.988  0.488  13.639
+# 14.999  0.624  0.000  0.124  0.085  0.116  0.087   0.552
+# real    124m45.561s user    1703m26.553s sys     38m52.377s
+# Slighty better than above.
 
 
 # Optimising TAUscan on sd via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_sd> nomad np
-# running on server XXX
+# 413   506813.883727  -0.381584   7.031967  -8.2719     4.275833  -8.461633   8.1277
+# Blackbox evaluations: 677 Total model evaluations: 58626 Cache hits: 164 Total number of evaluations: 841
+# Rerunning TAUscan:
+# TAU_symmb_7_newv_sd$ time ./TAUscan 7 ../symmb "" newv hash "-0.381584,7.031967,-8.2719,4.275833,-8.461633,8.1277" 1000 10 all
+# 1000 : 4.93357556552732145239e+03 4.20762984341510383615e+05 3.25286353920967130634e+07; 1.25432439799751649753e+06
+# real    2m24.606s user    23m45.206s sys     0m4.526s
+# Here sd is actually quite large.
+# Testing it:
+# TAU_symmb_7_newv_sd$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "-0.381584,7.031967,-8.2719,4.275833,-8.461633,8.1277" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       64   84767.084   68073424  0   694004  301893   392111        0
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 881.702  0.730   14.899  124.458   163.686   2.018  0.000   1.596    0.437  11.979
+# 700.000  0.000    2.811   58.199    10.341   1.000  0.000   0.021    0.000   0.000
+#1104.000  3.000  564.706  127.062  1066.007  11.000  0.000  13.906   23.983  18.000
+#  28.974  0.487    4.107    1.102    75.774   0.922  0.000   0.944    0.626   1.752
+#    mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#833.385  1.660     3.926   26.198   65.458   1.436  0.000   0.727    3.579  13.675
+#270.000  1.028     0.000    0.000    0.241   1.000  0.000   0.000    0.227   8.000
+#920.000  6.000  1033.333  125.931  914.033   9.000  1.000  12.695   28.300  19.000
+# 38.178  0.428     6.132   29.861   91.755   0.802  0.013   1.027    2.079   1.409
+#      estlvs
+#3.311371e+07
+#3.767594e+03
+#1.087123e+13
+#1.736523e+10
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#498.541  2.299  0.002  0.342  0.458  0.580  0.115  1.302
+#252.000  2.000  0.000  0.000  0.167  0.187  0.000  0.029
+#593.000  6.000  0.060  0.500  0.500  0.983  0.483  2.600
+# 13.612  0.625  0.001  0.124  0.084  0.115  0.087  0.381
+# real    113m1.563s user    1412m47.097s sys     55m5.622s
+# Basically very similar to above.
 
 
 # Optimising TAUscan on max via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_max> nomad np
-# running on server2 XXX
-
+# 754    4056106.191612   0.02035    8.025     -9.9945     7.000762  -7.97425    9.999833
+# Blackbox evaluations: 1011 Total model evaluations: 88584 Cache hits: 334 Total number of evaluations: 1345
+# Rerunning TAUscan:
+# TAU_symmb_7_newv_max$ time ./TAUscan 7 ../symmb "" newv hash "0.02035,8.025,-9.9945,7.000762,-7.97425,9.999833" 1000 10 all
+# 1000 : 1.75364587345376813712e+04 3.58475544622082449109e+05 4.32873232572826864225e+06; 4.86854058257749930192e+05
+# real    1m30.453s user    14m48.787s sys     0m1.689s
+# Testing it:
+# TAU_symmb_7_newv_max$ time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "0.02035,8.025,-9.9945,7.000762,-7.97425,9.999833" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1       64   87632.372   70835219  0   702624  301119   401505        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 873.859  0.725   14.818  124.600  162.301   2.001  0.000   1.747    0.422  12.036
+# 489.000  0.000    2.811   58.879   11.847   1.000  0.000   0.021    0.000   0.000
+#1104.000  4.000  467.647  127.513  883.499   9.000  0.000  12.375   21.543  19.000
+#  34.397  0.488    3.329    1.129   74.462   0.910  0.000   0.975    0.611   1.755
+#    mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#822.659  1.673     3.691   25.468   63.209   1.418  0.000   0.775    3.461  13.734
+#270.000  1.027     0.000    0.000    0.246   1.000  0.000   0.000    0.228   9.000
+#917.000  6.000  1033.333  126.494  885.034   9.000  1.000  11.838   26.867  20.000
+# 41.999  0.453     6.301   29.881   90.171   0.786  0.013   1.094    2.049   1.400
+#      estlvs
+#3.863675e+07
+#1.164983e+04
+#1.471332e+13
+#2.322016e+10
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#495.619  2.333  0.001  0.334  0.452  0.579  0.117  1.430
+#252.000  2.000  0.000  0.000  0.167  0.185  0.000  0.027
+#593.000  6.000  0.040  0.500  0.500  0.979  0.479  2.710
+# 15.193  0.642  0.000  0.127  0.087  0.117  0.088  0.330
+# real    109m1.731s user    1460m32.387s sys     62m29.879s
+# Slightly worse than above (but likely still very similar).
 
 
 squares A B C AB AC BC
