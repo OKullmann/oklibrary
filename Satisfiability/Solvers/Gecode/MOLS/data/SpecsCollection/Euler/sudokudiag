@@ -271,6 +271,10 @@
 # real    0m22.198s user    2m30.670s sys     0m6.047s
 # About 5 % better runtime-wise and leaves-wise than wdL.
 
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU_sudokudiag_7_newv_avepsd> nomad np
+# XXX running on server
+
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # 777  4730.341461  -0.87       2.0        0.33      -3.37      -2.999999   5.0
 # Blackbox evaluations: 1250 Total model evaluations: 108451 Cache hits: 284 Total number of evaluations: 1534
