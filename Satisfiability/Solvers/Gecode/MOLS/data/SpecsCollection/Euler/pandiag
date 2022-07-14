@@ -1,15 +1,79 @@
 # Counts for N >= 2:
-# 0, 0, 0, 2, 0, 12, 0, 0, ?
+# 0, 0, 0, 2, 0, 12, 0, 0, 0
 # >= 7
 
-# For N=9 dom+mindom seems best.
-# N=10 known to be unsatisfiable (see Pandiagonal), but seems a hard instance
-# here (mindom seems needed for "rprod", while maxdom seems needed for
-# "moddiag"?).
-# For N=11 dom+maxdom+desc seems best.
+# See ../Pandiagonal for the basic data (k=1); so a necessary
+# condition for satisfiability is that N is not divisible by 2 or 3.
+
+# According to literature, N=13 is satisfiable.
 
 # Question: it seems that orthogonality does not make much of a further
 # restriction to pandiagonality?!?
+
+
+# gcMols:
+
+# 2 <= N <= 9:
+
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin mindegdom  asc   1         0       0.210             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.012            14           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.008            21           1           0      0  0
+#  5    count dom bin mindegdom  asc   1         2       0.048           351           0           3      1  0
+#  6    count dom bin mindegdom  asc   1         0       0.016          4689          63         125      6  0
+#  7    count dom bin mindegdom  asc   1        12       0.445       1213006        8386       16795     21  0
+#  8    count dom bin mindegdom  asc   1         0       0.400        759816        7065       14129     20  0
+#  9    count dom bin mindegdom  asc   1         0       0.119         70606         873        1745     13  0
+
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom - mindom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    mindom  asc   1         0       0.059             5           1           0      0  0
+#  2    count dom enu    mindom  asc   1         0       0.152             5           1           0      0  0
+#  3    count dom bin    mindom  asc   1         0       0.064            14           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.034            14           1           0      0  0
+#  4    count dom bin    mindom  asc   1         0       0.008            21           1           0      0  0
+#  4    count dom enu    mindom  asc   1         0       0.007            21           1           0      0  0
+#  5    count dom bin    mindom  asc   1         2       0.025           348           0           3      1  0
+#  5    count dom enu    mindom  asc   1         2       0.029           348           0           3      1  0
+#  6    count dom bin    mindom  asc   1         0       0.019           276           3           5      1  0
+#  6    count dom enu    mindom  asc   1         0       0.008           270           3           4      1  0
+#  7    count dom bin    mindom  asc   1        12       0.008          6750          24          71      4  0
+#  7    count dom enu    mindom  asc   1        12       0.008          6690          24          61      4  0
+#  8    count dom bin    mindom  asc   1         0       0.088        142515        1151        2301     11  0
+#  8    count dom enu    mindom  asc   1         0       0.095        142188        1155        2181      8  0
+#  9    count dom bin    mindom  asc   1         0       2.508       4613105       37330       74659     17  0
+#  9    count dom enu    mindom  asc   1         0       2.672       4558314       37398       64491     12  0
+
+
+# N=10:
+
+# MOLS> ./gcMols 10 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom bin mindegdom  asc   1         0    1707.715    2052506524    15900127    31800253     41  0
+
+# MOLS> ./gcMols 10 data/SpecsCollection/Euler/pandiag "" count dom bin mindom "" 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom bin    mindom  asc   1         0    1940.020    2074015882    12256472    24512943     33  0
+# MOLS> ./gcMols 10 data/SpecsCollection/Euler/pandiag "" count dom enu mindom "" 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom enu    mindom  asc   1         0    1905.727    2068970727    12298519    22307204     24  0
+
+
+# N=11:
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindom "" 1 16 ""
+# running on server2 XXX
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindom "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
+# running on server2 XXX
+
+
 
 squares A B aux
 rred A B aux
