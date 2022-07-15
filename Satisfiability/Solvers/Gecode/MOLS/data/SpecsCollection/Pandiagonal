@@ -9,14 +9,27 @@
 
 # gcMols:
 
-# Far best seems dom+binbr+maxdom.
+# 2 <= N <= 12:
 
-# N=11:
-
-# MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom bin maxdom desc 1 12
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
-#  11   +count dom bin    maxdom desc    1           8       2.866       2356883       64206      128427     23
-# real	0m0.463s user	0m2.873s sys	0m0.111s
+# MOLS> ./gcMols 2,16 data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 12 "t,5"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin mindegdom  asc   1         0       0.191             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.035             7           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.014            11           1           0      0  0
+#  5    count dom bin mindegdom  asc   1         2       0.009            81           0           3      1  0
+#  6    count dom bin mindegdom  asc   1         0       0.008            61           2           3      1  0
+#  7    count dom bin mindegdom  asc   1         4       0.022          1160          25          57      3  0
+#  8    count dom bin mindegdom  asc   1         0       0.008          4487         126         251      5  0
+#  9    count dom bin mindegdom  asc   1         0       0.064         26216         873        1745     14  0
+# 10    count dom bin mindegdom  asc   1         0       0.319        288574        8257       16513     18  0
+# 11    count dom bin mindegdom  asc   1         8       4.639       3996237      110267      220549     25  0
+# 12    count dom bin mindegdom  asc   1         0       8.993       6166249      161829      323657     23  0
+# 13    count dom bin mindegdom  asc   1         0      50.870      38546220      922320     1844770     30  1
+# 14    count dom bin mindegdom  asc   1         0      47.971      23730115      582048     1164178     25  1
+# 15    count dom bin mindegdom  asc   1         0      45.350      19972177      473568      947216     21  1
+# 16    count dom bin mindegdom  asc   1         0      47.898      18195195      411801      823684     21  1
+# enu+mindegdom performs worse.
+# bin+maxdom seems equivalent.
 
 # N=13:
 
@@ -28,8 +41,6 @@
 # N=17:
 
 # Seems a hard satisfiable instance.
-# Decision for 13 <= N <= 16 much easier without rred (also the unsatisfiable
-# cases!); something special is going on here, as indicated also by "maxdom".
 
 
 # Unsatisfiable cases only:
@@ -46,7 +57,7 @@
 # 12    count dom bin    maxdom  asc   1         0       5.912       6166249      161829      323657     13  0
 
 # Seems equivalent to mindegdom:
-#MOLS> ./gcMols "2;3;4;6;8;9;10;12" data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 1 ""
+# MOLS> ./gcMols "2;3;4;6;8;9;10;12" data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  2    count dom bin mindegdom  asc   1         0       0.000             5           1           0      0  0
 #  3    count dom bin mindegdom  asc   1         0       0.000             7           1           0      0  0
@@ -60,11 +71,50 @@
 # N=14:
 
 # time ./gcMols "14" data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 12 ""
-# csltok2 XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 14    count dom bin mindegdom  asc   1         0    7031.223    3045673231    76276913   152553825     43  0
+# real	10m51.224s user	117m11.229s sys	1m58.296s
+
+
+# Without rred, sat-decision seems much easier for N <= 16:
+
+# MOLS> ./gcMols "2,20" "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" count dom bin mindegdom "" 1 12 "t,30"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin mindegdom  asc   1         0       0.151            10           2           3      1  0
+#  3    count dom bin mindegdom  asc   1         0       0.170            34           3           5      1  0
+#  4    count dom bin mindegdom  asc   1         0       0.026           125           4           7      1  0
+#  5    count dom bin mindegdom  asc   1       240       0.030         11021           0         479      5  0
+#  6    count dom bin mindegdom  asc   1         0       0.010           368          17          33      2  0
+#  7    count dom bin mindegdom  asc   1     20160       0.585       1448175        3132       46583     20  0
+#  8    count dom bin mindegdom  asc   1         0       0.005          3594         103         205      3  0
+#  9    count dom bin mindegdom  asc   1         0       0.039          8852         260         519      4  0
+# 10    count dom bin mindegdom  asc   1         0       0.059         32019         897        1793     13  0
+# 11    count dom bin mindegdom  asc   1   3186682     139.134     396676266     1275562     8924664     31  1
+# 12    count dom bin mindegdom  asc   1         0       0.503        319530        8000       15999     24  0
+# 13    count dom bin mindegdom  asc   1    145148     309.708     307005113     6017434    12325331     41  1
+# 14    count dom bin mindegdom  asc   1         0       6.662       3816494       90501      181001     25  0
+# 15    count dom bin mindegdom  asc   1         0      31.504      13977666      323758      647515     36  0
+# 16    count dom bin mindegdom  asc   1         0     161.080      65851385     1439309     2878617     41  0
+# 17    count dom bin mindegdom  asc   1         0     307.556     236217682     4318609     8637636     70  1
+# 18    count dom bin mindegdom  asc   1         0     305.564      84787767     1756221     3512514     17  1
+# 19    count dom bin mindegdom  asc   1         0     348.469     211838611     3596791     7194283     86  1
+# 20    count dom bin mindegdom  asc   1         0     322.776      69648212     1368623     2737311     20  1
+
 
 
 
 # rlaMols:
+
+# 2 <= N <= 10:
+
+# Quickly solved by bin/enu + maxdom/mindegdom/mindom.
+# Indeed all combinations of heuristics seem succesful here.
+
+# N=11:
+
+# MOLS> ./rlaMols 11 data/SpecsCollection/Pandiagonal "" count "" - - "" "" 1 12 "lvs,5000"
+# shows exactly four combinations succesful: bin/enu + maxdom/mindegdom,
+# with bin being better, and maxdom equivalent to mindegdom.
 
 # MOLS> time ./rlaMols 11 data/SpecsCollection/Pandiagonal "" count "" enu maxdom "" "" 1 12
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
@@ -84,10 +134,35 @@
 #   891.000     54.000     77.000     10.000     880.000     2565.000     4.000     1.000     2.323     0.137     0.016
 #   103.917      9.805     13.594      1.185     316.755      467.815     0.586     0.105     0.426     0.020     0.002
 # real	0m16.606s user	2m31.901s sys	0m0.036s
-# Seems to confirm that here bin+maxdom work well.
+# Seems to confirm that here bin+maxdom/mindegdom work well.
+
+# N=12:
+
+# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal "" count dom bin maxdom "" "" 1 12 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12    count dom bin    maxdom  asc  relpr   1        0     202.228      29538  0     1213     606      607
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 963.528  0.241    0.036  113.424  134.528   1.272  0.000  1.203    0.046  10.612
+# 892.000  0.000    0.000  111.893  112.264   1.000  0.000  0.418    0.000   0.000
+#1068.000  2.000    0.401  114.350  382.548   4.000  0.000  5.051    1.304  24.000
+#  35.788  0.436    0.074    0.412   45.113   0.530  0.000  0.613    0.119   4.207
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 930.542  2.411    0.032   23.607   74.502   1.300  0.000  0.636    2.033  12.591
+# 862.000  1.206    0.000    1.856    3.353   1.000  0.000  0.008    0.694   5.000
+#1022.000  9.000    0.837  109.402  430.401   4.000  0.000  5.247    5.686  25.000
+#  32.854  1.419    0.092   18.888   81.562   0.669  0.000  0.758    0.819   3.991
+# Equivalent to mindegdom.
+
+# N=13:
+
+# MOLS> ./rlaMols 13 data/SpecsCollection/Pandiagonal "" +count dom bin maxdom "" "" 1 12 ""
+# csltok2 XXX
+
 
 
 # laMols with dL:
+
+# N=10:
 
 # MOLS> time ./laMols 10 data/SpecsCollection/Pandiagonal "" +count "" enu dL "" "" 1 12 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
@@ -107,7 +182,10 @@
 # aborted after 2min wallclock-time without finding a solution.
 
 
+
 # laMols with wdL:
+
+# N=11:
 
 # MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu wdL "" "" 1 12 ""
 # aborted after 3min wallclock-time without finding a solution.
@@ -145,7 +223,10 @@
 # aborted after 11h wallclock-time without decision.
 
 
+
 # laMols with newvars:
+
+# N=11:
 
 # MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +count "" enu newv "" "" 1 12 "0,0,0,0,0,0,10,0,0,0"
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc

@@ -15,35 +15,49 @@
 
 # 2 <= N <= 9:
 
-# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 12 ""
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  2    count dom bin mindegdom  asc   1         0       0.210             5           1           0      0  0
-#  3    count dom bin mindegdom  asc   1         0       0.012            14           1           0      0  0
-#  4    count dom bin mindegdom  asc   1         0       0.008            21           1           0      0  0
-#  5    count dom bin mindegdom  asc   1         2       0.048           351           0           3      1  0
-#  6    count dom bin mindegdom  asc   1         0       0.016          4689          63         125      6  0
-#  7    count dom bin mindegdom  asc   1        12       0.445       1213006        8386       16795     21  0
-#  8    count dom bin mindegdom  asc   1         0       0.400        759816        7065       14129     20  0
-#  9    count dom bin mindegdom  asc   1         0       0.119         70606         873        1745     13  0
+#  2    count dom bin mindegdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.000            14           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.000            21           1           0      0  0
+#  5    count dom bin mindegdom  asc   1         2       0.000           351           0           3      1  0
+#  6    count dom bin mindegdom  asc   1         0       0.001          4689          63         125      6  0
+#  7    count dom bin mindegdom  asc   1        12       0.288       1213006        8386       16795     18  0
+#  8    count dom bin mindegdom  asc   1         0       0.241        759816        7065       14129      9  0
+#  9    count dom bin mindegdom  asc   1         0       0.029         70606         873        1745      6  0
 
-# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom - mindom "" 1 12 ""
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Euler/pandiag "" count dom - mindom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  2    count dom bin    mindom  asc   1         0       0.059             5           1           0      0  0
-#  2    count dom enu    mindom  asc   1         0       0.152             5           1           0      0  0
-#  3    count dom bin    mindom  asc   1         0       0.064            14           1           0      0  0
-#  3    count dom enu    mindom  asc   1         0       0.034            14           1           0      0  0
-#  4    count dom bin    mindom  asc   1         0       0.008            21           1           0      0  0
-#  4    count dom enu    mindom  asc   1         0       0.007            21           1           0      0  0
-#  5    count dom bin    mindom  asc   1         2       0.025           348           0           3      1  0
-#  5    count dom enu    mindom  asc   1         2       0.029           348           0           3      1  0
-#  6    count dom bin    mindom  asc   1         0       0.019           276           3           5      1  0
-#  6    count dom enu    mindom  asc   1         0       0.008           270           3           4      1  0
-#  7    count dom bin    mindom  asc   1        12       0.008          6750          24          71      4  0
-#  7    count dom enu    mindom  asc   1        12       0.008          6690          24          61      4  0
-#  8    count dom bin    mindom  asc   1         0       0.088        142515        1151        2301     11  0
-#  8    count dom enu    mindom  asc   1         0       0.095        142188        1155        2181      8  0
-#  9    count dom bin    mindom  asc   1         0       2.508       4613105       37330       74659     17  0
-#  9    count dom enu    mindom  asc   1         0       2.672       4558314       37398       64491     12  0
+#  2    count dom bin    mindom  asc   1         0       0.000             5           1           0      0  0
+#  2    count dom enu    mindom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin    mindom  asc   1         0       0.000            14           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000            14           1           0      0  0
+#  4    count dom bin    mindom  asc   1         0       0.000            21           1           0      0  0
+#  4    count dom enu    mindom  asc   1         0       0.000            21           1           0      0  0
+#  5    count dom bin    mindom  asc   1         2       0.000           348           0           3      1  0
+#  5    count dom enu    mindom  asc   1         2       0.000           348           0           3      1  0
+#  6    count dom bin    mindom  asc   1         0       0.000           276           3           5      1  0
+#  6    count dom enu    mindom  asc   1         0       0.000           270           3           4      1  0
+#  7    count dom bin    mindom  asc   1        12       0.000          6750          24          71      4  0
+#  7    count dom enu    mindom  asc   1        12       0.002          6690          24          61      4  0
+#  8    count dom bin    mindom  asc   1         0       0.055        142515        1151        2301      8  0
+#  8    count dom enu    mindom  asc   1         0       0.053        142188        1155        2181      8  0
+#  9    count dom bin    mindom  asc   1         0       1.862       4613105       37330       74659     12  0
+#  9    count dom enu    mindom  asc   1         0       1.883       4558314       37398       64491     12  0
+
+# MOLS> ./gcMols 2,12 data/SpecsCollection/Euler/pandiag "" count dom bin maxdom "" 1 1 "t,5"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.000            14           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.000            21           1           0      0  0
+#  5    count dom bin    maxdom  asc   1         2       0.000           351           0           3      1  0
+#  6    count dom bin    maxdom  asc   1         0       0.001          5336          66         131      6  0
+#  7    count dom bin    maxdom  asc   1        12       0.284       1201277        8265       16553     13  0
+#  8    count dom bin    maxdom  asc   1         0       5.000      18019820      105685      211380     17  1
+#  9    count dom bin    maxdom  asc   1         0       4.996      15087020       74588      149192     20  1
+# 10    count dom bin    maxdom  asc   1         0       4.996      14991112       69641      139299     22  1
+# 11    count dom bin    maxdom  asc   1         0       4.996      15255653       57299      114625     31  1
+# 12    count dom bin    maxdom  asc   1         0       5.000      12784929       37674       75385     38  1
 
 
 # N=10:
