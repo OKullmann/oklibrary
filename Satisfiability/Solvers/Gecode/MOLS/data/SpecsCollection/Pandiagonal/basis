@@ -229,9 +229,45 @@
 #    31.248     0.000     0.110     0.643      3.694      6.881      3.200     0.308
 # real	19m36.109s user	205m38.958s sys	1m30.242s
 
+
 # Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
 # TAU_basis_11_wdL_ave$ nomad np
-# running on server2 XXX
+# aborted after short time:
+# 1 5639389.178388   0.1        0.1        0.1        0.1        0.1        0.1        0.1        0.1        0.1
+# 2     701.685435   4.1        4.1        2.1        6.1        1.1        1.1        0.1        3.1        2.1
+# 4     695.860974   1.1        3.1        7          4.1        6.1        5.1        5.1        4.1        3.1
+# 22     658.733329   1.1        3.1        6          4.1        7          7          6.1        2.1        2.1
+# 32     534.61069    1.1        1.1        2          4.1        7          5          6.1        0.1        6.1
+# Rerunning TAUscan:
+# TAU_basis_11_wdL_ave$ time ./TAUscan 11 ../basis "" wdL hash "1.1,1.1,2,4.1,7,5,6.1,0.1,6.1" 100 10 all
+# 100 : 5.75903664272094143878e+01 5.34610690239953388059e+02 6.66006870739301376050e+03; 1.00143911596695488458e+03
+# real    0m2.851s user    0m27.167s sys     0m0.139s
+# Testing it:
+# TAU_basis_11_wdL_ave$ time ./laMols 11 ../basis "" +count dom enu wdL "" "" 1 16 "1.1,1.1,2,4.1,7,5,6.1,0.1,6.1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1        8     109.240      66215  0     1375     181     1194        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#655.337  0.175    0.001  114.200  132.061   1.221  0.000  0.681    0.349  3.105
+#476.000  0.000    0.000   72.180  114.286   1.000  0.000  0.161    0.000  0.000
+#770.000  2.286    0.052  118.375  374.135   4.000  0.000  2.538    6.286  6.000
+# 48.963  0.424    0.005    7.493   47.462   0.592  0.000  0.362    1.209  1.046
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#607.087  1.845    0.027   24.757  104.150   1.519  0.007  0.481    4.662  4.223
+#363.000  1.029    0.000    0.000    0.942   1.000  0.000  0.000    0.942  2.000
+#700.000  8.000    1.639  112.342  364.143   4.000  1.000  2.359   16.986  7.000
+# 66.156  1.035    0.093   20.897   73.236   0.633  0.082  0.427    2.357  0.965
+#      estlvs
+#8.522595e+04
+#5.759037e+01
+#3.861327e+06
+#3.727949e+05
+#          mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 42500444.028  7.591  0.000  0.099  0.133  0.172  0.024  0.611
+#   618792.000  6.000  0.000  0.066  0.125  0.125  0.000  0.171
+#142004333.000  8.000  0.000  0.166  0.167  0.293  0.067  0.981
+# 26246327.783  0.631  0.000  0.018  0.012  0.029  0.011  0.230
+# real    0m10.694s user    1m49.250s sys     0m8.693s
+# A bit better than the above hand-optimisation.
 
 
 
@@ -240,6 +276,10 @@
 # Trying to extend that weight-tuple, by extending the 0.2-middle-part:
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu wdL "" relpr 1 12 "0.1,0.2,0.2,0.2,0.2,0.2,1,1,1,1"
 # aborted after 11h wallclock-time without decision.
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=200):
+# TAU_basis_12_wdL_ave$ nomad np
+# running on server2 XXX
 
 
 
