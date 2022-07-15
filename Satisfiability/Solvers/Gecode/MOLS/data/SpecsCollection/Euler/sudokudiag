@@ -352,28 +352,6 @@
 # real    0m41.169s user    3m29.413s sys     0m1.202s
 # leaf-wise about 2x worse than on ave, time-wise about 30 % worse.
 
-# N=8:
-
-# Optimising TAUscan via Nomad (MAX_TIME 72000s, rep=1000):
-# TAU_sudokudiag_8_newv_ave> nomad np
-# 1058 2627044713.650797   0.0126     0.0051     0.0101     0.59105    0.9438     0.0001
-# Blackbox evaluations: 1197 Cache hits: 377 Total number of evaluations: 1574
-# Reproduction:
-# time ./TAUscan 8 ../sudokudiag "" newv hash "0.0126,0.0051,0.0101,0.59105,0.9438,0.0001" 1000 10 all
-# 1000 : 5.24217234266035630426e+07 2.65492169238797818660e+09 2.86036817427294966355e+10; 3.40837561298379552970e+09
-# real    4m39.637s user    38m44.672s sys     0m2.909s
-# Failure in reproduction.
-
-# Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
-# TAU_sudokudiag_8_newv_avepsd> nomad np
-# 967 6062398371.445838   0.0001     0.0201     0.0001     0.21       0.0001     1.33
-# Blackbox evaluations: 1205 Total model evaluations: 101032 Cache hits: 436 Total number of evaluations: 1641
-# Reproduction:
-# time ./TAUscan 8 ../sudokudiag "" newv hash "0.0001,0.0201,0.0001,0.21,0.0001,1.33" 1000 10 all
-# 1000 : 9.23472943233336260382e+07 2.91823309719039523462e+09 4.59202317326371462196e+10; 3.33643219877778795315e+09
-# real 2m28.504s user 24m21.975s sys 0m4.094s
-# Failure in reproduction.
-
 
 squares A B aux
 rred A B aux

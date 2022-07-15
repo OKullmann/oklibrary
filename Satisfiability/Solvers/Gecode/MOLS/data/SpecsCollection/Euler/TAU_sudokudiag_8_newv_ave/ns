@@ -1,2 +1,0 @@
-#!/bin/bash
-cat $1 | ./TAUscan 8 ../sudokudiag "" newv hash cin 1000 10 ave
