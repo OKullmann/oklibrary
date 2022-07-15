@@ -197,7 +197,7 @@
 # Best result for wdL yet (but not as good as rlaMols).
 
 # Alternative optimisation on max:
-# TAU_symmb_7_wdL_max$ nomad np XXX
+# TAU_symmb_7_wdL_max$ nomad np
 # 722  43574833.08134    5.910021   6.03105    6.981906   0.0001     6.904023
 # A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
 # Blackbox evaluations: 729 Total model evaluations: 68593 Cache hits: 224 Total number of evaluations: 953
