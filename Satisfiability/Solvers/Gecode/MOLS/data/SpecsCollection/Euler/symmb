@@ -19,37 +19,57 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_wdL_ave> nomad np
-# XXX running on server
+# 578 549496.826642   0.0001     3.099998   0.0001     0.6        0.11
+# Blackbox evaluations: 1008 Total model evaluations: 91474 Cache hits: 218 Total number of evaluations: 1226
+# Reproduction:
+# XXX
 
 # # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_avepsd> nomad np
-# XXX running on server
-
-# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
-# TAU_symmb_7_wdL_sd> nomad np
-# XXX running on server
+# 695 1025478.820547   2.230004   0.0001     0.019999   0.140099   0.0001
+# Blackbox evaluations: 1146 Total model evaluations: 101429 Cache hits: 418 Total number of evaluations: 1564
+# Reproduction:
+# XXX
 
 # # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_max> nomad np
-# XXX running on server
+# 148 12094605.26164    0.07       2.94       0.19       0.15       0.1801
+# Blackbox evaluations: 713 Total model evaluations: 66346 Cache hits: 274 Total number of evaluations: 987
+# Reproduction:
+# XXX
 
+# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_wdL_sd> nomad np
+# 317  605218.43071    0.1874     0.66       0.0093     0.0784     0.0027
+# Blackbox evaluations: 1083 Total model evaluations: 96287 Cache hits: 430 Total number of evaluations: 1513
+# Reproduction:
+# XXX
 
 # laMols with newvars:
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_newv_ave> nomad np
-# XXX running on server
+# 970 188092.082182   0.5118     9.973     -9.6        2.07998   -9.9645     8.9415
+# Blackbox evaluations: 1228 Total model evaluations: 106790 Cache hits: 387 Total number of evaluations: 1615
+# Reproduction:
+# XXX
 
 # # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_avepsd> nomad np
-# XXX running on server
-
-# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
-# TAU_symmb_7_newv_sd> nomad np
-# XXX running on server
+# 808  761943.422038  -0.9463    -1.0229    -5.97       3.2       -9.9736    -7.08
+# Blackbox evaluations: 1167 Total model evaluations: 97480 Cache hits: 398 Total number of evaluations: 1565
+# Reproduction:
+# XXX
 
 # # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_max> nomad np
+# 364  3416938.241659   0.100952   9.003906  -7.0349     5.0009    -4.0073    10
+# Blackbox evaluations: 1192 Total model evaluations: 104106 Cache hits: 380 Total number of evaluations: 1572
+# Reproduction:
+# XXX
+
+# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# TAU_symmb_7_newv_sd> nomad np
 # XXX running on server
 
 squares A B aux
