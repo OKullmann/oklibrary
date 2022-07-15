@@ -5,6 +5,48 @@
 
 # TODO: Update to being the inverse case, and having the non-inverse case also.
 
+# laMols with wdL:
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_wdL_ave> nomad np
+# XXX running on server
+
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_wdL_avepsd> nomad np
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_wdL_max> nomad np
+# XXX running on server
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_wdL_sd> nomad np
+# XXX running on server
+
+
+# laMols with newvars:
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_newv_ave> nomad np
+# XXX running on server
+
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_newv_avepsd> nomad np
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_newv_max> nomad np
+# XXX running on server
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
+# TAU_diag_7_newv_sd> nomad np
+# XXX running on server
+
+
 squares A B aux
 rred A B aux
 ls A B aux

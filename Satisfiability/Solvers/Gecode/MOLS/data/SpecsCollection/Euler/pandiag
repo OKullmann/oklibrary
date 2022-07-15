@@ -161,7 +161,46 @@
 #   8.300  0.681    0.096    1.004    3.006   0.000  0.000  0.244    0.098   0.183
 
 
+# laMols with wdL:
 
+# N=11:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_wdL_ave> nomad np
+# XXX running on server
+
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_wdL_avepsd> nomad np
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_wdL_max> nomad np
+# XXX running on server
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_wdL_sd> nomad np
+# XXX running on server
+
+
+# laMols with newvars:
+
+# N=11:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_newv_ave> nomad np
+# XXX running on server
+
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_newv_avepsd> nomad np
+# XXX running on server
+
+# Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_newv_max> nomad np
+# XXX running on server
+
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_newv_sd> nomad np
+# XXX running on server
 
 squares A B aux
 rred A B aux
