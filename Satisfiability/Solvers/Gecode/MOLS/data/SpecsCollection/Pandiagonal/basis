@@ -286,6 +286,10 @@
 # 200 : 4.01546069410492844631e+02 2.97660724846622105986e+05 1.16149703492788279909e+07; 1.13208901062816250135e+06
 # real    0m15.388s user    2m17.324s sys     0m1.098s
 # The node-forecast is still very high.
+# Rerunning with MAX_TIME 40000s, rep=1000, and optimising on sd:
+# TAU_basis_12_wdL_sd$ nomad np
+# running on server2 XXX
+
 
 
 
@@ -322,10 +326,10 @@
 #   450560.000     8.000     0.024     114689.000     114689.000     114689.000     8903.627     7.000     0.990
 #    85180.923     0.985     0.005      23945.278      25462.819      28101.377     1922.546     1.304     0.223
 # real	0m14.909s user	1m48.660s sys	0m0.715s
-# N=12, with a zero added at the end to the weights:
 
 # N=12:
 
+# The above weight, with a zero added at the end to the weights:
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu newv - "" 1 12 "0,0,0,0,0,0,10,0,0,0,0"
 # asc aborted after 90min wallclock, desc aborted after 25min.
 
@@ -336,9 +340,17 @@
 # Rerunning TAUscan:
 # TAU_basis_12_newv_ave$ ./TAUscan 12 ../basis "" newv hash "-0.9999,-2.0,-3.99999,6.82,10,0.98,2.73,6.0,-0.72,-9.12,-3.99" 200 10 all
 # 200 : 6.43013602430293104636e+01 3.43090970107143118958e+06 2.89367718959901927010e+08; 2.19378933749330136998e+07
+
 # Rerunning with MAX_TIME 40000s, rep=1000:
 # TAU_basis_12_newv_ave$ nomad np2
-# running on server2 XXX
+# 1610   133024.491374   0.610036   9.968559   9.610872  -7.963618  -9.990309  -9.9998     6.839984  -6.18007    3.838102  -5.817729  -7.540147
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1916 Total model evaluations: 145560 Cache hits: 452 Total number of evaluations: 2368
+# Rerunning TAUscan:
+# TAU_basis_12_newv_ave$ time ./TAUscan 12 ../basis "" newv hash "0.610036,9.968559,9.610872,-7.963618,-9.990309,-9.9998,6.839984,-6.18007,3.838102,-5.817729,-7.540147" 1000 10 all
+# 1000 : 3.24800497534713611347e+02 1.07509225640980379228e+06 7.33020669327977931127e+08; 2.33193583370576683501e+07
+# real    1m25.237s user    13m36.066s sys     0m13.163s
+# Doesn't look much better.
 
 
 squares A
