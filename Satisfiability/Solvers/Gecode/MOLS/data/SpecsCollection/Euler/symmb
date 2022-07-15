@@ -70,7 +70,11 @@
 
 # # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_sd> nomad np
-# XXX running on server
+# 880 430668.426931  -0.03      10.0       -6.0        4.0       -8.0       10.0
+# Blackbox evaluations: 1046 Total model evaluations: 89563 Cache hits: 381 Total number of evaluations: 1427
+# Reproduction:
+# XXX
+
 
 squares A B aux
 red A
