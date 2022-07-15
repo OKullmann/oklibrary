@@ -331,7 +331,14 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=200):
 # TAU_basis_12_newv_ave$ nomad np
-# running in server2 XXX
+# 863   732868.470418  -0.9999    -2.0       -3.99999    6.82      10          0.98       2.73       6.0       -0.72      -9.12      -3.99
+# Blackbox evaluations: 1017 Total model evaluations: 73367 Cache hits: 220 Total number of evaluations: 1237
+# Rerunning TAUscan:
+# TAU_basis_12_newv_ave$ ./TAUscan 12 ../basis "" newv hash "-0.9999,-2.0,-3.99999,6.82,10,0.98,2.73,6.0,-0.72,-9.12,-3.99" 200 10 all
+# 200 : 6.43013602430293104636e+01 3.43090970107143118958e+06 2.89367718959901927010e+08; 2.19378933749330136998e+07
+# Rerunning with MAX_TIME 40000s, rep=1000:
+# TAU_basis_12_newv_ave$ nomad np2
+# running on server2 XXX
 
 
 squares A
