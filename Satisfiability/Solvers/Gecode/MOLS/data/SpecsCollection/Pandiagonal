@@ -156,15 +156,30 @@
 # N=13:
 
 # MOLS> ./rlaMols 13 data/SpecsCollection/Pandiagonal "" +count dom bin maxdom "" "" 1 12 ""
-# csltok2 XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 13   +count dom bin    maxdom  asc  relpr   1        0   11244.919    6619151  1   181492   90798    90694
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 547.286  0.433    1.459  116.639   165.006   1.633  0.000   1.068    0.778  27.929
+# 332.000  0.000    0.000   67.594    92.593   1.000  0.000   0.337    0.000   0.000
+#1404.000  7.000   14.729  126.136  1108.233  11.000  0.000  14.563   22.334  52.000
+#  93.268  0.542    1.823    6.095    83.192   0.950  0.000   0.694    1.805   6.030
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 482.316  1.841    0.473   17.648   82.549   1.421  0.000  0.411    5.691  29.945
+# 256.000  1.032    0.000    0.000    0.563   1.000  0.000  0.001    0.523   6.000
+#1174.000  8.000   11.856  121.411  894.589  10.000  0.000  6.920   29.851  53.000
+#  77.990  0.653    0.862   17.507   97.022   0.822  0.000  0.521    4.750   5.838
 
 
 
-# laMols with dL:
+# laMols with wdL:
 
-# N=10:
+# 2 <= N <= 10:
 
-# MOLS> time ./laMols 10 data/SpecsCollection/Pandiagonal "" +count "" enu dL "" "" 1 12 ""
+# The two weight-schemes A, L can solve all problems quickly (no difference regarding
+# the weights visible).
+
+# MOLS> ./laMols 10 data/SpecsCollection/Pandiagonal "" +count "" enu dL "" "" 1 12 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 # 10   +count dom enu   dL   asc  relpr   1        0       8.826        988       19       41     3       22       19       3
 #      vals      props     elvals     prunes      mprune       probes    rounds      solc        tr   qelvals   qprunes
@@ -178,12 +193,7 @@
 #   650.000     7.000     0.065     29.000     38.429     56.000     11.236     1.000     0.528
 #    21.362     0.000     0.006      1.155      4.784     13.279      5.275     0.577     0.025
 # real	0m0.752s user	0m8.835s sys	0m0.000s
-# MOLS> time ./laMols 11 data/SpecsCollection/Pandiagonal "" +enum "" enu dL "" "" 1 12 ""
-# aborted after 2min wallclock-time without finding a solution.
 
-
-
-# laMols with wdL:
 
 # N=11:
 
@@ -218,6 +228,14 @@
 #   410.000     2.000     0.453     1.866     31.406     62.571     31.164     2.082
 #    31.248     0.000     0.110     0.643      3.694      6.881      3.200     0.308
 # real	19m36.109s user	205m38.958s sys	1m30.242s
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 1000s, rep=100):
+# XXX
+
+
+
+# N = 12:
+
 # Trying to extend that weight-tuple, by extending the 0.2-middle-part:
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu wdL "" relpr 1 12 "0.1,0.2,0.2,0.2,0.2,0.2,1,1,1,1"
 # aborted after 11h wallclock-time without decision.
