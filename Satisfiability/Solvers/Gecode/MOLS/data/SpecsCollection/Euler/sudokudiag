@@ -165,10 +165,18 @@
 # Runtime-wise about 10 % better than ave, but leaves-wise about 20 % worse tha ave.
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
-# XXX running on server
+# 892   619.205488   1.0152     6.9893     0.61598    0.00432    6.0729
+# Blackbox evaluations: 1167 Total model evaluations: 109291 Cache hits: 401 Total number of evaluations: 1568
+# Reproduction:
+# XXX
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
-# XXX running on server
+# TAU_sudokudiag_7_wdL_max> nomad np
+# 569  3200.5986     0.101891   4.731994   0.560284   0.010018   3.200225
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1159 Total model evaluations: 100132 Cache hits: 419 Total number of evaluations: 1578
+# Reproduction:
+# XXX
 
 # N=8:
 
@@ -273,7 +281,10 @@
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_sudokudiag_7_newv_avepsd> nomad np
-# XXX running on server
+# 621 1830.418677   0.11035    3.498759   0.030425  -1.990837  -7.002379 -10
+# Blackbox evaluations: 1238 Total model evaluations: 109069 Cache hits: 362 Total number of evaluations: 1600
+# Reproduction:
+# XXX
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # 777  4730.341461  -0.87       2.0        0.33      -3.37      -2.999999   5.0
