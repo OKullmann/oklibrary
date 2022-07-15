@@ -279,7 +279,13 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=200):
 # TAU_basis_12_wdL_ave$ nomad np
-# running on server2 XXX
+# 163    297660.724847   7          2.0001     0.0001     7          5          7          7          0.09       7          1.0001
+# Blackbox evaluations: 1156 Total model evaluations: 88225 Cache hits: 87 Total number of evaluations: 1243
+# Rerunning TAUscan:
+# TAU_basis_12_wdL_ave$ time ./TAUscan 12 ../basis "" wdL hash "7,2.0001,0.0001,7,5,7,7,0.09,7,1.0001" 200 10 all
+# 200 : 4.01546069410492844631e+02 2.97660724846622105986e+05 1.16149703492788279909e+07; 1.13208901062816250135e+06
+# real    0m15.388s user    2m17.324s sys     0m1.098s
+# The node-forecast is still very high.
 
 
 
@@ -317,8 +323,15 @@
 #    85180.923     0.985     0.005      23945.278      25462.819      28101.377     1922.546     1.304     0.223
 # real	0m14.909s user	1m48.660s sys	0m0.715s
 # N=12, with a zero added at the end to the weights:
+
+# N=12:
+
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu newv - "" 1 12 "0,0,0,0,0,0,10,0,0,0,0"
 # asc aborted after 90min wallclock, desc aborted after 25min.
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=200):
+# TAU_basis_12_newv_ave$ nomad np
+# running in server2 XXX
 
 
 squares A
