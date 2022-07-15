@@ -229,8 +229,9 @@
 #    31.248     0.000     0.110     0.643      3.694      6.881      3.200     0.308
 # real	19m36.109s user	205m38.958s sys	1m30.242s
 
-# Optimising TAUscan on ave via Nomad (MAX_TIME 1000s, rep=100):
-# XXX
+# Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
+# TAU_basis_11_wdL_ave$ nomad np
+# running on server2 XXX
 
 
 
