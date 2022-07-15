@@ -13,6 +13,6 @@ basis           UE      CE      CE      CE      SE      SE
 red             U       C       CE      CE      SE      SE
 symmb           U       C       SE      SE      ?       ?
 diag            U       C       SE      SE      ?       ?
-pandiag         U       C       U       U       UE      SE
+pandiag         U       C       U       U       U       S
 sudokudiag      U       C       S       S       ?       ?
 sudokupandiag   U       C       U       U       UE      SE

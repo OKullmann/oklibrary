@@ -6,23 +6,62 @@
 
 # Apparently not on OEIS.
 
+
 # gcMols:
 
 # Far best seems dom+binbr+maxdom.
+
+# N=11:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal "" +count dom bin maxdom desc 1 12
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
 #  11   +count dom bin    maxdom desc    1           8       2.866       2356883       64206      128427     23
 # real	0m0.463s user	0m2.873s sys	0m0.111s
 
+# N=13:
+
 # MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 40h wall-clock and 129 solutions found.
 # Visual inspection indicates that there are no Sudokus, but there are
 # (see SodukuPandiagonal).
 
-# N=17 seems a hard satisfiable instance.
+# N=17:
+
+# Seems a hard satisfiable instance.
 # Decision for 13 <= N <= 16 much easier without rred (also the unsatisfiable
 # cases!); something special is going on here, as indicated also by "maxdom".
+
+
+# Unsatisfiable cases only:
+
+# MOLS> ./gcMols "2;3;4;6;8;9;10;12" data/SpecsCollection/Pandiagonal "" count dom bin maxdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.000             7           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.000            11           1           0      0  0
+#  6    count dom bin    maxdom  asc   1         0       0.000            61           2           3      1  0
+#  8    count dom bin    maxdom  asc   1         0       0.001          4487         126         251      5  0
+#  9    count dom bin    maxdom  asc   1         0       0.017         26216         873        1745      6  0
+# 10    count dom bin    maxdom  asc   1         0       0.191        288574        8257       16513     11  0
+# 12    count dom bin    maxdom  asc   1         0       5.912       6166249      161829      323657     13  0
+
+# Seems equivalent to mindegdom:
+#MOLS> ./gcMols "2;3;4;6;8;9;10;12" data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin mindegdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.000             7           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.000            11           1           0      0  0
+#  6    count dom bin mindegdom  asc   1         0       0.000            61           2           3      1  0
+#  8    count dom bin mindegdom  asc   1         0       0.003          4487         126         251      5  0
+#  9    count dom bin mindegdom  asc   1         0       0.017         26216         873        1745      6  0
+# 10    count dom bin mindegdom  asc   1         0       0.192        288574        8257       16513     11  0
+# 12    count dom bin mindegdom  asc   1         0       5.950       6166249      161829      323657     13  0
+
+# N=14:
+
+# time ./gcMols "14" data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 12 ""
+# csltok2 XXX
+
 
 
 # rlaMols:
