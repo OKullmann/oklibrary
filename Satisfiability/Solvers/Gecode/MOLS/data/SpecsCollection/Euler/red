@@ -17,15 +17,14 @@
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/Euler/red "" count dom enu maxdegdom "" 1 16 ""
-# running on server2 XXX
-# pl bt bh bo 	rt sat t prop flvs nds h
-# dom enumbr maxdegdom asc 	count 342480 100334.181 176337623191 1588775587 2956889080 31
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu maxdegdom  asc   1    342480   92337.310  133424386240  1592675990  2963526787     28  0
 
 # N=8:
 
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/red "" count dom enu maxdegdom "" 1 12 "t,100"
-  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-  8    count dom enu maxdegdom  asc   1        89    1084.057    1782610678    19993226    36623522     37  1
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8    count dom enu maxdegdom  asc   1        89    1084.057    1782610678    19993226    36623522     37  1
 
 
 
@@ -189,6 +188,12 @@
 # 12.000  2.000  0.006  0.042  0.250  0.250  0.000  0.000
 #545.000  4.000  0.173  0.500  0.500  0.860  0.360  0.006
 #143.418  0.756  0.072  0.173  0.099  0.115  0.109  0.002
+# Similar to above.
+
+# Absolute optimisation on lvs:
+# LVS_red_6_wdL> nomad np
+# running on server2 XXX
+
 
 # N=7:
 
@@ -226,6 +231,50 @@
 #    301.000     2.000     0.007       3.000      10.000      10.000       0.000      0.000     0.045
 #   1384.000     7.000     0.098     135.000     164.667     273.000     129.000     45.000     1.126
 #     99.470     1.022     0.012      10.971      17.646      34.234      16.237      4.635     0.081
+
+
+
+# laMols with wdL for bin
+
+# N=6:
+
+# Optimising for bin-branching, on ave works badly due to
+# very high deviations (so that meaningless low values
+# are obtained).
+# Optimising on sd with MAX_TIME=3600 and rep=100 yields
+# some weak results:
+# TAU_red_6_bin_wdL_sd> nomad np
+# Best feasible solution: #39533 ( 2 4.1 2.1 5 ) Evaluation OK f = 3351.5240109572218898 h =   0
+# Blackbox evaluations: 631 Total model evaluations: 23351 Cache hits: 81 Total number of evaluations: 712
+# TAU_red_6_bin_wdL_sd> ./TAUscan 6 ../red "" bin wdL hash "2,4.1,2.1,5" 100 10 all
+# 100 : 3.64865926995509084994e+01 3.72647546898737321697e+03 2.09195960503287841732e+04; 3.42728808723272508230e+03
+# TAU_red_6_bin_wdL_sd> ../../../../laMols 6 ../red "" count dom bin wdL "" "" 1 1 "2,4.1,2.1,5" "" ""
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom bin  wdL   asc  relpr   1        0      48.667     768323  0    12521    6260     6261        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#183.615  0.416   55.277  130.666  124.799   1.484  0.000  0.003    1.958  19.452
+# 12.000  0.000    3.652   23.256    6.452   1.000  0.000  0.000    0.000   0.000
+#310.000  3.000  900.000  200.000  618.142   7.000  0.000  0.022   36.441  60.000
+# 59.744  0.588   95.638   35.394   67.270   0.818  0.000  0.002    4.886   8.653
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 98.458  1.991    7.436   11.899   31.084   1.069  0.000  0.001   13.479  21.448
+#  8.000  1.050    0.000    0.000    1.242   1.000  0.000  0.000    1.242   5.000
+#270.000  5.000  350.000  155.556  644.595   6.000  0.000  0.021   25.116  61.000
+# 78.266  0.562   20.934   21.979   50.897   0.357  0.000  0.002    9.687   8.540
+#      estlvs
+#1.505823e+05
+#3.648659e+01
+#2.203674e+07
+#7.215392e+05
+#      mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 4113.396  2.000  0.035  0.266  0.500  0.734  0.234  0.004
+#   12.000  2.000  0.000  0.005  0.500  0.500  0.000  0.000
+#18231.000  2.000  0.173  0.500  0.500  0.995  0.495  0.009
+# 2850.586  0.000  0.068  0.172  0.000  0.172  0.172  0.002
+
+# Optimising for max (MAX_TIME=3600 and rep=100)
+# TAU_red_6_bin_wdL_max> nomad np
+# running on csltok2 XXX
 
 
 
