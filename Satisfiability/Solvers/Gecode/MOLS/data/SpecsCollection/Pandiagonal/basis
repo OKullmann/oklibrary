@@ -301,8 +301,20 @@
 
 # Rerunning with MAX_TIME 40000s, rep=10000, and optimising on sd:
 # TAU_basis_12_wdL_sd$ nomad np2
-# running on server2 XXX
+# 150 15342185.565422   7          6.255279   1.069906   6.611513   1.334424   5.662677   6          0.203588   4.573916   0.0001
+# Blackbox evaluations: 273 Total model evaluations: 20390 Cache hits: 33 Total number of evaluations: 306
+# Rerunning TAUscan:
+# TAU_basis_12_wdL_sd$ time ./TAUscan 12 ../basis "" wdL hash "7,6.255279,1.069906,6.611513,1.334424,5.662677,6,0.203588,4.573916,0.0001" 10000 10 all
+# 10000 : 4.05301679958376040114e+02 1.33679225126615282579e+06 5.88186296989038851461e+08; 1.53421855654218849913e+07
+# real    11m41.416s user    115m11.732s sys     0m29.661s
+# No real improvement.
 
+
+# laMols with wdL for bin
+
+# Optimising on sd with MAX_TIME=40000 and rep=1000:
+# TAU_basis_12_bin_wdL_sd$ nomad np
+# running on server2 XXX
 
 
 # laMols with newvars:
