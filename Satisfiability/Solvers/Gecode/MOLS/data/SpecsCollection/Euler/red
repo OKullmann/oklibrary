@@ -274,7 +274,7 @@
 # Blackbox evaluations: 631 Total model evaluations: 23351 Cache hits: 81 Total number of evaluations: 712
 # TAU_red_6_bin_wdL_sd> ./TAUscan 6 ../red "" bin wdL hash "2,4.1,2.1,5" 100 10 all
 # 100 : 3.64865926995509084994e+01 3.72647546898737321697e+03 2.09195960503287841732e+04; 3.42728808723272508230e+03
-# TAU_red_6_bin_wdL_sd> ../../../../laMols 6 ../red "" count dom bin wdL "" "" 1 1 "2,4.1,2.1,5" "" ""
+# TAU_red_6_bin_wdL_sd> ./laMols 6 ../red "" count dom bin wdL "" "" 1 1 "2,4.1,2.1,5" "" ""
 #   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  6    count dom bin  wdL   asc  relpr   1        0      48.667     768323  0    12521    6260     6261        0
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
@@ -300,7 +300,34 @@
 
 # Optimising for max (MAX_TIME=3600 and rep=100)
 # TAU_red_6_bin_wdL_max> nomad np
-# running on csltok2 XXX
+# A termination criterion is reached: No termination (all). Min mesh size reached (Algo)
+# Best feasible solution: #39175 ( 2.005 5.00229 0.99981 0.098993 ) Evaluation OK f = 13844.869111929894643 h =   0
+# TAU_red_6_bin_wdL_max> ./TAUscan 6 ../red "" bin wdL hash "2.005,5.00229,0.99981,0.098993" 100 10 all
+# 100 : 3.18021564865660525456e+02 5.15240755434911540966e+03 2.80984897089154951146e+04; 5.52381477511200176744e+03
+# TAU_red_6_bin_wdL_max> ./laMols 6 ../red "" count dom bin wdL "" "" 1 1 "2.005,5.00229,0.99981,0.098993" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom bin  wdL   asc  relpr   1        0      43.818     774783  0    12701    6350     6351        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#178.555  0.370   45.763  131.027  128.629   1.414  0.000  0.003    1.916  19.388
+# 12.000  0.000    0.000   31.579    7.018   1.000  0.000  0.000    0.000   0.000
+#310.000  4.000  900.000  200.000  610.526   8.000  0.000  0.018   39.444  65.000
+# 53.438  0.589   96.603   34.470   62.760   0.744  0.000  0.002    5.027   8.219
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 97.204  1.958    2.909   14.076   34.873   1.070  0.000  0.001   13.957  21.385
+#  8.000  1.091    0.000    0.000    1.190   1.000  0.000  0.000    1.190   5.000
+#240.000  5.000  400.000  141.912  576.757   6.000  0.000  0.015   25.000  66.000
+# 74.716  0.514    7.561   25.158   49.377   0.316  0.000  0.001    9.286   8.100
+#      estlvs
+#2.876788e+04
+#2.117151e+02
+#2.981983e+06
+#1.334957e+05
+#      mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 5210.542  2.000  0.034  0.237  0.500  0.763  0.263  0.004
+#   12.000  2.000  0.000  0.003  0.500  0.500  0.000  0.000
+#18008.000  2.000  0.173  0.500  0.500  0.997  0.497  0.008
+# 3205.984  0.000  0.068  0.174  0.000  0.174  0.174  0.002
+# Very similar to sd.
 
 # Absolute optimisation on lvs:
 # LVS_red_6_bin_wdL> nomad np
