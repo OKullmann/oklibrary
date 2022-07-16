@@ -28,7 +28,7 @@ License, or any later version. */
      - LAR
 
     Lookahead-branching for laMols:
-     - LBRT branching-type (lookahead-brt) bin, enu; plus later binbal
+     - LBRT branching-type (lookahead-brt) enu, bin; plus later binbal
      - LBRO branching-order asc, desc, ascd, descd, rand, tauprobfirst
      - DIS distance deltaL, wdeltaL, newvars
      - SPW special-weights other, zero, one, ap, ld
@@ -235,10 +235,10 @@ namespace Options {
   constexpr int BRTsize = int(BRT::enu) + 1;
 
   enum class LBRT {
-    bin = 0,
-    enu = 1
+    enu = 0,
+    bin = 1
   };
-  constexpr int LBRTsize = int(LBRT::enu) + 1;
+  constexpr int LBRTsize = int(LBRT::bin) + 1;
 
 
   // The Gecode-branching-orders:
@@ -492,9 +492,9 @@ namespace Environment {
     static constexpr const char* sname = "lbt";
     static constexpr int size = Options::LBRTsize;
     static constexpr std::array<const char*, size>
-      string {"bin", "enu"};
+      string {"enu", "bin"};
     static constexpr std::array<const char*, size>
-      estring {"binary-branching", "enumerative-branching"};
+      estring {"enumerative-branching", "binary-branching"};
   };
   template <> struct RegistrationPolicies<Options::GBO> {
     static constexpr const char* name = "order-heuristic";
