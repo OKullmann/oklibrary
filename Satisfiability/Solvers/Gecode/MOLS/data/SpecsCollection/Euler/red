@@ -330,8 +330,34 @@
 # Very similar to sd.
 
 # Absolute optimisation on lvs:
-# LVS_red_6_bin_wdL> nomad np
-# running on server2 XXX
+# LVS_red_6_bin_wdL$ nomad np
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution: #89132 ( 0.0059 0.004561 0.000124 0.0081 ) Evaluation OK f = 3192 h =   0
+# Blackbox evaluations: 1335 Total model evaluations: 102256 Cache hits: 542 Total number of evaluations: 1877
+# LVS_red_6_bin_wdL$ ./laMols 6 ../red "" count dom bin wdL "" "" 1 1 "0.0059,0.004561,0.000124,0.0081" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom bin  wdL   asc  relpr   1        0      16.485     416810  0     6383    3191     3192        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#136.295  0.505  129.442  138.237   97.307   1.521  0.000  0.002    3.687  10.800
+# 12.000  0.000    0.000   32.370    9.868   1.000  0.000  0.000    0.000   0.000
+#310.000  2.500  900.000  200.000  325.521   4.000  0.000  0.008   35.057  17.000
+# 79.996  0.632  164.598   49.261   52.745   0.714  0.000  0.002    7.189   2.303
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 45.700  1.960    0.853    8.011   30.772   1.039  0.000  0.000   21.178  12.796
+#  8.000  1.083    0.000    0.000    2.013   1.000  0.000  0.000    2.013   7.000
+#182.000  5.000  109.091  124.725  390.110   4.000  0.000  0.010   25.000  18.000
+# 67.112  0.256    3.553   18.828   35.052   0.280  0.000  0.001    6.920   1.831
+#      estlvs
+#1.748078e+09
+#2.351956e+02
+#4.688072e+11
+#2.412837e+10
+#   mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#46.116  2.000  0.263  0.403  0.500  0.597  0.097  0.003
+#12.000  2.000  0.016  0.000  0.500  0.500  0.000  0.000
+#85.000  2.000  3.999  0.500  0.500  1.000  0.500  0.010
+#27.582  0.000  0.465  0.140  0.000  0.140  0.140  0.002
+
 
 
 
@@ -478,6 +504,11 @@
 #187.000  4.000  271.561  0.500  0.500  0.841  0.341  0.006
 # 57.108  0.438   41.184  0.105  0.059  0.083  0.071  0.002
 # Likely basically the same.
+
+# Absolute optimisation on lvs:
+# LVS_red_6_newv$ nomad np
+# running on server2
+
 
 # N=7:
 
