@@ -1,0 +1,13 @@
+DIMENSION               10
+BB_EXE                  ns
+BB_OUTPUT_TYPE          OBJ
+X0                      ( 2.65879    0.255279   1.069906   3.611513   0.334424   6.652677   4.561052   0.213588   0.573916   3.627135 )
+LOWER_BOUND             * 0.0001
+UPPER_BOUND             * 7
+NB_THREADS_OPENMP       10
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                40000
+LH_SEARCH               100 10
+MEGA_SEARCH_POLL        true
+SPECULATIVE_SEARCH_MAX  10

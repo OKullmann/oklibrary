@@ -286,10 +286,22 @@
 # 200 : 4.01546069410492844631e+02 2.97660724846622105986e+05 1.16149703492788279909e+07; 1.13208901062816250135e+06
 # real    0m15.388s user    2m17.324s sys     0m1.098s
 # The node-forecast is still very high.
+
 # Rerunning with MAX_TIME 40000s, rep=1000, and optimising on sd:
 # TAU_basis_12_wdL_sd$ nomad np
-# running on server2 XXX
+# 769   3077627.49099    2.65879    0.255279   1.069906   3.611513   0.334424   6.652677   4.561052   0.213588   0.573916   3.627135
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1360 Total model evaluations: 99958 Cache hits: 293 Total number of evaluations: 1653
+# Rerunning TAUscan:
+# TAU_basis_12_wdL_sd$ time ./TAUscan 12 ../basis "" wdL hash "2.65879,0.255279,1.069906,3.611513,0.334424,6.652677,4.561052,0.213588,0.573916,3.627135" 1000 10 all
+# 1000 : 4.04342615394014348706e+02 1.85282333129262268972e+06 3.21146514299636196782e+08; 1.48393714625020086014e+07
+# real    1m10.539s user    11m23.018s sys     0m3.153s
+# Looks much worse than above (but that can be just coincidence, due to the large
+# deviation).
 
+# Rerunning with MAX_TIME 40000s, rep=10000, and optimising on sd:
+# TAU_basis_12_wdL_sd$ nomad np2
+# running on server2 XXX
 
 
 
