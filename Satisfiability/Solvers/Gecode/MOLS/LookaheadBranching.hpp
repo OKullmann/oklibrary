@@ -75,7 +75,7 @@ License, or any later version. */
 
      - VVEMeasure, derived from VVElim, adds a vector for measures of
        the branches
-     - create_la: similar to create_la above, now procuding VVEMeasure*
+     - create_la: similar to create_la above, now producing VVEMeasure*
 
      - class laStats: the class for the global statistics object
        - an object rla_ of type rlaStats
@@ -101,7 +101,7 @@ BUGS:
 
 TODOS:
 
--1. Implement sorting of branchings for binary branching.
+-1. DONE Implement sorting of branchings for binary branching.
 
 2. For estlvs, don't use correced standard-deviation
     - Here we have the complete population.
@@ -163,6 +163,7 @@ TODOS:
 #include <Numerics/Statistics.hpp>
 #include <Numerics/Tau.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
+#include <Transformers/Generators/Random/Distributions.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 
 #include "Conditions.hpp"
@@ -502,7 +503,8 @@ namespace LookaheadBranching {
     }
 
     static GC::ExecStatus commit0(GC::Space& s, const GC::Choice& c0,
-                                  const unsigned a) {
+                                  const unsigned a,
+                                  const bool binfirsteq = true) {
       const VVElim& c = static_cast<const VVElim&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
@@ -517,9 +519,10 @@ namespace LookaheadBranching {
       [[maybe_unused]] const size_t oldsize = node->V[v].size();
       assert(oldsize >= 2);
       if (w == 2) {
-        if (a == 0) GV::set_var(s, node->V[v], c.br[1]);
+        const bool eq_branch = a == not binfirsteq;
+        if (eq_branch) GV::set_var(s, node->V[v], c.br[1]);
         else GV::unset_var(s, node->V[v], c.br[1]);
-        assert(node->V[v].size() == (a==0 ? 1 : oldsize-1));
+        assert(node->V[v].size() == (eq_branch ? 1 : oldsize-1));
       }
       else {
         assert(a+1 < w);
@@ -651,12 +654,15 @@ namespace LookaheadBranching {
   struct VVEMeasure : VVElim {
     using VVElim::br;
     using VVElim::elim;
-    vec_t m;
+    const vec_t m;
+    const bool binfirsteq; // only used for binary branchings
 
     VVEMeasure(const GC::Brancher& b, values_t br, assignment_t elim,
-               vec_t m) noexcept : VVElim(b,br,elim), m(m) {
+               vec_t m, const bool binfirsteq = true) noexcept
+    : VVElim(b,br,elim), m(m), binfirsteq(binfirsteq) {
       assert((br.size()==2 and m.size()==2) or
               br.size()-1 == m.size());
+      assert(binfirsteq or br.size()==2);
     }
   };
 
@@ -664,13 +670,15 @@ namespace LookaheadBranching {
                               const OP::LBRT bt,
                               GC::Brancher& b,
                               VVElim::assignment_t a,
-                              vec_t m) {
+                              vec_t m,
+                              const bool binfirsteq) {
     assert(not values.empty());
     assert((values.size()==1 and m.size()==2) or values.size() == m.size());
     switch (bt) {
     case OP::LBRT::bin : {
       assert(values.size() == 1);
-      return new VVEMeasure(b, {v, values[0]}, std::move(a), std::move(m));
+      return new VVEMeasure(b, {v, values[0]}, std::move(a), std::move(m),
+                            binfirsteq);
     }
     case OP::LBRT::enu : {
       assert(values.size() >= 2);
@@ -851,6 +859,9 @@ namespace LookaheadBranching {
       bstats.set_dist(GenStats::StdVFourStats(pv));
       assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
+
+      // Ordering of branches:
+      bool binfirsteq = true;
       if (P.bt != OP::LBRT::bin) {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
@@ -895,13 +906,27 @@ namespace LookaheadBranching {
           }
         }}
       }
+      else {
+        assert(w == 2);
+        using OP::LBRO;
+        if (P.bo == LBRO::desc or
+            (P.bo == LBRO::ascd and optbt[0] > optbt[1]) or
+            (P.bo == LBRO::descd and optbt[0] < optbt[1]) or
+            (P.bo == LBRO::rand and RandGen::bernoulli(*randgen)) or
+            (P.bo == LBRO::tauprobfirst and
+             RandGen::Discrete(*randgen, pv)() == 1)) {
+          binfirsteq = false;
+          std::swap(mv[0], mv[1]);
+        }
+      }
       bstats.time(timing()-t0);
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
         S->add(stats0, bstats);
       } else S->add(stats0, bstats);
       return create_la(bestv, std::move(values), P.bt, *this,
-                       std::move(stats0.elims()), std::move(mv));
+                       std::move(stats0.elims()), std::move(mv),
+                       binfirsteq);
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("laMols::choice(Archive): not implemented.");
@@ -915,7 +940,7 @@ namespace LookaheadBranching {
       assert(a < c.m.size());
       CT::GenericMols2& node = static_cast<CT::GenericMols2&>(s);
       node.update_clone(c.m[a]);
-      return RlaBranching::commit0(s, c0, a);
+      return RlaBranching::commit0(s, c0, a, c.binfirsteq);
     }
 
   };
