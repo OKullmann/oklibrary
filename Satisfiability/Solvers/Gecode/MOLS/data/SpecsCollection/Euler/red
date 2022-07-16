@@ -192,7 +192,33 @@
 
 # Absolute optimisation on lvs:
 # LVS_red_6_wdL> nomad np
-# running on server2 XXX
+# running on server2
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution: #43973 ( 3.172 0.1205 0.9897 0.6864 ) Evaluation OK f = 3096 h =   0
+# Blackbox evaluations: 1143 Total model evaluations: 65480 Cache hits: 503 Total number of evaluations: 1646
+# LVS_red_6_wdL> ./laMols 6 ../red "" count dom enu wdL "" "" 1 1 "3.172,0.1205,0.9897,0.6864" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0       9.982     397370  0     5189    2093     3096        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#137.773  0.625  128.513  134.512  105.505   1.692  0.000  0.002    4.573   7.125
+# 12.000  0.000    0.000   27.473    6.306   1.000  0.000  0.000    0.000   0.000
+#310.000  4.000  900.000  200.000  332.990   5.000  0.000  0.009   35.119  11.000
+# 79.208  0.687  156.716   50.127   65.020   0.843  0.000  0.002    8.180   1.648
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 74.319  2.054    1.408   11.948   30.825   1.049  0.000  0.000   17.377   8.406
+#  8.000  1.080    0.000    0.000    2.679   1.000  0.000  0.000    2.256   5.000
+#189.000  5.000   30.374  130.055  344.809   4.000  0.000  0.009   25.000  12.000
+# 74.294  0.534    3.881   20.861   40.606   0.290  0.000  0.001    8.764   1.426
+#      estlvs
+#6.106944e+03
+#7.663355e+02
+#5.476722e+04
+#7.579415e+03
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 351.616  2.479  0.077  0.360  0.434  0.534  0.079  0.002
+#  12.000  2.000  0.003  0.051  0.250  0.250  0.000  0.000
+#1364.000  4.000  0.173  0.500  0.500  0.870  0.370  0.008
+# 342.540  0.756  0.079  0.170  0.100  0.121  0.111  0.002
 
 
 # N=7:
@@ -275,6 +301,10 @@
 # Optimising for max (MAX_TIME=3600 and rep=100)
 # TAU_red_6_bin_wdL_max> nomad np
 # running on csltok2 XXX
+
+# Absolute optimisation on lvs:
+# LVS_red_6_bin_wdL> nomad np
+# running on server2 XXX
 
 
 
