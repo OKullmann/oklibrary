@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 36, 0, >= 1640
+# 0, 0, 2, 36, 0, >= 2160
 
 # QUESTION: what is the relation to 3MOLSinv (regarding solutions and solving-
 # time)?
