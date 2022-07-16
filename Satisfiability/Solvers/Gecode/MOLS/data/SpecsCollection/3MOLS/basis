@@ -1,11 +1,13 @@
 # Counts for N >= 2:
-# 0, 0, 2, 36, 0, >= 2160
+# 0, 0, 2, 36, 0, 2400
 
 # QUESTION: what is the relation to 3MOLSinv (regarding solutions and solving-
 # time)?
 
 
 # gcMols:
+
+# N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS "" +count dom enu maxdegdom desc 1 12
 # aborted after 8 min wallclock-time without finding a solution.
@@ -15,13 +17,27 @@
 
 # rlaMols:
 
-# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS "" +count dom enu maxdegdom "" "" 1 12
-# aborted after 90s wallclock-time (8 solutions found).
-# As 3MOLSsymmb, this seems to be one of the rare case where plain rlaMols is better than gcMols.
-# Rerunning for longer:
-# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server2 XXX
+# N=7:
 
+# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu maxdegdom  asc  relpr   1     2400 6721428.278 8263635879  0 75440601 33262378 42178223
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 898.590  0.677   20.095  123.455  145.760   1.779  0.000   2.408    0.327  15.390
+# 588.000  0.000    4.405   74.689   72.372   1.000  0.000   0.019    0.000   0.000
+#1176.000  3.000   87.701  129.762  982.559  10.000  1.000  34.155   28.631  31.000
+#  54.596  0.507    5.634    1.042   50.821   0.685  0.002   1.201    0.452   2.596
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 827.224  1.870    1.421   17.743    31.297   1.140  0.000   0.551    2.486  17.883
+# 270.000  1.031    0.000    0.000     0.246   1.000  0.000   0.000    0.206  10.000
+#1004.000  5.000  248.649  126.579  1212.128  12.000  1.000  39.143   25.848  32.000
+#  34.598  0.383    2.755   24.137    50.556   0.443  0.007   0.893    1.303   2.725
+# real    7813m28.579s user    112023m48.286s sys     3096m31.286s
+
+# N=8:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
