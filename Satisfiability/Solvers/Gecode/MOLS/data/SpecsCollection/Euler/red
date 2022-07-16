@@ -561,8 +561,33 @@
 
 # Absolute optimisation on lvs:
 # LVS_red_6_bin_newv$ nomad np
-# running on server2 XXX
-
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution: #121373 ( -0.822985 9.9742 -3.10621 -1.6376 9.98 ) Evaluation OK f = 2930 h =   0
+# Blackbox evaluations: 1576 Total model evaluations: 122434 Cache hits: 554 Total number of evaluations: 2130
+# LVS_red_6_bin_newv$ ./laMols 6 ../red "" count dom bin newv "" "" 1 1 "-0.822985,9.9742,-3.10621,-1.6376,9.98" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom bin newv   asc  relpr   1        0      19.680     390352  0     5859    2929     2930        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#152.284  0.577  125.828  136.529  119.387   1.748  0.000  0.003    4.273  12.062
+# 12.000  0.000    0.000   31.492   11.250   1.000  0.000  0.000    0.000   0.000
+#310.000  2.200  900.000  200.000  513.661   7.000  0.000  0.013   31.285  21.000
+# 80.119  0.634  177.726   41.634   77.705   0.981  0.000  0.002    7.610   3.373
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 62.329  1.921    1.497   12.342   41.604   1.091  0.000  0.001   20.189  14.057
+#  8.000  1.120    0.000    0.000    1.770   1.000  0.000  0.000    1.770   7.000
+#201.000  5.000   26.120  131.551  417.647   5.000  0.000  0.011   25.000  22.000
+# 76.517  0.361    4.075   22.636   48.266   0.367  0.000  0.001    7.052   3.072
+#      estlvs
+#1.031390e+04
+#1.824685e+02
+#8.502924e+04
+#1.278307e+04
+#    mu1      w       ltau   minp  meanp   maxp    sdd     tb
+# 86.096  2.000    442.633  0.411  0.500  0.589  0.089  0.003
+# 12.000  2.000      0.000  0.010  0.500  0.500  0.000  0.000
+#187.000  2.000  15618.125  0.500  0.500  0.990  0.490  0.010
+# 58.771  0.000   1680.987  0.120  0.000  0.120  0.120  0.003
+# Here the values for estlvs are not that high.
 
 
 squares A B aux
