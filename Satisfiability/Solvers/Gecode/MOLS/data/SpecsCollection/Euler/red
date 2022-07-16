@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 1, 2, 18, 0, 342480, >= 1, >= 1
+# 0, 1, 2, 18, 0, 342480, >= 89, >= 1
 
 # https://oeis.org/A266166
 # 0, 1, 2, 18, 0, 342480, 7850589120, 7188534981260640
@@ -7,16 +7,25 @@
 
 # gcMols:
 
-# MOLS> ./gcMols 6 data/SpecsCollection/Euler "" satd dom enu maxdegdom "" 1 1
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd
-#   6     satd dom enu maxdegdom  asc    1           0       1.136       5725499       64171      115311     15
-# MOLS> ./gcMols_debug 7 data/SpecsCollection/Euler "" count dom enumbr maxdegdom asc 12 XXX
+# N=6:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/Euler/red "" satd dom - - "" 1 1 "t,2"
+# bestL
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  6     satd dom enu maxdegdom  asc   1         0       1.139       5725499       64171      115311     15  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/red "" count dom enu maxdegdom "" 1 16 ""
+# running on server2 XXX
 # pl bt bh bo 	rt sat t prop flvs nds h
 # dom enumbr maxdegdom asc 	count 342480 100334.181 176337623191 1588775587 2956889080 31
-# MOLS> time ./gcMols 8 data/SpecsCollection/Euler "" satd dom maxdegdom "" 12
-# domain-prop max-deg/dom-var bin-branch-min 1 26.097 48953329 400537 801231 49
-# real	0m2.391s user	0m26.102s sys	0m1.063s
-# Remark: some runs can be faster, some slower
+
+# N=8:
+
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/red "" count dom enu maxdegdom "" 1 12 "t,100"
+  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+  8    count dom enu maxdegdom  asc   1        89    1084.057    1782610678    19993226    36623522     37  1
 
 
 
