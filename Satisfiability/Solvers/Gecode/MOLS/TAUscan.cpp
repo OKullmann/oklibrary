@@ -31,8 +31,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "12.7.2022",
+        "0.7.0",
+        "16.7.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -45,7 +45,7 @@ namespace {
   namespace PSC = ParSysCalls;
   namespace LB = LookaheadBranching;
 
-  constexpr int commandline_args_transfer = 6;
+  constexpr int commandline_args_transfer = 7;
   constexpr int commandline_args_own = 3;
   constexpr int commandline_args =
     commandline_args_transfer  + commandline_args_own;
@@ -58,7 +58,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n\n"
-      " N file_cond file_ps distance init-seeds weights"
+      " N file_cond file_ps branch-type distance init-seeds weights"
       "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to \"" << solver_call << "\":\n"
@@ -128,25 +128,25 @@ int main(const int argc, const char* const argv[]) {
     filepsarg_3 = qu(argv[3]),
     runtypearg_4 = "count",
     proplevelarg_5 = "dom",
-    distancearg_7 = que(argv[4]),
-    initseedarg = argv[5],
+    branchtypearg_6 = que(argv[4]),
+    distancearg_7 = que(argv[5]),
+    initseedarg = argv[6],
     latypearg_9 = "relpr",
-    weightsarg = argv[6];
-  const std::string Marg = argv[7], threadsarg = argv[8];
+    weightsarg = argv[7];
+  const std::string Marg = argv[8], threadsarg = argv[9];
   
   const size_t
     M = read_M(Marg),
     threads = read_threads(threadsarg);
-  const auto select0 = Environment::read<STTS>(argv[9]);
+  const auto select0 = Environment::read<STTS>(argv[10]);
   if (not select0) {
-    std::cerr << error << "Unknown selection-option \"" << argv[9] <<
+    std::cerr << error << "Unknown selection-option \"" << argv[10] <<
       "\".\n";
     return 1;
   }
   const STTS select = select0.value();
 
   const std::string
-    branchtypearg_6 = "enu",
     gcdarg_10 = "1",
     threadsarg_11 = "1",
     weightsarg_12 = weights_arg(weightsarg), // cin read
