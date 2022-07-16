@@ -357,7 +357,7 @@
 #12.000  2.000  0.016  0.000  0.500  0.500  0.000  0.000
 #85.000  2.000  3.999  0.500  0.500  1.000  0.500  0.010
 #27.582  0.000  0.465  0.140  0.000  0.140  0.140  0.002
-
+# Noticeable here the high values for estlvs.
 
 
 
@@ -507,7 +507,32 @@
 
 # Absolute optimisation on lvs:
 # LVS_red_6_newv$ nomad np
-# running on server2
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution: #19672 ( -0.91 3 -5 6 3 ) Evaluation OK f = 2856 h =   0
+# Blackbox evaluations: 1046 Total model evaluations: 61513 Cache hits: 334 Total number of evaluations: 1380
+# LVS_red_6_newv$ ./laMols 6 ../red "" count dom enu newv "" "" 1 1 "-0.91,3,-5,6,3" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0      10.832     341082  0     5069    2213     2856        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#133.154  0.571  152.662  139.945  111.119   1.716  0.000  0.002    4.787   7.239
+# 12.000  0.000    0.000   27.473   10.417   1.000  0.000  0.000    0.000   0.000
+#310.000  2.200  900.000  200.000  445.455   6.000  0.000  0.012   35.829  12.000
+# 82.989  0.615  203.690   49.974   71.533   0.949  0.000  0.002    8.973   1.704
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 68.710  1.953    1.834   12.808   35.529   1.072  0.000  0.001   18.878   8.622
+#  8.000  1.080    0.000    0.000    3.175   1.000  0.000  0.000    2.797   5.000
+#189.000  4.000  160.000  130.055  344.809   4.000  0.000  0.009   25.000  13.000
+# 76.892  0.379    7.541   22.789   41.761   0.317  0.000  0.001    8.061   1.526
+#      estlvs
+#5.517101e+03
+#5.830844e+02
+#2.600631e+04
+#5.284374e+03
+#    mu1      w     ltau   minp  meanp   maxp    sdd     tb
+# 73.330  2.290   21.178  0.399  0.462  0.528  0.060  0.002
+# 12.000  2.000    0.004  0.046  0.250  0.250  0.000  0.000
+#187.000  4.000  335.748  0.500  0.500  0.865  0.365  0.005
+# 56.762  0.668   50.798  0.142  0.086  0.106  0.091  0.002
 
 
 # N=7:
@@ -527,6 +552,17 @@
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_sd> nomad np
 # XXX running on server
+
+
+
+# laMols with newvars for bin
+
+# N=6:
+
+# Absolute optimisation on lvs:
+# LVS_red_6_bin_newv$ nomad np
+# running on server2 XXX
+
 
 
 squares A B aux
