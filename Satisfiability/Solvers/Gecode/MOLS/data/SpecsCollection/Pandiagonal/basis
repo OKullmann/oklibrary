@@ -312,9 +312,23 @@
 
 # laMols with wdL for bin
 
+# N = 12:
+
 # Optimising on sd with MAX_TIME=40000 and rep=1000:
 # TAU_basis_12_bin_wdL_sd$ nomad np
-# running on server2 XXX
+# 1 438450230.601839   4          4          4          4          4          4          4          4          4          4
+# 2  97672154.896854   3          4          3          1          3          0.1        5          7          5          3
+# 3  12217487.732301   0.1        3          1          2          2          6          6          5          6          6
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 480 Total model evaluations: 36602 Cache hits: 19 Total number of evaluations: 499
+# So a high sd seems characteristic for bin.
+# TAU_basis_12_bin_wdL_sd$ time ./TAUscan 12 ../basis "" bin wdL hash "0.1,3,1,2,2,6,6,5,6,6" 1000 10 all
+# 1000 : 1.11895750845951346318e+02 1.12225356781602319245e+06 3.48806378231701272307e+08; 1.22174877323013319592e+07
+# real    6m49.707s user    64m52.632s sys     0m2.853s
+# Does not look successful.
+
+# Trying just to optimise ave: XXX
+
 
 
 # laMols with newvars:
