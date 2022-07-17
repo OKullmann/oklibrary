@@ -1,0 +1,84 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 24, 0, 0, 0
+# ?
+
+# Known to be unsatisfiable for N with 2 | N or 3 | N
+# (see ../Pandiagonal/basis).
+
+# How to break the 3!-symmetry here?
+
+
+# gcMols:
+
+# 2 <= N <= 6:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/3MOLS/pandiag "" count dom bin mindegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin mindegdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.000            26           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.000            38           1           0      0  0
+#  5    count dom bin mindegdom  asc   1         0       0.000           400           2           3      1  0
+#  6    count dom bin mindegdom  asc   1         0       0.030        124134        1645        3289     29  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/3MOLS/pandiag "" count dom - - "" 1 12 "t,40"
+#  7    count dom bin     first  asc   1        24       0.003         15161          27         101      6  0
+#  7    count dom enu    mindom  asc   1        24       0.007         15181          24          85      5  0
+
+# N = 8:
+
+# MOLS> ./gcMols 8 data/SpecsCollection/3MOLS/pandiag "" count dom enu mindom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8    count dom enu    mindom  asc   1         0       0.155        259030        1155        2181      8  0
+
+# N = 9:
+
+# MOLS> ./gcMols 9 data/SpecsCollection/3MOLS/pandiag "" count dom - - "" 1 12 "t,40"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    count dom bin    mindom  asc   1         0       3.931       8361701       37330       74659     19  0
+
+# N = 10:
+
+# MOLS> ./gcMols 10 data/SpecsCollection/3MOLS/pandiag "" count dom bin mindom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom bin    mindom  asc   1         0    2825.574    3821102824    12256472    24512943     29  0
+
+# N = 11:
+
+# MOLS> ./gcMols 11 data/SpecsCollection/3MOLS/pandiag "" +count dom bin mindom "" 1 12 ""
+# aborted after 5min wallclock-time without finding a solution.
+
+
+
+# rlaMols:
+
+# 2 <= N <= 10:
+
+# All quickly solved by enu+mindom.
+
+# N = 11:
+
+# MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu mindom "" "" 1 12 ""
+# aborted after 5min wallclock-time without finding a solution.
+
+
+
+# laMols with wdL:
+
+# N=11:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_pandiag_11_wdL_ave$ nomad np
+# running on server2 XXX
+
+
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+rred A B C
+rprod B AB A
+rprod C AC A
+rprod C BC B
+moddiag A B C
+modantidiag A B C
