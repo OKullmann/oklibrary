@@ -21,55 +21,81 @@
 
 # laMols with wdL:
 
+# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU_basis_6_wdL_ave> nomad np
 # 106 32753368653.826656   0.0301     0.62       0.0401     0.0001
 # Blackbox evaluations: 143 Cache hits: 9 Total number of evaluations: 152
 # Reproduction:
-# XXX
+# TAU_basis_6_wdL_ave> time ./TAUscan 6 ../basis "" wdL hash "0.0301,0.62,0.0401,0.0001" 100 1 all
+# 100 : 8.79760892466805235308e+08 3.27533686538266556747e+10 5.91737435608699649572e+11; 7.68166365636545908526e+10
+# real    0m38.969s user    0m38.636s sys     0m0.322s
 
+# Alternative optimisation on ave+sd:
 # TAU_basis_6_wdL_avepsd> nomad np
 # 54 75706521078.575272   0.0001     0.12       0.09       0.08
 # Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
 # Reproduction:
-# XXX
+# TAU_basis_6_wdL_avepsd> time ./TAUscan 6 ../basis "" wdL hash "0.0001,0.12,0.09,0.08" 100 1 all
+# 100 : 2.41105811492673242884e+09 3.69699061624764448777e+10 2.21234532573812525958e+11; 3.87366149160988284200e+10
+# real    0m39.103s user    0m38.795s sys     0m0.294s
 
+# Alternative optimisation on max:
 # TAU_basis_6_wdL_max> nomad np
 # 54 221234532573.812531   0.0001     0.12       0.09       0.08
 # Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
 # Reproduction:
-# XXX
+# same weights as for TAU_basis_6_wdL_avepsd.
 
+# Alternative optimisation on sd:
 # TAU_basis_6_wdL_sd> nomad np
 # 54 38736614916.098831   0.0001     0.12       0.09       0.08
 # Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
 # Reproduction:
-# XXX
+# TAU_basis_6_wdL_sd>
+# same weights as for TAU_basis_6_wdL_avepsd.
 
 # laMols with newvars:
 
+# N=6:
+
+# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU_basis_6_newv_ave> nomad np
 # 57  10916304993.495291  -1          4        -10         -7        -10
 # Blackbox evaluations: 110 Cache hits: 10 Total number of evaluations: 120
 # Reproduction:
-# XXX
+# TAU_basis_6_newv_ave> time ./TAUscan 6 ../basis "" newv hash "-1,4,10,-7,-10" 100 1 all
+# 100 : 1.57881689350773441908e+09 1.02185097071459187709e+11 7.80897975453139375687e+11; 1.56733541159994666442e+11
+# real    0m42.945s user    0m42.608s sys     0m0.322s
+# time ./laMols 6 ../basis "" +count dom enu newv "" "" 1 16 "-1,4,10,-7,-10" "" ""
+# aborted after 8 minutes wallclock-time.
 
+# Alternative optimisation on ave+sd:
 # TAU_basis_6_newv_avepsd> nomad np
 # 52  20296913711.558559  -1          0         -9        -10         -6
 # Blackbox evaluations: 103 Cache hits: 9 Total number of evaluations: 112
 # Reproduction:
-# XXX
+# TAU_basis_6_newv_avepsd> time ./TAUscan 6 ../basis "" newv hash "-1,0,-9,-10,-6" 100 1 all
+# 100 : 4.81079455107429972762e+08 7.33715513279553592438e+09 9.58153588241425036341e+10; 1.29597585787630234035e+10
+# real    0m43.047s user    0m42.713s sys     0m0.320s
 
+# Alternative optimisation on max:
 # TAU_basis_6_newv_max> nomad np
 # 104  225547432826.752136  -0.41      -3         -6         -8         -2
 # Blackbox evaluations: 106 Cache hits: 6 Total number of evaluations: 112
 # Reproduction:
-# XXX
+# TAU_basis_6_newv_max> time ./TAUscan 6 ../basis "" newv hash "-0.41,-3,-6,-8,-2" 100 1 all
+# 100 : 7.97752951121982294280e+07 3.73470608356885504425e+10 2.25547432826752139717e+11; 4.50453864822287522741e+10
+# real    0m43.469s user    0m43.220s sys     0m0.234s
 
+# Alternative optimisation on sd:
 # TAU_basis_6_newv_sd> nomad np
 # 59  12959758578.763023  -1          0         -9        -10         -6
 # Blackbox evaluations: 106 Cache hits: 14 Total number of evaluations: 120
 # Reproduction:
-# XXX
+# TAU_basis_6_newv_sd> time ./TAUscan 6 ../basis "" newv hash "-1,0,-9,-10,-6" 100 1 all
+# 100 : 4.81079455107429972762e+08 7.33715513279553592438e+09 9.58153588241425036341e+10; 1.29597585787630234035e+10
+# real    0m43.070s user    0m42.711s sys     0m0.344s
+
 
 squares A B aux
 ls A B aux
