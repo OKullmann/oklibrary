@@ -70,7 +70,15 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_ave$ nomad np
-# running on server2 XXX
+#1 6554140231677744          0.1        0.1        0.1        0.1        0.1        0.1        0.1        0.1        0.1
+#2 2056150861461049.5        5.1        6.1        1.1        5.1        0.1        7          7          0.1        4.1
+#A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+#Blackbox evaluations: 11
+# One evaluation takes a long time:
+# MOLS> time ./TAUscan 11 ../pandiag "" enu wdL hash "5.1,6.1,1.1,5.1,0.1,7,7,0.1,4.1" 1000 10 all
+# 1000 : 5.01925357146918112577e+02 2.05615086146104956592e+15 1.72810311519622267112e+18; 5.55761738218702998320e+16
+# real	19m54.396s user	170m11.488s sys	10m23.562s
+
 
 
 
