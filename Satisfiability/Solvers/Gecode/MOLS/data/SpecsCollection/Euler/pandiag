@@ -167,20 +167,31 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_ave> nomad np
+# 55        19747.581053   1.1        3.1        0.1        0.1        0.1        1.1        0.1        0.1        0.1
+# Blackbox evaluations: 64 Total model evaluations: 4057 Cache hits: 1 Total number of evaluations: 65
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_avepsd> nomad np
+# 35        73318.600998   0.1        0.1        0.0001     0.1        1.1        1.1        0.1        0.1        0.1
+# Blackbox evaluations: 71 Total model evaluations: 2024
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_max> nomad np
+# 38       1679594.839473   0.1        0.1        0.1        0.1        0.1        1.1        1.1        0.1        0.1
+# Blackbox evaluations: 69 Total model evaluations: 2038 Cache hits: 2 Total number of evaluations: 71
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_sd> nomad np
+# 35        63752.045576   0.1        0.1        0.0001     0.1        1.1        1.1        0.1        0.1        0.1
+# Blackbox evaluations: 71 Total model evaluations: 2024
+# Reproduction:
 # XXX running on server
-
 
 # laMols with newvars:
 
@@ -188,18 +199,30 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_ave> nomad np
+# 47          5762.584419   1         10        -10         10         -6          9          7        -10          9        -10
+# Blackbox evaluations: 87 Total model evaluations: 6099 Cache hits: 2 Total number of evaluations: 89
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_avepsd> nomad np
+# 80         28413.404008  -1         10        -10          8        -10          9         10        -10         10        -10
+# Blackbox evaluations: 84 Total model evaluations: 8130 Cache hits: 2 Total number of evaluations: 86
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_max> nomad np
+# 50         473200.971508   1          5          0          6         -3          9        -10         -8         -5         10
+# Blackbox evaluations: 82 Total model evaluations: 6098 Cache hits: 1 Total number of evaluations: 83
+# Reproduction:
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_sd> nomad np
+# 66         25777.005562   0          6         -5         10         -5         10          2         -4          3         -9
+# Blackbox evaluations: 73 Total model evaluations: 4096 Cache hits: 1 Total number of evaluations: 74
+# Reproduction:
 # XXX running on server
 
 squares A B aux
