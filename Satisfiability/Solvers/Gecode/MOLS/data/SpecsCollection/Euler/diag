@@ -32,18 +32,46 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_newv_ave> nomad np
+# TAU_diag_7_newv_ave
+# 762   51270.907141  -0.9756     9.98      -8.0      -10.0       -4.9712    -9.0441
+# Blackbox evaluations: 869 Total model evaluations: 78850 Cache hits: 249 Total number of evaluations: 1118
+# Reproduction:
+# TAU_diag_7_newv_ave> time ./TAUscan 7 ../diag "" newv hash "-0.9756,9.98,-8.0,-10.0,-4.9712,-9.0441" 1000 10 all
+# 1000 : 1.69139315560917827530e+03 3.97064784912829519897e+05 2.97720113924608884437e+08; 9.43046199495096287137e+06
+# real	0m58.960s user	9m34.619s sys	0m3.802s
+# TAU_diag_7_newv_ave> time ./laMols 7 ../diag "" +count dom enu newv "" "" 1 16 "-0.9756,9.98,-8.0,-10.0,-4.9712,-9.0441" "" ""
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_newv_avepsd> nomad np
+# 686   222857.446703  -0.9999     9.999839  -7.820144  -9.9364    -8.6339   -10
+# Blackbox evaluations: 903 Total model evaluations: 80876 Cache hits: 180 Total number of evaluations: 1083
+# Reproduction:
+# TAU_diag_7_newv_avepsd> time ./TAUscan 7 ../diag "" newv hash "-0.9999,9.999839,-7.820144,-9.9364,-8.6339,-10" 1000 10 all
+# 1000 : 1.56096995199663832810e+03 5.98886351330175174681e+04 2.60854291619489208642e+06; 1.62968811570000526714e+05
+# real    0m59.716s user    9m44.185s sys     0m3.934s
+# TAU_diag_7_newv_avepsd> time ./laMols 7 ../diag "" +count dom enu newv "" "" 1 16 "-0.9999,9.999839,-7.820144,-9.9364,-8.6339,-10" "" ""
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_newv_max> nomad np
+# 190   9303351.176157  -0.9       -8          2         -6         -7          3
+# Blackbox evaluations: 882 Total model evaluations: 80795 Cache hits: 168 Total number of evaluations: 1050
+# Reproduction:
+# TAU_diag_7_newv_max> time ./TAUscan 7 ../diag "" newv hash "-0.9,-8,2,-6,-7,3" 1000 10 all
+# 1000 : 2.20320275474202881796e+04 9.40902016769837657989e+05 9.30335117615654637666e+06; 1.16736712124257212724e+06
+# real    0m59.616s user    9m38.489s sys     0m3.194s
+# TAU_diag_7_newv_max> time ./laMols 7 ../diag "" +count dom enu newv "" "" 1 16 "-0.9,-8,2,-6,-7,3" "" ""
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_newv_sd> nomad np
+# 606  420020.055977  -0.098998   9.9886    -6.945022  -5.0319     0.704342  -0.9666
+# Blackbox evaluations: 867 Total model evaluations: 74796 Cache hits: 182 Total number of evaluations: 1049
+# TAU_diag_7_newv_sd> time ./TAUscan 7 ../diag "" newv hash "-0.098998,9.9886,-6.945022,-5.0319,0.704342,-0.9666" 1000 10 all
+# 1000 : 1.57161660175023578634e+03 4.79226144587572918624e+05 2.42036864476414050965e+08; 7.75619620086595242628e+06
+# real    1m4.020s user    10m8.147s sys     0m2.322s
+# TAU_diag_7_newv_sd> time ./laMols 7 ../diag "" +count dom enu newv "" "" 1 16 "-0.098998,9.9886,-6.945022,-5.0319,0.704342,-0.9666" "" ""
 # XXX running on server
 
 
