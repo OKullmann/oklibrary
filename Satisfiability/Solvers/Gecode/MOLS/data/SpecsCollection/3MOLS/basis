@@ -17,8 +17,9 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" 1 16 ""
-# running on server2 XXX
-
+# aborted after
+# real    197m14.058s user    1762m28.190s sys     660m11.641s
+# with 4 solutions found.
 
 
 
