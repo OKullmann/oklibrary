@@ -66,7 +66,17 @@
 
 # laMols with wdL:
 
+# 2 <= N <= 10:
+
+# All quickly solved by both A, L (for N=10 we have lvs=25 for both).
+
 # N=11:
+
+# ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 A "" ""
+# running on server2 XXX
+# ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 L "" ""
+# running on server2 XXX
+
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_ave$ nomad np
