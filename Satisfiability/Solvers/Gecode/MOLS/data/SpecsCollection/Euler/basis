@@ -19,6 +19,57 @@
 # MOLS> time ./gcMols 6 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 16
 # aborted after 143 hours wallclock-time.
 
+# laMols with wdL:
+
+# TAU_basis_6_wdL_ave> nomad np
+# 106 32753368653.826656   0.0301     0.62       0.0401     0.0001
+# Blackbox evaluations: 143 Cache hits: 9 Total number of evaluations: 152
+# Reproduction:
+# XXX
+
+# TAU_basis_6_wdL_avepsd> nomad np
+# 54 75706521078.575272   0.0001     0.12       0.09       0.08
+# Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
+# Reproduction:
+# XXX
+
+# TAU_basis_6_wdL_max> nomad np
+# 54 221234532573.812531   0.0001     0.12       0.09       0.08
+# Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
+# Reproduction:
+# XXX
+
+# TAU_basis_6_wdL_sd> nomad np
+# 54 38736614916.098831   0.0001     0.12       0.09       0.08
+# Blackbox evaluations: 140 Cache hits: 30 Total number of evaluations: 170
+# Reproduction:
+# XXX
+
+# laMols with newvars:
+
+# TAU_basis_6_newv_ave> nomad np
+# 57  10916304993.495291  -1          4        -10         -7        -10
+# Blackbox evaluations: 110 Cache hits: 10 Total number of evaluations: 120
+# Reproduction:
+# XXX
+
+# TAU_basis_6_newv_avepsd> nomad np
+# 52  20296913711.558559  -1          0         -9        -10         -6
+# Blackbox evaluations: 103 Cache hits: 9 Total number of evaluations: 112
+# Reproduction:
+# XXX
+
+# TAU_basis_6_newv_max> nomad np
+# 104  225547432826.752136  -0.41      -3         -6         -8         -2
+# Blackbox evaluations: 106 Cache hits: 6 Total number of evaluations: 112
+# Reproduction:
+# XXX
+
+# TAU_basis_6_newv_sd> nomad np
+# 59  12959758578.763023  -1          0         -9        -10         -6
+# Blackbox evaluations: 106 Cache hits: 14 Total number of evaluations: 120
+# Reproduction:
+# XXX
 
 squares A B aux
 ls A B aux
