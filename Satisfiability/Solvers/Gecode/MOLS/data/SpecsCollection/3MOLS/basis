@@ -170,10 +170,54 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
 # TAU_basis_7_wdL_ave$ nomad np
+# Aborted early:
+#BBE OBJ SOL
+#1 602920332.736149   0.1        0.1        0.1        0.1        0.1
+#14 578392700.718591   0.0001     0.1        0.1        0.1        1.1
+#18 520396628.42514    0.0001     0.0001     0.0001     0.1        2.1
+#30 495171258.814525   0.0001     0.0001     0.0001     0.1        3.1
+#62 446119742.595062   0.0001     0.0001     0.0801     0.0001     4.1
+#199 434578624.0758     0.0331     0.0301     0.1141     0.0041     3.6
+#292 433077315.351203   0.032958   0.0351     0.114026   0.003854   3.6043
+# Does not look promising.
+
+
+
+# laMols with newvars:
+
+# MOLS> ./laMols 2,5 data/SpecsCollection/3MOLS/basis "" count "" enu newv "" "" 1 1 "" "" ""
+# all quickly solved by all four weights.
+
+# N=6:
+
+# MOLS> ./laMols 6 data/SpecsCollection/3MOLS/basis "" count "" enu newv "" "" 1 12 "" "" ""
+# Z worst, O, A, L all very similar, with L slightly best:
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     327.784    1218423  0    13709    4973     8736        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#409.565  0.316    6.800  136.175  164.224   1.397  0.000  0.300    0.288   7.324
+#372.000  0.000    0.000  126.515  116.622   1.000  0.000  0.072    0.000   0.000
+#660.000  2.000   26.017  138.710  436.829   4.000  0.000  1.069    3.571  10.000
+# 33.023  0.487    4.830    2.029   64.004   0.688  0.000  0.158    0.635   1.280
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#370.165  1.721    2.427   19.482   44.853   1.141  0.000  0.092    4.314   8.804
+#299.000  1.100    0.000    0.000    0.877   1.000  0.000  0.000    0.860   7.000
+#392.000  4.000   31.579  129.716  484.496   4.000  0.000  1.094   11.054  11.000
+# 14.205  0.386    2.821   21.239   67.626   0.469  0.000  0.129    1.799   0.888
+#      estlvs
+#1.436700e+04
+#2.730977e+03
+#2.353071e+05
+#2.036622e+04
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#279.563  2.756  0.039  0.288  0.384  0.464  0.079  0.252
+#258.000  2.000  0.009  0.046  0.250  0.250  0.000  0.087
+#393.000  4.000  0.086  0.500  0.500  0.763  0.263  0.556
+# 15.536  0.645  0.019  0.130  0.091  0.111  0.064  0.058
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
+# TAU_basis_6_newv_ave$ nomad np
 # running on server2 XXX
-
-
-
 
 
 
