@@ -46,8 +46,8 @@
 
 # N = 11:
 
-# MOLS> ./gcMols 11 data/SpecsCollection/3MOLS/pandiag "" +count dom bin mindom "" 1 12 ""
-# aborted after 5min wallclock-time without finding a solution.
+# MOLS> ./gcMols 11 data/SpecsCollection/3MOLS/pandiag "" +count dom bin mindom "" 1 16 ""
+# running on server2 XXX
 
 
 
@@ -57,10 +57,27 @@
 
 # All quickly solved by enu+mindom.
 
+# N = 10:
+
+# MOLS> ./rlaMols 10 data/SpecsCollection/3MOLS/pandiag "" count dom enu mindom "" "" 1 12 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 10    count dom enu    mindom  asc  relpr   1        0     132.364      20502  0      142      35      107
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#3628.971  1.011    3.286  114.352  145.401   2.086  0.000   8.333    0.331  4.457
+#3482.000  0.000    0.000  113.343  114.173   1.000  0.000   4.585    0.000  0.000
+#3810.000  1.188    6.619  114.811  220.803   3.000  0.000  12.227    1.177  8.000
+#  90.284  0.188    1.683    0.384   36.504   0.373  0.000   2.027    0.325  2.227
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#3586.897  1.658    0.898    4.194   11.879   1.047  0.000  0.726    0.650  5.262
+#3334.000  1.261    0.000    0.235    0.270   1.000  0.000  0.003    0.210  1.000
+#3775.000  2.400    8.108   47.374  118.490   2.000  0.000  7.661    1.722  9.000
+# 114.939  0.273    1.251    7.971   23.639   0.212  0.000  1.321    0.344  2.373
+
+
 # N = 11:
 
-# MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu mindom "" "" 1 12 ""
-# aborted after 5min wallclock-time without finding a solution.
+# MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu mindom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
@@ -135,6 +152,17 @@
 # 1000 : 5.01925357146918112577e+02 2.05615086146104956592e+15 1.72810311519622267112e+18; 5.55761738218702998320e+16
 # real	19m54.396s user	170m11.488s sys	10m23.562s
 
+
+# laMols with newvars:
+
+# 2 <= N <= 10:
+
+# All quickly solved by both A, L (for N=10 we have lvs=8 for A).
+
+# N = 11:
+
+# MOLS> ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu newv "" "" 1 16 A "" ""
+# to be run on server2 XXX
 
 
 
