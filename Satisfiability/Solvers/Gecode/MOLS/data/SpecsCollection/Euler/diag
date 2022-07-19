@@ -1,9 +1,25 @@
 # Counts for N >= 2:
 # 0, 1, 4, 12, 0, 26848
+
+# TODO: Update to being the inverse case, and having the non-inverse case also.
+
+# gcMols:
+
+# N=7:
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 26848 18656.070 88436799029 432177741 864409177 36
 
-# TODO: Update to being the inverse case, and having the non-inverse case also.
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count - - - "" 1 16 "gnds,864409178"
+# XXX running on server
+
+
+# rlaMols:
+
+# N=7:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/diag "" +count "" enu mindom asc "" 1 16 ""
+# XXX running on server
 
 # laMols with wdL:
 

@@ -44,20 +44,33 @@
 
 # rlaMols:
 
-# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" enu mindom asc "" 1 16 ""
-#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
-#  7   +count dom enu    mindom  asc  relpr   1       18     271.764     314643  0     5265    2416     2849
+# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiag "" count dom - - - "" 1 16 "nds,5300"
+# The best regarding node-count are mindom+enu+asc and mindom+enu+desc.   
+# N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom enu    mindom  asc  relpr   1       18     141.861     314643  0     5265    2416     2849
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-#467.210  0.938   11.082  123.535  204.761   2.239  0.000  0.778    1.615   6.605
-#373.000  0.000    0.278   61.972   96.404   1.000  0.000  0.100    0.000   0.000
-#596.000  2.000   39.344  129.082  748.869   7.000  0.000  4.197   37.010  11.000
-# 29.617  0.384    5.404    2.648   80.963   0.848  0.000  0.456    2.014   1.353
+#467.210  0.938   11.082  123.535  204.761   2.239  0.000  0.057    1.615   6.605
+#373.000  0.000    0.278   61.972   96.404   1.000  0.000  0.015    0.000   0.000
+#596.000  2.000   39.344  129.082  748.869   7.000  0.000  0.576   37.010  11.000
+# 29.617  0.384    5.404    2.648   80.963   0.848  0.000  0.036    2.014   1.353
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-#421.393  1.599   10.883   25.531   99.791   1.524  0.006  0.404   10.908   8.317
+#421.393  1.599   10.883   25.531   99.791   1.524  0.006  0.031   10.908   8.317
 #120.000  1.097    0.000    0.000    0.568   1.000  0.000  0.000    0.568   5.000
-#507.000  5.000  300.000  121.142  796.119   9.000  1.000  3.762   27.897  12.000
-# 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.473    5.368   0.903
-# real    0m27.332s user    4m31.773s sys     0m27.402s
+#507.000  5.000  300.000  121.142  796.119   9.000  1.000  0.273   27.897  12.000
+# 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.037    5.368   0.903
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom enu    mindom desc  relpr   1       18     222.324     315417  0     5265    2416     2849
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#467.210  0.938   11.082  123.535  204.761   2.239  0.000  0.452    1.615   6.605
+#373.000  0.000    0.278   61.972   96.404   1.000  0.000  0.036    0.000   0.000
+#596.000  2.000   39.344  129.082  748.869   7.000  0.000  3.685   37.010  11.000
+# 29.617  0.384    5.404    2.648   80.963   0.848  0.000  0.360    2.014   1.353
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#421.393  1.599   10.883   25.531   99.791   1.524  0.006  0.234   10.908   8.317
+#120.000  1.097    0.000    0.000    0.568   1.000  0.000  0.000    0.568   5.000
+#507.000  5.000  300.000  121.142  796.119   9.000  1.000  3.290   27.897  12.000
+# 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.325    5.368   0.903
+
 # MOLS> time ./rlaMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc "" 1 12
 # aborted after 4min wallclock-time without finding a solution.
 
