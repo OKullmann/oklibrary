@@ -56,7 +56,7 @@
 # 1000 : 1.51872274139488340987e+04 6.99029215597356267779e+05 4.15590706167034083155e+07; 1.79892222523022580913e+06
 # real	0m38.090s user	6m5.788s sys	0m2.307s
 # TAU_symmb_7_wdL_ave> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "0.0001,3.099998,0.0001,0.6,0.11" "" ""
-# XXX
+# XXX running on server
 
 # # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_avepsd> nomad np
@@ -67,13 +67,39 @@
 # 1000 : 1.48290085960054068659e+04 5.08921189272906869775e+05 9.59566015988437885517e+06; 7.01795996223367724667e+05
 # real	0m43.897s user	6m52.758s sys	0m2.321s
 # TAU_symmb_7_wdL_avepsd> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "2.230004,0.0001,0.019999,0.140099,0.0001" "" ""
-# XXX
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1     6236   23922.538   76460244  0   794572  272660   521912        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#291.686  0.722   21.823  130.606  177.976   1.978  0.000  0.554    1.210  11.374
+#155.000  0.000    0.000   24.790    5.806   1.000  0.000  0.008    0.000   0.000
+#494.000  3.500  200.000  138.710  912.715  10.000  2.000  3.472   24.830  18.000
+# 24.366  0.498    9.573    3.675   74.972   0.890  0.021  0.258    1.741   1.660
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#233.289  1.925    4.041   27.250   66.987   1.287   0.012  0.207    9.088  12.907
+#  8.000  1.036    0.000    0.000    0.847   1.000   0.000  0.000    0.778   8.000
+#328.000  6.000   85.714  137.156  955.906  10.000  10.000  3.740   29.242  19.000
+# 38.327  0.701    4.817   24.209   83.249   0.678   0.149  0.275    4.522   1.411
+#      estlvs
+#4.101330e+06
+#1.482901e+04
+#2.078772e+11
+#4.122711e+08
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#405.315  2.914  0.043  0.203  0.373  0.585  0.171  0.414
+# 12.000  2.000  0.008  0.000  0.167  0.200  0.000  0.000
+#558.000  6.000  0.241  0.500  0.500  0.981  0.481  1.117
+# 26.054  0.847  0.018  0.136  0.105  0.151  0.102  0.066
+# real    29m57.893s user    398m42.544s sys     54m58.555s
 
 # # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_max> nomad np
 # 148 12094605.26164    0.07       2.94       0.19       0.15       0.1801
 # Blackbox evaluations: 713 Total model evaluations: 66346 Cache hits: 274 Total number of evaluations: 987
 # Reproduction:
+# TAU_symmb_7_wdL_max> time ./TAUscan 7 ../symmb "" wdL hash "0.07,2.94,0.19,0.15,0.1801" 1000 10 all
+# 1000 : 7.51347825892156490379e+03 5.89904349589186929393e+05 8.05391176381281903832e+06; 8.56679094194269779166e+05
+# real    0m48.567s user    7m48.781s sys     0m2.479s
+# TAU_symmb_7_wdL_max> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "0.07,2.94,0.19,0.15,0.1801" "" ""
 # XXX
 
 # # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):

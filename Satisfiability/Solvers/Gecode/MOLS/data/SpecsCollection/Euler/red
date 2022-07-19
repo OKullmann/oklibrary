@@ -539,20 +539,35 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_ave> nomad np
+# 358 10607353.930405  -1          5.75     -10          2.16       0.06     -10
+# Blackbox evaluations: 1042 Total model evaluations: 93005 Cache hits: 292 Total number of evaluations: 1334
+# Reproduction:
+# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-1,5.75,-10,2.16,0.06,-10" 1000 10 all
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_avepsd> nomad np
+# 235 38245569.272132  -0.1212     3.44      -4.08       2.2       -6          1.97
+# Blackbox evaluations: 1034 Total model evaluations: 92606 Cache hits: 343 Total number of evaluations: 1377
+# Reproduction:
+# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.1212,3.44,-4.08,2.2,-6,1.97" 1000 10 all
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_max> nomad np
+# 827 175918446.898071  -0.7       -0.22      -0.02      -1.97      -1.06      -0.08
+# Blackbox evaluations: 1020 Total model evaluations: 88351 Cache hits: 329 Total number of evaluations: 1349
+# Reproduction:
+# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.7,-0.22,-0.02,-1.97,-1.06,-0.08" 1000 10 all
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_sd> nomad np
+# 349 21293498.865993  -0.6423    -0.9894     1.011     -3.98       0.0211    -4.0037
+# Blackbox evaluations: 1031 Total model evaluations: 89611 Cache hits: 326 Total number of evaluations: 1357
+# Reproduction:
+# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.6423,-0.9894,1.011,-3.98,0.0211,-4.0037" 1000 10 all
 # XXX running on server
-
 
 
 # laMols with newvars for bin
