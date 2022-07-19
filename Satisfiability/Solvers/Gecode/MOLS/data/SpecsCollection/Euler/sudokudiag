@@ -45,7 +45,7 @@
 # rlaMols:
 
 # MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiag "" count dom - - - "" 1 16 "nds,5300"
-# The best regarding node-count are mindom+enu+asc and mindom+enu+desc.   
+# The best regarding node-count are mindom+enu+asc and mindom+enu+desc.
 # N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
 #  7    count dom enu    mindom  asc  relpr   1       18     141.861     314643  0     5265    2416     2849
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
