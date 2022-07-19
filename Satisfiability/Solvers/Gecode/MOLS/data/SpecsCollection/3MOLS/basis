@@ -284,6 +284,17 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
 # TAU_basis_7_newv_ave$ nomad np
+# 622  12813145.63597   -0.243384   8.060945  -6.967825   0.3856    -8.893625  -1.440316
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1385 Total model evaluations: 115949 Cache hits: 406 Total number of evaluations: 1791
+# TAU_basis_7_newv_ave$ time ./TAUscan 7 ../basis "" enu newv hash "-0.243384,8.060945,-6.967825,0.3856,-8.893625,-1.440316" 1000 10 all
+# 1000 : 1.36032434089532176273e+05 1.28131456359695468536e+07 5.58999438843289125711e+08; 3.51805819314250074895e+07
+# real    1m51.747s user    18m21.859s sys     0m2.415s
+# Getting closer to rlaMols, but still too slow.
+
+# With "opportunism" turned off
+# ("EVAL_OPPORTUNISTIC no"), and LH_SEARCH:
+# TAU_basis_7_newv_ave$ nomad np2
 # running on server2 XXX
 
 
