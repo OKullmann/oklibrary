@@ -249,8 +249,42 @@
 
 # Optimising TAUscan on ave+sd via Nomad (MAX_TIME 3600s, rep=100):
 # TAU_basis_6_newv_avepsd$ nomad np
-# running on server2 XXX
+# 751  2513.392254   1.0        8.262      3.0       -5.672      1.7265
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1145 Total model evaluations: 99328 Cache hits: 420 Total number of evaluations: 1565
+# TAU_basis_6_newv_avepsd$ time ./TAUscan 6 ../basis "" enu newv hash "1.0,8.262,3.0,-5.672,1.7265" 100 10 all
+# 100 : 4.65142577979407506716e+02 1.97107337154761465714e+03 8.04371972017600085270e+03; 1.57460496638359582966e+03
+# real    0m2.273s user    0m21.045s sys     0m0.151s
+# TAU_basis_6_newv_avepsd$ ./laMols 6 ../basis "" count "" enu newv "" "" 1 16 "1.0,8.262,3.0,-5.672,1.7265" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     151.305     295187  0     3221    1161     2060        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#520.131  0.437   11.004  130.889  155.942   1.520  0.000  0.528    0.295  5.416
+#490.000  0.000    3.875  126.515  115.460   1.000  0.000  0.113    0.000  0.000
+#660.000  2.000   28.542  131.800  430.196   4.000  0.000  2.240    1.837  8.000
+# 18.048  0.528    4.243    0.656   58.562   0.706  0.000  0.255    0.488  1.130
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#477.495  1.663   18.636   21.287   46.208   1.230  0.000  0.190    4.291  6.872
+#216.000  1.045    0.000    0.000    0.463   1.000  0.000  0.000    0.463  5.000
+#515.000  4.000  195.652   92.798  358.230   4.000  0.000  1.863   16.327  9.000
+# 39.530  0.447   31.506   22.210   69.877   0.546  0.000  0.276    2.937  0.845
+#      estlvs
+#5.829808e+03
+#4.651426e+02
+#1.585423e+05
+#1.401171e+04
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#329.314  2.773  0.000  0.273  0.384  0.520  0.111  0.470
+#310.000  2.000  0.000  0.012  0.200  0.250  0.000  0.119
+#393.000  5.000  0.000  0.500  0.500  0.855  0.355  0.730
+#  9.099  0.727  0.000  0.136  0.093  0.126  0.083  0.110
+# Basically the same.
 
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
+# TAU_basis_7_newv_ave$ nomad np
+# running on server2 XXX
 
 
 
