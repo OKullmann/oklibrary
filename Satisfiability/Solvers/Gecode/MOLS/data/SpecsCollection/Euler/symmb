@@ -4,6 +4,18 @@
 # "alt" here means swapping the places of A, B.
 # Appears to be a bit better than Eulersymmb.
 
+# gcMols:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/Euler/symmb "" count dom enu mindom "" 1 16 ""
+#   N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#   7    count dom enu    mindom  asc   1      6236    1972.315    2368469534    28687761    53242848     28  0
+# real    2m44.024s user    32m52.320s sys     7m40.502s
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/symmb "" count dom - - "" 1 16 "gnds,53242848"
+# XXX
+
+# rlaMols:
+
 # MOLS> time ./rlaMols 7 data/SpecsCollection/Eulersymmbalt "" +count dom enu maxdegdom "" "" 1 6
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
 #   7   +count dom enu maxdegdom  asc  relpr    1       6236   8460.451   92539204   677927  1958912    20  1280985   677927
@@ -14,6 +26,24 @@
 #    35.871      6.838     11.007      90.966     154.454      201.304     0.586      0.114     0.029     0.027     0.291
 # real	34m55.367s user	141m0.451s sys	2m36.454s
 
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/symmb "" +count dom enu mindom asc "" 1 16 ""
+#   N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#   7   +count dom enu    mindom  asc  relpr   1     6236   22355.116   87501515  0  1297491  614290   683201
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#286.233  0.420   51.682  129.841  119.330   1.475  0.000  0.381    0.380  15.371
+#188.000  0.000    0.000   26.667   14.583   1.000  0.000  0.031    0.000   0.000
+#494.000  3.000  212.360  135.106  695.357   8.000  3.000  3.025   18.145  24.000
+# 24.811  0.502   20.743    1.389   52.755   0.625  0.008  0.187    0.740   2.258
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#239.811  1.878    1.349   35.547   63.080   1.147   0.009  0.174    7.843  17.610
+#  8.000  1.071    0.000    0.000    1.000   1.000   0.000  0.000    0.943  11.000
+#309.000  5.000   58.537  131.518  767.857   8.000  15.000  2.866   25.000  25.000
+# 17.937  0.376    2.873   25.414   57.657   0.452   0.156  0.181    3.140   1.954
+# real    33m12.072s user    372m35.122s sys     126m15.078s
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/symmb "" count dom - - - "" 1 16 "nds,1297491"
+# XXX running on server
+
 
 # laMols with wdL:
 
@@ -22,6 +52,10 @@
 # 578 549496.826642   0.0001     3.099998   0.0001     0.6        0.11
 # Blackbox evaluations: 1008 Total model evaluations: 91474 Cache hits: 218 Total number of evaluations: 1226
 # Reproduction:
+# TAU_symmb_7_wdL_ave> time ./TAUscan 7 ../symmb "" wdL hash "0.0001,3.099998,0.0001,0.6,0.11" 1000 10 all
+# 1000 : 1.51872274139488340987e+04 6.99029215597356267779e+05 4.15590706167034083155e+07; 1.79892222523022580913e+06
+# real	0m38.090s user	6m5.788s sys	0m2.307s
+# TAU_symmb_7_wdL_ave> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "0.0001,3.099998,0.0001,0.6,0.11" "" ""
 # XXX
 
 # # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
@@ -29,6 +63,10 @@
 # 695 1025478.820547   2.230004   0.0001     0.019999   0.140099   0.0001
 # Blackbox evaluations: 1146 Total model evaluations: 101429 Cache hits: 418 Total number of evaluations: 1564
 # Reproduction:
+# TAU_symmb_7_wdL_avepsd> time ./TAUscan 7 ../symmb "" wdL hash "2.230004,0.0001,0.019999,0.140099,0.0001" 1000 10 all
+# 1000 : 1.48290085960054068659e+04 5.08921189272906869775e+05 9.59566015988437885517e+06; 7.01795996223367724667e+05
+# real	0m43.897s user	6m52.758s sys	0m2.321s
+# TAU_symmb_7_wdL_avepsd> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "2.230004,0.0001,0.019999,0.140099,0.0001" "" ""
 # XXX
 
 # # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
@@ -44,6 +82,7 @@
 # Blackbox evaluations: 1083 Total model evaluations: 96287 Cache hits: 430 Total number of evaluations: 1513
 # Reproduction:
 # XXX
+
 
 # laMols with newvars:
 
