@@ -25,25 +25,36 @@ Results:
 All solvers solve N=5. N=6 solved by none.
 
 
-2) symmb
+2) red
+
+All solvers solve N=5. N=6 solved by none.
+
+
+3) symmb
 
 All solvers solve N=7.
 XXX
 
 
-3) diag
+4) diag
 
 All solvers solve N=7.
 XXX
 
 
-4) sudokudiag
+5) pandiag
+
+XXX
+
+
+6) sudokudiag
 
 All solvers solve N=7.
 rlaMols (enu+mindom) has 77x better nodecount than gcMols (dom+bin+mindom),
 wdL and newvars (all but sd) have 2x better leafcount than rlaMols.
 newvars-sd has similar leafcount as rlaMols.
 
-5) pandiag
+
+7) sudokupandiag
 
 XXX
