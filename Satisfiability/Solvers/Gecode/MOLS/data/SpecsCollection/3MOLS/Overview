@@ -13,3 +13,47 @@ basis           U       C       SE      SE      ?       SE
 symmb           U       C       SE      SE      ?       SE
 diag            U       C       S       SE      ?       SE
 sudokudiag      U       C       S       SE      ?       ?
+pandiag         U       C       U       U       U       CE
+
+
+Results:
+
+1) basis
+
+All solvers solve N=6.
+
+N=7 only solved by rlaMols (enu+maxdegdom).
+Final attempt for now considering newv.
+
+
+2) symmb
+
+All solvers solve N=6.
+
+gcMols unsuccessful for N=7.
+newvars, rlaMols (enu+maxdegdom), wdL can solve N=7 (in this order).
+newvars has 50% leafcount of rlaMols, which has 30% leafcount of wdL.
+
+
+3) diag
+
+All solvers solve N=7.
+rlaMols (enu+mindom) has the usual 2 orders of magnitude lower leafcount than
+gcMols (enu+mindom).
+wdL similar to rlaMols, newvars somewhat better.
+
+
+4) sudokudiag
+
+All solvers solve N=7.
+rlaMols (first) has 25x better nodecount than gcMols(mindom),
+wdL and newvars have 30% of leafcount of rlaMols.
+
+
+5) pandiag
+
+N <= 10 solved by all solvers, N=11 solved by none.
+
+N=10: rlaMols (enu+mindom) 5 orders of magnitude lower leafcount than
+gcMols (bin+mindom); roughly 20x faster.
+laMols with wdL and newv even lower node-count.
