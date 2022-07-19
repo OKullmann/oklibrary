@@ -16,3 +16,32 @@ diag            U       C       SE      SE      ?       ?
 pandiag         U       C       U       U       U       S
 sudokudiag      U       C       S       S       ?       ?
 sudokupandiag   U       C       U       U       UE      SE
+
+
+Results:
+
+1) basis
+
+All solvers solve N=5. N=6 solved by none.
+
+
+2) symmb
+
+All solvers solve N=7.
+XXX
+
+
+3) diag
+
+All solvers solve N=7.
+XXX
+
+
+4) sudokudiag
+
+All solvers solve N=7.
+XXX
+
+5) pandiag
+
+XXX
