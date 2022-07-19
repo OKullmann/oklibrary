@@ -19,6 +19,21 @@
 # N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/diag "" +count "" enu mindom asc "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu    mindom  asc  relpr   1    26848   28558.608  454734547  0  4520445 1279804  3240641
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#301.913  1.282   73.531  119.563   87.377   1.696  0.000  0.228    1.356  16.277
+#189.000  0.000    0.000   94.808   48.705   1.000  0.000  0.003    0.000   0.000
+#618.000  4.000  200.000  133.679  401.022   5.000  3.000  1.959   13.242  25.000
+# 51.792  1.146   21.551   10.420   27.104   0.490  0.023  0.144    1.280   2.212
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#226.769  2.918    0.267   18.584   16.901   1.000   0.008  0.029    3.565  17.881
+# 66.000  1.100    0.000    0.000    0.478   1.000   0.000  0.000    0.478  10.000
+#418.000  5.000   43.539  129.534  292.627   3.000  13.000  0.663   21.461  26.000
+# 28.665  0.913    0.837    3.056    7.452   0.012   0.211  0.019    2.249   1.857
+# real    40m36.425s user    475m58.616s sys     47m49.888s
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/diag "" count dom - - - "" 1 16 "nds,4520446"
 # XXX running on server
 
 # laMols with wdL:
