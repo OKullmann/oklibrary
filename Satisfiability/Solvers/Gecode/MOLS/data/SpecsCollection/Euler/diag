@@ -10,7 +10,7 @@
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 26848 18656.070 88436799029 432177741 864409177 36
 
-# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - - "" 1 16 "t,120"          # command-line: "./gcMols" "7" "data/SpecsCollection/Euler/diag" "" "count" "dom" "-" "-" "" "1" "16" "t,120"
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - - "" 1 16 "t,120"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count dom bin    mindom  asc   1       901    1526.840    2850121403    17683748    35369491     28  1
 #  7    count dom bin    maxdeg  asc   1         6    1686.656    2054190127    19941960    39884104     28  1
