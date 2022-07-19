@@ -11,20 +11,47 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_wdL_ave> nomad np
+# 280 1122362.11933    0.0659     5.321      0.0322     0.0307     0.1311
+# Blackbox evaluations: 930 Total model evaluations: 85368 Cache hits: 332 Total number of evaluations: 1262
+# Reproduction:
+# TAU_diag_7_wdL_ave> time ./TAUscan 7 ../diag "" wdL hash "0.0659,5.321,0.0322,0.0307,0.1311" 1000 10 all
+# 1000 : 1.77202502027415349950e+04 1.37842321428841667137e+06 5.87668732711635954984e+07; 3.29959781085172647272e+06
+# real    0m58.229s user    9m24.357s sys     0m3.920s
+# TAU_diag_7_newv_ave> time ./laMols 7 ../diag "" +count dom enu wdL "" "" 1 16 "0.0659,5.321,0.0322,0.0307,0.1311" "" ""
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_wdL_avepsd> nomad np
+# 761  3004861.403701   0.629484   6.005      0.0611     0.090428   0.329676
+# Blackbox evaluations: 926 Total model evaluations: 83634 Cache hits: 321 Total number of evaluations: 1247
+# Reproduction:
+# TAU_diag_7_wdL_avepsd> time ./TAUscan 7 ../diag "" wdL hash "0.629484,6.005,0.0611,0.090428,0.329676" 1000 10 all
+# 1000 : 6.58041524238829277138e+03 1.37858606658143297022e+06 4.39480147168041214500e+07; 2.79211517483538094143e+06
+# real	0m58.053s user	9m27.419s sys	0m3.807s
+# TAU_diag_7_wdL_avepsd> time ./laMols 7 ../diag "" +count dom enu wdL "" "" 1 16 "0.629484,6.005,0.0611,0.090428,0.329676" "" ""
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_wdL_max> nomad np
+# 370  14928793.195599   7          1.1217     0.2405     0.0101     5.89
+# Blackbox evaluations: 483 Total model evaluations: 42393 Cache hits: 43 Total number of evaluations: 526
+# Reproduction:
+# TAU_diag_7_wdL_max> time ./TAUscan 7 ../diag "" wdL hash "7,1.1217,0.2405,0.0101,5.89" 1000 10 all
+# 1000 : 3.22201429482957059349e+04 1.43100161891935225094e+06 1.39732496796523975499e+07; 1.57285995430938479183e+06
+# real	1m2.333s user	10m10.390s sys	0m2.866s
+# TAU_diag_7_wdL_max> time ./laMols 7 ../diag "" +count dom enu wdL "" "" 1 16 "7,1.1217,0.2405,0.0101,5.89" "" ""
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_diag_7_wdL_sd> nomad np
+# 685  1441925.992992   6.56002    1.340003   0.090004   0.070092   1.249996
+# Blackbox evaluations: 903 Total model evaluations: 84479 Cache hits: 186 Total number of evaluations: 1089
+# Reproduction:
+# TAU_diag_7_wdL_sd> time ./TAUscan 7 ../diag "" wdL hash "6.56002,1.340003,0.090004,0.070092,1.249996" 1000 10 all
+# 1000 : 5.09034964737745127067e+02 1.52098020053949505166e+06 1.66490530342773907714e+07; 1.74201337405851910046e+06
+# real    1m4.956s user    10m26.296s sys     0m2.187s
+# TAU_diag_7_wdL_sd> time ./laMols 7 ../diag "" +count dom enu wdL "" "" 1 16 "6.56002,1.340003,0.090004,0.070092,1.249996" "" ""
 # XXX running on server
-
 
 # laMols with newvars:
 
