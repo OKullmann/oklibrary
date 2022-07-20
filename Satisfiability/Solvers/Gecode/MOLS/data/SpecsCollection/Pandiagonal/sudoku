@@ -74,6 +74,57 @@
 # For N=17 (same setting) aborted after 41h wall-clock (without finding a solution).
 
 
+# rlaMols:
+
+# N=11:
+
+# MOLS> ./rlaMols 11 data/SpecsCollection/Pandiagonal/sudoku "" count "" - - "" "" 1 12 "lvs,5000"
+# best are bin/enu + mindom/maxdegdom, with enu being faster.
+# maxdom here a bit slower, but for N=12 much faster.
+
+# N=12:
+
+# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" - mindom,maxdegdom "" "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" bin maxdom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12    count dom bin    maxdom  asc  relpr   1        0     141.733       8445  0      267     133      134
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 960.143  0.286    0.049  113.505  139.147   1.338  0.000  2.340    0.064   9.699
+# 908.000  0.000    0.000  112.197  112.644   1.000  0.000  1.345    0.000   0.000
+#1044.000  1.000    0.323  114.207  408.473   4.000  0.000  7.129    0.581  18.000
+#  37.218  0.453    0.077    0.449   49.662   0.589  0.000  0.916    0.121   3.608
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 926.373  2.609    0.010   22.134   60.965   1.209  0.000  0.967    1.865  11.612
+# 871.000  1.269    0.000    1.618    4.181   1.000  0.000  0.052    0.861   1.000
+#1000.000  8.000    0.229   98.100  290.452   3.000  0.000  5.165    4.057  19.000
+#  34.408  1.210    0.037   24.099   66.899   0.492  0.000  1.102    0.784   3.455
+
+# N=13:
+
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu maxdegdom "" "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +count "" bin maxdom "" "" 1 16 ""
+# running on server2 XXX
+
+
+
+# laMols with wdL:
+
+# 2 <= N <= 11:
+
+# MOLS> ./laMols 2,11 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu wdL "" "" 1 12 "" "" ""
+# all problems solved quickly.
+
+# N = 12:
+
+# MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu wdL "" "" 1 16 A "" ""
+# running on server2 XXX
+# MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu wdL "" "" 1 16 L "" ""
+# running on server2 XXX
+
 
 
 squares A

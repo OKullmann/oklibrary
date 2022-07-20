@@ -179,10 +179,58 @@
 #1174.000  8.000   11.856  121.411  894.589  10.000  0.000  6.920   29.851  53.000
 #  77.990  0.653    0.862   17.507   97.022   0.822  0.000  0.521    4.750   5.838
 
-# Without rred:
-# MOLS> time ./rlaMols 13 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
-# running on server2 XXX
 
+# Without rred:
+
+# MOLS> time ./rlaMols 13 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 13   +count dom bin    maxdom  asc  relpr   1     5904    1872.180    2608614  1    61429   30836    30593
+#     mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 417.897  0.530    34.606  114.895  157.971   1.658  0.000   0.716    1.250  34.132
+#  78.000  0.000     0.000   82.979   11.538   1.000  0.000   0.000    0.000   0.000
+#2028.000  6.000  1200.000  150.000  743.217   7.000  0.000  14.886   14.672  51.000
+# 155.710  0.581   185.938   12.441   76.070   0.829  0.000   0.567    2.244   5.266
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 332.810  1.900    0.116   22.072   67.417   1.211  0.193  0.232    4.680  36.269
+#  26.000  1.130    0.000    0.000    2.564   1.000  0.000  0.000    0.811   5.000
+#1881.000  8.000    6.349  123.346  580.990   5.000  4.000  6.199   12.741  52.000
+# 131.563  0.774    0.329   21.173   72.399   0.519  0.778  0.297    1.896   4.766
+# real    3m39.390s user    31m12.606s sys     23m58.913s
+# Much easier to find a solution than with rred.
+
+# MOLS> time ./rlaMols 14 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 14   +count dom bin    maxdom  asc  relpr   1        0    6395.266     262144  0     9997    4998     4999
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2399.089  0.351    0.027  108.024  138.816   1.421  0.000   9.704    0.033  18.126
+#2378.000  0.000    0.000  107.528  107.670   1.000  0.000   3.706    0.000   0.000
+#2548.000  1.000    0.389  108.116  491.370   5.000  0.000  36.675    0.544  34.000
+#  23.494  0.477    0.046    0.078   55.640   0.656  0.000   4.235    0.063   5.625
+#     mu0   qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2360.265   2.954    0.014   35.171   82.305   1.240  0.000   5.485    1.164  20.122
+#2321.000   1.351    0.000   21.231   29.324   1.000  0.000   1.071    0.595   4.000
+#2395.000  14.000    0.203  104.362  483.214   5.000  0.000  37.160    2.931  35.000
+#  14.013   1.675    0.029    9.856   66.857   0.584  0.000   4.832    0.393   5.451
+# real    9m39.006s user    106m35.275s sys     27m7.848s
+
+# MOLS$ time ./rlaMols 15 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 15   +count dom bin    maxdom  asc  relpr   1        0   46820.804    1047943  0    37653   18826    18827
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#2962.903  0.327    0.011  107.453  136.486   1.387  0.000   19.849    0.029  22.121
+#2928.000  0.000    0.000  106.160  107.143   1.000  0.000    4.246    0.000   0.000
+#3150.000  2.083    0.155  107.548  621.186   6.000  0.000  156.292    1.144  40.000
+#  26.672  0.470    0.021    0.093   51.409   0.619  0.000   12.224    0.063   6.171
+#     mu0   qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#2922.053   3.360    0.005   42.580  101.707   1.383  0.000   14.130    0.957  24.120
+#2874.000   1.341    0.000   26.703   31.759   1.000  0.000    1.473    0.517   4.000
+#2971.000  15.000    0.119  107.019  617.043   6.000  0.000  139.363    2.492  41.000
+#  16.954   2.357    0.013   14.570   75.784   0.676  0.000   13.505    0.299   6.009
+# real    74m2.806s user    780m20.833s sys     153m38.990s
+
+# MOLS$ time ./rlaMols 16 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
@@ -190,6 +238,7 @@
 
 # 2 <= N <= 10:
 
+#./laMols 2,10 data/SpecsCollection/Pandiagonal/basis "" count "" enu wdL "" "" 1 12 "" "" ""
 # The two weight-schemes A, L can solve all problems quickly (no difference regarding
 # the weights visible).
 
