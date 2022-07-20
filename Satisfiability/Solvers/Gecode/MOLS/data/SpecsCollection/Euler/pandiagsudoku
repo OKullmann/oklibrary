@@ -2,14 +2,70 @@
 # 0, 0, 0, 2, 0, 12, 0, 0, ?
 # >= 2
 
-# For N=9 dom+mindom seems best.
-# N=10 known to be unsatisfiable (see Pandiagonal), but seems a hard instance
+# Question: it seems that the box-condition does not make much of a further
+# restriction to EulerPandiag?!?
+
+# gcMols:
+
+# MOLS> ./gcMols 6,7,8,9 data/SpecsCollection/Euler/pandiagsudoku "" count dom enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  6    count dom enu    mindom  asc   1         0       0.001           296           3           4      1  0
+#  7    count dom enu    mindom  asc   1        12       0.007          7570          24          61      4  0
+#  8    count dom enu    mindom  asc   1         0       0.106        167479        1148        2167      8  0
+#  9    count dom enu    mindom  asc   1         0       0.058         80694         457         753     10  0
+
+# MOLS> ./gcMols 9 data/SpecsCollection/Euler/pandiagsudoku "" count - - - - 1 1 "t,1"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    count dom bin    mindom  asc   1         0       0.065         81258         454         907     10  0
+#  9    count dom bin    mindom desc   1         0       0.058         81295         454         907      9  0
+#  9    count dom bin maxdegdom  asc   1         0       0.058         81258         454         907     10  0
+#  9    count dom bin maxdegdom desc   1         0       0.058         81295         454         907      9  0
+#  9    count dom bin     first  asc   1         0       0.017         27720         146         291      6  0
+#  9    count dom bin     first desc   1         0       0.016         25751         136         271      7  0
+#  9    count dom bin    mindeg  asc   1         0       0.019         29644         156         311      6  0
+#  9    count dom bin    mindeg desc   1         0       0.018         27553         146         291      7  0
+#  9    count dom enu    mindom  asc   1         0       0.057         80694         457         753     10  0
+#  9    count dom enu    mindom desc   1         0       0.057         80694         457         753      9  0
+#  9    count dom enu maxdegdom  asc   1         0       0.057         80694         457         753     10  0
+#  9    count dom enu maxdegdom desc   1         0       0.057         80694         457         753      9  0
+#  9    count dom enu     first  asc   1         0       0.017         27219         146         222      6  0
+#  9    count dom enu     first desc   1         0       0.017         27219         146         222      7  0
+#  9    count dom enu    mindeg  asc   1         0       0.018         29191         159         237      6  0
+#  9    count dom enu    mindeg desc   1         0       0.018         29191         159         237      7  0
+# leaf-wise the best is dom+bin+first+desc.
+
+# MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiagsudoku "" count dom enu mindom "" 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom enu    mindom  asc   1         0    1167.142    1679151794     6262104    12264825     29  0
+# real    1m45.688s user    19m27.145s sys     0m15.858s
+
+# MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiagsudoku "" count dom - - - 1 16 "t,120"
+# XXX
+
 # here (mindom seems needed for "rprod", while maxdom seems needed for
 # "moddiag"?).
 # For N=11 dom+maxdom+desc seems best.
 
-# Question: it seems that the box-condition does not make much of a further
-# restriction to EulerPandiag?!?
+
+# rlaMols
+
+# MOLS> time ./rlaMols 10 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu mindom asc "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 10   +count dom enu    mindom  asc  relpr   1        0       8.452        559  0        6       1        5
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#1784.000  1.143    0.370  114.238  181.783   2.000  0.000  6.193    0.897  0.000
+#1784.000  1.143    0.370  114.238  181.783   2.000  0.000  6.193    0.897  0.000
+#1784.000  1.143    0.370  114.238  181.783   2.000  0.000  6.193    0.897  0.000
+#   0.000  0.000    0.000    0.000    0.000   0.000  0.000  0.000    0.000  0.000
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#1739.600  1.998    0.127    6.990   15.691   1.000  0.000  0.447    0.874  1.000
+#1738.000  1.375    0.000    6.433    9.091   1.000  0.000  0.256    0.518  1.000
+#1742.000  3.000    0.633    7.537   25.244   1.000  0.000  0.703    1.265  1.000
+#   1.817  0.635    0.283    0.516    6.424   0.000  0.000  0.175    0.302  0.000
+# real    0m0.544s user    0m8.460s sys     0m0.012s
+
+# MOLS> ./rlaMols 10 data/SpecsCollection/Euler/pandiagsudoku "" +count dom - - - "" 1 16 "nds,6"
+XXX
 
 squares A B aux
 rred A B aux
