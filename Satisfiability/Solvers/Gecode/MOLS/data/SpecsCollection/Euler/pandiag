@@ -73,6 +73,8 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 10    count dom enu    mindom  asc   1         0    1905.727    2068970727    12298519    22307204     24  0
 
+# MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiag "" count dom - - - 1 16 "t,200"
+# XXX running on server
 
 # N=11:
 
@@ -86,6 +88,7 @@
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
 # aborted after one hour wallclock: found 7 solutions quickly.
+# XXX running on server
 
 
 # N=12:
