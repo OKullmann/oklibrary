@@ -40,10 +40,10 @@
 # real    1m45.688s user    19m27.145s sys     0m15.858s
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiagsudoku "" count dom - - - 1 16 "t,120"
-# XXX
-
+XXX
 # here (mindom seems needed for "rprod", while maxdom seems needed for
 # "moddiag"?).
+
 # For N=11 dom+maxdom+desc seems best.
 
 
@@ -65,7 +65,15 @@
 # real    0m0.544s user    0m8.460s sys     0m0.012s
 
 # MOLS> ./rlaMols 10 data/SpecsCollection/Euler/pandiagsudoku "" +count dom - - - "" 1 16 "nds,6"
-XXX
+# Unstopped combinations:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 10   +count dom enu maxdegdom  asc  relpr   1        0       7.514        559  0        6       1        5
+# 10   +count dom enu maxdegdom desc  relpr   1        0       7.259        558  0        6       1        5
+# 10   +count dom enu    mindom  asc  relpr   1        0       7.283        559  0        6       1        5
+# 10   +count dom enu    mindom desc  relpr   1        0       7.288        558  0        6       1        5
+# The best leaf-wise are enu+maxdegdom and enu+mindom.
+# Too few nodes to optimise weights for laMols.
+
 
 squares A B aux
 rred A B aux
