@@ -1,30 +1,84 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 4, 0, >= 5, 0, 0, 0
-#
-# Far best seems dom+binbr+maxdom+desc
-# Results in Pandiagonal for N=13 suggest it is unsatisfiable, but indeed it
-# is satisfiable:
+
+# For N <= 8 the box-condition is redundant.
+# N=11 is the first case where the box-condition means a restriction
+# (for counting; compare ./basis).
+# For N=12 there are queens-solutions (see "SudokoQueen").
+# No case is known where the sudoku-conditions turns a satisfiable case
+# (i.e., gcd(N,6) = 1) into an unsatisfiable one.
+
+# The first open case is N=17.
+
+# A really interesting case is N=25 (a normal Sudoku).
+
+
+# gcMols:
+
+# 2 <= N <= 12:
+
+# MOLS> ./gcMols 2,16 data/SpecsCollection/Pandiagonal/sudoku "" count dom bin maxdom "" 1 12 "t,5"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.191             5           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.033             7           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.004            13           1           0      0  0
+#  5    count dom bin    maxdom  asc   1         2       0.035           101           0           3      1  0
+#  6    count dom bin    maxdom  asc   1         0       0.073            75           2           3      1  0
+#  7    count dom bin    maxdom  asc   1         4       0.011          1703          25          57      3  0
+#  8    count dom bin    maxdom  asc   1         0       0.008          6210         126         251      5  0
+#  9    count dom bin    maxdom  asc   1         0       0.007          5826         147         293      4  0
+# 10    count dom bin    maxdom  asc   1         0       0.113         87712        1735        3469     17  0
+# 11    count dom bin    maxdom  asc   1         4       1.672       1549168       32822       65651     27  0
+# 12    count dom bin    maxdom  asc   1         0       8.248       6240688      131020      262039     21  0
+# 13    count dom bin    maxdom  asc   1         0      47.215      43232098      772454     1545019     28  1
+# 14    count dom bin    maxdom  asc   1         0      43.677      25699855      494236      988526     26  1
+# 15    count dom bin    maxdom  asc   1         0      48.116      23547701      440508      881092     22  1
+# 16    count dom bin    maxdom  asc   1         0      41.854      18933318      322484      645045     26  1
+# bin+mindegdom seems only slightly worse.
+
+# N = 13:
+
 # MOLS> ./gcMols 13 data/SpecsCollection/SudokuPandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 20h wall-clock and 5 solutions found.
 
-# Unsatisfiability-decision for 14 <= N <= 16 much easier with "rred A"
-# disabled (as with "Pandiagonal")! Disabling this also for N=17:
-# MOLS> ./gcMols 17 data/SpecsCollection/SudokuPandiagonal "" sats dom binbr maxdom desc 12
-# Aborted after 41h wall-clock (without finding a solution).
 
-# Unsatisfiable at least on the cases where Pandiagonal is unsatisfiable,
-# that is, where gcd(N,6) != 1; for N <= 16 there are no further cases
-# of unsatisfiability -- does this hold in general?
-# N=11 is the first case where the box-condition means a restriction
-# (for counting; compare "Pandiagonal").
-# For N=12 there are queens-solutions (see "SudokoQueen").
 
-# A really interesting case is N=25.
+# Unsatisfiable cases only:
+
+# Without rred, sat-decision seems much easier for N <= 16 (as with ./basis):
+
+# MOLS> ./gcMols "2,20" "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" count dom bin maxdom "" 1 12 "t,30"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.193            10           2           3      1  0
+#  3    count dom bin    maxdom  asc   1         0       0.122            34           3           5      1  0
+#  4    count dom bin    maxdom  asc   1         0       0.068           107           4           7      1  0
+#  5    count dom bin    maxdom  asc   1       240       0.009         12838           0         479      5  0
+#  6    count dom bin    maxdom  asc   1         0       0.013           539          17          33      2  0
+#  7    count dom bin    maxdom  asc   1     20160       0.690       1695191        3096       46511     20  0
+#  8    count dom bin    maxdom  asc   1         0       0.005          5164         103         205      3  0
+#  9    count dom bin    maxdom  asc   1         0       0.043          4644          90         179      4  0
+# 10    count dom bin    maxdom  asc   1         0       0.055         27833         539        1077     10  0
+# 11    count dom bin    maxdom  asc   1   3349098     142.788     495287784      990713     8679775     29  1
+# 12    count dom bin    maxdom  asc   1         0       0.354        239515        4641        9281     18  0
+# 13    count dom bin    maxdom  asc   1    153294     313.795     393620209     5336675    10980150     41  1
+# 14    count dom bin    maxdom  asc   1         0       5.028       3268199       56697      113393     25  0
+# 15    count dom bin    maxdom  asc   1         0      21.746      10891887      190540      381079     29  0
+# 16    count dom bin    maxdom  asc   1         0      16.151       8637467      138602      277203     24  0
+# 17    count dom bin    maxdom  asc   1         0     328.899     261898475     3542716     7085758     74  1
+# 18    count dom bin    maxdom  asc   1         0     248.802      85921305     1254613     2509279     23  1
+# 19    count dom bin    maxdom  asc   1         0     348.739     194097258     2666613     5333827     78  1
+# 20    count dom bin    maxdom  asc   1         0     302.876      73020315     1128218     2256502     17  1
+# Very similar to ./basis.
+
+# For N=17 (same setting) aborted after 41h wall-clock (without finding a solution).
+
+
+
 
 squares A
 rred A
 ls A
-box A
 moddiag A
 modantidiag A
+box A

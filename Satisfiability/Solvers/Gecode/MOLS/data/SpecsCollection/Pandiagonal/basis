@@ -6,6 +6,15 @@
 
 # Apparently not on OEIS.
 
+# Restrictions:
+# + Sudoku: ./sudoku
+# + 2MOLS : Euler/pandiag
+# + 2MOLS + Sudoku: Euler/pandiagsudoku
+# + 3MOLS : 3MOLS/pandiag
+# + 3MOLS + Sudoku: 3MOLS/pandiagsudoku
+# For none of these restrictions a case is known where the basis (pure pandiagonal
+# as in here) is satisfiable, but the restriction is not.
+
 
 # gcMols:
 
@@ -169,6 +178,11 @@
 # 256.000  1.032    0.000    0.000    0.563   1.000  0.000  0.001    0.523   6.000
 #1174.000  8.000   11.856  121.411  894.589  10.000  0.000  6.920   29.851  53.000
 #  77.990  0.653    0.862   17.507   97.022   0.822  0.000  0.521    4.750   5.838
+
+# Without rred:
+# MOLS> time ./rlaMols 13 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+# running on server2 XXX
+
 
 
 
