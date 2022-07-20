@@ -290,12 +290,21 @@
 # TAU_basis_7_newv_ave$ time ./TAUscan 7 ../basis "" enu newv hash "-0.243384,8.060945,-6.967825,0.3856,-8.893625,-1.440316" 1000 10 all
 # 1000 : 1.36032434089532176273e+05 1.28131456359695468536e+07 5.58999438843289125711e+08; 3.51805819314250074895e+07
 # real    1m51.747s user    18m21.859s sys     0m2.415s
-# Getting closer to rlaMols, but still too slow.
+# The predicted number of leaves is better than rlaMols.
+# TAU_basis_7_newv_ave$ time ./laMols 7 ../basis "" +count "" enu newv "" "" 1 16  "-0.243384,8.060945,-6.967825,0.3856,-8.893625,-1.440316" "" ""
+# running on server2 XXX
+
 
 # With "opportunism" turned off
 # ("EVAL_OPPORTUNISTIC no"), and LH_SEARCH:
 # TAU_basis_7_newv_ave$ nomad np2
-# running on server2 XXX
+# 1567  54747117.861943  -0.710051   0.957691   8.803312   1.625003  -6.183982  -8.245003
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 1639 Total model evaluations: 127740 Cache hits: 393 Total number of evaluations: 2032
+# TAU_basis_7_newv_ave$ time ./TAUscan 7 ../basis "" enu newv hash "-0.710051,0.957691,8.803312,1.625003,-6.183982,-8.245003" 1000 10 all
+# 1000 : 5.90092025733874308401e+05 6.66145533637098923864e+07 3.15579936454505730281e+09; 1.79741101164433105907e+08
+# real    1m39.325s user    16m13.525s sys     0m2.369s
+# Looks worse; so "opportunism" seems (roughly) to work.
 
 
 
