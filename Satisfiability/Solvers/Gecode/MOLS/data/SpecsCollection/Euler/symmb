@@ -29,6 +29,7 @@
 #  7    count dom enu mindegdom  asc   1        60   37610.777   62906333754   654199998   817773491     23  1
 # leaf-wise (flvs + satc) the best is bin+mindom.
 
+
 # rlaMols:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/Eulersymmbalt "" +count dom enu maxdegdom "" "" 1 6
@@ -57,7 +58,19 @@
 # real    33m12.072s user    372m35.122s sys     126m15.078s
 
 # MOLS> ./rlaMols 7 data/SpecsCollection/Euler/symmb "" count dom - - - "" 1 16 "nds,1297491"
-# XXX running on server
+# The best leaf-wise is bin+maxdegdom+desc
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom bin maxdegdom desc  relpr   1     6236   23083.540   88138919  0  1224441  612220   612221
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#292.448  0.500   51.927  129.403  126.932   1.561  0.000  0.404    0.501  19.179
+#188.000  0.000    1.815   35.000   47.340   1.000  0.000  0.016    0.000   0.000
+#494.000  3.000  212.360  135.106  769.283   8.000  3.000  2.984   18.145  32.000
+# 31.889  0.515   20.744    1.702   56.213   0.641  0.012  0.212    0.842   2.917
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#244.699  1.848    1.475   38.533   70.213   1.164   0.010  0.187    8.384  21.179
+#  8.000  1.071    0.000    0.000    0.943   1.000   0.000  0.000    0.943  12.000
+#348.000  5.000   72.152  133.482  757.093   8.000  15.000  3.091   25.000  33.000
+# 15.772  0.376    2.855   25.656   57.014   0.468   0.165  0.175    2.894   2.551
 
 
 # laMols with wdL:
