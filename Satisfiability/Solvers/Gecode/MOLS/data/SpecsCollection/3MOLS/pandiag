@@ -55,7 +55,7 @@
 
 # rlaMols:
 
-# 2 <= N <= 10:
+# 2 <= N <= 9:
 
 # All quickly solved by enu+mindom.
 
@@ -80,18 +80,18 @@
 
 # MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu mindom "" "" 1 16 ""
 # aborted:
-  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
- 11   +count dom enu    mindom  asc  relpr   1      126 1427134.501  362011761  1  2920885  769645  2151240
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-4916.684  0.503    2.441  113.162  130.680   1.385  0.000  28.132    0.060   9.263
-3260.000  0.000    0.000   60.699    8.528   1.000  0.000   1.081    0.000   0.000
-5280.000  3.500  688.489  113.288  279.587   4.000  0.000  84.934    2.207  13.000
-  43.371  0.664    2.709    0.296   30.716   0.487  0.000   8.430    0.087   0.961
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-4853.207  2.465    0.010    1.358    2.558   1.000  0.000   0.501    0.316  10.933
-1350.000  1.138    0.000    0.103    0.350   1.000  0.000   0.030    0.103   5.000
-5088.000  8.000    2.348  105.433  227.047   3.000  1.000  46.729    2.913  14.000
-  28.604  0.586    0.068    0.358    1.407   0.005  0.008   0.353    0.297   0.253
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 11   +count dom enu    mindom  asc  relpr   1      126 1427134.501  362011761  1  2920885  769645  2151240
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#4916.684  0.503    2.441  113.162  130.680   1.385  0.000  28.132    0.060   9.263
+#3260.000  0.000    0.000   60.699    8.528   1.000  0.000   1.081    0.000   0.000
+#5280.000  3.500  688.489  113.288  279.587   4.000  0.000  84.934    2.207  13.000
+#  43.371  0.664    2.709    0.296   30.716   0.487  0.000   8.430    0.087   0.961
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#4853.207  2.465    0.010    1.358    2.558   1.000  0.000   0.501    0.316  10.933
+#1350.000  1.138    0.000    0.103    0.350   1.000  0.000   0.030    0.103   5.000
+#5088.000  8.000    2.348  105.433  227.047   3.000  1.000  46.729    2.913  14.000
+#  28.604  0.586    0.068    0.358    1.407   0.005  0.008   0.353    0.297   0.253
 # As with gcMols, solutions arrived in packages of 42.
 # Wallclock-time roughly 26h.
 
