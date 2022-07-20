@@ -190,6 +190,9 @@
 #143.418  0.756  0.072  0.173  0.099  0.115  0.109  0.002
 # Similar to above.
 
+# Alternative optimisation on max:
+# TAU_red_6_wdL_max> nomad np
+
 # Absolute optimisation on lvs:
 # LVS_red_6_wdL> nomad np
 # running on server2
