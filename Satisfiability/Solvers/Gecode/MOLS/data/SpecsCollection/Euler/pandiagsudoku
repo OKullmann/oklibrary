@@ -1,6 +1,6 @@
 # Counts for N >= 2:
-# 0, 0, 0, 2, 0, 12, 0, 0, ?
-# >= 2
+# 0, 0, 0, 2, 0, 12, 0, 0, 0
+# 12
 
 # Question: it seems that the box-condition does not make much of a further
 # restriction to EulerPandiag?!?
@@ -13,6 +13,8 @@
 #  7    count dom enu    mindom  asc   1        12       0.007          7570          24          61      4  0
 #  8    count dom enu    mindom  asc   1         0       0.106        167479        1148        2167      8  0
 #  9    count dom enu    mindom  asc   1         0       0.058         80694         457         753     10  0
+
+# N=9
 
 # MOLS> ./gcMols 9 data/SpecsCollection/Euler/pandiagsudoku "" count - - - - 1 1 "t,1"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -34,13 +36,15 @@
 #  9    count dom enu    mindeg desc   1         0       0.018         29191         159         237      7  0
 # leaf-wise the best is dom+bin+first+desc.
 
+# N=10
+
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiagsudoku "" count dom enu mindom "" 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 10    count dom enu    mindom  asc   1         0    1167.142    1679151794     6262104    12264825     29  0
 # real    1m45.688s user    19m27.145s sys     0m15.858s
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiagsudoku "" count dom - - - 1 16 "t,120"
-XXX
+# XXX running on server
 # here (mindom seems needed for "rprod", while maxdom seems needed for
 # "moddiag"?).
 
@@ -48,6 +52,8 @@ XXX
 
 
 # rlaMols
+
+# N=10
 
 # MOLS> time ./rlaMols 10 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu mindom asc "" 1 16 ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
@@ -73,6 +79,26 @@ XXX
 # 10   +count dom enu    mindom desc  relpr   1        0       7.288        558  0        6       1        5
 # The best leaf-wise are enu+maxdegdom and enu+mindom.
 # Too few nodes to optimise weights for laMols.
+
+# N=11
+
+# MOLS> time ./rlaMols 11 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu mindom asc "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 11   +count dom enu    mindom  asc  relpr   1       12     250.588      24790  0       66      14       52
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#2305.929  1.210    4.661   95.965  259.385   3.143  0.000  12.997    7.842  1.786
+#2114.000  0.000    0.000   48.559  113.253   1.000  0.000   7.001    0.000  0.000
+#2490.000  2.005   15.580  113.253  436.427   5.000  0.000  21.634   34.483  3.000
+# 137.015  0.503    5.341   23.896   77.223   1.167  0.000   3.798   12.651  0.893
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#1936.308  2.199    0.164   15.841   30.204   1.077  0.231   1.314    1.159  2.827
+# 692.000  1.353    0.000    0.272    0.816   1.000  0.000   0.001    0.331  1.000
+#2457.000  7.000    2.083   45.807  244.897   3.000  1.000  10.555    8.138  4.000
+# 535.742  1.049    0.331   16.665   45.909   0.334  0.425   1.980    1.562  0.760
+# real    0m15.702s user    4m10.592s sys     0m0.376s
+
+# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiagsudoku "" +count dom - - - "" 1 16 "nds,67"
+# XXX running on server
 
 
 squares A B aux

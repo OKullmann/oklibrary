@@ -15,7 +15,7 @@ symmb           U       C       SE      SE      ?       ?
 diag            U       C       SE      SE      ?       ?
 pandiag         U       C       U       U       U       S
 sudokudiag      U       C       S       S       ?       ?
-pandiagsudoku   U       C       U       U       U       SE
+pandiagsudoku   U       C       U       U       U       C
 
 
 Results:
