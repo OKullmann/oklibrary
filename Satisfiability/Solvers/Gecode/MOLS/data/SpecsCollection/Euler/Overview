@@ -27,7 +27,10 @@ All solvers solve N=5. N=6 solved by none.
 
 2) red
 
-All solvers solve N=5. N=6 solved by none.
+All solvers solve N=6. N=7 solved only by gcMols.
+On N=6, rlaMols (enu+maxdeg) has 14x better nodecount than gcMols
+(dom+enum+maxdegdom), wdL and newvars on enu have from 15% (worst case) to
+60% (best case) better leafcount than rlaMols.
 
 
 3) symmb
@@ -50,9 +53,9 @@ XXX
 6) sudokudiag
 
 All solvers solve N=7.
-rlaMols (enu+mindom) has 77x better nodecount than gcMols (dom+bin+mindom),
-wdL and newvars (all but sd) have 2x better leafcount than rlaMols.
-newvars-sd has similar leafcount as rlaMols.
+On N=7, rlaMols (enu+mindom) has 77x better nodecount than gcMols
+(dom+bin+mindom), wdL and newvars (all but sd) have 2x better leafcount
+than rlaMols. newvars-sd has similar leafcount as rlaMols.
 
 
 7) sudokupandiag
