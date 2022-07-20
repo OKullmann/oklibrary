@@ -74,9 +74,20 @@
 # 10    count dom enu    mindom  asc   1         0    1905.727    2068970727    12298519    22307204     24  0
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/pandiag "" count dom - - - 1 16 "t,200"
-# XXX running on server
+# Unstopped combinations:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom bin    mindom  asc   1         0    2638.183    2074015882    12256472    24512943     31  0
+# 10    count dom bin    mindom desc   1         0    2554.607    2071700924    12240883    24481765     31  0
+# 10    count dom bin mindegdom  asc   1         0    2318.923    2052506524    15900127    31800253     46  0
+# 10    count dom bin mindegdom desc   1         0     876.948     748589597     6007583    12015165     43  0
+# 10    count dom enu    mindom  asc   1         0    2526.730    2068970727    12298519    22307204     24  0
+# 10    count dom enu    mindom desc   1         0    2523.369    2068968054    12298519    22307204     22  0
+# leaf-wise bin+mindegdom+desc is clearly the best. 
 
 # N=11:
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom desc 1 16 ""
+# XXX running on server
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom "" 1 16 ""
 # aborted after one hour wallclock without finding a solution
