@@ -4,6 +4,8 @@
 
 # Question: it seems that the box-condition does not make much of a further
 # restriction to EulerPandiag?!?
+# Answer: for N up to 10 the number of solutions is the same,
+# but for N=11 it is different: 56 for pandiag and 12 for pandiagsudoku.
 
 # gcMols:
 
