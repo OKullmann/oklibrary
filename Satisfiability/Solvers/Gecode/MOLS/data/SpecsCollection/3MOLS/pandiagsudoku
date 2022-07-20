@@ -1,0 +1,50 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 24, 0, 0
+
+# The Sudoku-condition is redundant for N <= 8.
+
+
+# gcMols:
+
+# 2 <= N <= 9:
+
+# MOLS> ./gcMols 2,9 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu maxdegdom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom enu maxdegdom  asc   1         0       0.000            26           1           0      0  0
+#  4    count dom enu maxdegdom  asc   1         0       0.000            40           1           0      0  0
+#  5    count dom enu maxdegdom  asc   1         0       0.000           419           2           3      1  0
+#  6    count dom enu maxdegdom  asc   1         0       0.000           757           3           4      1  0
+#  7    count dom enu maxdegdom  asc   1        24       0.004         16531          24          85      5  0
+#  8    count dom enu maxdegdom  asc   1         0       0.044        131492         525         959      8  0
+#  9    count dom enu maxdegdom  asc   1         0       0.292        753757        2341        4048     12  0
+
+# N = 10:
+
+# MOLS> ./gcMols 10 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom enu maxdegdom "" 1 16 ""
+# running on server2 XXX
+
+
+# rlaMols:
+
+# 2 <= N <= 10:
+
+# MOLS> ./rlaMols 2,10 data/SpecsCollection/3MOLS/pandiag "" count dom enu mindom "" "" 1 1 ""
+# solves all problems quickly.
+
+# N = 11:
+
+# MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 12 ""
+# running on server2 XXX
+
+
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+rred A B C
+rprod B AB A
+rprod C AC A
+rprod C BC B
+moddiag A B C
+modantidiag A B C
+box A B C
