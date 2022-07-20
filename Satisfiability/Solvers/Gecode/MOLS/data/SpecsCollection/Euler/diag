@@ -10,9 +10,26 @@
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag "" count dom mindom "" 1
 # domain-prop min-dom-var bin-branch-min 26848 18656.070 88436799029 432177741 864409177 36
 
-# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - - "" 1 16 "gnds,864409178"
-# XXX running on server
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - - "" 1 16 "t,120"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    mindom  asc   1       901    1526.840    2850121403    17683748    35369491     28  1
+#  7    count dom bin    maxdeg  asc   1         6    1686.656    2054190127    19941960    39884104     28  1
+#  7    count dom bin maxdegdom  asc   1         3    1788.022    2209837122    17870935    35742071     29  1
+#  7    count dom bin     first  asc   1       155    1408.742    2374814454    18076913    36154267     29  1
+#  7    count dom bin    mindeg  asc   1       195    1442.197    2505833198    17468035    34936596     27  1
+#  7    count dom bin    maxdom  asc   1        28    1166.332    1687457451    13422871    26845939     30  1
+#  7    count dom bin mindegdom  asc   1        17     932.924     861066641    12237004    24474180     31  1
+#  7    count dom enu    mindom  asc   1       267    1556.142    3000852512    18806219    32625026     27  1
+#  7    count dom enu    maxdeg  asc   1         5    1723.702    2219116678    22380968    32724596     26  1
+#  7    count dom enu maxdegdom  asc   1         8    1761.086    2135074234    17358121    30256948     28  1
+#  7    count dom enu     first  asc   1        97    1083.598    1680051332    16317851    21597331     22  1
+#  7    count dom enu    mindeg  asc   1       220    1439.905    2658454694    19326632    29175356     22  1
+#  7    count dom enu    maxdom  asc   1         0    1417.865    1982536921    20497151    25597906     26  1
+#  7    count dom enu mindegdom  asc   1         0    1283.775    1905457757    22781678    28616990     26  1
+# The best solution-wise are mindom and mindeg.
 
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - mindom,mindeg asc 1 16 "gnds,864409178"
+# XXX running on server
 
 # rlaMols:
 

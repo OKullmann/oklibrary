@@ -122,9 +122,31 @@
 # 1000 : 7.51347825892156490379e+03 5.89904349589186929393e+05 8.05391176381281903832e+06; 8.56679094194269779166e+05
 # real    0m48.567s user    7m48.781s sys     0m2.479s
 # TAU_symmb_7_wdL_max> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "0.07,2.94,0.19,0.15,0.1801" "" ""
-# XXX running on server
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1     6236   31290.438   85577853  0   991541  323899   667642        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#293.289  0.693   19.404  130.883  181.135   1.940  0.001  0.593    1.114  11.050
+# 12.000  0.000    0.000   22.165    5.422   1.000  0.000  0.001    0.000   0.000
+#494.000  3.000  300.000  200.000  872.449  10.000  2.000  3.864   26.645  18.000
+# 24.384  0.506    7.573    3.493   77.440   0.893  0.023  0.286    1.642   1.755
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#239.742  1.861    4.258   28.753   71.813   1.313   0.009  0.238    8.802  12.479
+#  8.000  1.026    0.000    0.000    0.697   1.000   0.000  0.000    0.697   6.000
+#340.000  6.000  100.000  137.056  905.000  10.000  10.000  4.345   29.355  19.000
+# 38.520  0.667    4.686   25.517   84.096   0.687   0.120  0.297    4.408   1.591
+#      estlvs
+#2.540946e+07
+#6.281405e+03
+#5.715207e+12
+#8.348407e+09
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 585.782  3.061  0.018  0.205  0.356  0.533  0.144  0.437
+#  12.000  2.000  0.004  0.000  0.167  0.193  0.000  0.000
+#1058.000  6.000  0.173  0.500  0.500  0.990  0.490  0.955
+#  72.258  0.905  0.007  0.136  0.103  0.154  0.098  0.079
+# real    39m21.928s user    521m30.445s sys     79m57.265s
 
-# # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
+# Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_sd> nomad np
 # 317  605218.43071    0.1874     0.66       0.0093     0.0784     0.0027
 # Blackbox evaluations: 1083 Total model evaluations: 96287 Cache hits: 430 Total number of evaluations: 1513
@@ -133,7 +155,29 @@
 # 1000 : 2.58051022267237571715e+04 5.94806210572065475503e+05 4.76467451632867827357e+06; 6.05218430709548742982e+05
 # real    0m52.364s user    8m23.168s sys     0m2.470s
 # TAU_symmb_7_wdL_sd> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "0.1874,0.66,0.0093,0.0784,0.0027" "" ""
-# XXX running on server
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu  wdL   asc  relpr   1     6236   26083.235   84723051  0  1025813  346437   679376        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#283.323  0.586   28.180  130.793  154.757   1.727  0.000  0.442    0.787  12.256
+# 99.000  0.000    0.000   23.404    5.085   1.000  0.000  0.000    0.000   0.000
+#494.000  3.000  225.000  140.526  827.160   8.000  2.000  2.929   22.183  20.000
+# 25.536  0.522   18.815    3.075   69.056   0.780  0.021  0.211    1.280   1.864
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#230.417  1.897    3.383   27.098   60.598   1.207   0.009  0.169    8.183  13.851
+#  8.000  1.028    0.000    0.000    0.741   1.000   0.000  0.000    0.730   7.000
+#323.000  6.000  100.000  137.037  957.143  11.000  13.000  3.506   27.987  21.000
+# 32.730  0.596    4.503   23.937   72.667   0.559   0.125  0.217    3.950   1.619
+#      estlvs
+#1.067513e+07
+#2.260750e+04
+#1.439190e+12
+#1.868362e+09
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#145.419  2.961  0.117  0.216  0.366  0.548  0.147  0.385
+# 12.000  2.000  0.023  0.000  0.167  0.207  0.000  0.000
+#210.000  6.000  0.459  0.500  0.500  0.958  0.458  0.973
+#  9.510  0.856  0.038  0.139  0.102  0.145  0.095  0.083
+# real    35m10.170s user    434m43.236s sys     86m35.887s
 
 
 # laMols with newvars:
@@ -143,29 +187,88 @@
 # 970 188092.082182   0.5118     9.973     -9.6        2.07998   -9.9645     8.9415
 # Blackbox evaluations: 1228 Total model evaluations: 106790 Cache hits: 387 Total number of evaluations: 1615
 # Reproduction:
-# XXX
+# TAU_symmb_7_newv_ave> time ./TAUscan 7 ../symmb "" newv hash "0.5118,9.973,-9.6,2.07998,-9.9645,8.9415" 1000 10 all
+# 1000 : 1.65957825361965469457e+03 3.26127544001508513588e+05 3.82761594361613781475e+07; 1.91235535065904630710e+06
+# real    0m44.624s user    7m6.883s sys     0m2.306s
+# TAU_symmb_7_newv_ave> time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "0.5118,9.973,-9.6,2.07998,-9.9645,8.9415" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1     6236   34107.234   61597144  0   786603  339278   447325        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#299.152  0.715   22.854  130.269  179.494   1.992  0.001  0.649    1.213  11.739
+#202.000  0.000    0.000   23.132   17.593   1.000  0.000  0.029    0.000   0.000
+#494.000  4.000  125.000  138.679  987.539  11.000  5.000  4.909   23.549  20.000
+# 22.075  0.495    9.182    3.287   78.674   0.919  0.029  0.319    1.764   1.768
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds    solc     tr  pelvals      dp
+#255.862  1.665    5.528   36.590    93.537   1.439   0.014  0.336   10.353  13.405
+#  8.000  1.033    0.000    0.000     0.738   1.000   0.000  0.000    0.685   8.000
+#332.000  6.000  120.000  134.510  1002.786  11.000  13.000  4.636   30.435  21.000
+# 29.509  0.446    5.458   24.320    92.296   0.803   0.173  0.355    4.473   1.461
+#      estlvs
+#4.888999e+23
+#1.215139e+03
+#8.930327e+28
+#1.888750e+26
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#187.094  2.318  0.000  0.337  0.455  0.581  0.117  0.483
+# 12.000  2.000  0.000  0.000  0.167  0.193  0.000  0.000
+#273.000  6.000  0.036  0.500  0.500  0.990  0.488  1.054
+# 12.605  0.651  0.000  0.127  0.087  0.119  0.089  0.090
+#  real    46m26.230s user    568m27.239s sys     126m12.161s
 
-# # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
+# Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_avepsd> nomad np
 # 808  761943.422038  -0.9463    -1.0229    -5.97       3.2       -9.9736    -7.08
 # Blackbox evaluations: 1167 Total model evaluations: 97480 Cache hits: 398 Total number of evaluations: 1565
 # Reproduction:
-# XXX
+# TAU_symmb_7_newv_avepsd> time ./TAUscan 7 ../symmb "" newv hash "-0.9463,-1.0229,-5.97,3.2,-9.9736,-7.08" 1000 10 all
+# 1000 : 1.25295847176962695224e+04 3.50614106016151578558e+05 6.04830161575541596903e+06; 4.44337634723220420454e+05
+# real    0m55.582s user    9m0.063s sys     0m2.502s
+# TAU_symmb_7_newv_avepsd> time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "-0.9463,-1.0229,-5.97,3.2,-9.9736,-7.08" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1     6236   30792.218   52678125  0   678774  295102   383672        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#294.965  0.707   23.357  130.299  178.641   1.997  0.001  0.677    1.248  12.286
+#178.000  0.000    0.000   25.954   12.921   1.000  0.000  0.028    0.000   0.000
+#494.000  4.000  109.740  138.756  912.013  10.000  5.000  4.598   24.510  19.000
+# 23.205  0.495    9.809    3.432   77.935   0.931  0.030  0.331    1.814   1.859
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+#250.963  1.691    4.719   36.720   93.473   1.442   0.016  0.347   10.718  13.985
+#  8.000  1.034    0.000    0.000    0.810   1.000   0.000  0.000    0.680   7.000
+#334.000  6.000   66.667  135.537  856.716   9.000  13.000  4.548   28.014  20.000
+# 29.423  0.465    4.961   24.523   91.882   0.805   0.187  0.369    4.342   1.530
+#      estlvs
+#7.008972e+06
+#1.140812e+04
+#2.045035e+12
+#3.301608e+09
+#    mu1      w       ltau   minp  meanp   maxp    sdd     tb
+#184.996  2.300      2.615  0.341  0.457  0.580  0.114  0.504
+# 12.000  2.000      0.088  0.000  0.167  0.185  0.000  0.000
+#273.000  6.000  23245.013  0.500  0.500  0.992  0.492  0.959
+# 13.135  0.616    110.896  0.123  0.084  0.114  0.086  0.097
+# real    44m55.535s user    513m12.229s sys     148m55.364s
 
-# # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
+# Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_max> nomad np
 # 364  3416938.241659   0.100952   9.003906  -7.0349     5.0009    -4.0073    10
 # Blackbox evaluations: 1192 Total model evaluations: 104106 Cache hits: 380 Total number of evaluations: 1572
 # Reproduction:
-# XXX
+# TAU_symmb_7_newv_max> time ./TAUscan 7 ../symmb "" newv hash "0.100952,9.003906,-7.0349,5.0009,-4.0073" 1000 10 all
+# 1000 : 1.98792629278614244051e+04 4.52418849761614953707e+05 1.17240846990278911489e+07; 7.44190638042226138509e+05
+# real    0m47.137s user    7m21.324s sys     0m2.281s
+# TAU_symmb_7_newv_max> time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "0.100952,9.003906,-7.0349,5.0009,-4.0073" "" ""
+# XXX running on server
 
 # # Alternative optimisation on sd (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_sd> nomad np
 # 880 430668.426931  -0.03      10.0       -6.0        4.0       -8.0       10.0
 # Blackbox evaluations: 1046 Total model evaluations: 89563 Cache hits: 381 Total number of evaluations: 1427
 # Reproduction:
-# XXX
-
+# TAU_symmb_7_newv_sd> time ./TAUscan 7 ../symmb "" newv hash "-0.03,10.0,-6.0,4.0,-8.0,10.0" 1000 10 all
+# 1000 : 1.99229909857604585959e+04 4.24359514816481850431e+05 7.87748808045444514300e+06; 7.11475745763607982042e+05
+# real    0m54.931s user    8m49.768s sys     0m2.565s
+# TAU_symmb_7_newv_sd> time ./laMols 7 ../symmb "" +count dom enu newv "" "" 1 16 "-0.03,10.0,-6.0,4.0,-8.0,10.0" "" ""
+# XXX running on server
 
 squares A B aux
 red A
