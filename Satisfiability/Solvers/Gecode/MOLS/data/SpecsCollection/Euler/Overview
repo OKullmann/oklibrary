@@ -15,7 +15,7 @@ symmb           U       C       SE      SE      ?       ?
 diag            U       C       SE      SE      ?       ?
 pandiag         U       C       U       U       U       S
 sudokudiag      U       C       S       S       ?       ?
-sudokupandiag   U       C       U       U       UE      SE
+pandiagsudoku   U       C       U       U       U       SE
 
 
 Results:
@@ -59,6 +59,7 @@ On N=7, rlaMols (enu+mindom) has 77x better nodecount than gcMols
 than rlaMols. newvars-sd has similar leafcount as rlaMols.
 
 
-7) sudokupandiag
+7) pandiagsudoku
 
+All solvers solve N=10.
 XXX
