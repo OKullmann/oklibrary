@@ -27,9 +27,14 @@
 #  7    count dom enu    maxdom  asc   1         0    1417.865    1982536921    20497151    25597906     26  1
 #  7    count dom enu mindegdom  asc   1         0    1283.775    1905457757    22781678    28616990     26  1
 # The best solution-wise are mindom and mindeg.
-
+# Now full counting on mindom and mindeg:
 # MOLS> ./gcMols 7 data/SpecsCollection/Euler/diag "" count dom - mindom,mindeg asc 1 16 "gnds,864409178"
-# XXX running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    mindom  asc   1     26848   34232.012   69614112427   432177741   864409177     33  0
+#  7    count dom bin    mindeg  asc   1     26848   37764.783   88080050027   601449660  1202953015     37  0
+#  7    count dom enu    mindom  asc   1     26848   27770.112   69159022724   433315698   751478610     28  0
+#  7    count dom enu    mindeg  asc   1     26848   33721.210   88413502465   624548543   945927919     23  0
+# The best leaf-wise (satc + flvs) is bin+mindom.
 
 # rlaMols:
 
