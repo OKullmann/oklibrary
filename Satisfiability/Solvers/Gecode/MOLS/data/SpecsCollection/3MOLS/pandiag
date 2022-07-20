@@ -105,7 +105,7 @@
 
 # N=11:
 
-# ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 A "" ""
+# MOLS$ ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 A "" ""
 # aborted without finding a solution:
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 # 11   +count dom enu  wdL   asc  relpr   1        0  182344.623   31904106  1   167929   39508   128421        0
@@ -130,7 +130,7 @@
 #5280.000  8.000  0.048  0.500  0.500  0.850  0.367  67.539
 # 365.830  1.127  0.014  0.112  0.103  0.112  0.037   4.607
 
-# ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 L "" ""
+# MOLS$ ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu wdL "" "" 1 16 L "" ""
 # aborted without finding a solution:
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 # 11   +count dom enu  wdL   asc  relpr   1        0  182827.786   36934550  1   189859   47412   142447        0
@@ -178,7 +178,29 @@
 # N = 11:
 
 # MOLS> ./laMols 11 data/SpecsCollection/3MOLS/pandiag "" +count "" enu newv "" "" 1 16 A "" ""
-# running on server2 XXX
+# aborted after more than 5h wallclock-time:
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu newv   asc  relpr   1        0  303029.344   61915572  1   286825   57049   229776        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#4127.690  0.766    0.820  114.863  175.430   1.719  0.000  29.123    0.117  19.356
+#3532.000  0.000    0.000  109.602  112.316   1.000  0.000   7.796    0.000   0.000
+#5280.000  2.000    8.031  116.903  292.575   3.000  0.000  57.691    1.971  30.000
+# 320.537  0.500    1.124    0.795   43.753   0.453  0.000   8.092    0.186   4.871
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#4001.759  1.714    0.059   17.157   50.460   1.284  0.000   8.802    1.071  21.329
+#3469.000  1.047    0.000    0.000    0.051   1.000  0.000   0.000    0.051   7.000
+#4870.000  8.000    4.746  111.758  270.796   3.000  0.000  63.188   12.109  31.000
+# 340.733  0.727    0.153   20.867   59.393   0.477  0.000  10.765    0.820   5.075
+#      estlvs
+#8.712441e+16
+#6.300797e+05
+#4.343459e+20
+#1.368014e+18
+#     mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#1791.365  5.043  0.008  0.205  0.243  0.288  0.035  19.905
+#1649.000  2.000  0.000  0.000  0.111  0.125  0.000   1.722
+#2086.000  9.000  0.016  0.500  0.500  0.888  0.388  33.256
+#  90.309  2.111  0.005  0.142  0.121  0.123  0.043   3.170
 
 
 

@@ -12,7 +12,7 @@ N:              6       7       8       9       10      11      12
 basis           U       C       SE      SE      ?       SE      SE
 symmb           U       C       SE      SE      ?       SE      SE
 diag            U       C       S       SE      ?       SE      ?
-sudokudiag      U       C       S       SE      ?       ?       ?
+sudokudiag      U       C       S       SE      ?       SE      ?
 pandiag         U       C       U       U       U       CE      UE
 pandiagsudoku   U       C       U       U       U       C       UE
 
@@ -62,4 +62,9 @@ laMols with wdL and newv even lower node-count.
 
 6) pandiagsudoku
 
-XXX
+N <= 9 solved quickly by all solvers.
+
+N=10 hard for gcMols, but still trivial for rlaMols and laMols (all
+defaults).
+
+N=11 also easy for rlaMols and laMols (all defaults).

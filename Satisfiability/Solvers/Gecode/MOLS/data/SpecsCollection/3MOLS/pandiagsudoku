@@ -23,7 +23,10 @@
 # N = 10:
 
 # MOLS$ time ./gcMols 10 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom enu maxdegdom "" 1 16 ""
-# running on server2 XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom enu maxdegdom  asc   1         0  163554.586  236017817406   396619524   783405078     35  0
+# real    211m2.927s user    2725m54.595s sys     47m37.356s
+
 
 
 
@@ -51,10 +54,100 @@
 # 140.079  1.079    0.388   20.774  104.331   0.849  1.548  10.207    4.340  0.587
 # real    0m29.826s user    7m56.168s sys     0m0.764s
 
+# MOLS$ ./rlaMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom - - "" "" 1 16 lvs,100
+# leaf-wise bin+mindom and bin+maxdegdom are best (42 leaves; the enu-forms have 43 leaves), while
+# fastest is enu+first (48 leaves).
+
 # N = 12:
 
 # MOLS$ time ./rlaMols 12 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 16 ""
-# running on server2 XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12   +count dom enu    mindom  asc  relpr   1        0  248727.912   33119378  1   225185   70357   154828
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#6628.988  0.763    1.921  111.722  135.010   1.633  0.000   52.325    0.065  10.077
+#6561.000  0.000    0.000  110.896  109.370   1.000  0.000   15.736    0.000   0.000
+#7092.000  3.000    2.510  111.885  227.369   3.000  0.000  112.800    0.726  11.000
+#  55.162  0.643    0.347    0.129   32.109   0.484  0.000   14.359    0.080   1.128
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#6555.500  1.836    0.067    1.707    4.881   1.006  0.000    1.784    0.242  11.789
+#6515.000  1.138    0.000    0.695    1.219   1.000  0.000    0.387    0.107   5.000
+#6875.000  5.000    6.723  105.037  228.467   3.000  0.000  110.127    2.334  12.000
+#  23.135  0.394    0.266    5.446    9.897   0.088  0.000    3.880    0.071   0.580
+# real    279m37.091s user    4145m42.633s sys     159m59.041s
+# MOLS$ time ./rlaMols 12 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu first "" "" 1 16 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12   +count dom enu     first  asc  relpr   1        0  119899.954   16594001  1   108094   32102    75992
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#6644.496  0.824    2.218  111.719  122.073   1.682  0.000  49.814    0.042   9.143
+#6580.000  0.000    0.000  111.046  109.105   1.000  0.000  17.178    0.000   0.000
+#7092.000  3.000    2.675  111.849  180.632   2.000  0.000  96.519    0.501  11.000
+#  54.207  0.694    0.419    0.120   22.820   0.466  0.000  11.211    0.064   1.246
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#6573.070  1.808    0.162    5.389   10.082   1.052  0.000   4.001    0.255  10.848
+#6515.000  1.250    0.000    0.627    1.938   1.000  0.000   0.527    0.137   1.000
+#7045.000  3.167    2.504  105.744  124.730   2.000  0.000  65.690    0.928  12.000
+#  26.068  0.343    0.436   18.390   25.329   0.222  0.000  10.384    0.082   0.873
+# real    135m25.108s user    1998m35.068s sys     77m31.409s
+
+
+
+# laMols with wdL:
+
+# 2 <= N <= 10:
+
+# MOLS$ ./laMols 2,10 data/SpecsCollection/3MOLS/pandiagsudoku "" +count "" enu wdL "" "" 1 1 "" "" ""
+# all instances solved quickly.
+
+# MOLS$ ./laMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" +count "" enu wdL "" "" 1 16 "" "" ""
+#   weights: A -> 0 0 1 2 3 4 5 6 7 8 9 10
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       24    1116.656      34813  0       75      17       58        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#5009.235  1.107    2.343  109.563  212.578   2.706  0.000  17.828    0.687  1.647
+#4934.000  0.000    0.000  109.272  112.644   1.000  0.000   8.432    0.000  0.000
+#5220.000  1.462    3.289  112.644  335.413   4.000  0.000  27.965    0.993  2.000
+# 117.487  0.326    0.875    0.796   70.078   0.849  0.000   5.828    0.267  0.606
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#4734.862  1.856    0.201   32.642  129.795   1.897  0.414  11.283    2.845  2.793
+#4681.000  1.223    0.000    3.613   10.703   1.000  0.000   1.023    0.213  1.000
+#5176.000  3.333    1.883   95.644  450.117   5.000  1.000  44.753    8.009  3.000
+# 121.342  0.535    0.332   19.455  126.747   1.150  0.497  11.078    3.082  0.487
+#      estlvs
+#1.024045e+02
+#6.083781e+00
+#1.240324e+02
+#3.584925e+01
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#4843.824  4.353  0.021  0.231  0.233  0.238  0.003  9.327
+#4759.000  4.000  0.018  0.164  0.167  0.171  0.002  8.767
+#5220.000  6.000  0.041  0.249  0.250  0.257  0.004  9.593
+# 141.674  0.606  0.006  0.028  0.028  0.028  0.001  0.168
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815 2.8073549220576041075 3 3.1699250014423123629 3.3219280948873623478 3.4594316186372972561
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       24    1199.960      51268  0       91      21       70        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#4942.381  1.031    2.333  109.528  215.805   2.714  0.000  18.184    0.857  1.905
+#4670.000  0.000    0.000  109.001  112.644   1.000  0.000   8.704    0.000  0.000
+#5220.000  1.324    3.398  112.644  251.304   3.000  0.000  21.373    1.328  3.000
+# 171.494  0.262    0.909    0.750   35.589   0.561  0.000   2.893    0.326  0.768
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#4665.600  1.892    0.402   24.945   99.308   1.629  0.343   8.842    2.391  3.057
+#4440.000  1.226    0.000    0.540    0.720   1.000  0.000   0.064    0.202  1.000
+#5176.000  3.000    2.753  103.017  454.034   5.000  1.000  45.465    8.169  4.000
+# 164.320  0.485    0.482   21.749  124.574   1.079  0.478  10.880    3.001  0.679
+#      estlvs
+#1.872158e+02
+#6.077238e+00
+#4.974762e+02
+#1.628411e+02
+#     mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#1955.714  4.286  0.085  0.233  0.237  0.244  0.005   9.446
+#1883.000  4.000  0.070  0.165  0.167  0.171  0.000   8.958
+#2074.000  6.000  0.170  0.250  0.250  0.264  0.009  11.829
+#  49.379  0.561  0.023  0.025  0.026  0.027  0.002   0.570
+
 
 
 squares A B C AB AC BC
