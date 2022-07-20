@@ -21,7 +21,7 @@
 
 # N = 10:
 
-# MOLS> ./gcMols 10 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom enu maxdegdom "" 1 16 ""
+# MOLS$ time ./gcMols 10 data/SpecsCollection/3MOLS/pandiagsudoku "" count dom enu maxdegdom "" 1 16 ""
 # running on server2 XXX
 
 
@@ -34,7 +34,7 @@
 
 # N = 11:
 
-# MOLS> ./rlaMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 12 ""
+# MOLS$ time ./rlaMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 16 ""
 # running on server2 XXX
 
 

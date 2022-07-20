@@ -14,6 +14,7 @@ symmb           U       C       SE      SE      ?       SE
 diag            U       C       S       SE      ?       SE
 sudokudiag      U       C       S       SE      ?       ?
 pandiag         U       C       U       U       U       CE
+pandiagsudoku   U       C       U       U       ?       ?
 
 
 Results:
@@ -22,8 +23,8 @@ Results:
 
 All solvers solve N=6.
 
-N=7 only solved by rlaMols (enu+maxdegdom).
-Final attempt for now considering newv.
+N=7 yet only solved by rlaMols (enu+maxdegdom).
+Final attempt for now running considering newv (possibly better).
 
 
 2) symmb
@@ -52,8 +53,13 @@ wdL and newvars have 30% of leafcount of rlaMols.
 
 5) pandiag
 
-N <= 10 solved by all solvers, N=11 solved by none.
+N <= 10 solved by all solvers, N=11 seems too hard to enumerate.
 
 N=10: rlaMols (enu+mindom) 5 orders of magnitude lower leafcount than
 gcMols (bin+mindom); roughly 20x faster.
 laMols with wdL and newv even lower node-count.
+
+
+6) pandiagsudoku
+
+XXX
