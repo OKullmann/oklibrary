@@ -12,7 +12,22 @@
 # real    2m44.024s user    32m52.320s sys     7m40.502s
 
 # MOLS> ./gcMols 7 data/SpecsCollection/Euler/symmb "" count dom - - "" 1 16 "gnds,53242848"
-# XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    mindom  asc   1      6236    2143.632    2397053358    28683385    57379241     30  0
+#  7    count dom bin    maxdeg  asc   1      6236   12626.462   14276112539   178121286   356255043     33  0
+#  7    count dom bin maxdegdom  asc   1      6236    1959.954    2430266637    28941285    57895041     33  0
+#  7    count dom bin     first  asc   1      3720   29810.113   45999638745   413812929   827633438     32  1
+#  7    count dom bin    mindeg  asc   1      3706   28810.195   45568983960   410038295   820084170     29  1
+#  7    count dom bin    maxdom  asc   1       948   28632.584   53151574649   417131398   834264832     32  1
+#  7    count dom bin mindegdom  asc   1       243   27819.287   43339424212   420594088   841188814     28  1
+#  7    count dom enu    mindom  asc   1      6236    1903.943    2368469534    28687761    53242848     26  0
+#  7    count dom enu    maxdeg  asc   1      6236   13208.085   14583225829   215977918   338915699     23  0
+#  7    count dom enu maxdegdom  asc   1      6236    2197.515    2401364763    28945627    53735296     27  0
+#  7    count dom enu     first  asc   1      4442   36124.870   56546148115   519784524   832609335     22  1
+#  7    count dom enu    mindeg  asc   1      4232   38318.663   56381093119   514791384   823352171     23  1
+#  7    count dom enu    maxdom  asc   1        52   41549.271   71633107650   685059694   835464638     22  1
+#  7    count dom enu mindegdom  asc   1        60   37610.777   62906333754   654199998   817773491     23  1
+# leaf-wise (flvs + satc) the best is bin+mindom.
 
 # rlaMols:
 
