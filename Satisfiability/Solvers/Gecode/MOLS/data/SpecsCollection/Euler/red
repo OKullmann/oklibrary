@@ -190,8 +190,73 @@
 #143.418  0.756  0.072  0.173  0.099  0.115  0.109  0.002
 # Similar to above.
 
-# Alternative optimisation on max:
+# Alternative optimisation on max (MAX_TIME=600, rep=100)::
 # TAU_red_6_wdL_max> nomad np
+# 235  9861.8524     3.19       0.0103     0.0335     5.5113
+# Blackbox evaluations: 414 Total model evaluations: 37704 Cache hits: 97 Total number of evaluations: 511
+# Reproduction:
+# TAU_red_6_wdL_max> time ./TAUscan 6 ../red "" wdL hash "3.19,0.0103,0.0335,5.5113" 100 1 all
+# 100 : 4.94365315449992619889e+02 2.96020008781907699547e+03 9.86185239964791143574e+03; 2.15253276501522312758e+03
+# real    0m12.571s user    0m12.308s sys     0m0.269s
+# TAU_red_6_wdL_max> time ./laMols 6 ../red "" count dom enu wdL "" "" 1 1 "3.19,0.0103,0.0335,5.5113" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0      20.016     461585  0     6353    2677     3676        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#124.370  0.556  166.246  142.036   96.383   1.602  0.000  0.004    3.828   7.005
+# 12.000  0.000    0.000   28.750    6.557   1.000  0.000  0.000    0.000   0.000
+#310.000  3.000  900.000  200.000  596.667   8.000  0.000  0.028   36.184  11.000
+# 83.097  0.662  186.917   50.579   70.479   0.836  0.000  0.004    7.237   1.717
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 64.580  2.014    1.168   10.119   30.726   1.044  0.000  0.001   18.726   8.368
+#  8.000  1.143    0.000    0.000    2.439   1.000  0.000  0.000    2.439   5.000
+#189.000  5.000   61.111  130.168  286.034   3.000  0.000  0.017   25.000  12.000
+# 72.914  0.402    3.893   19.496   33.534   0.240  0.000  0.002    8.302   1.534
+#      estlvs
+#1.724233e+04
+#4.943653e+02
+#7.826484e+05
+#7.547792e+04
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#276.363  2.373  0.083  0.380  0.447  0.526  0.067  0.003
+# 12.000  2.000  0.003  0.004  0.250  0.250  0.000  0.000
+#793.000  4.000  0.173  0.500  0.500  0.936  0.436  0.011
+#280.306  0.671  0.078  0.160  0.091  0.106  0.100  0.003
+# real    0m20.042s user    0m20.023s sys     0m0.016s
+# Similar to above.
+
+# Alternative optimisation on sd (MAX_TIME=600, rep=100)::
+# TAU_red_6_wdL_sd> nomad np
+# 384 2402.596516   5.256455   0.018174   0.473962   4.088964
+# Blackbox evaluations: 431 Total model evaluations: 39027 Cache hits: 151 Total number of evaluations: 582
+# Reproduction:
+# TAU_red_6_wdL_sd> time ./TAUscan 6 ../red "" wdL hash "5.256455,0.018174,0.473962,4.088964" 100 1 all
+# 100 : 6.56691320217026156092e+02 3.33220320364157519655e+03 1.75308438729909129492e+04; 3.19743969685985083840e+03
+# real    0m12.877s user    0m12.576s sys     0m0.306s
+# TAU_red_6_wdL_sd> time ./laMols 6 ../red "" count dom enu wdL "" "" 1 1 "5.256455,0.018174,0.473962,4.088964" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0      18.141     408411  0     5941    2541     3400        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#113.816  0.528  180.601  145.115   96.051   1.636  0.000  0.003    4.363   7.311
+# 12.000  0.000    0.000   28.750    7.207   1.000  0.000  0.000    0.000   0.000
+#310.000  3.000  900.000  200.000  423.626   7.000  0.000  0.021   39.773  11.000
+# 85.101  0.664  173.794   52.378   73.443   0.939  0.000  0.004    8.238   1.585
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 56.676  1.931    1.214   10.835   36.901   1.075  0.000  0.001   20.215   8.653
+#  8.000  1.080    0.000    0.000    3.008   1.000  0.000  0.000    2.256   5.000
+#189.000  3.000   29.897  130.055  344.809   4.000  0.000  0.016   25.000  12.000
+# 72.757  0.257    3.701   22.160   46.626   0.347  0.000  0.002    7.430   1.411
+#      estlvs
+#7.837459e+03
+#6.566913e+02
+#5.771244e+04
+#9.018840e+03
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#1025.430  2.338  0.082  0.401  0.453  0.511  0.049  0.002
+#  12.000  2.000  0.001  0.045  0.250  0.250  0.000  0.000
+#4118.000  4.000  0.173  0.500  0.500  0.933  0.433  0.011
+#1224.596  0.672  0.084  0.150  0.089  0.094  0.085  0.003
+# real    0m18.156s user    0m18.148s sys     0m0.008s
+# Similar to above.
 
 # Absolute optimisation on lvs:
 # LVS_red_6_wdL> nomad np
@@ -507,6 +572,74 @@
 #187.000  4.000  271.561  0.500  0.500  0.841  0.341  0.006
 # 57.108  0.438   41.184  0.105  0.059  0.083  0.071  0.002
 # Likely basically the same.
+
+# Alternative optimisation on max (MAX_TIME=600, rep=100)::
+# TAU_red_6_newv_max> nomad np
+# 309  8714.146177   0.05127   -2.9997     0.0068    -1.93      -0.0086
+# Blackbox evaluations: 349 Total model evaluations: 30185 Cache hits: 42 Total number of evaluations: 391
+# Reproduction:
+# TAU_red_6_newv_max> time ./TAUscan 6 ../red "" newv hash "0.05127,-2.9997,0.0068,-1.93,-0.0086" 100 1 all
+# 100 : 7.99455925130492515263e+02 3.11159289904937045579e+03 8.71414617692487977418e+03; 2.26793566149185951608e+03
+# real    0m12.597s user    0m12.361s sys     0m0.245s
+# TAU_red_6_newv_max> time ./laMols 6 ../red "" count dom enu newv "" "" 1 1 "0.05127,-2.9997,0.0068,-1.93,-0.0086" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0      19.287     447066  0     6265    2649     3616        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#122.436  0.504  147.332  145.004  102.228   1.618  0.000  0.004    4.255   6.922
+# 12.000  0.000    0.000   32.099    8.497   1.000  0.000  0.000    0.000   0.000
+#310.000  2.500  900.000  200.000  306.742   5.000  0.000  0.017   31.792  10.000
+# 84.753  0.628  162.417   49.915   62.131   0.857  0.000  0.004    8.378   1.542
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 60.491  2.044    1.079    8.896   27.928   1.045  0.000  0.001   18.713   8.451
+#  8.000  1.125    0.000    0.000    2.586   1.000  0.000  0.000    2.586   6.000
+#182.000  5.000   45.000  125.275  392.308   4.000  0.000  0.018   25.000  11.000
+# 70.282  0.397    3.608   18.864   36.127   0.292  0.000  0.002    8.553   1.234
+#      estlvs
+#6.377921e+03
+#7.994559e+02
+#3.839538e+04
+#5.423527e+03
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 69.899  2.365  0.133  0.368  0.443  0.529  0.074  0.003
+# 12.000  2.000  0.011  0.019  0.250  0.250  0.000  0.000
+#187.000  4.000  0.573  0.500  0.500  0.812  0.328  0.011
+# 56.032  0.558  0.081  0.163  0.084  0.111  0.106  0.003
+# real    0m19.307s user    0m19.294s sys     0m0.013s
+# Similar to above.
+
+# Alternative optimisation on sd (MAX_TIME=600, rep=100)::
+# TAU_red_6_newv_sd> nomad np
+# 298 1657.496578  -0.39       1         -5          6         -2.01
+# Blackbox evaluations: 351 Total model evaluations: 36274 Cache hits: 27 Total number of evaluations: 378
+# Reproduction:
+# TAU_red_6_newv_sd> time ./TAUscan 6 ../red "" newv hash "-0.39,1,-5,6,-2.01" 100 1 all
+# 100 : 6.59141666657975251742e+02 2.46957146111985421522e+03 1.00539640975586482519e+04; 1.65749657763998709592e+03
+# real    0m12.954s user    0m12.662s sys     0m0.305s
+# TAU_red_6_newv_sd> time ./laMols 6 ../red "" count dom enu newv "" "" 1 1 "-0.39,1,-5,6,-2.01" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0      18.860     355026  0     5261    2285     2976        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#127.873  0.550  162.640  142.023  108.440   1.711  0.000  0.004    4.891   7.300
+# 12.000  0.000    0.000   27.473   10.417   1.000  0.000  0.000    0.000   0.000
+#310.000  2.000  900.000  200.000  445.455   6.000  0.000  0.021   37.500  12.000
+# 84.172  0.609  203.607   50.087   69.037   0.937  0.000  0.004    9.088   1.720
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 66.794  1.956    1.841   12.707   35.160   1.071  0.000  0.001   18.906   8.663
+#  8.000  1.080    0.000    0.000    3.175   1.000  0.000  0.000    2.797   5.000
+#189.000  4.000  160.000  130.055  344.809   4.000  0.000  0.016   25.000  13.000
+# 75.669  0.375    7.509   23.075   43.550   0.337  0.000  0.002    8.153   1.549
+#      estlvs
+#5.534176e+03
+#6.060262e+02
+#2.174510e+04
+#4.662736e+03
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 71.287  2.302  0.773  0.399  0.459  0.527  0.059  0.003
+# 12.000  2.000  0.013  0.042  0.250  0.250  0.000  0.000
+#187.000  4.000  4.442  0.500  0.500  0.867  0.367  0.011
+# 56.174  0.666  0.985  0.144  0.087  0.100  0.089  0.003
+# real    0m18.876s user    0m18.864s sys     0m0.012s
+# Similar to above.
 
 # Absolute optimisation on lvs:
 # LVS_red_6_newv$ nomad np
