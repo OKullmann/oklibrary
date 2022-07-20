@@ -1,5 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 0, 0, 24, 0, 0
+# 24
 
 # The Sudoku-condition is redundant for N <= 8.
 
@@ -25,6 +26,7 @@
 # running on server2 XXX
 
 
+
 # rlaMols:
 
 # 2 <= N <= 10:
@@ -35,8 +37,24 @@
 # N = 11:
 
 # MOLS$ time ./rlaMols 11 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 16 ""
-# running on server2 XXX
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 11   +count dom enu    mindom  asc  relpr   1       24     476.157      22809  0       54      11       43
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#5055.727  1.122    2.120  109.629  213.366   2.727  0.000  19.576    0.504  1.455
+#4936.000  0.000    0.000  109.272  112.644   1.000  0.000   9.355    0.000  0.000
+#5220.000  1.500    3.289  112.644  335.413   4.000  0.000  30.265    0.993  2.000
+# 124.870  0.420    0.989    1.001   76.776   0.905  0.000   7.043    0.279  0.688
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#4816.395  2.120    0.205   14.774   62.253   1.395  0.558   6.058    2.266  2.581
+#4681.000  1.336    0.000    0.737    1.096   1.000  0.000   0.066    0.147  1.000
+#5176.000  7.000    2.083   78.898  348.932   4.000  6.000  39.232   17.900  3.000
+# 140.079  1.079    0.388   20.774  104.331   0.849  1.548  10.207    4.340  0.587
+# real    0m29.826s user    7m56.168s sys     0m0.764s
 
+# N = 12:
+
+# MOLS$ time ./rlaMols 12 data/SpecsCollection/3MOLS/pandiagsudoku "" +count dom enu mindom "" "" 1 16 ""
+# running on server2 XXX
 
 
 squares A B C AB AC BC

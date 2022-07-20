@@ -7,14 +7,14 @@ SE:     satisfiability envisaged (known to be SAT)
 ?:      unknown
 
 
-N:              6       7       8       9       10      11
+N:              6       7       8       9       10      11      12
 
-basis           U       C       SE      SE      ?       SE
-symmb           U       C       SE      SE      ?       SE
-diag            U       C       S       SE      ?       SE
-sudokudiag      U       C       S       SE      ?       ?
-pandiag         U       C       U       U       U       CE
-pandiagsudoku   U       C       U       U       ?       ?
+basis           U       C       SE      SE      ?       SE      SE
+symmb           U       C       SE      SE      ?       SE      SE
+diag            U       C       S       SE      ?       SE      ?
+sudokudiag      U       C       S       SE      ?       ?       ?
+pandiag         U       C       U       U       U       CE      UE
+pandiagsudoku   U       C       U       U       U       C       UE
 
 
 Results:
