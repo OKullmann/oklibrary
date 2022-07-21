@@ -141,7 +141,7 @@
 
 # bin/enu + mindom much worse.
 
-# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiagsudoku "" +count dom - - - "" 1 16 "nds,3328"
+# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom - - - "" 1 16 "nds,3328"
 # XXX running on server
 
 # N = 12:

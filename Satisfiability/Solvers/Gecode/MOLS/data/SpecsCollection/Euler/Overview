@@ -34,7 +34,7 @@ laMols has similar leafcount as rlaMols.
 
 3) symmb
 
-All solvers solve N=7. N=7 solved only by gcMols.
+All solvers solve N=7.
 On N=7, rlaMols(bin+maxdegdom) is 47x better leaf-wise than gcMols(bin+mindom),
 laMols(newv+avepsd) is 60 % better leaf-wise than rlaMols.
 
@@ -50,10 +50,7 @@ laMols(newv+max) is 40 % better leaf-wise than rlaMols.
 
 All solvers solve N=10.
 rlaMols and laMols solve N=11.
-The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols.
-Maybe 10k seconds is not enough for optimisation, and e.g.
-40k seconds can be tried.
-XXX
+The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols(enu+mindom).
 
 
 6) sudokudiag
@@ -68,4 +65,3 @@ laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
 All solvers solve N=11.
 On N=11, rlaMols(enu+mindom) has only 52 leaves - seems too few for
 optimising laMols.
-XXX
