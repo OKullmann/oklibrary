@@ -86,9 +86,6 @@
 
 # N=11:
 
-# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom desc 1 16 ""
-# XXX running on server
-
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom "" 1 16 ""
 # aborted after one hour wallclock without finding a solution
 
@@ -98,7 +95,9 @@
 # aborted after one hour wallclock without finding a solution
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
-# aborted after one hour wallclock: found 7 solutions quickly.
+# aborted after 17 hours wallclock: found 7 solutions quickly.
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom desc 1 16 ""
 # XXX running on server
 
 
