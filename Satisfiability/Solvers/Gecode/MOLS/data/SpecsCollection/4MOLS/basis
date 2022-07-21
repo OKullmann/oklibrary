@@ -4,15 +4,79 @@
 #
 
 # gcMols:
-# Possibly dom+enumbr+mindeg is better (at least for N=6).
-# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS "" satd dom binbr maxdegdom "" 12
-# aborted after 50min wallclock and no solution found.
-# It seems significantly harder than 4MOLSinv.
+
+# MOLS> ./gcMols 2,5 data/SpecsCollection/4MOLS/basis "" count dom enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindom  asc   1         0       0.000            44           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000           153           1           0      0  0
+#  4    count dom enu    mindom  asc   1         0       0.000          1722           8          15      3  0
+#  5    count dom enu    mindom  asc   1        36       0.009         46991         210         434      8  0
+
+# N=6:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/4MOLS/basis "" count dom - - "" 1 1 "t,20"
+# Two successes:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  6    count dom bin    mindeg  asc   1         0      10.838      56244746      247036      494071     19  0
+#  6    count dom enu    mindeg  asc   1         0       8.627      46670198      181946      305266     16  0
+# So dom+enum+mindeg is best (at least for N=6).
+
+# N=7:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
+# running on server2 XXX
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
+# running on server2 XXX
+
 
 
 # rlaMols:
-# MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLS "" +count dom enu maxdegdom "" "" 1 12
-# aborted after 9 min wallclock-time without finding a solution.
+
+# N=6:
+
+# MOLS> ./rlaMols 6 data/SpecsCollection/4MOLS/basis "" count dom - - "" "" 1 16 "lvs,20000"
+# clearly best: bin/enu + maxdegdom:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom bin maxdegdom  asc  relpr   1        0    1196.234     850522  0    11537    5768     5769
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1035.279  0.603   11.356  127.501  143.576   1.688  0.000  1.267    0.204  11.900
+# 996.000  0.000    4.396  126.106  110.876   1.000  0.000  0.142    0.000   0.000
+#1130.000  2.000   23.103  128.414  444.311   4.000  0.000  7.861    1.465  17.000
+#  25.655  0.548    2.978    0.420   47.859   0.684  0.000  0.835    0.278   2.344
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 996.631  1.513    6.637   34.270   71.643   1.370  0.000  0.717    2.645  13.898
+# 951.000  1.074    0.000    0.837    0.941   1.000  0.000  0.009    0.418   6.000
+#1066.000  2.600   46.154  127.218  480.200   5.000  0.000  7.155   13.300  18.000
+#  14.834  0.230    6.057   30.376   76.538   0.613  0.000  0.891    1.431   1.878
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom enu maxdegdom  asc  relpr   1        0    1086.338     877339  0    10900    4924     5976
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#1031.048  0.682   11.673  127.550  147.624   1.780  0.000  1.374    0.235  6.768
+# 998.000  0.000    4.396  126.106  110.876   1.000  0.000  0.031    0.000  0.000
+#1130.000  2.000   23.103  128.300  444.311   4.000  0.000  7.973    1.465  8.000
+#  24.122  0.535    2.938    0.417   50.379   0.682  0.000  1.080    0.290  1.140
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+# 995.302  1.528    7.004   31.910   67.066   1.346  0.000  0.695    2.565  8.431
+# 893.000  1.077    0.000    0.000    0.219   1.000  0.000  0.000    0.219  6.000
+#1063.000  4.000   46.154  127.218  480.200   5.000  0.000  8.735   13.300  9.000
+#  17.130  0.248    6.375   30.336   76.238   0.602  0.000  1.004    1.430  0.624
+
+# N=7:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server2 XXX
+
+
+
+# laMols with wdL
+
+# N=6:
+
+# Optimising for lvs via Nomad:
+# LVS_basis_6_wdL$ nomad np
+# running on server2 XXX
+
 
 
 squares A B C D  AB AC AD BC BD CD
