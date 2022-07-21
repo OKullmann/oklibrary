@@ -145,7 +145,7 @@
 # 585  1814.964923   4.089999   6.999999   0.110002   0.0001     4.999999
 # Blackbox evaluations: 1087 Total model evaluations: 99237 Cache hits: 375 Total number of evaluations: 1462
 # Reproduction:
-# TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "4.089999,6.999999,0.110002,0.0001,4.999999" 100 10 all
+# TAU_sudokudiag_7_wdL_avepsd> time ./TAUscan 7 ../sudokudiag "" wdL hash "4.089999,6.999999,0.110002,0.0001,4.999999" 100 10 all
 # 100 : 3.60482152037264433508e+02 1.70786660062998327003e+03 1.64301985317896331011e+04; 2.07220955349689412128e+03
 # real    0m4.097s user    0m38.522s sys     0m0.420s
 # Failure in reproduction.
