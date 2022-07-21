@@ -84,8 +84,21 @@
 
 # N=12:
 
-# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" - mindom,maxdegdom "" "" 1 16 ""
-# running on server2 XXX
+# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" bin mindom "" "" 1 16 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 12    count dom bin    mindom  asc  relpr   1        0 1152101.552  331874154  1  7609602 3804857  3804745
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 687.346  0.430    0.273  117.427  146.300   1.442  0.000   3.693    0.210  24.036
+# 614.000  0.000    0.000  112.290  112.512   1.000  0.000   0.506    0.000   0.000
+#1044.000  3.000    3.194  119.544  523.706   5.000  0.000  19.365    3.883  36.000
+#  42.157  0.524    0.373    0.946   40.955   0.554  0.000   1.449    0.340   3.719
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#645.634  1.829    0.075   15.239   48.087   1.035  0.000   1.091    2.480  26.036
+#591.000  1.087    0.000    3.490    8.306   1.000  0.000   0.066    0.702   9.000
+#919.000  7.000   10.714   98.916  634.072   6.000  0.000  22.677   10.917  37.000
+# 21.219  0.436    0.262    7.552   26.474   0.192  0.000   0.752    0.674   3.439
+
 
 # MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" bin maxdom "" "" 1 16 ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
@@ -104,10 +117,38 @@
 # N=13:
 
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu maxdegdom "" "" 1 16 ""
-# running on server2 XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 13    count dom enu maxdegdom  asc  relpr   1        0 1304223.751  286537025  1  3855632 1233212  2622420
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 737.184  0.945    4.567  115.540   290.594   2.972  0.000   7.565    2.228  17.258
+# 468.000  0.000    0.000   74.519    98.046   1.000  0.000   1.014    0.000   0.000
+#1380.000  6.000   30.333  125.394  1542.770  16.000  0.000  54.669   27.261  26.000
+#  72.049  0.310    2.895    5.411   153.515   1.529  0.000   4.741    2.688   2.373
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#673.839  1.542    1.802   31.282   186.911   2.174  0.000   4.388    9.395  18.198
+#209.000  1.016    0.000    0.000     0.262   1.000  0.000   0.000    0.262  12.000
+#898.000  9.000   57.143  123.063  1643.067  17.000  0.000  55.027   38.166  27.000
+# 73.831  0.371    1.423   20.118   154.464   1.421  0.000   4.060    5.381   2.205
+# real    1466m23.328s user    21737m5.528s sys     868m44.684s
+
 
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +count "" bin maxdom "" "" 1 16 ""
-# running on server2 XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 13   +count dom bin    maxdom  asc  relpr   1        3 1130887.750  301377860  1  5815755 2907933  2907822
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 637.511  0.530    1.592  114.828   182.479   1.851  0.000   4.285    0.968  34.989
+# 375.000  0.000    0.000   58.520    91.774   1.000  0.000   0.634    0.000   0.000
+#1380.000  8.000   21.158  125.862  1424.118  14.000  0.000  61.669   22.747  73.000
+# 120.402  0.547    1.619    6.860    97.365   1.105  0.000   2.903    1.903   7.423
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 559.156  1.822    0.600   21.626   105.517   1.588  0.000   1.925    6.050  36.989
+# 242.000  1.013    0.000    0.000     0.772   1.000  0.000   0.000    0.235   5.000
+#1257.000  9.000   42.857  123.023  1313.469  14.000  1.000  51.574   36.678  74.000
+# 110.320  0.711    0.974   19.711   120.443   1.054  0.001   2.469    5.202   7.287
+# real    1466m49.135s user    18848m9.299s sys     2704m56.356s
+
 
 
 
@@ -146,7 +187,31 @@
 # real    292m4.315s user    4074m23.864s sys     219m30.750s
 
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal/sudoku "" count "" enu wdL "" "" 1 16 L "" ""
-# running on server2 XXX
+# aborted:
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 12    count dom enu  wdL   asc  relpr   1        0 1048012.113  366121119  1  6298468 1855857  4442611        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 694.036  0.780    0.332  117.081  158.357   1.638  0.000   3.877    0.409  10.022
+# 629.000  0.000    0.000  112.587  112.644   1.000  0.000   1.164    0.000   0.000
+#1044.000  4.000    2.820  118.987  424.118   4.000  0.000  15.085    2.987  12.000
+#  38.255  0.651    0.440    0.962   38.152   0.481  0.000   1.348    0.451   1.022
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#641.263  1.912    0.051   13.392   41.949   1.002  0.000   0.916    2.308  11.603
+#569.000  1.067    0.000    0.000    0.568   1.000  0.000   0.000    0.563   5.000
+#870.000  9.000    8.081  110.156  464.706   5.000  0.000  14.427   12.251  13.000
+# 10.464  0.622    0.151    5.729   15.748   0.052  0.000   0.437    0.521   0.560
+#      estlvs
+#1.422382e+07
+#5.678111e+03
+#7.532939e+08
+#1.362476e+07
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#329.542  3.394  0.150  0.292  0.323  0.358  0.028  2.926
+#312.000  2.000  0.045  0.019  0.143  0.155  0.000  0.297
+#416.000  7.000  0.240  0.500  0.500  0.743  0.243  6.945
+#  9.423  0.919  0.053  0.117  0.106  0.115  0.038  0.702
+# real    1252m59.240s user    17466m54.451s sys     1334m33.689s
+# So the A-weights are better than the L-weights (but far worse than rlaMols).
 
 
 
