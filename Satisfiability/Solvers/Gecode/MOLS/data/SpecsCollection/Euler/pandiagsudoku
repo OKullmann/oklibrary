@@ -51,7 +51,9 @@
 # XXX running on server
 
 # MOLS> time ./gcMols 11 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu first "" 1 16 ""
-# XXX running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11   +count dom enu     first  asc   1        12  280143.445  261605818142  1827258588  2685009347     30  0
+# real    301m11.623s user    4669m3.453s sys     24m4.183s
 
 
 # rlaMols
