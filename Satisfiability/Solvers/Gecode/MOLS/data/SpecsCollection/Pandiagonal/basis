@@ -230,6 +230,21 @@
 # real    74m2.806s user    780m20.833s sys     153m38.990s
 
 # MOLS$ time ./rlaMols 16 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 16   +count dom bin    maxdom  asc  relpr   1        0  415461.744    3559464  0   127777   63888    63889
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#3618.684  0.339    0.018  106.945  139.128   1.421  0.000   62.603    0.028  25.625
+#3567.000  0.000    0.000  105.966  106.667   1.000  0.000    9.021    0.000   0.000
+#3840.000  2.077    0.247  107.037  590.952   6.000  0.000  298.161    0.806  48.000
+#  25.116  0.474    0.030    0.062   55.532   0.661  0.000   27.480    0.056   6.833
+#     mu0   qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#3577.066   2.872    0.010   38.696   88.728   1.270  0.000   37.426    0.877  27.625
+#3495.000   1.283    0.000   24.889   26.817   1.000  0.000    2.944    0.448   4.000
+#3647.000  16.000    0.153  106.572  699.278   7.000  0.000  346.827    2.554  49.000
+#  15.836   1.607    0.018   10.670   72.283   0.655  0.000   32.410    0.279   6.686
+# real    558m56.572s user    6924m21.771s sys     757m59.277s
+
+# MOLS$ time ./rlaMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
 # running on server2 XXX
 
 
