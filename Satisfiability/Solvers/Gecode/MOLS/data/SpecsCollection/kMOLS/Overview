@@ -1,8 +1,0 @@
-In this module the k-MOLS problem (finding or counting k-tuples of MOLS)
-is considered, with the following variations:
-
- - symmetry-breaking
- - different forms of formulating the orthogonality-condition. via
-     rprod X Y Z.
-
-Genuine restrictions (like diagonality etc.) are not considered here.
