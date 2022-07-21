@@ -24,7 +24,7 @@ Grouped by leaves:
 
 3) symmb
 
-N=7:                        
+N=7:
 solver                  lvs       TAUscan-reproduction
 gcMols(bin+mindom)      28689621  -
 rlaMols(bin+maxdegdom)  612221    -
@@ -66,10 +66,10 @@ Grouped by leaves:
 
 6) sudokudiag
 
-N=7:                        
+N=7:
 solver                  lvs       TAUscan-reproduction
 gcMols(bin+mindom)      203966    -
-rlaMols(enu+mindom)     2849      -      
+rlaMols(enu+mindom)     2849      -
 laMols(wdL+ave)         1374      100   2.41e+02  1.32e+03  5.98e+03  1.07e+03
 laMols(wdL+avepsd)      1654      100   3.60e+02  1.71e+03  1.64e+04  2.07e+03
 laMols(wdL+max)         1465      100   2.58e+02  1.27e+03  5.08e+03  1.03e+03
