@@ -185,6 +185,9 @@
 # Blackbox evaluations: 64 Total model evaluations: 4057 Cache hits: 1 Total number of evaluations: 65
 # Reproduction:
 # TAU_pandiag_11_wdL_ave> time ./TAUscan 11 ../pandiag "" wdL hash "1.1,3.1,0.1,0.1,0.1,1.1,0.1,0.1,0.1" 1000 10 all
+# 1000 : 4.08838838260561305116e+02 1.97475810527857321013e+04 2.08887623947436138758e+06; 1.11999856935117805477e+05
+# real    5m47.427s user    53m36.049s sys     1m29.270s
+# TAU_pandiag_11_wdL_ave> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "1.1,3.1,0.1,0.1,0.1,1.1,0.1,0.1,0.1" "" ""
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
@@ -193,6 +196,9 @@
 # Blackbox evaluations: 71 Total model evaluations: 2024
 # Reproduction:
 # TAU_pandiag_11_wdL_avepsd> time ./TAUscan 11 ../pandiag "" wdL hash "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" 1000 10 all
+# 1000 : 4.26223963909609049439e+02 9.56655542220708597156e+03 1.80394596422123490299e+06; 6.37520455762227038115e+04
+# real    6m21.508s user    55m10.455s sys     1m21.589s
+# TAU_pandiag_11_wdL_avepsd> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" "" ""
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
