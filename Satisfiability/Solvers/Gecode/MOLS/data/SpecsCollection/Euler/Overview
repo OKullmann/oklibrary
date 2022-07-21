@@ -28,22 +28,22 @@ All solvers solve N=5. N=6 solved by none.
 2) red
 
 All solvers solve N=6. N=7 solved only by gcMols.
-On N=6, rlaMols (enu+maxdeg) has 14x better nodecount than gcMols
-(dom+enum+maxdegdom), wdL and newvars are from 15% (worst case) to
-60% (best case) better leaf-wise than rlaMols.
+On N=6, rlaMols(enu+maxdeg) is 23x better leaf-wise than gcMols(enum+maxdegdom),
+laMols has similar leafcount as rlaMols.
 
 
 3) symmb
 
 All solvers solve N=7. N=7 solved only by gcMols.
-On N=7, rlaMols (bin+maxdegdom) has 47x better nodecount than gcMols (bin+mindom),
-wdL has similar leafcount as rlaMols, while newvars is about 50 % better than rlaMols.
+On N=7, rlaMols(bin+maxdegdom) is 47x better leaf-wise than gcMols(bin+mindom),
+laMols(newv+avepsd) is 60 % better leaf-wise than rlaMols.
 
 
 4) diag
 
 All solvers solve N=7.
-XXX
+On N=7, rlaMols(bin+first) is 310x better leaf-wise than gcMols(bin+mindom).
+laMols(newv+max) is 40 % better leaf-wise than rlaMols.
 
 
 5) pandiag
@@ -54,9 +54,8 @@ XXX
 6) sudokudiag
 
 All solvers solve N=7.
-On N=7, rlaMols (enu+mindom) has 77x better nodecount than gcMols
-(dom+bin+mindom), wdL and newvars (all but newvars-sd) have 2x better leafcount
-than rlaMols. newvars-sd has similar leafcount as rlaMols.
+On N=7, rlaMols(mindom+enu) is 72x better leaf-wise than gcMols(dom+bin+mindom).
+laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
 
 
 7) pandiagsudoku
