@@ -55,6 +55,9 @@
 # 11   +count dom enu     first  asc   1        12  280143.445  261605818142  1827258588  2685009347     30  0
 # real    301m11.623s user    4669m3.453s sys     24m4.183s
 
+# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiagsudoku "" count dom - - asc 1 16 "t,20000"
+# XXX running on server
+
 
 # rlaMols
 

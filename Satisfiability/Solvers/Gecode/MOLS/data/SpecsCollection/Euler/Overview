@@ -48,6 +48,11 @@ laMols(newv+max) is 40 % better leaf-wise than rlaMols.
 
 5) pandiag
 
+All solvers solve N=10.
+rlaMols and laMols solve N=11.
+The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols.
+Maybe 10k seconds is not enough for optimisation, and e.g.
+40k seconds can be tried.
 XXX
 
 
@@ -60,5 +65,7 @@ laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
 
 7) pandiagsudoku
 
-All solvers solve N=10.
+All solvers solve N=11.
+On N=11, rlaMols(enu+mindom) has only 52 leaves - seems too few for
+optimising laMols.
 XXX
