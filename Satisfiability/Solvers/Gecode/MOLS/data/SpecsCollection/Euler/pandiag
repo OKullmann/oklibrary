@@ -187,7 +187,31 @@
 # 1000 : 4.08838838260561305116e+02 1.97475810527857321013e+04 2.08887623947436138758e+06; 1.11999856935117805477e+05
 # real    5m47.427s user    53m36.049s sys     1m29.270s
 # TAU_pandiag_11_wdL_ave> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "1.1,3.1,0.1,0.1,0.1,1.1,0.1,0.1,0.1" "" ""
-# XXX running on server
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       56   19752.407    4651609  0    37145    4985    32160        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2287.678  0.580    0.707  113.895  166.746   1.592  0.000  11.152    0.099   5.530
+#1927.000  0.000    0.000   95.113  112.598   1.000  0.000   1.273    0.000   0.000
+#2530.000  2.000    4.927  115.266  412.030   4.000  0.000  40.242    3.258  10.000
+#  59.743  0.496    0.436    1.740   49.586   0.528  0.000   4.702    0.252   1.420
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2233.862  1.610    0.055   29.173   90.471   1.500  0.002   5.887    1.952   6.620
+#1761.000  1.019    0.000    0.000    0.274   1.000  0.000   0.001    0.269   3.000
+#2394.000  8.000    1.848  111.953  492.509   6.000  1.000  45.437   12.596  11.000
+#  64.943  0.794    0.126   22.524   63.029   0.584  0.042   4.750    1.182   1.333
+#      estlvs
+#6.045218e+07
+#4.088388e+02
+#2.120658e+10
+#6.024284e+08
+#      mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#12692.087  7.451  0.004  0.108  0.135  0.165  0.019   7.742
+# 9314.000  4.000  0.002  0.063  0.125  0.125  0.000   1.276
+#16799.000  8.000  0.008  0.196  0.250  0.307  0.061  12.189
+#  843.703  0.649  0.001  0.015  0.013  0.023  0.007   2.244
+# real    23m22.881s user    329m12.414s sys     2m55.513s
+# leaf-wise about 10x worse than rlaMols.
+# Maybe more time is needed for optimisation.
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_avepsd> nomad np
@@ -198,7 +222,30 @@
 # 1000 : 4.26223963909609049439e+02 9.56655542220708597156e+03 1.80394596422123490299e+06; 6.37520455762227038115e+04
 # real    6m21.508s user    55m10.455s sys     1m21.589s
 # TAU_pandiag_11_wdL_avepsd> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" "" ""
-# XXX running on server
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       56   13814.909    3216758  0    24323    3333    20990        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2252.040  0.488    0.478  113.999  158.421   1.511  0.000  11.506    0.099   6.067
+#1920.000  0.000    0.000   95.113  112.801   1.000  0.000   0.920    0.000   0.000
+#2530.000  1.274    4.408  115.792  412.072   4.000  0.000  41.533    3.300  12.000
+#  97.484  0.501    0.420    2.211   52.971   0.565  0.000   5.479    0.319   2.163
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2194.582  1.627    0.047   30.296   88.131   1.473  0.003   6.258    1.926   7.154
+#1722.000  1.033    0.000    0.000    0.309   1.000  0.000   0.001    0.277   3.000
+#2394.000  8.000    2.773  109.447  419.649   5.000  1.000  41.061   12.142  13.000
+#  99.932  0.808    0.106   23.741   64.257   0.590  0.052   5.327    1.175   2.092
+#      estlvs
+#2.355207e+10
+#4.262240e+02
+#8.120066e+11
+#1.036855e+11
+#     mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#1416.170  7.297  0.030  0.119  0.138  0.170  0.016   8.358
+# 928.000  4.000  0.020  0.069  0.125  0.125  0.000   0.884
+#1959.000  8.000  0.052  0.216  0.250  0.262  0.044  12.476
+# 156.726  0.670  0.006  0.013  0.014  0.027  0.008   2.584
+# real    16m47.691s user    230m14.913s sys     2m53.117s
+# Similar to ave.
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_max> nomad np
@@ -206,15 +253,67 @@
 # Blackbox evaluations: 69 Total model evaluations: 2038 Cache hits: 2 Total number of evaluations: 71
 # Reproduction:
 # TAU_pandiag_11_wdL_max> time ./TAUscan 11 ../pandiag "" wdL hash "0.1,0.1,0.1,0.1,0.1,1.1,1.1,0.1,0.1" 1000 10 all
-# XXX running on server
+# 1000 : 4.11397659917416841757e+02 9.89205001188210075291e+03 1.67959483947320843663e+06; 8.00497912086277966921e+04
+# real    5m37.840s user    51m56.846s sys     1m14.314s
+# TAU_pandiag_11_wdL_max> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "0.1,0.1,0.1,0.1,0.1,1.1,1.1,0.1,0.1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       56   14421.290    4888228  0    37875    5203    32672        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2232.746  0.144    0.638  114.192  125.772   1.158  0.000   6.262    0.034   7.187
+#1759.000  0.000    0.000   95.113  103.973   1.000  0.000   1.525    0.000   0.000
+#2530.000  1.211   11.736  116.202  412.072   4.000  0.000  30.958    3.258  13.000
+#  85.188  0.353    0.666    1.790   34.643   0.413  0.000   2.390    0.243   2.246
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2185.115  1.650    0.077   28.820   80.700   1.401  0.002   3.906    1.706   8.255
+#1703.000  1.022    0.000    0.000    0.318   1.000  0.000   0.001    0.293   3.000
+#2394.000  8.000    4.139  110.706  492.894   6.000  1.000  34.061   12.029  14.000
+#  84.503  0.796    0.140   24.122   59.561   0.551  0.041   3.199    1.041   2.214
+#      estlvs
+#2.153979e+10
+#4.113977e+02
+#3.870870e+12
+#2.058720e+11
+#     mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#1050.609  7.279  0.048  0.110  0.138  0.165  0.018   5.722
+# 740.000  5.000  0.032  0.018  0.111  0.117  0.000   1.469
+#1432.000  9.000  0.076  0.174  0.200  0.249  0.072  11.955
+# 102.705  0.622  0.009  0.026  0.012  0.024  0.012   1.409
+# real    18m39.389s user    240m21.296s sys     2m41.231s
+# Similar to above.
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_wdL_sd> nomad np
 # 35        63752.045576   0.1        0.1        0.0001     0.1        1.1        1.1        0.1        0.1        0.1
 # Blackbox evaluations: 71 Total model evaluations: 2024
 # Reproduction:
-# TAU_pandiag_11_wdL_sd time ./TAUscan 11 ../pandiag "" wdL hash "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" 1000 10 all
-# XXX running on server
+# TAU_pandiag_11_wdL_sd> time ./TAUscan 11 ../pandiag "" wdL hash "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" 1000 10 all
+# 1000 : 4.26223963909609049439e+02 9.56655542220708597156e+03 1.80394596422123490299e+06; 6.37520455762227038115e+04
+# real    5m10.825s user    48m9.959s sys     1m11.361
+# TAU_pandiag_11_wdL_sd> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "0.1,0.1,0.0001,0.1,1.1,1.1,0.1,0.1,0.1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 11   +count dom enu  wdL   asc  relpr   1       56    9712.373    3216758  0    24323    3333    20990        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2252.040  0.488    0.478  113.999  158.421   1.511  0.000   6.906    0.099   6.067
+#1920.000  0.000    0.000   95.113  112.801   1.000  0.000   1.438    0.000   0.000
+#2530.000  1.274    4.408  115.792  412.072   4.000  0.000  32.222    3.300  12.000
+#  97.484  0.501    0.420    2.211   52.971   0.565  0.000   3.960    0.319   2.163
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2194.582  1.627    0.047   30.296   88.131   1.473  0.003   3.722    1.926   7.154
+#1722.000  1.033    0.000    0.000    0.309   1.000  0.000   0.001    0.277   3.000
+#2394.000  8.000    2.773  109.447  419.649   5.000  1.000  31.697   12.142  13.000
+#  99.932  0.808    0.106   23.741   64.257   0.590  0.052   3.496    1.175   2.092
+#      estlvs
+#2.355207e+10
+#4.262240e+02
+#8.120066e+11
+#1.036855e+11
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#1416.170  7.297  0.030  0.119  0.138  0.170  0.016  5.022
+# 928.000  4.000  0.020  0.069  0.125  0.125  0.000  1.379
+#1959.000  8.000  0.052  0.216  0.250  0.262  0.044  9.678
+# 156.726  0.670  0.006  0.013  0.014  0.027  0.008  2.227
+# real    13m39.939s user    161m52.376s sys     0m53.669s
+# Similar to above.
 
 # laMols with newvars:
 
@@ -226,6 +325,9 @@
 # Blackbox evaluations: 87 Total model evaluations: 6099 Cache hits: 2 Total number of evaluations: 89
 # Reproduction:
 # TAU_pandiag_11_newv_ave> time ./TAUscan 11 ../pandiag "" newv hash "1,10,-10,10,-6,9,7,-10,9,-10" 1000 10 all
+# 1000 : 4.03512724586391770987e+02 5.76258441871890789354e+03 2.81571123568874901991e+05; 2.26641160991253624655e+04
+# real    5m15.916s user    49m26.739s sys     1m18.319s
+# TAU_pandiag_11_newv_ave> time ./laMols 11 ../pandiag "" +count dom enu wdL "" "" 1 16 "1,10,-10,10,-6,9,7,-10,9,-10" "" ""
 # XXX running on server
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
@@ -234,6 +336,9 @@
 # Blackbox evaluations: 84 Total model evaluations: 8130 Cache hits: 2 Total number of evaluations: 86
 # Reproduction:
 # TAU_pandiag_11_newv_avepsd> time ./TAUscan 11 ../pandiag "" newv hash "-1,10,-10,8,-10,9,10,-10,10,-10" 1000 10 all
+# 1000 : 4.03190837206548395449e+02 5.80428801610870889505e+03 3.11489228192874235191e+05; 2.26091159922041060515e+04
+# real    5m38.797s user    53m3.137s sys     1m22.371s
+# TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "-1,10,-10,8,-10,9,10,-10,10,-10" "" ""
 # XXX running on server
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
@@ -242,6 +347,9 @@
 # Blackbox evaluations: 82 Total model evaluations: 6098 Cache hits: 1 Total number of evaluations: 83
 # Reproduction:
 # TAU_pandiag_11_newv_max> time ./TAUscan 11 ../pandiag "" newv hash "1,5,0,6,-3,9,-10,-8,-5,10" 1000 10 all
+# 1000 : 3.04686025163239999264e+02 2.04775833632629282874e+04 4.73200971507619285177e+05; 4.21257056644069560711e+04
+# real    7m1.182s user    65m13.212s sys     1m40.722
+# TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "1,5,0,6,-3,9,-10,-8,-5,10" "" ""
 # XXX running on server
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
@@ -250,6 +358,9 @@
 # Blackbox evaluations: 73 Total model evaluations: 4096 Cache hits: 1 Total number of evaluations: 74
 # Reproduction:
 # TAU_pandiag_11_newv_sd time ./TAUscan 11 ../pandiag "" newv hash "0,6,-5,10,-5,10,2,-4,3,-9" 1000 10 all
+# 1000 : 4.14776408209256936099e+02 6.58172373191929396663e+03 2.86545598725474944530e+05; 2.57770055621458507513e+04
+# real    5m34.054s user    51m41.868s sys     1m21.005s
+# TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "0,6,-5,10,-5,10,2,-4,3,-9" "" ""
 # XXX running on server
 
 squares A B aux

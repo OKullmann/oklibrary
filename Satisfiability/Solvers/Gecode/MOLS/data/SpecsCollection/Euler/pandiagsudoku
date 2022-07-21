@@ -48,7 +48,7 @@
 # N=11
 
 # MOLS> time ./gcMols 11 data/SpecsCollection/Euler/pandiagsudoku "" count dom enu mindom "" 1 16 ""
-# XXX running on server
+# aborted after 18 hours wallclock without finding a solution
 
 # MOLS> time ./gcMols 11 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu first "" 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -113,7 +113,7 @@
 # N=12
 
 # MOLS> time ./rlaMols 12 data/SpecsCollection/Euler/pandiagsudoku "" +count dom enu mindom asc "" 1 16 ""
-# XXX running on server
+# aborted after 18 hours wallclock without finding a solution
 
 
 squares A B aux
