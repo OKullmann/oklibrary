@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0, >= 780
+# 0, 0, 0, 36, 0, >= 960
 # Apparently not in OEIS.
 #
 
@@ -24,7 +24,7 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX 780 solutions found (solutions seem to come in groups of 60)
+# running on server2 XXX 960 solutions found (solutions seem to come in groups of 60)
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
 # appears to be much worse; 48 solutions found, aborted:
@@ -183,7 +183,37 @@
 
 # Optimising for lvs via Nomad:
 # LVS_basis_6_newv$ nomad np
-# running on server2 XXX
+# 217 2036          0.8726    -5.98       9.8      -10          2.97
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 669 Total model evaluations: 50738 Cache hits: 258 Total number of evaluations: 927
+# LVS_basis_6_newv$ time ./laMols 6 ../basis "" count dom enu newv "" "" 1 16 "0.8726,-5.98,9.8,-10,2.97" "" ""
+# N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+# 6    count dom enu newv   asc  relpr   1        0     455.254     448564  0     3197    1161     2036        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+# 957.931  0.428    8.759  129.110  154.345   1.491  0.000  1.539    0.242  5.416
+# 858.000  0.000    4.036  124.741  116.545   1.000  0.000  0.413    0.000  0.000
+#1130.000  2.000   14.341  130.886  440.830   4.000  0.000  5.632    4.143  8.000
+#  34.334  0.514    1.793    0.774   58.395   0.655  0.000  0.708    0.543  1.130
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#894.837  1.598   15.859   20.588   62.245   1.381  0.000  0.705    3.280  6.866
+#540.000  1.060    0.000    0.000    0.329   1.000  0.000  0.000    0.329  5.000
+#959.000  4.000  171.429  122.352  363.420   4.000  0.000  4.841   13.048  9.000
+# 84.862  0.467   33.679   24.922   79.276   0.624  0.000  0.877    2.629  0.819
+#      estlvs
+#4.325860e+06
+#4.292135e+02
+#2.915518e+08
+#3.157007e+07
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#591.614  2.753  0.005  0.264  0.387  0.547  0.126  1.399
+#530.000  2.000  0.000  0.000  0.200  0.250  0.000  0.544
+#668.000  5.000  0.015  0.500  0.500  0.851  0.371  2.146
+# 16.668  0.725  0.003  0.158  0.093  0.141  0.105  0.236
+# real    0m41.641s user    7m35.272s sys     0m17.126s
+# Somewhat better than wdL.
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
+# TAU_basis_6_newv_ave$ nomad np
 
 
 
