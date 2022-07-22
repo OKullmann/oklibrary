@@ -1,0 +1,49 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 24, 0, 0, 0
+
+# Known to be unsatisfiable for N with 2 | N or 3 | N
+# (see ../Pandiagonal/basis).
+# Known to be satisfiabile for prime N >= 7.
+
+# So the first open case is N=25.
+
+# How to break the 4!-symmetry here?
+
+
+# gcMols:
+
+# 2 <= N <= 9:
+
+# MOLS> ./gcMols 2,9 data/SpecsCollection/4MOLS/pandiag "" count dom bin mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    mindom  asc   1         0       0.000             5           1           0      0  0
+#  3    count dom bin    mindom  asc   1         0       0.000            43           1           0      0  0
+#  4    count dom bin    mindom  asc   1         0       0.000            62           1           0      0  0
+#  5    count dom bin    mindom  asc   1         0       0.000           570           2           3      1  0
+#  6    count dom bin    mindom  asc   1         0       0.001          1101           3           5      1  0
+#  7    count dom bin    mindom  asc   1        24       0.006         28375          24          95      5  0
+#  8    count dom bin    mindom  asc   1         0       0.115        370955        1151        2301      8  0
+#  9    count dom bin    mindom  asc   1         0       4.314      12027248       37330       74659     12  0
+
+# N = 10:
+
+# MOLS> ./gcMols 10 data/SpecsCollection/4MOLS/pandiag "" count dom bin mindom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10    count dom bin    mindom  asc   1         0    4464.832    5491693172    12256472    24512943     30  0 
+
+# MOLS> ./gcMols 10 data/SpecsCollection/4MOLS/pandiag "" count dom - - "" 1 16 "gnds,25000000"
+# running on server2 XXX
+
+
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+rred A B C D AB AC AD BC BD CD
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C
+moddiag A B C D
+modantidiag A B C D
