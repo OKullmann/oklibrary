@@ -141,6 +141,31 @@
 
 # laMols with newvars:
 
+# MOLS> time ./laMols 6 data/SpecsCollection/4MOLS/basis "" count dom enu newv "" "" 1 12 "0" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     642.170    2023685  0    12053    3809     8244        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 717.631  0.559    4.552  134.872  176.715   1.536  0.000  0.591    0.629   7.274
+# 663.000  0.000    0.000  126.106  117.496   1.000  0.000  0.035    0.000   0.000
+#1130.000  1.533   17.073  137.557  265.714   2.000  0.000  2.537    4.540  10.000
+#  88.958  0.527    4.769    3.114   52.094   0.499  0.000  0.467    0.980   1.360
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#633.311  1.765    1.709   18.926   74.317   1.407  0.000  0.231    3.066   8.797
+#591.000  1.054    0.000    0.000    0.672   1.000  0.000  0.000    0.672   7.000
+#665.000  4.000   12.500  106.316  416.692   4.000  0.000  1.833   10.376  11.000
+# 31.605  0.523    2.148   22.026   99.529   0.673  0.000  0.346    2.071   0.960
+#      estlvs
+#1.379129e+04
+#2.267437e+03
+#5.770856e+04
+#9.868476e+03
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#482.909  3.164  0.052  0.267  0.336  0.421  0.070  0.436
+#455.000  2.000  0.006  0.065  0.250  0.250  0.000  0.040
+#668.000  4.000  0.112  0.500  0.500  0.736  0.282  1.386
+# 38.987  0.727  0.043  0.107  0.089  0.130  0.063  0.246
+# real	1m17.501s user	10m42.178s sys	0m3.918s
+
 # Optimising for lvs via Nomad:
 # LVS_basis_6_newv$ nomad np
 # running on server2 XXX
