@@ -7,7 +7,7 @@ UPPER_BOUND             * 7
 NB_THREADS_OPENMP       10
 DISPLAY_ALL_EVAL        no
 DISPLAY_STATS           BBE OBJ SOL
-MAX_TIME                10000
+MAX_TIME                20000
 LH_SEARCH               1000 10
 MEGA_SEARCH_POLL        true
 SPECULATIVE_SEARCH_MAX  10
