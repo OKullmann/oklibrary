@@ -4,24 +4,60 @@
 # For N=7 very hard just to find a single solution, which is relatively easy
 # when adding the diagonality-condition (4MOLSdiag).
 
+# QUESTION (as for 3MOLS): for C, D there should be symmetry-breaking?
+
+
 
 # gcMols:
 
-# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enumbr maxdegdom asc 12
+# MOLS$ ./gcMols 2,6 data/SpecsCollection/4MOLS/symmb "" count "" enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu maxdegdom  asc   1         0       0.000            44           1           0      0  0
+#  3    count dom enu maxdegdom  asc   1         0       0.000           153           1           0      0  0
+#  4    count dom enu maxdegdom  asc   1         0       0.000           346           1           0      0  0
+#  5    count dom enu maxdegdom  asc   1         8       0.001          7964          14          43      4  0
+#  6    count dom enu maxdegdom  asc   1         0       0.164        847226        3412        6092     11  0
+
+# N=6:
+
+# MOLS$ ./gcMols 6 data/SpecsCollection/4MOLS/symmb "" count "" enu maxdegdom "" 1 1 ""
+# Clearly best bin/enu + maxdegdom:
+#  6    count dom bin maxdegdom  asc   1         0       0.166        857732        3412        6823     11  0
+#  6    count dom enu maxdegdom  asc   1         0       0.162        847226        3412        6092     11  0
+
+# N=7:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu maxdegdom "" 1 16 ""
+# running on server XXX
+
 
 
 # rlaMols:
 
-# time ./rlaMols 6 data/SpecsCollection/4MOLSsymmb "" +count dom enu maxdegdom "" "" 1 1
-#   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
-#   6   +count dom enu maxdegdom  asc  relpr    1          0       5.164      14357      102      302     6      200      102
-#       vals      props      elvals      prunes       mprune       probes    rounds      solc         t   qelvals   qprunes
-#   1322.420     11.350      16.650      88.570      711.115      906.700     1.395     0.000     0.026     0.013     0.101
-#   1264.000      0.000       0.000       0.000        0.000        4.000     1.000     0.000     0.000     0.000     0.000
-#   1428.000     78.000     113.000     447.000     1355.000     3453.000     4.000     0.000     0.100     0.086     1.077
-#     19.240     15.856      22.761      82.039      568.939      751.607     0.664     0.000     0.021     0.017     0.125
-# time ./rlaMols 7 data/SpecsCollection/4MOLSsymmb "" +count dom enu maxdegdom "" "" 1 12
-# aborted after 8 min wallclock-time without finding a solution.
+# N=6:
+
+# ./rlaMols 6 data/SpecsCollection/4MOLS/symmb "" count "" - - "" "" 1 1 "lvs,200"
+# clearly best: bin/enu + maxdegdom.
+
+# ./rlaMols 6 data/SpecsCollection/4MOLS/symmb "" count dom enu maxdegdom "" "" 1 1 ""
+  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+  6    count dom enu maxdegdom  asc  relpr   1        0       5.202      14357  0      200      98      102
+     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+ 975.704  0.412   10.500  128.690  139.992   1.500  0.000  0.037    0.139  4.500
+ 955.000  0.000    4.387  126.873  111.307   1.000  0.000  0.029    0.000  0.000
+1068.000  1.333   15.917  129.106  345.285   4.000  0.000  0.093    0.933  7.000
+  15.711  0.499    2.839    0.312   42.416   0.677  0.000  0.012    0.220  1.357
+    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+949.657  1.652    9.744   19.658   48.601   1.294  0.000  0.015    3.288  6.324
+904.000  1.091    0.000    0.000    0.442   1.000  0.000  0.000    0.442  4.000
+971.000  4.000  107.692  126.376  358.567   4.000  0.000  0.101   11.870  8.000
+ 12.511  0.445   17.245   28.240   77.132   0.639  0.000  0.022    2.492  0.810
+
+# N=7:
+
+# time ./rlaMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server XXX
+
 
 
 # laMols with dL:
@@ -42,6 +78,8 @@
 
 
 # laMols with wdL:
+
+# N=6:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/4MOLSsymmb "" +count dom enu wdL "" "" 1 1 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
@@ -73,6 +111,8 @@
 
 
 # laMols with newvars:
+
+# N=6:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/4MOLSsymmb "" +count dom enu newv "" "" 1 12 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
@@ -116,6 +156,12 @@
 #   5272.000     5.000     0.003     2024.000     3222.333     7622.000     3162.585     5.000     1.048
 #    506.907     0.790     0.001      313.612      426.209      900.072      389.314     0.971     0.095
 # real	0m4.422s user	0m51.918s sys	0m0.024s
+
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 20000s, rep=1000):
+# TAU_symmb_7_newv_ave> nomad np
+# running on server2 XXX
 
 
 
