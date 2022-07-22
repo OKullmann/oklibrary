@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0, >= 720
+# 0, 0, 0, 36, 0, >= 780
 # Apparently not in OEIS.
 #
 
@@ -24,10 +24,11 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX 720 solutions found
+# running on server2 XXX 780 solutions found (solutions seem to come in groups of 60)
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
-# running on server2 XXX 48 solutions found
+# appears to be much worse; 48 solutions found, aborted:
+# real    743m44.056s user    10237m24.169s sys     781m43.300s
 
 
 
@@ -65,7 +66,21 @@
 # N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server2 XXX 3 solutions found
+# aborted (seems inefficient):
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu maxdegdom  asc  relpr   1        3  570689.784  265547211  1  2296397  960990  1335407
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1446.497  0.620   30.206  123.791  138.919   1.700  0.000   6.746    0.289  29.934
+#1072.000  0.000    3.866  108.836   72.422   1.000  0.000   1.217    0.000   0.000
+#2004.000  3.000   71.517  129.330  721.642   7.000  0.000  41.828    5.698  45.000
+#  44.111  0.495    6.589    0.730   51.122   0.630  0.000   2.996    0.455   3.364
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1399.264  1.827    7.853   18.945   34.177   1.223  0.000   1.962    1.700  31.454
+# 596.000  1.022    0.000    0.000    0.180   1.000  0.000   0.000    0.151  13.000
+#1752.000  5.000  143.411  125.297  634.189   7.000  1.000  37.091   16.232  46.000
+#  59.304  0.404   14.832   17.070   48.570   0.461  0.001   2.759    1.352   3.198
+# real    646m59.322s user    9511m32.293s sys     342m30.607s
+
 
 
 
