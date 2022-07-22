@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./laMols 6 ../basis "" count dom enu newv "" "" 1 10 cin "lvs,10000" "-info,-w,-headers,lvs"

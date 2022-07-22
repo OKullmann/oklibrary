@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0
+# 0, 0, 0, 36, 0, >= 720
 # Apparently not in OEIS.
 #
 
@@ -24,10 +24,10 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX
+# running on server2 XXX 720 solutions found
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
-# running on server2 XXX
+# running on server2 XXX 48 solutions found
 
 
 
@@ -65,7 +65,7 @@
 # N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server2 XXX
+# running on server2 XXX 3 solutions found
 
 
 
@@ -105,6 +105,44 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
 # TAU_basis_6_wdL_ave$ nomad np
+# 248 1757.816506   1.765      2.64       0.0067     0.0101
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1033 Total model evaluations: 96603 Cache hits: 392 Total number of evaluations: 1425
+# TAU_basis_6_wdL_ave$ time ./TAUscan 6 ../basis "" enu wdL hash "1.765,2.64,0.0067,0.0101" 100 10 all
+# 100 : 4.91985915554090475488e+02 2.23871147770567961732e+03 1.27468551182104811881e+04; 1.94125181647070586943e+03
+# real    0m6.710s user    1m2.152s sys     0m0.388s
+# TAU_basis_6_wdL_ave$ time ./laMols 6 ../basis "" count dom enu wdL "" "" 1 16 "1.765,2.64,0.0067,0.0101" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0     531.324     503980  0     3621    1161     2460        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+# 964.215  0.428    9.139  128.980  159.149   1.576  0.000  2.286    0.271  5.457
+# 925.000  0.000    4.036  126.106  116.126   1.000  0.000  0.633    0.000  0.000
+#1130.000  2.000   16.556  129.424  340.043   3.000  0.000  7.460    1.730  8.000
+#  22.683  0.514    2.182    0.447   63.478   0.751  0.000  1.162    0.473  1.180
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#903.893  1.830   17.644   10.659   26.248   1.146  0.000  0.433    2.098  6.990
+#540.000  1.083    0.000    0.000    0.233   1.000  0.000  0.000    0.233  5.000
+#959.000  5.000  171.429   96.104  362.121   4.000  0.000  7.898   13.853  9.000
+# 62.722  0.611   30.612   18.878   61.871   0.494  0.000  0.994    1.719  0.891
+#      estlvs
+#5.910090e+05
+#4.919859e+02
+#8.042119e+07
+#5.961005e+06
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#4877.627  3.118  0.005  0.207  0.345  0.502  0.127  1.959
+#4491.000  2.000  0.002  0.000  0.200  0.231  0.000  0.725
+#6273.000  5.000  0.010  0.500  0.500  0.893  0.393  3.913
+# 224.559  0.831  0.002  0.143  0.095  0.155  0.096  0.569
+# real    0m46.760s user    8m51.348s sys     0m22.820s
+# Number of leaves only slightly worse than above, but estlvs much higher.
+
+
+
+# laMols with newvars:
+
+# Optimising for lvs via Nomad:
+# LVS_basis_6_newv$ nomad np
 # running on server2 XXX
 
 
