@@ -22,6 +22,7 @@
 
 # MOLS$ ./gcMols 6 data/SpecsCollection/4MOLS/symmb "" count "" enu maxdegdom "" 1 1 ""
 # Clearly best bin/enu + maxdegdom:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  6    count dom bin maxdegdom  asc   1         0       0.166        857732        3412        6823     11  0
 #  6    count dom enu maxdegdom  asc   1         0       0.162        847226        3412        6092     11  0
 
