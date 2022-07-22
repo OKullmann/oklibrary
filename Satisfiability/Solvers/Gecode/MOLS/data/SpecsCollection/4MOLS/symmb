@@ -164,6 +164,36 @@
 # TAU_symmb_7_newv_ave> nomad np
 # running on server2 XXX
 
+# Intermediate solution:
+# 162   290191.221493   0.14       9        -10          3         -6         10
+# Testing time needed for 1000 lvs:
+# MOLS> time ./laMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu newv "" "" 1 12 "0.14,9,-10,3,-6,10" "lvs,1000" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1        0     409.044     237785  1     1818     815     1003        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1698.033  0.693   10.666  122.733  156.991   1.964  0.000  2.529    0.224  10.098
+#1598.000  0.000    3.173  119.730  107.362   1.000  0.000  0.879    0.000   0.000
+#1924.000  1.667   15.314  123.804  575.222   6.000  0.000  9.488    2.408  15.000
+#  30.782  0.493    2.010    0.428   73.780   0.910  0.000  1.273    0.324   2.178
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1637.395  1.615    2.826   25.275   53.299   1.396  0.000  0.960    1.850  12.076
+#1494.000  1.111    0.000    0.000    0.130   1.000  0.000  0.001    0.121   9.000
+#1702.000  3.500   36.364  117.346  470.450   5.000  0.000  8.388   14.032  16.000
+#  38.895  0.340    2.891   34.779   81.174   0.701  0.000  1.400    1.198   1.330
+#      estlvs
+#1.778753e+07
+#4.072413e+04
+#2.325754e+08
+#3.251221e+07
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+# 928.687  2.391  0.001  0.335  0.445  0.567  0.111  2.060
+# 883.000  2.000  0.000  0.015  0.167  0.190  0.000  0.187
+#1022.000  6.000  0.050  0.500  0.500  0.942  0.399  2.441
+#  15.439  0.717  0.003  0.131  0.093  0.123  0.088  0.179
+# real	0m34.747s user	6m51.449s sys	0m0.956s
+# MOLS> time ./laMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu newv "" "" 1 16 "0.14,9,-10,3,-6,10" "" ""
+# running on server XXX
+
 
 
 squares A B C D  AB AC AD BC BD CD
