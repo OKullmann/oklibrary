@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0, >= 960
+# 0, 0, 0, 36, 0, >= 1260
 # Apparently not in OEIS.
 #
 
@@ -24,7 +24,7 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX 960 solutions found (solutions seem to come in groups of 60)
+# running on server2 XXX 1200 solutions found (solutions seem to come in groups of 60)
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
 # appears to be much worse; 48 solutions found, aborted:
@@ -214,6 +214,36 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 3600s, rep=100):
 # TAU_basis_6_newv_ave$ nomad np
+# 770 1539.949604   0.0       -7.0       10         -7.0       10
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1037 Total model evaluations: 89389 Cache hits: 280 Total number of evaluations: 1317
+# TAU_basis_6_newv_ave$ time ./TAUscan 6 ../basis "" enu newv hash "0.0,-7.0,10,-7.0,10" 100 10 all
+# 100 : 4.40766442192378560039e+02 2.19598617104991328852e+03 3.74008047288686562020e+04; 3.90691472665518362128e+03
+# real    0m5.896s user    0m55.266s sys     0m0.193s
+# TAU_basis_6_newv_ave$ ./laMols 6 ../basis "" count "" enu newv "" "" 1 16 "0.0,-7.0,10,-7.0,10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     383.418     387587  0     3213    1089     2124        0
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+# 966.345  0.390    8.885  129.042  147.191   1.466  0.000  1.414    0.164  5.355
+# 929.000  0.000    4.036  126.106  116.545   1.000  0.000  0.515    0.000  0.000
+#1130.000  2.000   17.023  129.618  340.689   3.000  0.000  4.736    1.266  8.000
+#  21.549  0.508    2.062    0.443   50.216   0.652  0.000  0.557    0.314  1.134
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#917.141  1.657   14.127   14.521   37.398   1.213  0.000  0.434    2.406  6.834
+#540.000  1.073    0.000    0.000    0.233   1.000  0.000  0.000    0.233  5.000
+#959.000  4.000  171.429  122.352  363.420   4.000  0.000  4.832   11.158  9.000
+# 48.294  0.448   24.064   22.815   69.500   0.555  0.000  0.770    1.894  0.818
+#      estlvs
+#1.682113e+04
+#4.407664e+02
+#1.298098e+06
+#1.026512e+05
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#595.570  2.949  0.014  0.242  0.366  0.504  0.117  1.372
+#576.000  2.000  0.004  0.001  0.200  0.250  0.000  0.579
+#668.000  5.000  0.027  0.500  0.500  0.886  0.386  2.387
+# 10.319  0.839  0.005  0.147  0.099  0.147  0.091  0.296
+# Slightly worse than above (regarding lvs); again much lower estlvs.
 
 
 
