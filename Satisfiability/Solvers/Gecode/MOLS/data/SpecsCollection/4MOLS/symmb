@@ -1,8 +1,6 @@
 # Counts for N >= 2:
-# 0, 0, 0, 8, 0
+# 0, 0, 0, 8, 0, >= 84
 #
-# For N=7 very hard just to find a single solution, which is relatively easy
-# when adding the diagonality-condition (4MOLSdiag).
 
 # QUESTION (as for 3MOLS): for C, D there should be symmetry-breaking?
 
@@ -110,6 +108,13 @@
 #    17.205     0.784     0.278      6.656      7.113      8.278       -nan     1.427     0.184
 # real	0m6.742s user	1m13.705s sys	0m0.236s
 
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 20000s, rep=1000):
+# TAU_symmb_7_wdL_ave> nomad np
+# running on server2 XXX
+
+
 
 # laMols with newvars:
 
@@ -162,10 +167,19 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_newv_ave> nomad np
-# running on server2 XXX
+# 299   277553.06712    0.1446     8.82     -10          2.8       -5.9       10
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 339 Total model evaluations: 30317 Cache hits: 43 Total number of evaluations: 382
+# TAU_symmb_7_newv_ave$ time ./TAUscan 7 ../symmb "" enu newv hash "0.1446,8.82,-10,2.8,-5.9,10" 1000 10 all
+# 1000 : 3.48272991648817206944e+03 2.77553067119586776101e+05 1.39588741973238247238e+07; 9.43983953862062894132e+05
+# real    3m45.534s user    36m57.028s sys     0m5.262s
 
-# Intermediate solution:
+# Using intermediate solution:
 # 162   290191.221493   0.14       9        -10          3         -6         10
+# TAU_symmb_7_newv_ave$ time ./TAUscan 7 ../symmb "" enu newv hash "0.14,9,-10,3,-6,10" 1000 10 all
+# 1000 : 3.71741034678794546831e+03 2.90191221493292501066e+05 1.06451007417645190653e+07; 8.19865949528511048754e+05
+# real    3m51.148s user    37m6.933s sys     0m5.469s
+# similar to above.
 # Testing time needed for 1000 lvs:
 # MOLS> time ./laMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu newv "" "" 1 12 "0.14,9,-10,3,-6,10" "lvs,1000" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
@@ -192,7 +206,8 @@
 #  15.439  0.717  0.003  0.131  0.093  0.123  0.088  0.179
 # real	0m34.747s user	6m51.449s sys	0m0.956s
 # MOLS> time ./laMols 7 data/SpecsCollection/4MOLS/symmb "" +count dom enu newv "" "" 1 16 "0.14,9,-10,3,-6,10" "" ""
-# running on server XXX
+# running on server XXX 84 solutions found (solutions appear
+# to arrive in groups of 12)
 
 
 
