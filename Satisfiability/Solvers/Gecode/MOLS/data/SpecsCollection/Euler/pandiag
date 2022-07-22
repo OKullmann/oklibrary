@@ -4,11 +4,11 @@
 
 # See ../Pandiagonal for the basic data (k=1); so a necessary
 # condition for satisfiability is that N is not divisible by 2 or 3.
+# This is indeed also a sufficient condition (see Pandiagonal/basis).
+# So indeed here orthogonality does is not an additional restriction
+# to pandiagonality concerning satisfiability.
 
-# According to literature, N=13 is satisfiable.
-
-# Question: it seems that orthogonality does not make much of a further
-# restriction to pandiagonality?!?
+# Question: there should exist pandiagonal squares without orthogonal mate?
 
 
 # gcMols:

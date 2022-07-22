@@ -2,7 +2,14 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 8, 0, >= 129, 0, 0, 0
 
-# Remark: count != 0 iff gcd(N,6) = 1.
+# These "pandiagional squares" are also called "Knut Vik designs".
+
+# Satisfiability is completely known: count != 0 iff gcd(N,6) = 1.
+
+# By [Keedwell, Denes, Latin squares and their applications], Theorem 6.3.3
+# holds that that at most N-3 MOPLS (mutually orthogonal pandiagonal
+# latin squares) exist, and that this bound is attained for prime N.
+# Furthermore for satisfiable N also always pairs of MOPLS exist.
 
 # Apparently not on OEIS.
 

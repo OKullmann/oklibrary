@@ -4,6 +4,7 @@
 
 # Known to be unsatisfiable for N with 2 | N or 3 | N
 # (see ../Pandiagonal/basis).
+# Known to be satisfiabile for prime N >= 7.
 
 # How to break the 3!-symmetry here?
 
