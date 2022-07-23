@@ -4,13 +4,35 @@
 
 # gcMols:
 
-# MOLS> ./gcMols 7 data/SpecsCollection/4MOLSdiag "" count dom enu mindom desc 1 12
-#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
-#    7    count dom enu    mindom desc    1             192     79.636    213664355      467133      902605     22
+# 2 <= N <= 6:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/4MOLS/diag "" count "" enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000            44           1           0      0  0
+#  4    count dom enu    mindom  asc   1         0       0.001           690           2           3      1  0
+#  5    count dom enu    mindom  asc   1         0       0.001           602           2           3      1  0
+#  6    count dom enu    mindom  asc   1         0       0.075        165681         810        1481     10  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/4MOLS/diag "" count "" - - "" 1 12 "t,10"
+# two runs successful:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    mindom  asc   1       192      72.770     213982412      467131      934645     25  0
+#  7    count dom enu    mindom  asc   1       192      84.307     213664416      467133      902605     23  0
+
+
+# N=8:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/4MOLS/diag "" +count "" enu mindom "" 1 16 ""
+# running on server XXX
 
 
 
 # rlaMols:
+
+# N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/4MOLSdiag "" +count dom enu mindom "" "" 1 12
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
@@ -21,6 +43,40 @@
 #   2542.000     163.000     270.000     789.000     2472.000     13065.000     7.000     1.000     16.435     0.124     0.500
 #     56.448      28.845      38.611     122.764      959.325      1940.366     0.927     0.107      2.086     0.018     0.040
 # real	6m18.120s user	65m51.048s sys	0m9.081s
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/diag "" count dom - - "" "" 1 16 "lvs,10000"
+# Two successful runs:
+  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+  7    count dom bin    mindom  asc  relpr   1      192    5259.869    2208224  0    17065    8532     8533
+     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+1742.225  0.931    5.351  122.461  211.548   2.244  0.000   6.193    0.719  12.083
+1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.485    0.000   0.000
+2052.000  1.800   12.360  123.576  743.212   7.000  0.000  39.235    3.866  18.000
+  45.236  0.358    1.947    0.680   80.483   0.827  0.000   3.032    0.741   2.264
+     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+1659.755  1.465    5.401   14.962   85.640   1.475  0.023   3.046    3.900  14.082
+1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   9.000
+1756.000  4.000   50.000  112.266  754.766   7.000  1.000  29.751   16.024  19.000
+  38.330  0.236    5.239   15.852  102.348   0.840  0.148   3.376    2.237   1.775
+  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+  7    count dom enu    mindom  asc  relpr   1      192    4907.489    2216576  0    16561    8004     8557
+     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+1738.619  0.963    5.468  122.445  216.876   2.293  0.000   5.944    0.769   7.940
+1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.441    0.000   0.000
+2052.000  1.800   11.471  123.576  743.212   7.000  0.000  28.809    3.866  11.000
+  42.277  0.333    1.868    0.697   80.331   0.825  0.000   2.732    0.746   1.327
+     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+1659.574  1.467    5.392   14.915   85.384   1.474  0.022   2.858    3.890   9.752
+1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   8.000
+1756.000  4.000   50.000  112.266  754.766   7.000  1.000  32.530   16.024  12.000
+  38.409  0.238    5.232   15.851  102.316   0.839  0.148   3.194    2.246   0.731
+# So enu+mindon seems best.
+
+# N=8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/4MOLS/diag "" +count dom enu mindom "" "" 1 16 ""
+# running on server XXX
+
 
 
 # laMols with dL:
