@@ -1,10 +1,53 @@
 # Counts for N >= 2:
-# 1, 2, 12, 240, 43648, >= 1, >= 1, >= 1, >= 1,
+# 1, 2, 12, 240, 43648, 715512576, >= 1, >= 1, >= 1,
 # >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1, >= 1 >= 1
 # >= 1, >= 1, >= 1, >= 1, >= 1
 
+# https://oeis.org/A107739
+# Number of (completed) sudokus (or Sudokus) of size n^2 X n^2 for n >= 0:
+# 1, 1, 288, 6670903752021072936960
+# 288 / 4! = 12
+# 6670903752021072936960 / 9! = 18383222420692992.
+
+# The number of row-reduced latin squares for N=6 is 9408 * 5! = 1128960,
+# where 1128960 / 43648 ~ 25.865.
+# The number of row-reduced latin squares for N=7 is 16942080 * 6! = 12198297600,
+# where 12198297600 / 715512576 ~ 17.05.
+
 
 # gcMols:
+
+# 2 <= N <= 6:
+
+# ./gcMols 2,6 data/SpecsCollection/Sudoku "" count dom enu maxdegdom "" 1 1 ""
+#  2    count dom enu maxdegdom  asc   1         1       0.000             4           0           1      0  0
+#  3    count dom enu maxdegdom  asc   1         2       0.000            18           0           3      1  0
+#  4    count dom enu maxdegdom  asc   1        12       0.000           196           0          23      4  0
+#  5    count dom enu maxdegdom  asc   1       240       0.001          5375          16         492      7  0
+#  6    count dom enu maxdegdom  asc   1     43648       0.180       1159881        8792      103737     14  0
+
+# ./gcMols 6 data/SpecsCollection/Sudoku "" count dom - - "" 1 1 "t,1"
+# all solve it; best leaf-count with mindeg.
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku "" count dom enu mindeg "" 1 1 "t,600"
+# N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 7    count dom enu    mindeg  asc   1 134473480     599.895    3924999892    31165316   296083091     22  1
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku "" count dom enu maxdegdom "" 1 1 "t,600"
+# N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 7    count dom enu maxdegdom  asc   1 172415230     599.975    3990188496     7214024   353518590     24  1
+# So maxdegdom seems better.
+# A more comprehensive experiment:
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku "" count - - - "" 1 1 "t,60"
+# fastest val+bin+maxdegdom (best lvs: dom+bin+maxdegdom).
+# MOLS> time ./gcMols 7 data/SpecsCollection/Sudoku "" count val bin maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count val bin maxdegdom  asc   1 715512576    4195.893   13549760464   122044638  1675114427     24  0
+
+
+
+# SAT decision:
 
 # ./gcMols 2,11 data/SpecsCollection/Sudoku "" satd dom enu maxdegom "" 1 12 ""
 # solves all cases very quickly. But N=12 is hard:
