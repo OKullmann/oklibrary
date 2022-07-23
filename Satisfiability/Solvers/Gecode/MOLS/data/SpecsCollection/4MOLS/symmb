@@ -127,8 +127,10 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 20000s, rep=1000):
 # TAU_symmb_7_wdL_ave> nomad np
-# running on server2 XXX
-
+# 310  1411722.954589   2.099951   6.998      7          0.100028   3.000044
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 371 Total model evaluations: 36165 Cache hits: 33 Total number of evaluations: 404
+# Seems far worse than newvars below.
 
 
 # laMols with newvars:
