@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 7 ../diag "" enu newv hash cin 100 10 ave

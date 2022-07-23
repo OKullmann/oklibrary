@@ -136,12 +136,18 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=100):
 # TAU_diag_7_wdL_ave$ nomad np
-# running on server2 XXX
+# 775  8025.049448   5.77725    4.470213   1.448281   0.01063    2.989857
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1187 Total model evaluations: 103928 Cache hits: 331 Total number of evaluations: 1518
+# TAUscan XXX
 
-# Old comment: Very slow, hard to get nice weights.
+# TAU_diag_7_wdL_ave$ ./laMols 7 ../diag "" count dom enu wdL "" "" 1 16 "5.77725,4.470213,1.448281,0.01063,2.989857" "" ""
+# XXX
 
 
 # laMols with newvars:
+
+# N=6:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/4MOLSdiag "" +count dom enu newv "" "" 1 12 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
@@ -158,6 +164,14 @@
 #   0.000     0.527     0.332     1.647     1.667     1.767     0.368     0.699     0.031
 # real	0m2.012s user	0m23.909s sys	0m0.004s
 
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=100):
+# TAU_diag_7_newv_ave$ nomad np
+# running on server2 XXX
+
+
+# Old comment:
 # Again, very hard to find something.
 # A systematic search is needed, starting with "lvs<8557" as target.
 
