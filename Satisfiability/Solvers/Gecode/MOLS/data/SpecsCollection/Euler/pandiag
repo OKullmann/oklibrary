@@ -359,7 +359,7 @@
 # 1000 : 4.03190837206548395449e+02 5.80428801610870889505e+03 3.11489228192874235191e+05; 2.26091159922041060515e+04
 # real    5m38.797s user    53m3.137s sys     1m22.371s
 # TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "-1,10,-10,8,-10,9,10,-10,10,-10" "" ""
-# running on server XXX
+# aborted after 55h wallclock-time -- something is wrong here? runs below much quicker.
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_max> nomad np
