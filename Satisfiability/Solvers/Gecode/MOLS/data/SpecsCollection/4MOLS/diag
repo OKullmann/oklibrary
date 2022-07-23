@@ -47,30 +47,30 @@
 
 # MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/diag "" count dom - - "" "" 1 16 "lvs,10000"
 # Two successful runs:
-  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
-  7    count dom bin    mindom  asc  relpr   1      192    5259.869    2208224  0    17065    8532     8533
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-1742.225  0.931    5.351  122.461  211.548   2.244  0.000   6.193    0.719  12.083
-1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.485    0.000   0.000
-2052.000  1.800   12.360  123.576  743.212   7.000  0.000  39.235    3.866  18.000
-  45.236  0.358    1.947    0.680   80.483   0.827  0.000   3.032    0.741   2.264
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-1659.755  1.465    5.401   14.962   85.640   1.475  0.023   3.046    3.900  14.082
-1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   9.000
-1756.000  4.000   50.000  112.266  754.766   7.000  1.000  29.751   16.024  19.000
-  38.330  0.236    5.239   15.852  102.348   0.840  0.148   3.376    2.237   1.775
-  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
-  7    count dom enu    mindom  asc  relpr   1      192    4907.489    2216576  0    16561    8004     8557
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-1738.619  0.963    5.468  122.445  216.876   2.293  0.000   5.944    0.769   7.940
-1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.441    0.000   0.000
-2052.000  1.800   11.471  123.576  743.212   7.000  0.000  28.809    3.866  11.000
-  42.277  0.333    1.868    0.697   80.331   0.825  0.000   2.732    0.746   1.327
-     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
-1659.574  1.467    5.392   14.915   85.384   1.474  0.022   2.858    3.890   9.752
-1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   8.000
-1756.000  4.000   50.000  112.266  754.766   7.000  1.000  32.530   16.024  12.000
-  38.409  0.238    5.232   15.851  102.316   0.839  0.148   3.194    2.246   0.731
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom bin    mindom  asc  relpr   1      192    5259.869    2208224  0    17065    8532     8533
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1742.225  0.931    5.351  122.461  211.548   2.244  0.000   6.193    0.719  12.083
+#1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.485    0.000   0.000
+#2052.000  1.800   12.360  123.576  743.212   7.000  0.000  39.235    3.866  18.000
+#  45.236  0.358    1.947    0.680   80.483   0.827  0.000   3.032    0.741   2.264
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1659.755  1.465    5.401   14.962   85.640   1.475  0.023   3.046    3.900  14.082
+#1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   9.000
+#1756.000  4.000   50.000  112.266  754.766   7.000  1.000  29.751   16.024  19.000
+#  38.330  0.236    5.239   15.852  102.348   0.840  0.148   3.376    2.237   1.775
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom enu    mindom  asc  relpr   1      192    4907.489    2216576  0    16561    8004     8557
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1738.619  0.963    5.468  122.445  216.876   2.293  0.000   5.944    0.769   7.940
+#1647.000  0.000    0.000  117.633  115.918   1.000  0.000   1.441    0.000   0.000
+#2052.000  1.800   11.471  123.576  743.212   7.000  0.000  28.809    3.866  11.000
+#  42.277  0.333    1.868    0.697   80.331   0.825  0.000   2.732    0.746   1.327
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1659.574  1.467    5.392   14.915   85.384   1.474  0.022   2.858    3.890   9.752
+#1144.000  1.077    0.000    0.000    0.211   1.000  0.000   0.000    0.182   8.000
+#1756.000  4.000   50.000  112.266  754.766   7.000  1.000  32.530   16.024  12.000
+#  38.409  0.238    5.232   15.851  102.316   0.839  0.148   3.194    2.246   0.731
 # So enu+mindon seems best.
 
 # N=8:
@@ -127,23 +127,18 @@
 
 # laMols with wdL:
 
-# MOLS> time ./laMols 6 data/SpecsCollection/4MOLSdiag "" +count dom enu wdL "" "" 1 12 ""
-#
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
-#  6   +count dom enu  wdL   asc  relpr   1        0      22.069       4630       20       49     3       29       20       9
-#       vals      props     elvals      prunes       mprune       probes    rounds      solc        tr   qelvals   qprunes
-#   1443.862     13.655     20.690      42.862      474.414      828.897     1.517     0.000     0.503     0.014     0.192
-#   1374.000      0.000      0.000       0.000       27.000       12.000     1.000     0.000     0.001     0.000     0.000
-#   1520.000     32.000     47.000     171.000     1460.000     2866.000     3.000     0.000     1.679     0.033     1.000
-#     39.301      9.005     13.784      53.170      645.554     1164.443     0.871     0.000     0.664     0.010     0.214
-#        mu         w      ltau       mind      meand       maxd        sdd        dp        tb
-#   667.444     3.111     0.074      9.468     18.506     27.491      7.876     1.333     0.829
-#   658.000     3.000     0.058      8.404      9.370      9.370      0.000     0.000     0.719
-#   683.000     4.000     0.148     10.558     22.442     38.434     11.745     2.000     0.865
-#     9.501     0.333     0.029      1.077      4.421     11.022      4.129     0.707     0.052
-# real	0m1.858s user	0m22.080s sys	0m0.005s
+# N=6:
 
-# Very slow, hard to get nice weights.
+# MOLS> ./laMols 6 data/SpecsCollection/4MOLS/diag "" +count dom enu wdL "" "" 1 1 "" "" ""
+# both runs have 20 leaves, numbers are identical, runtime 1s.
+
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=100):
+# TAU_diag_7_wdL_ave$ nomad np
+# running on server2 XXX
+
+# Old comment: Very slow, hard to get nice weights.
 
 
 # laMols with newvars:
