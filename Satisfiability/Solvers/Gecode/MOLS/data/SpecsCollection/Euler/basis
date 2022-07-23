@@ -5,6 +5,7 @@
 # multiplication with: (N!)^2 * (N-1)! .
 # So the count for N=7 is 6'263'668'776'960'000.
 
+
 # gcMols:
 
 # MOLS> ./gcMols 2,5 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 1
@@ -18,6 +19,8 @@
 
 # MOLS> time ./gcMols 6 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 16
 # aborted after 143 hours wallclock-time.
+
+
 
 # laMols with wdL:
 
@@ -53,6 +56,8 @@
 # Reproduction:
 # TAU_basis_6_wdL_sd>
 # same weights as for TAU_basis_6_wdL_avepsd.
+
+
 
 # laMols with newvars:
 
