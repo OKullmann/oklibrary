@@ -97,10 +97,6 @@
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
 # aborted after 17 hours wallclock: found 7 solutions quickly.
 
-# MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom desc 1 16 ""
-# XXX running on server
-
-
 # N=12:
 
 # MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 16 ""
@@ -140,9 +136,6 @@
 # 453.143  1.010    0.261   14.963   50.030   0.459  0.138   1.806    1.507  0.855
 
 # bin/enu + mindom much worse.
-
-# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom - - - "" 1 16 "nds,3328"
-# XXX running on server
 
 # N = 12:
 
@@ -318,6 +311,7 @@
 # real    13m39.939s user    161m52.376s sys     0m53.669s
 # Similar to above.
 
+
 # laMols with newvars:
 
 # N=11:
@@ -365,7 +359,7 @@
 # 1000 : 4.03190837206548395449e+02 5.80428801610870889505e+03 3.11489228192874235191e+05; 2.26091159922041060515e+04
 # real    5m38.797s user    53m3.137s sys     1m22.371s
 # TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "-1,10,-10,8,-10,9,10,-10,10,-10" "" ""
-# XXX running on server
+# running on server XXX
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_max> nomad np
