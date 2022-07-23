@@ -31,8 +31,62 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 10    count dom bin    mindom  asc   1         0    4464.832    5491693172    12256472    24512943     30  0 
 
-# MOLS> ./gcMols 10 data/SpecsCollection/4MOLS/pandiag "" count dom - - "" 1 16 "gnds,25000000"
-# running on server2 XXX
+# MOLS> ./gcMols 10 data/SpecsCollection/4MOLS/pandiag "" count dom - - "" 1 16 "t,700"
+# two runs successful:
+# 10    count dom bin    mindom  asc   1         0    7920.353    5491693172    12256472    24512943     30  0
+# 10    count dom enu    mindom  asc   1         0    7635.943    5492240068    12298519    22307204     24  0
+
+
+
+# rlaMols:
+
+# 2 <= N <= 9:
+
+# All quickly solved by enu+mindom.
+
+# N = 10:
+
+# MOLS> ./rlaMols 10 data/SpecsCollection/4MOLS/pandiag "" count dom enu mindom "" "" 1 16 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 10    count dom enu    mindom  asc  relpr   1        0     356.394      28199  0      142      35      107
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#6320.771  1.009    2.274  113.918  141.877   2.086  0.000  24.651    0.195  4.457
+#6158.000  0.000    0.000  113.293  113.804   1.000  0.000  11.373    0.000  0.000
+#6520.000  1.188    4.606  114.208  221.311   3.000  0.000  42.935    0.666  8.000
+#  99.689  0.187    1.163    0.239   37.016   0.373  0.000   7.904    0.187  2.227
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#6273.383  1.658    0.883    3.618    9.078   1.047  0.000   1.698    0.374  5.262
+#5981.000  1.255    0.000    0.132    0.150   1.000  0.000   0.020    0.117  1.000
+#6481.000  2.400    8.108   53.092  116.307   2.000  0.000  23.554    1.039  9.000
+# 128.741  0.273    1.251    9.944   23.731   0.212  0.000   4.005    0.203  2.373
+# Seems far better than gcMols.
+
+# N = 11:
+
+# MOLS$ ./rlaMols 11 data/SpecsCollection/4MOLS/pandiag "" +count dom enu mindom "" "" 1 16 ""
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 11   +count dom enu    mindom  asc  relpr   1        0  363894.031   45185589  1   270700   71495   199205
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#8617.474  0.498    2.091  112.610  127.218   1.381  0.000   78.785    0.041   9.247
+#8580.000  0.000    0.000  112.195  110.000   1.000  0.000   19.224    0.000   0.000
+#9020.000  2.000    2.448  112.692  174.355   2.000  0.000  149.415    0.333  10.000
+#  48.103  0.666    0.430    0.099   27.119   0.486  0.000   19.641    0.061   0.985
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#8545.528  2.462    0.007    0.778    1.402   1.000  0.000  0.866    0.167  10.927
+#8543.000  1.176    0.000    0.562    0.655   1.000  0.000  0.294    0.059   9.000
+#8546.000  7.000    1.471    1.123    4.681   1.000  0.000  4.659    0.948  11.000
+#   0.774  0.552    0.056    0.110    0.668   0.000  0.000  0.472    0.156   0.261
+
+
+
+# laMols with newvars:
+
+# 2 <= N <= 10:
+
+# MOLS> ./laMols 2,10 data/SpecsCollection/4MOLS/pandiag "" count "" enu newv "" "" 1 1 "" "" ""
+# All quickly solved by both A, L (for N=10 we have lvs=8 for A, as for 3MOLS).
+# Runtime per node approaches 1s.
 
 
 

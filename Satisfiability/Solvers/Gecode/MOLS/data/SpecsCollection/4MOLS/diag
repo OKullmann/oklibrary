@@ -26,7 +26,8 @@
 # N=8:
 
 # MOLS> time ./gcMols 8 data/SpecsCollection/4MOLS/diag "" +count "" enu mindom "" 1 16 ""
-# running on server XXX
+# aborted without finding a solution:
+# real    349m3.027s user    5523m32.204s sys     38m22.949s
 
 
 
@@ -75,7 +76,20 @@
 # N=8:
 
 # MOLS> ./rlaMols 8 data/SpecsCollection/4MOLS/diag "" +count dom enu mindom "" "" 1 16 ""
-# running on server XXX
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  8   +count dom enu    mindom  asc  relpr   1        0  252801.463  304684471  1  2211952  632041  1579911
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2656.864  0.105   38.940  119.214   86.766   1.104  0.000   5.589    0.009  24.383
+#2548.000  0.000    0.000  108.330   74.800   1.000  0.000   2.657    0.000   0.000
+#3304.000  3.000   45.260  119.355  412.635   5.000  0.000  29.550    1.845  34.000
+#  73.579  0.314    8.074    0.278    9.724   0.316  0.000   1.278    0.038   2.520
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2549.118  2.735    0.055    3.538    4.260   1.000  0.000   0.316    0.544  26.385
+#2332.000  1.030    0.000    0.000    0.072   1.000  0.000   0.000    0.072  17.000
+#2894.000  6.000   27.586   72.017  260.793   3.000  0.000  21.437    8.870  35.000
+#   2.604  1.100    0.204    1.341    4.059   0.012  0.000   0.322    0.436   2.075
+
 
 
 
