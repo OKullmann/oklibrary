@@ -293,7 +293,7 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_wdL_ave> nomad np
-# XXX
+# running on server XXX
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_wdL_avepsd> nomad np
