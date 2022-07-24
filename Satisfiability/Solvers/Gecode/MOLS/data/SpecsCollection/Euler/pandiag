@@ -359,7 +359,19 @@
 # 1000 : 4.03190837206548395449e+02 5.80428801610870889505e+03 3.11489228192874235191e+05; 2.26091159922041060515e+04
 # real    5m38.797s user    53m3.137s sys     1m22.371s
 # TAU_pandiag_11_newv_avepsd> time ./laMols 11 ../pandiag "" +count dom enu newv "" "" 1 16 "-1,10,-10,8,-10,9,10,-10,10,-10" "" ""
-# aborted after 55h wallclock-time -- something is wrong here? runs below much quicker.
+# aborted after 55h wallclock-time. This shows the brittleness of the solution.
+# Rerunning
+# MOLS> time ./laMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu newv "" "" 1 16 "-1,10,-10,8,-10,9,10,-10,10,-10" "" ""
+# with 10 or 16 threads and ascending order, search gets stuck after
+# solution 37, while with 1 thread after solution 9 (only this likely
+# is easily reproducible).
+# With desc order: with 1 thread getting stuck after solution 10, with 16
+# threads after solution 39.
+
+# So we see that with most of the weights here one triggers special
+# reasoning here, as exploited by rlaMols with enu+mindegdom,
+# but there are very hard subproblems-holes into which the
+# search can fall.
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_pandiag_11_newv_max> nomad np
