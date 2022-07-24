@@ -9,6 +9,8 @@
 # 288 / 4! = 12
 # 6670903752021072936960 / 9! = 18383222420692992.
 
+# Restrictions in other directories D under "D/*sudoku*".
+
 # The number of row-reduced latin squares for N=6 is 9408 * 5! = 1128960,
 # where 1128960 / 43648 ~ 25.865.
 # The number of row-reduced latin squares for N=7 is 16942080 * 6! = 12198297600,
