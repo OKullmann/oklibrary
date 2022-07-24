@@ -49,8 +49,7 @@ laMols(newv+max) is 40 % better leaf-wise than rlaMols.
 
 5) pandiag
 
-All solvers solve N=10.
-rlaMols and laMols solve N=11.
+All solvers solve N=11.
 The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols(enu+mindom).
 
 

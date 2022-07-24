@@ -97,6 +97,12 @@
 # MOLS> ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin maxdom desc 1 16 ""
 # aborted after 17 hours wallclock: found 7 solutions quickly.
 
+# MOLS> time ./gcMols 11 data/SpecsCollection/Euler/pandiag "" +count dom bin mindegdom desc 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11   +count dom bin mindegdom desc   1        56  366229.876  385999745330  3123557019  6247114149     64  0
+# real    410m15.908s user    6103m49.882ssys     309m58.086s
+
+
 # N=12:
 
 # MOLS> ./gcMols 12 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" 1 16 ""
@@ -113,7 +119,7 @@
 
 # 2 <= N <= 10:
 
-# ./rlaMols 2,10 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" "" 1 1 ""
+# MOLS> ./rlaMols 2,10 data/SpecsCollection/Euler/pandiag "" count dom bin mindegdom "" "" 1 1 ""
 # solves all problems quickly.
 # enu seems even better.
 
@@ -121,7 +127,7 @@
 
 # N = 11:
 
-# ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 12 ""
+# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom enu mindegdom "" "" 1 12 ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
 # 11   +count dom enu mindegdom  asc  relpr   1       56     774.834     602582  0     3327     424     2903
 #     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
@@ -135,7 +141,21 @@
 #2427.000  7.000    1.714   87.143  247.373   3.000  1.000  10.942   11.998  7.000
 # 453.143  1.010    0.261   14.963   50.030   0.459  0.138   1.806    1.507  0.855
 
+# MOLS> ./rlaMols 11 data/SpecsCollection/Euler/pandiag "" +count dom - - - "" 1 16 "nds,3328"
+# 11   +count dom bin mindegdom  asc  relpr   1       56    1152.844     107768  0     1143     571      572
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2224.729  0.491    5.262  112.053  149.038   1.585  0.000   5.115    0.632  16.257
+#1077.000  0.000    0.000   62.319   62.638   1.000  0.000   0.830    0.000   0.000
+#2530.000  2.333   80.706  118.477  550.000   6.000  0.000  21.839   15.007  36.000
+# 237.668  0.583    8.265    7.715   66.033   0.798  0.000   2.901    2.285   7.875
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#2099.330  2.245    0.286   22.884   67.794   1.453  0.098   2.203    2.279  18.226
+#1025.000  1.060    0.000    0.546    1.158   1.000  0.000   0.014    0.252   4.000
+#2486.000  7.000   10.622  112.211  581.508   6.000  1.000  22.647   19.546  37.000
+# 350.767  1.118    0.882   28.815   94.599   0.828  0.297   3.410    3.429   7.778
+# The best leaf-wise is dom+bin+mindegdom.
 # bin/enu + mindom much worse.
+
 
 # N = 12:
 
