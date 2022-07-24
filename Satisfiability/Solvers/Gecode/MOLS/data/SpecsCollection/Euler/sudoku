@@ -101,7 +101,7 @@
 # 545  4548          3.1541     1.31       0.012      4.3598
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 1127 Total model evaluations: 81918 Cache hits: 336 Total number of evaluations: 1463
-# MOLS> ./laMols 6 ../../sudoku "" count dom enu wdL "" "" 1 16 "3.1541,1.31,0.012,4.3598" "" ""
+# LVS/sudoku_6_wdL$ ./laMols 6 ../../sudoku "" count dom enu wdL "" "" 1 16 "3.1541,1.31,0.012,4.3598" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  6    count dom enu  wdL   asc  relpr   1        0     144.879     513084  0     7313    2713     4600        0
 #    mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
@@ -128,8 +128,69 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU/sudoku_6_wdL_ave$ nomad np
+# 635  3665.380307   5.0282     2.4535     0.0051     4.2969
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1041 Total model evaluations: 91187 Cache hits: 412 Total number of evaluations: 1453
+# TAU/sudoku_6_wdL_ave$ time ./TAUscan 6 ../../sudoku "" enu wdL hash "5.0282,2.4535,0.0051,4.2969" 100 10 all
+# 100 : 7.87745756653103090084e+02 3.84896591489305050349e+03 2.47669294526803586649e+04; 3.59256534492158930494e+03
+# real    0m1.277s user    0m11.707s sys     0m0.223s
+# TAU/sudoku_6_wdL_ave$ ./laMols 6 ../../sudoku "" count dom enu wdL "" "" 1 16 "5.0282,2.4535,0.0051,4.2969" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0     163.158     577800  0     7913    2977     4936        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#253.666  0.779   16.521  128.798  191.790   1.947  0.000  0.200    1.507  6.287
+# 75.000  0.000    0.000   30.508   28.000   1.000  0.000  0.000    0.000  0.000
+#348.000  2.000  257.143  138.462  543.701   6.000  0.000  0.955   22.414  9.000
+# 22.489  0.514   15.901   11.990   78.791   0.854  0.000  0.116    2.642  1.214
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#207.483  1.707   23.282   36.823   76.556   1.347  0.000  0.078    9.178   7.924
+# 32.000  1.077    0.000    0.000    1.087   1.000  0.000  0.000    1.087   6.000
+#267.000  5.000  254.545  132.889  724.891   7.000  0.000  1.071   23.506  10.000
+# 40.162  0.445   39.050   28.853   85.787   0.713  0.000  0.099    4.491   0.828
+#      estlvs
+#1.249488e+04
+#7.877458e+02
+#5.821174e+05
+#3.790531e+04
+#      mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#10257.896  2.658  0.005  0.322  0.399  0.485  0.074  0.141
+#   36.000  2.000  0.000  0.004  0.250  0.250  0.000  0.000
+#16135.000  4.000  0.173  0.500  0.500  0.900  0.400  0.576
+# 2070.429  0.662  0.026  0.135  0.094  0.115  0.077  0.070
+# Somewhat worse than above.
+
+
+# laMols with newvars:
+
+# MOLS> ./laMols 6 data/SpecsCollection/Euler/sudoku "" count dom enu newv "" "" 1 12 "" "" ""
+# A is best:
+#   weights: A -> 0 0 1 2 3 4 5
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     113.650     724507  0    10218    4042     6176        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#231.681  0.670   11.556  130.870  179.308   1.788  0.000  0.116    1.283   6.259
+# 75.000  0.000    0.000   40.860   34.667   1.000  0.000  0.000    0.000   0.000
+#348.000  2.000  234.615  137.824  496.020   6.000  0.000  0.491   26.341  11.000
+# 29.997  0.566   16.720    9.711   66.033   0.787  0.000  0.070    2.737   1.454
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#188.403  1.690   19.988   31.482   65.972   1.236  0.000  0.044    8.187   7.789
+# 32.000  1.079    0.000    0.000    1.010   1.000  0.000  0.000    1.010   4.000
+#262.000  4.000  730.000  158.621  508.173   5.000  0.000  0.485   26.378  12.000
+# 37.048  0.348   83.897   30.516   78.401   0.581  0.000  0.061    4.403   1.265
+#      estlvs
+#2.479382e+04
+#4.200634e+02
+#6.355970e+05
+#4.945068e+04
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#148.638  2.528  0.028  0.337  0.421  0.525  0.086  0.088
+# 36.000  2.000  0.011  0.025  0.200  0.227  0.000  0.000
+#205.000  5.000  0.173  0.500  0.500  0.880  0.380  0.187
+# 20.725  0.696  0.020  0.151  0.096  0.093  0.082  0.039
+
+# Absolute optimisation on lvs (MAX_TIME=3600):
+# LVS/sudoku_6_newv$ nomad np
 # running on server2 XXX
-# TAU/sudoku_6_wdL_ave$ time ./TAUscan 6 ../sudoku "" wdL hash "XXX" 100 10 all
 
 
 squares A B aux

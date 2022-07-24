@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./laMols 6 ../../sudoku "" count dom enu newv "" "" 1 10 cin "lvs,7000" "-info,-w,-headers,lvs"
