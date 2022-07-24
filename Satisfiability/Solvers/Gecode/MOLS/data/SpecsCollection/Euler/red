@@ -666,33 +666,36 @@
 # TAU_red_7_newv_ave> nomad np
 # 358 10607353.930405  -1          5.75     -10          2.16       0.06     -10
 # Blackbox evaluations: 1042 Total model evaluations: 93005 Cache hits: 292 Total number of evaluations: 1334
-# Reproduction:
-# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-1,5.75,-10,2.16,0.06,-10" 1000 10 all
-# XXX
+# MOLS> time ./TAUscan 7 data/SpecsCollection/Euler/red "" enu newv hash "-1,5.75,-10,2.16,0.06,-10" 1000 10 all
+# 1000 : 6.27047811343901473791e+04 1.06073539304050722776e+07 8.48896741307919180777e+08; 3.48422400329753089209e+07
+# real    0m49.350s user    8m2.517s sys     0m4.464s
 
 # Alternative optimisation on ave+sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_avepsd> nomad np
 # 235 38245569.272132  -0.1212     3.44      -4.08       2.2       -6          1.97
 # Blackbox evaluations: 1034 Total model evaluations: 92606 Cache hits: 343 Total number of evaluations: 1377
-# Reproduction:
-# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.1212,3.44,-4.08,2.2,-6,1.97" 1000 10 all
-# XXX
+# MOLS> time ./TAUscan 7 data/SpecsCollection/Euler/red "" enu newv hash "-0.1212,3.44,-4.08,2.2,-6,1.97" 1000 10 all
+# 1000 : 7.79039912476404853834e+04 1.82663813618189197259e+07 1.93315466068618126155e+08; 1.99791879103126500704e+07
+# real    0m49.902s user    8m6.522s sys     0m4.533s
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_max> nomad np
 # 827 175918446.898071  -0.7       -0.22      -0.02      -1.97      -1.06      -0.08
 # Blackbox evaluations: 1020 Total model evaluations: 88351 Cache hits: 329 Total number of evaluations: 1349
-# Reproduction:
-# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.7,-0.22,-0.02,-1.97,-1.06,-0.08" 1000 10 all
-# XXX
+# MOLS> time ./TAUscan 7 data/SpecsCollection/Euler/red "" enu newv hash "-0.7,-0.22,-0.02,-1.97,-1.06,-0.08" 1000 10 all
+# 1000 : 4.79134393707890764517e+06 3.57432422004955669036e+07 1.86894605771680999678e+08; 2.86026547464738024792e+07
+# real    0m53.379s user    8m44.984s sys     0m4.628s
 
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # TAU_red_7_newv_sd> nomad np
 # 349 21293498.865993  -0.6423    -0.9894     1.011     -3.98       0.0211    -4.0037
 # Blackbox evaluations: 1031 Total model evaluations: 89611 Cache hits: 326 Total number of evaluations: 1357
-# Reproduction:
-# TAU_red_7_newv_ave> time ./TAUscan 7 ../red "" wdL hash "-0.6423,-0.9894,1.011,-3.98,0.0211,-4.0037" 1000 10 all
-# XXX
+# MOLS> time ./TAUscan 7 data/SpecsCollection/Euler/red "" enu newv hash "-0.6423,-0.9894,1.011,-3.98,0.0211,-4.0037" 1000 10 all
+# 1000 : 1.34337827896603487272e+06 2.54199752656692726414e+07 1.66019300304026724771e+08; 2.12934988659928526904e+07
+# real    0m50.793s user    8m15.214s sys     0m4.467s
+
+# Too hard for now.
+
 
 
 # laMols with newvars for bin

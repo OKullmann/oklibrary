@@ -27,8 +27,9 @@ All solvers solve N=5. N=6 solved by none.
 
 2) red
 
-All solvers solve N=6. N=7 solved only by gcMols.
-On N=6, rlaMols(bin+maxdeg) is 23x better leaf-wise than gcMols(enum+maxdegdom),
+All solvers solve N=6. N=7 solved only by gcMols (runtime likely too high).
+On N=6, rlaMols (bin+maxdeg) is 23x better leaf-wise than gcMols
+(enum+maxdegdom),
 laMols has similar leafcount as rlaMols.
 
 
