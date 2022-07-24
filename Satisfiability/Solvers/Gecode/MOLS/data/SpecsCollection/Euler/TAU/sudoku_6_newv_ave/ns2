@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 6 ../../sudoku "" enu newv hash cin 200 10 ave

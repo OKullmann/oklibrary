@@ -220,7 +220,72 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU/sudoku_6_newv_ave$ nomad np
+# 503  1522.233132  -1          9.99994   -9.999869  -9.199118  -8.398703
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1140 Total model evaluations: 102584 Cache hits: 336 Total number of evaluations: 1476
+# TAU/sudoku_6_newv_ave$ time ./TAUscan 6 ../../sudoku "" enu newv hash "-1,9.99994,-9.999869,-9.199118,-8.398703" 100 10 all
+# 100 : 2.44823753249006728222e+02 2.10124915064098529305e+03 3.29498708656244682125e+04; 3.80054001085638227053e+03
+# real    0m1.204s user    0m11.212s sys     0m0.178s
+# TAU/sudoku_6_newv_ave$ ./laMols 6 ../../sudoku "" count dom enu newv "" "" 1 16 "-1,9.99994,-9.999869,-9.199118,-8.398703" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     198.686     550318  0    10683    3597     7086        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#236.319  0.799   10.618  128.307  192.096   1.825  0.000  0.246    1.781   6.667
+#197.000  0.000    0.000   34.450   64.500   1.000  0.000  0.011    0.000   0.000
+#348.000  2.000  144.961  135.266  491.561   6.000  0.000  0.863   29.148  10.000
+# 19.953  0.611   17.242   14.547   64.945   0.730  0.000  0.112    3.764   1.413
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#200.620  1.753   40.925   44.663   78.348   1.222  0.000  0.099    8.977   8.162
+# 32.000  1.056    0.000    0.000    0.995   1.000  0.000  0.000    0.995   5.000
+#255.000  5.000  730.000  158.621  476.543   5.000  0.000  0.863   27.477  11.000
+# 36.676  0.504  132.915   33.206   70.447   0.519  0.000  0.101    3.804   1.050
+#       estlvs
+#1.070772e+171
+# 2.448238e+02
+#4.545526e+173
+#1.805408e+172
+#    mu1      w     ltau   minp  meanp   maxp    sdd     tb
+#147.806  2.970    1.143  0.197  0.356  0.554  0.158  0.172
+# 36.000  2.000    0.000  0.000  0.200  0.250  0.000  0.000
+#205.000  5.000  177.446  0.500  0.500  0.999  0.499  0.480
+# 22.176  0.684   12.370  0.164  0.087  0.163  0.118  0.062
+# An enormous value for estlvs.
+# Trying the last optimisation-result with integers:
+# 47  2152.491605  -1         10        -10        -10        -10
+# TAU/sudoku_6_newv_ave$ time ./TAUscan 6 ../../sudoku "" enu newv hash "-1,10,-10,-10,-10" 100 10 all
+# 100 : 2.44822194008632545312e+02 2.15249160529691388533e+03 5.28600767919512347035e+04; 5.46046339762938224771e+03
+# real    0m1.208s user    0m11.229s sys     0m0.151s
+# TAU/sudoku_6_newv_ave$ ./laMols 6 ../../sudoku "" count dom enu newv "" "" 1 16 "-1,10,-10,-10,-10" "" ""
+#   weights: -1 10 -10 -10 -10 -> 0 -1 1024 1 0.0009765625 9.5367431640625e-07 0
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     171.186     550731  0    10669    3591     7078        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#236.380  0.798   10.391  128.344  192.009   1.838  0.000  0.187    1.794   6.662
+#197.000  0.000    0.000   34.450   58.454   1.000  0.000  0.004    0.000   0.000
+#348.000  2.000  154.545  135.266  505.830   6.000  0.000  0.900   29.148  10.000
+# 19.913  0.610   17.363   14.430   66.267   0.756  0.000  0.105    3.864   1.412
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#200.622  1.734   40.930   43.502   77.161   1.224  0.000  0.076    8.834   8.158
+# 32.000  1.056    0.000    0.000    0.995   1.000  0.000  0.000    0.952   5.000
+#255.000  5.000  730.000  158.621  481.893   5.000  0.000  0.746   25.225  11.000
+# 36.696  0.498  134.131   32.990   70.387   0.515  0.000  0.085    3.818   1.049
+#       estlvs
+#1.259071e+171
+# 2.448222e+02
+#5.338837e+173
+#2.121693e+172
+#    mu1      w     ltau   minp  meanp   maxp    sdd     tb
+#147.811  2.971    1.145  0.197  0.356  0.554  0.158  0.132
+# 36.000  2.000    0.000  0.000  0.200  0.250  0.000  0.003
+#205.000  5.000  177.446  0.500  0.500  0.999  0.499  0.390
+# 22.195  0.686   12.380  0.164  0.087  0.163  0.118  0.061
+# Very similar; later one needs to investigate the enormous values for estlvs.
+
+# Increasing rep:
+# Optimising TAUscan via Nomad (MAX_TIME 600s, rep=200):
+# TAU/sudoku_6_newv_ave$ nomad np2
 # running on server2 XXX
+
 
 
 squares A B aux
