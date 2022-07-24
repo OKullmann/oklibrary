@@ -13,12 +13,11 @@
 
 # Apparently not on OEIS.
 
-# Restrictions:
-# + Sudoku: ./sudoku
+# Restrictions in other directories:
 # + 2MOLS : Euler/pandiag
-# + 2MOLS + Sudoku: Euler/pandiagsudoku
+# + 2MOLS + Sudoku : Euler/pandiagsudoku
 # + 3MOLS : 3MOLS/pandiag
-# + 3MOLS + Sudoku: 3MOLS/pandiagsudoku
+# + 3MOLS + Sudoku : 3MOLS/pandiagsudoku
 # For none of these restrictions a case is known where the basis (pure pandiagonal
 # as in here) is satisfiable, but the restriction is not.
 

@@ -2,6 +2,11 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0
 # 8
 
+# Restrictions in other directories:
+# + 2MOLS : Euler/queendiag
+# + 2MOLS + Sudoku : Euler/queendiagsudoku
+
+
 # gcMols:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
