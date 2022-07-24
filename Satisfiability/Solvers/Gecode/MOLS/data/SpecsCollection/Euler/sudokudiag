@@ -28,14 +28,20 @@
 
 # N=8:
 
-# Best for finding solutions appears dom+bin+mindom+desc. XXX
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiag "" count "" - - - 1 16 t,180
+# clear winner:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8    count dom enu    mindeg desc   1       448    2028.059    2742700387    17540282    26815393     33  1
+# Regarding "normal heuristics", the best was
+#  8    count dom enu    mindom desc   1       101    1640.074    2676288078    17192030    32622588     35  1
+
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiag "" +count "" enu mindeg desc 1 16 ""
 # running on server2 XXX
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
-#   9   +count dom bin    mindom desc    1          48    1958.242    3282264744    18582584    37165428     43  1
-# A second run found 587 solutions.
-# Seems very similar to enu.
-# Running the best combination then on server XXX
+
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiag "" +count "" enu mindom desc 1 16 ""
+# running on server XXX
+
+
 
 
 # SAT solving:
