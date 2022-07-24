@@ -54,14 +54,21 @@ rlaMols and laMols solve N=11.
 The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols(enu+mindom).
 
 
-6) sudokudiag
+6) sudoku
+
+Only N=6 feasible.
+Optimisation for wdL somewhat better than rlaMols.
+Lvs-optimisation for newvars similar, while tau-optimisation
+has some trouble due to extreme outliers.
+
+7) sudokudiag
 
 All solvers solve N=7.
 On N=7, rlaMols(mindom+enu) is 72x better leaf-wise than gcMols(dom+bin+mindom).
 laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
 
 
-7) pandiagsudoku
+8) pandiagsudoku
 
 All solvers solve N=11.
 On N=11, rlaMols(enu+mindom) has only 52 leaves - seems too few for

@@ -284,8 +284,37 @@
 # Increasing rep:
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=200):
 # TAU/sudoku_6_newv_ave$ nomad np2
-# running on server2 XXX
-
+# 506  1782.781255  -0.690003   8.00001   -9.699999  -9.00005   -9.000056
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1113 Total model evaluations: 96400 Cache hits: 421 Total number of evaluations: 1534
+# TAU/sudoku_6_newv_ave$ time ./TAUscan 6 ../../sudoku "" enu newv hash "-0.690003,8.00001,-9.699999,-9.00005,-9.000056" 100 10 all
+# 100 : 2.45780165816912181703e+02 4.05100424062097921363e+03 6.87760126205118416678e+04; 1.15778396350069337553e+04
+# real    0m1.222s user    0m11.435s sys     0m0.202s
+# TAU/sudoku_6_newv_ave$ ./laMols 6 ../../sudoku "" count dom enu newv "" "" 1 16 "-0.690003,8.00001,-9.699999,-9.00005,-9.000056" "" ""
+# N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu newv   asc  relpr   1        0     203.082     556722  0    10741    3609     7132        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#236.309  0.801   10.438  128.358  192.434   1.842  0.000  0.270    1.799   6.658
+#197.000  0.000    0.000   34.450   58.454   1.000  0.000  0.003    0.000   0.000
+#348.000  2.000  154.545  135.266  505.830   6.000  0.000  0.996   29.148  10.000
+# 19.873  0.608   17.324   14.395   66.174   0.755  0.000  0.122    3.854   1.408
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#200.516  1.733   40.617   43.196   76.615   1.223  0.000  0.106    8.793   8.148
+# 32.000  1.056    0.000    0.000    0.995   1.000  0.000  0.000    0.952   5.000
+#255.000  5.000  730.000  158.621  481.893   5.000  0.000  0.848   25.225  11.000
+# 36.567  0.496  133.666   33.062   70.033   0.510  0.000  0.107    3.838   1.049
+#       estlvs
+#1.095500e+133
+# 2.457802e+02
+#4.680758e+135
+#1.853021e+134
+#    mu1      w    ltau   minp  meanp   maxp    sdd     tb
+#147.791  2.976   0.182  0.198  0.356  0.553  0.157  0.188
+# 36.000  2.000   0.000  0.000  0.200  0.250  0.000  0.004
+#205.000  5.000  20.696  0.500  0.500  0.992  0.492  0.473
+# 22.137  0.693   1.533  0.164  0.087  0.163  0.118  0.063
+# Again the same: there seems to be a cluster of weights, each with few and
+# large outliers.
 
 
 squares A B aux
