@@ -18,18 +18,31 @@
 
 # gcMols:
 
-# N=7: best regarding flvs (for counting) is dom+bin+mindom.
+# N=7:
+
+# Best regarding flvs (for counting) is dom+bin+mindom:
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler/sudokudiag "" +count "" bin mindom asc 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7   +count dom bin    mindom  asc   1        18      14.830      27426948      203948      407931     25  0
 # real	0m1.591s user	0m8.416s sys	0m0.218s
-# N=8: best for finding solutions appears dom+bin+mindom+desc.
-# ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" bin mindom desc 1 12 t,180
+
+# N=8:
+
+# Best for finding solutions appears dom+bin+mindom+desc. XXX
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiag "" count "" - - - 1 16 t,180
+# running on server2 XXX
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
 #   9   +count dom bin    mindom desc    1          48    1958.242    3282264744    18582584    37165428     43  1
 # A second run found 587 solutions.
 # Seems very similar to enu.
-# N=9: far best for finding solutions appears dom+enu+mindom+asc (but that might
+# Running the best combination then on server XXX
+
+
+# SAT solving:
+
+# N=9:
+
+# Far best for finding solutions appears dom+enu+mindom+asc (but that might
 # actually be chance):
 # MOLS> ./gcMols 9 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc 1 12 t,180
 #   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
@@ -42,10 +55,29 @@
 # also no solution found.
 
 
+
 # rlaMols:
 
+# N = 6:
+
+# MOLS> ./rlaMols 6 data/SpecsCollection/Euler/sudokudiag "" count dom enu mindom "" "" 1 1 ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom enu    mindom  asc  relpr   1        0       0.059        388  0       11       3        8
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#323.667  0.333    3.446  127.086  134.580   1.333  0.000  0.005    0.521  0.667
+#319.000  0.000    0.000  126.250  121.944   1.000  0.000  0.002    0.000  0.000
+#332.000  1.000    5.455  127.900  154.688   2.000  0.000  0.008    1.562  1.000
+#  7.234  0.577    2.998    0.825   17.604   0.577  0.000  0.003    0.902  0.577
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#306.250  2.114    8.087   20.871   86.553   1.500  0.000  0.005    6.336  1.750
+#298.000  1.258    2.373    4.651    5.960   1.000  0.000  0.000    2.318  1.000
+#319.000  2.750   22.222   60.815  350.784   3.000  0.000  0.024   17.241  2.000
+#  8.190  0.552    6.522   24.328  141.827   0.926  0.000  0.009    5.411  0.463
+
+# N = 7:
+
 # MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiag "" count dom - - - "" 1 16 "nds,5300"
-# The best regarding node-count are mindom+enu+asc and mindom+enu+desc.
+# The best regarding node-count is enu+mindom.
 # N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
 #  7    count dom enu    mindom  asc  relpr   1       18     141.861     314643  0     5265    2416     2849
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
@@ -58,38 +90,45 @@
 #120.000  1.097    0.000    0.000    0.568   1.000  0.000  0.000    0.568   5.000
 #507.000  5.000  300.000  121.142  796.119   9.000  1.000  0.273   27.897  12.000
 # 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.037    5.368   0.903
+
+# N = 8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/Euler/sudokudiag "" +count dom enu mindom "" "" 1 16 ""
+# aborted (for counting, gcMols appears faster):
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
-#  7    count dom enu    mindom desc  relpr   1       18     222.324     315417  0     5265    2416     2849
+#  8   +count dom enu    mindom  asc  relpr   1      135   18285.464   59748124  1   980232  279779   700453
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-#467.210  0.938   11.082  123.535  204.761   2.239  0.000  0.452    1.615   6.605
-#373.000  0.000    0.278   61.972   96.404   1.000  0.000  0.036    0.000   0.000
-#596.000  2.000   39.344  129.082  748.869   7.000  0.000  3.685   37.010  11.000
-# 29.617  0.384    5.404    2.648   80.963   0.848  0.000  0.360    2.014   1.353
+#554.073  0.203   81.152  121.442   74.383   1.234  0.000  0.668    0.160  20.096
+#426.000  0.000    0.000   46.948   46.657   1.000  0.000  0.211    0.000   0.000
+#968.000  3.500  100.627  123.301  655.474   8.000  0.000  7.713   16.197  31.000
+# 51.153  0.424   23.798    1.635   31.417   0.533  0.000  0.383    0.519   2.633
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-#421.393  1.599   10.883   25.531   99.791   1.524  0.006  0.234   10.908   8.317
-#120.000  1.097    0.000    0.000    0.568   1.000  0.000  0.000    0.568   5.000
-#507.000  5.000  300.000  121.142  796.119   9.000  1.000  3.290   27.897  12.000
-# 35.665  0.310   14.729   19.916  104.127   0.907  0.079  0.325    5.368   0.903
+#484.785  2.280    0.044   16.539   19.812   1.000  0.000  0.148    2.708  22.084
+# 48.000  1.083    0.000    0.000    0.317   1.000  0.000  0.000    0.317  13.000
+#711.000  5.000   44.444  106.967  296.281   3.000  4.000  2.571   16.736  32.000
+#  3.128  0.488    0.231    2.049    8.469   0.011  0.020  0.066    1.607   2.235
+
+
+
+# SAT solving:
+
+# N = 10:
 
 # MOLS> time ./rlaMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu mindom asc "" 1 12
 # aborted after 4min wallclock-time without finding a solution.
 
 
+
 # laMols with wdL:
 
-# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu dL asc "" 1 12 ""
-# aborted after 3min wallclock-time without finding a solution.
-
-# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu wdL asc "" 1 12 ""
-# aborted after 3min wallclock-time without finding a solution.
-
 # N=6:
+
+# Optimising on LVS XXX
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_wdL_ave> nomad np
 # 753   5.041725   2.739548   2.732939   1.645779   0.61019
 # Blackbox evaluations: 987 Total model evaluations: 87726 Cache hits: 335 Total number of evaluations: 1322
-# Reproduction:
 # time ./TAUscan 6 ../sudokudiag "" wdL hash "2.739548,2.732939,1.645779,0.61019" 100 1 all
 # 100 : 3.62115027366100835802e+00 6.38989216433905085017e+00 1.90530866400931112037e+01; 4.94551465328500400049e+00
 # real    0m5.354s user    0m4.964s sys     0m0.396s
@@ -97,11 +136,9 @@
 # Alternative optimisation on ave+sd (MAX_TIME 600s, rep=100):
 # 859   7.412977   4.071902   6.134798   1.085      7.0
 # Blackbox evaluations: 969 Total model evaluations: 90004 Cache hits: 359 Total number of evaluations: 1328
-# Reproduction:
 # time ./TAUscan 6 ../sudokudiag "" wdL hash "4.071902,6.134798,1.085,7.0" 100 1 all
 # 100 : 4.09219811198067823016e+00 5.52539513510423356546e+00 1.16632512390651822617e+01; 2.88393057263846043308e+00
 # real    0m4.562s user    0m4.271s sys     0m0.281s
-# Failure in reproduction
 
 # N=7:
 

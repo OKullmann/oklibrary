@@ -11,9 +11,9 @@
 
 # N=6:
 
-# MOLS> ./gcMols 6 data/SpecsCollection/EulerSudoku "" count dom bin maxdom "" 1 1 ""
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
-#   6    count dom bin    maxdom  asc    1           0       7.661      43460629      338153      676305     15  0
+# MOLS> ./gcMols 6 data/SpecsCollection/Euler/sudoku "" count dom - - "" 1 16 "t,8"
+# best:
+#  6    count dom bin    maxdom  asc   1         0      23.916      43460629      338153      676305     23  0
 
 # N=7:
 
@@ -43,9 +43,62 @@
 
 # N=10:
 
-# MOLS> ./gcMols 10 data/SpecsCollection/EulerSudoku "" count dom - - - 1 12 "t,60"
-# no solutions found.
+# MOLS> time ./gcMols 10 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" 1 16 ""
+# running on server XXX
 
+
+# rlaMols:
+
+# N = 6:
+
+# ./rlaMols 6 data/SpecsCollection/Euler/sudoku "" count dom - - "" "" 1 16 "lvs,12076"
+# best is bin+first, followed by enu+first:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom bin     first  asc  relpr   1        0     155.393     455634  0    10503    5251     5252
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#257.137  0.752   21.575  128.806  158.381   1.910  0.000  0.209    1.474  11.919
+#200.000  0.000    0.000   42.000   38.500   1.000  0.000  0.006    0.000   0.000
+#348.000  2.000   98.701  136.634  460.769   5.000  0.000  0.882   16.438  19.000
+# 18.342  0.506   11.673    9.121   53.399   0.710  0.000  0.103    1.871   2.514
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#216.792  1.674   34.334   43.866   72.848   1.211  0.000  0.085   10.547  13.917
+# 32.000  1.069    0.000    0.000    1.333   1.000  0.000  0.000    1.136   7.000
+#266.000  4.000  440.000  117.213  468.110   5.000  0.000  0.968   26.695  20.000
+# 33.640  0.354   38.926   20.409   61.331   0.515  0.000  0.085    4.566   2.087
+
+
+
+# laMols with wdL:
+
+# MOLS> ./laMols 6 data/SpecsCollection/Euler/sudoku "" count dom enu wdL "" "" 1 12 "" "" ""
+# slightly better L:
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0     169.134    1237212  0    19721    6801    12920        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#213.273  0.599    7.123  131.472  188.612   1.658  0.000  0.104    1.091   7.736
+# 75.000  0.000    0.000   38.710   34.667   1.000  0.000  0.001    0.000   0.000
+#348.000  2.000  234.615  144.000  605.392   7.000  0.000  0.548   27.586  13.000
+# 22.565  0.616   17.359   10.770   69.735   0.773  0.000  0.053    2.926   1.551
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#175.922  1.876   11.906   30.700   64.048   1.260  0.000  0.037    6.965   9.322
+# 28.000  1.062    0.000    0.000    1.290   1.000  0.000  0.000    1.290   7.000
+#206.000  4.000  837.500  160.000  370.936   4.000  0.000  0.295   23.762  14.000
+# 34.348  0.536   73.565   38.104   85.638   0.535  0.000  0.053    3.408   1.122
+#      estlvs
+#3.861688e+04
+#2.109958e+03
+#2.324086e+06
+#1.088609e+05
+#    mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#139.521  2.900  0.128  0.315  0.379  0.471  0.068  0.076
+# 36.000  2.000  0.024  0.002  0.250  0.250  0.000  0.000
+#205.000  4.000  0.244  0.500  0.500  0.859  0.359  0.167
+# 17.812  0.891  0.058  0.155  0.113  0.111  0.074  0.027
+
+# Absolute optimisation on lvs (MAX_TIME=3600, rep=100):
+# LVS/sudoku_6_wdL$ nomad np
+# running on server2 XXX
 
 
 squares A B aux
