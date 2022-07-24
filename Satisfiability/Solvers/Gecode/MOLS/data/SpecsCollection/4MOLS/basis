@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0, >= 3300
+# 0, 0, 0, 36, 0, >= 3900
 # Apparently not in OEIS.
 #
 
@@ -24,7 +24,7 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX 3300 solutions found (solutions seem to come in groups of 60)
+# running on server2 XXX 3900 solutions found (solutions seem to come in groups of 60)
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
 # appears to be much worse; 48 solutions found, aborted:
