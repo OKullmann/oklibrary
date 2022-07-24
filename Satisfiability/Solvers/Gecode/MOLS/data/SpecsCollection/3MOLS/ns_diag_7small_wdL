@@ -1,5 +1,0 @@
-#!/bin/bash
-boundnds=${2:-1000}
-cd ../../..
-# Maximise pelvals for inner nodes:
-cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count "" enu wdL "" "" 1 2 cin nds,${boundnds} pelvals,-stop,-sign

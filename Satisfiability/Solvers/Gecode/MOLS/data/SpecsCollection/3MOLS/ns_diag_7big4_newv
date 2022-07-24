@@ -1,5 +1,0 @@
-#!/bin/bash
-boundnds=${2:-47512}
-cd ../../..
-# Minimise nds:
-cat $1 | ./laMols  7 data/SpecsCollection/3MOLS/diag "" count dom enu newv "" "" 1 10 cin nds,${boundnds} estlvs
