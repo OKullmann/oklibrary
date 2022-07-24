@@ -14,6 +14,8 @@
 # The number of row-reduced latin squares for N=7 is 16942080 * 6! = 12198297600,
 # where 12198297600 / 715512576 ~ 17.05.
 
+# The natural conjecture here is that all N are satisfiable.
+
 
 # gcMols:
 
@@ -46,23 +48,53 @@
 #  7    count val bin maxdegdom  asc   1 715512576    4195.893   13549760464   122044638  1675114427     24  0
 
 
-
 # SAT decision:
 
-# ./gcMols 2,11 data/SpecsCollection/Sudoku "" satd dom enu maxdegom "" 1 12 ""
-# solves all cases very quickly. But N=12 is hard:
-# ./gcMols 12 data/SpecsCollection/Sudoku "" satd dom enu maxdegdom "" 1 12 "t,120"
-#   N       rt  pl  bt        bv   bo  gcd        satc           t           ppc        flvs        gnds     gd st
-#  12     satd dom enu maxdegdom  asc    1           0    1106.569    1232824669    27119989    52957848     81  1
+# dom+bin+first finds a solution for square N <= 100 on the leftmost path:
+# MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100,121,144,169,196,225 data/SpecsCollection/Sudoku "" satd dom bin first asc 0 1 "flvs,0"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  4     satd dom bin     first  asc   0         1       0.000            55           0           5      4  0
+#  9     satd dom bin     first  asc   0         1       0.000           616           0          38     37  0
+# 16     satd dom bin     first  asc   0         1       0.005          3394           0         161    160  0
+# 25     satd dom bin     first  asc   0         1       0.039         12113           0         411    410  0
+# 36     satd dom bin     first  asc   0         1       0.163         34580           0         938    937  0
+# 49     satd dom bin     first  asc   0         1       0.774         87096           0        1837   1836  0
+# 64     satd dom bin     first  asc   0         1       4.415        189376           0        3305   3304  0
+# 81     satd dom bin     first  asc   0         1      27.445        373205           0        5264   5263  0
+#100     satd dom bin     first  asc   0         1     104.256        679531           0        8150   8149  0
+#121     satd dom bin     first  asc   0         0     311.747       1179380           1       11026  11025  1
+#144     satd dom bin     first  asc   0         1     761.376       1997368           0       17678  17677  0
+#169     satd dom bin     first  asc   0         0    1733.474       3035690           1       19549  19548  1
+#196     satd dom bin     first  asc   0         1    3695.847       5033699           0       32957  32956  0
+#225     satd dom bin     first  asc   0         0    6940.039       6755610           1       31187  31186  1
+
+
+# MOLS$ ./gcMols 2,100 data/SpecsCollection/Sudoku "" satd dom bin first asc 0 1 "flvs,0"
+# failures exactly for N=6,7 and the non-square-numbers >= 11.
+
+# MOLS$ ./gcMols 11 data/SpecsCollection/Sudoku "" satd dom - - - 0 1 "flvs,0"
+# no solution found.
+# With "flvs,10" bin/enu+maxdegdom+asc found a solution.
+
 
 
 # rlaMols:
 
-# MOLS> time ./rlaMols 12 data/SpecsCollection/Sudoku "" satd dom enu maxdegdom "" "" 1 12
-# aborted after 2min wallclock-time.
+# SAT decision:
+
+# MOLS> ./rlaMols 25 data/SpecsCollection/Sudoku "" satd "" - - - "" 1 1 "lvs,0"
+# All runs find at least one solution, except for bin/enu+maxdom+asc and
+# bin/enu+mindegdom+asc; these four runs also had the smallest depth 281
+# (all four of them).
+# Most runs reached a leaf, except for bin/enu+mindom+desc,
+# bin/enu+maxdegdom+desc, bin/enu+maxdom+desc, bin/enu+mindegdom+desc,
+# which all found 4 solutions earlier (and then aborted by "satd").
+
 
 
 # laMols with (w)dL:
+
+# SAT decision:
 
 # dL solvers N <= 16 with threads=12 rather quickly (the square-cases seem
 # easier):
@@ -71,6 +103,7 @@
 
 # wdL with default weights also solvers N <= 16 relatively quickly (very
 # few failed leaves. N=17 also here seems a hard decision-case.
+
 
 
 # laMols with newvars:
@@ -193,9 +226,6 @@
 #    24127.033      5.474     0.003      3199.827      3488.490      3669.191      636.093      79.736      27.876
 # real	32m0.177s user	296m45.237s sys	27m47.815s
 
-
-
-# So here newvars seems overall best.
 
 
 squares A
