@@ -1,0 +1,36 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, ?, >= ?
+
+# Even the diagonal form is known to exist by [Keedwell, 2011]
+# for all square N >= 9.
+
+
+# gcMols:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/3MOLS/sudoku "" count dom enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindom  asc   1         0       0.000            31           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000           194           2           3      1  0
+#  4    count dom enu    mindom  asc   1         0       0.001           316           2           3      1  0
+#  5    count dom enu    mindom  asc   1         0       0.005          3519          32          62      5  0
+#  6    count dom enu    mindom  asc   1         0      17.170     102330784      472970      877653     17  0
+
+# N=6:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/3MOLS/sudoku "" count dom - - - 1 12 "gnds,1000000"
+# clearly best mindom, perhaps slightly faster in the bin-form:
+#  6    count dom bin    mindom  asc   1         0      28.203     102852311      471350      942699     22  0
+
+# N=7:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/3MOLS/sudoku "" count dom bin mindom "" 1 16 ""
+# running on server XXX
+
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+rred A B C
+rprod B AB A
+rprod C AC A
+rprod C BC B
+box A B C
