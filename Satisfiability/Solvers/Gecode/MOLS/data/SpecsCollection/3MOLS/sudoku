@@ -63,7 +63,7 @@
 # N=6:
 
 # Optimising TAUscan via Nomad (MAX_TIME 3600s, rep=100):
-# TAU_sudoku_6_wdL_ave> nomad np
+# TAU/sudoku_6_wdL_ave$ nomad np
 # running on server2 XXX
 
 
