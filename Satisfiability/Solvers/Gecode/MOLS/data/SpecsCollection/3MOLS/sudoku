@@ -64,7 +64,47 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 3600s, rep=100):
 # TAU/sudoku_6_wdL_ave$ nomad np
+# 1052  3284.997793   4.840183   0.248586   0.621527   0.181334
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1232 Total model evaluations: 105986 Cache hits: 291 Total number of evaluations: 1523
+# TAU/sudoku_6_wdL_ave$ time ./TAUscan 6 ../../sudoku "" enu wdL hash "4.840183,0.248586,0.621527,0.181334" 100 10 all
+# 100 : 5.22318786514593327075e+02 5.54621240113286925855e+03 3.15762536134155542094e+04; 5.62671607738239214758e+03
+# real    0m2.975s user    0m27.710s sys     0m0.192s
+# TAU/sudoku_6_wdL_ave$ ./laMols 6 ../../sudoku "" count dom enu wdL "" "" 1 16 "4.840183,0.248586,0.621527,0.181334" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  6    count dom enu  wdL   asc  relpr   1        0     405.689    1071151  0     7238    2386     4852        0
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#562.155  0.780    5.547  128.829  198.497   1.862  0.000  0.730    0.877   5.779
+#443.000  0.000    0.000  122.767  117.426   1.000  0.000  0.079    0.000   0.000
+#702.000  2.000   14.465  134.081  508.171   5.000  0.000  3.094    4.444  10.000
+# 36.715  0.522    2.875    1.745   63.395   0.703  0.000  0.437    1.028   1.291
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#498.359  1.758    5.060   19.849   48.118   1.140  0.000  0.213    4.215   7.173
+#355.000  1.034    0.000    0.000    0.426   1.000  0.000  0.000    0.394   5.000
+#587.000  5.000   66.667  118.199  550.654   5.000  0.000  3.942   15.385  11.000
+# 42.168  0.477    4.541   17.002   60.863   0.442  0.000  0.301    2.500   1.034
+#      estlvs
+#1.793082e+04
+#5.223188e+02
+#1.995334e+05
+#2.859000e+04
+#     mu1      w   ltau   minp  meanp   maxp    sdd     tb
+#6947.712  3.033  0.002  0.230  0.358  0.535  0.132  0.498
+#5244.000  2.000  0.001  0.004  0.200  0.201  0.000  0.090
+#9094.000  5.000  0.006  0.500  0.500  0.875  0.375  1.186
+# 520.090  0.880  0.001  0.155  0.103  0.121  0.090  0.238
+# Similar to rlaMols.
+
+
+
+# laMols with newvars:
+
+# N=6:
+
+# Optimising TAUscan via Nomad (MAX_TIME 3600s, rep=100):
+# TAU/sudoku_6_newv_ave$ nomad np
 # running on server2 XXX
+
 
 
 
