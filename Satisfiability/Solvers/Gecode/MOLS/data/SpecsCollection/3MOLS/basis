@@ -292,8 +292,30 @@
 # real    1m51.747s user    18m21.859s sys     0m2.415s
 # The predicted number of leaves is better than rlaMols.
 # TAU_basis_7_newv_ave$ time ./laMols 7 ../basis "" +count "" enu newv "" "" 1 16  "-0.243384,8.060945,-6.967825,0.3856,-8.893625,-1.440316" "" ""
-# running on server2 XXX
-
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1     2400 6018827.961 3541493141  0 36190105 15930715 20259390        0
+#     mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+# 887.160  0.723    14.829  124.361   166.661   2.038  0.000   2.418    0.457  14.168
+# 604.000  0.000     2.701   59.224     5.033   1.000  0.000   0.000    0.000   0.000
+#1176.000  3.000  1252.632  132.348  1177.338  12.000  0.000  57.000   30.080  21.000
+#  30.843  0.490     4.049    1.171    79.981   0.961  0.000   1.457    0.677   1.764
+#    mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#839.722  1.654     3.907   27.151    69.634   1.471  0.000   1.108    3.781  15.872
+#270.000  1.020     0.000    0.000     0.241   1.000  0.000   0.000    0.224  10.000
+#923.000  6.000  1100.000  128.759  1093.633  11.000  1.000  41.490   33.174  22.000
+# 41.005  0.425     6.166   29.756    94.882   0.832  0.011   1.545    2.115   1.427
+#      estlvs
+#3.027244e+11
+#7.929977e+04
+#7.480034e+15
+#2.100444e+13
+#    mu1      w   ltau   minp  meanp   maxp    sdd      tb
+#500.652  2.272  0.001  0.346  0.462  0.583  0.114   1.964
+#252.000  2.000  0.000  0.000  0.167  0.194  0.000   0.000
+#621.000  6.000  0.066  0.500  0.500  0.995  0.495  20.006
+# 14.385  0.604  0.001  0.122  0.081  0.115  0.088   0.568
+# real    7216m9.671s user    100313m47.976s sys     5057m40.880s
+# Half of the leaves as rlaMols (and also somewhat faster).
 
 # With "opportunism" turned off
 # ("EVAL_OPPORTUNISTIC no"), and LH_SEARCH:

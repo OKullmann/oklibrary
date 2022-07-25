@@ -23,8 +23,8 @@ Results:
 
 All solvers solve N=6.
 
-N=7 yet only solved by rlaMols (enu+maxdegdom).
-Final attempt for now running considering newv (possibly better).
+N=7 solved by rlaMols (enu+maxdegdom) and with half the leaves by laMols
+(with newvars).
 
 
 2) symmb
