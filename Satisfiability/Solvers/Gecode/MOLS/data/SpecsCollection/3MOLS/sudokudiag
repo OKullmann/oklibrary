@@ -6,6 +6,14 @@
 
 # gcMols:
 
+# MOLS> ./gcMols 2,6 data/SpecsCollection/3MOLS/sudokudiag "" count dom enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu maxdegdom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom enu maxdegdom  asc   1         0       0.000            27           1           0      0  0
+#  4    count dom enu maxdegdom  asc   1         0       0.000           479           2           3      1  0
+#  5    count dom enu maxdegdom  asc   1         0       0.000           355           2           3      1  0
+#  6    count dom enu maxdegdom  asc   1         0       0.006         23804         127         245      6  0
+
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/3MOLSSudokudiag "" count - - - "" 1 1 "t,20"
@@ -26,6 +34,9 @@
 
 
 # rlaMols:
+
+# MOLS> ./rlaMols 2,6 data/SpecsCollection/3MOLS/sudokudiag "" count dom enu first "" "" 1 1 ""
+# solved all problems very quickly (8 leaves for N=6).
 
 # N=7:
 
@@ -75,11 +86,9 @@
 # TAU_sudokudiag_7_wdL_ave> nomad np
 # 297  962.456439   0.1901     2.67       6.1401     0.0001     7
 # Blackbox evaluations: 1121 Total model evaluations: 105626 Cache hits: 409 Total number of evaluations: 1530
-# Reproduction:
 # TAU_sudokudiag_7_wdL_ave$ time ./TAUscan 7 ../sudokudiag "" wdL hash "0.1901, 2.67, 6.1401, 0.0001, 7" 100 10 all
 # 100 : 2.57474217759250767812e+02 1.43450092165869544347e+03 1.12955915036312455770e+04; 1.66499167514612337893e+03
 # real    0m6.143s user    0m56.496s sys     0m0.148s
-# Again, no reproduction.
 # Testing it (server2):
 # MOLS> time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "0.1901, 2.67, 6.1401, 0.0001, 7" "" ""
 #   weights: 0.1901 2.6700000000000000001 6.1401000000000000001 0.0001 7 -> 0 0 1 1.1408427903242377076 7.2606564954535521483 512.0709831913555537 512.10647847733877702 65549.629245099363459
