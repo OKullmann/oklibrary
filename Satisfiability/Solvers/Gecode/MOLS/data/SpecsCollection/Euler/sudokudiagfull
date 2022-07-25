@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 6, >= 281, ?
+# 0, 0, 0, 0, 0, 6, >= 1130
 
 # Additionally to sudokudiag we have:
 # diag aux, antidiag aux, box aux.
@@ -31,7 +31,7 @@
 # N = 8:
 
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom desc 1 16 ""
-# running on server XXX 281 solutions found
+# running on server XXX 1130 solutions found
 
 # As for sudokudiag:
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom desc 1 16 ""
