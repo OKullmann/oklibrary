@@ -129,7 +129,9 @@
 
 # N=6:
 
-# Optimising on LVS XXX
+# Trivial to solve for both heuristics:
+# ./laMols 6 data/SpecsCollection/Euler/sudokudiag "" count dom enu wdL "" "" 1 1 "" "" ""
+# using 6 resp. 7 leaves.
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_wdL_ave> nomad np
@@ -148,15 +150,16 @@
 
 # N=7:
 
+# MOLS> ./laMols 7 data/SpecsCollection/Euler/sudokudiag "" count dom enu wdL "" "" 1 12 "" "" ""
+# using 3753 resp. 3834 leaves.
+
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=100):
 # TAU_sudokudiag_7_wdL_ave> nomad np
 # 554 1035.026673   0.896981   5.237416   0.934715   0.0001     7
 # Blackbox evaluations: 1184 Cache hits: 413 Total number of evaluations: 1597
-# Reproduction:
 # TAU_sudokudiag_7_wdL_ave> time ./TAUscan 7 ../sudokudiag "" wdL hash "0.896981,5.237416,0.934715,0.0001,7" 100 10 all
 # 100 : 2.41166889536214376619e+02 1.31864563519242289147e+03 5.98068703983010299652e+03; 1.05679070384081706568e+03
 # real    0m4.536s user    0m39.282s sys     0m0.398s
-# Failure in reproduction.
 # TAU_sudokudiag_7_wdL_ave> time ./laMols 7 ../sudokudiag "" +count dom enu wdL "" "" 1 16 "0.896981,5.237416,0.934715,0.0001,7" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  7   +count dom enu  wdL   asc  relpr   1       18     160.159     213898  0     2282     908     1374        0
@@ -292,33 +295,26 @@
 # TAU_sudokudiag_8_wdL_ave> nomad np
 # 845 2327725518.448992   0.0011     3.717205   0.7554     0.0001     0.000103   0.0079
 # Blackbox evaluations: 1134 Cache hits: 420 Total number of evaluations: 1554
-# Reproduction:
 # time ./TAUscan 8 ../sudokudiag "" wdL hash "0.0011,3.717205,0.7554,0.0001,0.000103,0.0079" 1000 10 all
 # 1000 : 3.80687517248157153858e+06 2.80377110592548625590e+09 2.24546272654005594388e+11; 9.86473193100444523990e+09
 # real    2m32.250s user    25m2.382s
-# Failure in reproduction.
 
 # Alternative optimisation on ave+sd (MAX_TIME 72000s, rep=1000):
 # TAU_sudokudiag_8_wdL_avepsd> nomad np
 # 296  5232343721.306151   5.72       1.13       0.36       0.0001     0.02       1.1
 # Blackbox evaluations: 1181 Total model evaluations: 91787 Cache hits: 409 Total number of evaluations: 1590
-# Reproduction:
 # time ./TAUscan 8 ../sudokudiag "" wdL hash "5.72,1.13,0.36,0.0001,0.02,1.1" 1000 10 all
 # 1000 : 8.46197787711030823084e+06 2.46430144698034995794e+09 2.62001716718076810017e+10; 2.76804227432580180140e+09
 # real    2m36.607s user    25m49.592s sys     0m4.206s
-# Success in reproduction.
+
 
 
 # laMols with newvars:
 
-# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 ""
-# aborted after 3min wallclock-time without finding a solution.
-# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 "0,8,0,0,0,0,0,0,0"
-# aborted after 9min wallclock-time without finding a solution.
-# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0"
-# aborted after 460min wallclock-time without a solution found.
-
 # N=6:
+
+# MOLS> ./laMols 6 data/SpecsCollection/Euler/sudokudiag "" count dom enu newv "" "" 1 1 "" "" ""
+# first run with 12 leaves, the three others wit 6 leaves.
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU_sudokudiag_6_newv_ave> nomad np
@@ -355,11 +351,9 @@
 # TAU_sudokudiag_7_newv_ave> nomad np
 # 376 1188.947676  -0.997257   5.000627  -1.008037  -9.999099   4.00161   -9.5205
 # Blackbox evaluations: 413 Cache hits: 60 Total number of evaluations: 473
-# Reproduction:
 # TAU_sudokudiag_7_newv_ave> time ./TAUscan 7 ../sudokudiag "" newv hash "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" 1000 10 all
 # 1000 : 2.28333305682993266350e+02 1.28073917559365581942e+03 1.04267487693232195332e+04; 1.00126587972301564050e+03
 # real 2m44.360s user	11m27.661s sys	0m1.838s
-# Failure in reproduction.
 # TAU_sudokudiag_7_newv_ave> time ./laMols 7 ../sudokudiag "" +count dom enu newv "" "" 1 16 "-0.997257,5.000627,-1.008037,-9.999099,4.00161,-9.5205" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  7   +count dom enu newv   asc  relpr   1       18     150.660     186165  0     2254    1001     1253        0
@@ -390,7 +384,6 @@
 # TAU_sudokudiag_7_newv_avepsd> nomad np
 # 621 1830.418677   0.11035    3.498759   0.030425  -1.990837  -7.002379 -10
 # Blackbox evaluations: 1238 Total model evaluations: 109069 Cache hits: 362 Total number of evaluations: 1600
-# Reproduction:
 # TAU_sudokudiag_7_newv_avepsd> time ./TAUscan 7 ../sudokudiag "" newv hash "0.11035,3.498759,0.030425,-1.990837,-7.002379,-10" 1000 10 all
 # 1000 : 2.32244226776809726986e+02 1.25020644917379722316e+03 2.45938023178489553864e+04; 1.09856958408177470621e+03
 # real	0m41.393s user	6m42.262s sys	0m3.695s
@@ -456,7 +449,6 @@
 # Alternative optimisation on sd (MAX_TIME 10000s, rep=1000):
 # 1147  655.475808  -1.0       -1.679323  -0.459947  -6.12029   -5.32       2.500406
 # Blackbox evaluations: 1231 Total model evaluations: 106379 Cache hits: 352 Total number of evaluations: 1583
-# Reproduction:
 # TAU_sudokudiag_7_newv_sd> time ./TAUscan 7 ../sudokudiag "" newv hash "-1.679323,-0.459947,-6.12029,-5.32,2.500406" 1000 10 all
 # 1000 : 6.94327122215818667780e+01 2.61282299603620233452e+03 1.02541532218379500023e+05; 6.34300971355337999169e+03
 # real    0m43.209s user    6m55.924s sys     0m3.527s
@@ -485,6 +477,17 @@
 # 13.447  0.832  0.370  0.152  0.108  0.126  0.089  0.129
 # real    0m41.169s user    3m29.413s sys     0m1.202s
 # leaf-wise about 2x worse than on ave, time-wise about 30 % worse.
+
+# SAT solving:
+
+# N=10:
+
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 ""
+# aborted after 3min wallclock-time without finding a solution.
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv asc "" 1 12 "0,8,0,0,0,0,0,0,0"
+# aborted after 9min wallclock-time without finding a solution.
+# MOLS> time ./laMols 10 data/SpecsCollection/EulerSudokudiag "" +count "" enu newv ddesc "" 1 12 "0,8,0,0,0,0,0,0,0"
+# aborted after 460min wallclock-time without a solution found.
 
 
 squares A B aux

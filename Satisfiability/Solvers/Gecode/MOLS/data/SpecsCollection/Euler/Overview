@@ -51,6 +51,7 @@ laMols(newv+max) is 40 % better leaf-wise than rlaMols.
 
 All solvers solve N=11.
 The best leaf-wise laMols(newv+ave) is 3x worse than rlaMols(enu+mindom).
+Interesting brittleness of solutions.
 
 
 6) sudoku
@@ -62,9 +63,11 @@ has some trouble due to extreme outliers.
 
 7) sudokudiag
 
-All solvers solve N=7.
+N=6 trivial.
+All solvers solve N=7 (still rather easy).
 On N=7, rlaMols(mindom+enu) is 72x better leaf-wise than gcMols(dom+bin+mindom).
 laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
+N=8 appears infeasible.
 
 
 8) pandiagsudoku
