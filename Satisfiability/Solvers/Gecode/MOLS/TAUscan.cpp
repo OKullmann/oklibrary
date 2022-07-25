@@ -14,6 +14,10 @@ BUGS:
 
 TODOS:
 
+1. More statistics on the distribution
+    - Kurtosis https://en.wikipedia.org/wiki/Kurtosis
+      seems relevant.
+
 */
 
 #include <iostream>
