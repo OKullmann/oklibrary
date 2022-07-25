@@ -1,22 +1,94 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 6, >= 76, ?
+# 0, 0, 0, 0, 0, 6, >= 281, ?
 
+# Additionally to sudokudiag we have:
+# diag aux, antidiag aux, box aux.
 # The motivation here is to have "as much propagation as possible".
-# Perhaps a better name is "pairs of orthogonal X-Sudokus";
-# "rred A B" should be "w.l.o.g.", and "rred aux" follows.
 
-# Question: do "diag aux" and "antidiag aux" also follow? Would be surprising.
-# The count for N=7 (6) is the same when removing them, but for N=8 we
-# seem to get many more solutions.
-# Same question for "box aux": here no change is visible, so perhaps it is
-# implied?
+# Are these additional conditions independent?
 
 # Question: every pair (if we don't have A=B, which is impossible)
 # is enumerated twice -- how can this symmetry be broken here?
 
-# MOLS> time ./gcMols 7 data/SpecsCollection/Eulerdiag2 "" count dom mindom "" 1
-# domain-prop min-dom-var bin-branch-min 6 3.708 13765067 61090 122191 22
-# The case N=8 for SAT-decision: "desc" seems best.
+
+# gcMols:
+
+# 2 <= N <= 7:
+
+# MOLS> ./gcMols 2,7 data/SpecsCollection/Euler/sudokudiagfull "" count "" bin mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    mindom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom bin    mindom  asc   1         0       0.000            15           1           0      0  0
+#  4    count dom bin    mindom  asc   1         0       0.000            53           1           0      0  0
+#  5    count dom bin    mindom  asc   1         0       0.000            63           1           0      0  0
+#  6    count dom bin    mindom  asc   1         0       0.014         62402         379         757      7  0
+#  7    count dom bin    mindom  asc   1         6       2.260      10328758       56324      112659     18  0
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Euler/sudokudiagfull "" count "" - - "" 1 1 "t,2"
+# best:
+#  7    count dom enu maxdegdom  asc   1         6       0.715       3293114       12117       24145     15  0
+
+# N = 8:
+
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom desc 1 16 ""
+# running on server XXX 281 solutions found
+
+# As for sudokudiag:
+# MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom desc 1 16 ""
+# aborted, as it seems clearly producing fewer solutions than maxdegdom.
+
+
+
+# rlaMols:
+
+# N=7:
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiagfull "" count dom - - - "" 1 12 "nds,5000"
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom bin    maxdeg  asc  relpr   1        6      52.098      91734  0      915     457      458
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#500.678  0.842    9.045  123.259  228.616   2.217  0.000  0.418    1.032   8.133
+#413.000  0.000    0.427  112.774  106.769   1.000  0.000  0.026    0.000   0.000
+#579.000  1.500   19.918  126.150  658.065   6.000  0.000  1.747    8.782  15.000
+# 23.302  0.407    3.264    1.483   80.664   0.903  0.000  0.236    1.320   2.436
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#453.485  1.517    3.142   43.562  143.468   1.723  0.013  0.275    9.891  10.111
+#363.000  1.090    0.000    0.744    1.489   1.000  0.000  0.001    0.993   5.000
+#508.000  3.667   15.748  120.335  669.787   6.000  2.000  1.708   20.359  16.000
+# 26.498  0.296    2.548   30.302  107.880   0.956  0.147  0.244    3.396   2.036
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom bin maxdegdom  asc  relpr   1        6      47.429      94522  0      925     462      463
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#489.032  0.845    9.830  123.917  221.538   2.188  0.000  0.292    0.820   7.729
+#410.000  0.000    0.427  117.634  106.479   1.000  0.000  0.049    0.000   0.000
+#579.000  2.000   19.918  127.073  643.656   6.000  0.000  1.088    6.754  13.000
+# 25.948  0.407    3.574    1.138   78.441   0.875  0.000  0.151    0.978   2.131
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#445.598  1.527    2.961   40.384  138.380   1.659  0.013  0.198    9.430   9.708
+#303.000  1.091    0.000    0.513    1.282   1.000  0.000  0.000    1.026   6.000
+#498.000  4.000   12.266  121.652  669.787   6.000  2.000  1.506   18.519  14.000
+# 22.732  0.329    2.447   28.841  108.894   0.931  0.147  0.193    3.094   1.654
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom enu maxdegdom  asc  relpr   1        6      42.386      93269  0      864     399      465
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#485.774  0.917   10.185  123.901  229.218   2.278  0.000  0.348    0.939  4.687
+#410.000  0.000    0.427  117.634  106.479   1.000  0.000  0.052    0.000  0.000
+#579.000  2.000   19.918  127.073  643.656   6.000  0.000  1.260    6.754  8.000
+# 23.735  0.375    3.386    1.194   77.751   0.863  0.000  0.216    1.013  1.230
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#445.914  1.528    2.944   40.370  138.448   1.660  0.013  0.219    9.437  6.331
+#303.000  1.091    0.000    0.513    1.282   1.000  0.000  0.001    1.026  4.000
+#498.000  4.000   12.266  121.652  669.787   6.000  2.000  1.314   18.519  9.000
+# 22.760  0.329    2.431   28.607  108.598   0.931  0.146  0.209    3.121  0.834
+
+# N=8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server XXX
+
+
+
+
 
 squares A B aux
 rred A B aux

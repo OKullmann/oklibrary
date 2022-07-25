@@ -75,3 +75,11 @@ N=8 appears infeasible.
 All solvers solve N=11.
 On N=11, rlaMols(enu+mindom) has only 52 leaves - seems too few for
 optimising laMols.
+
+
+Not considered for now:
+
+9) sudokudiagfull
+
+N=7 is relatively simple, doesn't add something new, while N=8 seems too
+hard (though still running).
