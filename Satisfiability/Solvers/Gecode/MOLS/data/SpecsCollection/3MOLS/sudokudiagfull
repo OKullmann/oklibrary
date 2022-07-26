@@ -1,0 +1,56 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, ?
+
+
+# gcMols:
+
+# 2 <= N <= 7:
+
+# MOLS> ./gcMols 2,7 data/SpecsCollection/3MOLS/sudokudiagfull "" count "" enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu maxdegdom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom enu maxdegdom  asc   1         0       0.000            27           1           0      0  0
+#  4    count dom enu maxdegdom  asc   1         0       0.000           181           1           0      0  0
+#  5    count dom enu maxdegdom  asc   1         0       0.000           188           1           0      0  0
+#  6    count dom enu maxdegdom  asc   1         0       0.006         27439         121         231      6  0
+#  7    count dom enu maxdegdom  asc   1         0       1.802       7725139       24702       48924     16  0
+
+# MOLS> ./gcMols 7 data/SpecsCollection/3MOLS/sudokudiagfull "" count "" - - "" 1 1 "t,3"
+# fastest:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    mindom  asc   1         0       0.000           755           3           5      1  0
+#  7    count dom enu     first  asc   1         0       0.002          8265          65          92      3  0
+
+# N = 8:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 12 ""
+# running csltok2 XXX
+
+
+
+# rlaMols:
+
+# 2 <= N <= 6:
+
+# MOLS> ./rlaMols 2,6 data/SpecsCollection/Euler/sudokudiagfull "" count dom bin mindom "" "" 1 1 ""
+# all solved nearly trivially.
+
+# N=7:
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiagfull "" count dom - - "" "" 1 16 "lvs,551"
+# server XXX
+
+
+
+squares A B C AB AC BC
+ls A B C AB AC BC
+rred A B C
+diag A B C
+antidiag A B C
+rprod B AB A
+rprod C AC A
+rprod C BC B
+box A B C
+diag AB AC BC
+antidiag AB AC BC
+box AB AC BC
