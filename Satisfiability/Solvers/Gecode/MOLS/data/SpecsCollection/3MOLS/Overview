@@ -44,14 +44,20 @@ gcMols (enu+mindom).
 wdL similar to rlaMols, newvars somewhat better.
 
 
-4) sudokudiag
+4) sudoku
+
+N=6 solved by all solvers.
+N=7 seems too hard.
+
+
+5) sudokudiag
 
 All solvers solve N=7.
 rlaMols (first) has 25x better nodecount than gcMols(mindom),
 wdL and newvars have 30% of leafcount of rlaMols.
 
 
-5) pandiag
+6) pandiag
 
 N <= 10 solved by all solvers, N=11 seems too hard to enumerate.
 
@@ -60,7 +66,7 @@ gcMols (bin+mindom); roughly 20x faster.
 laMols with wdL and newv even lower node-count.
 
 
-6) pandiagsudoku
+7) pandiagsudoku
 
 N <= 9 solved quickly by all solvers.
 

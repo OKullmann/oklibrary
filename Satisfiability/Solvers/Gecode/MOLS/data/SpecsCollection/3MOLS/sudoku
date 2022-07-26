@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, >= 48
+# 0, 0, 0, 0, 0, >= 192
 
 # Even the diagonal form is known to exist by [Keedwell, 2011]
 # for all square N >= 9.
@@ -24,7 +24,7 @@
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/3MOLS/sudoku "" +count dom bin mindom "" 1 16 ""
-# running on server XXX 48 solutions found
+# running on server XXX 192 solutions found
 
 
 
@@ -54,7 +54,21 @@
 # N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/sudoku "" +count dom bin first "" "" 1 16 ""
-# running on server2 XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom bin     first  asc  relpr   1        0  537070.011  515898504  1  6383905 3192031  3191874
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 907.085  0.637   36.990  123.471  116.191   1.669  0.000   1.851    0.391  25.937
+# 766.000  0.000    0.000  107.054   69.154   1.000  0.000   0.471    0.000   0.000
+#1242.000  2.000  103.429  127.154  633.634   6.000  0.000  39.328    9.153  39.000
+#  45.924  0.490    9.493    0.945   35.081   0.548  0.000   0.758    0.514   3.166
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 835.987  1.662    0.554   20.438   53.165   1.146  0.000   0.820    3.309  27.938
+# 600.000  1.018    0.000    0.000    0.204   1.000  0.000   0.000    0.204  14.000
+#1008.000  5.000   80.000  122.914  721.253   7.000  0.000  32.558   16.125  40.000
+#  23.471  0.638    0.923   16.765   47.651   0.365  0.000   0.801    1.647   2.831
+# real    650m32.594s user    8951m10.839s sys     713m31.676s
+
 
 
 
@@ -138,7 +152,11 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU/sudoku_7_newv_ave$ nomad np
-# running on server2 XXX
+# 1 10553612883.515333   0          0          0          0          0          0
+# 185   920443613.645736  -0.9948     4.79      -9.97       4.5       -9.08       9.06
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 302 Total model evaluations: 24249 Cache hits: 48 Total number of evaluations: 350
+# Looks very difficult.
 
 
 
