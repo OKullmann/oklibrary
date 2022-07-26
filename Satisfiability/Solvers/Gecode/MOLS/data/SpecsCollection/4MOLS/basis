@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 36, 0, >= 6240
+# 0, 0, 0, 36, 0, 7200
 # Apparently not in OEIS.
 #
 
@@ -24,7 +24,10 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindom "" 1 16 ""
-# running on server2 XXX 6240 solutions found (solutions seem to come in groups of 60)
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom enu    mindom  asc   1      7200 5909922.057 8442986642160 36955230153 62549238507     31  0
+# real    7546m25.019s user    98498m42.064s sys     11963m55.656s
+# Solutions seemed to come in groups of 60.
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/4MOLS/basis "" +count dom enu mindeg "" 1 16 ""
 # appears to be much worse; 48 solutions found, aborted:
@@ -244,6 +247,12 @@
 #668.000  5.000  0.027  0.500  0.500  0.886  0.386  2.387
 # 10.319  0.839  0.005  0.147  0.099  0.147  0.091  0.296
 # Slightly worse than above (regarding lvs); again much lower estlvs.
+
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU_basis_7_newv_ave$ nomad np
+# running on server2 XXX
 
 
 
