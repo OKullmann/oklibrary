@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 6, >= 1130
+# 0, 0, 0, 0, 0, 6, 1356
 
 # Additionally to sudokudiag we have:
 # diag aux, antidiag aux, box aux.
@@ -31,7 +31,8 @@
 # N = 8:
 
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom desc 1 16 ""
-# running on server XXX 1130 solutions found
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8   +count dom enu maxdegdom desc   1      1356  397586.577  497928347053  2719470620  4703027011     32  0
 
 # As for sudokudiag:
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom desc 1 16 ""
@@ -84,9 +85,23 @@
 # N=8:
 
 # MOLS> ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server XXX
+# aborted after more than 11h wallclock-time:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  8   +count dom enu maxdegdom  asc  relpr   1        5  648582.538  904487040  1  5337665 2655297  2682368
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#616.574  0.860   31.803  121.522   196.218   2.304  0.000   2.805    1.055  18.083
+#458.000  0.000    0.000   94.173    58.475   1.000  0.000   0.449    0.000   0.000
+#948.000  4.000  111.594  126.527  1006.587  11.000  1.000  19.009   14.125  31.000
+# 43.775  0.397   13.134    2.084    79.878   0.914  0.001   1.328    1.182   2.474
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#529.356  1.874    1.424   32.843    80.435   1.326  0.000   1.085    6.708  20.030
+#236.000  1.026    0.000    0.000     0.434   1.000  0.000   0.000    0.434  11.000
+#713.000  5.000   64.045  124.815  1044.898  11.000  2.000  21.011   25.037  32.000
+# 40.836  0.420    2.841   26.776    80.590   0.680  0.001   1.209    2.853   2.120
 
-
+# Optimising TAUscan via Nomad (MAX_TIME 20000s, rep=1000):
+# sudokudiagfull_8_newv_ave$ nomad np
+# running on server2 XXX
 
 
 
