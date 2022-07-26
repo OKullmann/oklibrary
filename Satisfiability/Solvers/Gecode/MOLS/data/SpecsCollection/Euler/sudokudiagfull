@@ -99,13 +99,27 @@
 #713.000  5.000   64.045  124.815  1044.898  11.000  2.000  21.011   25.037  32.000
 # 40.836  0.420    2.841   26.776    80.590   0.680  0.001   1.209    2.853   2.120
 
+
+
+# laMols with newvars
+
+# N=8:
+
 # Optimising TAUscan via Nomad (MAX_TIME 20000s, rep=1000):
 # sudokudiagfull_8_newv_ave$ nomad np
 # aborted:
 # 110  14222535.081796  -0.01      10        -10         -3         -8         10         10
 # Rerunning with MAX_TIME 30000s, rep=10000:
 # sudokudiagfull_8_newv_ave$ nomad np2
-# running server2 XXX
+# 161 20731045.589498  -0.88       8.77      -9.81      -2.91      -7.8        9.94      -9
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 168 Total model evaluations: 13140 Cache hits: 19 Total number of evaluations: 187
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.88,8.77,-9.81,-2.91,-7.8,9.94,-9" 10000 10 all
+# 10000 : 1.05081945798690160334e+04 2.07310455894979902441e+07 1.49216512955721320156e+10; 2.16453972836088309879e+08
+# real    15m57.622s user    158m25.155s sys     0m19.033s
+# sudokudiagfull_8_newv_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.88,8.77,-9.81,-2.91,-7.8,9.94,-9" "" ""
+# running on server2 XXX
+
 
 
 squares A B aux
