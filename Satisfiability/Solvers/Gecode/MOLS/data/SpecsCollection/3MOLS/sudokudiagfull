@@ -30,15 +30,15 @@
 
 # rlaMols:
 
-# 2 <= N <= 6:
+# 2 <= N <= 7:
 
-# MOLS> ./rlaMols 2,6 data/SpecsCollection/Euler/sudokudiagfull "" count dom bin mindom "" "" 1 1 ""
+# MOLS> ./rlaMols 2,7 data/SpecsCollection/3MOLS/sudokudiagfull "" count dom bin mindom "" "" 1 1 ""
 # all solved nearly trivially.
 
-# N=7:
+# N=8:
 
-# MOLS> ./rlaMols 7 data/SpecsCollection/Euler/sudokudiagfull "" count dom - - "" "" 1 16 "lvs,551"
-# server XXX
+# MOLS> time ./rlaMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 16 ""
+# running on server XXX
 
 
 
