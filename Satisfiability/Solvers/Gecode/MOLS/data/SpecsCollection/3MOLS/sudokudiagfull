@@ -24,7 +24,9 @@
 # N = 8:
 
 # MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 12 ""
-# running csltok2 XXX 80 solutions found (solutions seem to arrive in groups of 8)
+# aborted:
+# 80 solutions found (solutions seem to arrive in groups of 8)
+# real	2049m20.453s user	23780m46.528s sys	139m37.808s
 
 
 
