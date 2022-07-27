@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 2, 4, 32, 0, >= 142154, >= 55589, >= 34872, ?
+# 0, 2, 4, 32, 0, >= 212880, >= 55589, >= 34872, ?
 
 # Known to exist [Pedersen, Vis, 2009] for all square N;
 # see EulerSudokudiag for a strengthening.
@@ -27,7 +27,7 @@
 # there is a lot of random variation; let's stick with dom+enu.
 
 # MOLS$ time ./gcMols 7 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" 1 16 ""
-# running on server XXX 142154 solutions found
+# running on server XXX 212880 solutions found
 
 # N=8:
 

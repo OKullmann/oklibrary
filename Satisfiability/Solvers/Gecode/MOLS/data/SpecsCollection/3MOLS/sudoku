@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, >= 192
+# 0, 0, 0, 0, 0, >= 432
 
 # Even the diagonal form is known to exist by [Keedwell, 2011]
 # for all square N >= 9.
@@ -24,7 +24,7 @@
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/3MOLS/sudoku "" +count dom bin mindom "" 1 16 ""
-# running on server XXX 192 solutions found
+# running on server XXX 432 solutions found
 
 
 

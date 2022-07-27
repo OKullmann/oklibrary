@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 0, >= 48
+# 0, 0, 0, 0, 0, 0, >= 56
 
 
 # gcMols:
@@ -24,7 +24,7 @@
 # N = 8:
 
 # MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 12 ""
-# running csltok2 XXX 48 solutions found (solutions seem to arrive in groups of 16)
+# running csltok2 XXX 56 solutions found (solutions seem to arrive in groups of 8)
 
 
 
