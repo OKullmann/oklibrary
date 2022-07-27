@@ -251,8 +251,19 @@
 # N=7:
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
-# TAU_basis_7_newv_ave$ nomad np
-# running on server2 XXX
+# TAU/basis_7_newv_ave$ nomad np
+# 1   2287513389.731648   0          0          0          0          0          0
+# 135   15473795.718869  -0.35      10        -10          2         -7         -1
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 144 Total model evaluations: 14153 Cache hits: 9 Total number of evaluations: 153
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "-0.35,10,-10,2,-7,-1" 1000 10 all
+# 1000 : 1.58912945416599818060e+05 1.54737957188689285631e+07 8.09377172651551807649e+08; 5.64676225128839115823e+07
+# real    4m19.795s user    42m39.895s sys     0m7.013s
+# Restarted with MAX_TIME 30000s, rep=10000:
+# TAU/basis_7_newv_ave$ nomad np2
+
+# MOLS> ./laMols 7 data/SpecsCollection/4MOLS/basis "" +count "" enu newv "" "" 1 16 "-0.35,10,-10,2,-7,-1" "" ""
+# running on server XXX
 
 
 
