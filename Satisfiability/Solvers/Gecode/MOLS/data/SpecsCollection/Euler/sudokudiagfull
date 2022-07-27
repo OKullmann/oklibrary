@@ -109,7 +109,7 @@
 # sudokudiagfull_8_newv_ave$ nomad np
 # aborted:
 # 110  14222535.081796  -0.01      10        -10         -3         -8         10         10
-# Rerunning with MAX_TIME 30000s, rep=10000:
+# Restarted with MAX_TIME 30000s, rep=10000:
 # sudokudiagfull_8_newv_ave$ nomad np2
 # 161 20731045.589498  -0.88       8.77      -9.81      -2.91      -7.8        9.94      -9
 # A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
