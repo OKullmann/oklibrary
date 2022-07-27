@@ -261,7 +261,10 @@
 # real    4m19.795s user    42m39.895s sys     0m7.013s
 # Restarted with MAX_TIME 30000s, rep=10000:
 # TAU/basis_7_newv_ave$ nomad np2
-# running on server2 XXX
+# 1 16827579.735341  -0.35      10        -10          2         -7         -1
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 62 Total model evaluations: 4055
+# So doesn't look easy to improve these parameters.
 
 # MOLS> ./laMols 7 data/SpecsCollection/4MOLS/basis "" +count "" enu newv "" "" 1 16 "-0.35,10,-10,2,-7,-1" "" ""
 # running on server XXX
