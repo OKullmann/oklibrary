@@ -1,0 +1,41 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, >= 576
+
+
+# gcMols:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/4MOLS/sudoku "" count dom enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindom  asc   1         0       0.000            53           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000           315           2           3      1  0
+#  4    count dom enu    mindom  asc   1         0       0.000           467           2           3      1  0
+#  5    count dom enu    mindom  asc   1         0       0.000          3834          32          62      5  0
+#  6    count dom enu    mindom  asc   1         0       9.066      53752200      175988      298121     15  0
+
+# N=6:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/4MOLS/sudoku "" count dom - - - 1 12 "t,10"
+
+# clearly best mindom and maxdegdom, perhaps slightly faster in the bin-form:
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  6    count dom bin    mindom  asc   1         0      14.732      54023153      170576      341151     19  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom bin mindom "" 1 16 ""
+# running on server XXX
+
+
+
+
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+rred A B C D AB AC AD BC BD CD
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C
+box A B C D
