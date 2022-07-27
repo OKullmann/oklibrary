@@ -262,9 +262,9 @@
 squares A B C AB AC BC
 ls A B C AB AC BC
 rred A B C
-diag A B C
-antidiag A B C
 rprod B AB A
 rprod C AC A
 rprod C BC B
 box A B C
+diag A B C
+antidiag A B C
