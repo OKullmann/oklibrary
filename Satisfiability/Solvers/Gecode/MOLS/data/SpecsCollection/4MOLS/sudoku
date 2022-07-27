@@ -75,8 +75,10 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # sudoku_7_newv_ave$ nomad np
-# running on server2 XXX
-
+# 95 2262336984.734036   0.12       2         -3          8        -10         -7
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 127 Total model evaluations: 12128 Cache hits: 13 Total number of evaluations: 140
+# Looks very hard.
 
 
 squares A B C D  AB AC AD BC BD CD
