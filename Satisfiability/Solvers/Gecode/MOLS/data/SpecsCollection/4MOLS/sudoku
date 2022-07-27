@@ -63,7 +63,18 @@
 
 # N=7:
 
-# MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
+# MOLS$ ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
+# running on server2 XXX
+
+
+
+
+# laMols with newvars:
+
+# N=7:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# sudoku_7_newv_ave$ nomad np
 # running on server2 XXX
 
 
