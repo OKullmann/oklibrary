@@ -1,0 +1,58 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 24, ?
+
+
+# gcMols:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/4MOLS/sudokudiag "" count dom enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu maxdegdom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom enu maxdegdom  asc   1         0       0.000            44           1           0      0  0
+#  4    count dom enu maxdegdom  asc   1         0       0.000           717           2           3      1  0
+#  5    count dom enu maxdegdom  asc   1         0       0.000           529           2           3      1  0
+#  6    count dom enu maxdegdom  asc   1         0       0.008         33996         127         245      6  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/4MOLS/sudokudiag "" count dom - - "" 1 12 "t,20"
+# Best seems bin+maxdegdom, followed by enu+maxdegdom.
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin maxdegdom  asc   1        24      14.935      48935072       81414      162875     21  0
+#  7    count dom enu maxdegdom  asc   1        24      15.719      48929418       81414      162293     18  0
+
+# N=8:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/4MOLS/sudokudiag "" +count dom bin maxdegdom "" 1 12 ""
+# aborted after 8min wallclock-time without finding a solution.
+
+
+
+# rlaMols:
+
+# MOLS> ./rlaMols 2,6 data/SpecsCollection/4MOLS/sudokudiag "" count dom enu first "" "" 1 1 ""
+# solved all problems very quickly (8 leaves for N=6).
+
+# N=7:
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/sudokudiag "" count dom - - - "" 1 12 "nds,10000"
+# csltok2 XXX
+
+# N=8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/4MOLS/sudokudiag "" +count dom bin maxdegdom "" "" 1 16 ""
+# csltok2 XXX
+
+
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+rred A B C D AB AC AD BC BD CD
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C
+box A B C D
+diag A B C D
+antidiag A B C D
