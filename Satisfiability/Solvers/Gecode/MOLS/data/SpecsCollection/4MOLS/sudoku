@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, >= 576
+# 0, 0, 0, 0, 0, ?
 
 
 # gcMols:
@@ -26,6 +26,45 @@
 # running on server XXX
 
 
+
+# rlaMols:
+
+# MOLS> ./rlaMols 2,5 data/SpecsCollection/4MOLS/sudoku "" count dom enu mindom "" "" 1 1 ""
+# solved all problems very quickly.
+
+# N=6:
+
+# MOLS> ./rlaMols 6 data/SpecsCollection/4MOLS/sudoku "" count dom - - "" "" 1 12 "lvs,15000"
+# best leaf-wise: first, bin or enu:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom bin     first  asc  relpr   1        0     685.036     992686  0     9479    4739     4740
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1026.378  0.727   12.794  127.568  162.392   1.893  0.000  1.146    0.657  11.678
+# 942.000  0.000    0.000  119.028   94.375   1.000  0.000  0.208    0.000   0.000
+#1176.000  2.000   37.307  130.000  570.298   5.000  0.000  5.243    9.109  18.000
+#  26.961  0.505    4.753    1.226   66.273   0.748  0.000  0.592    0.998   2.450
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 966.314  1.603   21.964   15.368   40.016   1.141  0.000  0.320    3.336  13.675
+# 822.000  1.047    0.000    0.000    0.310   1.000  0.000  0.000    0.291   7.000
+#1050.000  4.000  285.714  116.583  490.010   5.000  0.000  4.786   16.189  19.000
+#  32.759  0.353   28.199   16.870   51.268   0.396  0.000  0.409    2.093   2.010
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  6    count dom enu     first  asc  relpr   1        0     562.913    1002392  0     8225    3393     4832
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1021.213  0.854   13.480  127.420  172.564   2.060  0.000  1.263    0.849   6.964
+# 942.000  0.000    0.000  119.028   94.375   1.000  0.000  0.202    0.000   0.000
+#1176.000  2.000   37.307  130.000  570.298   5.000  0.000  5.176    9.109  10.000
+#  27.439  0.448    4.920    1.378   71.329   0.722  0.000  0.624    1.111   1.266
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 967.493  1.617   22.120   15.182   39.329   1.138  0.000  0.320    3.324   8.355
+# 822.000  1.047    0.000    0.000    0.310   1.000  0.000  0.000    0.291   6.000
+#1050.000  4.000  285.714  116.119  488.955   5.000  0.000  4.688   16.189  11.000
+#  33.297  0.364   27.936   16.828   51.204   0.394  0.000  0.406    2.099   0.968
+
+# N=7:
+
+# MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
+# running on server2 XXX
 
 
 
