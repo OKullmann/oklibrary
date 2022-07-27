@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 0, ?
+# 0, 0, 0, 0, 0, 0, >= 48
 
 
 # gcMols:
@@ -24,7 +24,7 @@
 # N = 8:
 
 # MOLS> time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 12 ""
-# running csltok2 XXX
+# running csltok2 XXX 48 solutions found (solutions seem to arrive in groups of 16)
 
 
 
@@ -38,7 +38,20 @@
 # N=8:
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 16 ""
-# running on server XXX
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  8   +count dom enu maxdegdom  asc  relpr   1        0 1189428.313  607437340  1  3067993 1504539  1563454
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1558.982  0.880   12.977  119.204   190.212   2.271  0.000   9.744    0.442  18.280
+#1187.000  0.000    0.000  106.002    85.040   1.000  0.000   2.716    0.000   0.000
+#1896.000  4.000   52.920  122.662  1113.743  11.000  0.000  64.694    6.621  37.000
+#  55.405  0.414    4.669    0.878    77.083   0.884  0.000   4.546    0.503   2.793
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1467.181  1.897    0.725   19.556    48.266   1.274  0.000   2.787    2.493  20.424
+#1106.000  1.040    0.000    0.000     0.143   1.000  0.000   0.000    0.143  12.000
+#1658.000  6.000   98.039  120.052  1021.577  10.000  0.000  65.167   19.961  38.000
+#  55.004  0.407    1.437   24.466    74.301   0.635  0.000   4.083    1.338   2.753
+# real    1246m42.280s user    19823m52.031s sys     91m44.627s
 
 
 
