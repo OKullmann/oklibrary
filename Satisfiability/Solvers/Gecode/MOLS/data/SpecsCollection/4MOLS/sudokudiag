@@ -35,12 +35,49 @@
 # N=7:
 
 # MOLS> ./rlaMols 7 data/SpecsCollection/4MOLS/sudokudiag "" count dom - - - "" 1 12 "nds,10000"
-# csltok2 XXX
+# maxdegdom (bin or enu) best, followed by mindom (bin or enu):
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7    count dom bin    mindom desc  relpr   1       24    1163.707     648358  0     4947    2473     2474
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1739.726  0.910    4.778  122.641  209.636   2.254  0.000   3.076    0.572  10.589
+#1566.000  0.000    0.163  115.693  107.916   1.000  0.000   0.079    0.000   0.000
+#2032.000  2.000   14.650  124.840  751.515   7.000  0.000  15.806    5.898  17.000
+# 102.065  0.372    2.213    1.224   89.429   0.886  0.000   2.024    0.733   2.426
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1664.914  1.504    6.636   17.139   95.373   1.600  0.010   1.539    3.837  12.584
+#1402.000  1.039    0.000    0.000    0.127   1.000  0.000   0.000    0.127   6.000
+#1905.000  4.000  200.000  121.240  684.704   6.000  6.000  12.978   14.502  18.000
+#  87.736  0.292   13.521   19.400  116.300   0.948  0.184   2.034    2.356   1.987
+# bin+maxdegdom+desc is slightly best here (regarding lvs).
 
 # N=8:
 
 # MOLS> ./rlaMols 8 data/SpecsCollection/4MOLS/sudokudiag "" +count dom bin maxdegdom "" "" 1 16 ""
-# csltok2 XXX
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  8   +count dom bin maxdegdom  asc  relpr   1        0  264079.669   67470065  1   399876  200051   199825
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc       tr  pelvals      dp
+#2598.746  0.890    7.107  120.016   186.653   2.196  0.000   14.416    0.314  27.339
+#1736.000  0.000    0.000  113.807   105.120   1.000  0.000    2.886    0.000   0.000
+#3280.000  3.000   17.628  126.671  1325.957  12.000  0.000  129.009    5.266  43.000
+# 320.085  0.369    1.651    2.049    78.551   0.807  0.000    6.125    0.355   5.479
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc       tr  pelvals      dp
+#2501.904  1.553    3.320   23.716    79.246   1.524  0.000    6.625    2.216  29.353
+#1300.000  1.043    0.000    0.000     0.071   1.000  0.000    0.002    0.071  18.000
+#2920.000  6.000  333.333  125.740  1144.684  11.000  0.000  106.492   19.433  44.000
+# 351.305  0.311    4.356   28.402   102.824   0.869  0.000    8.267    1.480   5.272
+# real    286m8.791s user    4401m24.460s sys     89m31.760s
+
+
+
+
+# laMols with newvars:
+
+# N=8:
+
+# Optimising TAUscan via Nomad (MAX_TIME 40000s, rep=1000):
+# sudokudiag_8_newv_ave$ nomad np
+# running on server2 XXX
 
 
 
