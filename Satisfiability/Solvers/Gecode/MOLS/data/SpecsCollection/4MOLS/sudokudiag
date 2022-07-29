@@ -77,7 +77,10 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 40000s, rep=1000):
 # sudokudiag_8_newv_ave$ nomad np
-# running on server2 XXX
+# 1  1012764342515.403564   0          0          0          0          0          0          0
+# 91    3790235298.452629  -1         10        -10          9         -1         -7         -9
+# Blackbox evaluations: 123 Total model evaluations: 2031 Cache hits: 4 Total number of evaluations: 127
+# Looks too hard.
 
 
 
