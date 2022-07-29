@@ -68,6 +68,12 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-3. Reject non-positive weights for wdL
+   - This leads to infinite loops.
+   - Perhaps one should also provide a "strict" input-format, where the
+     exact number of weights must be provided (no extension or cutting),
+     in order to avoid input-errors.
+
 -2. Complete the info:
    - program-name, version-number
 
