@@ -13,16 +13,34 @@ License, or any later version. */
     - using size_t
 
     - typdef VarVec = GC::IntVarArray
+    - out(std::ostream*, VarVec)
+
+    - typedef values_t = std::vector<int>
+    - typedef solutions_t = std::vector<int>
+
     - class GcIntArraySpace, derived from GC::Space,
       a wrapper around VarVec
     - class GcIntVarArray, a wrapper around GcIntArraySpace,
       to simulate a "pure" VarVec
 
+  Helper functions:
+
+    - empty(VarVec) -> bool
+    - sumdomsizes(VarVec) -> size_t
+    - values(VarVec V, int v) -> values_t
+    - values(VarVec) -> std::vector<values_t>
+    - extract(VarVec) -> solutions_t (assumes all variables are assigned)
+
+  BranchingL
+
+    - set_var(GC::Space, GC::IntVar v, int val)
+    - unset_var(GC::Space, GC::IntVar v, int val)
+
+    - gcbv(VarVec, OP::BHV) -> int (Gecode-branching-variable)
+
 BUG:
 
 TODOS:
-
-0. Provide documentation.
 
 1. set_var, unset_var need to be tested
     - This needs status().
@@ -61,6 +79,13 @@ namespace GcVariables {
   using size_t = CD::size_t;
 
   typedef GC::IntVarArray VarVec;
+  void out(std::ostream& o, const VarVec& V) {
+    for (int v = 0; v < V.size(); ++v) {
+      o << v << ":";
+      for (GC::IntVarValues j(V[v]); j(); ++j) o << " " << j.val();
+      o << "\n";
+    }
+  }
 
 
   struct GcIntArraySpace : GC::Space {
@@ -93,35 +118,26 @@ namespace GcVariables {
   };
 
 
-  void out(std::ostream& o, const GC::IntVarArray& V) {
-    for (int v = 0; v < V.size(); ++v) {
-      o << v << ":";
-      for (GC::IntVarValues j(V[v]); j(); ++j) o << " " << j.val();
-      o << "\n";
-    }
-  }
-
-
-  bool empty(const GC::IntVarArray& V) noexcept {
+  bool empty(const VarVec& V) noexcept {
     for (int i = 0; i < V.size(); ++i) if (not V[i].assigned()) return false;
     return true;
   }
 
-  size_t sumdomsizes(const GC::IntVarArray& V) noexcept {
+  size_t sumdomsizes(const VarVec& V) noexcept {
     size_t sum = 0;
     for (int v = 0; v < V.size(); ++v) sum += V[v].size();
     return sum;
   }
 
   typedef std::vector<int> values_t;
-  values_t values(const GC::IntVarArray& V, const int v) {
+  values_t values(const VarVec& V, const int v) {
     assert(v >= 0 and v < V.size());
     values_t res;
     for (GC::IntVarValues j(V[v]); j(); ++j) res.push_back(j.val());
     assert(res.size() == size_t(V[v].size()));
     return res;
   }
-  std::vector<values_t> values(const GC::IntVarArray& V) {
+  std::vector<values_t> values(const VarVec& V) {
     std::vector<values_t> res;
     for (int v=0; v<V.size(); ++v) {
       values_t vec;
@@ -133,7 +149,7 @@ namespace GcVariables {
     return res;
   }
   typedef std::vector<int> solutions_t;
-  solutions_t extract(const GC::IntVarArray& V) {
+  solutions_t extract(const VarVec& V) {
     const size_t N = V.size();
     solutions_t res; res.reserve(N);
     for (size_t v = 0; v < N; ++v) {
@@ -155,7 +171,7 @@ namespace GcVariables {
 
 
   // Determining a variable according to gc-branching-heuristic bv:
-  int gcbv(const GC::IntVarArray& V, const OP::BHV bv) noexcept {
+  int gcbv(const VarVec& V, const OP::BHV bv) noexcept {
     const auto size = V.size();
     assert(size >= 1);
     switch (bv) {
