@@ -26,12 +26,13 @@ License, or any later version. */
   Helper functions:
 
     - empty(VarVec) -> bool
+    - domsizes(VarVec) -> std::vector<size_t>
     - sumdomsizes(VarVec) -> size_t
     - values(VarVec V, int v) -> values_t
     - values(VarVec) -> std::vector<values_t>
     - extract(VarVec) -> solutions_t (assumes all variables are assigned)
 
-  BranchingL
+  Branching:
 
     - set_var(GC::Space, GC::IntVar v, int val)
     - unset_var(GC::Space, GC::IntVar v, int val)
@@ -121,6 +122,12 @@ namespace GcVariables {
   bool empty(const VarVec& V) noexcept {
     for (int i = 0; i < V.size(); ++i) if (not V[i].assigned()) return false;
     return true;
+  }
+
+  std::vector<size_t> domsizes(const VarVec& V) noexcept {
+    std::vector<size_t> res; res.reserve(V.size());
+    for (int v = 0; v < V.size(); ++v) res.push_back(V[v].size());
+    return res;
   }
 
   size_t sumdomsizes(const VarVec& V) noexcept {
