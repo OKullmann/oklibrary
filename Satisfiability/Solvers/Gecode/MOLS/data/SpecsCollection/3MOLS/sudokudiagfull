@@ -63,6 +63,13 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 40000s, rep=1000):
 # sudokudiagfull_8_newv_ave$ nomad np
+# 178  25116824.390093  -0.37       2         -5          9         -3        -10          5
+# A termination criterion is reached: Maximum allowed time reached (Base)
+# Blackbox evaluations: 253 Total model evaluations: 31150 Cache hits: 15 Total number of evaluations: 268
+# New optimisation (same (MAX_TIME 40000s, rep=1000), now using
+# MEGA_SEARCH_POLL and SPECULATIVE_SEARCH_MAX (before VNS_MADS_SEARCH
+# was used):
+# sudokudiagfull_8_newv_ave$ nomad np2
 # running on server2 XXX
 
 
