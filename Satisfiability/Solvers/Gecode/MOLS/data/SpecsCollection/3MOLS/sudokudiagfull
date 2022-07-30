@@ -66,11 +66,27 @@
 # 178  25116824.390093  -0.37       2         -5          9         -3        -10          5
 # A termination criterion is reached: Maximum allowed time reached (Base)
 # Blackbox evaluations: 253 Total model evaluations: 31150 Cache hits: 15 Total number of evaluations: 268
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.37,2,-5,9,-3,-10,5" 1000 10 all
+# 1000 : 1.58990605875360799306e+04 2.51168243900932475353e+07 1.31145468674562172336e+09; 6.85066356175799496123e+07
+# real    4m54.912s user    48m1.791s sys     0m26.056s
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.37,2,-5,9,-3,-10,5" 40000 10 all
+# 40000 : 1.58990605875360799306e+04 3.65960890017776767600e+07 5.00471401206633726880e+10; 4.04770374886833230266e+08
+# real    202m51.702s user    2005m8.026s sys     18m30.782s
 # New optimisation (same (MAX_TIME 40000s, rep=1000), now using
-# MEGA_SEARCH_POLL and SPECULATIVE_SEARCH_MAX (before VNS_MADS_SEARCH
+# MEGA_SEARCH_POLL and SPECULATIVE_SEARCH_MAX (while before VNS_MADS_SEARCH
 # was used):
 # sudokudiagfull_8_newv_ave$ nomad np2
-# running on server2 XXX
+# 393  26080833.433053  -0.999764   0.995589   7.109554   4.167797  -3.998135  -8.98       0.0079
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 606 Total model evaluations: 50631 Cache hits: 26 Total number of evaluations: 732
+# Value reached similar to above.
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.999764,0.995589,7.109554,4.167797,-3.998135,-8.98,0.0079" 1000 10 all
+# 1000 : 1.89400667675342448817e+04 2.60808334330525528603e+07 1.22751683756866360526e+09; 7.40512094908937977816e+07
+# real    5m7.480s user    49m55.102s sys     0m26.670s
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.999764,0.995589,7.109554,4.167797,-3.998135,-8.98,0.0079" 40000 10 all
+# 40000 : 1.89400667675342448817e+04 3.89591856135051075435e+07 1.10305258732748994371e+10; 2.24345098151172174286e+08
+# real    202m33.334s user    2001m16.699s sys     18m32.387s
+# Looks hard.
 
 
 
