@@ -87,7 +87,7 @@ License, or any later version. */
      - typedef measure_t for "measures"
      - typedef distance_t for "distances"
      - function branch_distance, which for a node m, variable v, value val,
-       and a distance d computaes the distance (using lookahead)
+       and a distance d, computes the distance (using lookahead)
 
      - class LaBranching, derived from GC::Brancher:
       - similar to RlaBranching above, but now providing
@@ -193,6 +193,8 @@ namespace LookaheadBranching {
   using size_t = CD::size_t;
   using values_t = GV::values_t;
   using float_t = MS::float_t;
+
+  using VarVec = GV::VarVec;
 
   typedef std::vector<float_t> vec_t;
 
@@ -720,9 +722,9 @@ namespace LookaheadBranching {
   };
 
 
-  typedef std::function<float_t(const GC::IntVarArray&)> measure_t;
+  typedef std::function<float_t(const VarVec&)> measure_t;
   typedef std::function<
-    float_t(const GC::IntVarArray&,const GC::IntVarArray&)> distance_t;
+    float_t(const VarVec&,const VarVec&)> distance_t;
 
   template <class SPA>
   float_t branch_distance(SPA* const m, const int v, const int val,
@@ -800,17 +802,17 @@ namespace LookaheadBranching {
       const auto n = V.size();
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
-      std::vector<float_t> optbt;
+      vec_t optbt;
       const measure_t mu = P.d != OP::DIS::wdeltaL ? MS::muld :
-        measure_t([this](const GC::IntVarArray& V){
+        measure_t([this](const VarVec& V){
                     return MS::wnumvars(V, weights);});
       const float_t mu0 = mu(V); bstats.set_vals(mu0);
       const distance_t d = P.d == OP::DIS::newvars ?
         distance_t(
-        [this,depth](const GC::IntVarArray& V, const GC::IntVarArray& nV){
+        [this,depth](const VarVec& V, const VarVec& nV){
           return MS::new_vars(V, nV, weights, depth);}) :
         distance_t(
-        [mu0,&mu](const GC::IntVarArray&, const GC::IntVarArray& nV){
+        [mu0,&mu](const VarVec&, const VarVec& nV){
           return mu0 - mu(nV);});
 
       for (int v = 0; v < n; ++v) {
@@ -830,7 +832,7 @@ namespace LookaheadBranching {
           }
         }
         else {
-          std::vector<float_t> branchtuple;
+          vec_t branchtuple;
           branchtuple.reserve(values.size());
           for (const int val : values) {
             const float_t t = branch_distance(&s, v, val, true, d);

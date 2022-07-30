@@ -13,10 +13,12 @@ License, or any later version. */
     - using size_t
 
     - typdef VarVec = GC::IntVarArray
+
     - out(std::ostream*, VarVec)
 
     - typedef values_t = std::vector<int>
     - typedef solutions_t = std::vector<int>
+    - typedef domsizes_t = std::vector<size_t
 
     - class GcIntArraySpace, derived from GC::Space,
       a wrapper around VarVec
@@ -26,7 +28,7 @@ License, or any later version. */
   Helper functions:
 
     - empty(VarVec) -> bool
-    - domsizes(VarVec) -> std::vector<size_t>
+    - domsizes(VarVec) -> domsizes_t
     - sumdomsizes(VarVec) -> size_t
     - values(VarVec V, int v) -> values_t
     - values(VarVec) -> std::vector<values_t>
@@ -124,8 +126,9 @@ namespace GcVariables {
     return true;
   }
 
-  std::vector<size_t> domsizes(const VarVec& V) noexcept {
-    std::vector<size_t> res; res.reserve(V.size());
+  typedef std::vector<size_t> domsizes_t;
+  domsizes_t domsizes(const VarVec& V) noexcept {
+    domsizes_t res; res.reserve(V.size());
     for (int v = 0; v < V.size(); ++v) res.push_back(V[v].size());
     return res;
   }

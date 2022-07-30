@@ -40,6 +40,8 @@ namespace Measures {
 
   using size_t = CD::size_t;
 
+  using VarVec = GcVariables::VarVec;
+
   typedef FP::float80 float_t;
 
   // Converting int to size_t (checked):
@@ -77,7 +79,7 @@ namespace Measures {
   /* Measures */
 
   // Domain-size D gets weight w[D]:
-  float_t wnumvars(const GC::IntVarArray& V,
+  float_t wnumvars(const VarVec& V,
                        const OP::weights_t* const w) noexcept {
     float_t sum = 0;
     for (int v = 0; v < V.size(); ++v) {
@@ -88,27 +90,27 @@ namespace Measures {
   }
 
   // A variable of domain-size D has weight D-1:
-  float_t muap(const GC::IntVarArray& V) noexcept { // mu0
+  float_t muap(const VarVec& V) noexcept { // mu0
     const int size = V.size(); float_t sum = - float_t(size);
     for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1);
     return sum;
   }
 
   // The binary logarithm of the number of total assignments:
-  float_t muld(const GC::IntVarArray& V) noexcept { // mu1
+  float_t muld(const VarVec& V) noexcept { // mu1
     const int size = V.size(); float_t sum = 0;
     for (int v = 0; v < size; ++v) sum += wmuld(tr(V[v].size(), 1));
     return sum;
   }
 
   // The number of non-assigned variables:
-  float_t mumi(const GC::IntVarArray& V) noexcept { // mu2
+  float_t mumi(const VarVec& V) noexcept { // mu2
     const int size = V.size(); float_t sum = 0;
     for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1) > 1;
     return sum;
   }
   typedef std::array<float_t, 3> canonical_measures_t;
-  canonical_measures_t muall(const GC::IntVarArray& V) noexcept { // mu0-2
+  canonical_measures_t muall(const VarVec& V) noexcept { // mu0-2
     const int size = V.size(); canonical_measures_t res;
     res[0] = - float_t(size);
     for (int v = 0; v < size; ++v) {
@@ -121,7 +123,7 @@ namespace Measures {
 
   /* Distances */
 
-  float_t new_vars(const GC::IntVarArray& V, const GC::IntVarArray& nV,
+  float_t new_vars(const VarVec& V, const VarVec& nV,
                    const OP::weights_t* const w,
                    const size_t depth) noexcept {
     float_t sum = 0;
