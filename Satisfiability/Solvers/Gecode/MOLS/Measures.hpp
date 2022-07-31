@@ -41,6 +41,7 @@ namespace Measures {
   using size_t = CD::size_t;
 
   using VarVec = GcVariables::VarVec;
+  using domsizes_t = GcVariables::domsizes_t;
 
   typedef FP::float80 float_t;
 
@@ -88,6 +89,15 @@ namespace Measures {
     }
     return sum;
   }
+  float_t wnumvars(const domsizes_t& V,
+                       const OP::weights_t* const w) noexcept {
+    float_t sum = 0;
+    for (size_t v = 0; v < V.size(); ++v) {
+      const size_t s = V[v]; assert(s < w->size());
+      sum += (*w)[s];
+    }
+    return sum;
+  }
 
   // A variable of domain-size D has weight D-1:
   float_t muap(const VarVec& V) noexcept { // mu0
@@ -95,11 +105,21 @@ namespace Measures {
     for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1);
     return sum;
   }
+  float_t muap(const domsizes_t& V) noexcept { // mu0
+    const size_t size = V.size(); float_t sum = - float_t(size);
+    for (size_t v = 0; v < size; ++v) sum += V[v];
+    return sum;
+  }
 
   // The binary logarithm of the number of total assignments:
   float_t muld(const VarVec& V) noexcept { // mu1
     const int size = V.size(); float_t sum = 0;
     for (int v = 0; v < size; ++v) sum += wmuld(tr(V[v].size(), 1));
+    return sum;
+  }
+  float_t muld(const domsizes_t& V) noexcept {
+    const size_t size = V.size(); float_t sum = 0;
+    for (size_t v = 0; v < size; ++v) sum += wmuld(V[v]);
     return sum;
   }
 
@@ -130,6 +150,19 @@ namespace Measures {
     const float_t w1 = FP::exp2((*w)[1] * depth);
     for (int v = 0; v < V.size(); ++v) {
       const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
+      if (sn == s) continue; assert(sn < s);
+      if (sn == 1) sum += w1;
+      else { assert(sn < w->size()); sum += (*w)[sn]; }
+    }
+    return sum;
+  }
+  float_t new_vars(const domsizes_t& V, const VarVec& nV,
+                   const OP::weights_t* const w,
+                   const size_t depth) noexcept {
+    float_t sum = 0;
+    const float_t w1 = FP::exp2((*w)[1] * depth);
+    for (size_t v = 0; v < V.size(); ++v) {
+      const size_t s = V[v], sn = tr(nV[v].size(), 1);
       if (sn == s) continue; assert(sn < s);
       if (sn == 1) sum += w1;
       else { assert(sn < w->size()); sum += (*w)[sn]; }

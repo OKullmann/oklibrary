@@ -101,8 +101,6 @@ BUGS:
 
 TODOS:
 
--1. DONE Implement sorting of branchings for binary branching.
-
 2. For estlvs, don't use correced standard-deviation
     - Here we have the complete population.
     - Actually this holds also for some other measures.
@@ -116,18 +114,22 @@ TODOS:
     - This should replace the current ltau-value (which isn't very
       informative).
 
-4. Update member "vals_" of BranchingStatistics
-    - More general, it is the "measure".
-    - What to do when only the distances are available?
-    - One could use the sum of the distances along the path
+4. DONE Update member "vals_" of BranchingStatistics
+    - DONE (not chosen)
+      More general, it is the "measure".
+    - DONE What to do when only the distances are available?
+    - DONE (not chosen)
+      One could use the sum of the distances along the path
       from the root: this would be kind of an "inverted measure".
-    - The statistics-output currently uses "mu", which could also
+    - DONE The statistics-output currently uses "mu", which could also
       be used for that "inverted measure".
-    - It seems best to have the reduction statistics besides depth
+    - DONE (NodeMeasures::lestlvs)
+      It seems best to have the reduction statistics besides depth
       also report exp(sum of distances * ltau), the random variable
       predicting the leaf-count.
       So the node besides depth needs also to have this sum.
-    - Then for BranchingStatistics we don't report otherwise on tau;
+    - DONE (difference of measures)
+      Then for BranchingStatistics we don't report otherwise on tau;
       the measure-component "vals_" should be replaced by the relative
       change in total-open-assignment-count (as achieved by this node).
 
@@ -555,7 +557,7 @@ namespace LookaheadBranching {
   };
 
   class BranchingStatistics {
-    size_t vals_; // XXX
+    float_t dm_; // delta of measures
     size_t width_; // width of branching
     float_t ltau_;
     float_t minp_, meanp_, maxp_, sdd_; // the branch-probabilities
@@ -565,8 +567,8 @@ namespace LookaheadBranching {
 
     BranchingStatistics() noexcept = default;
 
-    void set_vals(const size_t vals) noexcept {
-      assert(vals != 0); vals_ = vals;
+    void set_dm(const float_t dm) noexcept {
+      assert(dm > 0); dm_ = dm;
     }
     void set_width(const size_t w) noexcept {
       assert(w >= 2); width_ = w;
@@ -590,14 +592,14 @@ namespace LookaheadBranching {
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = vals_; res[1] = width_; res[2] = ltau_;
+      res[0] = dm_; res[1] = width_; res[2] = ltau_;
       res[3] = minp_; res[4] = meanp_; res[5] = maxp_; res[6] = sdd_;
       res[num_stats-1] = time_;
       return res;
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
-      return {"mu1", "w", "ltau",
+      return {"dm0", "w", "ltau",
           "minp", "meanp", "maxp", "sdd",
           "tb"};
     }
@@ -723,8 +725,7 @@ namespace LookaheadBranching {
 
 
   typedef std::function<float_t(const VarVec&)> measure_t;
-  typedef std::function<
-    float_t(const VarVec&,const VarVec&)> distance_t;
+  typedef std::function<float_t(const VarVec&)> distance_t;
 
   template <class SPA>
   float_t branch_distance(SPA* const m, const int v, const int val,
@@ -741,7 +742,7 @@ namespace LookaheadBranching {
     else GV::unset_var(*c.get(), nV[v], val);
     {[[maybe_unused]] const auto status = c->status();
      assert(status == GC::SS_BRANCH);}
-    return d(V,nV);
+    return d(nV);
   }
 
 
@@ -779,6 +780,7 @@ namespace LookaheadBranching {
 
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols2& s = static_cast<CT::GenericMols2&>(s0);
+      const GV::domsizes_t V0 = GV::domsizes(s.V);
 
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
       {MeasureStatistics mstats(s);
@@ -799,22 +801,18 @@ namespace LookaheadBranching {
       BranchingStatistics bstats;
 
       const auto& V = s.V;
+      bstats.set_dm(MS::muap(V0) - MS::muap(V));
       const auto n = V.size();
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity;
       vec_t optbt;
-      const measure_t mu = P.d != OP::DIS::wdeltaL ? MS::muld :
-        measure_t([this](const VarVec& V){
-                    return MS::wnumvars(V, weights);});
-      const float_t mu0 = mu(V); bstats.set_vals(mu0);
+      const float_t mu0 = P.d == OP::DIS::wdeltaL ?
+        MS::wnumvars(V0, weights) : 0;
       const distance_t d = P.d == OP::DIS::newvars ?
-        distance_t(
-        [this,depth](const VarVec& V, const VarVec& nV){
-          return MS::new_vars(V, nV, weights, depth);}) :
-        distance_t(
-        [mu0,&mu](const VarVec&, const VarVec& nV){
-          return mu0 - mu(nV);});
-
+        distance_t([this,V0,depth](const VarVec& nV){
+                     return MS::new_vars(V0, nV, weights, depth);}) :
+        distance_t([this,mu0](const VarVec& nV){
+                     return mu0 - MS::wnumvars(nV, weights);});
       for (int v = 0; v < n; ++v) {
         const auto& vo = V[v];
         if (vo.size() == 1) continue;
