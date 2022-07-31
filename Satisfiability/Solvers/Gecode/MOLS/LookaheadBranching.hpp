@@ -101,7 +101,7 @@ BUGS:
 
 TODOS:
 
-2. For estlvs, don't use correced standard-deviation
+2. For estlvs, don't use corrected standard-deviation
     - Here we have the complete population.
     - Actually this holds also for some other measures.
 
@@ -113,25 +113,6 @@ TODOS:
       This also provides a standardisation.
     - This should replace the current ltau-value (which isn't very
       informative).
-
-4. DONE Update member "vals_" of BranchingStatistics
-    - DONE (not chosen)
-      More general, it is the "measure".
-    - DONE What to do when only the distances are available?
-    - DONE (not chosen)
-      One could use the sum of the distances along the path
-      from the root: this would be kind of an "inverted measure".
-    - DONE The statistics-output currently uses "mu", which could also
-      be used for that "inverted measure".
-    - DONE (NodeMeasures::lestlvs)
-      It seems best to have the reduction statistics besides depth
-      also report exp(sum of distances * ltau), the random variable
-      predicting the leaf-count.
-      So the node besides depth needs also to have this sum.
-    - DONE (difference of measures)
-      Then for BranchingStatistics we don't report otherwise on tau;
-      the measure-component "vals_" should be replaced by the relative
-      change in total-open-assignment-count (as achieved by this node).
 
 */
 
