@@ -224,7 +224,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.1",
+        "0.99.2",
         "31.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -319,7 +319,9 @@ namespace {
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
+    /* to be actived once pseudo-leaves are possible:
     out << " "; out.width(wnds); out << "plvs";
+    */
     out << "\n";
   }
 
@@ -327,8 +329,10 @@ namespace {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
+    /* to be actived once pseudo-leaves are possible:
     {const auto plvs = res.mS.N() - res.S[1].N();
      out << " "; out.width(wnds); out << plvs;}
+    */
     out << "\n";
     res.outS(out, with_headers);
     res.outmS(out, with_headers);
