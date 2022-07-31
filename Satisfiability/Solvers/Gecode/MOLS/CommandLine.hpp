@@ -654,7 +654,7 @@ namespace CommandLine {
   }
 
   constexpr size_t sep_spaces = 0;
-  constexpr size_t prec = 3;
+  constexpr size_t precision = 3;
   constexpr size_t wN = 3, wgcd = 4;
 
 }

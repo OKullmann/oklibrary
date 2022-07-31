@@ -162,7 +162,7 @@ namespace {
   }
 
   void rs(std::ostream& out, const rlaSR& res) {
-    const auto state = FloatingPoint::fixed_width(out, prec);
+    const auto state = FloatingPoint::fixed_width(out, precision);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
     out << "\n";

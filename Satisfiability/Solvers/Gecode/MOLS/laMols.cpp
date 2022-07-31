@@ -170,33 +170,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      now this object also handles the decision whether the branch
      is to be closed.
 
-3. Reporting of ltau/estlvs should use engineering notation
-   - UPDATE: See "Measure the variation of considered branchings for one node"
-     in LookaheadBranching.hpp; so we don't report ltau anymore.
-     The new reported probabilities need to be observed, whether they have
-     this scaling-problem.
-     DONE (now reporting the probabilities:
-     Perhaps these values should report the binary logarithm, not the
-     natural logarithm.
-
-   - Otherwise it is often just "0.000".
-    - Currently there is no mechanism to have a special output for
-      one of the numbers.
-    - Perhaps if the number is smaller than 0.1, but bigger than zero,
-      then output is automatically switched by using
-      FloatingPoint::WrapE<float80>.
-    - But having changing formats is perhaps too confusing.
-    - So perhaps a map can be given, from subsets of indices to a function
-      for outputting the corresponding entries.
-   - It should also be standardised in some way.
-    - So that we can optimise the distance by optimising the average ltau.
-   - Possibly qelvals should be given in %, i.e., multiplied by 100.
-    - Possibly same with qprunes.
-    - The multiplication by 100 should happen at "input" of the data.
-   - DONE
-     estlvs can be very big, so should use engineering notation.
-
-4. Better values for qfppc
+3. Better values for qfppc
    - In case no values were eliminated, perhaps qfppc=1 is then
      more appropriate.
 
@@ -225,7 +199,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.3",
+        "0.99.4",
         "31.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -329,19 +303,16 @@ namespace {
   }
 
   void rs(std::ostream& out, const laSR& res, const bool with_headers) {
-    const auto state = FloatingPoint::fixed_width(out, prec);
+    const auto state = FloatingPoint::fixed_width(out, precision);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
-    {const auto oldflags =
-        out.setf(std::ios_base::scientific, std::ios_base::floatfield);
-     const auto oldprecision = out.precision(precision_engineering);
+    {const auto state = FloatingPoint::engineering_width(out, precision_engineering);
      using LookaheadBranching::float_t;
      const float_t lvs = res.S[1].N();
      const float_t variance = res.mS.sum()[0] - lvs*lvs;
      const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs;
      out << " "; out.width(wnsel); out << normalised_stddev;
-     out.precision(oldprecision);
-     out.flags(oldflags);
+     FloatingPoint::undo(out, state);
     }
     /* to be actived once pseudo-leaves are possible:
     {const auto plvs = res.mS.N() - res.S[1].N();
@@ -350,7 +321,10 @@ namespace {
     out << "\n";
     res.outS(out, with_headers);
     res.outmS(out, with_headers);
-    res.outbS(out, with_headers);
+    {const auto state = FloatingPoint::default_width(out, precision+2);
+     res.outbS(out, with_headers);
+     FloatingPoint::undo(out, state);
+    }
     FloatingPoint::undo(out, state);
   }
   void select(std::ostream& out, const laSR& res,

@@ -101,18 +101,9 @@ BUGS:
 
 TODOS:
 
-2. For estlvs, don't use corrected standard-deviation
+1. For estlvs, don't use corrected standard-deviation
     - Here we have the complete population.
     - Actually this holds also for some other measures.
-
-3. Measure the variation of considered branchings for one node:
-    - Just the basic statistics for (l)tau, over all branchings
-      considered.
-    - But the range, max-tau / min-tau, seems most informative,
-      perhaps multiplied by 100 (as a percentage).
-      This also provides a standardisation.
-    - This should replace the current ltau-value (which isn't very
-      informative).
 
 */
 
@@ -540,7 +531,7 @@ namespace LookaheadBranching {
   class BranchingStatistics {
     float_t dm_; // delta of measures
     size_t width_; // width of branching
-    float_t ltau_;
+    float_t ltauspan_;
     float_t minp_, meanp_, maxp_, sdd_; // the branch-probabilities
     Timing::Time_point time_; // total time for the branching construction
 
@@ -554,8 +545,8 @@ namespace LookaheadBranching {
     void set_width(const size_t w) noexcept {
       assert(w >= 2); width_ = w;
     }
-    void set_tau(const float_t t) noexcept {
-      assert(t > 0 and t < FP::pinfinity); ltau_ = t;
+    void set_tauspan(const float_t t) noexcept {
+      assert(t >= 1 and t < FP::pinfinity); ltauspan_ = t;
     }
     template <class STATS>
     void set_dist(const STATS& s) noexcept {
@@ -573,14 +564,14 @@ namespace LookaheadBranching {
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = dm_; res[1] = width_; res[2] = ltau_;
+      res[0] = dm_; res[1] = width_; res[2] = ltauspan_;
       res[3] = minp_; res[4] = meanp_; res[5] = maxp_; res[6] = sdd_;
       res[num_stats-1] = time_;
       return res;
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
-      return {"dm0", "w", "ltau",
+      return {"dm0", "w", "ltausp",
           "minp", "meanp", "maxp", "sdd",
           "tb"};
     }
@@ -785,7 +776,7 @@ namespace LookaheadBranching {
       bstats.set_dm(MS::muap(V0) - MS::muap(V));
       const auto n = V.size();
       int bestv = -1, bestval = -1;
-      float_t opttau = FP::pinfinity;
+      float_t opttau = FP::pinfinity, worsttau = FP::minfinity;
       vec_t optbt;
       const float_t mu0 = P.d == OP::DIS::wdeltaL ?
         MS::wnumvars(V0, weights) : 0;
@@ -808,6 +799,7 @@ namespace LookaheadBranching {
             if (tau < opttau) {
               opttau = tau; optbt = {a,b}; bestv = v; bestval = val;
             }
+            if (tau > worsttau) worsttau = tau;
           }
         }
         else {
@@ -823,11 +815,12 @@ namespace LookaheadBranching {
           if (tau < opttau) {
             opttau = tau; optbt = std::move(branchtuple); bestv = v;
           }
+          if (tau > worsttau) worsttau = tau;
         }
       }
 
       assert(bestv >= 0);
-      bstats.set_tau(opttau);
+      bstats.set_tauspan(worsttau / opttau);
       const size_t w = optbt.size();
       bstats.set_width(w);
       assert(w >= 2);

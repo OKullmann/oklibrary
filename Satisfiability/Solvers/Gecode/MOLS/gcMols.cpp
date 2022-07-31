@@ -201,7 +201,7 @@ namespace {
   }
 
   void rs(std::ostream& out, const GBasicSR& res) {
-    const auto state = FloatingPoint::fixed_width(out, prec);
+    const auto state = FloatingPoint::fixed_width(out, precision);
     out << std::string(sep_spaces, ' ');
     Environment::print1d(out,
       std::make_tuple(res.b.sol_found, res.ut,
