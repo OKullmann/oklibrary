@@ -224,8 +224,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.0",
-        "30.7.2022",
+        "0.99.1",
+        "31.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -304,7 +304,7 @@ namespace {
   }
 
 
-  OutputOptions read_outpot_options(const std::string& s) {
+  OutputOptions read_output_options(const std::string& s) {
     return Environment::translate<output_options_t>()(s,',');
   }
   void output_options(std::ostream& out, const OutputOptions& outopt) {
@@ -478,7 +478,7 @@ int main(const int argc, const char* const argv[]) {
   const auto stod = read_rlast(argc, argv, 13);
 
   OutputOptions::set_def(batch_mode);
-  const auto outopt = read_outpot_options(argv[14]);
+  const auto outopt = read_output_options(argv[14]);
 
 
   const std::string outfile = output_filename(proginfo.prg, list_N);

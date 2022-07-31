@@ -634,12 +634,12 @@ namespace CommandLine {
   const Environment::wvec_t widths_la{
     8, 11,
     10, 2,
-    wnds, wnds-1, wnds};
+    wnds, wnds};
   void rh_genstats(std::ostream& out) {
     Environment::print1d(out,
       std::make_tuple("satc", "t",
                       "ppc", "st",
-                      "nds", "inds", "lvs"),
+                      "nds", "lvs"),
       widths_la);
   }
   template <class STATS>
@@ -649,7 +649,7 @@ namespace CommandLine {
       std::make_tuple(
         res.b.sol_found, res.ut,
         res.gs.propagate, res.stopped,
-        nds, inds, lvs),
+        nds, lvs),
       widths_la);
   }
 
