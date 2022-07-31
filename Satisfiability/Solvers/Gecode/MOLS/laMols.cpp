@@ -211,6 +211,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 #include "Conditions.hpp"
 #include "Encoding.hpp"
@@ -224,7 +225,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.2",
+        "0.99.3",
         "31.7.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -313,12 +314,14 @@ namespace {
     out << "\n";
   }
 
+  constexpr size_t wnsel = 13;
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
     Environment::header_policies<RT, PropO, LBRT, DIS, LBRO, LAR>(out);
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
+    out << " "; out.width(wnsel); out << "nsel";
     /* to be actived once pseudo-leaves are possible:
     out << " "; out.width(wnds); out << "plvs";
     */
@@ -329,6 +332,17 @@ namespace {
     const auto state = FloatingPoint::fixed_width(out, prec);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
+    {const auto oldflags =
+        out.setf(std::ios_base::scientific, std::ios_base::floatfield);
+     const auto oldprecision = out.precision(precision_engineering);
+     using LookaheadBranching::float_t;
+     const float_t lvs = res.S[1].N();
+     const float_t variance = res.mS.sum()[0] - lvs*lvs;
+     const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs;
+     out << " "; out.width(wnsel); out << normalised_stddev;
+     out.precision(oldprecision);
+     out.flags(oldflags);
+    }
     /* to be actived once pseudo-leaves are possible:
     {const auto plvs = res.mS.N() - res.S[1].N();
      out << " "; out.width(wnds); out << plvs;}
