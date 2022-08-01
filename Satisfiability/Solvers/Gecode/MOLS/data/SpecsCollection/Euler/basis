@@ -1,9 +1,15 @@
 # Counts for N >= 2:
 # 0, 72, 6912, 6220800
 
-# These counts are obtained from the reduced counts in "Euler" by
+# These counts are obtained from the reduced counts in ./red by
 # multiplication with: (N!)^2 * (N-1)! .
-# So the count for N=7 is 6'263'668'776'960'000.
+# This factor is 62'208'000 for N=6, and 18'289'152'000 for N=7.
+# So the count for N=7 is 18289152000 * 342480 = 6'263'668'776'960'000.
+
+# Roughly the number of leaves for N=6 with red and wdL/newv is 3000,
+# so 62000000 * 3000 = 1.86e11 leaves expected here:
+# The predictions below are somewhat better, but that could
+# be wrong.
 
 
 # gcMols:
@@ -14,8 +20,8 @@
 #   3    count dom enu    mindom  asc    1          72       0.000          3568           0         130      5
 #   4    count dom enu    mindom  asc    1        6912       0.140       2011982       20736       51809     11
 #   5    count dom enu    mindom  asc    1     6220800     772.834    7916075800    72576000   132911726     19
-# time ./gcMols 6 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 12
-# aborted after 536min wallclock-time.
+
+# N=6:
 
 # MOLS> time ./gcMols 6 data/SpecsCollection/Euler_unred "" count "" enu mindom "" 1 16
 # aborted after 143 hours wallclock-time.
