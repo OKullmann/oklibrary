@@ -199,8 +199,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.4",
-        "31.7.2022",
+        "0.100.0",
+        "1.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -319,7 +319,11 @@ namespace {
      out << " "; out.width(wnds); out << plvs;}
     */
     out << "\n";
-    res.outS(out, with_headers);
+
+    {const auto state = FloatingPoint::default_width(out, precision+2);
+     res.outS(out, with_headers);
+     FloatingPoint::undo(out, state);
+    }
     res.outmS(out, with_headers);
     {const auto state = FloatingPoint::default_width(out, precision+2);
      res.outbS(out, with_headers);
