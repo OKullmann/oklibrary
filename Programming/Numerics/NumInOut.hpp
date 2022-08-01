@@ -52,11 +52,14 @@ License, or any later version. */
     - Wrap, Wrap64, Wrap32 for output-streaming with full precision:
       Wrap(x) just wraps x, and output-streaming of such an object happens
       with maximal precision according to type (float80/64/32)
-    - fixed_width(ostream&, streamsize) sets fixed width, returns old state;
-      undo(ostream&, strstate_t) resets to the old state;
-      out_fixed_width(ostream&, streamsize, float80) packages the above
+    - setting output-style and precision, returning old state:
+       - fixed_width(ostream&, streamsize)
+       - engineering_width(ostream&, streamsize)
+       - default_widthengineering_width(ostream&, streamsize)
+    - undo(ostream&, strstate_t) resets to the old state
+    - out_fixed_width(ostream&, streamsize, float80) packages the above
       two functions (i.e., output with fixed width, without changing the
-      stream-state
+      stream-state)
     - WrapE<Float>(x) is output-streamed with current precision in scientific
       notation without trailing zeros.
 
@@ -74,6 +77,7 @@ License, or any later version. */
 #include <stdexcept>
 #include <type_traits>
 #include <limits>
+#include <ios>
 
 #include <cstddef>
 
@@ -334,12 +338,29 @@ namespace FloatingPoint {
     return out.precision(std::numeric_limits<FLOAT>::digits10 + 2);
   }
 
-  // Fixed precision prec after the decimal point, returning old state:
+  // Changing formatting and precision:
   typedef std::pair<std::ios_base::fmtflags, std::streamsize> strstate_t;
+  // Fixed precision prec after the decimal point, returning old state:
   strstate_t fixed_width(std::ostream& out, const std::streamsize prec) {
     strstate_t res;
     res.first = out.flags();
     out.setf(std::ios_base::fixed, std::ios_base::floatfield);
+    res.second = out.precision(prec);
+    return res;
+  }
+  // Fixed precision with engineering style:
+  strstate_t engineering_width(std::ostream& out, const std::streamsize prec) {
+    strstate_t res;
+    res.first = out.flags();
+    out.setf(std::ios_base::scientific, std::ios_base::floatfield);
+    res.second = out.precision(prec);
+    return res;
+  }
+  // Flexible output-style:
+  strstate_t default_width(std::ostream& out, const std::streamsize prec) {
+    strstate_t res;
+    res.first = out.flags();
+    out << std::defaultfloat;
     res.second = out.precision(prec);
     return res;
   }
