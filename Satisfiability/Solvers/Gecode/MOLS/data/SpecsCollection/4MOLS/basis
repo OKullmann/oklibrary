@@ -267,7 +267,7 @@
 # So doesn't look easy to improve these parameters.
 
 # MOLS> ./laMols 7 data/SpecsCollection/4MOLS/basis "" +count "" enu newv "" "" 1 16 "-0.35,10,-10,2,-7,-1" "" ""
-# running on server XXX
+# running on server XXX yet 6972 solutions found
 
 
 

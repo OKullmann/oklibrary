@@ -1,5 +1,8 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 0, >= 80
+# 0, 0, 0, 0, 0, 0, >= 136
+
+# How to break the 3!-symmetry between A, B, C ?
+
 
 
 # gcMols:
@@ -87,6 +90,28 @@
 # 40000 : 1.89400667675342448817e+04 3.89591856135051075435e+07 1.10305258732748994371e+10; 2.24345098151172174286e+08
 # real    202m33.334s user    2001m16.699s sys     18m32.387s
 # Looks hard.
+
+# Reunning with new version of laMols (>= 0.99; distance now includes reduction):
+# TAU/sudokudiagfull_8_newv_ave$ nomad np2
+# 297  28607446.2032    -0.000105   0.99899   -3.997288   9.99596   -6.997332  -5.998018  -9.999365
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 602 Total model evaluations: 50561 Cache hits: 154 Total number of evaluations: 756
+# Value reached similar to above.
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.000105,0.99899,-3.997288,9.99596,-6.997332,-5.998018,-9.999365" 1000 10 all
+# 1000 : 7.20730491834665130568e+04 4.71612528740476902276e+07 5.40949752889043278480e+09; 2.36643612335601390165e+08
+# real    4m57.797s user    47m50.777s sys     0m26.137s
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.000105,0.99899,-3.997288,9.99596,-6.997332,-5.998018,-9.999365" 40000 10 all
+# 40000 : 1.21347729605922718150e+04 5.43508332098542599124e+07 5.52999952231062855273e+10; 5.61487440276999318448e+08 real    193m41.284s user    1912m37.195s sys     18m32.693s
+# Looks worse than above (but might be chance).
+# Rerunning the VNS_MADS_SEARCH-form:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np
+# 99  26629333.898499   0          2         -2          7         -3         -7        -10
+# A termination criterion is reached: Maximum allowed time reached (Base)
+# Blackbox evaluations: 216 Total model evaluations: 17906 Cache hits: 10 Total number of evaluations: 226
+# Very similar to above (but with "clean" values).
+
+# TAU/sudokudiagfull_8_newv_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu newv "" "" 1 16 "0,2,-2,7,-3,-7,-10" "" ""
+# running on server2 XXX 136 solutions found
 
 
 
