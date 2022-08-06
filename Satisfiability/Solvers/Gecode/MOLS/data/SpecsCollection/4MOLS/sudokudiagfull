@@ -1,0 +1,77 @@
+# Counts for N >= 2:
+# 0, 0, 0, 0, 0, 0, 0, 0, 0
+# 0, 0, 0, ?
+
+# How to break the 4!-symmetry between A, B, C, D ?
+
+
+# gcMols:
+
+# 2 <= N <= 12:
+
+# MOLS> ./gcMols 2,8 data/SpecsCollection/4MOLS/sudokudiagfull "" count "" enu mindom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom enu    mindom  asc   1         0       0.000            44           1           0      0  0
+#  4    count dom enu    mindom  asc   1         0       0.000           185           1           0      0  0
+#  5    count dom enu    mindom  asc   1         0       0.000           214           1           0      0  0
+#  6    count dom enu    mindom  asc   1         0       0.000           887           4           5      1  0
+#  7    count dom enu    mindom  asc   1         0       0.000          1109           4           5      1  0
+#  8    count dom enu    mindom  asc   1         0       0.167          3502          24          31      2  0
+#  9    count dom enu    mindom  asc   1         0       0.188          1650           6           7      1  0
+# 10    count dom enu    mindom  asc   1         0       0.011          2175           6           7      1  0
+# 11    count dom enu    mindom  asc   1         0       0.014          4732          30          38      2  0
+# 12    count dom enu    mindom  asc   1         0       0.025         10590          54          64      2  0
+# 13    count dom enu    mindom  asc   1         0       0.060         13469          54          64      2  0
+
+# N=14:
+
+# MOLS> time ./gcMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count "" enu mindom "" 1 16 ""
+# running on server XXX
+
+
+
+# rlaMols:
+
+# 2 <= N <= 12:
+
+# MOLS> ./rlaMols 2,12 data/SpecsCollection/4MOLS/sudokudiagfull "" count dom enu first "" "" 1 1 ""
+# solved all problems relatively quickly (9 leaves for N=12).
+
+# N=13:
+
+# MOLS> ./rlaMols 13 data/SpecsCollection/4MOLS/sudokudiagfull "" count dom - - "" "" 1 12 "nds,10"
+# best: bin+mindom:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 13    count dom bin    mindom  asc  relpr   1        0     227.167        684  0        7        4
+#      mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#16459.000  0.000    0.000  109.478  109.478   1.000  0.000  64.424    0.000  1.000
+#16458.000  0.000    0.000  109.478  109.478   1.000  0.000  63.068    0.000  0.000
+#16460.000  0.000    0.000  109.479  109.479   1.000  0.000  65.457    0.000  2.000
+#    1.000  0.000    0.000    0.001    0.001   0.000  0.000   1.227    0.000  1.000
+#      mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#16414.750  6.000    0.000   11.464   14.238   1.000  0.000   8.465    0.046  2.250
+#16400.000  6.000    0.000   11.415   11.451   1.000  0.000   6.890    0.037  1.000
+#16457.000  6.000    0.000   11.600   22.586   1.000  0.000  13.179    0.073  3.000
+#   28.182  0.000    0.000    0.091    5.566   0.000  0.000   3.143    0.018  0.957
+
+# MOLS> ./rlaMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 ""
+# running on server XXX
+
+
+
+squares A B C D  AB AC AD BC BD CD
+ls A B C D  AB AC AD BC BD CD
+rred A B C D AB AC AD BC BD CD
+rprod B AB A
+rprod C AC A
+rprod D AD A
+rprod C BC B
+rprod D BD B
+rprod D CD C
+box A B C D
+diag A B C D
+antidiag A B C D
+box AB AC AD BC BD CD
+diag AB AC AD BC BD CD
+antidiag AB AC AD BC BD CD
