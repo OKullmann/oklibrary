@@ -60,6 +60,16 @@
 
 
 
+
+# laMols with newvars:
+
+# N=14:
+
+# Optimising TAUscan via Nomad (MAX_TIME 40000s, rep=100):
+# sudokudiagfull_14_newv_ave$ nomad np
+# running on server2 XXX
+
+
 squares A B C D  AB AC AD BC BD CD
 ls A B C D  AB AC AD BC BD CD
 rred A B C D AB AC AD BC BD CD
