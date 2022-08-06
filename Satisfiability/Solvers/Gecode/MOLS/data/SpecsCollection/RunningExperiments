@@ -9,7 +9,6 @@ Euler/sudokudiagfull: laMols, N=8, server2
 3MOLS/sudoku: gcMols, N=7, server
 3MOLS/sudokudiagfull: laMols, N=8, server2
 
-4MOLS/basis: laMols, N=7, server
 4MOLS/sudoku:
  - gcMols, N=7, server2
  - rlaMols, N=7, server

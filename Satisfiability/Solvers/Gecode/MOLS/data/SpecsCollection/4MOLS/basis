@@ -155,9 +155,17 @@
 # real    0m46.760s user    8m51.348s sys     0m22.820s
 # Number of leaves only slightly worse than above, but estlvs much higher.
 
+# N=7:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000; version >= 0.99):
+# TAU/basis_7_wdL_ave$ nomad np
+# running on server2 XXX
+
 
 
 # laMols with newvars:
+
+# N=6:
 
 # MOLS> time ./laMols 6 data/SpecsCollection/4MOLS/basis "" count dom enu newv "" "" 1 12 "0" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
@@ -265,9 +273,41 @@
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 62 Total model evaluations: 4055
 # So doesn't look easy to improve these parameters.
+# Rerunning basic optimisation (from scratch) with new version >= 0.99:
+# TAU/basis_7_newv_ave$ nomad np
+# 1  2154477075.86273    0          0          0          0          0          0
+# 44   14936810.690689   0         10        -10          2        -10          7
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 121 Total model evaluations: 12111 Cache hits: 9 Total number of evaluations: 130
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "0,10,-10,2,-10,7" 1000 10 all
+# 1000 : 1.28397067191338538848e+05 1.49368106906890237151e+07 5.62200478105675715255e+08; 4.43428740898511857631e+07
+# real    4m48.258s user    47m1.170s sys     0m9.004s
+# Looks very similar to above (perhaps slightly better).
 
 # MOLS> ./laMols 7 data/SpecsCollection/4MOLS/basis "" +count "" enu newv "" "" 1 16 "-0.35,10,-10,2,-7,-1" "" ""
-# running on server XXX yet 6972 solutions found
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  7   +count dom enu newv   asc  relpr   1     7200 13746235.854 4061203166  0 34510382 15218504 19291878        0
+#     mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1687.165  0.717    11.234  122.741   164.394   2.041  0.000   6.178    0.255  14.073
+# 822.000  0.000     3.027   72.263     3.163   1.000  0.000   0.023    0.000   0.000
+#2004.000  3.000  1857.692  126.854  1213.064  12.000  0.000  58.871   21.829  21.000
+#  30.408  0.493    22.211    0.914    81.889   0.976  0.000   3.336    0.384   1.748
+#     mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1636.164  1.641     3.130   26.723    62.729   1.467  0.000   2.675    2.017  15.771
+# 240.000  1.014     0.000    0.000     0.123   1.000  0.000   0.000    0.118  10.000
+#1722.000  6.000  1033.333  123.914  1122.177  11.000  1.000  63.729   24.740  22.000
+#  49.651  0.399     6.283   35.570    95.884   0.832  0.019   3.885    1.399   1.406
+#      estlvs
+#2.704768e+09
+#4.295610e+04
+#2.517910e+13
+#3.559073e+10
+#     mu1      w   ltau   minp  meanp   maxp    sdd      tb
+# 923.365  2.268  0.000  0.345  0.462  0.584  0.115   4.816
+# 266.000  2.000  0.000  0.000  0.167  0.193  0.000   0.787
+#1052.000  6.000  0.050  0.500  0.500  0.995  0.495  12.057
+#  16.003  0.602  0.000  0.121  0.081  0.115  0.088   0.481
+# Number of leaves reasonably close to prediction.
 
 
 
