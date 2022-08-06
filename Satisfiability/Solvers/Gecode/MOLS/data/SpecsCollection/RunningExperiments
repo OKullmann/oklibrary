@@ -11,4 +11,6 @@ Euler/sudokudiagfull: laMols, N=8, server2
 4MOLS/sudoku:
  - gcMols, N=7, server2
  - rlaMols, N=7, server
-
+4MOLS/sudokudiagfull:
+ - gcMols, N=14, server
+ - rlaMols, N=14, server

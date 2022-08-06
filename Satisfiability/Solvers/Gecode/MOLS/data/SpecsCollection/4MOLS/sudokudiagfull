@@ -55,7 +55,7 @@
 #16457.000  6.000    0.000   11.600   22.586   1.000  0.000  13.179    0.073  3.000
 #   28.182  0.000    0.000    0.091    5.566   0.000  0.000   3.143    0.018  0.957
 
-# MOLS> ./rlaMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 ""
+# MOLS> time ./rlaMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 ""
 # running on server XXX
 
 
