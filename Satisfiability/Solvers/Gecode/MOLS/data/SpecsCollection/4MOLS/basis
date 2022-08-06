@@ -159,7 +159,12 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000; version >= 0.99):
 # TAU/basis_7_wdL_ave$ nomad np
-# running on server2 XXX
+# 1 2628509032.033022   0.1        0.1        0.1        0.1        0.1
+# 32 2069652915.776324   0.22       0.38       0.19       0.0001     0.11
+# 39  686278088.637873   2.22       4.38       1.19       0.0001     0.26
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 128 Total model evaluations: 10082 Cache hits: 10 Total number of evaluations: 138
+# Looks much worse than newvars below.
 
 
 
