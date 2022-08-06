@@ -72,8 +72,40 @@
 
 # N = 7:
 
-# MOLS> time ./rlaMols 6 data/SpecsCollection/Euler/sudoku "" +count dom bin first "" "" 1 16 ""
-# running on server XXX
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/sudoku "" count dom - - - "" 1 12 "lvs,10000"
+# best seems maxdeg, both with bin and enu; for enu desc seems best, for bin
+# both; fastest seems enu.
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/sudoku "" +count dom enu maxdeg desc "" 1 16 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  7   +count dom enu    maxdeg desc  relpr   1       62    8647.225   21862955  1   289421   167849
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#360.304  0.465   59.411  126.136  110.021   1.503  0.000  0.720    0.367  18.605
+#310.000  0.000    0.000  113.228   59.938   1.000  0.000  0.167    0.000   0.000
+#618.000  2.000  112.435  129.299  586.104   6.000  1.000  4.144    7.670  24.000
+# 24.656  0.507   21.372    0.996   48.004   0.587  0.010  0.347    0.617   1.709
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#311.704  2.054    1.028   28.495   52.774   1.066  0.000  0.299    6.835  20.352
+#196.000  1.091    0.000    2.041    3.061   1.000  0.000  0.000    0.704  14.000
+#384.000  5.000   46.154  126.316  505.233   5.000  3.000  4.100   20.604  25.000
+# 13.390  0.602    1.668   19.111   40.584   0.279  0.024  0.259    3.079   1.413
+# real    11m29.920s user    144m7.588s sys     31m48.618s
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" "" 1 16 ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  7   +count dom enu    mindom  asc  relpr   1       82    3149.605    5738051  1   111930    59365
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#303.605  0.702   14.757  129.988  174.037   1.821  0.000  0.614    0.776  18.875
+#201.000  0.000    0.000  107.237   94.191   1.000  0.000  0.166    0.000   0.000
+#618.000  3.000   53.699  138.308  714.098   7.000  0.000  3.092   11.364  25.000
+# 26.607  0.507    6.510    2.181   59.579   0.708  0.000  0.237    1.043   1.902
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#267.797  1.568    7.533   39.441   85.266   1.291  0.001  0.301    7.730  20.732
+#104.000  1.028    0.000    0.000    0.697   1.000  0.000  0.000    0.697  16.000
+#333.000  4.000  182.609  133.600  733.442   7.000  6.000  3.881   23.779  26.000
+# 23.388  0.312    6.602   27.765   77.676   0.604  0.066  0.295    3.589   1.423
+# real    4m1.340s user    52m29.872s sys     9m28.402s
+# So let's assume enu+mindom is best for counting here.
 
 
 

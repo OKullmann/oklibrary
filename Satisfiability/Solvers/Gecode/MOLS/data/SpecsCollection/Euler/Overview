@@ -14,7 +14,9 @@ red             U       C       CE      CE      SE      SE
 symmb           U       C       SE      SE      ?       ?
 diag            U       C       SE      SE      ?       ?
 pandiag         U       C       U       U       U       S
+sudoku          U       C       S       S       ?       ?
 sudokudiag      U       C       S       S       ?       ?
+sudokudiagfull  U       C       C       ?       ?       ?
 pandiagsudoku   U       C       U       U       U       C
 
 
@@ -56,7 +58,7 @@ Interesting brittleness of solutions.
 
 6) sudoku
 
-Only N=6 feasible.
+Only N=6 feasible (though gcMols finished counting).
 Optimisation for wdL somewhat better than rlaMols.
 Lvs-optimisation for newvars similar, while tau-optimisation
 has some trouble due to extreme outliers.
@@ -70,16 +72,14 @@ laMols(newv+avepsd) is 2x better leaf-wise than rlaMols.
 N=8 appears infeasible.
 
 
-8) pandiagsudoku
+8) sudokudiagfull
+
+N=7 is relatively simple, doesn't add something new.
+N=8 still running.
+
+
+9) pandiagsudoku
 
 All solvers solve N=11.
 On N=11, rlaMols(enu+mindom) has only 52 leaves - seems too few for
 optimising laMols.
-
-
-Not considered for now:
-
-9) sudokudiagfull
-
-N=7 is relatively simple, doesn't add something new, while N=8 seems too
-hard (though still running).

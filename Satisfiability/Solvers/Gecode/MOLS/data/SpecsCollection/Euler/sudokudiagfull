@@ -118,7 +118,7 @@
 # 10000 : 1.05081945798690160334e+04 2.07310455894979902441e+07 1.49216512955721320156e+10; 2.16453972836088309879e+08
 # real    15m57.622s user    158m25.155s sys     0m19.033s
 # sudokudiagfull_8_newv_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.88,8.77,-9.81,-2.91,-7.8,9.94,-9" "" ""
-# running on server2 XXX yet 1131 solutions found
+# running on server2 XXX yet 1219 solutions found
 
 
 
