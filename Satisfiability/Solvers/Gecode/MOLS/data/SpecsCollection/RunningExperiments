@@ -1,7 +1,6 @@
 Pandiag/basis: rlaMols, N=17, server2
 
 Euler/sudoku:
- - gcMols, N=7, server
  - gcMols, N=10, server
 Euler/sudokudiag: gcMols, N=8, server
 Euler/sudokudiagfull: laMols, N=8, server2

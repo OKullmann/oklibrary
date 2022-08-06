@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 2, 4, 32, 0, >= 729908, >= 55589, >= 34872, ?
+# 0, 2, 4, 32, 0, 750336, >= 55589, >= 34872, ?
 
 # Known to exist [Pedersen, Vis, 2009] for all square N;
 # see EulerSudokudiag for a strengthening.
@@ -27,7 +27,10 @@
 # there is a lot of random variation; let's stick with dom+enu.
 
 # MOLS$ time ./gcMols 7 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" 1 16 ""
-# running on server XXX 729908 solutions found
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom enu    mindom  asc   1    750336 13506460.104 18043475519217 188936263288 330224462006     33  0
+# real    19992m36.782s user    225107m40.112s sys     71464m29.196s
+
 
 # N=8:
 
@@ -45,6 +48,7 @@
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" 1 16 ""
 # running on server XXX yet no solution found
+
 
 
 # rlaMols:
@@ -65,6 +69,11 @@
 # 32.000  1.069    0.000    0.000    1.333   1.000  0.000  0.000    1.136   7.000
 #266.000  4.000  440.000  117.213  468.110   5.000  0.000  0.968   26.695  20.000
 # 33.640  0.354   38.926   20.409   61.331   0.515  0.000  0.085    4.566   2.087
+
+# N = 7:
+
+# MOLS> time ./rlaMols 6 data/SpecsCollection/Euler/sudoku "" +count dom bin first "" "" 1 16 ""
+# running on server XXX
 
 
 
@@ -291,7 +300,7 @@
 # 100 : 2.45780165816912181703e+02 4.05100424062097921363e+03 6.87760126205118416678e+04; 1.15778396350069337553e+04
 # real    0m1.222s user    0m11.435s sys     0m0.202s
 # TAU/sudoku_6_newv_ave$ ./laMols 6 ../../sudoku "" count dom enu newv "" "" 1 16 "-0.690003,8.00001,-9.699999,-9.00005,-9.000056" "" ""#
- N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds    inds      lvs     plvs
 #  6    count dom enu newv   asc  relpr   1        0     203.082     556722  0    10741    3609     7132        0
 #    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
 #236.309  0.801   10.438  128.358  192.434   1.842  0.000  0.270    1.799   6.658
