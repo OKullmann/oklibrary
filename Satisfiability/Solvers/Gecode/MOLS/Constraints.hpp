@@ -13,35 +13,9 @@ License, or any later version. */
 TODOS:
 
 1. Provide depth-etc-facilities
-    - DONE This can be done by providing a derived class from GenericMols0,
-      which has a parameter "depth" (etc.) in it, and which the (pseudo-)
-      copy-constructor copies and updates (increment the depth etc.).
-      This is GenericMols1.
-    - DONE This is done so in Lookahead::Node, containing also the node-id and
-      the parent-node-it.
-    - However that class doesn't use the copy-mechanism, but relies
-      on manual updates in the commit-function.
-      The point here seems to be that the commit-function already acts on the
-      new "clone" which is the new node, while the copy-function in general
-      is used for several purposes (we use it for the lookahead).
-    - DONE The depth should also be a reported statistics (per node).
-    - Such additional node-data likely should not need a destructor, and
-      should be packaged into one structure.
-    - DONE This is NodeData: the rood has id=1, and pid=0 (NIL).
-    - Since we use Gecode-parallelism, we can not simply take the current
-      node-count as id, without further interfering with parallelism.
-    - The path is a valid id, which can be extended for each branch by
-      branching-variable and index of branch, but that is non-elementary
-      data which we try to avoid.
-    - Though having an atomic running index should be harmless; only
-      increment and reading is needed, which can be handled lock-free.
-    - One could also say that when submitting the statistics stats0
-      (for the la-reduction, which contains the node-count), it is cheap
-      to return the current total node-count, which can be used for the id.
-      This happens in the choice-function, and needed then, similar to
-      the assignment found in the la-reduction, be put into the
-      branching-object (created by create_la).
-      The problem here is the barrier between choice and commit.
+    - In the choice-function the id is set, in commit then the clone
+      is updated (obtaining the pid, depth, and branch-number).
+    - The rood has id=1, and pid=0 (NIL).
 
 */
 

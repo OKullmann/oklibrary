@@ -71,24 +71,38 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 -4. Output of tree-logging
    - Fixed file for output; name as for output of solutions, but
      with "TREE" instead of "SOLUTIONS".
-   - Best also for rlaMols.
-   - The data provided is as given in ReductionStatistics, and
-     BranchingStatistics, MeasureStatistics (these two only for laMols).
-     Plus the node-data.
+   - Also for rlaMols.
+   - The data provided is:
+      - the node-data
+      - branching-data (variable and values)
+      - ReductionStatistics
+      - MeasureStatistics, BranchingStatistics (these two only for laMols)
+      - also only for laMols (for inner nodes): tau-value, and for the
+        branches distances and probabilities.
    - New formatting options "-tree", "+tree".
-   - The two overloads of "add" in laStats should perform the commit;
-     but they don't know about the node-data?
-     One could also do it in the protected sections when calling add.
-     Or one adds this data to the reduction-statistics?
-     But we have NodeData in GenericMols1, and NodeMeasures in
-     GenericMols2 ?
-     One could first output the data for the common base (rlaMols +
-     laMols), and then the laMols-data?
+   - The add-member in rlaStats gets a new (reference-)parameter, the
+     NodeData (in GenericMols1): from this the depth is read, and the id is
+     set to the current (total) node-count (starting with 1).
+     (So ReductionStatistics doesn't need the depth-variable anymore.)
+   - In this function also the basic tree-data (node-data and reduction-
+     statistics) are output (if activated, that is, iff the pointer
+     is not null).
+   - Both overloads of "add" in laStats use the pointer from the rlaStats-
+     object and output further statistics (measures and branching-statistics).
+   - Possibly for the output of tau-value and branching variable,
+     and for the distances, probabilities and values of the branches, there
+     is an additional function.
+   - Actually branching-variable and branching-values are also needed for
+     rlaMols (while tau and probs are only for laMols).
+     So this output-function belongs to rlaStats.
+   - For binary branching one needs to indicate whether the value is set or
+     unset; possibly by using "+" and "-" (where one needs to distinguish
+     between +0 and -0).
    - Another member needs to be added to NodeData, identifying the
      branch; this is set in update_clone, with new signature
        update_clone(unsigned a).
    - Perhaps it should be an option to call flush after every addition
-     of data?
+     of data to the file?
 
 -3. Reject non-positive weights for wdL
    - This leads to infinite loops.
