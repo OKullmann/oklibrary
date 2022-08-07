@@ -68,6 +68,28 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-4. Output of tree-logging
+   - Fixed file for output; name as for output of solutions, but
+     with "TREE" instead of "SOLUTIONS".
+   - Best also for rlaMols.
+   - The data provided is as given in ReductionStatistics, and
+     BranchingStatistics, MeasureStatistics (these two only for laMols).
+     Plus the node-data.
+   - New formatting options "-tree", "+tree".
+   - The two overloads of "add" in laStats should perform the commit;
+     but they don't know about the node-data?
+     One could also do it in the protected sections when calling add.
+     Or one adds this data to the reduction-statistics?
+     But we have NodeData in GenericMols1, and NodeMeasures in
+     GenericMols2 ?
+     One could first output the data for the common base (rlaMols +
+     laMols), and then the laMols-data?
+   - Another member needs to be added to NodeData, identifying the
+     branch; this is set in update_clone, with new signature
+       update_clone(unsigned a).
+   - Perhaps it should be an option to call flush after every addition
+     of data?
+
 -3. Reject non-positive weights for wdL
    - This leads to infinite loops.
    - Perhaps one should also provide a "strict" input-format, where the
