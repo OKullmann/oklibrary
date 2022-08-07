@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 0, >= 136
+# 0, 0, 0, 0, 0, 0, >= 200
 
 # How to break the 3!-symmetry between A, B, C ?
 
@@ -111,7 +111,7 @@
 # Very similar to above (but with "clean" values).
 
 # TAU/sudokudiagfull_8_newv_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu newv "" "" 1 16 "0,2,-2,7,-3,-7,-10" "" ""
-# running on server2 XXX 136 solutions found
+# running on server2 XXX 200 solutions found
 
 
 
