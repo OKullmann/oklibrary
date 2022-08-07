@@ -67,7 +67,24 @@
 
 # Optimising TAUscan via Nomad (MAX_TIME 40000s, rep=100):
 # sudokudiagfull_14_newv_ave$ nomad np
+# 1 75898257714133195710889533815078366634568117451481759378046976.0        0          0          0          0          0          0          0          0          0          0          0          0          0
+# 2                                                         141565.440443  -1         -3         -8         -4         -5          8          8          5          6          7         -6          1        -10
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Best feasible solution:     #11 ( -1 -3 -8 -4 -5 8 8 5 6 7 -6 1 -10 )   Evaluation OK    f = 141565.44044274603948
+# Blackbox evaluations: 38
+# sudokudiagfull_14_newv_ave$ time ./TAUscan 14 ../../sudokudiagfull "" enu newv hash "0" 100 10 all
+# 100 : 2.20575022128184621195e+04 3.85126707044364034273e+63 3.82733962146218895118e+65; 3.82713413433175944711e+64
+# real    125m0.830s user    834m11.515s sys     134m52.197s
+# sudokudiagfull_14_newv_ave$ time ./TAUscan 14 ../../sudokudiagfull "" enu newv hash "-1,-3,-8,-4,-5,8,8,5,6,7,-6,1,-10" 100 10 all
+# 100 : 6.52726349981986782467e+02 1.41565440442746037434e+05 4.89200351805177043343e+06; 6.20835030989864347816e+05
+# real    7m13.795s user    63m46.028s sys     0m51.368
+# sudokudiagfull_14_newv_ave$ time ./TAUscan 14 ../../sudokudiagfull "" enu newv hash "-1,-3,-8,-4,-5,8,8,5,6,7,-6,1,-10" 1000 60 all
+# 1000 : 6.52726349981986782467e+02 2.74125479564723101232e+49 2.74125479564723040609e+52; 8.66860880110467260402e+50
+# real    37m34.514s user    1198m56.742s sys     34m5.180s
+# Looks very difficult; running it nevertheless a bit:
+# TAU/sudokudiagfull_14_newv_ave$ time ./laMols 14 ../../sudokudiagfull "" +count dom enu newv "" "" 1 64 "-1,-3,-8,-4,-5,8,8,5,6,7,-6,1,-10" "" ""
 # running on server2 XXX
+
 
 
 squares A B C D  AB AC AD BC BD CD

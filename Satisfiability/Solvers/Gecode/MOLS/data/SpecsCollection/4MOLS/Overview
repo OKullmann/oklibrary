@@ -4,4 +4,18 @@ N=6 basically as usual.
 N=7: solved by gcMols and laMols_newvars.
 
 
+2) symmb
 
+
+3) diag
+
+
+4) sudoku
+
+
+5) sudokudiag
+
+
+6) sudokudiagfull
+
+N <= 13 rather easy, N=14 seems extremely hard.

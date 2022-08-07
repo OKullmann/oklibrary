@@ -63,6 +63,7 @@ Optimisation for wdL somewhat better than rlaMols.
 Lvs-optimisation for newvars similar, while tau-optimisation
 has some trouble due to extreme outliers.
 
+
 7) sudokudiag
 
 N=6 trivial.
@@ -75,7 +76,8 @@ N=8 appears infeasible.
 8) sudokudiagfull
 
 N=7 is relatively simple, doesn't add something new.
-N=8 still running.
+N=8 with newvars much faster than rlaMols (but still much slower
+than gcMols).
 
 
 9) pandiagsudoku
