@@ -72,15 +72,27 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Fixed file for output; name as for output of solutions, but
      with "TREE" instead of "SOLUTIONS".
    - Also for rlaMols.
+   - Should (r)laParams know about this, by annother boolean "tree_logging"?
+     Perhaps that's best here, since there are some difficulties associated
+     with tree-logging.
    - The data provided is:
-      - the node-data
-      - branching-data (variable and values)
+      - the node-data: id, pid, branch, and depth (the last item is
+        redundant, but should help to check for correctness of the
+        interpretation);
+        the width of the branching is not available at this point, which
+        is a problem for rlaMols, so perhaps, in RlaBranching::commit,
+        the computation of v is most foreward for non-leaves?
+
+        Perhaps rlaMols should have branching data (as laMols has)?
+        Likely best leaving for a later revision.
+      - branching-data for inner nodes: variable and values
       - ReductionStatistics
       - MeasureStatistics, BranchingStatistics (these two only for laMols)
       - also only for laMols (for inner nodes): tau-value, and for the
         branches distances and probabilities.
    - New formatting options "-tree", "+tree".
-   - The add-member in rlaStats gets a new (reference-)parameter, the
+   - DONE (without changing the existing system)
+     The add-member in rlaStats gets a new (reference-)parameter, the
      NodeData (in GenericMols1): from this the depth is read, and the id is
      set to the current (total) node-count (starting with 1).
      (So ReductionStatistics doesn't need the depth-variable anymore.)
