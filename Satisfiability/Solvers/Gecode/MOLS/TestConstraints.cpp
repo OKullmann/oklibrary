@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "27.4.2022",
+        "0.0.3",
+        "8.8.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConstraints.cpp",
@@ -34,5 +34,12 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {NodeData nd;
+   assert(nd.id == 1);
+   assert(nd.pid == 0);
+   assert(nd.depth == 0);
+   assert(nd == NodeData{});
+  }
 
 }
