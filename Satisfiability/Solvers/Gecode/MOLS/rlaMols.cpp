@@ -23,8 +23,8 @@ Examples:
     - 2 threads,
     - and no stopping:
 
-MOLS> ./rlaMols_debug 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 ""
-# command-line: "./rlaMols_debug" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" ""
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 ""
+# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
 #   num_uc=9 num_eq=0 num_peq=3
@@ -40,7 +40,7 @@ MOLS> ./rlaMols_debug 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdeg
 #   la-reduction-type: relaxed-pruning(relpr)
 #   commit-distance: 1
   N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
-  5    count dom enu maxdegdom  asc  relpr   1       36       0.124        691  0       11        8
+  5    count dom enu maxdegdom  asc  relpr   1       36       0.091        691  0       11        8
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
 310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.019    0.773  1.000
 302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.009    0.000  0.000
@@ -107,8 +107,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.0",
-        "2.7.2022",
+        "0.17.1",
+        "8.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

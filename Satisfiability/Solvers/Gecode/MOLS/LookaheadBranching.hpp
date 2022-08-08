@@ -465,15 +465,16 @@ namespace LookaheadBranching {
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
       auto stats = LR::lareduction(&s, P.rt, P.lar);
+      const VVElim* const res = stats.leaf() ? new VVElim(*this, {}, {}) :
+        [this,&s,&stats]{const int v = GV::gcbv(s.V, P.bv);
+          return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
+                           std::move(stats.elims()));}();
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
         S->add(stats, s.idref());
       }
       else S->add(stats, s.idref());
-      if (stats.leaf()) return new VVElim(*this, {}, {});
-      const int v = GV::gcbv(s.V, P.bv);
-      return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
-                       std::move(stats.elims()));
+      return res;
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
       throw std::runtime_error("RlaMols::choice(Archive): not implemented.");
