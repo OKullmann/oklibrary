@@ -12,49 +12,49 @@ License, or any later version. */
 
 Examples:
 
-1. Counting all 18 Euler-squares (mutually orthogonal latin squares)
-of order 6, which are reduced:
+1. Counting the 432 Euler-squares (pairs of mutually orthogonal latin squares)
+of order 6, which are row-reduced:
 
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "" "" ""
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "0.1" "" ""
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A\nrred B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "" "" "1" "3" "0.1" "" ""
 # N: 5
-# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nred A\nrred B\nrprod B aux A\n"
+# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A\nrred B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
 # no_ps
 # num_runs=1
 # threads=3
 # rt=count-solutions(count)
 # no_stopping
+# output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
 #   propagation-level: domain-prop(dom)
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: ascending-order(asc)
 #   la-reduction-type: relaxed-pruning(relpr)
 #   commit-distance: 1
-#   weights: 0 0 1 2 3 4
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
-  5    count dom enu  wdL   asc  relpr   1       18       0.119        129        3        7     2  0        4        3       1
-      vals      props     elvals     prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-   210.250     11.500     15.500     14.500     131.500     246.750     1.750     4.500     0.022     0.075     0.059
-   206.000      0.000      0.000     12.000      97.000     192.000     1.000     0.000     0.014     0.000     0.047
-   223.000     17.000     23.000     17.000     204.000     277.000     2.000     6.000     0.034     0.112     0.064
-     8.500      7.853     10.661      2.887      48.966      37.792     0.500     3.000     0.009     0.052     0.008
-        mu         w      ltau       mind      meand       maxd       sdd        dp        tb
-   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
-   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
-   148.000     3.000     0.065     17.000     17.000     17.000     0.000     0.000     0.026
-     0.000     0.000     0.000      0.000      0.000      0.000     0.000     0.000     0.000
-
-Explicitly given parameters:
- - propagation-level "pl"
- - branching-type "lbt"
- - distance "wdL"
- - implementation-detail "gcd"
- - number of parallel threads = 3.
- - stopping parameter (no stopping by default).
-For branching-order ("lbo"), some details on the
-reduction-implementation ("lar"), and the weights
-the default is used (indicated by the empty string --
-all parameters need always to be specified).
+#   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel
+  5    count dom enu  wdL   asc  relpr   1      432       0.406       5225  0      125       72  4.754312e-02
+   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0045545  0.62896    2.566
+   143        0        0   133.33   133.14        1     0   0.001784        0        0
+   180        1    16.35   138.46   200.69        2     0   0.010505   1.3793        3
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0018559  0.51141  0.72083
+    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.003619   15.222   4
+    129     1.25   1.1628   23.077   64.615        1     6   0.000965   13.846   4
+    130   1.6667   12.308   88.462   176.15        2     6    0.01024   17.054   4
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0015323  0.76313   0
+      estlvs
+7.216275e+01
+6.739697e+01
+7.454563e+01
+3.393564e+00
+    dm0        w  ltausp      minp     meanp      maxp        sdd         tb
+0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0040173
+      0        2  1.0456      0.25      0.25      0.25          0   0.001605
+      2        4  3.4742       0.5       0.5       0.5   0.016098   0.006283
+0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0012064
 
 */
 
