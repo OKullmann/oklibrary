@@ -366,8 +366,9 @@ namespace LookaheadBranching {
         case OP::LRST::none : assert(false); }
     }
 
-    void add(LR::ReductionStatistics& s) noexcept {
+    void add(LR::ReductionStatistics& s, size_t& idref) noexcept {
       S[s.leaf()] += s.extract();
+      idref = S[0].N() + S[1].N();
       const size_t solc = s.solc();
       size_t old_sol_counter = sol_counter;
       sol_counter += solc;
@@ -466,9 +467,9 @@ namespace LookaheadBranching {
       auto stats = LR::lareduction(&s, P.rt, P.lar);
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
-        S->add(stats);
+        S->add(stats, s.idref());
       }
-      else S->add(stats);
+      else S->add(stats, s.idref());
       if (stats.leaf()) return new VVElim(*this, {}, {});
       const int v = GV::gcbv(s.V, P.bv);
       return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
@@ -540,7 +541,7 @@ namespace LookaheadBranching {
     BranchingStatistics() noexcept = default;
 
     void set_dm(const float_t dm) noexcept {
-      assert(dm > 0); dm_ = dm;
+      assert(dm >= 0); dm_ = dm;
     }
     void set_width(const size_t w) noexcept {
       assert(w >= 2); width_ = w;
@@ -683,13 +684,15 @@ namespace LookaheadBranching {
     const bstats_t& bstats() const noexcept { return bS; }
 
     void add(LR::ReductionStatistics& s0,
-             const MeasureStatistics& s1) noexcept {
-      rla_.add(s0);
+             const MeasureStatistics& s1,
+             size_t& idref) noexcept {
+      rla_.add(s0, idref);
       mS += s1.extract();
     }
     void add(LR::ReductionStatistics& s0,
-             const BranchingStatistics& s2) noexcept {
-      rla_.add(s0);
+             const BranchingStatistics& s2,
+             size_t& idref) noexcept {
+      rla_.add(s0, idref);
       bS += s2.extract();
     }
 
@@ -761,8 +764,8 @@ namespace LookaheadBranching {
        if (mstats.nodetype() != NodeType::inode) {
          if (P.parallel) {
            std::lock_guard<std::mutex> lock(stats_mutex);
-           S->add(stats0, mstats);
-         } else S->add(stats0, mstats);
+           S->add(stats0, mstats, s.idref());
+         } else S->add(stats0, mstats, s.idref());
          return new VVElim(*this, {}, {});
        }
       }
@@ -896,8 +899,8 @@ namespace LookaheadBranching {
       bstats.time(timing()-t0);
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
-        S->add(stats0, bstats);
-      } else S->add(stats0, bstats);
+        S->add(stats0, bstats, s.idref());
+      } else S->add(stats0, bstats, s.idref());
       return create_la(bestv, std::move(values), P.bt, *this,
                        std::move(stats0.elims()), std::move(mv),
                        binfirsteq);

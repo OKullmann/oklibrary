@@ -15,7 +15,7 @@ TODOS:
 1. Provide depth-etc-facilities
     - In the choice-function the id is set, in commit then the clone
       is updated (obtaining the pid, depth, and branch-number).
-    - The root has id=1, and pid=0 (NIL).
+    - DONE The root has id=1, and pid=0 (NIL).
 
 */
 
@@ -68,6 +68,7 @@ namespace Constraints {
 
     GenericMols1(const EC::EncCond& enc) : GenericMols0(enc) {}
     NodeData nodedata() const noexcept { return nd; }
+    size_t& idref() noexcept { return nd.id; }
 
     // To be called in commit:
     void update_clone() noexcept { nd.pid = nd.id; ++nd.depth; }

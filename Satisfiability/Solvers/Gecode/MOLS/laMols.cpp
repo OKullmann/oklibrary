@@ -235,7 +235,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.0",
+        "0.100.1",
         "1.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
