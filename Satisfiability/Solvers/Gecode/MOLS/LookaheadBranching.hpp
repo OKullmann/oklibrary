@@ -487,7 +487,7 @@ namespace LookaheadBranching {
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols1* const node = &(static_cast<CT::GenericMols1&>(s));
-      node->update_clone();
+      node->update_clone(a);
       for (const auto [var,val] : c.elim) {
         assert(var < node->V.size());
         GV::unset_var(s, node->V[var], val);
@@ -916,7 +916,7 @@ namespace LookaheadBranching {
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       assert(a < c.m.size());
       CT::GenericMols2& node = static_cast<CT::GenericMols2&>(s);
-      node.update_clone(c.m[a]);
+      node.update2_clone(c.m[a]);
       return RlaBranching::commit0(s, c0, a, c.binfirsteq);
     }
 

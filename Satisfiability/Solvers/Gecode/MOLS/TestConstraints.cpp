@@ -16,7 +16,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
+        "0.0.4",
         "8.8.2022",
         __FILE__,
         "Oliver Kullmann",
@@ -38,6 +38,7 @@ int main(const int argc, const char* const argv[]) {
   {NodeData nd;
    assert(nd.id == 1);
    assert(nd.pid == 0);
+   assert(nd.branch == 18446744073709551615UL);
    assert(nd.depth == 0);
    assert(nd == NodeData{});
   }

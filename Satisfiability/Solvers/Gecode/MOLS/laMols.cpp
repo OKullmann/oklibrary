@@ -110,7 +110,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - For binary branching one needs to indicate whether the value is set or
      unset; possibly by using "+" and "-" (where one needs to distinguish
      between +0 and -0).
-   - Another member needs to be added to NodeData, identifying the
+   - DONE Another member needs to be added to NodeData, identifying the
      branch; this is set in update_clone, with new signature
        update_clone(unsigned a).
    - Perhaps it should be an option to call flush after every addition
@@ -247,8 +247,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.1",
-        "1.8.2022",
+        "0.100.2",
+        "8.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",

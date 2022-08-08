@@ -53,8 +53,8 @@ namespace Constraints {
 
 
   struct NodeData {
-    size_t id, pid, depth;
-    constexpr NodeData() noexcept : id(1), pid(0), depth(0) {};
+    size_t id, pid, branch, depth;
+    constexpr NodeData() noexcept : id(1), pid(0), branch(-1), depth(0) {};
     constexpr bool operator ==(const NodeData&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const NodeData& d) {
@@ -71,7 +71,9 @@ namespace Constraints {
     size_t& idref() noexcept { return nd.id; }
 
     // To be called in commit:
-    void update_clone() noexcept { nd.pid = nd.id; ++nd.depth; }
+    void update_clone(const unsigned a) noexcept {
+      nd.pid = nd.id; nd.branch = a; ++nd.depth;
+    }
 
   protected :
     GenericMols1(GenericMols1& gm) : GenericMols0(gm), nd(gm.nd) {}
@@ -100,8 +102,8 @@ namespace Constraints {
     GenericMols2(const EC::EncCond& enc) : GenericMols1(enc) {}
     NodeMeasures nodemeasures() const noexcept { return nm; }
 
-    // Assumes that GenericMols1::update_clone() is called separately:
-    void update_clone(const float_t d) noexcept {
+    // Assumes that GenericMols1::update_clone(a) is called separately:
+    void update2_clone(const float_t d) noexcept {
       nm.lestlvs += d;
     }
 
