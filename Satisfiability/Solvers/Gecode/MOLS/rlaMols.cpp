@@ -104,11 +104,12 @@ BUGS:
 #include "Options.hpp"
 #include "CommandLine.hpp"
 #include "LookaheadReduction.hpp"
+#include "Constraints.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.2",
+        "0.100.3",
         "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -271,6 +272,13 @@ int main(const int argc, const char* const argv[]) {
   if (tree_log) {
     *tree_log << Environment::Wrap(proginfo, Environment::OP::rh) << "\n";
     info(*tree_log, false);
+    auto header1 = Constraints::NodeData::header();
+    header1.push_back("w");
+    *tree_log << "\n# ";
+    Environment::out_line(*tree_log, header1);
+    *tree_log << "\n# size [var values...]\n# ";
+    Environment::out_line(*tree_log, ReductionStatistics::stats_header());
+    *tree_log << "\n"; tree_log->flush();
   }
 
 

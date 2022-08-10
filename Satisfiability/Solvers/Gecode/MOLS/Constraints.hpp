@@ -22,6 +22,8 @@ TODOS:
 #ifndef CONSTRAINTS_hBa0Xe3nKA
 #define CONSTRAINTS_hBa0Xe3nKA
 
+#include <vector>
+#include <string>
 #include <ostream>
 
 #include <gecode/int.hh>
@@ -58,6 +60,10 @@ namespace Constraints {
     size_t id, pid, branch, depth;
     constexpr NodeData() noexcept : id(-1), pid(0), branch(-1), depth(0) {};
     constexpr bool operator ==(const NodeData&) const noexcept = default;
+    typedef std::vector<std::string> header_t;
+    static header_t header() noexcept {
+      return {"id", "pid", "branch", "dp"};
+    }
   };
   std::ostream& operator <<(std::ostream& out, const NodeData& d) {
     return out << d.id << " " << d.pid << " " << d.branch << " " << d.depth;
