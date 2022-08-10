@@ -108,7 +108,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.1",
+        "0.100.2",
         "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -223,6 +223,11 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   const bool with_tree_logging = to.value() == TREE::on;
+  if (with_tree_logging and num_runs != 1) {
+    std::cerr << error << "For tree-logging the number of runs must be 1,"
+      " but is " << num_runs << ".\n";
+    return 1;
+  }
 
 
   const std::string outfile = output_filename(proginfo.prg, list_N);
