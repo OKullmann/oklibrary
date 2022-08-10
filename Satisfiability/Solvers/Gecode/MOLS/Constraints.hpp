@@ -56,7 +56,7 @@ namespace Constraints {
 
   struct NodeData {
     size_t id, pid, branch, depth;
-    constexpr NodeData() noexcept : id(1), pid(0), branch(-1), depth(0) {};
+    constexpr NodeData() noexcept : id(-1), pid(0), branch(-1), depth(0) {};
     constexpr bool operator ==(const NodeData&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const NodeData& d) {

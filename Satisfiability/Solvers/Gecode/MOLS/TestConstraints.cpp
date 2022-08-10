@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
-        "9.8.2022",
+        "0.0.6",
+        "10.8.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConstraints.cpp",
@@ -37,14 +37,14 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {NodeData nd;
-   assert(nd.id == 1);
+   assert(nd.id == 18446744073709551615UL);
    assert(nd.pid == 0);
    assert(nd.branch == 18446744073709551615UL);
    assert(nd.depth == 0);
    assert(nd == NodeData{});
    std::stringstream ss;
    ss << nd;
-   assert(ss.str() == "1 0 18446744073709551615 0");
+   assert(ss.str() == "18446744073709551615 0 18446744073709551615 0");
   }
 
 }
