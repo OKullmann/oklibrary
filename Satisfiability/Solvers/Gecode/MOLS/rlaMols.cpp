@@ -107,7 +107,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.0",
+        "0.99.1",
         "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -248,15 +248,21 @@ int main(const int argc, const char* const argv[]) {
   const delete_on_exit delete_tree_log(tree_log);
 
 
-  commandline_output(std::cout, argc, argv);
-  info_output(std::cout,
-              list_N, ac, name_ac, ps0, name_ps, rt,
-              num_runs, threads, outfile, with_file_output);
-  st_output(std::cout, stod);
-  treelogging_output(std::cout, to.value(), treeloggingfile);
-  algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
-  cd_output(std::cout, gcdv);
-  std::cout.flush();
+  const auto info = [&](std::ostream& out, const bool withfiles)->void{
+    commandline_output(out, argc, argv);
+    info_output(out,
+                list_N, ac, name_ac, ps0, name_ps, rt,
+                num_runs, threads, outfile,
+                withfiles ? with_file_output : false);
+    st_output(out, stod);
+    if (withfiles)
+      treelogging_output(out, to.value(), treeloggingfile);
+    algo_output(out, std::make_tuple(pov, brtv, bvarv, gbov, larv));
+    cd_output(out, gcdv);
+    out.flush();
+  };
+  info(std::cout, true);
+  if (tree_log) info(*tree_log, false);
 
 
   for (const size_t N : list_N)
