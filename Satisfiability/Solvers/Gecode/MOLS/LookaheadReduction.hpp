@@ -60,6 +60,7 @@ TODOS:
 
 #include <SystemSpecifics/Timing.hpp>
 #include <Numerics/FloatingPoint.hpp>
+#include <ProgramOptions/Strings.hpp>
 
 #include "Conditions.hpp"
 #include "Options.hpp"
@@ -195,7 +196,7 @@ namespace LookaheadReduction {
     }
   };
   std::ostream& operator <<(std::ostream& out, const ReductionStatistics& s) {
-    for (const auto x : s.extract()) out << " " << x;
+    Environment::out_line(out, s.extract());
     return out;
   }
 

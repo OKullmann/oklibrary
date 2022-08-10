@@ -429,8 +429,11 @@ namespace LookaheadBranching {
                    const LR::ReductionStatistics& stats,
                    const ValVec* const ch) const {
       assert(tree_logging); assert(ch);
+      const auto gecode_width = ValVec::width(ch->br);
+      assert(gecode_width >= 1);
+      const auto width = gecode_width==1 ? 0 : gecode_width;
       *tree_logging << "\n"
-                    << s.nodedata() << " " << ValVec::width(ch->br) << "\n"
+                    << s.nodedata() << " " << width << "\n"
                     << *ch << "\n"
                     << stats << "\n";
     }
