@@ -487,17 +487,19 @@ namespace Solvers {
                   const unsigned gcd,
                   const double threads,
                   LB::ListStoppingData st,
-                  std::ostream* const log) {
+                  std::ostream* const log,
+                  std::ostream* const tree_logging) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
 
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     CT::GenericMols1* const m = new CT::GenericMols1(enc);
-    const LB::rlaParams P{rt, lar, bv, bt, bo, threads != 1};
+    const LB::rlaParams P{
+      rt, lar, bv, bt, bo, threads != 1, tree_logging != nullptr};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::rlaStats> stats(
-      new LB::rlaStats(log,
+      new LB::rlaStats(log, tree_logging,
                        log and OP::with_solutions(rt) ? &enc : nullptr,
                        st));
     new (*m) LB::RlaBranching(*m, P, stats.get());
@@ -567,7 +569,8 @@ namespace Solvers {
                 const OP::weights_t* const weights,
                 RandGen::RandGen_t* const randgen,
                 LB::ListStoppingData st,
-                std::ostream* const log) {
+                std::ostream* const log,
+                std::ostream* const tree_logging) {
     assert(valid(rt));
     assert(not with_log(rt) or log);
     assert(weights);
@@ -578,7 +581,7 @@ namespace Solvers {
     const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::laStats> stats(
-      new LB::laStats(log,
+      new LB::laStats(log, tree_logging,
                       log and OP::with_solutions(rt) ? &enc : nullptr,
                       st));
 

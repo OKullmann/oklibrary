@@ -22,6 +22,8 @@ TODOS:
 #ifndef CONSTRAINTS_hBa0Xe3nKA
 #define CONSTRAINTS_hBa0Xe3nKA
 
+#include <ostream>
+
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
@@ -58,7 +60,7 @@ namespace Constraints {
     constexpr bool operator ==(const NodeData&) const noexcept = default;
   };
   std::ostream& operator <<(std::ostream& out, const NodeData& d) {
-    return out << d.id << " " << d.pid << " " << d.depth;
+    return out << d.id << " " << d.pid << " " << d.branch << " " << d.depth;
   }
 
   struct GenericMols1 : GenericMols0 {

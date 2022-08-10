@@ -178,7 +178,9 @@ namespace LookaheadBranching {
   */
 
   struct ValVec : GC::Choice {
-    const values_t br; // br[0] is the variable (if br is not empty)
+    const values_t br;
+    // br[0] is the variable (if br is not empty)
+    // for binary branching, br[1] is the branching-value (first branch eq)
 
     ValVec(const GC::Brancher& b, const values_t branching) noexcept
       : GC::Choice(b, width(branching)), br(branching) {}
@@ -190,6 +192,22 @@ namespace LookaheadBranching {
       return size == 2 ? 2 : size-1;
     }
   };
+  std::ostream& operator <<(std::ostream& out, const ValVec& vv) {
+    const size_t size = vv.br.size();
+    out << size;
+    if (size != 0) {
+      out << " " << vv.br[0];
+      assert(size >= 2);
+      if (size == 2) {
+        const int val = vv.br[1];
+        out << " +" << val << " -" << val;
+      }
+      else
+        for (size_t i = 1; i < size; ++i)
+          out << " +" << vv.br[i];
+    }
+    return out;
+  }
 
   GV::values_t append(const int v, GV::values_t values, const bool notrev) {
     const size_t size = values.size();
@@ -277,6 +295,7 @@ namespace LookaheadBranching {
     const OP::BRT bt;
     const OP::GBO bo;
     const bool parallel;
+    const bool tree_logging;
   };
 
   template <typename STO>
@@ -331,9 +350,10 @@ namespace LookaheadBranching {
     const st_t st;
     inline static std::atomic_bool abort;
 
-    rlaStats(std::ostream* const log, const EC::EncCond* const enc,
+    rlaStats(std::ostream* const log, std::ostream* const tlog,
+             const EC::EncCond* const enc,
              const ListStoppingData& st) noexcept :
-      st(st.list()), sol_counter(0), log(log), enc(enc) {
+      st(st.list()), sol_counter(0), log(log), tree_logging(tlog), enc(enc) {
       assert(not enc or log);
       abort = false;
       std::signal(SIGINT, activate_abort);
@@ -366,6 +386,7 @@ namespace LookaheadBranching {
         case OP::LRST::none : assert(false); }
     }
 
+    // changes s only by moving solutions; updates idref:
     void add(LR::ReductionStatistics& s, size_t& idref) noexcept {
       S[s.leaf()] += s.extract();
       idref = S[0].N() + S[1].N();
@@ -404,11 +425,22 @@ namespace LookaheadBranching {
       }
     }
 
+    void tree_data(const CT::GenericMols1& s,
+                   const LR::ReductionStatistics& stats,
+                   const ValVec* const ch) const {
+      assert(tree_logging); assert(ch);
+      *tree_logging << "\n"
+                    << s.nodedata() << " " << ValVec::width(ch->br) << "\n"
+                    << *ch << "\n"
+                    << stats << "\n";
+    }
+
   private :
     sollist_t sols_;
     stats_t S; // statistics for inner nodes (S[0]) resp. leaves (S[1])
     size_t sol_counter;
     std::ostream* const log;
+    std::ostream* const tree_logging;
     const EC::EncCond* const enc;
   };
 
@@ -450,7 +482,7 @@ namespace LookaheadBranching {
     RlaBranching(GC::Space& home, RlaBranching& b)
       : GC::Brancher(home,b), P(b.P), S(b.S) {}
   public :
-    RlaBranching(const GC::Home home, const rlaParams P, rlaStats* const S)
+    RlaBranching(const GC::Home home, const rlaParams& P, rlaStats* const S)
       : GC::Brancher(home), P(P), S(S) { assert(S); }
 
     GC::Brancher* copy(GC::Space& home) override {
@@ -472,8 +504,12 @@ namespace LookaheadBranching {
       if (P.parallel) {
         std::lock_guard<std::mutex> lock(stats_mutex);
         S->add(stats, s.idref());
+        if (P.tree_logging) S->tree_data(s, stats, res);
       }
-      else S->add(stats, s.idref());
+      else {
+        S->add(stats, s.idref());
+        if (P.tree_logging) S->tree_data(s, stats, res);
+      }
       return res;
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
@@ -676,9 +712,10 @@ namespace LookaheadBranching {
     bstats_t bS;
   public :
 
-    laStats(std::ostream* const log, const EC::EncCond* const enc,
+    laStats(std::ostream* const log, std::ostream* const tlog,
+            const EC::EncCond* const enc,
             const ListStoppingData& st) noexcept
-      : rla_(log, enc, st) {}
+      : rla_(log, nullptr, enc, st) {} // tree-logging for rla not used
 
     const rlaStats& rla() const noexcept { return rla_; }
     const mstats_t& mstats() const noexcept { return mS; }

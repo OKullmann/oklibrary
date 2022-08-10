@@ -51,6 +51,7 @@ TODOS:
 #include <array>
 #include <string>
 #include <exception>
+#include <ostream>
 
 #include <cassert>
 
@@ -193,6 +194,10 @@ namespace LookaheadReduction {
       return lhs.time(0) == rhs.time(0);
     }
   };
+  std::ostream& operator <<(std::ostream& out, const ReductionStatistics& s) {
+    for (const auto x : s.extract()) out << " " << x;
+    return out;
+  }
 
 
   // Make a copy of a given problem and assign var==val:

@@ -355,6 +355,9 @@ namespace Options {
   typedef WrapP<HDS> Headers;
   typedef WrapP<COMP, true> Computations;
 
+  enum class TREE { off=0, on=1 };
+  constexpr int TREEsize = int(TREE::on) + 1;
+
   // Single values:
   enum class SIVA {
     all=0,satc=1,t=2,ppc=3,nds=4,inds=5,lvs=6,
@@ -376,6 +379,7 @@ namespace Options {
   constexpr int NOTYsize = int(NOTY::leaf) + 1;
 
   typedef std::tuple<Info, Weights, Headers, Computations,
+                     TREE,
                      SIVA, NEG, STOP, STAT, NOTY>
     output_options_t;
 
@@ -405,6 +409,9 @@ namespace Options {
     }
     bool with_computations() const noexcept {
       return COMP(std::get<Computations>(options)) == COMP::on;
+    }
+    bool with_tree() const noexcept {
+      return std::get<TREE>(options) == TREE::on;
     }
     SIVA values() const noexcept { return std::get<SIVA>(options); }
     bool negated() const noexcept {
@@ -584,6 +591,14 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"perform_computations", "not-perform_computations"};
   };
+  template <> struct RegistrationPolicies<Options::TREE> {
+    static constexpr const char* name = "tree-logging";
+    static constexpr int size = Options::TREEsize;
+    static constexpr std::array<const char*, size>
+      string {"-tree", "+tree"};
+    static constexpr std::array<const char*, size>
+      estring {"without-tree-logging", "with-tree-logging"};
+  };
   template <> struct RegistrationPolicies<Options::SIVA> {
     static constexpr const char* name = "selected-values";
     static constexpr int size = Options::SIVAsize;
@@ -687,6 +702,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const Computations c) {
     return out << Environment::W2(c);
+  }
+  std::ostream& operator <<(std::ostream& out, const TREE t) {
+    return out << Environment::W2(t);
   }
   std::ostream& operator <<(std::ostream& out, const SIVA sv) {
     return out << Environment::W0(sv);

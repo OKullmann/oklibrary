@@ -107,15 +107,15 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.17.1",
-        "8.8.2022",
+        "0.99.0",
+        "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 12;
+  constexpr int commandline_args = 13;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -132,7 +132,7 @@ namespace {
     "> " << proginfo.prg <<
       " N file_cond file_ps run-type prop-level branch-type"
       " branch-var branch-order la-type gcd threads"
-      " (stop-type,stop-value)*\n\n"
+      " (stop-type,stop-value)* tree-logging\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
       " - file_ps      : filename/string for partial-squares-specification\n"
@@ -144,7 +144,8 @@ namespace {
       " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
-      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n\n" <<
+      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
+      " - tree-logging : " << Environment::WRPO<TREE>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
@@ -214,8 +215,16 @@ int main(const int argc, const char* const argv[]) {
 
   const auto stod = read_rlast(argc, argv, 12);
 
-  const std::string outfile = output_filename(proginfo.prg, list_N);
+  const auto to = Environment::read<TREE>(argv[13]);
+  if (not to) {
+    std::cerr << error << "Wrong item \"" << argv[13] << "\" for "
+      "tree-logging.\n";
+    return 1;
+  }
+  const bool with_tree_logging = to.value() == TREE::on;
 
+
+  const std::string outfile = output_filename(proginfo.prg, list_N);
   const bool with_file_output = Options::with_file_output(rt);
   if (with_file_output and num_runs != 1) {
     std::cerr << error << "For solution-output the number of runs must be 1,"
@@ -224,6 +233,7 @@ int main(const int argc, const char* const argv[]) {
   }
   std::ostream* const out = with_file_output ?
     new std::ofstream(outfile) : nullptr;
+  const delete_on_exit delete_out(out);
   if (with_file_output and (not out or not *out)) {
     std::cerr << error << "Can not open file \"" << outfile << "\" for "
       "writing.\n";
@@ -231,15 +241,23 @@ int main(const int argc, const char* const argv[]) {
   }
   const bool with_log = Options::with_log(rt);
   std::ostream* const log = with_log ? &std::cout : nullptr;
+  const std::string treeloggingfile = with_tree_logging ?
+    treelogging_filename(proginfo.prg, list_N) : std::string();
+  std::ostream* const tree_log = with_tree_logging ?
+    new std::ofstream(treeloggingfile) : nullptr;
+  const delete_on_exit delete_tree_log(tree_log);
+
 
   commandline_output(std::cout, argc, argv);
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
               num_runs, threads, outfile, with_file_output);
   st_output(std::cout, stod);
+  treelogging_output(std::cout, to.value(), treeloggingfile);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov, larv));
   cd_output(std::cout, gcdv);
   std::cout.flush();
+
 
   for (const size_t N : list_N)
     for (const PropO po : pov) {
@@ -252,7 +270,7 @@ int main(const int argc, const char* const argv[]) {
               for (unsigned gcd : gcdv) {
                 const rlaSR res =
                   rlasolver(enc, rt, brt, bvar, gbo, lar,
-                            gcd, threads, stod, log);
+                            gcd, threads, stod, log, tree_log);
                 if (with_log and
                     rt != RT::enumerate_with_log and
                     rt != RT::unique_s_with_log)
@@ -267,5 +285,4 @@ int main(const int argc, const char* const argv[]) {
                   Environment::out_line(*out, res.b.list_sol, "\n");
               }
     }
-  if (out) delete out;
 }

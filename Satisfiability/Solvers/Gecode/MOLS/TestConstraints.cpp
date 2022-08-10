@@ -6,6 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
 
 #include <cassert>
 
@@ -16,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "8.8.2022",
+        "0.0.5",
+        "9.8.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestConstraints.cpp",
@@ -41,6 +42,9 @@ int main(const int argc, const char* const argv[]) {
    assert(nd.branch == 18446744073709551615UL);
    assert(nd.depth == 0);
    assert(nd == NodeData{});
+   std::stringstream ss;
+   ss << nd;
+   assert(ss.str() == "1 0 18446744073709551615 0");
   }
 
 }

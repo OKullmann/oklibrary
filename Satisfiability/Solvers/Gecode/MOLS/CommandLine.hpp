@@ -536,15 +536,32 @@ namespace CommandLine {
   }
 
 
-  std::string output_filename(const std::string& stem,
-                              const list_size_t& list_N) {
+  std::string filename(const std::string& stem,
+                       const list_size_t& list_N,
+                       const std::string prefix) {
+    static const auto timestamp = Environment::CurrentTime::timestamp_uint();
     if (list_N.size() != 1) return {};
     const size_t N = list_N[0];
     std::ostringstream ss;
-    ss << "SOLUTIONS_" + stem << "_" << N << "_"
-       << Environment::CurrentTime::timestamp_uint();
+    ss << prefix << "_" + stem << "_" << N << "_" << timestamp;
     return ss.str();
   }
+  std::string output_filename(const std::string& stem,
+                              const list_size_t& list_N) {
+    return filename(stem, list_N, "SOLUTIONS");
+  }
+  std::string treelogging_filename(const std::string& stem,
+                                   const list_size_t& list_N) {
+    return filename(stem, list_N, "TREE");
+  }
+
+  struct delete_on_exit {
+    std::ostream* const osp;
+    explicit delete_on_exit(std::ostream* const osp) noexcept : osp(osp) {}
+    ~delete_on_exit() noexcept {
+      delete dynamic_cast<std::ofstream*>(osp);
+    }
+  };
 
 
   void commandline_output(std::ostream& out, const int argc,
@@ -592,6 +609,13 @@ namespace CommandLine {
     }
     else
       out << "# no_stopping";
+    out << "\n";
+  }
+
+  void treelogging_output(std::ostream& out, const OP::TREE to,
+                          const std::string& treelogfile) {
+    out << "# " << Environment::W1<OP::TREE>{to};
+    if (not treelogfile.empty()) out << ": " << treelogfile;
     out << "\n";
   }
 
