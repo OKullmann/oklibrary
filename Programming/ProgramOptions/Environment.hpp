@@ -791,7 +791,9 @@ namespace Environment {
     return s == "-v" or s == "--version";
   }
   typedef std::function<void(std::ostream&)> addvo_fot;
-  bool version_output(std::ostream& out, const ProgramInfo& pi, const int argc, const char* const argv[], const addvo_fot& ao = addvo_fot()) {
+  bool version_output(std::ostream& out, const ProgramInfo& pi,
+                      const int argc, const char* const argv[],
+                      const addvo_fot& ao = addvo_fot()) {
     if (argc == 2 and is_version_string(argv[1])) {
       out << Wrap(pi, OP::explained);
       if (ao) ao(out);
