@@ -23,7 +23,7 @@ Examples:
     - 2 threads,
     - and no stopping:
 
-MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 ""
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 "" ""
 # command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
@@ -33,6 +33,7 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
 # threads=2
 # rt=count-solutions(count)
 # no_stopping
+# without-tree-logging
 #   propagation-level: domain-prop(dom)
 #   branching-type: enumerative-branching(enu)
 #   variable-heuristic: max-deg/dom-var(maxdegdom)
@@ -107,7 +108,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.1",
+        "0.100.0",
         "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

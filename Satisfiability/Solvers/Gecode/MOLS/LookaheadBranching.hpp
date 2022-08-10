@@ -452,15 +452,16 @@ namespace LookaheadBranching {
     using ValVec::br;
     using assignment_t = LR::assignment_t;
     const assignment_t elim;
+    size_t id = 0; // needs to be updated after creation
 
     VVElim(const GC::Brancher& b, values_t br, assignment_t elim)
       noexcept : ValVec(b, br), elim(elim) {}
   };
 
-  const VVElim* create_la(const int v, GV::values_t values,
-                          const OP::BRT bt, const OP::GBO bo,
-                          GC::Brancher& b,
-                          VVElim::assignment_t a) noexcept {
+  VVElim* create_la(const int v, GV::values_t values,
+                    const OP::BRT bt, const OP::GBO bo,
+                    GC::Brancher& b,
+                    VVElim::assignment_t a) noexcept {
     assert(values.size() >= 2);
     switch (bt) {
     case OP::BRT::bin :
@@ -500,7 +501,7 @@ namespace LookaheadBranching {
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
       auto stats = LR::lareduction(&s, P.rt, P.lar);
-      const VVElim* const res = stats.leaf() ? new VVElim(*this, {}, {}) :
+      VVElim* const res = stats.leaf() ? new VVElim(*this, {}, {}) :
         [this,&s,&stats]{const int v = GV::gcbv(s.V, P.bv);
           return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
                            std::move(stats.elims()));}();
@@ -513,6 +514,7 @@ namespace LookaheadBranching {
         S->add(stats, s.idref());
         if (P.tree_logging) S->tree_data(s, stats, res);
       }
+      res->id = s.nodedata().id;
       return res;
     }
     const GC::Choice* choice(const GC::Space&, GC::Archive&) override {
@@ -527,7 +529,7 @@ namespace LookaheadBranching {
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols1* const node = &(static_cast<CT::GenericMols1&>(s));
-      node->update_clone(a);
+      node->update_clone(a, c.id);
       for (const auto [var,val] : c.elim) {
         assert(var < node->V.size());
         GV::unset_var(s, node->V[var], val);

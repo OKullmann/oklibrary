@@ -73,8 +73,8 @@ namespace Constraints {
     size_t& idref() noexcept { return nd.id; }
 
     // To be called in commit:
-    void update_clone(const unsigned a) noexcept {
-      nd.pid = nd.id; nd.branch = a; ++nd.depth;
+    void update_clone(const unsigned a, const size_t id) noexcept {
+      nd.pid = id; nd.branch = a; ++nd.depth;
     }
 
   protected :
