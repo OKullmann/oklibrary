@@ -555,12 +555,12 @@ namespace CommandLine {
     return filename(stem, list_N, "TREE");
   }
 
-  struct delete_on_exit {
-    std::ostream* const osp;
-    explicit delete_on_exit(std::ostream* const osp) noexcept : osp(osp) {}
-    ~delete_on_exit() noexcept {
-      delete dynamic_cast<std::ofstream*>(osp);
-    }
+  class delete_on_exit {
+    const std::ostream* const osp;
+  public :
+    explicit delete_on_exit(const std::ostream* const osp) noexcept
+      : osp(osp) {}
+    ~delete_on_exit() noexcept { delete osp; }
   };
 
 
