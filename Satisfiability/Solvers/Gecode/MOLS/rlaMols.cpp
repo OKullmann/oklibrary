@@ -108,7 +108,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.0",
+        "0.100.1",
         "10.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -263,7 +263,10 @@ int main(const int argc, const char* const argv[]) {
     out.flush();
   };
   info(std::cout, true);
-  if (tree_log) info(*tree_log, false);
+  if (tree_log) {
+    *tree_log << Environment::Wrap(proginfo, Environment::OP::rh) << "\n";
+    info(*tree_log, false);
+  }
 
 
   for (const size_t N : list_N)
