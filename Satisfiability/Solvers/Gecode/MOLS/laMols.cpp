@@ -69,9 +69,9 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -4. Output of tree-logging
-   - Fixed file for output; name as for output of solutions, but
+   - DONE Fixed file for output; name as for output of solutions, but
      with "TREE" instead of "SOLUTIONS".
-   - Also for rlaMols.
+   - DONE Also for rlaMols.
    - DONE Should (r)laParams know about this, by annother boolean "tree_logging"?
      Perhaps that's best here, since there are some difficulties associated
      with tree-logging.
@@ -100,12 +100,13 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - In this function also the basic tree-data (node-data and reduction-
      statistics) are output (if activated, that is, iff the pointer
      is not null).
-   - Both overloads of "add" in laStats use the pointer from the rlaStats-
+   - DONE (not via add, but using dedicated functions)
+     Both overloads of "add" in laStats use the pointer from the rlaStats-
      object and output further statistics (measures and branching-statistics).
    - Possibly for the output of tau-value and branching variable,
      and for the distances, probabilities and values of the branches, there
      is an additional function.
-   - Actually branching-variable and branching-values are also needed for
+   - DONE Actually branching-variable and branching-values are also needed for
      rlaMols (while tau and probs are only for laMols).
      So this output-function belongs to rlaStats.
    - For binary branching one needs to indicate whether the value is set or
