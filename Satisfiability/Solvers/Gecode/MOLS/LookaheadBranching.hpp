@@ -521,7 +521,7 @@ namespace LookaheadBranching {
 
     static GC::ExecStatus commit0(GC::Space& s, const GC::Choice& c0,
                                   const unsigned a,
-                                  const bool binfirsteq = true) {
+                                  const bool binfirsteq) {
       const VVElim& c = static_cast<const VVElim&>(c0);
       const size_t w = c.br.size();
       if (w == 0) return GC::ExecStatus::ES_FAILED;
@@ -551,7 +551,7 @@ namespace LookaheadBranching {
     }
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
-      return commit0(s, c0, a);
+      return commit0(s, c0, a, true);
     }
   };
 
