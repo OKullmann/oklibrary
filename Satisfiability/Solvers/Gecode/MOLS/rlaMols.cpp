@@ -109,8 +109,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.3",
-        "10.8.2022",
+        "1.0.0",
+        "12.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -131,32 +131,43 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg <<
-      " N file_cond file_ps run-type prop-level branch-type"
-      " branch-var branch-order la-type gcd threads"
-      " (stop-type,stop-value)* tree-logging\n\n"
-      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
-      " - file_cond    : filename/string for conditions-specification\n"
-      " - file_ps      : filename/string for partial-squares-specification\n"
-      " - run-type     : " << Environment::WRPO<RT>{} << "\n" <<
-      " - prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
-      " - branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
-      " - branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
-      " - branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
-      " - la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
-      " - gcd          : Gecode commit-distance; list as for N\n"
-      " - threads      : floating-point for number of threads\n"
-      " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
-      " - tree-logging : " << Environment::WRPO<TREE>{} << "\n\n" <<
+      commandline_args << " arguments, for readabilit broken into 4 groups:\n"
+      "> " << proginfo.prg << "\n"
+      "   N  file_cond  file_ps  run-type\n"
+      "   prop-level  branch-type  branch-var  branch-order\n"
+      "   la-type  gcd  threads\n"
+      "   (stop-type,stop-value)*  tree-logging\n\n"
+      " 1.  N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
+      " 2.  file_cond    : filename/string for conditions-specification\n"
+      " 3.  file_ps      : filename/string for partial-squares-specification\n"
+      " 4.  run-type     : " << Environment::WRPO<RT>{} << "\n" <<
+      " 5.  prop-level   : " << Environment::WRPO<PropO>{} << "\n" <<
+      " 6.  branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
+      " 7.  branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
+      " 8.  branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
+      " 9.  la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
+      " 10. gcd          : Gecode commit-distance; list as for N;"
+      " default=" << default_comdist << "\n"
+      " 11. threads      : floating-point for number of threads;"
+      " default=" << default_threads << "\n"
+      " 12. stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
+      " 13. tree-logging : " << Environment::WRPO<TREE>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - to use a string instead of a filename, a leading \"@\" is needed\n"
+      "   - in general, starting with the 3. argument, all arguments have"
+      " default-values\n"
+      "   - these are created by the empty string (that is, \"\")\n"
+      "   - for options, the default-value is the first shown choice\n"
+      "  - to use a specification-string instead of a filename,"
+      " a leading \"@\" is needed\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "  - pairs of stop-types/values are separated by \"|\"\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
-      "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
+      prefix_solutions << "_" << proginfo.prg << "_N_timestamp\"\n"
+      "  - for tree-logging, output goes to file \"" <<
+      prefix_tree << "_"  << proginfo.prg << "_N_timestamp\".\n\n"
 ;
     return true;
   }

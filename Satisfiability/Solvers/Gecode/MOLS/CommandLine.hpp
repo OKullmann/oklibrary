@@ -228,20 +228,22 @@ namespace CommandLine {
     return std::make_tuple(list, std::make_unique<RandGen_t>(seeds), seeds);
   }
 
+  constexpr double default_threads = 1;
   double read_threads([[maybe_unused]]const int argc,
                       const char* const argv[], const int pos) {
     assert(argc > pos);
     const std::string x = argv[pos];
-    if (x.empty()) return 1;
+    if (x.empty()) return default_threads;
     else return FloatingPoint::to_float64(x);
   }
 
+  constexpr unsigned default_comdist = 0;
   typedef std::vector<unsigned> list_unsigned_t;
   list_unsigned_t read_comdist([[maybe_unused]]const int argc,
                                const char* const argv[], const int pos) {
     assert(argc >= pos+1);
     const auto res = FloatingPoint::sequences<unsigned>(argv[pos]);
-    if (res.empty()) return {0}; else return res;
+    if (res.empty()) return {default_comdist}; else return res;
   }
 
   template <typename STO>
@@ -546,13 +548,15 @@ namespace CommandLine {
     ss << prefix << "_" + stem << "_" << N << "_" << timestamp;
     return ss.str();
   }
+  const std::string prefix_solutions = "SOLUTIONS";
   std::string output_filename(const std::string& stem,
                               const list_size_t& list_N) {
-    return filename(stem, list_N, "SOLUTIONS");
+    return filename(stem, list_N, prefix_solutions);
   }
+  const std::string prefix_tree = "TREE";
   std::string treelogging_filename(const std::string& stem,
                                    const list_size_t& list_N) {
-    return filename(stem, list_N, "TREE");
+    return filename(stem, list_N, prefix_tree);
   }
 
   class delete_on_exit {
