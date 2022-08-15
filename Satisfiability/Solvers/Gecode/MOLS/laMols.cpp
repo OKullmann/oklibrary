@@ -13,7 +13,7 @@ License, or any later version. */
 Examples:
 
 1. Counting the 432 Euler-squares (pairs of mutually orthogonal latin squares)
-of order 6, which are row-reduced:
+of order 5, which are row-reduced:
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "0.1" "" ""
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A\nrred B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "" "" "1" "3" "0.1" "" ""
