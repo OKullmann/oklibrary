@@ -6,8 +6,16 @@
 # + 2MOLS : Euler/queendiag
 # + 2MOLS + Sudoku : Euler/queendiagsudoku
 
+# The current semantical data is identical with Pandiagonal, but for N=12 there
+# exist even sudoku-queens-solutions (which are apparently easier to find -- and
+# pandiagonal solutions are even much easier to find).
+# SudokuQueen is different for N=11.
+
+
 
 # gcMols:
+
+# N=11:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
 # dom binbr maxdom desc 8 89292.987 105040080300 1515904270 3031808555 72
@@ -22,6 +30,9 @@
 
 
 # rlaMols:
+
+# N=9:
+
 # MOLS> time ./rlaMols 9 data/SpecsCollection/Queendiagonal "" count "" enu maxdom "" "" 1 6
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
 #   9    count dom enu    maxdom  asc  relpr    1          0      13.295      94689     1104     2391     7     1287     1104
@@ -35,6 +46,9 @@
 
 
 # laMols with dL:
+
+# N=9:
+
 # MOLS> time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu "" "" "" 1 6
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 #  9    count dom enu   dL   asc  relpr   1        0      22.562     149684     1700     3877    11     2177     1700     477
@@ -52,7 +66,11 @@
 # Missing the "magic of maxdom".
 
 
+
 # laMols with wdL:
+
+# N=9:
+
 # time ./laMols 9 data/SpecsCollection/Queendiagonal "" count "" enu wdL "" "" 1 6 ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd     larc      lvs   larbc
 #  9    count dom enu  wdL   asc  relpr   1        0      33.656     181253     2002     4581    11     2579     2002     577
@@ -84,11 +102,6 @@
 # real	0m5.808s user	0m19.018s sys	0m0.104s
 # Still not capturing "maxdom".
 
-
-# The current semantical data is identical with Pandiagonal, but for N=12 there
-# exist even sudoku-queens-solutions (which are apparently easier to find -- and
-# pandiagonal solutions are even much easier to find).
-# SudokuQueen is different for N=11.
 
 
 squares A
