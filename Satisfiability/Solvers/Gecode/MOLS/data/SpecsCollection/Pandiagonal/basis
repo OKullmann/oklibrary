@@ -251,7 +251,21 @@
 # real    558m56.572s user    6924m21.771s sys     757m59.277s
 
 # MOLS$ time ./rlaMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
-# running on server2 XXX
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+# 17   +count dom bin    maxdom  asc  relpr   1        0 24385444.657 5259390976  1 163968788 81984668 81984120
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc       tr  pelvals       dp
+# 855.525  0.376    0.096  115.061   149.241   1.454  0.000    3.070    0.163  102.349
+# 336.000  0.000    0.000   89.736   105.175   1.000  0.000    0.000    0.000    0.000
+#4624.000  9.000    3.734  125.298  1032.754  10.000  0.000  162.692   10.103  150.000
+# 173.513  0.494    0.130    3.258    58.229   0.671  0.000    2.493    0.447   11.193
+#     mu0   qfppc  pprunes  pmprune   pprobes  rounds   solc       tr  pelvals       dp
+# 817.623   1.867    0.070   25.545    87.003   1.312  0.000    1.684    2.825  104.350
+# 315.000   1.125    0.000    5.000     6.562   1.000  0.000    0.000    0.394    5.000
+#4359.000  17.000    5.495  123.077  1121.906  10.000  0.000  205.556   10.417  151.000
+# 171.411   0.878    0.125   17.162    79.250   0.642  0.000    2.191    1.096   11.102
+# real    36381m36.681s user    406424m5.696s sys     118928m55.553s
+
 
 
 

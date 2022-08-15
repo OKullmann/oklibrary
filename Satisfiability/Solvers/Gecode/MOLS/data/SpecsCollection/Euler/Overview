@@ -58,7 +58,7 @@ Interesting brittleness of solutions.
 
 6) sudoku
 
-Only N=6 feasible (though gcMols finished counting).
+Only N=6 feasible (though gcMols finished counting for N=7).
 Optimisation for wdL somewhat better than rlaMols.
 Lvs-optimisation for newvars similar, while tau-optimisation
 has some trouble due to extreme outliers.

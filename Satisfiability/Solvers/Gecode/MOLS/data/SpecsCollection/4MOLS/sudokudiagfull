@@ -7,7 +7,7 @@
 
 # gcMols:
 
-# 2 <= N <= 12:
+# 2 <= N <= 13:
 
 # MOLS> ./gcMols 2,8 data/SpecsCollection/4MOLS/sudokudiagfull "" count "" enu mindom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -27,7 +27,8 @@
 # N=14:
 
 # MOLS> time ./gcMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count "" enu mindom "" 1 16 ""
-# running on server XXX
+# aborted without finding a solution:
+# real    13003m28.861s user    203010m34.472s sys     3219m49.457s
 
 
 
@@ -55,8 +56,25 @@
 #16457.000  6.000    0.000   11.600   22.586   1.000  0.000  13.179    0.073  3.000
 #   28.182  0.000    0.000    0.091    5.566   0.000  0.000   3.143    0.018  0.957
 
+# N=14:
+
 # MOLS> time ./rlaMols 14 data/SpecsCollection/4MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 ""
-# running on server XXX
+# aborted without finding a solution:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 14   +count dom bin    mindom  asc  relpr   1        0 12016317.473  271262323  1  1101078   550381
+#      mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#19254.390  0.548    0.420  109.147  134.447   1.501  0.000  248.393    0.009  39.544
+#19033.000  0.000    0.000  108.540  108.202   1.000  0.000  108.459    0.000   0.000
+#21090.000  4.000    0.831  109.219  325.722   4.000  0.000  709.004    0.119  50.000
+#  144.975  0.630    0.126    0.044   32.640   0.545  0.000   59.795    0.017   5.926
+#      mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc       tr  pelvals      dp
+#19177.617  2.370    0.477   32.050   55.024   1.293  0.000  100.704    0.105  41.555
+#19004.000  1.278    0.000    0.594    0.625   1.000  0.000    0.730    0.021  18.000
+#19680.000  5.000    1.164   98.188  142.002   2.000  0.000  372.444    0.499  51.000
+#  131.492  0.619    0.283   25.313   44.209   0.455  0.000   81.476    0.064   5.727
+# real    12995m28.256s user    200273m42.189s sys     4963m49.431s
+# pelvals much lower than for laMOls below, so seems to perform worse -- but dp is
+# much lower? Possibly yet the second branches weren't explored.
 
 
 
@@ -83,7 +101,30 @@
 # real    37m34.514s user    1198m56.742s sys     34m5.180s
 # Looks very difficult; running it nevertheless a bit:
 # TAU/sudokudiagfull_14_newv_ave$ time ./laMols 14 ../../sudokudiagfull "" +count dom enu newv "" "" 1 64 "-1,-3,-8,-4,-5,8,8,5,6,7,-6,1,-10" "" ""
-# running on server2 XXX
+# aborted without finding a solution:
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel
+# 14   +count dom enu newv   asc  relpr   1        0 31762875.538  948293524  1  1565956  1157319  6.659641e+74
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc      tr  pelvals      dp
+# 11384  0.85995   4.9035   113.38   197.51   2.0829     0  2409.4  0.14108  144.58
+#  8390        0        0    102.7   100.63        1     0       0        0       0
+# 21090        6   15.461   116.75     1340       13     0   15685   3.6871     187
+#1584.7  0.42489   1.7851    1.275   72.001  0.77371     0  1079.5  0.22171  22.798
+#   mu0   qfppc  pprunes  pmprune   pprobes   rounds  solc      tr   pelvals      dp
+# 11106  2.3858  0.67998   8.6979    33.032   1.1793     0  404.38   0.42421  147.19
+#  7385  1.0265        0        0  0.014835        1     0       0  0.013525       3
+# 20946      10   18.182   115.62    1222.4       12     0   15088     6.382     188
+#1524.1  1.1431  0.93416   10.931    60.394  0.50568     0  754.47   0.48298  20.376
+#       estlvs
+#5.132805e+155
+# 6.527263e+02
+#5.783022e+161
+#5.376028e+158
+#   dm0       w      ltausp       minp     meanp      maxp       sdd      tb
+#18.424  3.9638  2.6028e+05    0.22058   0.31214   0.43188  0.089244  1417.2
+#     0       2      2.3997  2.398e-14  0.076923  0.091086         0       0
+#  1177      13   1.812e+08        0.5       0.5   0.99984   0.49971  3708.3
+#38.386  2.0117  2.1632e+06    0.14984   0.13227   0.17022  0.086432  483.98
+# real    11840m22.176s user    529396m49.907s sys     188598m16.073s
 
 
 

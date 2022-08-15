@@ -47,7 +47,9 @@
 # N=10:
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/sudoku "" +count dom enu mindom "" 1 16 ""
-# running on server XXX yet no solution found
+# aborted without finding a solution:
+# real    32192m38.302s user    480582m10.685s sys     24924m46.428s
+
 
 
 
@@ -110,6 +112,8 @@
 
 
 # laMols with wdL:
+
+# N=6:
 
 # MOLS> ./laMols 6 data/SpecsCollection/Euler/sudoku "" count dom enu wdL "" "" 1 12 "" "" ""
 # slightly better L:
@@ -202,6 +206,8 @@
 
 
 # laMols with newvars:
+
+# N=6:
 
 # MOLS> ./laMols 6 data/SpecsCollection/Euler/sudoku "" count dom enu newv "" "" 1 12 "" "" ""
 # A is best:
