@@ -636,27 +636,28 @@ namespace LookaheadBranching {
   enum class NodeType { inode=0, leaf=1, pleaf=2};
 
   class MeasureStatistics {
-    const float_t lestlvs_;
+    const float_t lestlvs_, uestlvs_;
     NodeType nt_;
 
   public :
 
     MeasureStatistics(const CT::GenericMols2& node) noexcept :
-      lestlvs_(node.nodemeasures().lestlvs) {}
+      lestlvs_(node.nodemeasures().lestlvs),
+      uestlvs_(node.nodemeasures().uestlvs) {}
 
     void set_nodetype(const NodeType nt) noexcept { nt_ = nt; } // XXX
     NodeType nodetype() const noexcept { return nt_; }
 
-    static constexpr size_t num_stats = 1;
+    static constexpr size_t num_stats = 2;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = FP::exp(lestlvs_);
+      res[0] = FP::exp(lestlvs_); res[1] = uestlvs_;
       return res;
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
-      return {"estlvs"};
+      return {"estlvs", "uestlvs"};
     }
     static size_t index(const std::string& s) {
       const auto words = stats_header();
@@ -870,20 +871,12 @@ namespace LookaheadBranching {
       const size_t w = optbt.size();
       bstats.set_width(w);
       assert(w >= 2);
-      using OP::LBRO;
-      vec_t mv = P.bo == LBRO::rand ? vec_t(w, FP::log(w)) :
-        [&optbt, &opttau]{vec_t res(optbt);
-          for (auto& d : res) d *= opttau;
-          return res;}();
-      const vec_t pv = [this, w, &optbt, opttau, &mv]{
-        if (P.bo == LBRO::rand) {vec_t res(optbt);
-          for (auto& d : res) d = FP::exp(-opttau * d);
-          return res;
-        }
-        else {vec_t res(mv);
-          for (auto& m : res) m = FP::exp(-m);
-          return res;
-        }}();
+      vec_t mv = [&optbt, &opttau]{vec_t res(optbt);
+                                   for (auto& d : res) d *= opttau;
+                                   return res;}();
+      const vec_t pv = [&mv]{vec_t res(mv);
+                             for (auto& m : res) m = FP::exp(-m);
+                             return res;}();
       bstats.set_dist(GenStats::StdVFourStats(pv));
       assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
@@ -894,6 +887,7 @@ namespace LookaheadBranching {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
         assert(w == values.size());
+        using OP::LBRO;
         switch (P.bo) {
         case LBRO::asc : break;
         case LBRO::desc : {
@@ -962,11 +956,11 @@ namespace LookaheadBranching {
     GC::ExecStatus commit(GC::Space& s, const GC::Choice& c0,
                           const unsigned a) override {
       const VVEMeasure& c = static_cast<const VVEMeasure&>(c0);
-      const size_t w = c.br.size();
+      const size_t w = ValVec::width(c.br);
       if (w == 0) return GC::ExecStatus::ES_FAILED;
       assert(a < c.m.size());
       CT::GenericMols2& node = static_cast<CT::GenericMols2&>(s);
-      node.update2_clone(c.m[a]);
+      node.update2_clone(c.m[a], w);
       return RlaBranching::commit0(s, c0, a, c.binfirsteq);
     }
 

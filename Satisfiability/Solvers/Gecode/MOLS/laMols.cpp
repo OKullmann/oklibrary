@@ -33,33 +33,33 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 #   la-reduction-type: relaxed-pruning(relpr)
 #   commit-distance: 1
 #   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel
-  5    count dom enu  wdL   asc  relpr   1      432       0.406       5225  0      125       72  4.754312e-02
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  5    count dom enu  wdL   asc  relpr   1      432       0.529       5225  0      125       72  4.754312e-02  0.000000e+00
    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0045545  0.62896    2.566
-   143        0        0   133.33   133.14        1     0   0.001784        0        0
-   180        1    16.35   138.46   200.69        2     0   0.010505   1.3793        3
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0018559  0.51141  0.72083
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0068913  0.62896    2.566
+   143        0        0   133.33   133.14        1     0   0.000885        0        0
+   180        1    16.35   138.46   200.69        2     0   0.010354   1.3793        3
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0027395  0.51141  0.72083
     mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp
- 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.003619   15.222   4
-    129     1.25   1.1628   23.077   64.615        1     6   0.000965   13.846   4
-    130   1.6667   12.308   88.462   176.15        2     6    0.01024   17.054   4
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0015323  0.76313   0
-      estlvs
-7.216275e+01
-6.739697e+01
-7.454563e+01
-3.393564e+00
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0054902   15.222   4
+    129     1.25   1.1628   23.077   64.615        1     6    0.00091   13.846   4
+    130   1.6667   12.308   88.462   176.15        2     6   0.010164   17.054   4
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0025864  0.76313   0
+      estlvs       uestlvs
+7.216275e+01  7.200000e+01
+6.739697e+01  7.200000e+01
+7.454563e+01  7.200000e+01
+3.393564e+00  0.000000e+00
     dm0        w  ltausp      minp     meanp      maxp        sdd         tb
-0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0040173
-      0        2  1.0456      0.25      0.25      0.25          0   0.001605
-      2        4  3.4742       0.5       0.5       0.5   0.016098   0.006283
-0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0012064
+0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0059668
+      0        2  1.0456      0.25      0.25      0.25          0   0.001602
+      2        4  3.4742       0.5       0.5       0.5   0.016098   0.009933
+0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0023645
 
 Remark: This tree is the perfect tree with 4 levels and widths 4,3,3,2 at these
 levels; so there are 4 * 3^2 * 2 = 72 leaves and 1 + 4 + 4*3 + 4*3^2 = 53 inner
 nodes, while the average width is (1*4 + 4*3 +12*3 + 36*2)/53 = 124/53.
-So with order "rand", and thus with uniform probabilities, "nsel" = 0.
+So nsuel = 0.
 
 */
 
@@ -254,7 +254,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.101.0",
+        "0.101.1",
         "16.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -322,10 +322,10 @@ namespace {
       "    - for input \"cin\", the weights are read from standard-input,"
       " space-separated,\n"
       "        and batch-mode is used (no additionaly info-output)\n"
-      "  - stop-values are unsigned int; times in seconds\n"
+      "  - stop-values are unsigned int\n"
       "    - pairs of stop-types/values are separated by \"|\"\n"
       "  - formatting uses the given defaults for fields not specified\n"
-      "    - these are flipped in batch-mode for the first three fields)\n"
+      "    - these are flipped in batch-mode for the first three fields\n"
       "    - the final three fields are only relevant for single-values\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
       "SOLUTIONS_" << proginfo.prg << "_N_timestamp\".\n\n"
@@ -351,6 +351,7 @@ namespace {
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
     out << " "; out.width(wnsel); out << "nsel";
+    out << " "; out.width(wnsel); out << "nsuel";
     /* to be actived once pseudo-leaves are possible:
     out << " "; out.width(wnds); out << "plvs";
     */
@@ -364,9 +365,12 @@ namespace {
     {const auto state = FloatingPoint::engineering_width(out, precision_engineering);
      using LookaheadBranching::float_t;
      const float_t lvs = res.S[1].N();
-     const float_t variance = res.mS.sum()[0] - lvs*lvs;
-     const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs;
+     const float_t variance = res.mS.sum()[0] - lvs*lvs,
+       uvariance = res.mS.sum()[1] - lvs*lvs;
+     const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs,
+       normalised_ustddev = FloatingPoint::sqrt(uvariance) / lvs;
      out << " "; out.width(wnsel); out << normalised_stddev;
+     out << " "; out.width(wnsel); out << normalised_ustddev;
      FloatingPoint::undo(out, state);
     }
     /* to be actived once pseudo-leaves are possible:

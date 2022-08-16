@@ -29,6 +29,8 @@ TODOS:
 #include <gecode/int.hh>
 #include <gecode/search.hh>
 
+#include <Numerics/NumTypes.hpp>
+
 #include "Encoding.hpp"
 #include "Measures.hpp"
 
@@ -94,12 +96,14 @@ namespace Constraints {
 
 
   struct NodeMeasures {
-    float_t lestlvs;
-    constexpr NodeMeasures() noexcept : lestlvs(0) {};
+    float_t
+      lestlvs, // logarithm of estimation-leaves (via tau)
+      uestlvs; // uniform (probabilities) estimation-leaves
+    constexpr NodeMeasures() noexcept : lestlvs(0), uestlvs(1) {};
     constexpr bool operator ==(const NodeMeasures&) const noexcept = default;
   };
- std::ostream& operator <<(std::ostream& out, const NodeMeasures& d) {
-    return out << d.lestlvs;
+  std::ostream& operator <<(std::ostream& out, const NodeMeasures& d) {
+    return out << d.lestlvs << " " << d.uestlvs;
   }
 
   struct GenericMols2 : GenericMols1 {
@@ -111,8 +115,9 @@ namespace Constraints {
     NodeMeasures nodemeasures() const noexcept { return nm; }
 
     // Assumes that GenericMols1::update_clone(a) is called separately:
-    void update2_clone(const float_t d) noexcept {
-      nm.lestlvs += d;
+    void update2_clone(const float_t d, const size_t w) noexcept {
+      assert(d > 0 and not FloatingPoint::isinf(d)); assert(w >= 2);
+      nm.lestlvs += d; nm.uestlvs *= w;
     }
 
   protected :
