@@ -59,6 +59,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 Remark: This tree is the perfect tree with 4 levels and widths 4,3,3,2 at these
 levels; so there are 4 * 3^2 * 2 = 72 leaves and 1 + 4 + 4*3 + 4*3^2 = 53 inner
 nodes, while the average width is (1*4 + 4*3 +12*3 + 36*2)/53 = 124/53.
+So with order "rand", and thus with uniform probabilities, "nsel" = 0.
 
 */
 
