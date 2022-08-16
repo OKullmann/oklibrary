@@ -364,9 +364,9 @@ namespace Options {
     mu0=7,qfppc=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
       tr=14,pelvals=15,dp=16,
     mu1=17,w=18,ltau=19,minp=20,meanp=21,maxp=22,sdd=23,tb=24,
-    estlvs=25
+    estlvs=25, uestlvs=26
   };
-  constexpr int SIVAsize = int(SIVA::estlvs) + 1;
+  constexpr int SIVAsize = int(SIVA::uestlvs) + 1;
 
   // Additional specifications, ignored if not relevant:
   enum class NEG { off=0, on=1 };
@@ -607,7 +607,7 @@ namespace Environment {
         "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
         "solc", "tr", "pelvals", "dp",
         "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
-        "estlvs"};
+        "estlvs", "uestlvs"};
   };
   template <> struct RegistrationPolicies<Options::NEG> {
     static constexpr const char* name = "negation-sign";

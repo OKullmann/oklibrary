@@ -254,7 +254,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.101.1",
+        "0.101.2",
         "16.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
@@ -463,6 +463,7 @@ namespace {
     case SIVA::tb : out << valb("tb"); return;
 
     case SIVA::estlvs : out << valm("estlvs"); return;
+    case SIVA::uestlvs : out << valm("uestlvs"); return;
 
     default: {
       std::ostringstream ss;
