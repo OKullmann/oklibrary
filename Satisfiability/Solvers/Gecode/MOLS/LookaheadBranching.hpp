@@ -870,12 +870,20 @@ namespace LookaheadBranching {
       const size_t w = optbt.size();
       bstats.set_width(w);
       assert(w >= 2);
-      vec_t mv, pv; mv.reserve(w); pv.reserve(w);
-      for (const auto d : optbt) {
-        const float_t m = opttau * d;
-        mv.push_back(m);
-        pv.push_back(FP::exp(-m));
-      }
+      using OP::LBRO;
+      vec_t mv = P.bo == LBRO::rand ? vec_t(w, FP::log(w)) :
+        [&optbt, &opttau]{vec_t res(optbt);
+          for (auto& d : res) d *= opttau;
+          return res;}();
+      const vec_t pv = [this, w, &optbt, opttau, &mv]{
+        if (P.bo == LBRO::rand) {vec_t res(optbt);
+          for (auto& d : res) d = FP::exp(-opttau * d);
+          return res;
+        }
+        else {vec_t res(mv);
+          for (auto& m : res) m = FP::exp(-m);
+          return res;
+        }}();
       bstats.set_dist(GenStats::StdVFourStats(pv));
       assert(mv.size() == w);
       auto values = bestval == -1 ? GV::values(V, bestv) : values_t{bestval};
@@ -886,7 +894,6 @@ namespace LookaheadBranching {
         assert(P.bt == OP::LBRT::enu);
         assert(bestval == -1);
         assert(w == values.size());
-        using OP::LBRO;
         switch (P.bo) {
         case LBRO::asc : break;
         case LBRO::desc : {

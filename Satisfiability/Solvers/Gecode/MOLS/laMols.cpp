@@ -56,6 +56,10 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
       2        4  3.4742       0.5       0.5       0.5   0.016098   0.006283
 0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0012064
 
+Remark: This tree is the perfect tree with 4 levels and widths 4,3,3,2 at these
+levels; so there are 4 * 3^2 * 2 = 72 leaves and 1 + 4 + 4*3 + 4*3^2 = 53 inner
+nodes, while the average width is (1*4 + 4*3 +12*3 + 36*2)/53 = 124/53.
+
 */
 
 /*
@@ -249,8 +253,8 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.100.3",
-        "8.8.2022",
+        "0.101.0",
+        "16.8.2022",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
