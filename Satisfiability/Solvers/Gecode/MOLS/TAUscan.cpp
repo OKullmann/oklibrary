@@ -8,7 +8,7 @@ License, or any later version. */
 /*
 
   Running M randomsised runs on laMols going down one branch,
-  collecting statistics on estlvs and printing them to standard output
+  collecting statistics on estlvs (or uestlvs), and printing them to standard output
 
 Examples:
 
@@ -17,6 +17,12 @@ MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL hash 0.1 10 
 real	0m44.665s
 user	6m4.372s
 sys	0m20.689s
+
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL hash 0.1 10 10 all
+10 : 6.57489838704741983453e+30 9.25281428686421350058e+33 4.79310092415756905961e+34; 1.82953695554334109691e+34
+real	0m42.105s
+user	5m43.737s
+sys	0m19.177s
 
 
 BUGS:
@@ -31,6 +37,7 @@ TODOS:
 
 #include <iostream>
 #include <string>
+#include <array>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -44,8 +51,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "16.7.2022",
+        "0.8.0",
+        "17.8.2022",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -65,6 +72,10 @@ namespace {
   static_assert(commandline_args_laMols == 14);
   const std::string solver_call = "./laMols";
 
+  const std::string
+    default_bro = "tprob", special_bro = "rand",
+    default_sel = "estlvs", special_sel = "uestlvs";
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
@@ -75,6 +86,11 @@ namespace {
       "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to \"" << solver_call << "\":\n"
+      "   - branch-type may contain a comma,"
+      " after which the branching-order is given:\n"
+      "     - by default \"" << default_bro << "\" is used, leading to \""
+            << default_sel << "\"\n"
+      "     - while \"" << special_bro << "\" leads to \"" << special_sel << "\"\n"
       "   - init-seeds is the initial seed-sequence for random branching\n"
       "     - may be empty\n"
       "     - may be \"hash\", hashing the weights\n"
@@ -100,12 +116,18 @@ namespace {
     return FloatingPoint::to_UInt(arg);
   }
 
+  std::array<std::string,2> read_branchtype(std::string branchtypearg) {
+    const auto find = branchtypearg.find(',');
+    if (find == std::string::npos) return {branchtypearg, default_bro};
+    else return {branchtypearg.substr(0,find),
+             branchtypearg.substr(find+1)};
+  }
+
   // Argument weightsarg as computed by weights_arg (below):
-  const std::string bro = "tprob;";
   std::string seed_arg(std::string initseedarg,
                        const std::string& weightsarg) {
     Environment::mremove_spaces(initseedarg);
-    std::string res = bro;
+    std::string res = ";";
     if (initseedarg == "hash")
       return res + std::to_string(Environment::hash(weightsarg)) + ",";
     res += initseedarg;
@@ -142,12 +164,17 @@ int main(const int argc, const char* const argv[]) {
     filepsarg_3 = qu(argv[3]),
     runtypearg_4 = "count",
     proplevelarg_5 = "dom",
-    branchtypearg_6 = que(argv[4]),
+    branchtypearg = que(argv[4]),
     distancearg_7 = que(argv[5]),
     initseedarg = argv[6],
     latypearg_9 = "relpr",
     weightsarg = argv[7];
   const std::string Marg = argv[8], threadsarg = argv[9];
+
+  const auto [branchtypearg_6, prefix_branchorder] =
+    read_branchtype(branchtypearg);
+  const std::string valuesel = prefix_branchorder != special_bro ?
+    default_sel : special_sel;
   
   const size_t
     M = read_M(Marg),
@@ -164,9 +191,10 @@ int main(const int argc, const char* const argv[]) {
     gcdarg_10 = "1",
     threadsarg_11 = "1",
     weightsarg_12 = weights_arg(weightsarg), // cin has been read
-    branchorderarg = seed_arg(initseedarg, weightsarg_12), // completed below
+    branchorderarg = // completed below; no spaces allowed here by laMols
+      prefix_branchorder + seed_arg(initseedarg, weightsarg_12),
     stoparg_13 = "lvs,0",
-    formattingarg_14 = "estlvs,-info,-w,-stop";
+    formattingarg_14 = valuesel + ",-info,-w,-stop";
 
   PSC::vargs_t calls; calls.reserve(M);
   for (size_t seed = 0; seed < M; ++seed) {
