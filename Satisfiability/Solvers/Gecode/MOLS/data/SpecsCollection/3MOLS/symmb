@@ -386,6 +386,15 @@
 # real    109m1.731s user    1460m32.387s sys     62m29.879s
 # Slightly worse than above (but likely still very similar).
 
+# N=10:
+
+# Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=2000;
+# version >= 0.99):
+# TAU_symmb_10_newv_ave> nomad np
+# running on server2 XXX
+# TAU_symmb_10_newv_ave$ time ./TAUscan 10 ../symmb "" enu newv hash "XXX" 2000 10 all
+
+
 
 squares A B C AB AC BC
 ls A B C AB AC BC
