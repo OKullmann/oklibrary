@@ -107,6 +107,13 @@
 # 100 : 4.81079455107429972762e+08 7.33715513279553592438e+09 9.58153588241425036341e+10; 1.29597585787630234035e+10
 # real    0m43.070s user    0m42.711s sys     0m0.344s
 
+# New approach (version >= 0.99, higher rep and time):
+# Optimising TAUscan via Nomad (MAX_TIME 20000s, 6 threads, rep=1000):
+# TAU_basis_6_newv_ave> nomad np
+# running on server XXX
+
+
+
 
 squares A B aux
 ls A B aux
