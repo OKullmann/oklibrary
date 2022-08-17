@@ -10,6 +10,15 @@ License, or any later version. */
   Running M randomsised runs on laMols going down one branch,
   collecting statistics on estlvs and printing them to standard output
 
+Examples:
+
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL hash 0.1 10 10 all
+10 : 8.67774578323596440922e+24 1.22450048735265398083e+36 1.14699293230448961192e+37; 3.60495586501903848797e+36
+real	0m44.665s
+user	6m4.372s
+sys	0m20.689s
+
+
 BUGS:
 
 TODOS:
@@ -91,6 +100,7 @@ namespace {
     return FloatingPoint::to_UInt(arg);
   }
 
+  // Argument weightsarg as computed by weights_arg (below):
   const std::string bro = "tprob;";
   std::string seed_arg(std::string initseedarg,
                        const std::string& weightsarg) {
@@ -153,8 +163,8 @@ int main(const int argc, const char* const argv[]) {
   const std::string
     gcdarg_10 = "1",
     threadsarg_11 = "1",
-    weightsarg_12 = weights_arg(weightsarg), // cin read
-    branchorderarg = seed_arg(initseedarg, weightsarg_12),
+    weightsarg_12 = weights_arg(weightsarg), // cin has been read
+    branchorderarg = seed_arg(initseedarg, weightsarg_12), // completed below
     stoparg_13 = "lvs,0",
     formattingarg_14 = "estlvs,-info,-w,-stop";
 
