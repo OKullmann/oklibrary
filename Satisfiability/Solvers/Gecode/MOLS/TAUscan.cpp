@@ -29,6 +29,8 @@ BUGS:
 
 TODOS:
 
+0. The handling of "tprob" versus "rand" is somewhat fragile.
+
 1. More statistics on the distribution
     - Kurtosis https://en.wikipedia.org/wiki/Kurtosis
       seems relevant.
