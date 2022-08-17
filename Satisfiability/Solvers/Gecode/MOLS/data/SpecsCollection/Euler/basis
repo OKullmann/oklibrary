@@ -120,8 +120,8 @@
 # 1000 : 1.35528450090974572767e+09 2.12019341105995766278e+10 6.66338448839291947305e+11; 4.47476241906456983723e+10
 # real    0m44.836s user    7m8.576s sys     0m3.037s
 # Rerunning with "DISPLAY_DEGREE 4":
-# TAU/basis_6_newv_ave> time nomad np
-# running on server XXX
+# TAU/basis_6_newv_ave> time nomad np | tee OUTPUT
+# due to a bug with nomad-logging, for now not further pursued.
 
 
 
