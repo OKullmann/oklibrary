@@ -868,7 +868,7 @@
 # Blackbox evaluations: 1035 Total model evaluations: 92586 Cache hits: 129 Total number of evaluations: 1164
 # TAU/rred_6_newv_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu,rand newv hash "-0.6,3,-8,-5,1" 1000 10 all
 # 1000 : 4.60800000000000000000e+04 2.89964159999999999997e+05 5.52960000000000000000e+06; 3.81824325259214010231e+05
- real    0m12.076s user    1m57.478s sys     0m1.323s
+# real    0m12.076s user    1m57.478s sys     0m1.323s
 # TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "-0.6,3,-8,-5,1" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
 #  6    count dom enu newv   asc  relpr   1        0    5358.043   45468276  0   618586   330480  3.256255e+00  1.360173e+00
