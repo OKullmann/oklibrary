@@ -822,7 +822,40 @@
 
 # Only using "rred A" (instead of "red A"), MAX_TIME=20000, rep=1000:
 # rred_6_newv_ave$ nomad np
+# 735 182656.694152  -0.98       8.999993 -10.0       -1.999998  -6.000006
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1158 Total model evaluations: 101135 Cache hits: 287 Total number of evaluations: 1445
+# TAU/rred_6_newv_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu newv hash "-0.98,8.999993,-10.0,-1.999998,-6.000006" 1000 10 all
+# 1000 : 7.15733294001704586673e+03 2.97568999386546716210e+05 1.42639486419166222659e+07; 1.10496925943753131696e+06
+# real    0m12.505s user    2m1.363s sys     0m1.348s
+# TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "-0.98,8.999993,-10.0,-1.999998,-6.000006" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0    5275.465   45559368  0   618586   330480  7.869121e+00  1.360173e+00
+#   mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc       tr  pelvals      dp
+#156.42   0.774   131.15   129.51   118.88  1.9176     0   0.1189   5.2043  10.856
+#    12       0        0   26.144   7.6923       1     0        0        0       0
+#   360       3     1100      200   595.83       8     0  0.89618   40.625      15
+#72.339  0.6475   181.06   37.972   81.453  0.9432     0  0.10535   8.4457  1.7728
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#69.954   1.8836   6.2449   19.102   46.677   1.1407     0  0.031669   19.037  12.516
+#     8   1.0667        0        0   1.4184        1     0         0   1.4184       9
+#   212        5      550   155.56   579.27        6     0   0.83103    25.49      16
+#78.866  0.28756   34.192   33.796   63.371  0.50324     0  0.072568    7.555   1.478
+#      estlvs       uestlvs
+#2.079481e+07  9.418918e+05
+#7.157333e+03  4.608000e+04
+#2.812770e+08  5.529600e+06
+#4.040027e+07  1.024319e+06
+#   dm0        w  ltausp       minp     meanp     maxp       sdd        tb
+#34.722   2.1471   445.5    0.41241   0.48024  0.54852   0.06659   0.08894
+#     0        2       1  0.0051076       0.2      0.2         0         0
+#   194        5  2184.2        0.5       0.5  0.98655   0.48655   0.40055
+#52.943  0.49557   542.1      0.117  0.063572  0.10007  0.086636  0.074861
+# real    14m49.428s user    87m55.479s sys     98m34.193s
+# Optimising with uniform probabilities:
+# rred_6_newv_ave$ nomad nprand
 # running on server2 XXX
+
 
 
 # N=7:
