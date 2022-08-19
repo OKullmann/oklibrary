@@ -391,7 +391,6 @@
 # Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=2000;
 # version >= 0.99):
 # TAU/symmb_10_newv_ave> nomad np
-# TAU_symmb_10_newv_ave$ time ./TAUscan 10 ../symmb "" enu newv hash "XXX" 2000 10 all
 # 1 377324436880762449565563660892372992.0 0 0 0 0 0 0 0 0 0
 # A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
 # Best feasible solution:     #102 ( -0 4 -7 8 -9 -8 -10 3 -7 )
@@ -402,7 +401,17 @@
 # real    31m53.490s user    1339m16.326s sys     1177m38.250s
 # Another search, starting with the old optimum (MAX_TIME 100000s, rep=2000):
 # TAU/symmb_10_newv_ave> time nomad np2
-# running on server2 XXX
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Best feasible solution:     #169 ( 0 -2 9 2 -9 -2 5 -9 -1 )     Evaluation OK    f = 7790233984977144108776685568.0
+# Blackbox evaluations: 63
+# real    1750m42.961s user    80679m47.380s sys     67781m20.609s
+# TAU/symmb_10_newv_max$ time ./TAUscan 10 ../../symmb "" enu newv hash "0,-2,9,2,-9,-2,5,-9,-1" 2000 80 all
+# 2000 : 9.35264723437571474688e+16 7.79023398497714431225e+27 4.99969367872723515548e+30; 1.46469846869302297927e+29
+# real    34m54.343s user    1227m15.290s sys     1523m4.981s
+# TAU/symmb_10_newv_max$ time ./TAUscan 10 ../../symmb "" enu newv hash "0,-2,9,2,-9,-2,5,-9,-1" 10000 80 all
+# 10000 : 9.35264723437571474688e+16 1.99227559427705572475e+28 6.25389571119050894860e+31; 6.69526411004975021803e+29
+# real    173m22.212s user    6132m46.731s sys     7636m39.459s
+
 
 
 squares A B C AB AC BC
