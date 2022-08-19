@@ -15,9 +15,10 @@
 #  6     satd dom enu maxdegdom  asc   1         0       1.139       5725499       64171      115311     15  0
 
 # Only using "rred A" (instead of "red A"):
-# MOLS> ./gcMols 6 "@squares A B aux\nrred B aux\nls A B aux\nrprod B aux A\n" "" satd dom enu maxdegdom "" 1 12 ""
+# MOLS> time ./gcMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" satd dom enu maxdegdom "" 1 12 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  6     satd dom enu maxdegdom  asc   1         0     447.102     878498298    12873210    22174141     22  0
+#  6     satd dom enu maxdegdom  asc   1         0     470.024     878498275    12873210    22174141     22  0
+# real	0m49.590s user	7m50.031s sys	1m4.661s
 # 12873210/64171 = 200.6079
 
 # N=7:
@@ -791,6 +792,36 @@
 # is better than before (for versions < 0.99).
 # Alternative optimisation, using uniform probabilities:
 # TAU/red_6_newv_ave> nomad nprand
+# 249 1943.04      -0.9131     3.5       -4         -8.24      -5.64
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 589 Total model evaluations: 53947 Cache hits: 155 Total number of evaluations: 744
+# TAU/red_6_newv_ave$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "-0.9131,3.5,-4,-8.24,-5.64" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0      14.550     378181  0     5097     2720  1.386065e+00  1.239991e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp
+#159.26  0.75596   114.98   124.42   113.96  1.8376     0  0.0027862   5.0405   6.918
+#    12        0        0   32.335   8.3916       1     0    1.3e-05        0       0
+#   310   2.3333      900      200   485.71       6     0   0.012667    36.41      11
+#64.331  0.65395   169.21   39.419   74.081  0.8447     0  0.0021663   8.1039  1.6521
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#67.622    1.888   3.6412   18.025    46.43   1.1313     0  0.00081328   19.671  8.6015
+#     8   1.1364        0        0   3.5461        1     0       2e-06   3.5294       5
+#   196        5      300   155.56   527.96        5     0    0.013382       25      12
+#78.045  0.30802   18.574   31.963    61.95  0.48446     0   0.0017792   7.1358   1.362
+#      estlvs       uestlvs
+#7.945597e+03  6.902212e+03
+#4.509724e+02  5.120000e+02
+#4.980385e+04  3.276800e+04
+#9.922202e+03  7.594117e+03
+#   dm0        w  ltausp      minp     meanp      maxp       sdd         tb
+#38.782   2.1439  10.809   0.40953   0.47998   0.55006  0.068786  0.0023691
+#     0        2       1  0.053563      0.25      0.25         0    3.8e-05
+#   174        4  46.847       0.5       0.5   0.83552   0.33552   0.005315
+#57.664  0.46728  9.3573    0.1148  0.062671  0.098813   0.08486   0.001854
+# Much lower variance than the solution found by tau-probabilities, but number of leaves very similar.
+
+# Only using "rred A" (instead of "red A"), MAX_TIME=20000, rep=1000:
+# rred_6_newv_ave$ nomad np
 # running on server2 XXX
 
 

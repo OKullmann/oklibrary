@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu newv hash cin 1000 10 ave
