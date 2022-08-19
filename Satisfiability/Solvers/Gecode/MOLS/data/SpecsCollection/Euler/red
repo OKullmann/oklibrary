@@ -726,10 +726,42 @@
 #   174        4  141.16       0.5       0.5  0.81252   0.31252   0.005529
 #57.044  0.70961  17.849   0.14291  0.091496   0.1125  0.091164  0.0017333
 # Lower leaf-count.
+
 # Absolute optimisation on lvs:
 # LVS/red_6_newv$ nomad np
+#  74 2540          0          7         -9         10        -10
+# 236 2520          0.06       6.95      -9.06       9.68      -9.5
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution:     #41694 ( -0.05 7.01 -8.98 9.5 -10 ) Evaluation OK    f = 2520
+# Blackbox evaluations: 1125 Total model evaluations: 66721 Cache hits: 482 Total number of evaluations: 1607
+# LVS/red_6_newv$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "-0.05,7.01,-8.98,9.5,-10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0      11.842     333415  0     4541     2520  1.042358e+00  1.038648e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#154.79  0.85344   116.48   125.44   120.05   1.9505     0   0.002818   5.7032  6.9095
+#    12        0        0   32.941   12.903        1     0    1.4e-05        0       0
+#   310        2   845.45      200   445.45        6     0   0.011789   35.829      10
+# 66.57  0.62578   164.72   40.732   78.993  0.91388     0  0.0022814   8.9138  1.4338
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#72.646   1.9209   4.2575   16.673   40.181   1.0925     0  0.00067281   18.654  8.3698
+#     8     1.08        0        0   3.5088        1     0       2e-06   2.7972       5
+#   189        4      400   155.56   344.81        4     0    0.008904       25      11
+#78.838  0.33487   26.061   29.966   49.201  0.38607     0   0.0014406   7.9167  1.2339
+#      estlvs       uestlvs
+#5.258004e+03  5.238552e+03
+#6.067722e+02  3.840000e+02
+#2.774347e+04  2.457600e+04
+#4.998297e+03  4.404721e+03
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#38.785   2.2464  94.317   0.38676   0.46821  0.55133  0.079106  0.0021659
+#     0        2       1  0.048644      0.25     0.25         0          0
+#   174        4  1245.2       0.5       0.5  0.77464   0.27464   0.007488
+#56.035  0.63919  170.76   0.13162  0.081305  0.10896  0.088875  0.0017338
+
+# Optimisation on ave (MAX_TIME=600, rep=100):
+# TAU/red_6_newv_ave> nomad np
 # running on server2 XXX
-# LVS/red_6_newv$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "XXX" "" ""
+
 
 
 # N=7:
