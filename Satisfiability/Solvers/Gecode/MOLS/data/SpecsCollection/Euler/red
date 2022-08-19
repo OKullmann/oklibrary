@@ -82,7 +82,14 @@
 #    94.694     13.186     16.750      88.121     123.011      265.265     1.067     0.000     0.085     0.049     0.754
 # So maxdeg with enum or possibly bin seems best.
 
+# N=7:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/red "" +count dom enu maxdegdom "" "" 1 16 "" ""
+# running on server XXX
+
+
 # Only using "rred A" (instead of "red A"):
+# N=6:
 # MOLS> ./rlaMols 6 "@squares A B aux\nrred B aux\nls A B aux\nrprod B aux A\n" "" satd dom enu maxdeg "" "" 1 12 "" ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
 #  6     satd dom enu    maxdeg  asc  relpr   1        0    7379.982   75504627  0  1426991   839972
@@ -820,7 +827,9 @@
 #57.664  0.46728  9.3573    0.1148  0.062671  0.098813   0.08486   0.001854
 # Much lower variance than the solution found by tau-probabilities, but number of leaves very similar.
 
-# Only using "rred A" (instead of "red A"), MAX_TIME=20000, rep=1000:
+# Only using "rred A" (instead of "red A"):
+
+# Optimising ave, with MAX_TIME=20000, rep=1000:
 # rred_6_newv_ave$ nomad np
 # 735 182656.694152  -0.98       8.999993 -10.0       -1.999998  -6.000006
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
@@ -854,8 +863,89 @@
 # real    14m49.428s user    87m55.479s sys     98m34.193s
 # Optimising with uniform probabilities:
 # rred_6_newv_ave$ nomad nprand
-# running on server2 XXX
-
+# 146 289964.16      -0.6        3         -8         -5          1
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1035 Total model evaluations: 92586 Cache hits: 129 Total number of evaluations: 1164
+# TAU/rred_6_newv_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu,rand newv hash "-0.6,3,-8,-5,1" 1000 10 all
+# 1000 : 4.60800000000000000000e+04 2.89964159999999999997e+05 5.52960000000000000000e+06; 3.81824325259214010231e+05
+ real    0m12.076s user    1m57.478s sys     0m1.323s
+# TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "-0.6,3,-8,-5,1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0    5358.043   45468276  0   618586   330480  3.256255e+00  1.360173e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#156.42  0.77251   131.13   129.69   119.61   1.9189     0  0.12552   5.1978  10.856
+#    12        0        0   26.144   7.6923        1     0        0        0       0
+#   360        4     1100      200   598.44        8     0   1.1228   41.146      15
+#72.339  0.64626   181.73   37.859   82.109  0.94253     0  0.11196   8.4176  1.7728
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+# 69.95   1.8851   6.3538   18.539   46.549   1.1403     0  0.033059    19.03  12.516
+#     8   1.0476        0        0   1.4184        1     0         0   1.4184       9
+#   212        5      550   155.56   588.08        6     0   0.93223       25      16
+#78.862  0.28705   37.469   32.848   62.964  0.49881     0  0.075706   7.5713   1.478
+#      estlvs       uestlvs
+#3.834625e+06  9.418918e+05
+#1.027382e+04  4.608000e+04
+#4.122689e+07  5.529600e+06
+#6.525821e+06  1.024319e+06
+#   dm0        w  ltausp      minp     meanp      maxp       sdd        tb
+#34.718   2.1471  115.45   0.41274   0.48024   0.54815  0.066233  0.093179
+#     0        2       1  0.031952       0.2       0.2         0         0
+#   194        5  610.12       0.5       0.5   0.92925   0.42925   0.42672
+#52.941  0.49557  138.73   0.11626  0.063572  0.098986  0.085521  0.078806
+# real    14m59.001s user    89m18.052s sys     106m22.177s
+# Apparently the same tree(!), but different details regarding the distance.
+# Using the old weights obtained by tau-probabilities:
+# TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "0.985256,9.9852,-10,-9.89,10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0    4244.912   55130723  0   793646   436800  1.492849e+00  1.844058e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#124.78   0.4875   166.89   145.01   96.735   1.5569     0  0.082397   3.8463  11.493
+#    12        0        0   28.177   8.0292        1     0         0        0       0
+#   360        4      900      200   359.67        5     0   0.61774   36.782      16
+#83.676  0.62302   193.23   47.941   60.721  0.79111     0    0.0847   7.6486  1.8958
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#58.673   2.0098  0.80017   8.3299   27.486   1.0165     0   0.01071   19.224  13.124
+#     8   1.0526        0        0   1.4599        1     0         0   1.4599       9
+#   189        5      140   108.57   291.62        3     0   0.44734       25      17
+#70.626  0.34472   2.8623   17.152   23.961  0.14559     0  0.029311   8.2164  1.5811
+#      estlvs       uestlvs
+#1.410251e+06  1.922161e+06
+#4.331691e+04  4.608000e+04
+#8.103175e+06  1.769472e+07
+#1.533805e+06  3.323748e+06
+#   dm0        w  ltausp      minp     meanp      maxp       sdd        tb
+# 24.43   2.2241   7.149   0.40152   0.46807   0.54219  0.066435  0.072046
+#     0        2       1  0.037811       0.2       0.2         0         0
+#   169        5  757.39       0.5       0.5   0.84418   0.34418   0.39709
+#49.048  0.55109  11.303   0.13978  0.075199  0.099241  0.094007  0.070066
+# real    12m35.796s user    70m44.919s sys     97m44.119s
+# Clearly worse (leaf-wise).
+# And using the old weights obtained by uniform probabilities:
+# TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "-0.9131,3.5,-4,-8.24,-5.64" "" ""
+# N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+# 6    count dom enu newv   asc  relpr   1        0    5291.446   45784783  0   624386   330000  1.325897e+00  1.579052e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#159.19  0.77848   121.04   126.75   116.93   1.8988     0  0.11877   5.0072  10.671
+#    12        0        0   27.746   7.7586        1     0        0        0       0
+#   360        3      900      200   542.16        7     0  0.87116   37.766      16
+#69.325  0.63727   169.37   38.667   75.412  0.87112     0  0.10057   7.8353  1.9063
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#68.377    1.886   4.2947    16.88   43.971    1.108     0  0.028665   19.588  12.352
+#     8     1.05        0        0   1.4599        1     0         0   1.4599       8
+#   211        5      450   155.56   536.02        5     0   0.77229   25.126      17
+#78.669  0.29437    27.69   30.356   54.076  0.42478     0  0.063888   7.2159  1.6328
+#      estlvs       uestlvs
+#9.101408e+05  1.152824e+06
+#5.252370e+04  3.840000e+04
+#7.145738e+06  1.105920e+07
+#1.154683e+06  1.695619e+06
+#   dm0       w  ltausp      minp    meanp      maxp       sdd        tb
+#36.414   2.121  11.318   0.41454  0.48323   0.55166   0.06722  0.091232
+#     0       2       1  0.039644      0.2       0.2         0         0
+#   197       5  158.73       0.5      0.5   0.83557   0.33557   0.41785
+#56.225  0.4335  11.367   0.10909  0.05796  0.094158  0.082254  0.076031
+# real    14m26.930s user    88m11.458s sys     96m14.364s
+# Basically the same as the solutions obtained by optimisation on the problem itself.
 
 
 # N=7:
@@ -893,6 +983,12 @@
 # real    0m50.793s user    8m15.214s sys     0m4.467s
 
 # Too hard for now.
+
+# Rerunning with version >= 0.99:
+
+# Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
+# TAU/red_7_newv_ave> nomad np
+# running on server2 XXX
 
 
 
