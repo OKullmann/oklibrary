@@ -760,8 +760,38 @@
 
 # Optimisation on ave (MAX_TIME=600, rep=100):
 # TAU/red_6_newv_ave> nomad np
+#  65 1469.233671   0         10        -10        -10         10
+# 427 1298.348134   0.985256   9.9852   -10.0       -9.89      10.0
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 572 Total model evaluations: 54448 Cache hits: 96 Total number of evaluations: 668
+# TAU/red_6_newv_ave$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "0.985256,9.9852,-10,-9.89,10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0      14.758     376474  0     5241     2796  3.747509e+00  1.220890e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#150.46  0.70017   130.39   130.79   116.51   1.8434     0  0.0028026   5.2048  6.9252
+#    12        0        0   31.034   8.9041        1     0    1.2e-05        0       0
+#   310      2.5      900      200   588.02        8     0    0.01605   40.625      11
+#72.523  0.63791   177.66   41.791   79.397  0.95457     0  0.0023873   8.5759  1.6387
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#64.471   1.8899   4.1392   17.024   46.829   1.1327     0  0.00081153   20.006  8.5694
+#     8    1.129        0        0    3.125        1     0       2e-06    3.125       5
+#   196        4      450   155.56   532.26        5     0    0.013337       25      12
+#77.528  0.28084   25.336    31.12   62.917  0.49893     0    0.001811   6.9656  1.3783
+#      estlvs       uestlvs
+#4.206252e+04  6.963639e+03
+#2.834225e+02  5.120000e+02
+#2.683176e+05  3.276800e+04
+#5.857425e+04  6.580363e+03
+#   dm0        w  ltausp      minp     meanp      maxp       sdd         tb
+#35.486   2.1431  63.962   0.41611    0.4804   0.54307  0.062145  0.0022712
+#     0        2       1  0.047461      0.25      0.25         0    3.8e-05
+#   173        4    1524       0.5       0.5   0.94742   0.44742   0.009359
+#55.663  0.47434  107.42   0.11462  0.062841  0.095485  0.081324  0.0018969
+# As before, the solution found is somewhat "misleading", but the final result
+# is better than before (for versions < 0.99).
+# Alternative optimisation, using uniform probabilities:
+# TAU/red_6_newv_ave> nomad nprand
 # running on server2 XXX
-
 
 
 # N=7:
