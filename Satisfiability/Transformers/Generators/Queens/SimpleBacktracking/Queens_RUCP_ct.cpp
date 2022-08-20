@@ -1,11 +1,17 @@
 // Oliver Kullmann 25.4.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2022 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*
+
+  The complete implementation of the DoubleSweep algorithm for
+  N-Queens counting
+
+   - RUCP stands for "row unit-clause-propagation"
+   - "ct" stands for "compile-time (N is fixed at compile-time).
 
 USAGE:
 
