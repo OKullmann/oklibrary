@@ -85,7 +85,20 @@
 # N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/Euler/red "" +count dom enu maxdegdom "" "" 1 16 "" ""
-# running on server XXX
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  7   +count dom enu maxdegdom  asc  relpr   1   342480 1753870.794 5465046037  0 66188195 34867187
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#304.748  0.667   50.061  128.417  145.901   1.770  0.000  0.640    0.893  14.925
+#186.000  0.000    4.630   25.097   32.174   1.000  0.000  0.000    0.000   0.000
+#558.000  3.000  316.393  136.559  901.038  10.000  3.000  6.256   20.599  24.000
+# 40.200  0.509   19.731    2.806   63.322   0.688  0.009  0.368    1.179   2.093
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds    solc     tr  pelvals      dp
+#242.569  1.878    1.368   36.074    65.695   1.157   0.010  0.221    8.014  16.975
+#  8.000  1.031    0.000    0.000     0.909   1.000   0.000  0.000    0.581  10.000
+#394.000  5.000   86.127  132.852  1129.286  12.000  15.000  6.179   28.409  25.000
+# 18.721  0.414    2.962   25.480    58.162   0.469   0.166  0.236    3.154   1.959
+# real    2234m21.780s user    29231m10.801s sys     4927m14.182s
+
 
 
 # Only using "rred A" (instead of "red A"):
@@ -994,9 +1007,21 @@
 # TAU/red_7_newv_ave$ time ./TAUscan 7 ../../red "" enu newv hash "0.159922,5.892873,-9.999974,1.520568,0.496493,-1.081186" 1000 10 all
 # 1000 : 6.14465240693299938961e+04 1.50763759588686072675e+07 5.07784234858192136104e+08; 4.08165321896545413620e+07
 # real    0m29.580s user    4m51.562s sys     0m1.653s
+# MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "0.159922,5.892873,-9.999974,1.520568,0.496493,-1.081186" "" ""
+# running on sever XXX
+
+
 # Using uniform probabilities:
 # TAU/red_7_newv_ave$ nomad nprand
-# running on server2 XXX
+# 999 15875668.8       -0.81       3.09      -5.96       1.85      -4.5       -4.22
+A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1293 Total model evaluations: 110199 Cache hits: 419 Total number of evaluations: 1712
+# TAU/red_7_newv_ave$ time ./TAUscan 7 ../../red "" enu,rand newv hash "-0.81,3.09,-5.96,1.85,-4.5,-4.22" 1000 10 all
+# 1000 : 4.91520000000000000000e+05 1.62047251199999999999e+07 1.88743680000000000000e+08; 1.96922621920704842669e+07
+# real    0m28.534s user    4m39.739s sys     0m1.803s
+# MOLS$ time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "-0.81,3.09,-5.96,1.85,-4.5,-4.22" "" ""
+# running on sever2 XXX
+
 
 
 
