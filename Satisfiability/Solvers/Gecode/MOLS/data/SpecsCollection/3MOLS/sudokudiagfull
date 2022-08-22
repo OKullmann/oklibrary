@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 0, >= 200
+# 0, 0, 0, 0, 0, 0, 432
 
 # How to break the 3!-symmetry between A, B, C ?
 
@@ -30,6 +30,9 @@
 # aborted:
 # 80 solutions found (solutions seem to arrive in groups of 8)
 # real	2049m20.453s user	23780m46.528s sys	139m37.808s
+# Rerunning until completion:
+# MOLS$ time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 16 ""
+# running on server2 XXX
 
 
 
@@ -57,6 +60,8 @@
 #1658.000  6.000   98.039  120.052  1021.577  10.000  0.000  65.167   19.961  38.000
 #  55.004  0.407    1.437   24.466    74.301   0.635  0.000   4.083    1.338   2.753
 # real    1246m42.280s user    19823m52.031s sys     91m44.627s
+# MOLS$ time ./rlaMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 "" ""
+# running on server2 XXX
 
 
 
@@ -111,7 +116,30 @@
 # Very similar to above (but with "clean" values).
 
 # TAU/sudokudiagfull_8_newv_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu newv "" "" 1 16 "0,2,-2,7,-3,-7,-10" "" ""
-# running on server2 XXX 200 solutions found
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel
+#  8   +count dom enu newv   asc  relpr   1      432 26967073.467 10659331292  0 57855677 37066778  4.196542e+01
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#  1478  0.95829    9.417   120.68   203.35   2.2504     0   8.0393  0.52773  14.887
+#  1121        0        0   103.79   88.184        1     0  0.16123        0       0
+#  1896        5   40.108   125.53     1355       13     0    77.14   9.1313      27
+#100.36  0.41015   2.7668   1.1978   83.925  0.84909     0    4.141  0.60158  2.5678
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#1394.8   1.5696   4.8435    23.58   94.394    1.486  1.1655e-05  4.0233   3.7272  16.345
+#   672    1.012        0        0  0.12953        1           0       0  0.12392       7
+#  1695        6      600   123.72   1373.3       13           2  79.905    19.66      28
+#104.57  0.36536   7.0844   21.312   99.045  0.84211   0.0045161  4.3512   2.0672  2.3372
+#      estlvs
+#6.531524e+10
+#1.165922e+04
+#9.820149e+15
+#3.893319e+12
+#   dm0       w  ltausp        minp    meanp     maxp       sdd       tb
+#9.0142   2.783  31.569     0.31367  0.39271  0.48147  0.075744   5.0669
+#     0       2  2.0931  4.4978e-06  0.14286  0.17188         0  0.17444
+#   248       7   713.8         0.5      0.5  0.99625    0.4826   19.416
+#11.313  0.8891  35.341     0.13319  0.10793  0.12096  0.064736   1.4116
+# real    29561m5.884s user    449451m13.481s sys     4050m40.922s
+
 
 
 
