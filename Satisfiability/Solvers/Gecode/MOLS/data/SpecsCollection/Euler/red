@@ -1008,7 +1008,37 @@
 # 1000 : 6.14465240693299938961e+04 1.50763759588686072675e+07 5.07784234858192136104e+08; 4.08165321896545413620e+07
 # real    0m29.580s user    4m51.562s sys     0m1.653s
 # MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "0.159922,5.892873,-9.999974,1.520568,0.496493,-1.081186" "" ""
-# running on sever XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1   342480 1828718.669 3150817240  0 40471045 22402007  1.277065e+03  1.640611e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds        solc       tr  pelvals      dp
+#298.42  0.69428   25.176    130.3   174.37  1.9595  0.00047573  0.65694   1.1454  14.501
+#    12        0        0   19.124   7.4468       1           0        0        0       0
+#   558        4      300      200   1028.4      11           3   7.1398   26.667      22
+#21.788  0.49862   9.4556   3.1334    77.01  0.9088    0.023258  0.35111   1.6887  1.7908
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds      solc       tr  pelvals      dp
+#257.03   1.6596   5.2353   38.675   97.781   1.4568  0.014904  0.36012   10.801  16.209
+#     8   1.0213        0        0  0.75472        1         0        0  0.75472      10
+#   336        6   133.33   136.73   1000.6       11        15   6.4328    31.25      23
+#26.851  0.40463   5.2007   24.141   91.405  0.81163   0.18763  0.37601   4.2996  1.4573
+#      estlvs       uestlvs
+#3.653533e+13  8.269937e+07
+#3.055346e+04  2.560000e+05
+#2.777589e+18  3.019899e+10
+#3.564294e+15  1.643989e+08
+#   dm0        w  ltausp        minp     meanp     maxp       sdd       tb
+#4.1359   2.2398   53.07     0.35403   0.46616  0.58323   0.11091  0.50272
+#     0        2       1  1.6885e-06   0.16667  0.19798         0        0
+#   306        6  291.16         0.5       0.5  0.98709   0.48709   1.4253
+#9.0411  0.57757  28.209     0.11855  0.077394  0.10921  0.085231  0.14097
+# real    2442m21.679s user    30478m38.681s sys     6693m56.644s
+# Worse than with uniform probabilities below; especially the high
+# standard deviation is noteworthy; indicative for the worse
+# performance seems the lower dm0-value.
+# Optimising TAUscan via Nomad on sd (MAX_TIME 20000s, rep=2000):
+# TAU/red_7_newv_sd$ nomad np
+# running on server2 XXX
+
+
 
 
 # Using uniform probabilities:
@@ -1020,7 +1050,30 @@ A termination criterion is reached: No termination (all). Mesh minimum precision
 # 1000 : 4.91520000000000000000e+05 1.62047251199999999999e+07 1.88743680000000000000e+08; 1.96922621920704842669e+07
 # real    0m28.534s user    4m39.739s sys     0m1.803s
 # MOLS$ time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "-0.81,3.09,-5.96,1.85,-4.5,-4.22" "" ""
-# running on sever2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1   342480 1051622.513 2615699973  0 33610302 18438586  2.634658e+00  1.603832e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#301.66  0.70881   24.476   129.81   180.98   2.0254  0.00061292  0.45434   1.3328  14.145
+#   180        0        0   18.328   9.4444        1           0        0        0       0
+#   558        4   110.53   138.86   1089.7       12           5   6.1432    27.74      23
+#21.134  0.49589   9.1113   3.3582   82.245  0.96417    0.029152   0.4149   1.9398  1.8018
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds     solc       tr  pelvals      dp
+#259.41   1.6269   4.8791   39.214   99.676   1.4876  0.01807  0.23816   10.855  15.859
+#     8   1.0179        0        0  0.70671        1        0        0  0.66225      10
+#   336        6   116.67   135.53     1035       12       10    5.397    30.53      24
+#27.566  0.38379   5.2242   23.912   94.424  0.84468  0.20211  0.33519   4.5441  1.4578
+#      estlvs       uestlvs
+#1.464286e+08  6.586776e+07
+#1.952204e+05  2.457600e+05
+#2.357378e+11  6.794772e+09
+#9.955145e+08  1.249577e+08
+#   dm0       w  ltausp        minp    meanp     maxp       sdd       tb
+#4.9899  2.2153  17.004     0.36296  0.46925  0.57992   0.10517  0.33496
+#     0       2       1  0.00024005  0.16667      0.2         0        0
+#   299       6  96.173         0.5      0.5  0.97974   0.47974   1.2777
+#10.216  0.5428  8.4275     0.11386  0.07379  0.10345  0.081414  0.25409
+# real    2099m4.284s user    17527m2.521s sys     13421m58.927s
+
 
 
 
