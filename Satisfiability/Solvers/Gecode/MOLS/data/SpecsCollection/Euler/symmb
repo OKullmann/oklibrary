@@ -1,8 +1,6 @@
 # Counts for N >= 2:
 # 0, 1, 1, 4, 0, 6236
 
-# "alt" here means swapping the places of A, B.
-# Appears to be a bit better than Eulersymmb.
 
 # gcMols:
 
@@ -28,6 +26,7 @@
 #  7    count dom enu    maxdom  asc   1        52   41549.271   71633107650   685059694   835464638     22  1
 #  7    count dom enu mindegdom  asc   1        60   37610.777   62906333754   654199998   817773491     23  1
 # leaf-wise (flvs + satc) the best is bin+mindom.
+
 
 
 # rlaMols:
