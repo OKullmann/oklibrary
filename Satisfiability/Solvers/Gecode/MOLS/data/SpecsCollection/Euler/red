@@ -356,7 +356,11 @@
 # TAU_red_7_wdL_ave> nomad np
 # aborted:
 # 172 28012948.148463   0.6        1.5        0.0121     0.0001     0.088
-# too hard for now.
+
+# Rerunning with version >= 0.99:
+# TAU/red_7_wdL_ave% nomad np
+# running on server2 XXX
+
 
 # N=9:
 
@@ -1034,10 +1038,17 @@
 # performance seems the lower dm0-value.
 # Optimising TAUscan via Nomad on sd (MAX_TIME 20000s, rep=2000):
 # TAU/red_7_newv_sd$ nomad np
-# running on server2 XXX
-
-
-
+# 1    43253692.868139   0          0          0          0          0          0
+# 109  22168590.433909  -1         -1          1         -4         -2          6
+# 638  21642641.320509  -1.0       -0.999999   1.0       -4.000002  -2.000001   6.0
+# 1100 20952604.930686  -1.0       -0.999999   1.0       -4.000002  -2.000001   6.0
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1169 Total model evaluations: 94636 Cache hits: 269 Total number of evaluations: 1438
+# TAU/red_7_newv_ave$ time ./TAUscan 7 ../../red "" enu newv hash "-1,-1,1,-4,-2,6" 2000 10 all
+# 2000 : 2.26061901935667058183e+06 2.56126938790854317940e+07 2.29862783499849814980e+08; 2.21685904339090981575e+07
+# real    1m6.611s user    10m52.935s sys     0m3.412s
+# Doesn't look promising.
+# So apparently here uniform-probabilities work somewhat better for optimisation.
 
 # Using uniform probabilities:
 # TAU/red_7_newv_ave$ nomad nprand
@@ -1071,8 +1082,7 @@
 #   299       6  96.173         0.5      0.5  0.97974   0.47974   1.2777
 #10.216  0.5428  8.4275     0.11386  0.07379  0.10345  0.081414  0.25409
 # real    2099m4.284s user    17527m2.521s sys     13421m58.927s
-
-
+# Best result obtained yet.
 
 
 
