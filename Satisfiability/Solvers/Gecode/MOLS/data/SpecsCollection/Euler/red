@@ -357,10 +357,23 @@
 # aborted:
 # 172 28012948.148463   0.6        1.5        0.0121     0.0001     0.088
 
-# Rerunning with version >= 0.99:
-# TAU/red_7_wdL_ave% nomad np
-# running on server2 XXX
+# Rerunning with version >= 0.99 (MAX_TIME 20000s, rep=2000):
+# TAU/red_7_wdL_ave$ nomad np
+#1   53789611.783054   0.1        0.1        0.1        0.1        0.1
+#126 25439793.094489   6          0.0001     0.1        0.1        2.1
+#289 24914877.432501   5.7        0.0201     0.0921     0.08694    2.1374
+#381 24487990.20624    5.7036     0.0242     0.091945   0.08794    2.137809
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1135 Total model evaluations: 101042 Cache hits: 406 Total number of evaluations: 1541
+# TAU/red_7_wdL_ave$ time ./TAUscan 7 ../../red "" enu wdL hash "5.7036,0.0242,0.091945,0.08794,2.137809" 2000 10 all
+# 2000 : 1.04020821839102411991e+06 2.44879902062399620463e+07 3.79302768170800090447e+08; 3.39253242442571671563e+07
+# real    0m59.541s user    9m47.207s sys     0m3.329s
+# MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu wdL "" "" 1 16 "5.7036,0.0242,0.091945,0.08794,2.137809" "" ""
+# running on server XXX
 
+# Alternative optimisation, using uniform probabilities:
+# TAU/red_7_wdL_ave$ nomad nprand
+# running on server2 XXX
 
 # N=9:
 
