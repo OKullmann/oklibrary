@@ -995,8 +995,6 @@
 # 1000 : 1.34337827896603487272e+06 2.54199752656692726414e+07 1.66019300304026724771e+08; 2.12934988659928526904e+07
 # real    0m50.793s user    8m15.214s sys     0m4.467s
 
-# Too hard for now.
-
 # Rerunning with version >= 0.99:
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
@@ -1044,7 +1042,7 @@
 # Using uniform probabilities:
 # TAU/red_7_newv_ave$ nomad nprand
 # 999 15875668.8       -0.81       3.09      -5.96       1.85      -4.5       -4.22
-A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Blackbox evaluations: 1293 Total model evaluations: 110199 Cache hits: 419 Total number of evaluations: 1712
 # TAU/red_7_newv_ave$ time ./TAUscan 7 ../../red "" enu,rand newv hash "-0.81,3.09,-5.96,1.85,-4.5,-4.22" 1000 10 all
 # 1000 : 4.91520000000000000000e+05 1.62047251199999999999e+07 1.88743680000000000000e+08; 1.96922621920704842669e+07
