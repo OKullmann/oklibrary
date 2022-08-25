@@ -1190,6 +1190,10 @@
 # 58.771  0.000   1680.987  0.120  0.000  0.120  0.120  0.003
 # Here the values for estlvs are not that high.
 
+# Rerunning with version >= 0.99:
+# LVS/red_6_bin_newv$ nomad np
+# running on server2 XXX
+
 
 squares A B aux
 red A

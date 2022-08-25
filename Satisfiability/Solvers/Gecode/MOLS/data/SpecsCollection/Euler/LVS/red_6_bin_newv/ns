@@ -1,2 +1,2 @@
 #!/bin/bash
-cat $1 | ./laMols 6 ../red "" count dom bin newv "" "" 1 6 cin "lvs,5000" "-info,-w,-headers,lvs"
+cat $1 | ./laMols 6 ../../red "" count dom bin newv "" "" 1 6 cin "lvs,5000" "lvs"
