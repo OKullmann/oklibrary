@@ -369,11 +369,68 @@
 # 2000 : 1.04020821839102411991e+06 2.44879902062399620463e+07 3.79302768170800090447e+08; 3.39253242442571671563e+07
 # real    0m59.541s user    9m47.207s sys     0m3.329s
 # MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu wdL "" "" 1 16 "5.7036,0.0242,0.091945,0.08794,2.137809" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu  wdL   asc  relpr   1   342480 1498762.104 3877199493  0 41438247 26620515  2.390574e+00  2.187754e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#293.26   0.7171   21.829   130.54   180.34   1.9896  0.00063235  0.65516   1.2399  13.773
+#    12        0        0   19.188    6.383        1           0        0        0       0
+#   558        4      300      200   970.26       10           2   5.7333   26.756      21
+#23.954  0.49738   9.3909   3.5717   77.852  0.91213    0.026701  0.32948   1.7939  1.6293
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds      solc       tr  pelvals      dp
+#236.48   1.8105    4.887   29.126   72.009   1.3167  0.012513  0.25667   8.9702  15.296
+#     8   1.0196        0        0  0.73529        1         0        0  0.66445      10
+#   328        6      290   137.61   1169.1       13        13   6.5926   31.683      22
+#38.679  0.55745   6.1871   24.365   86.241  0.70652   0.16197  0.33544   4.7093  1.3759
+#      estlvs       uestlvs
+#1.787526e+08  1.540334e+08
+#5.821017e+05  2.880000e+05
+#5.262156e+12  1.911030e+10
+#1.065202e+10  4.058311e+08
+#   dm0        w  ltausp        minp    meanp     maxp       sdd       tb
+# 4.479   2.7965   6.113     0.22629  0.38899  0.58416   0.16221  0.48223
+#     0        2       1  3.6504e-06  0.16667      0.2         0        0
+#   309        6  53.916         0.5      0.5  0.98318   0.48318    1.329
+#9.4783  0.84042  2.6244     0.13678  0.10692  0.14167  0.094653  0.11121
+# real    1913m50.782s user    24979m22.116s sys     4274m4.360s
+# Worse than newvars below (though better nsel).
+
 
 # Alternative optimisation, using uniform probabilities:
 # TAU/red_7_wdL_ave$ nomad nprand
-# running on server2 XXX
+#1    50733617.76       0.1        0.1        0.1        0.1        0.1
+#117  26555394.375      5.8        2.1        0.0001     0.0001     1.14
+#1403 24508437.375      1.800708   1.701916   0.040159   0.006998   0.989071
+#A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1463 Total model evaluations: 123018 Cache hits: 438 Total number of evaluations: 1901
+# TAU/red_7_wdL_ave$ time ./TAUscan 7 ../../red "" enu,rand wdL hash "1.800708,1.701916,0.040159,0.006998,0.989071" 2000 10 all
+# 2000 : 3.37500000000000000000e+05 2.89348031250000000000e+07 8.74800000000000000000e+08; 5.98112477536113680835e+07
+# real    0m57.635s user    9m26.673s sys     0m3.300s
+# TAU/red_7_wdL_ave$ time ./laMols 7 ../../red "" +count dom enu wdL "" "" 1 16 "1.800708,1.701916,0.040159,0.006998,0.989071" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu  wdL   asc  relpr   1   342480 1013441.006 3662037220  0 42519709 28390469  2.733219e+00  2.736847e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#295.67  0.69177   24.359   130.22   173.77   1.9433  0.00046322  0.42309   1.1559  13.983
+#    12        0        0   16.727    4.908        1           0        0        0       0
+#   558        4      300      200   941.18       10           3   4.3023   26.523      20
+#23.404  0.51049   9.7696    3.435   76.878  0.90421    0.023529  0.32019   1.6925  1.6587
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds      solc       tr  pelvals      dp
+#241.17   1.8825   4.0009    29.44   71.826   1.3219  0.011833  0.16825   9.1631  15.412
+#     8   1.0189        0        0  0.69686        1         0        0  0.69686      10
+#   335        6   128.57    140.1   1026.5       12        15   4.8625   31.746      21
+#39.882  0.66445   4.7344   25.101   83.776  0.69444   0.15618  0.25231   4.5853  1.4411
+#      estlvs       uestlvs
+#2.404811e+08  2.410445e+08
+#7.613355e+05  2.700000e+05
+#2.296126e+13  1.399680e+11
+#2.670643e+10  9.227933e+08
+#   dm0       w   ltausp        minp    meanp     maxp       sdd       tb
+#4.1697  3.0093   3.8088     0.21972  0.36898  0.53894   0.14246  0.32547
+#     0       2        1  7.6373e-06  0.16667  0.17712         0        0
+#   292       6   20.255         0.5      0.5  0.97078   0.47078   1.2694
+#9.6136  1.0174  0.99962     0.13542  0.11293  0.15295  0.088626  0.19512
+# real    1862m52.230s user    16890m41.014s sys     9782m23.998s
+# Clearly somewhat worse than the tau-optimisation.
+
 
 # N=9:
 
