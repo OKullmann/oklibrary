@@ -349,6 +349,11 @@
 #1364.000  4.000  0.173  0.500  0.500  0.870  0.370  0.008
 # 342.540  0.756  0.079  0.170  0.100  0.121  0.111  0.002
 
+# Rerunning with version >= 0.99 (10000s, rep=100):
+# LVS/red_6_wdL$ nomad np
+# running on server2 XXX
+
+
 
 # N=7:
 
@@ -1224,12 +1229,74 @@
 
 # TAU-optimisation (MAX_TIME=600, rep=100):
 # TAU/red_6_bin_newv_ave$ nomad np
-# running on server2 XXX
+# 177   10.423704   1         -9.5       -7          7         -5.01
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 208 Total model evaluations: 20180 Cache hits: 18 Total number of evaluations: 226
+# TAU/red_6_bin_newv_ave$ time ./TAUscan 6 ../../red "" bin newv hash "1,-9.5,-7,7,-5.01" 100 10 all
+# 100 : 4.01349560996235924003e+00 1.04237037319964543332e+01 1.30320760689674278149e+02; 1.49861680328326735377e+01
+# real    0m4.237s user    0m40.623s sys     0m0.181s
+# TAU/red_6_bin_newv$ ./laMols 6 ../../red "" count dom bin newv "" "" 1 1 "1,-9.5,-7,7,-5.01" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom bin newv   asc  relpr   1        0      23.234     400728  0     6641     3321  4.757043e+06  2.885802e+02
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp
+#149.48  0.59998   133.21   138.42   118.83  1.7506     0  0.0029986   3.9976    15.2
+#    12        0   3.6517   30.058    7.377       1     0    1.3e-05        0       0
+#   310     2.25      900      200    689.4       8     0   0.025247   36.073      35
+#88.481  0.59993   177.74   47.091   77.334  0.8965     0  0.0027449   7.3912  5.3768
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#56.099   1.9005   7.4978   11.731   38.116   1.0825     0  0.0005837   20.553  17.195
+#     8     1.08        0        0    2.381        1     0      2e-06    2.381       6
+#   244        5      200   125.14   388.52        4     0   0.013258   25.532      36
+#76.376  0.26577   22.967   23.662   42.897  0.33715     0  0.0014242    7.253  5.1952
+#      estlvs       uestlvs
+#7.515243e+16  2.765714e+08
+#4.013496e+00  6.400000e+01
+#9.809952e+19  6.871948e+10
+#2.010242e+18  3.111658e+09
+#   dm0  w  ltausp        minp  meanp     maxp      sdd         tb
+#28.142  2  37.627      0.3847    0.5   0.6153   0.1153  0.0033855
+#     0  2       1  2.6354e-15    0.5      0.5        0    7.5e-05
+#   207  2  759.86         0.5    0.5        1      0.5   0.009573
+#55.014  0  65.224     0.16743      0  0.16743  0.16743  0.0028319
+# Node count not complete catastrophic, but optimisation likely worseless, due to
+# very high variance.
+# One needs to investigate this case, to understand what is going on: the problems
+# are indicated by min-minp=2.6354e-15 and max-maxp=1.
+# This might be numerical problems, or possibly these parameter-tuples have
+# such a high variance.
 
 # Uniform-optimisation (MAX_TIME=600, rep=100):
 # TAU/red_6_bin_newv_ave$ nomad nprand
-# XXX
-
+# 366  716.16      -0.507447  -1.9962     0.946      1.9666    -1.015781
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 406 Total model evaluations: 36183 Cache hits: 36 Total number of evaluations: 442
+# TAU/red_6_bin_newv_ave$ time ./TAUscan 6 ../../red "" bin,rand newv hash "-0.507447,-1.9962,0.946,1.9666,-1.015781" 100 10 all
+# 100 : 3.20000000000000000000e+01 7.16159999999999999976e+02 8.19200000000000000000e+03; 1.17472340797845909466e+03
+#  real    0m1.188s user    0m10.392s sys     0m0.169s
+# TAU/red_6_bin_newv$ ./laMols 6 ../../red "" count dom bin newv "" "" 1 1 "-0.507447,-1.9962,0.946,1.9666,-1.015781" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom bin newv   asc  relpr   1        0      42.729     620007  0     9145     4573  4.091502e+00  7.426049e+04
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+# 199.2  0.60213   40.531   122.07    136.9   1.7043     0  0.0037413   3.0763   18.95
+#    50        0   3.6517   26.012        6        1     0    3.7e-05        0       0
+#   310        4   658.06   164.06   622.87        8     0   0.020114   43.478      53
+#39.087  0.63218   72.056   29.756   73.814  0.91011     0  0.0023672   6.2744  8.0891
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#102.14   1.9894   25.485   22.353   35.277   1.0964     0  0.00077574   12.961  20.946
+#     8   1.0606        0        0   1.1628        1     0           0   1.1236       5
+#   278        5     1000   170.91   521.98        5     0    0.016473       25      54
+#77.106  0.61339    107.5   38.608    56.37  0.41104     0    0.001802   9.2392  7.9696
+#      estlvs       uestlvs
+#8.112680e+04  2.521836e+13
+#2.556546e+01  3.200000e+01
+#1.793979e+07  1.801440e+16
+#5.083353e+05  5.003831e+14
+#   dm0  w  ltausp     minp  meanp     maxp      sdd         tb
+#29.595  2  4.8816  0.30225    0.5  0.69775  0.19775  0.0047903
+#     0  2       1   0.0263    0.5      0.5        0          0
+#   226  2  25.818      0.5    0.5   0.9737   0.4737   0.011265
+#    57  0  2.6053  0.15873      0  0.15873  0.15873  0.0023586
+# Much worse than tau-optimisation.
 
 
 
