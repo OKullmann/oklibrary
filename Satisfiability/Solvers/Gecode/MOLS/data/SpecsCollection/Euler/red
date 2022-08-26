@@ -321,7 +321,6 @@
 
 # Absolute optimisation on lvs:
 # LVS_red_6_wdL> nomad np
-# running on server2
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Best feasible solution: #43973 ( 3.172 0.1205 0.9897 0.6864 ) Evaluation OK f = 3096 h =   0
 # Blackbox evaluations: 1143 Total model evaluations: 65480 Cache hits: 503 Total number of evaluations: 1646
@@ -349,9 +348,41 @@
 #1364.000  4.000  0.173  0.500  0.500  0.870  0.370  0.008
 # 342.540  0.756  0.079  0.170  0.100  0.121  0.111  0.002
 
-# Rerunning with version >= 0.99 (10000s, rep=100):
+# Rerunning with version >= 0.99:
+# Firsr rerunning old values:
+# MOLS> ./laMols 6 data/SpecsCollection/Euler/red "" count dom enu wdL "" "" 1 1 "3.172,0.1205,0.9897,0.6864" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      10.333     399082  0     5237     3096  9.638776e-01  1.767969e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#138.11  0.64085   128.19   134.08   105.05   1.6815     0  0.0023225    4.231   7.163
+#    12        0        0   27.473   6.3063        1     0          0        0       0
+#   310        4      900      200   332.99        5     0   0.019397   30.928      11
+# 78.52  0.69659   155.45    50.28   65.893  0.81767     0  0.0021166   7.7114  1.6435
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#74.947   2.0343   1.4162    12.42   31.085   1.0491     0  0.00045798   17.431  8.4677
+#     8     1.08        0        0   2.7027        1     0           0   2.2556       5
+#   189        5   30.374   130.05   344.81        4     0    0.009199       25      12
+#74.797  0.50892   3.8847   21.054   40.448  0.29014     0   0.0011779   8.6926   1.432
+#      estlvs       uestlvs
+#5.972370e+03  1.277321e+04
+#8.108037e+02  3.840000e+02
+#3.441823e+04  1.474560e+05
+#5.763847e+03  2.499981e+04
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#32.639   2.4456  2.7388   0.36596   0.43792  0.53145  0.075028  0.0017978
+#     0        2       1  0.050992      0.25     0.25         0    3.5e-05
+#   171        4   9.936       0.5       0.5  0.86486   0.36486   0.014467
+#55.978  0.73463  1.9328   0.16616  0.097688  0.11759   0.10735  0.0016761
+# Same number of leaves.
+# Optimisation on LVS  (10000s, rep=100):
 # LVS/red_6_wdL$ nomad np
-# running on server2 XXX
+#1   3676          0.1        0.1        0.1        0.1      (Phase One)
+#241 3416          0.059      0.15       0.0001     2.57
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1124 Total model evaluations: 88866 Cache hits: 490 Total number of evaluations: 1614
+# Strange failure of optimisation.
+# Rerunning without "opportunism", and leaving more space for lvs:
+# LVS/red_6_wdL$ nomad np
 
 
 
