@@ -884,6 +884,7 @@
 #55.663  0.47434  107.42   0.11462  0.062841  0.095485  0.081324  0.0018969
 # As before, the solution found is somewhat "misleading", but the final result
 # is better than before (for versions < 0.99).
+
 # Alternative optimisation, using uniform probabilities:
 # TAU/red_6_newv_ave> nomad nprand
 # 249 1943.04      -0.9131     3.5       -4         -8.24      -5.64
@@ -1192,7 +1193,44 @@
 
 # Rerunning with version >= 0.99:
 # LVS/red_6_bin_newv$ nomad np
+# 1176 2568          0.165376   9.348974  -6.058735   1.728771  -1.666597
+# 1564 2567          0.165376   9.348974  -6.058735   1.728771  -1.666597
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1972 Total model evaluations: 114458 Cache hits: 818 Total number of evaluations: 2790
+# LVS/red_6_bin_newv$ ./laMols 6 ../../red "" count dom bin newv "" "" 1 1 "0.165376,9.348974,-6.058735,1.728771,-1.666597" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom bin newv   asc  relpr   1        0      23.377     376225  0     5169     2585  2.909944e+00  8.394986e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#180.32  0.70453   74.548    125.5   135.76   1.8773     0  0.0037224   4.6079  12.155
+#    12        0        0   26.946   8.4746        1     0          0        0       0
+#   310        3      900      200   464.32        7     0   0.014444   36.932      21
+# 56.89  0.60912   125.62    32.63   76.515  0.97513     0  0.0024698   7.9445  3.5481
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#87.045   1.8961   23.057   28.952   37.729   1.0685     0  0.00074811   15.886   14.15
+#     8   1.1111        0        0   1.8692        1     0           0   1.8692       6
+#   203        5     1060   155.56   418.72        4     0    0.013099       25      22
+#76.152  0.45638   91.608   42.404   39.004  0.26311     0    0.001269   8.2544  3.2652
+#      estlvs       uestlvs
+#2.447420e+04  1.847649e+05
+#1.345550e+02  6.400000e+01
+#5.732916e+05  4.194304e+06
+#5.458765e+04  5.755548e+05
+#   dm0  w  ltausp       minp  meanp     maxp      sdd         tb
+# 30.58  2  32.806    0.38612    0.5  0.61388  0.11388  0.0045385
+#     0  2       1  0.0045387    0.5      0.5        0          0
+#   179  2  150.99        0.5    0.5  0.99546  0.49546   0.008821
+#53.554  0  29.809    0.12692      0  0.12692  0.12692  0.0025971
+# A good improvement over version before 0.99.
+
+# TAU-optimisation (MAX_TIME=600, rep=100):
+# TAU/red_6_bin_newv_ave$ nomad np
 # running on server2 XXX
+
+# Uniform-optimisation (MAX_TIME=600, rep=100):
+# TAU/red_6_bin_newv_ave$ nomad nprand
+# XXX
+
+
 
 
 squares A B aux
