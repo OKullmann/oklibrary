@@ -389,6 +389,12 @@
 # Again a failure: very incomplete scanning; so increasing
 # the LH_SEARCH:
 # LVS/red_6_wdL$ nomad np
+# 983 3140          6.792821   0.153117   1.159172   5.802498
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 2090 Total model evaluations: 85038 Cache hits: 345 Total number of evaluations: 2435
+# Close to the above value 3096, but not there yet.
+# Another optimisation, with that as starting point:
+# LVS/red_6_wdL$ nomad np2
 # running on server2 XXX
 
 
