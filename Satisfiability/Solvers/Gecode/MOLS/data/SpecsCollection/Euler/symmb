@@ -1,6 +1,11 @@
 # Counts for N >= 2:
 # 0, 1, 1, 4, 0, 6236
 
+# Question: What is the exact relation to the
+# counts in red: 0, 1, 2, 18, 0, 342480 ?
+# There is no simple factor.
+
+
 
 # gcMols:
 
@@ -74,6 +79,8 @@
 
 # laMols with wdL:
 
+# N=7:
+
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_wdL_ave> nomad np
 # 578 549496.826642   0.0001     3.099998   0.0001     0.6        0.11
@@ -139,6 +146,7 @@
 #558.000  6.000  0.241  0.500  0.500  0.981  0.481  1.117
 # 26.054  0.847  0.018  0.136  0.105  0.151  0.102  0.066
 # real    29m57.893s user    398m42.544s sys     54m58.555s
+# This is the best result here.
 
 # # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_wdL_max> nomad np
@@ -209,6 +217,8 @@
 
 # laMols with newvars:
 
+# N=7:
+
 # Optimising TAUscan on ave via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU_symmb_7_newv_ave> nomad np
 # 970 188092.082182   0.5118     9.973     -9.6        2.07998   -9.9645     8.9415
@@ -274,6 +284,7 @@
 #273.000  6.000  23245.013  0.500  0.500  0.992  0.492  0.959
 # 13.135  0.616    110.896  0.123  0.084  0.114  0.086  0.097
 # real    44m55.535s user    513m12.229s sys     148m55.364s
+# Again this is the best result here.
 
 # Alternative optimisation on max (MAX_TIME 10000s, rep=100):
 # TAU_symmb_7_newv_max> nomad np
