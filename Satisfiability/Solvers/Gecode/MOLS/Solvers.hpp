@@ -16,14 +16,29 @@ License, or any later version. */
    - import of Options::RT
    - typedef listsol_t for a vector of PSquares
 
-   - class BasicSR for the direct solver-results
-     function valid(BasicSR)
-   - class GBasicSR extends this by (gecode-)statistics.
+   - class BasicSR for the direct solver-results:
+   - data members:
+      - rt : run-type
+      - sol_found : number of solutions found
+      - list_sol : list of solutions
+   - function rs(ostream) for output of statistics
+   - static member-function rh(ostream) for header
+   - function valid(BasicSR)
 
-  Solver for unit-testings (as simple as possible):
+   - class GBasicSR extends this by (gecode-)statistics:
+   - data members:
+      - b : BasicSR
+      - gs : Gecode statistics
+      - ut : user-time
+      - stopped : bool
+   - function-template update(X s) : get gs and stopped from s
+
+
+  Solver for unit-testing (as simple as possible):
 
    - main function solver_basis
    - helper function solver0 in two overloads
+
 
   The pure Gecode-solver:
 
@@ -31,14 +46,18 @@ License, or any later version. */
    - main function gcsolver_basis
    - helper function solver_gc
 
+
   The half look-ahead solver (only la-reduction):
 
-   - main function rlasolver
+   - main function rlasolver, returns rlaSR
+   - rlaSR is derived from GBasicSR, adding stats-data-member "S"
    - helper function solver_rla
+
 
   The full look-ahead solver:
 
-   - main function lasolver
+   - main function lasolver, returns laSR
+   - laSR is derived from rlaSR, adding stats-data-members "bS, mS"
    - helper function solver_la.
 
 BUGS:
