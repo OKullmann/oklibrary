@@ -395,7 +395,8 @@
 # Close to the above value 3096, but not there yet.
 # Another optimisation, with that as starting point:
 # LVS/red_6_wdL$ nomad np2
-# running on server2 XXX
+# no improvement found:
+# Blackbox evaluations: 1683 Total model evaluations: 69137 Cache hits: 42 Total number of evaluations: 1725
 
 
 # N=7:
