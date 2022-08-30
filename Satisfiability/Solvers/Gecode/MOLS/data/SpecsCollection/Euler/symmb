@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 1, 1, 4, 0, 6236
+# 0, 1, 1, 4, 0, 6236, >= 20, >= 9
 
 # Question: What is the exact relation to the
 # counts in red: 0, 1, 2, 18, 0, 342480 ?
@@ -8,6 +8,8 @@
 
 
 # gcMols:
+
+# N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler/symmb "" count dom enu mindom "" 1 16 ""
 #   N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -32,6 +34,24 @@
 #  7    count dom enu mindegdom  asc   1        60   37610.777   62906333754   654199998   817773491     23  1
 # leaf-wise (flvs + satc) the best is bin+mindom.
 
+# N=8:
+
+# MOLS> time ./gcMols 8 data/SpecsCollection/Euler/symmb "" +count dom bin mindom "" 1 16 "t,100"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8   +count dom bin    mindom  asc   1        20    1362.080    1623541689    17943386    35887006     37  1
+# real    1m40.011s user    22m42.087s sys     3m7.371s
+
+# N=9:
+
+# MOLS> time ./gcMols 9 data/SpecsCollection/Euler/symmb "" +count dom bin mindom "" 1 16 "t,1000"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9   +count dom bin    mindom  asc   1         7   14253.665   15825597687   161693870   323388016     54  1
+# real    16m40.009s user    237m33.671s sys     23m17.727s
+
+# N=10:
+
+# MOLS> time ./gcMols 10 data/SpecsCollection/Euler/symmb "" +count dom bin mindom "" 1 16 "t,10000"
+# running on server XXX
 
 
 # rlaMols:

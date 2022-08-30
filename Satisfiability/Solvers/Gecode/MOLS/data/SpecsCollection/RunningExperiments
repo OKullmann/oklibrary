@@ -2,7 +2,7 @@ server:         4 running
 server2:        3 running
 
 Euler/sudokudiag: gcMols, N=8, server
-Euler/red: gcMols, N=8, server
+Euler/symmb: gcMols, N=10, server
 
 3MOLS/sudoku: gcMols, N=7, server
 3MOLS/sudokudiagfull:
