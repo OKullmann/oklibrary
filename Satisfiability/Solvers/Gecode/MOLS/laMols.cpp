@@ -73,7 +73,8 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
--4. Output of tree-logging
+-4. Output of tree-logging (once this has been implemented for laMols,
+    we have version 1.0 of laMols).
    - DONE Fixed file for output; name as for output of solutions, but
      with "TREE" instead of "SOLUTIONS".
    - DONE Also for rlaMols.
@@ -138,9 +139,11 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - "+-commentout": also statistics-output with leading "#"
      normal: on, batchmode: off.
    - "+-hex": in case of solution-output, use hexadecimal notation.
+   - The above also for rlaMols and gcMols.
    - Perhaps for the weights-info also N could be output, together with
      the number of essential weights?
      Like "N=8,numw=6". One could also state the number of given weights.
+   - These are additional options for the formatting-options.
 
 0. Provide global statistics "open total assignments"
    - Let muld be the measure log_2(# total assignments), where the
