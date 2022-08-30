@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, >= 4848
+# 0, 0, 0, 0, 0, >= 12240
 
 
 # gcMols:
@@ -23,7 +23,7 @@
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom bin mindom "" 1 16 ""
-# running on server XXX 4848 solutions found
+# running on server XXX 12240 solutions found
 
 
 
@@ -64,7 +64,7 @@
 # N=7:
 
 # MOLS$ ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
-# running on server2 XXX 1008 solutions found
+# running on server2 XXX 1812 solutions found
 
 
 

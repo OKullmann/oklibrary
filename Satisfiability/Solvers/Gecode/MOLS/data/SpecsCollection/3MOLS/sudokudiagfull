@@ -32,7 +32,7 @@
 # real	2049m20.453s user	23780m46.528s sys	139m37.808s
 # Rerunning until completion:
 # MOLS$ time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 16 ""
-# running on server2 XXX
+# running on server2 XXX yet 340 solutions found
 
 
 
@@ -61,7 +61,7 @@
 #  55.004  0.407    1.437   24.466    74.301   0.635  0.000   4.083    1.338   2.753
 # real    1246m42.280s user    19823m52.031s sys     91m44.627s
 # MOLS$ time ./rlaMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 "" ""
-# running on server2 XXX
+# running on server2 XXX yet 48 solutions found
 
 
 

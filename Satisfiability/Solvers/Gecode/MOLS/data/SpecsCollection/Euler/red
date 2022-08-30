@@ -1,5 +1,6 @@
 # Counts for N >= 2:
 # 0, 1, 2, 18, 0, 342480, >= 89, >= 6, >= 5
+# >= 3
 
 # https://oeis.org/A266166
 # 0, 1, 2, 18, 0, 342480, 7850589120, 7188534981260640
@@ -48,7 +49,7 @@
 # N=11:
 
 # MOLS> time ./gcMols 11 data/SpecsCollection/Euler/red "" +count dom enu maxdegdom "" 1 16 ""
-# running on server XXX
+# running on server XXX 3 solutions found
 
 
 

@@ -1,16 +1,14 @@
-Pandiag/basis: rlaMols, N=17, server2
+server:         4 running
+server2:        3 running
 
-Euler/sudoku:
- - gcMols, N=10, server
 Euler/sudokudiag: gcMols, N=8, server
-Euler/sudokudiagfull: laMols, N=8, server2
+Euler/red: gcMols, N=8, server
 
 3MOLS/sudoku: gcMols, N=7, server
+3MOLS/sudokudiagfull:
+ - gcMols, N=8, server2
+ - rlaMols, N=8, server2
 
 4MOLS/sudoku:
- - gcMols, N=7, server2
- - rlaMols, N=7, server
-4MOLS/sudokudiagfull:
- - gcMols, N=14, server
- - rlaMols, N=14, server
- - laMols, N=14, server2
+ - gcMols, N=7, server
+ - rlaMols, N=7, server2
