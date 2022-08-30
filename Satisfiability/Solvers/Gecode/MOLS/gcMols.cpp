@@ -65,8 +65,31 @@ MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1
 
 Compare also with todos in rlaMols.
 
+-9. Update final "if (out) delete out;"
+     - We don't have this for rlaMols, since there we use
+       delete_on_exit (initialised with out); this class is defined
+       in CommandLine.hpp (likely this should go to the general
+       library-utilities).
+     - We should have this here also.
+
+-8. Why flushing?
+     - We have "std::cout << std::endl;"
+       just before the line "if (with_file_output)",
+       different from rlaMols -- why this?
+     - Likely this should be removed (at least we should have
+       a standard here for all three programs).
+
+-7. Formatting options:
+     - As with laMols:
+      info, weights, headers, compute.
+     - See "Controlling the output" in laMols.cpp.
+     - This becomes a final option-parameters (as with (r)laMols).
+     - Once this has been implemented, we have version 1.0 of gcMols.
+
 -6. Better time-information
      - Additional to total user-time we need also total wallclock-time.
+     - Seems best to put this into GBasicSR (from which all solver-results
+       derive), as "wt" (we have now "ut" in there).
 
 -5. Improve parameter on propagation-level
      - The Gecode-text mentions in Subsection 4.3.5 the two further
@@ -134,8 +157,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.15.0",
-        "24.6.2022",
+        "0.99.0",
+        "30.8.2022",
 #ifndef SIMBRANCH
         __FILE__,
 #else
