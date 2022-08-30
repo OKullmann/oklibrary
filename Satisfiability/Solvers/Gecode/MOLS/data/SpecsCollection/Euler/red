@@ -404,7 +404,39 @@
 
 # Optimisation on tau-probs (600s, rep=100):
 # TAU/red_6_wdL_ave$ nomad np
-# running on server2 XXX
+# 800 2389.213469   0.202478   2.100818   0.090158   0.0001
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 977 Total model evaluations: 87118 Cache hits: 400 Total number of evaluations: 1377
+# TAU/red_6_wdL_ave> time ./TAUscan 6 ../../red "" enu wdL hash "0.202478,2.100818,0.090158,0.0001" 100 1 all
+# 100 : 2.62190673276673962916e+02 3.89583051353802562322e+03 1.75819593179287095825e+04; 4.22304958108537223715e+03
+# real    0m7.120s user    0m6.965s sys     0m0.146s
+# MOLS> ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "0.202478,2.100818,0.090158,0.0001" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      13.807     426759  0     6155     3539  1.495407e+00  1.122871e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp
+#139.75  0.73126   121.52   132.73   124.56  1.8234     0  0.0027962    4.419  6.3234
+#    12        0   3.3123   29.834   6.1538       1     0    1.4e-05        0       0
+#   310      2.5   729.41      200   648.69       8     0   0.018658    36.31       9
+#83.511  0.66765    148.1   53.582   96.767  1.0132     0  0.0029087   7.4768  1.3787
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#61.458   1.9131    2.463   10.732   35.065   1.0715     0  0.00049367   19.066  7.7762
+#     8   1.0909        0        0      1.6        1     0       2e-06      1.6       4
+#   226        4       50   138.51   325.86        3     0    0.009916       25      10
+#75.787  0.30967   5.2462    23.88   41.242  0.30211     0   0.0012814   8.5032  1.1178
+#      estlvs       uestlvs
+#1.145306e+04  8.001108e+03
+#2.621907e+02  3.200000e+02
+#1.262590e+05  3.456000e+04
+#1.817293e+04  7.494358e+03
+#   dm0        w  ltausp      minp     meanp      maxp       sdd         tb
+#40.359   2.3524  2.5655   0.39409   0.44652   0.51302  0.053088  0.0017752
+#     0        2       1  0.012157       0.2      0.25         0    4.2e-05
+#   183        5  11.916       0.5       0.5   0.82439   0.32439   0.008198
+#63.281  0.60116  1.9659   0.15243  0.085516  0.081613  0.083498   0.001828
+# Misguided search.
+# Agarin, optimisation on tau-probs (600s, rep=1000):
+# TAU/red_6_wdL_ave$ nomad np2
+# Running on server2 XXX
 
 
 # N=7:
