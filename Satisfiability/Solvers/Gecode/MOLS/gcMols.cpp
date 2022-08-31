@@ -90,6 +90,7 @@ Compare also with todos in rlaMols.
      - Additional to total user-time we need also total wallclock-time.
      - Seems best to put this into GBasicSR (from which all solver-results
        derive), as "wt" (we have now "ut" in there).
+     - Then rlaMols and laMols can also abort on a time-bound.
 
 -5. Improve parameter on propagation-level
      - The Gecode-text mentions in Subsection 4.3.5 the two further
