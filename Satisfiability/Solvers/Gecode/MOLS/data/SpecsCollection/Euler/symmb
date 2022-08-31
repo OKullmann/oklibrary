@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 1, 1, 4, 0, 6236, >= 20, >= 9
+# 0, 1, 1, 4, 0, 6236, >= 39, >= 60
 
 # Question: What is the exact relation to the
 # counts in red: 0, 1, 2, 18, 0, 342480 ?
@@ -51,10 +51,14 @@
 # N=10:
 
 # MOLS> time ./gcMols 10 data/SpecsCollection/Euler/symmb "" +count dom bin mindom "" 1 16 "t,10000"
-# running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10   +count dom bin    mindom  asc   1         0  144442.048  154273400351  1428906754  2857813836     75  1
+# real    166m40.009s user    2407m22.054s sys     209m5.759s
 
 
 # rlaMols:
+
+# N=7:
 
 # MOLS> time ./rlaMols 7 data/SpecsCollection/Eulersymmbalt "" +count dom enu maxdegdom "" "" 1 6
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc          t        ppc     flvs     gnds    gd     larc      lvs
@@ -95,6 +99,48 @@
 #  8.000  1.071    0.000    0.000    0.943   1.000   0.000  0.000    0.943  12.000
 #348.000  5.000   72.152  133.482  757.093   8.000  15.000  3.091   25.000  33.000
 # 15.772  0.376    2.855   25.656   57.014   0.468   0.165  0.175    2.894   2.551
+
+# N=8:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/Euler/symmb "" +count dom bin maxdegdom desc "" 1 16 "" ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom bin maxdegdom desc  relpr   1       39   10448.644   22631176  1   418940   209347
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#412.467  0.559   77.068  121.375   88.817   1.450  0.000  0.515    0.662  27.820
+#274.000  0.000    1.832   36.986   56.283   1.000  0.000  0.115    0.000   0.000
+#826.000  4.000  122.360  130.657  471.154   5.000  0.000  3.188   14.726  40.000
+# 41.029  0.716   23.752    6.085   37.320   0.556  0.000  0.244    1.183   2.802
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#343.881  2.095    0.543   33.121   64.014   1.143  0.000  0.278    5.946  29.835
+# 16.000  1.125    0.000    0.000    0.763   1.000  0.000  0.000    0.735  20.000
+#420.000  6.000   16.000  125.676  443.814   5.000  2.000  3.055   18.653  41.000
+# 50.581  0.613    0.822   19.488   44.880   0.369  0.015  0.218    3.330   2.361
+
+# N=9:
+
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Euler/symmb "" +count dom bin maxdegdom desc "" 1 16 "" ""
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  9   +count dom bin maxdegdom desc  relpr   1       60  679405.257 1292939666  1 22913911 11456747
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 477.587  0.816   74.018  117.993   93.152   1.624  0.000  0.659    0.846  48.213
+# 298.000  0.000    0.000   77.108   51.078   1.000  0.000  0.103    0.000   0.000
+#1278.000  5.000  142.640  130.968  542.521   7.000  0.000  6.338   12.391  65.000
+#  94.014  0.806   25.602    9.774   39.552   0.584  0.000  0.346    1.179   3.585
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#379.957  2.128    0.633   32.059   55.493   1.124  0.000  0.286    5.004  50.214
+#116.000  1.083    0.000    0.000    0.599   1.000  0.000  0.000    0.497  34.000
+#632.000  7.000   36.364  126.590  560.887   6.000  2.000  6.498   20.130  66.000
+# 74.231  0.616    0.960   21.312   49.080   0.360  0.002  0.274    3.101   3.290
+# real    798m28.810s user    11323m25.533s sys     1162m20.438s
+
+# N=10:
+
+# MOLS> time ./rlaMols 10 data/SpecsCollection/Euler/symmb "" +count dom bin maxdegdom desc "" 1 16 "" ""
+# running on server XXX
+
+
 
 
 # laMols with wdL:

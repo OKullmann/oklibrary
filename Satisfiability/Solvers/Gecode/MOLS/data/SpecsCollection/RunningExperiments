@@ -1,14 +1,16 @@
 server:         4 running
+
+Euler/symmb: rlaMols, N=10
+Euler/sudokudiag: gcMols, N=8
+3MOLS/sudoku: gcMols, N=7
+4MOLS/sudoku: gcMols, N=7
+
+
+
 server2:        3 running
 
-Euler/sudokudiag: gcMols, N=8, server
-Euler/symmb: gcMols, N=10, server
-
-3MOLS/sudoku: gcMols, N=7, server
 3MOLS/sudokudiagfull:
- - gcMols, N=8, server2
- - rlaMols, N=8, server2
+ - gcMols, N=8
+ - rlaMols, N=8
 
-4MOLS/sudoku:
- - gcMols, N=7, server
- - rlaMols, N=7, server2
+4MOLS/sudoku: rlaMols, N=7
