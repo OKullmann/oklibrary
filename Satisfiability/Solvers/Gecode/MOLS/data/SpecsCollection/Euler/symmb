@@ -164,11 +164,42 @@
 # MOLS> ./laMols 6 data/SpecsCollection/Euler/symmb "" count dom - wdL "" "" 1 1 "" "" ""
 # worst bin+A with lvs=435, best enu+A with lvs=235.
 
-# Absolute optimisation on lvs (MAX_TIME 600s:
+# Absolute optimisation on lvs (MAX_TIME 600s):
 # LVS/symmb_6_wdL$ nomad np
+# 454 177          2.8801     0.0401     0.8801     0.8101
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 2047 Total model evaluations: 92877 Cache hits: 151 Total number of evaluations: 2198
+# LVS/symmb_6_wdL$ ./laMols 6 ../../symmb "" count dom enu wdL "" "" 1 1 "3,0.04,0.88,0.8" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0       0.644      21581  0      297      177  1.046203e+00  1.962389e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#133.29  0.57342   134.64   138.44   110.73      1.7     0  0.0024957   4.8228  4.8667
+#    12        0        0   35.542       11        1     0    1.4e-05        0       0
+#   264      2.5      900      200   324.74        5     0    0.00912   30.337       9
+#83.762  0.63458   162.81   51.238   67.206  0.92218     0  0.0022556    8.774  1.6999
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#78.169   2.0153   1.6248   12.916   36.785   1.0678     0  0.00063351   17.744  6.0734
+#     8   1.2727        0        0   3.0769        1     0       3e-06   3.0075       3
+#   189        4   19.929   106.01    307.1        3     0    0.008331       25      10
+#77.621  0.48326   3.9911    21.87    49.17  0.29375     0   0.0014737   8.4472  1.5884
+#      estlvs       uestlvs
+#3.707336e+02  8.586215e+02
+#4.754736e+01  2.400000e+01
+#2.692361e+03  1.228800e+04
+#4.102994e+02  1.926309e+03
+#   dm0        w  ltausp      minp    meanp     maxp       sdd         tb
+#31.225   2.4667  3.1264   0.37231  0.43681  0.51572  0.064319   0.001889
+#     0        2       1  0.054985     0.25  0.29663         0    4.3e-05
+#   171        4   10.76       0.5      0.5  0.86445   0.36445   0.004825
+#55.974  0.77712  2.4795   0.16486  0.10134  0.10887  0.096753  0.0018159
+
+# Optimising tau-probs (MAX_TIME 600s, rep=10):
+# symmb_6_wdL_ave$ nomad np
 # running on server2 XXX
 
-# Optimising tau-probs (MAX_TIME 600s, rep=100):
+# Optimising uni-probs (MAX_TIME 600s, rep=10):
+# symmb_6_wdL_ave$ nomad nprand
+# running on server2 XXX
 
 
 # N=7:
