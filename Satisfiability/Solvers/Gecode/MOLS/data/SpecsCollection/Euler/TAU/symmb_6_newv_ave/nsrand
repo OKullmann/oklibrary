@@ -1,2 +1,2 @@
 #!/bin/bash
-cat $1 | ./TAUscan 6 ../../red "" enu,rand newv hash cin 10 1 ave
+cat $1 | ./TAUscan 6 ../../symmb "" enu,rand newv hash cin 10 1 ave
