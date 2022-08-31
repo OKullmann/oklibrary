@@ -9,6 +9,12 @@
 
 # gcMols:
 
+# N=6:
+
+# MOLS> ./gcMols 6 data/SpecsCollection/Euler/symmb "" count dom - - - 1 1 ""
+# all versions solve it in less than 2s; smallest number of leaves 3413 exactly with
+# the four mindom-versions.
+
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/Euler/symmb "" count dom enu mindom "" 1 16 ""
@@ -56,7 +62,15 @@
 # real    166m40.009s user    2407m22.054s sys     209m5.759s
 
 
+
+
 # rlaMols:
+
+# N=6:
+
+# MOLS> ./rlaMols 6 data/SpecsCollection/Euler/symmb "" +count dom - - - "" 1 1 "" ""
+# all versions solve it quickly; the minimum numbers of leaves are achieved by
+# maxdegdom, with bin,desc -> 161 and and the other three versions -> 162
 
 # N=7:
 
@@ -144,6 +158,18 @@
 
 
 # laMols with wdL:
+
+# N=6:
+
+# MOLS> ./laMols 6 data/SpecsCollection/Euler/symmb "" count dom - wdL "" "" 1 1 "" "" ""
+# worst bin+A with lvs=435, best enu+A with lvs=235.
+
+# Absolute optimisation on lvs (MAX_TIME 600s:
+# LVS/symmb_6_wdL$ nomad np
+# running on server2 XXX
+
+# Optimising tau-probs (MAX_TIME 600s, rep=100):
+
 
 # N=7:
 
