@@ -403,25 +403,98 @@
 
 # Absolute optimisation on lvs (MAX_TIME 600s):
 # LVS/symmb_6_newv$ nomad np
-# running on server2 XXX
-# LVS/symmb_6_newv$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "XXX" "" ""
-# XXX
+# 427 149         -0.518767   7.923319  -8.47451    9.774048  -7.806259
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1035 Total model evaluations: 62396 Cache hits: 213 Total number of evaluations: 1248
+# LVS/symmb_6_newv$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "-0.5,8,-8.,9.7,-8" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0       0.677      19449  0      247      147  1.378221e+00  1.256406e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#164.86  0.95474   90.844   112.43   126.39     2.12     0  0.0032776   7.5469    4.46
+#    51        0        0   27.473   8.1481        1     0    4.5e-05        0       0
+#   264      2.5   573.33    162.9   332.99        5     0   0.009594   35.912       8
+#56.054  0.65193   117.62     36.3   85.644  0.97732     0  0.0025097   10.869  1.4663
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#79.673   1.8723   4.3065   16.544   44.556   1.0952     0  0.00084953    18.43  5.6939
+#     8   1.1923        0        0   2.8777        1     0       3e-06   2.8777       3
+#   189        4      300   155.56   324.04        3     0     0.00901       25       9
+#80.912  0.32135   25.034   27.809   56.892  0.39402     0   0.0017279   7.7683  1.3579
+#      estlvs       uestlvs
+#4.262256e+02  3.790476e+02
+#3.225834e+01  2.400000e+01
+#2.969215e+03  2.048000e+03
+#5.460997e+02  3.602499e+02
+#   dm0        w  ltausp      minp    meanp     maxp       sdd         tb
+# 50.84     2.46  122.18   0.33895  0.43917  0.54314  0.096144  0.0021989
+#     0        2       1  0.083864     0.25   0.3076         0    4.2e-05
+#   174        4  1790.6       0.5      0.5  0.82951   0.32951   0.004892
+#58.662  0.79671  215.17   0.15098  0.10248   0.1401   0.10388  0.0018276
 
 # Optimising tau-probs (MAX_TIME 600s, rep=10):
 # TAU/symmb_6_newv_ave$ nomad np
-# running on server2 XXX
-# TAU/symmb_6_newv_ave$ time ./TAUscan 6 ../../symmb "" enu newv hash "XXX" 10 1 all
-# XXX
-# TAU/symmb_6_newv_ave$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "XXX" "" ""
-# XXX
+# 449  23.262785  -0.161352   5.672044  -5.84726   -0.918466  -0.499281
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1171 Total model evaluations: 98147 Cache hits: 401 Total number of evaluations: 1572
+# TAU/symmb_6_newv_ave$ time ./TAUscan 6 ../../symmb "" enu newv hash "-0.161352,5.672044,-5.84726,-0.918466,-0.499281" 10 1 all
+# 10 : 1.78978061876499517681e+01 6.00318094523704955494e+01 1.73356899349866306087e+02; 6.34528028434745501180e+01
+# real    0m0.496s user    0m0.481s sys     0m0.015s
+# TAU/symmb_6_newv_ave$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "-0.161352,5.672044,-5.84726,-0.918466,-0.499281" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0       1.004      22064  0      310      167  2.065526e+00  1.293399e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#153.17  0.68264   130.36   131.37   116.67   1.8322     0  0.0030426   5.0713   4.986
+#    12        0        0   44.318   8.9041        1     0    1.5e-05        0       0
+#   264      2.5   845.45      200    401.1        5     0    0.01021   35.385       9
+# 71.74  0.63316   181.53   38.599   75.558  0.89589     0  0.0024017    8.875  1.6572
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#73.431   1.8653   3.0907   18.973   54.675   1.1737     0  0.0011598   19.632  6.5389
+#     8   1.1333        0        0    3.125        1     0      3e-06    3.125       3
+#   196        4      150   155.56   530.65        5     0   0.014119       25      10
+#  81.3  0.32027    12.48   31.192   75.657  0.59092     0  0.0023764   6.9738  1.4919
+#      estlvs       uestlvs
+#8.794882e+02  4.463713e+02
+#1.789781e+01  3.200000e+01
+#4.726968e+03  2.048000e+03
+#1.036160e+03  4.400031e+02
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#33.042   2.1608  23.125   0.40387   0.47786  0.55038  0.071997  0.0025876
+#     0        2       1  0.049049      0.25  0.29611         0    4.2e-05
+#   172        4  92.406       0.5       0.5  0.81443   0.31443   0.009439
+#52.991  0.49859  23.849   0.11666  0.066307  0.10351  0.085516  0.0021074
+# Misled, but still reasonable.
 
 # Optimising uni-probs (MAX_TIME 600s, rep=10):
 # TAU/symmb_6_newv_ave$ nomad nprand
-# running on server2 XXX
-# TAU/symmb_6_newv_ave$ time ./TAUscan 6 ../../symmb "" enu,rand newv hash "XXX" 10 1 all
-# XXX
-# TAU/symmb_6_newv_ave$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "XXX" "" ""
-# XXX
+# 210  53.4       -0.52       6.87      -0.1       -1.89       5.22
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1111 Total model evaluations: 95875 Cache hits: 97 Total number of evaluations: 1208
+# TAU/symmb_6_newv_ave$ time ./TAUscan 6 ../../symmb "" enu,rand newv hash "-0.52,6.87,-0.1,-1.89,5.22" 10 1 all
+# 10 : 1.80000000000000000000e+01 5.34000000000000000014e+01 1.44000000000000000000e+02; 3.60499653259195243851e+01
+# real    0m0.459s user    0m0.442s sys     0m0.017s
+# TAU/symmb_6_newv_ave$ ./laMols 6 ../../symmb "" count dom enu newv "" "" 1 1 "-0.52,6.87,-0.1,-1.89,5.22" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0       0.906      24149  0      340      177  1.173485e+00  1.596193e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#150.33  0.85142   129.28   127.36   109.93   1.9755     0  0.0026554   5.4145  5.6258
+#    12        0        0   34.857   13.125        1     0    1.6e-05        0       0
+#   264        2   663.64      200      336        5     0   0.008864   29.714      10
+# 61.32  0.60713    156.5   30.745   71.873  0.90915     0  0.0021557    7.875  1.9184
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#64.695   1.9124   6.5643   14.308   35.058   1.0508     0  0.00052936   19.282  7.3164
+#     8   1.1905        0        0   6.3694        1     0       3e-06   3.8217       3
+#   187      2.5      300   155.56   237.57        3     0    0.006385       25      11
+#75.513  0.24474   35.343   29.309   35.515  0.24474     0   0.0011404   7.7096  1.7127
+#      estlvs       uestlvs
+#4.207407e+02  6.279661e+02
+#4.018403e+01  1.800000e+01
+#2.220233e+03  3.072000e+03
+#4.733386e+02  7.455566e+02
+#   dm0        w  ltausp     minp     meanp     maxp       sdd         tb
+#33.521   2.0798  3.0938  0.39621   0.48722  0.57996  0.091127  0.0022916
+#     0        2       1  0.04216      0.25   0.3526         0    4.2e-05
+#   163        4   10.09      0.5       0.5  0.78588   0.28588   0.004926
+#45.252  0.29359  1.8385  0.10112  0.045908  0.10361  0.092154  0.0017022
+# Slightly worse.
 
 
 # N=7:
