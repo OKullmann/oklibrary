@@ -501,7 +501,37 @@
 # Misguided search (worse than tau-probs).
 # Stronger optimisation on uni-probs (6000s, rep=1000):
 # TAU/red_6_wdL_ave$ nomad np2rand
-# running on server2 XXX
+# 494 2895.936      5.671536   0.24052    1.298477   1.108753
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1159 Total model evaluations: 96896 Cache hits: 368 Total number of evaluations: 1527
+# TAU/red_6_wdL_ave> time ./TAUscan 6 ../../red "" enu wdL hash "5.671536,0.24052,1.298477,1.108753" 1000 10 all
+# 1000 : 7.82762289126889517610e+02 3.42654401744920680439e+03 1.89522910878759684294e+04; 2.84561067436672469855e+03
+# real    0m8.095s user    1m18.207s sys     0m1.456s
+# MOLS> ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "5.671536,0.24052,1.298477,1.108753" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      11.638     433313  0     5789     3408  8.784231e-01  1.867211e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#127.17  0.62939   154.18   139.78   109.43   1.7854     0  0.0024924   4.8581  7.2709
+#    12        0        0   27.473   9.5238        1     0    1.3e-05        0       0
+#   310      2.5      900      200   445.45        6     0   0.012559   36.111      11
+#81.419  0.65904   175.18   50.185   78.612  0.97948     0  0.0025678   8.7721  1.6831
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#66.424   2.0596   1.2751   9.4152   28.509   1.0367     0  0.00037105   17.958  8.5082
+#     8     1.08        0        0   1.5152        1     0           0   1.5152       5
+#   189        5   36.364   130.05   344.81        4     0    0.009436       25      12
+#72.356  0.50255    4.079   19.092   37.132  0.27647     0   0.0011246   8.9005  1.5235
+#      estlvs       uestlvs
+#6.037705e+03  1.528992e+04
+#7.827623e+02  3.840000e+02
+#1.954536e+04  1.474560e+05
+#4.401510e+03  2.560362e+04
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#31.476   2.4309  2.5558   0.37468    0.4425  0.52552  0.067595  0.0018233
+#     0        2       1  0.031426      0.25     0.25         0    4.1e-05
+#   170        4  10.323       0.5       0.5  0.87345   0.37345   0.007041
+#54.364  0.76748  1.8343   0.16604  0.099298  0.10399  0.097708  0.0018075
+# Similar picture; so here uni-probs seems clearly worse than tau-probs (for
+# the optimisation).
 
 
 # N=7:
@@ -1136,6 +1166,7 @@
 #52.941  0.49557  138.73   0.11626  0.063572  0.098986  0.085521  0.078806
 # real    14m59.001s user    89m18.052s sys     106m22.177s
 # Apparently the same tree(!), but different details regarding the distance.
+
 # Using the old weights obtained by tau-probabilities:
 # TAU/rred_6_newv_ave$ time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "0.985256,9.9852,-10,-9.89,10" "" ""
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel

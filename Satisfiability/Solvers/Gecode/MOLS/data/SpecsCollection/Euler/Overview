@@ -29,10 +29,47 @@ All solvers solve N=5. N=6 solved by none.
 
 2) red
 
-All solvers solve N=6. N=7 solved only by gcMols (runtime likely too high).
-On N=6, rlaMols (bin+maxdeg) is 23x better leaf-wise than gcMols
-(enum+maxdegdom),
-laMols has similar leafcount as rlaMols.
+All solvers solve N<=7.
+
+N=6:
+
+ - gcMols  : enu+maxdegdom, lvs=64'171
+
+ - rlaMols : bin+maxdeg, lvs=2'475
+
+ - laMols with wdL:
+  - optimisation on lvs: 3'096
+  - optimisation on tau-probs: 3'168 (reps=1000)
+  - optimisation on uni-probs: 3'408 (reps=1000)
+
+ - laMols with newvars:
+  - optimisation on lvs: 2'520
+  - optimisation on tau-probs: 2'796 (reps=100)
+  - optimisation on uni-probs: 2'720 (reps=100)
+
+The rred-version:
+
+ - gcMols: enu+maxdegdom, lvs=12'873'210
+
+ - rlaMols : enu+maxdeg, lvs=839'972
+
+ - laMols with newvars:
+  - optimisation on tau-probs: lvs=330'480 (reps=1000)
+  - optimisation on uni-probs: the same.
+
+N=7:
+
+ - gcMols  : enu+maxdegdom, lvs=1'592'675'990 + 342'480
+
+ - rlaMols : enu+maxdegdom, lvs=34'867'187
+
+ - laMols with wdL:
+  - optimisation on tau-probs: lvs=26'620'515 (reps=2000)
+  - optimisation on uni-probs: lvs=28'390'469 (reps=2000)
+
+ - laMols with newvars:
+  - optimisation on tau-probs: lvs=22'402'007 (reps=1000)
+  - optimisation on uni-probs: lvs=18'438'586 (reps=1000)
 
 
 3) symmb
