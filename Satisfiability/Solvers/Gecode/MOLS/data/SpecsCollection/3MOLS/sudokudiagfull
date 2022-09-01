@@ -32,7 +32,9 @@
 # real	2049m20.453s user	23780m46.528s sys	139m37.808s
 # Rerunning until completion:
 # MOLS$ time ./gcMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count "" bin mindom "" 1 16 ""
-# running on server2 XXX yet 340 solutions found
+# N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 8   +count dom bin    mindom  asc   1       432 12383378.129 31966829680479 74882837043 149765674949     46  0
+# real    14400m8.437s user    206389m38.134s sys     12541m40.960s
 
 
 
