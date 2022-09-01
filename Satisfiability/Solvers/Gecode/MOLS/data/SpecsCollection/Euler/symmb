@@ -395,6 +395,23 @@
 #  9.510  0.856  0.038  0.139  0.102  0.145  0.095  0.083
 # real    35m10.170s user    434m43.236s sys     86m35.887s
 
+# Repeating optimisation for version 0.99:
+
+# Optimising on tau-probs (MAX_TIME 10000s, rep=1000):
+# TAU/symmb_7_wdL_ave> nomad np
+# running on server2 XXX
+# TAU/symmb_7_wdL_ave> time ./TAUscan 7 ../symmb "" enu wdL hash "XXX" 1000 10 all
+# XXX
+# TAU/symmb_7_wdL_ave> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
+# XXX
+
+# Optimising on uni-probs (MAX_TIME 10000s, rep=1000):
+# TAU/symmb_7_wdL_ave> nomad nprand
+# running on server2 XXX
+# TAU/symmb_7_wdL_ave> time ./TAUscan 7 ../symmb "" enu,rand wdL hash "XXX" 1000 10 all
+# XXX
+# TAU/symmb_7_wdL_ave> time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
+# XXX
 
 
 # laMols with newvars:

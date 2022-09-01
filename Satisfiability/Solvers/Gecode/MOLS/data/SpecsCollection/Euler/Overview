@@ -87,23 +87,37 @@ N=7:
 
 N=6:
 
- - gcMols  : mindom, lvs=3413
+ - gcMols  : mindom, 3413
 
- - rlaMols : bin+maxdegdom+desc, lvs=161
+ - rlaMols : bin+maxdegdom+desc, 161
 
  - laMols with wdL:
-  - optimisation on lvs: lvs=177
+  - optimisation on lvs: 177
   - optimisation on tau-probs: 219 (reps=10)
   - optimisation on uni-probs: 236 (reps=10)
 
  - laMols with newvars:
-  - optimisation on lvs: lvs=147
+  - optimisation on lvs: 147
   - optimisation on tau-probs: 167 (reps=10)
   - optimisation on uni-probs: 177 (reps=10)
 
+N=7:
 
+N=7:
 
-All solvers solve N=7.
+ - gcMols  : bin+mindom: 28'683'385 + 6'236
+
+ - rlaMols : bin+maxdegdom+desc: 612'221
+
+ - laMols with wdL:
+  - optimisation on tau-probs: XXX
+  - optimisation on uni-probs: XXX
+
+ - laMols with newvars:
+  - L : XXX
+  - optimisation on tau-probs: XXX
+  - optimisation on uni-probs: XXX
+
 On N=7, rlaMols(bin+maxdegdom) is 47x better leaf-wise than gcMols(bin+mindom),
 laMols(newv+avepsd) is 60 % better leaf-wise than rlaMols.
 
