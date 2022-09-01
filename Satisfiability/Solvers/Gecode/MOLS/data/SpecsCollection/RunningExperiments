@@ -1,5 +1,6 @@
-server:         4 running
+server:         5 running
 
+Euler/rred: laMols, N=6
 Euler/symmb: rlaMols, N=10
 Euler/sudokudiag: gcMols, N=8
 3MOLS/sudoku: gcMols, N=7

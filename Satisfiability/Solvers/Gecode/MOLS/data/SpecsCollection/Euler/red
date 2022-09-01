@@ -537,11 +537,14 @@
 
 # Optimising tau-probs, with MAX_TIME=20000, rep=1000:
 # TAU/rred_6_wdL_ave$ nomad np
-# running on server2 XXX
-# TAU/rred_6_wdL_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu wdL hash "XXX" 1000 10 all
-# XXX
-# TAU/rred_6_wdL_ave> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "XXX" "" ""
-# running on server2 XXX
+# 245 393230.913862   5.57       0.0328     0.0001     0.0501
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1047 Total model evaluations: 92531 Cache hits: 415 Total number of evaluations: 1462
+# TAU/rred_6_wdL_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu wdL hash "5.57,0.0328,0.0001,0.0501" 1000 10 all
+# 1000 : 3.07559274672045538317e+04 3.93230913862130902373e+05 3.43661175667245369914e+06; 4.21995700399631999147e+05
+# real    0m12.695s user    2m1.707s sys     0m1.549s
+# TAU/rred_6_wdL_ave> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "5.57,0.0328,0.0001,0.0501" "" ""
+# running on server XXX
 
 # Optimising uni-probs, with MAX_TIME=20000, rep=1000:
 # TAU/rred_6_wdL_ave$ nomad nprand
