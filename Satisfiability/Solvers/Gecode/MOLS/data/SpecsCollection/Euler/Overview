@@ -53,23 +53,34 @@ The rred-version:
 
  - rlaMols : enu+maxdeg, lvs=839'972
 
+ - laMols with wdL:
+  - A : 464'160
+  - L : 467'040
+  - optimisation on tau-probs: 434'640 (reps=1000)
+  - optimisation on uni-probs: 449'880 (reps=1000).
+
  - laMols with newvars:
+  - Z : 722'840
+  - O : 448'581
+  - A : 489'230
+  - L : 390'720
   - optimisation on tau-probs: lvs=330'480 (reps=1000)
   - optimisation on uni-probs: the same.
 
 N=7:
 
- - gcMols  : enu+maxdegdom, lvs=1'592'675'990 + 342'480
+ - gcMols  : enu+maxdegdom, 1'592'675'990 + 342'480
 
- - rlaMols : enu+maxdegdom, lvs=34'867'187
+ - rlaMols : enu+maxdegdom, 34'867'187
 
  - laMols with wdL:
-  - optimisation on tau-probs: lvs=26'620'515 (reps=2000)
-  - optimisation on uni-probs: lvs=28'390'469 (reps=2000)
+  - optimisation on tau-probs: 26'620'515 (reps=2000)
+  - optimisation on uni-probs: 28'390'469 (reps=2000)
 
  - laMols with newvars:
-  - optimisation on tau-probs: lvs=22'402'007 (reps=1000)
-  - optimisation on uni-probs: lvs=18'438'586 (reps=1000)
+  - L : XXX
+  - optimisation on tau-probs: 22'402'007 (reps=1000)
+  - optimisation on uni-probs: 18'438'586 (reps=1000)
 
 
 3) symmb
@@ -131,8 +142,7 @@ N=8 appears infeasible.
 8) sudokudiagfull
 
 N=7 is relatively simple, doesn't add something new.
-N=8 with newvars much faster than rlaMols (but still much slower
-than gcMols).
+N=8 with newvars much faster than rlaMols.
 
 
 9) pandiagsudoku

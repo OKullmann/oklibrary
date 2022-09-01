@@ -535,6 +535,54 @@
 
 # Only using "rred A" (instead of "red A"):
 
+# MOLS> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "" "" ""
+#   weights: A -> 0 0 1 2 3 4 5
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0    6903.029   56600567  0   836646   464160  1.192326e+00  1.657993e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#120.35  0.54296   165.41   141.98   103.35   1.6836     0   0.1573   4.0529  11.353
+#    12        0        0   22.543   7.0175        1     0        0        0       0
+#   360        3      900      200   483.43        6     0   1.5911   37.949      15
+#81.795   0.6305   187.96   52.456   72.283  0.91568     0  0.16735   7.2886  1.7897
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#48.243  2.0071   1.3805   6.0037   26.449   1.0196     0  0.015287   19.976  12.857
+#     8     1.1        0        0   1.6667        1     0         0   1.4388       8
+#   191       5    93.75   120.11   188.83        2     0   0.63828       25      16
+#64.925  0.3206   4.8682   16.099   21.234  0.13879     0  0.047115    8.195  1.5444
+#      estlvs       uestlvs
+#1.124029e+06  1.740109e+06
+#4.050162e+04  2.592000e+04
+#2.017889e+07  2.239488e+07
+#1.745435e+06  2.533041e+06
+#   dm0        w  ltausp      minp     meanp     maxp       sdd       tb
+#29.896   2.2461   1.949   0.39453   0.46168  0.54363  0.069791   0.1133
+#     0        2       1  0.017661       0.2      0.2         0        0
+#   164        5       7       0.5       0.5  0.87864    0.3856  0.71737
+#53.781  0.50023  1.2479   0.14428  0.074782  0.10675   0.10273  0.11484
+##   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0    6870.975   56749234  0   843846   467040  1.201022e+00  2.426264e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+# 117.1  0.49863   184.52   148.65   94.099   1.5931     0  0.14039   3.9036  11.825
+#    12        0        0    29.87   6.5574        1     0        0        0       0
+#   360        3      900      200   315.38        5     0   1.1554     37.5      16
+#82.443  0.61726   197.33   46.103   59.578  0.80856     0  0.14684   7.8707  1.9517
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#58.382    2.049  0.81942   7.3952   25.324   1.0193     0  0.016525   18.739  13.324
+#     8   1.0952        0        0   1.7544        1     0         0   1.7544       8
+#   182        5   77.273   114.53   188.57        2     0   0.60973       25      17
+#68.468  0.41151    3.162   16.041   20.646  0.13753     0  0.046062    8.637  1.7361
+#      estlvs       uestlvs
+#1.140723e+06  3.216391e+06
+#3.961941e+04  2.592000e+04
+#2.576324e+07  5.971968e+07
+#2.357390e+06  7.095416e+06
+#   dm0       w  ltausp      minp     meanp     maxp       sdd       tb
+#20.773  2.2395  2.1078   0.37673   0.46307  0.56781  0.089025  0.12325
+#     0       2       1  0.010442       0.2      0.2         0        0
+#   161       5       7       0.5       0.5  0.80439   0.30439  0.73607
+#43.621  0.5037  1.1785   0.15606  0.074409  0.10412   0.10977  0.11483
+
 # Optimising tau-probs, with MAX_TIME=20000, rep=1000:
 # TAU/rred_6_wdL_ave$ nomad np
 # 245 393230.913862   5.57       0.0328     0.0001     0.0501
@@ -544,15 +592,62 @@
 # 1000 : 3.07559274672045538317e+04 3.93230913862130902373e+05 3.43661175667245369914e+06; 4.21995700399631999147e+05
 # real    0m12.695s user    2m1.707s sys     0m1.549s
 # TAU/rred_6_wdL_ave> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "5.57,0.0328,0.0001,0.0501" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0    8107.959   53254483  0   770626   434640  1.147250e+00  1.605001e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc       tr  pelvals      dp
+#120.85  0.52106   185.22   147.85   104.05  1.6786     0  0.19049   4.3116  10.861
+#    12        0        0   28.042   7.3529       1     0        0        0       0
+#   360        3      900      200   598.44       8     0   2.0936   41.146      15
+#86.992  0.62107   203.44   47.823   77.905  0.9942     0  0.21652   8.1738  1.6875
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#62.584   1.9701   1.1247   10.061   32.336   1.0492     0   0.03369   19.259  12.281
+#     8     1.05        0        0   1.4184        1     0         0   1.4184       8
+#   192        5   128.57   133.14   532.07        5     0    1.7999       25      16
+#73.468  0.29651   4.0008   19.623   39.943  0.28471     0  0.095068   7.9755  1.5008
+#      estlvs       uestlvs
+#1.006706e+06  1.554285e+06
+#3.075593e+04  2.304000e+04
+#1.784382e+07  1.990656e+07
+#1.348349e+06  2.552520e+06
+#   dm0        w  ltausp       minp     meanp      maxp       sdd       tb
+#24.367   2.2936  4.2955    0.40082   0.45861   0.52536  0.056958  0.14364
+#     0        2       1  0.0047529       0.2       0.2         0        0
+#   177        5  47.968        0.5       0.5   0.93411   0.43411  0.73022
+#48.278  0.62428  5.2689    0.14478  0.084027  0.087087  0.084206  0.14379
+# real    12m15.487s user    135m7.966s sys     48m5.437s
 
 # Optimising uni-probs, with MAX_TIME=20000, rep=1000:
 # TAU/rred_6_wdL_ave$ nomad nprand
-# running on server2 XXX
-# TAU/rred_6_wdL_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu,rand wdL hash "XXX" 1000 10 all
-# XXX
-# TAU/rred_6_wdL_ave> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "XXX" "" ""
-# running on server2 XXX
+# 301 360439.68       5.7951     0.109385   0.0001     0.102802
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1085 Total model evaluations: 93648 Cache hits: 393 Total number of evaluations: 1478
+# TAU/rred_6_wdL_ave> time ./TAUscan 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" enu,rand wdL hash "5.7951,0.109385,0.0001,0.102802" 1000 10 all
+# 1000 : 4.60800000000000000000e+04 3.60439680000000000007e+05 5.89824000000000000000e+06; 5.08426845529967224536e+05
+# real    0m11.842s user    1m54.613s sys     0m1.464s
+# TAU/rred_6_wdL_ave> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "5.7951,0.109385,0.0001,0.102802" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0    4766.489   56503617  0   788866   449880  1.658940e+00  2.264148e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#124.62  0.58897   168.41   141.01    99.78   1.6841     0      0.1   3.9195  11.071
+#    12        0        0   24.691   6.5574        1     0        0        0       0
+#   360        4      900      200   671.11        9     0   1.2033   38.158      15
+#82.558  0.68306   188.42    50.67   81.229  0.95789     0  0.12146   7.3453  1.7674
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#60.361   2.0055    1.034   9.3786   30.161   1.0371     0   0.01571    19.04  12.479
+#     8     1.05        0        0    1.626        1     0         0    1.626       9
+#   189        5   133.33   131.28   291.62        3     0   0.49551       25      16
+#71.509  0.35822    3.538   19.215   31.256  0.21784     0  0.042257   8.2693  1.5627
+#      estlvs       uestlvs
+#1.687987e+06  2.756130e+06
+#3.514054e+04  4.608000e+04
+#4.429365e+07  3.981312e+07
+#3.869190e+06  5.818648e+06
+#   dm0        w  ltausp     minp     meanp     maxp       sdd        tb
+#29.391   2.3271  3.2314  0.39215   0.45389  0.52645  0.061393  0.078075
+#     0        2       1  0.01225       0.2      0.2         0         0
+#   165        5  58.942      0.5       0.5  0.90943   0.40943   0.43775
+#52.203  0.64966  3.3903  0.15455  0.087534  0.10132   0.09645  0.080357
+# real    12m54.132s user    79m26.496s sys     91m58.392s
 
 
 # N=7:
@@ -1122,6 +1217,17 @@
 
 # Only using "rred A" (instead of "red A"):
 
+# MOLS> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu newv "" "" 1 16 "" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#   weights: Z -> 0 0 0 0 0 0 0
+#  6    count dom enu newv   asc  relpr   1        0   12051.655   66385819  0  1236843   722840  4.160366e+00  3.412009e+00
+#   weights: O -> 0 0 1 1 1 1 1
+#  6    count dom enu newv   asc  relpr   1        0    9499.034   54267132  0   816513   448581  1.268593e+00  1.973747e+00
+#   weights: A -> 0 0 1 2 3 4 5
+#  6    count dom enu newv   asc  relpr   1        0   12291.091   57961377  0   857946   489230  1.988952e+00  2.014213e+00
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+#  6    count dom enu newv   asc  relpr   1        0   10216.759   52722019  0   724666   390720  1.021209e+00  1.534207e+00
+
 # Optimising ave, with MAX_TIME=20000, rep=1000:
 # rred_6_newv_ave$ nomad np
 # 735 182656.694152  -0.98       8.999993 -10.0       -1.999998  -6.000006
@@ -1277,6 +1383,9 @@
 # real    0m50.793s user    8m15.214s sys     0m4.467s
 
 # Rerunning with version >= 0.99:
+
+# MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "L" "" "" &
+# 96685 running on server XXX
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU/red_7_newv_ave$ nomad np
