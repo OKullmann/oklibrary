@@ -1385,7 +1385,31 @@
 # Rerunning with version >= 0.99:
 
 # MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "L" "" "" &
-# 96685 running on server XXX
+# N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1   342480 1342899.439 3337888072  0 41702766 24969307  1.723266e+00  2.898922e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#263.52  0.70196   16.672   132.98   187.97   1.9154  0.00071862  0.54871   1.1552  14.539
+#    12        0        0   17.012   5.4878        1           0        0        0       0
+#   558        4      300      200   940.41       10           2   5.3844    25.83      23
+#27.808  0.50473   8.3099   3.8999   72.914  0.84069    0.026975  0.26705   1.5884  1.7589
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds      solc       tr  pelvals      dp
+#213.01    1.795   5.1842   30.901   76.486    1.318  0.013234  0.22018   9.1078  16.123
+#     8   1.0222        0        0  0.77519        1         0        0  0.77519      10
+#   325        6   217.65   140.84   1034.6       11         6   5.4947   31.707      24
+#31.083  0.61313   5.2604   27.041   88.194  0.70097    0.1406  0.27494   4.2735  1.5126
+#      estlvs       uestlvs
+#9.911932e+07  2.348051e+08
+#3.857168e+05  1.728000e+05
+#4.872947e+10  1.791590e+11
+#2.026272e+08  8.770161e+08
+#   dm0        w   ltausp       minp     meanp     maxp       sdd        tb
+#3.6193   2.4922   3.5896    0.30455   0.42502   0.5641   0.12061   0.39383
+#     0        2        1  0.0015933   0.16667      0.2         0         0
+#   293        6   10.604        0.5       0.5  0.92997   0.42997    1.3794
+#8.7326  0.65653  0.97841    0.13581  0.092399   0.1171  0.089735  0.097591
+# real    1711m10.791s user    22381m39.450s sys     3913m52.447s
+# Much smaller variance than what obtained by optimisation on ave via tau-probs
+# (and also smaller than obtained via uni-probs).
 
 # Optimising TAUscan via Nomad (MAX_TIME 10000s, rep=1000):
 # TAU/red_7_newv_ave$ nomad np
