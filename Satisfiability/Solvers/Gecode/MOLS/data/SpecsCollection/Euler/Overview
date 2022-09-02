@@ -110,8 +110,8 @@ N=7:
  - rlaMols : bin+maxdegdom+desc: 612'221
 
  - laMols with wdL:
-  - optimisation on tau-probs: XXX
-  - optimisation on uni-probs: XXX
+  - optimisation on tau-probs: 570'260
+  - optimisation on uni-probs: 556'641
 
  - laMols with newvars:
   - L : XXX
