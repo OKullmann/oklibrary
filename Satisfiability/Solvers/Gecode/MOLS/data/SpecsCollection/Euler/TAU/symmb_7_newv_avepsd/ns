@@ -1,2 +1,2 @@
 #!/bin/bash
-cat $1 | ./TAUscan 7 ../symmb "" newv hash cin 1000 10 ave+sd
+cat $1 | ./TAUscan 7 ../../symmb "" enu newv hash cin 1000 10 ave+sd

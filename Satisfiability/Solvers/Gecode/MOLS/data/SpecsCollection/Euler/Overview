@@ -115,7 +115,7 @@ N=7:
 
  - laMols with newvars:
   - L : XXX
-  - optimisation on tau-probs: XXX
+  - optimisation on tau-probs: 424'934
   - optimisation on uni-probs: XXX
 
 On N=7, rlaMols(bin+maxdegdom) is 47x better leaf-wise than gcMols(bin+mindom),

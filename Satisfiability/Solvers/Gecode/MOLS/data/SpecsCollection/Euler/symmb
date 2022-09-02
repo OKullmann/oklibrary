@@ -723,15 +723,49 @@
 
 # Optimising on tau-probs (MAX_TIME 10000s, rep=1000):
 # TAU/symmb_7_newv_ave$ nomad np
+# 192 182497.489445  -0.89       9         -9.99       2.58      -9          9.74
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1059 Total model evaluations: 93861 Cache hits: 398 Total number of evaluations: 1457
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "-0.89,9,-9.99,2.58,-9,9.74" 1000 10 all
+# 1000 : 1.25178469072972550502e+03 1.82497489445394317272e+05 1.69706687812194029830e+07; 7.14801359559032071672e+05
+# real    0m23.828s user    3m53.216s sys     0m1.545s
+# TAU/symmb_7_newv_ave$ time ./laMols 7 ../../symmb "" +count dom enu newv "" "" 1 16 "-0.89,9,-9.99,2.58,-9,9.74" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1     6236   20945.313   57576529  0   756304   424934  1.066735e+12  1.741099e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc        tr  pelvals      dp
+#299.85  0.71748   23.095   130.19   180.86   2.0045  0.00054923   0.36741    1.245  11.721
+#   188        0        0   23.221   22.768        1           0  0.013325        0       0
+#   494        4      125   138.25   987.54       11           5    2.1781   25.166      19
+#22.056  0.49384    9.187    3.271    79.64  0.92893     0.02927   0.18038   1.7999  1.7729
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds      solc       tr  pelvals      dp
+#258.97   1.6333   5.6585    38.09   97.688   1.4656  0.014247  0.19398   10.619  13.383
+#     8   1.0233        0        0  0.74627        1         0        0  0.68493       8
+#   331        6      120   136.52   1002.8       11        10   2.9698   30.435      20
+#27.215  0.40695   5.4927   24.229   92.864  0.81952   0.17214  0.20045   4.4402  1.4619
+#      estlvs       uestlvs
+#4.835426e+29  1.713090e+06
+#1.251785e+03  1.228800e+04
+#3.193435e+33  2.985984e+08
+#2.287792e+31  3.976719e+06
+#   dm0       w  ltausp        minp     meanp     maxp       sdd        tb
+#4.5604  2.2824  178.06     0.35256   0.46034  0.57357   0.10631   0.27483
+#     0       2       1  1.5381e-28   0.16667   0.1851         0         0
+#   305       6  1538.2         0.5       0.5  0.99432   0.49432   0.56241
+#9.3837  0.6208  117.33     0.12366  0.082719   0.1106  0.084193  0.059925
+# real    43m42.365s user    349m5.327s sys     231m40.174s
+# Very high variance; a bit better than before, but not as good as (old) ave+sd.
+
+# Optimising on tau-probs for ave+sd (MAX_TIME 10000s, rep=1000):
+# TAU/symmb_7_newv_avepsd$ nomad np
 # XXX
-# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "XXX" 1000 10 all
+# TAU/symmb_7_newv_avepsd$ time ./TAUscan 7 ../../symmb "" enu newv hash "XXX" 1000 10 all
 # XXX
-# TAU/symmb_7_newv_ave$ time ./laMols 7 ../../symmb "" +count dom enu newv "" "" 1 16 "XXX" "" ""
+# TAU/symmb_7_newv_avepsd$ time ./laMols 7 ../../symmb "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 # XXX
 
 # Optimising on uni-probs (MAX_TIME 10000s, rep=1000):
 # TAU/symmb_7_newv_ave$ nomad nprand
-# XXX
+# running on server2 XXX
 # TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu.rand newv hash "XXX" 1000 10 all
 # XXX
 # TAU/symmb_7_newv_ave$ time ./laMols 7 ../../symmb "" +count dom enu newv "" "" 1 16 "XXX" "" ""
