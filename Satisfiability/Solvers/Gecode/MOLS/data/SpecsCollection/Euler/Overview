@@ -88,7 +88,7 @@ N=7:
 
 N=6:
 
- - gcMols  : mindom, 3413
+ - gcMols  : mindom, 3'413
 
  - rlaMols : bin+maxdegdom+desc, 161
 
@@ -104,23 +104,25 @@ N=6:
 
 N=7:
 
-N=7:
-
  - gcMols  : bin+mindom: 28'683'385 + 6'236
 
  - rlaMols : bin+maxdegdom+desc: 612'221
 
  - laMols with wdL:
+  - A : 607'027
+  - L : 873'593
   - optimisation on tau-probs: 570'260
   - optimisation on uni-probs: 556'641
 
  - laMols with newvars:
-  - L : XXX
+  - Z : 1'409'158
+  - O : 583'665
+  - A : 507'596
+  - L : 457'661
   - optimisation on tau-probs: 424'934
-  - optimisation on uni-probs: XXX
-
-On N=7, rlaMols(bin+maxdegdom) is 47x better leaf-wise than gcMols(bin+mindom),
-laMols(newv+avepsd) is 60 % better leaf-wise than rlaMols.
+    - optimisation on ave+sd:  354'551
+  - optimisation on uni-probs: 404'550
+    - optimisation on ave+sd:  385'060
 
 
 4) diag
