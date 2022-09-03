@@ -24,7 +24,8 @@ Results:
 
 1) basis
 
-All solvers solve N=5. N=6 solved by none.
+All solvers solve N=5.
+N=6 solved by none.
 
 
 2) red
@@ -40,12 +41,18 @@ N=6:
  - laMols with wdL:
   - optimisation on lvs: 3'096
   - optimisation on tau-probs: 3'168 (reps=1000)
+    - optimisation on tau-probs: 3'539 (reps=100)
+    - optimisation on ave+sd:    3'576 (reps=100)
   - optimisation on uni-probs: 3'408 (reps=1000)
+    - optimisation on tau-probs: 3'780 (reps=100)
+    - optimisation on ave+sd:    3'856 (reps=100)
 
  - laMols with newvars:
   - optimisation on lvs: 2'520
   - optimisation on tau-probs: 2'796 (reps=100)
+    - optimisation on ave+sd:  XXX
   - optimisation on uni-probs: 2'720 (reps=100)
+    - optimisation on ave+sd:  XXX
 
 The rred-version:
 

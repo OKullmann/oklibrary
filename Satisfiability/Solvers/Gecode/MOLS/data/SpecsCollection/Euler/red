@@ -537,18 +537,28 @@
 
 # TAU-probs:
 # TAU/red_6_wdL_avepsd$ nomad np
-# XXX
-# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu wdL hash "XXX" 100 1 all
-# XXX
-# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "XXX" "" ""
+# 680 4802.940032   0.03       0.1        0.0401     0.17
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1009 Total model evaluations: 87398 Cache hits: 411 Total number of evaluations: 1420
+# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu wdL hash "0.03,0.1,0.0401,0.17" 100 1 all
+# 100 : 7.07918145889257027448e+02 2.84001572383984599646e+03 1.26592228134290162611e+04; 2.23558703244979358038e+03
+# real    0m7.067s user    0m6.899s sys     0m0.159s
+# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "0.03,0.1,0.0401,0.17" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      10.921     436819  0     6299     3576  9.264846e-01  1.458894e+00
+# Slightly worse than the optimisation on ave (for rep=100).
 
 # Uni-probs:
 # TAU/red_6_wdL_avepsd$ nomad nprand
-# XXX
-# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu,rand wdL hash "XXX" 100 1 all
-# XXX
-# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "XXX" "" ""
-
+# 640 4997.025345   0.4746     0.0201     0.0339     7
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1016 Total model evaluations: 88056 Cache hits: 374 Total number of evaluations: 1390
+# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu,rand wdL hash "0.4746,0.0201,0.0339,7" 100 1 all
+# 100 : 2.88000000000000000000e+02 2.39760000000000000009e+03 2.07360000000000000000e+04; 2.63182757103051180048e+03
+# real    0m6.444s user    0m6.304s sys     0m0.132s
+# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "0.4746,0.0201,0.0339,7" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      12.159     465375  0     6837     3856  1.076473e+00  2.416340e+00
 
 
 # Only using "rred A" (instead of "red A"):
@@ -1232,6 +1242,25 @@
 #   174        4  46.847       0.5       0.5   0.83552   0.33552   0.005315
 #57.664  0.46728  9.3573    0.1148  0.062671  0.098813   0.08486   0.001854
 # Much lower variance than the solution found by tau-probabilities, but number of leaves very similar.
+
+# Optimisation on ave+sd:
+
+# TAU-probs:
+# TAU/red_6_newv_avepsd$ nomad np
+# XXX
+# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu newv hash "XXX" 100 1 all
+# XXX
+# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "XXX" "" ""
+# XXX
+
+# Uni-probs:
+# TAU/red_6_newv_avepsd$ nomad nprand
+# XXX
+# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu,rand newv hash "XXX" 100 1 all
+# XXX
+# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "XXX" "" ""
+# XXX
+
 
 # Only using "rred A" (instead of "red A"):
 
