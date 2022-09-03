@@ -533,6 +533,24 @@
 # Similar picture; so here uni-probs seems clearly worse than tau-probs (for
 # the optimisation).
 
+# Optimisation on ave+sd (600s, rep=100):
+
+# TAU-probs:
+# TAU/red_6_wdL_avepsd$ nomad np
+# XXX
+# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu wdL hash "XXX" 100 1 all
+# XXX
+# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "XXX" "" ""
+
+# Uni-probs:
+# TAU/red_6_wdL_avepsd$ nomad nprand
+# XXX
+# TAU/red_6_wdL_avepsd$ time ./TAUscan 6 ../../red "" enu,rand wdL hash "XXX" 100 1 all
+# XXX
+# TAU/red_6_wdL_avepsd$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "XXX" "" ""
+
+
+
 # Only using "rred A" (instead of "red A"):
 
 # MOLS> time ./laMols 6 "@squares A B aux\nrred A B aux\nls A B aux\nrprod B aux A\n" "" count dom enu wdL "" "" 1 16 "" "" ""
