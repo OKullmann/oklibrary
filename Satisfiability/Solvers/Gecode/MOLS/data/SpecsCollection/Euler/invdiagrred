@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0, 160
+# 0, 0, 2, 4, 0, 160, >= 869
 
 # TODO: this should be "invdiag" ("inv" for aux being
 # in the wrong place).
@@ -17,7 +17,8 @@
 # N=8:
 
 # MOLS> time ./gcMols 8 ./data/SpecsCollection/Euler/invdiagrred "" +count dom bin maxdegdom "" 1 16 ""
-# running on server2 XXX
+# aborted after 869 solutions found:
+# real    346m29.377s user    2892m13.085s sys     2348m8.546s
 
 
 squares A B aux
