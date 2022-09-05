@@ -1,6 +1,5 @@
-server:         5 running
+server:         4 running
 
-Euler/rred: laMols, N=7, newv, Z; pid = 4088
 Euler/symmb: rlaMols, N=11
 Euler/sudokudiag: gcMols, N=8
 3MOLS/sudoku: gcMols, N=7
