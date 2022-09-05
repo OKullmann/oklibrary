@@ -85,7 +85,7 @@ N=7:
   - optimisation on uni-probs: 28'390'469 (reps=2000)
 
  - laMols with newvars:
-  - Z : XXX
+  - Z : 72'539'746
   - L : 24'969'307
   - optimisation on tau-probs: 22'402'007 (reps=1000)
   - optimisation on uni-probs: 18'438'586 (reps=1000)

@@ -1480,6 +1480,31 @@
 
 # Rerunning with version >= 0.99:
 
+# MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "Z" "" "" &
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1   342480 2733345.695 7688926579  0 108081820 72539746  4.463357e+01  1.637591e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#261.19  0.65361   11.055   132.84   176.58   1.7939  0.00029461  0.48197  0.84001  14.961
+#    12        0        0   19.502   4.8387        1           0        0        0       0
+#   558        4      300      200   1028.9       10           2   4.6591   22.422      22
+#19.771  0.50309   4.6025   2.5169   65.286  0.74418    0.017227   0.2394   1.1655  1.5067
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds       solc       tr  pelvals      dp
+#218.72   1.8158   4.1732   24.476   65.182   1.2195  0.0045769  0.18332   8.0749  16.455
+#     8   1.0227        0        0  0.81301        1          0        0  0.79681      11
+#   290        5      150   140.21   1184.3       11          3   5.1672   27.953      23
+#26.014  0.56509   4.3819   23.097   80.064  0.56759   0.071412  0.24415   3.9137  1.2204
+#      estlvs       uestlvs
+#1.445830e+11  2.670699e+08
+#7.847875e+05  6.998400e+05
+#3.533057e+17  1.160951e+11
+#1.460142e+14  5.698074e+08
+#   dm0        w  ltausp        minp     meanp     maxp       sdd       tb
+#2.4096    3.041  4.6926     0.23084   0.34797  0.51118     0.124  0.36476
+#     0        2       1  9.1805e-10       0.2      0.2         0        0
+#   247        5  37.406         0.5       0.5  0.93648   0.43648    1.538
+#5.9682  0.69934   2.306     0.14288  0.086335  0.12888  0.096044  0.11882
+# real    3802m57.953s user    45555m45.699s sys     12389m32.160s
+
 # MOLS> time ./laMols 7 data/SpecsCollection/Euler/red "" +count dom enu newv "" "" 1 16 "L" "" "" &
 # N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
 #  7   +count dom enu newv   asc  relpr   1   342480 1342899.439 3337888072  0 41702766 24969307  1.723266e+00  2.898922e+00
