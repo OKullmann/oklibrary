@@ -1247,19 +1247,68 @@
 
 # TAU-probs:
 # TAU/red_6_newv_avepsd$ nomad np
-# XXX
-# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu newv hash "XXX" 100 1 all
-# XXX
-# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "XXX" "" ""
-# XXX
+# 674 3214.650419  -0.235808   9.293981  -2.191164  -7.247938   7.845702
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1120 Total model evaluations: 94494 Cache hits: 400 Total number of evaluations: 1520
+# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu newv hash "-0.235808,9.293981,-2.191164,-7.247938,7.845702" 100 1 all
+# 100 : 4.13663899530751201949e+02 3.25533090851195688820e+03 1.99056544020467929581e+04; 3.75768428564799614477e+03
+# real    0m7.773s user    0m7.631s sys     0m0.132s
+# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "-0.235808,9.293981,-2.191164,-7.247938,7.845702" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0      14.477     350655  0     5301     2720  1.267125e+00  1.173378e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#144.12   0.6963   138.46   133.66   113.57   1.8276     0  0.0025901   4.6394  7.4204
+#    12        0        0   27.746   10.227        1     0          0        0       0
+#   310        2      900      200   396.81        5     0   0.010104   32.335      11
+#72.177  0.62798   184.88   39.933   72.028  0.86002     0  0.0021354   7.7611  1.8297
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#60.821   1.8728   2.6379   15.915   47.455    1.143     0  0.00081263   20.444  9.2221
+#     8     1.12        0        0   5.5556        1     0           0   4.6053       6
+#   187        3      350   155.56   412.83        4     0    0.011264       25      12
+#76.157  0.24481   11.664   30.574   62.678  0.49245     0   0.0018427   6.7013  1.4753
+#      estlvs       uestlvs
+#7.087249e+03  6.464941e+03
+#4.136639e+02  3.840000e+02
+#4.439396e+04  2.457600e+04
+#7.950176e+03  6.296597e+03
+#   dm0        w  ltausp      minp     meanp      maxp       sdd         tb
+# 30.69   2.0535  4.7697   0.42904    0.4919   0.55571  0.063018  0.0021326
+#     0        2       1   0.12237      0.25      0.25         0          0
+#   175        4  32.245       0.5       0.5   0.74769   0.24769   0.010795
+#51.323  0.26459   3.236  0.087502  0.038567  0.081017  0.075331  0.0017153
+# Slightly better than for ave.
 
 # Uni-probs:
 # TAU/red_6_newv_avepsd$ nomad nprand
-# XXX
-# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu,rand newv hash "XXX" 100 1 all
-# XXX
-# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "XXX" "" ""
-# XXX
+# 533 3596.402128   0.041285   4.625004  -8.777577  -6.21053    8.702014
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1207 Total model evaluations: 103572  Cache hits: 390 Total number of evaluations: 1597
+# TAU/red_6_newv_avepsd$ time ./TAUscan 6 ../../red "" enu,rand newv hash "0.041285,4.625004,-8.777577,-6.21053,8.702014" 100 1 all
+# 100 : 5.12000000000000000000e+02 3.77343999999999999995e+03 3.27680000000000000000e+04; 5.29124469960623831222e+03
+# real    0m7.351s user    0m7.205s sys     0m0.138s
+# TAU/red_6_newv_avepsd$ ./laMols 6 ../../red "" count dom enu newv "" "" 1 1 "0.041285,4.625004,-8.777577,-6.21053,8.702014" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0      14.731     377658  0     5157     2748  1.909712e+00  1.220181e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#154.67  0.76812      126   127.05   116.03   1.8792     0  0.0028273    5.203  6.9191
+#    12        0        0   32.571   8.3916        1     0          0        0       0
+#   310      2.5      900      200   485.16        6     0   0.012332   36.757      11
+#  67.8  0.65306   178.43    39.87   78.831  0.89708     0  0.0023168   8.3851  1.6248
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#64.562  1.8852   4.3472   18.069   47.002   1.1325     0  0.00082631   19.873  8.5793
+#     8    1.12        0        0    3.125        1     0       2e-06    3.125       5
+#   196       4      400   155.56   532.26        5     0    0.013445       25      12
+#77.334   0.284   23.078   32.504   64.673  0.51472     0   0.0018616   7.1079  1.3402
+#      estlvs       uestlvs
+#1.276996e+04  6.839336e+03
+#3.391557e+02  5.120000e+02
+#8.012392e+04  3.276800e+04
+#1.650952e+04  6.922105e+03
+#   dm0        w  ltausp      minp     meanp      maxp       sdd         tb
+#37.715   2.1403  46.433    0.4165   0.48052    0.5432  0.062028  0.0023102
+#     0        2       1  0.047347      0.25      0.25         0    3.8e-05
+#   179        4  206.76       0.5       0.5    0.8219    0.3219   0.008588
+#56.151  0.46317  54.144   0.11048  0.062012  0.091966  0.077453  0.0018716
 
 
 # Only using "rred A" (instead of "red A"):
