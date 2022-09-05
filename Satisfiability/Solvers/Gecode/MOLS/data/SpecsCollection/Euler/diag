@@ -2,6 +2,9 @@
 # 0, 1, 4, 12, 0, 26848
 
 # TODO: Update to being the inverse case, and having the non-inverse case also.
+# And "diag" should refer to all primary squares being diag; so "single diag"
+# perhaps is called "sdiag"? Or "diag0" ?
+
 
 # gcMols:
 

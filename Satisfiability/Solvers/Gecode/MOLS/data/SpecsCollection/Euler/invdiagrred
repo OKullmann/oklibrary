@@ -1,11 +1,24 @@
 # Counts for N >= 2:
-# 0, 0, 2, 4, 0 160
-#
-# The combination dom-prop + maxdegdom seems best.
-#
-# time ./gcMols 7 ./data/SpecsCollection/Eulerinvdiagrred "" count dom maxdegdom "" 12
-# domain-prop max-deg/dom-var bin-branch-min 160 220.218 494803963 3073340 6146999 31
-# real	0m25.189s user	3m40.219s sys	0m5.472s
+# 0, 0, 2, 4, 0, 160
+
+# TODO: this should be "invdiag" ("inv" for aux being
+# in the wrong place).
+
+
+# gcMols:
+
+# N=7:
+
+# MOLS> time ./gcMols 7 ./data/SpecsCollection/Euler/invdiagrred "" count dom bin maxdegdom "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin maxdegdom  asc   1       160     176.364     384342097     3073340     6146999     24  0
+# real	0m20.014s user	2m56.368s sys	0m5.415s
+
+# N=8:
+
+# MOLS> time ./gcMols 8 ./data/SpecsCollection/Euler/invdiagrred "" +count dom bin maxdegdom "" 1 16 ""
+# running on server2 XXX
+
 
 squares A B aux
 rred A B
