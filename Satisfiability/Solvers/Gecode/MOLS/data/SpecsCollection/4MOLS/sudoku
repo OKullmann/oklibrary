@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, >= 12240
+# 0, 0, 0, 0, 0, 13824
 
 
 # gcMols:
@@ -23,7 +23,8 @@
 # N=7:
 
 # MOLS> ./gcMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom bin mindom "" 1 16 ""
-# running on server XXX 12240 solutions found
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom bin    mindom  asc   1     13824 54567038.250 123840035719503 271199459440 542398946527     43  0
 
 
 
@@ -64,7 +65,7 @@
 # N=7:
 
 # MOLS$ ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
-# running on server2 XXX 1812 solutions found
+# running on server2 XXX 2160 solutions found
 
 
 
