@@ -59,7 +59,36 @@ wdL and newvars have 30% of leafcount of rlaMols.
 
 6) sudokudiagfull
 
-N <= 7 easy,while N=8 seems too hard (at least for now).
+N=7:
+
+ - gcMols  : bin+mindom, lvs=3
+
+ - rlaMols : most combination, lvs=1
+
+N=8:
+
+ - gcMols  : bin+mindom, lvs=74'882'837'043
+
+ - rlaMols : bin+mindom, lvs=34'942'858 aborted after
+     56 / 432 solutions found:
+     real    23067m36.353s user    361280m37.372s sys     3138m54.494s
+
+ - laMols with wdL:
+  - A : ?
+  - L : ?
+  - optimisation on tau-probs: 37'066'778
+  - optimisation on uni-probs: ?
+
+ - laMols with newvars:
+  - Z : ?
+  - O : ?
+  - A : ?
+  - L : ?
+  - optimisation on tau-probs: 37'066'778
+    - optimisation on ave+sd:  ?
+  - optimisation on uni-probs: ?
+    - optimisation on ave+sd:  ?
+
 
 
 7) pandiag

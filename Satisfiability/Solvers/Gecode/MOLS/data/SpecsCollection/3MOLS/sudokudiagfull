@@ -63,7 +63,21 @@
 #  55.004  0.407    1.437   24.466    74.301   0.635  0.000   4.083    1.338   2.753
 # real    1246m42.280s user    19823m52.031s sys     91m44.627s
 # MOLS$ time ./rlaMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom bin mindom "" "" 1 16 "" ""
-# running on server2 XXX yet 48 solutions found
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom bin    mindom  asc  relpr   1       56 21676834.773 8747516179  1 69885874 34942858
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1268.405  0.752    4.711  122.080   200.719   2.061  0.000   5.683    0.460  27.390
+#1079.000  0.000    0.000  109.455   103.233   1.000  0.000   1.090    0.000   0.000
+#1896.000  4.000   20.379  124.911  1648.786  15.000  1.000  55.707    9.856  42.000
+#  46.092  0.462    1.738    0.668    90.144   0.921  0.001   2.863    0.616   3.115
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#1201.564  1.448    1.827   20.837   121.855   1.644  0.000   4.200    5.642  29.390
+# 654.000  1.010    0.000    0.000     0.168   1.000  0.000   0.000    0.155  16.000
+#1431.000  6.000   57.143  123.947  1659.342  16.000  1.000  58.906   19.656  43.000
+#  39.232  0.229    0.961   19.057   116.041   0.975  0.001   3.732    2.412   2.775
+# real    23067m36.353s user    361280m37.372s sys     3138m54.494s
+# Seems to just have 10x fewer leaves than gcMols.
 
 
 
@@ -98,7 +112,8 @@
 # real    202m33.334s user    2001m16.699s sys     18m32.387s
 # Looks hard.
 
-# Reunning with new version of laMols (>= 0.99; distance now includes reduction):
+# Rerunning with new version of laMols (>= 0.99; distance now includes reduction):
+
 # TAU/sudokudiagfull_8_newv_ave$ nomad np2
 # 297  28607446.2032    -0.000105   0.99899   -3.997288   9.99596   -6.997332  -5.998018  -9.999365
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
