@@ -1,17 +1,31 @@
 # Counts for n >= 2:
-# 0, 0, 2, 0, 0, 0
-#
-# Examples (with possibly best combination):
+# 0, 0, 2, 0, 0, 0, >= 112347
+
+
+# TODO: Update to being the inverse case, and having the non-inverse case also.
+# "C" -> "aux"
+# "auxdiag2" -> "auxdiag"
+# "uni" should possibly be in the name; we have a refinement of "red":
+# uni A + diag/antidiag aux.
+# We need also a standard ordering.
+
+
+# gcMOls:
+
+# N=7:
+
 # MOLS> time ./gcMols 7 data/SpecsCollection/Eulerauxdiag2 "" count dom mindom "" 12
 # domain-prop min-dom-var bin-branch-min 0 123.341 399117779 1845211 3690421 29
 # real	0m13.887s user	2m3.348s sys	0m3.109s
 
-# Possibly nice unsatisfiable test-cases.
+# N=8:
 
-# TODO: Update to being the inverse case, and having the non-inverse case also.
+# /MOLS$ time ./gcMols 8 ./data/SpecsCollection/Euler/auxdiag2 "" +count dom bin mindom "" 1 16 ""
+# aborted after 112347 solutions found:
+# real    3044m16.847s user    25328m41.970s sys     20559m48.506s
+
 
 squares A B C
-
 ls A B
 red A
 rred B
