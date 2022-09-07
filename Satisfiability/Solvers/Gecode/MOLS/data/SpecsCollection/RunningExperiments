@@ -8,6 +8,6 @@ Euler/sudokudiag: gcMols, N=8
 
 server2:        3 running
 
-Euler/invdiagrred: gcMols, N=8
-3MOLS/sudokudiagfull: rlaMols, N=8
+Euler/sudokudiagfull: rlaMols, maxdegdom, N=8
+Euler/sudokudiagfull: rlaMols, mindom, N=8
 4MOLS/sudoku: rlaMols, N=7
