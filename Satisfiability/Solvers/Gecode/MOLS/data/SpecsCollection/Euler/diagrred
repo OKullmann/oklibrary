@@ -5,6 +5,15 @@
 # Number of row-reduced pairs of orthogonal diagonal Latin squares of order n.
 # 0, 0, 2, 4, 0, 320, 1322496, 339930624
 #
+# TODO: "rred" should be the default for "diag", so this file
+# should be just called "diag".
+# We should always include "aux" in "rred" (doesn't hurt).
+# It should be "rprod B aux A" (doesn't matter here, but in
+# general the order matters).
+
+
+# gcMols:
+
 # The combination dom-prop + mindom seems best.
 #
 # MOLS> time ./gcMols 7 ./data/SpecsCollection/Eulerdiagrred "" count dom mindom "" 12
@@ -12,6 +21,7 @@
 # real	0m11.454s user	1m46.091s sys	0m2.942s
 # MOLS> time ./gcMols 8 ./data/SpecsCollection/Eulerdiagrred "" +count dom enu mindom "" 1 16 ""
 # aborted after 238m wallclock-time with 13 solutions.
+
 
 squares A B aux
 rred A B

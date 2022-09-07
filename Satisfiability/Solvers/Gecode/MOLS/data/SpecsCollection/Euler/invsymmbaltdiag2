@@ -1,6 +1,17 @@
 # Counts for N >= 2:
 # 0, 0, 1, 0, 0, 2, >= 3949
 
+# TODO: this should better be called "invsymmbaltdiag", since
+# "diag" should be default mean all primary squares.
+# The "inv" refers to the wrong position of aux.
+# We have "symmb" + "diag", what has preference?
+# Since for "diag" it is not symmetry-breaking, using
+# "symmbdiag" seems appropriate; so the question is about
+# "inv" and "alt" and their order.
+
+
+# gcMols:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/Eulerinvsymmbaltdiag2 "" +count dom enu maxdegdom desc 1 12
 # found 3949 solutions after
 # real	188m16.025s user	2157m0.898s sys	35m26.700s
