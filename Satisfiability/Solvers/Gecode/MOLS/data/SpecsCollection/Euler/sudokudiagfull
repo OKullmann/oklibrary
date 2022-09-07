@@ -99,6 +99,14 @@
 #713.000  5.000   64.045  124.815  1044.898  11.000  2.000  21.011   25.037  32.000
 # 40.836  0.420    2.841   26.776    80.590   0.680  0.001   1.209    2.853   2.120
 
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 32 "" ""
+# running on server2 XXX (32 likely not efficient, but some speedup should be gained)
+# started 7.9.2022, 9:59
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom "" "" 1 16 "" ""
+# running on server2 XXX
+# started 7.9.2022, 10:11
+
 
 
 # laMols with newvars
@@ -142,6 +150,12 @@
 # 17.553  0.988     2.218  0.161  0.117  0.146  0.098   0.393
 # real    17182m30.284s user    243103m11.160s sys     9976m22.049s
 # Reasonably close to the prediction.
+
+# Rerunning with new version >= 0.99:
+
+# Optimisation on tau-probs (30000s, rep=10000):
+# TAU/sudokudiagfull_8_newv_ave$ nomad np3
+# running on server2 XXX
 
 
 

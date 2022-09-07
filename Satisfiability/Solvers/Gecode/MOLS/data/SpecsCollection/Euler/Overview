@@ -165,6 +165,36 @@ N=8 appears infeasible.
 
 8) sudokudiagfull
 
+N=7:
+
+ - gcMols  : enu+maxdegdom, lvs=12'117
+
+ - rlaMols : bin+maxdeg, lvs=458
+
+N=8:
+
+ - gcMols  : enu+maxdegdom, lvs=2'719'470'620
+
+ - rlaMols : bin+maxdeg, lvs=?
+
+ - laMols with wdL:
+  - A : ?
+  - L : ?
+  - optimisation on tau-probs: ?
+  - optimisation on uni-probs: ?
+
+ - laMols with newvars:
+  - Z : ?
+  - O : ?
+  - A : ?
+  - L : ?
+  - optimisation on tau-probs: ?
+    - optimisation on ave+sd:  ?
+  - optimisation on uni-probs: ?
+    - optimisation on ave+sd:  ?
+
+
+
 N=7 is relatively simple, doesn't add something new.
 N=8 with newvars much faster than rlaMols.
 
