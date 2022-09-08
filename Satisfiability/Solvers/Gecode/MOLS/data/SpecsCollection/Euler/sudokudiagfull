@@ -155,6 +155,17 @@
 
 # Optimisation on tau-probs (30000s, rep=10000):
 # TAU/sudokudiagfull_8_newv_ave$ nomad np3
+# 51 43940955.892803   0.04       8         -9          6         -8         10         10
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 140 Total model evaluations: 12148 Cache hits: 9 Total number of evaluations: 149
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "0.04,8,-9,6,-8,10,10" 10000 10 all
+# 10000 : 4.98015430554990121550e+05 4.39409558928033900593e+07 3.22267801544539605547e+09; 8.24790264012769165347e+07
+# real    17m16.346s user    171m34.361s sys     0m20.906s
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "0.04,8,-9,6,-8,10,10" "" ""
+# running on server XXX
+
+# Optimisation on uni-probs (30000s, rep=10000):
+# TAU/sudokudiagfull_8_newv_ave$ nomad np3rand
 # running on server2 XXX
 
 
