@@ -1,3 +1,6 @@
+Over on Euler
+
+
 C:      count achieved
 CE:     count envisaged
 U:      unsatisfiability achieved
@@ -195,7 +198,6 @@ N=8:
 
 
 
-N=7 is relatively simple, doesn't add something new.
 N=8 with newvars much faster than rlaMols.
 
 

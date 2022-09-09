@@ -1,6 +1,10 @@
 # Counts for N >= 2:
 # 0, 0, 0, 0, 0, 13824
 
+# Nearly twice as many solutions as for basis, while runtime for gcMols
+# is nearly 10x higher.
+
+
 
 # gcMols:
 
@@ -94,6 +98,9 @@
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 127 Total model evaluations: 12128 Cache hits: 13 Total number of evaluations: 140
 # Looks very hard.
+
+# Needs to be rerun with version >= 0.99, 30000s, rep=10000.
+
 
 
 squares A B C D  AB AC AD BC BD CD
