@@ -166,11 +166,14 @@
 
 # Optimising on ave+sd:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np
-# running server2 XXX
-# TAU/sudokudiagfull_8_newv_avepsd$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "XXX" 10000 10 all
-# XXX
-# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "" "" ""
-# XXX
+# 62  97459792.502697   0         -3          4         -1         -8          9         -8
+ #A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 143 Total model evaluations: 12147 Cache hits: 7 Total number of evaluations: 150
+# TAU/sudokudiagfull_8_newv_avepsd$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "0,-3,4,-1,-8,9,-8" 10000 10 all
+# 10000 : 8.53875718336112910208e+05 4.22981674242427935460e+07 1.22359599208937499300e+09; 5.51616250784542411566e+07
+# real    17m34.461s user    174m18.258s sys     0m20.985s
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "0,-3,4,-1,-8,9,-8" "" ""
+# running on server2 XXX
 
 # Optimisation on uni-probs (30000s, rep=10000):
 # TAU/sudokudiagfull_8_newv_ave$ nomad np3rand

@@ -65,8 +65,22 @@
 # N=7:
 
 # MOLS$ ./rlaMols 7 data/SpecsCollection/4MOLS/sudoku "" +count dom enu first "" "" 1 16 ""
-# running on server2 XXX 2160 solutions found
-
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
+#  7   +count dom enu     first  asc  relpr   1     2364 59347400.057 55950117150  1 380384924 144362268 236022656
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1665.163  0.654   28.542  122.622  120.286   1.687  0.000   4.880    0.322  18.097
+#1458.000  0.000    0.000  107.354   76.403   1.000  0.000   0.000    0.000   0.000
+#2076.000  2.000   73.191  125.820  935.223   9.000  0.000  53.164    9.583  25.000
+#  58.976  0.484    6.363    0.758   32.808   0.542  0.000   1.713    0.409   1.909
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1555.236  2.049    0.268    8.443   24.507   1.075  0.000   1.027    1.421  19.960
+#1264.000  1.008    0.000    0.000    0.113   1.000  0.000   0.000    0.113  11.000
+#1824.000  5.000  166.667  122.774  620.330   6.000  2.000  37.854   15.720  26.000
+#  33.608  0.807    0.647   12.080   37.785   0.268  0.004   1.567    1.010   1.633
+# Predicted number of leaves: 13824/2364 ~ 5.85; 271199459440 / (5.85 * 236022656) ~
+# 196; so the number of leaves is roughly better by a factor of 200, while the runtime
+# is roughly worse by a factor of 6 (it seems always to rlaMols need to have a leafcount
+# better by a factor of 1000 to be timewise competitive with gcMols).
 
 
 
