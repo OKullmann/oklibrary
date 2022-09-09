@@ -1,5 +1,6 @@
 # Counts for N >= 2:
 # 0, 1, 1, 4, 0, 6236, >= 39, >= 60, >= 4
+# <= 1
 
 # Question: What is the exact relation to the
 # counts in red: 0, 1, 2, 18, 0, 342480 ?
@@ -170,7 +171,20 @@
 # N=11:
 
 # MOLS> time ./rlaMols 11 data/SpecsCollection/Euler/symmb "" +count dom bin maxdegdom desc "" 1 16 "" ""
-# running on server XXX
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 11   +count dom bin maxdegdom desc  relpr   1        1 7443455.443 7766727171  1 148848863 74424131
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals       dp
+# 630.492  0.669   75.462  121.216   94.518   1.641  0.000   0.980    0.546   97.591
+# 314.000  0.000    0.000   73.540   50.169   1.000  0.000   0.000    0.000    0.000
+#2614.000  6.000  141.825  131.361  611.093   7.000  0.000  12.852   15.292  122.000
+#  64.976  0.609   24.543    4.463   42.402   0.599  0.000   0.507    0.995    4.916
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals       dp
+# 555.554  1.975    0.646   32.426   70.784   1.182  0.000   0.616    4.938   99.592
+# 166.000  1.042    0.000    0.000    0.339   1.000  0.000   0.000    0.272   68.000
+#1332.000  7.000  100.000  128.729  643.121   7.000  1.000  10.083   19.914  123.000
+#  68.814  0.524    0.892   18.972   50.656   0.428  0.000   0.519    2.776    4.706
+# real    8770m29.588s user    124057m35.776s sys     12521m1.598s
 
 
 
