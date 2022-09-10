@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 8 ../sudokudiagfull "" wdL,rand hash cin 10000 10 ave

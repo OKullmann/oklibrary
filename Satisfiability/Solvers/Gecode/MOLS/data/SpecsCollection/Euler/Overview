@@ -174,11 +174,21 @@ N=7:
 
  - rlaMols : bin+maxdeg, lvs=458
 
+ - laMols with wdL:
+  - A : ?
+  - L : ?
+
+ - laMols with newvars:
+  - Z : ?
+  - O : ?
+  - A : ?
+  - L : ?
+
 N=8:
 
  - gcMols  : enu+maxdegdom, lvs=2'719'470'620
 
- - rlaMols : bin+maxdeg, lvs=?
+ - rlaMols : bin+maxdeg, lvs=R
 
  - laMols with wdL:
   - A : ?
@@ -191,10 +201,10 @@ N=8:
   - O : ?
   - A : ?
   - L : ?
-  - optimisation on tau-probs: ?
-    - optimisation on ave+sd:  ?
-  - optimisation on uni-probs: ?
-    - optimisation on ave+sd:  ?
+  - optimisation on tau-probs: R
+    - optimisation on ave+sd:  R
+  - optimisation on uni-probs: R
+    - optimisation on ave+sd:  R
 
 
 

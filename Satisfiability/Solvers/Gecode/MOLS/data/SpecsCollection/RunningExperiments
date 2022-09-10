@@ -1,7 +1,7 @@
-server:         3 running
+server:         5 running
 
 Euler/sudokudiag: gcMols, N=8
-Euler/sudokudiagfull: laMols, N=8
+Euler/sudokudiagfull: laMols, N=8, 3x
 3MOLS/sudoku: gcMols, N=7
 
 
