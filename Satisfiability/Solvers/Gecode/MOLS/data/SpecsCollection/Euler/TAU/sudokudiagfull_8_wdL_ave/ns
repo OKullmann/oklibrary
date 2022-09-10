@@ -1,2 +1,2 @@
 #!/bin/bash
-cat $1 | ./TAUscan 8 ../sudokudiagfull "" wdL hash cin 10000 10 ave
+cat $1 | ./TAUscan 8 ../sudokudiagfull "" enu wdL hash cin 10000 10 ave
