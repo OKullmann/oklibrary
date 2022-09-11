@@ -1,4 +1,4 @@
-Over on Euler
+Overview on Euler
 
 
 C:      count achieved
@@ -193,8 +193,8 @@ N=8:
  - laMols with wdL:
   - A : ?
   - L : ?
-  - optimisation on tau-probs: ?
-  - optimisation on uni-probs: ?
+  - optimisation on tau-probs: R
+  - optimisation on uni-probs: R
 
  - laMols with newvars:
   - Z : ?

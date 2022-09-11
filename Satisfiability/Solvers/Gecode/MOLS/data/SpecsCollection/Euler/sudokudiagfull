@@ -104,9 +104,21 @@
 # started 7.9.2022, 9:59
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom "" "" 1 16 "" ""
-# running on server2 XXX
-# started 7.9.2022, 10:11
-
+# aborted:
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom enu    mindom  asc  relpr   1      149 5558884.136 3683388666  1 45118869 24923439
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#574.671  1.000    7.735  122.468   256.193   2.454  0.000   2.457    1.755  17.736
+#444.000  0.000    0.000   30.435    93.162   1.000  0.000   0.019    0.000   0.000
+#948.000  3.000   42.957  129.054  1413.599  14.000  1.000  32.655   17.438  27.000
+# 31.588  0.170    2.857    1.414    76.703   0.796  0.000   1.130    1.392   1.673
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc      tr  pelvals      dp
+#525.097  1.492    3.917   34.194   148.751   1.654  0.000   1.566   10.528  19.421
+# 16.000  1.020    0.000    0.000     0.371   1.000  0.000   0.000    0.371  14.000
+#649.000  6.000  320.000  126.860  1334.864  13.000  2.000  38.397   27.923  28.000
+# 27.363  0.206    2.420   19.743   106.485   0.934  0.003   1.263    3.375   1.349
+# real    6438m23.513s user    92648m4.903s sys     1807m29.621s
+# Seems less efficient than maxdegdom.
 
 
 # laMols with wdL
@@ -115,19 +127,25 @@
 
 # Optimising on tau-probs (MAX_TIME 30000s, rep=10000):
 # sudokudiagfull_8_wdL_ave$ nomad np
-# XXX
-# sudokudiagfull_8_wdL_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu wdL hash "XXX" 10000 10 all
-# XXX
-# sudokudiagfull_8_wdL_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
-# XXX
+# 98 52262039.513635   5.1        1.1        0.32       0.0001     0.2        0.0801
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 151 Total model evaluations: 14136 Cache hits: 7 Total number of evaluations: 158
+# sudokudiagfull_8_wdL_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu wdL hash "5.1,1.1,0.32,0.0001,0.2,0.0801" 10000 10 all
+# 10000 : 6.65219840175226301881e+05 5.22620395136348812339e+07 2.60748415147019011155e+09; 8.36926869526849777030e+07
+# real    15m59.846s user    158m56.794s sys     0m20.880s
+# MOLS$ time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu wdL "" "" 1 16 "5.1,1.1,0.32,0.0001,0.2,0.0801" "" ""
+# running on server2 XXX
 
 # Optimising on uni-probs (MAX_TIME 30000s, rep=10000):
 # sudokudiagfull_8_wdL_ave$ nomad nprand
-# XXX
-# sudokudiagfull_8_wdL_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand wdL hash "XXX" 10000 10 all
-# XXX
-# sudokudiagfull_8_wdL_ave$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
-# XXX
+# 143 50136919.8        0.8        1.0001     0.32       0.3401     0.61       0.0001
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 167 Total model evaluations: 14155 Cache hits: 7 Total number of evaluations: 174
+# sudokudiagfull_8_wdL_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand wdL hash "0.8,1.0001,0.32,0.3401,0.61,0.0001" 10000 10 all
+# 10000 : 1.29600000000000000000e+05 5.01369197999999999993e+07 5.66231040000000000000e+09; 1.21308330606101161837e+08
+# real    14m31.253s user    143m53.732s sys     0m20.317s
+# MOLS$ time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu wdL "" "" 1 16 "0.8,1.0001,0.32,0.3401,0.61,0.0001" "" ""
+# running on server XXX
 
 
 
