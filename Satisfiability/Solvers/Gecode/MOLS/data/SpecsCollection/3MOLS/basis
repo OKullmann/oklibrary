@@ -7,12 +7,13 @@
 
 # gcMols:
 
+# N=6:
+
 # MOLS> ./gcMols 6 data/SpecsCollection/3MOLS/basis "" count dom - - "" 1 1 "t,4"
 # solved only by maxdegdom:
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  6    count dom bin maxdegdom  asc   1         0       2.024       9778149       60113      120225     15  0
 #  6    count dom enu maxdegdom  asc   1         0       1.988       9658961       60113      108996     15  0
-
 
 # N=7:
 
@@ -165,6 +166,28 @@
 #54316.000  5.000  0.001  0.500  0.500  0.879  0.379  0.859
 # 3014.746  0.828  0.000  0.135  0.095  0.150  0.091  0.118
 # A decent improvement (close to rlaMols).
+
+# Rerunning with version >= 0.99:
+# MOLS$ ./laMols 6 data/SpecsCollection/3MOLS/basis "" count "" enu wdL "" "" 1 16 "" "" ""
+#   weights: A -> 0 0 1 2 3 4 5
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0     479.446    1286539  0    14435     8946  7.807966e-01  1.074211e+00
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0     390.054    1207019  0    13321     8264  6.338016e-01  7.485113e-01
+
+# Optimising tau-probs (MAX_TIME 3600s, rep=100):
+# TAU/basis_6_wdL_ave$ nomad np
+# XXX
+# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../basis "" enu wdL hash "XXX" 100 10 all
+# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "XXX" "" ""
+
+# Optimising uni-probs (MAX_TIME 3600s, rep=100):
+# TAU/basis_6_wdL_ave$ nomad nprand
+# XXX
+# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../basis "" enu,rand wdL hash "XXX" 100 10 all
+# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "XXX" "" ""
+
 
 # N=7:
 

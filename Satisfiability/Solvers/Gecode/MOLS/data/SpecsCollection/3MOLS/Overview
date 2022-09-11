@@ -24,6 +24,21 @@ Results:
 
 1) basis
 
+N=6:
+
+ - gcMols  : enu+maxdegdom, lvs=60'113
+
+ - rlaMols : enu+maxdegdom, lvs=1'796
+
+ - laMols with wdL:
+  - A : 8'946
+  - L : 8'264
+  - optimisation on tau-probs: XXX (reps=100)
+  - optimisation on uni-probs: XXX (reps=100).
+
+
+
+
 All solvers solve N=6.
 
 N=7 solved by rlaMols (enu+maxdegdom) and with half the leaves by laMols
