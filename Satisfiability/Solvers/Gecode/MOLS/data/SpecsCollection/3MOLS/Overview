@@ -26,20 +26,45 @@ Results:
 
 N=6:
 
- - gcMols  : enu+maxdegdom, lvs=60'113
+ - gcMols  : enu+maxdegdom, 60'113
 
- - rlaMols : enu+maxdegdom, lvs=1'796
+ - rlaMols : enu+maxdegdom, 1'796
 
  - laMols with wdL:
   - A : 8'946
   - L : 8'264
-  - optimisation on tau-probs: XXX (reps=100)
-  - optimisation on uni-probs: XXX (reps=100).
+  - optimisation on tau-probs: 2'268 (reps=100)
+  - optimisation on uni-probs: 2'388 (reps=100)
+
+ - laMols with newvars:
+  - Z : 
+  - O : 
+  - A : 
+  - L : 
+  - optimisation on tau-probs:  (reps=100)
+  - optimisation on uni-probs:  (reps=100)
 
 
+N=7:
 
+ - gcMols  : 
 
-All solvers solve N=6.
+ - rlaMols : 
+
+ - laMols with wdL:
+  - A : 
+  - L : 
+  - optimisation on tau-probs:  (reps=10000)
+  - optimisation on uni-probs:  (reps=10000)
+
+ - laMols with newvars:
+  - Z : 
+  - O : 
+  - A : 
+  - L : 
+  - optimisation on tau-probs:  (reps=10000)
+  - optimisation on uni-probs:  (reps=10000)
+
 
 N=7 solved by rlaMols (enu+maxdegdom) and with half the leaves by laMols
 (with newvars).
@@ -79,15 +104,15 @@ wdL and newvars have 30% of leafcount of rlaMols.
 
 N=7:
 
- - gcMols  : bin+mindom, lvs=3
+ - gcMols  : bin+mindom, 3
 
- - rlaMols : most combination, lvs=1
+ - rlaMols : most combination, 1
 
 N=8:
 
- - gcMols  : bin+mindom, lvs=74'882'837'043
+ - gcMols  : bin+mindom, 74'882'837'043
 
- - rlaMols : bin+mindom, lvs=34'942'858 aborted after
+ - rlaMols : bin+mindom, 34'942'858 aborted after
      56 / 432 solutions found:
      real    23067m36.353s user    361280m37.372s sys     3138m54.494s
 

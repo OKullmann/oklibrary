@@ -168,6 +168,7 @@
 # A decent improvement (close to rlaMols).
 
 # Rerunning with version >= 0.99:
+
 # MOLS$ ./laMols 6 data/SpecsCollection/3MOLS/basis "" count "" enu wdL "" "" 1 16 "" "" ""
 #   weights: A -> 0 0 1 2 3 4 5
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
@@ -178,15 +179,67 @@
 
 # Optimising tau-probs (MAX_TIME 3600s, rep=100):
 # TAU/basis_6_wdL_ave$ nomad np
-# XXX
-# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../basis "" enu wdL hash "XXX" 100 10 all
-# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "XXX" "" ""
+# 258 1612.517594   5.0958     3.0868     0.0001     5.0667
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 988 Total model evaluations: 93117 Cache hits: 384 Total number of evaluations: 1372
+# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../../basis "" enu wdL hash "5.0958,3.0868,0.0001,5.0667" 100 10 all
+# 100 : 4.95356324374501205660e+02 1.61251759423221869061e+03 5.80412948650128209849e+03; 1.06984530605146174986e+03
+# real    0m2.584s user    0m24.005s sys     0m0.181s
+# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "5.0958,3.0868,0.0001,5.0667" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0     156.578     351667  0     3405     2268  3.984091e+00  9.852358e-01
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+# 520.3  0.41462   10.501   130.92   154.99   1.5092     0   0.51783  0.26074  5.4178
+#   488        0   3.8747   126.52   115.07        1     0  0.011882        0       0
+#   660        2   23.609    131.8   353.36        3     0     1.783   1.8443       8
+#18.431  0.51035   3.4816  0.63407   55.464  0.67797     0   0.26645  0.44295  1.1577
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals       dp
+#469.93   1.7451   18.171   18.758   43.688   1.2337     0  0.16634    3.998   6.9189
+#   209   1.0732        0        0  0.46296        1     0        0  0.46296        5
+#   515        5   171.43    124.1   491.57        5     0   2.7377   18.474        9
+#56.445  0.52009   31.722    23.51   80.162  0.64944     0  0.31266    3.097  0.85702
+#      estlvs       uestlvs
+#3.826791e+04  4.469524e+03
+#4.953563e+02  5.400000e+02
+#1.979684e+06  2.304000e+04
+#2.113073e+05  4.022726e+03
+#   dm0        w  ltausp        minp     meanp     maxp       sdd        tb
+#1.4283   2.9938  9.3594     0.21899   0.35929  0.52094   0.13111   0.46164
+#     0        2  4.7974  0.00060278       0.2  0.23113         0  0.014317
+#     9        5  19.764         0.5       0.5  0.82059   0.33436    0.8754
+#2.3211  0.82274  3.0494     0.14432  0.096418  0.14581  0.090528   0.15069
 
 # Optimising uni-probs (MAX_TIME 3600s, rep=100):
 # TAU/basis_6_wdL_ave$ nomad nprand
-# XXX
-# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../basis "" enu,rand wdL hash "XXX" 100 10 all
-# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "XXX" "" ""
+# 509  1864.8        7          4.1        0.0001     5.1
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 927 Total model evaluations: 83322 Cache hits: 254 Total number of evaluations: 1181
+# TAU/basis_6_wdL_ave$ time ./TAUscan 6 ../../basis "" enu,rand wdL hash "7,4.1,0.0001,5.1" 100 10 all
+# 100 : 5.40000000000000000000e+02 1.89540000000000000002e+03 9.72000000000000000000e+03; 1.74824785012152823593e+03
+# real    0m2.542s user    0m23.007s sys     0m0.200s
+# TAU/basis_6_wdL_ave$ ./laMols 6 ../../basis "" count "" enu wdL "" "" 1 16 "7,4.1,0.0001,5.1" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0     177.787     369488  0     3573     2388  4.084420e+00  1.042444e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#519.08  0.43834   10.723   130.92   160.73   1.5705     0  0.60708    0.303  5.4751
+#   488        0   3.8747   126.52   115.46        1     0  0.19309        0       0
+#   660        2   23.609   132.31   353.36        3     0   1.6316   1.8443       8
+#18.958  0.51306   3.5183  0.67552   58.628  0.72734     0  0.24862  0.48011   1.176
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals       dp
+#468.44   1.7378   18.237   17.651   40.137   1.2102     0  0.17806   3.8138   6.9698
+#   209   1.0909        0        0  0.46296        1     0        0  0.46296        5
+#   515        4   171.43    124.1   493.37        5     0   2.8216   18.474        9
+#55.761  0.49969   31.758   22.974   77.853  0.63036     0  0.33672    2.922  0.87746
+#      estlvs       uestlvs
+#4.222578e+04  4.983015e+03
+#4.870849e+02  5.400000e+02
+#2.429426e+06  2.592000e+04
+#2.468957e+05  4.705928e+03
+#   dm0        w  ltausp        minp     meanp     maxp       sdd       tb
+#1.6945   3.0143  16.941     0.22258   0.35824  0.51022   0.12434  0.52506
+#     0        2  3.6414  0.00051438       0.2  0.22903         0   0.2567
+#    10        5  33.513         0.5       0.5  0.81946   0.33601   1.0785
+#2.6479  0.84267  8.0811     0.14759  0.098946  0.14841  0.091839  0.11101
 
 
 # N=7:
@@ -203,6 +256,24 @@
 #199 434578624.0758     0.0331     0.0301     0.1141     0.0041     3.6
 #292 433077315.351203   0.032958   0.0351     0.114026   0.003854   3.6043
 # Does not look promising.
+
+# Rerunning with version >= 0.99:
+
+# Optimising tau-probs (40000s, rep=10000):
+# TAU/basis_7_wdL_ave$ nomad np
+# running on server2 XXX
+# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu wdL hash "" 10000 10 all
+# XXX
+# TAU/basis_7_wdL_ave$ ./laMols 7 ../../basis "" count "" enu wdL "" "" 1 16 "" "" ""
+# XXX
+
+# Optimising uni-probs (40000s, rep=10000):
+# TAU/basis_7_wdL_ave$ nomad nprand
+# XXX
+# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu,rand wdL hash "" 10000 10 all
+# XXX
+# TAU/basis_7_wdL_ave$ ./laMols 7 ../../basis "" count "" enu,rand wdL "" "" 1 16 "" "" ""
+# XXX
 
 
 
