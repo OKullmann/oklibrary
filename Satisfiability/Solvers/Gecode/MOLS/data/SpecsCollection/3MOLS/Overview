@@ -41,8 +41,8 @@ N=6:
   - O : 8'700
   - A : 8'688
   - L : 8'652
-  - optimisation on tau-probs:  (reps=100)
-  - optimisation on uni-probs:  (reps=100)
+  - optimisation on tau-probs: 1'844 (reps=100)
+  - optimisation on uni-probs: 1'804 (reps=100)
 
 
 N=7:

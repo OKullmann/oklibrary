@@ -398,17 +398,68 @@
 
 # Optimising tau-probs (3600s, rep=100):
 # TAU/basis_6_newv_avepsd$ nomad np
-# XXX
-# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu newv hash "XXX" 100 10 all
-# XXX
-# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "XXX" "" ""
+# 435 1371.925862  -0.139901  -4.998706   7.699958  -7.000246   8.100211
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1110 Total model evaluations: 101197 Cache hits: 429 Total number of evaluations: 1539
+# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu newv hash "-0.139901,-4.998706,7.699958,-7.000246,8.100211" 100 10 all
+# 100 : 4.36038012651596374375e+02 2.04715930570304860214e+03 3.49533414129621875901e+04; 3.64859681813148602081e+03
+# real    0m2.728s user    0m25.247s sys     0m0.133s
+# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "-0.139901,-4.998706,7.699958,-7.000246,8.100211" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     171.920     273858  0     2933     1844  1.902542e+00  7.738716e-01
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#521.59  0.38882   10.405    130.9   153.26   1.4922     0   0.6248  0.23496  5.3333
+#   500        0   3.8747   126.52   115.07        1     0  0.14692        0       0
+#   660        2   23.625    131.8    430.2        4     0   2.5069   1.7647       8
+#17.669  0.50613    3.571  0.66676   58.976  0.72265     0  0.28832  0.42194  1.1048
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#478.12   1.6656   17.144   25.209   63.832   1.3552     0  0.29293    4.914  6.7397
+#   209    1.037        0        0  0.46296        1     0        0  0.46296       5
+#   515        5   171.43   128.51   493.37        5     0   2.9763   18.724       9
+#54.579  0.51237   30.816   26.467   90.106  0.72635     0  0.41116   3.4741  0.7944
+#      estlvs       uestlvs
+#8.518668e+03  2.948330e+03
+#4.360380e+02  5.400000e+02
+#2.277598e+05  1.296000e+04
+#2.845044e+04  2.272242e+03
+#   dm0        w  ltausp       minp     meanp     maxp       sdd       tb
+# 1.315   2.6924  54.807    0.28383   0.39643   0.5273   0.10996  0.56285
+#     0        2  6.1796  0.0069174       0.2     0.25         0  0.25521
+#     9        5  112.43        0.5       0.5  0.78823   0.33166  0.96241
+#2.2681  0.73886   34.17     0.1461  0.095378  0.12909  0.085997  0.11303
+# Somewhat better than before.
 
 # Optimising uni-probs (3600s, rep=100):
 # TAU/basis_6_newv_avepsd$ nomad nprand
-# XXX
-# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu,rand newv hash "XXX" 100 10 all
-# XXX
-# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "XXX" "" ""
+# 611 1404.72      -1         -1.41       1.0       -4.699999 -10
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1121 Total model evaluations: 100687 Cache hits: 359 Total number of evaluations: 1480
+# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu,rand newv hash "-1,-1.41,1.0,-4.699999,-10" 100 10 all
+# 100 : 3.24000000000000000000e+02 1.70568000000000000005e+03 5.76000000000000000000e+03; 1.18748506746592205496e+03
+# real    0m3.036s user    0m25.406s sys     0m0.179s
+# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "-1,-1.41,1.0,-4.699999,-10" "" ""
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     158.039     275399  0     2949     1804  1.205773e+00  1.063613e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#521.75  0.55662   11.859   130.71   159.21   1.6638     0  0.61024  0.30896  5.5686
+#   488        0   3.8747   126.52   113.38        1     0  0.10892        0       0
+#   660        2   28.542   131.56    430.2        4     0   2.3831   1.8367       9
+#18.192  0.54062   4.4803  0.66012   59.099  0.73353     0  0.27674   0.4436  1.2258
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals       dp
+#476.99  1.6785   17.995   19.878   44.072    1.204     0  0.19611   4.8974   7.1375
+#   209     1.1        0        0  0.74627        1     0        0  0.74627        5
+#   515       4   195.65   126.56   493.37        5     0   3.4222   22.334       10
+#51.895  0.4136    33.08   23.751   73.903  0.59808     0  0.33146   3.8419  0.97384
+#      estlvs       uestlvs
+#4.426813e+03  3.844816e+03
+#3.060770e+02  3.240000e+02
+#7.263171e+04  3.456000e+04
+#8.779612e+03  5.303629e+03
+#   dm0       w  ltausp      minp     meanp     maxp       sdd       tb
+#1.7328  2.5747  14.782   0.30301   0.41664  0.52894   0.10444  0.52812
+#     0       2  4.1403  0.019347       0.2  0.22938         0  0.22555
+#     9       5  34.577       0.5       0.5  0.73947   0.26811  0.92578
+#2.3863  0.7537  7.7291   0.14093  0.099235  0.11947  0.072791  0.12477
 
 
 # N=7:
@@ -458,6 +509,22 @@
 # 1000 : 5.90092025733874308401e+05 6.66145533637098923864e+07 3.15579936454505730281e+09; 1.79741101164433105907e+08
 # real    1m39.325s user    16m13.525s sys     0m2.369s
 # Looks worse; so "opportunism" seems (roughly) to work.
+
+# Rerunning with version >= 0.99:
+
+# Optimising tau-probs (40000s, rep=10000):
+# TAU/basis_7_newv_ave$ nomad np
+# XXX
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "XXX" 10000 10 all
+# XXX
+# TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
+
+# Optimising uni-probs (40000s, rep=10000):
+# TAU/basis_7_newv_ave$ nomad np
+# XXX
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "XXX" 10000 10 all
+# XXX
+# TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
 
 
 
