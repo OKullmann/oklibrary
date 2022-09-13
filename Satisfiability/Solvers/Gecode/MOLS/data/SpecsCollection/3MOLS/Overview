@@ -37,10 +37,10 @@ N=6:
   - optimisation on uni-probs: 2'388 (reps=100)
 
  - laMols with newvars:
-  - Z : 
-  - O : 
-  - A : 
-  - L : 
+  - Z : 12'129
+  - O : 8'700
+  - A : 8'688
+  - L : 8'652
   - optimisation on tau-probs:  (reps=100)
   - optimisation on uni-probs:  (reps=100)
 
@@ -49,13 +49,11 @@ N=7:
 
  - gcMols  : 
 
- - rlaMols : 
+ - rlaMols : enu+maxdegdom, 42'178'223
 
  - laMols with wdL:
-  - A : 
-  - L : 
-  - optimisation on tau-probs:  (reps=10000)
-  - optimisation on uni-probs:  (reps=10000)
+  - optimisation on tau-probs: predicts 5*10^8    (reps=10000)
+  - optimisation on uni-probs: predicts 5.2*10^8  (reps=10000)
 
  - laMols with newvars:
   - Z : 

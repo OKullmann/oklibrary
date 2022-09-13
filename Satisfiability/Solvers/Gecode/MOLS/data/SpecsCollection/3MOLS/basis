@@ -21,7 +21,9 @@
 # aborted after
 # real    197m14.058s user    1762m28.190s sys     660m11.641s
 # with 4 solutions found.
-
+# Rerunning:
+# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" 1 16 "lvs,1000000000"
+# XXX
 
 
 # rlaMols:
@@ -261,19 +263,23 @@
 
 # Optimising tau-probs (40000s, rep=10000):
 # TAU/basis_7_wdL_ave$ nomad np
-# running on server2 XXX
-# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu wdL hash "" 10000 10 all
-# XXX
-# TAU/basis_7_wdL_ave$ ./laMols 7 ../../basis "" count "" enu wdL "" "" 1 16 "" "" ""
-# XXX
+# 154 494041890.383894   0.11       0.0001     0.0001     0.23       0.0001
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 154 Total model evaluations: 14085 Cache hits: 9 Total number of evaluations: 163
+# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu wdL hash "0.11,0.0001,0.0001,0.23,0.0001" 10000 10 all
+# 10000 : 8.08994002234867347124e+06 4.94041890383894209110e+08 6.15710319755351335965e+10; 1.40102001568028685800e+09
+# real    19m44.517s user    196m18.393s sys     0m23.343s
+# Similar to above.
 
 # Optimising uni-probs (40000s, rep=10000):
 # TAU/basis_7_wdL_ave$ nomad nprand
-# XXX
-# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu,rand wdL hash "" 10000 10 all
-# XXX
-# TAU/basis_7_wdL_ave$ ./laMols 7 ../../basis "" count "" enu,rand wdL "" "" 1 16 "" "" ""
-# XXX
+# 148 523163386.08       0.1654     0.0264     0.0678     0.1623     0.17
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 182 Total model evaluations: 14114 Cache hits: 20 Total number of evaluations: 202
+# TAU/basis_7_wdL_ave$ time ./TAUscan 7 ../../basis "" enu,rand wdL hash "0.1654,0.0264,0.0678,0.1623,0.17" 10000 10 all
+# 10000 : 3.68640000000000000000e+06 5.23163386079999999987e+08 1.71992678400000000000e+11; 2.32581053450552105717e+09
+# real    18m17.305s user    181m37.323s sys     0m22.579s
+# Indeed does not look promising.
 
 
 
@@ -373,6 +379,37 @@
 #393.000  5.000  0.000  0.500  0.500  0.855  0.355  0.730
 #  9.099  0.727  0.000  0.136  0.093  0.126  0.083  0.110
 # Basically the same.
+
+# Rerunning with version >= 0.99:
+
+# MOLS> ./laMols 6 data/SpecsCollection/3MOLS/basis "" count "" enu newv "" "" 1 16 "" "" ""
+#   weights: Z -> 0 0 0 0 0 0 0
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu newv   asc  relpr   1        0     577.764    1679630  0    18900    12129  1.288690e+00  1.216495e+00
+#   weights: O -> 0 0 1 1 1 1 1
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu newv   asc  relpr   1        0     472.158    1239987  0    14105     8700  6.496973e-01  8.809540e-01
+#   weights: A -> 0 0 1 2 3 4 5
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu newv   asc  relpr   1        0     415.079    1234291  0    13997     8688  6.890501e-01  8.348211e-01
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu newv   asc  relpr   1        0     462.769    1204885  0    13733     8652  7.518530e-01  9.706667e-01
+
+# Optimising tau-probs (3600s, rep=100):
+# TAU/basis_6_newv_avepsd$ nomad np
+# XXX
+# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu newv hash "XXX" 100 10 all
+# XXX
+# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "XXX" "" ""
+
+# Optimising uni-probs (3600s, rep=100):
+# TAU/basis_6_newv_avepsd$ nomad nprand
+# XXX
+# TAU/basis_6_newv_avepsd$ time ./TAUscan 6 ../../basis "" enu,rand newv hash "XXX" 100 10 all
+# XXX
+# TAU/basis_6_newv_avepsd$ ./laMols 6 ../../basis "" count "" enu newv "" "" 1 16 "XXX" "" ""
+
 
 # N=7:
 
