@@ -39,7 +39,7 @@ N=6:
 
  - gcMols  : enu+maxdegdom, lvs=64'171
 
- - rlaMols : bin+maxdeg, lvs=2'475
+ - rlaMols : bin+maxdeg, 2'475
 
  - laMols with wdL:
   - optimisation on lvs: 3'096
@@ -59,9 +59,9 @@ N=6:
 
 The rred-version:
 
- - gcMols: enu+maxdegdom, lvs=12'873'210
+ - gcMols: enu+maxdegdom, 12'873'210
 
- - rlaMols : enu+maxdeg, lvs=839'972
+ - rlaMols : enu+maxdeg, 839'972
 
  - laMols with wdL:
   - A : 464'160
@@ -74,7 +74,7 @@ The rred-version:
   - O : 448'581
   - A : 489'230
   - L : 390'720
-  - optimisation on tau-probs: lvs=330'480 (reps=1000)
+  - optimisation on tau-probs: 330'480 (reps=1000)
   - optimisation on uni-probs: the same.
 
 N=7:
@@ -170,9 +170,9 @@ N=8 appears infeasible.
 
 N=7:
 
- - gcMols  : enu+maxdegdom, lvs=12'117
+ - gcMols  : enu+maxdegdom, 12'117
 
- - rlaMols : bin+maxdeg, lvs=458
+ - rlaMols : bin+maxdeg, 458
 
  - laMols with wdL:
   - A : ?
@@ -186,9 +186,9 @@ N=7:
 
 N=8:
 
- - gcMols  : enu+maxdegdom, lvs=2'719'470'620
+ - gcMols  : enu+maxdegdom, 2'719'470'620
 
- - rlaMols : bin+maxdeg, lvs=R
+ - rlaMols : bin+maxdeg, R
 
  - laMols with wdL:
   - A : ?

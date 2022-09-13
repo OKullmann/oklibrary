@@ -384,17 +384,17 @@
 
 # MOLS> ./laMols 6 data/SpecsCollection/3MOLS/basis "" count "" enu newv "" "" 1 16 "" "" ""
 #   weights: Z -> 0 0 0 0 0 0 0
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  6    count dom enu newv   asc  relpr   1        0     577.764    1679630  0    18900    12129  1.288690e+00  1.216495e+00
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     577.764    1679630  0    18900    12129  1.288690e+00  1.216495e+00
 #   weights: O -> 0 0 1 1 1 1 1
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  6    count dom enu newv   asc  relpr   1        0     472.158    1239987  0    14105     8700  6.496973e-01  8.809540e-01
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     472.158    1239987  0    14105     8700  6.496973e-01  8.809540e-01
 #   weights: A -> 0 0 1 2 3 4 5
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  6    count dom enu newv   asc  relpr   1        0     415.079    1234291  0    13997     8688  6.890501e-01  8.348211e-01
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     415.079    1234291  0    13997     8688  6.890501e-01  8.348211e-01
 #   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  6    count dom enu newv   asc  relpr   1        0     462.769    1204885  0    13733     8652  7.518530e-01  9.706667e-01
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu newv   asc  relpr   1        0     462.769    1204885  0    13733     8652  7.518530e-01  9.706667e-01
 
 # Optimising tau-probs (3600s, rep=100):
 # TAU/basis_6_newv_avepsd$ nomad np
