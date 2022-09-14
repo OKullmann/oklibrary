@@ -514,7 +514,13 @@
 
 # Optimising tau-probs (40000s, rep=10000):
 # TAU/basis_7_newv_ave$ nomad np
-# XXX
+# 142 231999126.350575  -1        -10          9          1        -10         10
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 151 Total model evaluations: 18196 Cache hits: 11 Total number of evaluations: 162
+# Possibly a better strategy is first to use lower rep, and then refine with higher rep:
+# TAU/basis_7_newv_ave$ nomad np3
+# running on server2 XXX
+
 # TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "XXX" 10000 10 all
 # XXX
 # TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
