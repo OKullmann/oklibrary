@@ -517,12 +517,20 @@
 # 142 231999126.350575  -1        -10          9          1        -10         10
 # A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
 # Blackbox evaluations: 151 Total model evaluations: 18196 Cache hits: 11 Total number of evaluations: 162
+# A very weak result.
 # Possibly a better strategy is first to use lower rep, and then refine with higher rep:
 # TAU/basis_7_newv_ave$ nomad np3
+# 399   9922896.985896  -1          8.54     -10          1         -9.23       1.17
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1249 Total model evaluations: 111362 Cache hits: 390 Total number of evaluations: 1639
+# Similar to above (somewhat better).
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "-1,8.54,-10,1,-9.23,1.17" 1000 10 all
+# 1000 : 9.66372388718203288818e+04 9.92289698589576216455e+06 4.51619428318711983855e+08; 2.92126665946392861279e+07
+# real    1m57.496s user    19m17.745s sys     0m2.026s
+# Restarting rep-10000 optimisation, with these values as starting point:
+# TAU/basis_7_newv_ave$ nomad np4
 # running on server2 XXX
 
-# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "XXX" 10000 10 all
-# XXX
 # TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
 
 # Optimising uni-probs (40000s, rep=10000):
