@@ -202,7 +202,31 @@
 # 10000 : 4.98015430554990121550e+05 4.39409558928033900593e+07 3.22267801544539605547e+09; 8.24790264012769165347e+07
 # real    17m16.346s user    171m34.361s sys     0m20.906s
 # MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "0.04,8,-9,6,-8,10,10" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  8   +count dom enu newv   asc  relpr   1     1356 9110455.219 10274641589  0 74727811 44725294  2.612179e+00  2.262952e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#560.52  0.92263   9.2973   124.92    240.2   2.3069  1.3332e-06   2.0463   1.0886  13.487
+#    32        0        0   27.246   3.2934        1           0  8.9e-05        0       0
+#   948        4     1700      200   1559.9       15           1   16.293   18.147      20
+#  48.3    0.367   4.3006   1.8968   86.052  0.88138   0.0011547  0.89496   1.0771  1.7065
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#493.94   1.5706   3.0282   39.871    122.7    1.472  2.9424e-05  1.1183    7.587  15.241
+#    16   1.0133        0        0  0.33058        1           0       0  0.33058       8
+#   716        7      100   130.09   1404.5       14           3  18.237   29.048      21
+#39.839  0.42494    2.568   31.039   103.87  0.83915    0.006667  1.0057   3.3086   1.313
+#      estlvs       uestlvs
+#3.499074e+08  2.737613e+08
+#3.474443e+05  1.800000e+05
+#5.988618e+14  2.612736e+11
+#1.794935e+11  9.996202e+08
+#   dm0        w  ltausp        minp     meanp     maxp       sdd        tb
+#6.4668   2.4907  14.862      0.3329   0.43078  0.54017  0.095289    1.1074
+#     0        2       1  3.0393e-08   0.14286  0.15877         0  0.003507
+#   484        7  1229.2         0.5       0.5  0.99674   0.49674    3.1193
+#7.1368  0.74929  24.865     0.14277  0.099033  0.11047  0.079695   0.22683
+# real    9699m6.318s user    151840m55.228s sys     1791m25.693s
+# Better than before, and nearly exactly matching the prediction.
+# Optimisation with rep=1000: XXX
 
 # Optimising on ave+sd:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np
