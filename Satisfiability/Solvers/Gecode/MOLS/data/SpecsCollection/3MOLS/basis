@@ -523,20 +523,35 @@
 # 399   9922896.985896  -1          8.54     -10          1         -9.23       1.17
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Blackbox evaluations: 1249 Total model evaluations: 111362 Cache hits: 390 Total number of evaluations: 1639
-# Similar to above (somewhat better).
+# Similar to old result (somewhat better).
 # TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "-1,8.54,-10,1,-9.23,1.17" 1000 10 all
 # 1000 : 9.66372388718203288818e+04 9.92289698589576216455e+06 4.51619428318711983855e+08; 2.92126665946392861279e+07
 # real    1m57.496s user    19m17.745s sys     0m2.026s
 # Restarting rep-10000 optimisation, with these values as starting point:
 # TAU/basis_7_newv_ave$ nomad np4
-# running on server2 XXX
-
-# TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
+# 1   19150633.4554    -1          8.54     -10          1         -9.23       1.17
+# 125 16724595.802382   0.06       8.5       -9.07       0.94      -8.39       1.07
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 166 Total model evaluations: 14138 Cache hits: 15 Total number of evaluations: 181
+# Some improvement obtained.
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "0.06,8.5,-9.07,0.94,-8.39,1.07" 10000 10 all
+# 10000 : 4.76067261225841879408e+04 1.67245958023817242074e+07 4.83382422091734394152e+09; 9.25175042845227280268e+07
+# real    19m22.760s user    192m37.889s sys     0m22.375
+# MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/basis "" +count "" enu newv "" "" 1 16  "0.06,8.5,-9.07,0.94,-8.39,1.07" "" ""
+# running on server XXX
 
 # Optimising uni-probs (40000s, rep=10000):
-# TAU/basis_7_newv_ave$ nomad np
-# XXX
-# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu newv hash "XXX" 10000 10 all
+# TAU/basis_7_newv_ave$ nomad nprand
+# 95 487154170.944      1         -9          7          5        -10          7
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 152 Total model evaluations: 14158 Cache hits: 10 Total number of evaluations: 162
+# Very weak (as with tau-probs).
+# Optimising first with rep=1000:
+# TAU/basis_7_newv_ave$ nomad np3rand
+# running on server2 XXX
+
+
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu,rand newv hash "XXX" 10000 10 all
 # XXX
 # TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
 
