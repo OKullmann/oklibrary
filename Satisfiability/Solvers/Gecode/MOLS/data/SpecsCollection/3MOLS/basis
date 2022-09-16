@@ -554,10 +554,14 @@
 # Much better than with high reps.
 # Restarting rep=10000 optimisation, with these values as starting point:
 # TAU/basis_7_newv_ave$ nomad np4rand
-# XXX
-# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu,rand newv hash "XXX" 10000 10 all
-# XXX
-# TAU/basis_7_newv_ave$ time ./laMols 7 ../../basis "" +count "" enu newv "" "" 1 16  "XXX" "" ""
+# 160 18895047.168      0.225877   8.061712  -5.990959   1.393746 -10         -5.016335
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 163 Total model evaluations: 16187 Cache hits: 7 Total number of evaluations: 170
+# TAU/basis_7_newv_ave$ time ./TAUscan 7 ../../basis "" enu,rand newv hash "0.225877,8.061712,-5.990959,1.393746,-10,-5.016335" 10000 10 all
+# 10000 : 4.91520000000000000000e+05 1.88950471679999999997e+07 8.49346560000000000000e+08; 2.74511831576101427181e+07
+# real    18m59.136s user    188m32.205s sys     0m22.413s
+# MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/basis "" +count "" enu newv "" "" 1 16  "0.225877,8.061712,-5.990959,1.393746,-10,-5.016335" "" ""
+# running on server XXX
 
 
 
