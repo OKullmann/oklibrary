@@ -226,7 +226,11 @@
 #7.1368  0.74929  24.865     0.14277  0.099033  0.11047  0.079695   0.22683
 # real    9699m6.318s user    151840m55.228s sys     1791m25.693s
 # Better than before, and nearly exactly matching the prediction.
-# Optimisation with rep=1000: XXX
+# Optimisation with rep=1000:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np4
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "XXX" 1000 10 all
+# Refining optimisation with rep=10000: XXX
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 
 # Optimising on ave+sd:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np
@@ -248,7 +252,35 @@
 # 10000 : 5.40000000000000000000e+05 4.17189724350000000013e+07 1.57464000000000000000e+09; 6.88188593080104786350e+07
 # real    16m51.033s user    167m9.914s sys     0m20.936s
 # MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.59,3,5,-1,-8,9,-9" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  8   +count dom enu newv   asc  relpr   1     1356 10554552.661 10990716013  0 72800495 42496492  1.431808e+00  1.916139e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds        solc        tr  pelvals      dp
+#592.86  0.97488   10.098   123.67   242.03  2.3774  4.0919e-06     2.411    1.353  13.008
+#    32        0        0   23.243   3.0488       1           0  0.000104        0       0
+#   948        4     1740      200   1257.4      13           1    22.062   18.116      22
+#54.412  0.31918   3.5958   2.1951   83.833  0.8656   0.0020228    1.0215   1.2964   1.639
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#512.42   1.5534   3.0287   40.176   127.77   1.4959  2.8991e-05  1.3062   7.9166  14.645
+#    16   1.0154        0        0  0.36036        1           0       0  0.36036       9
+#   717        7       80   130.41   1391.1       14           3  28.443    29.68      23
+#47.719  0.39712   2.4489   29.143    102.2  0.85319   0.0066935  1.1491   3.4126  1.3581
+#      estlvs       uestlvs
+#1.296175e+08  1.985262e+08
+#4.252169e+05  2.880000e+05
+#1.434981e+12  2.418647e+11
+#6.953566e+08  5.575715e+08
+#   dm0        w  ltausp        minp     meanp      maxp       sdd        tb
+#8.5194   2.4023  6.4506     0.33639     0.436   0.54789  0.098354    1.2793
+#     0        2       1  0.00063167   0.14286   0.16671         0  0.003295
+#   570        7  931.56         0.5       0.5   0.99775   0.49775    3.3887
+#9.2946  0.56372   3.777     0.13251  0.085458  0.098459  0.078008   0.25048
+# real    11208m10.701s user    175909m12.670s sys     1492m28.953s
+# Somewhat better than tau-probs; again very close to prediction.
+# Optimisation with rep=1000:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np4rand
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "XXX" 1000 10 all
+# Refining optimisation with rep=10000: XXX
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 
 # Optimising on ave+sd:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad nprand
