@@ -194,7 +194,7 @@ N=8:
   - A : ?
   - L : ?
   - optimisation on tau-probs: R
-  - optimisation on uni-probs: R
+  - optimisation on uni-probs: 52'594'518 (reps=10000)
 
  - laMols with newvars:
   - Z : ?
