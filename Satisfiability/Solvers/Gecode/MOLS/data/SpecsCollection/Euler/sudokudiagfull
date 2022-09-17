@@ -228,7 +228,12 @@
 # Better than before, and nearly exactly matching the prediction.
 # Optimisation with rep=1000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np4
-# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "XXX" 1000 10 all
+# 589  9858253.956097  -0.8981     8.8792   -10         -4.13      -5.9765     8.8376     9.0221
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 1262 Total model evaluations: 107261 Cache hits: 330 Total number of evaluations: 1592
+# Restarting with rep=10000:
+# running on server2 XXX
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "XXX" 10000 10 all
 # Refining optimisation with rep=10000: XXX
 # MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 
