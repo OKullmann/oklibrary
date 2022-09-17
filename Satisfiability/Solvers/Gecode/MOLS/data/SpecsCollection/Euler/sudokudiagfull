@@ -255,10 +255,16 @@
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 1262 Total model evaluations: 107261 Cache hits: 330 Total number of evaluations: 1592
 # Restarting with rep=10000:
-# running on server2 XXX
-# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "XXX" 10000 10 all
-# Refining optimisation with rep=10000: XXX
-# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
+# TAU/sudokudiagfull_8_newv_ave$ nomad np5
+# 1   76832750.915874  -0.8981     8.8792   -10         -4.13      -5.9765     8.8376     9.0221
+# 139 20005661.703606  -0.7081    10        -10         -4.13      -5.9765    10          6.0221
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 144 Total model evaluations: 10106 Cache hits: 3 Total number of evaluations: 147
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.7081,10,-10,-4.13,-5.9765,10,6.0221" 10000 10 all
+# 10000 : 1.76981923583640614535e+04 2.00056617036055635563e+07 9.06934237047967050225e+09; 1.63793811437918596872e+08
+# real    17m41.763s user    175m39.346s sys     0m20.223s
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.7081,10,-10,-4.13,-5.9765,10,6.0221" "" ""
+# running on server XXX
 
 # Optimising on ave+sd:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np
@@ -306,7 +312,10 @@
 # Somewhat better than tau-probs; again very close to prediction.
 # Optimisation with rep=1000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np4rand
-# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "XXX" 1000 10 all
+# running on server2 XXX
+# Restarting with rep=10000:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np5rand
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "XXX" 10000 10 all
 # Refining optimisation with rep=10000: XXX
 # MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 
