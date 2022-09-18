@@ -272,6 +272,10 @@
 # Similar to above.
 # Running with rep=1000:
 # TAU/basis_7_wdL_ave$ nomad np2
+# 540 370922907.317022   0.038062   0.05368    0.097326   0.00148    0.639503
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1100 Total model evaluations: 94252 Cache hits: 410 Total number of evaluations: 1510
+# Refining with rep=10000:
 # running on server2 XXX
 
 # Optimising uni-probs (40000s, rep=10000):
