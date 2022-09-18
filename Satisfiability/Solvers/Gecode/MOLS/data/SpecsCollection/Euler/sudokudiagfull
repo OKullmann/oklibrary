@@ -312,11 +312,13 @@
 # Somewhat better than tau-probs; again very close to prediction.
 # Optimisation with rep=1000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np4rand
-# running on server2 XXX
+# 1280 28375875.648      0.555941   8.973638   0.068451   2.206301  -9.795013  -2.136567   2.410295
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 1337 Total model evaluations: 105044 Cache hits: 389 Total number of evaluations: 1726
 # Restarting with rep=10000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np5rand
+# running on server2 XXX
 # sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "XXX" 10000 10 all
-# Refining optimisation with rep=10000: XXX
 # MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
 
 # Optimising on ave+sd (rep=10000):
