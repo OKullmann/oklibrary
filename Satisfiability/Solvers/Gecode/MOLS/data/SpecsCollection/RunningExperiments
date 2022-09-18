@@ -12,4 +12,4 @@ server2:        3 running
 
 Euler/sudokudiagfull: rlaMols, maxdegdom, N=8 (32)
 Euler/sudokudiagfull: laMols, wdL, N=8
-Euler/sudokudiagfull: laMols, newv, N=8
+3MOLS/basis: gcMols, N=7, started 18.9.2022, 3:28. timeout set

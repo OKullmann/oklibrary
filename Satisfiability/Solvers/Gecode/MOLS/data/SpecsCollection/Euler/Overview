@@ -202,7 +202,7 @@ N=8:
   - A : ?
   - L : ?
   - optimisation on tau-probs: 44'725'294 (reps=10000)
-    - optimisation on ave+sd:  R
+    - optimisation on ave+sd:  42'916'285 (reps=10000)
   - optimisation on uni-probs: 42'496'492 (reps=10000)
     - optimisation on ave+sd:  41'529'625 (reps=10000)
 

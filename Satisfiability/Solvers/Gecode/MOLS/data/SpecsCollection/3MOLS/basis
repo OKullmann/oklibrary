@@ -22,8 +22,8 @@
 # real    197m14.058s user    1762m28.190s sys     660m11.641s
 # with 4 solutions found.
 # Rerunning:
-# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" 1 16 "lvs,1000000000"
-# XXX
+# MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" 1 16 "flvs,1000000000"
+# running on server2 XXX
 
 
 # rlaMols:
