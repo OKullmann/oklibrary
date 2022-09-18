@@ -270,6 +270,9 @@
 # 10000 : 8.08994002234867347124e+06 4.94041890383894209110e+08 6.15710319755351335965e+10; 1.40102001568028685800e+09
 # real    19m44.517s user    196m18.393s sys     0m23.343s
 # Similar to above.
+# Running with rep=1000:
+# TAU/basis_7_wdL_ave$ nomad np2
+# running on server2 XXX
 
 # Optimising uni-probs (40000s, rep=10000):
 # TAU/basis_7_wdL_ave$ nomad nprand

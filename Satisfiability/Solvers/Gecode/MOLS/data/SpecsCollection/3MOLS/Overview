@@ -60,8 +60,8 @@ N=7:
   - O : 
   - A : 
   - L : 
-  - optimisation on tau-probs:  (reps=10000)
-  - optimisation on uni-probs:  (reps=10000)
+  - optimisation on tau-probs: R (reps=1000,10000)
+  - optimisation on uni-probs: R (reps=1000,10000)
 
 
 N=7 solved by rlaMols (enu+maxdegdom) and with half the leaves by laMols
