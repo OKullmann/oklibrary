@@ -134,7 +134,32 @@
 # 10000 : 6.65219840175226301881e+05 5.22620395136348812339e+07 2.60748415147019011155e+09; 8.36926869526849777030e+07
 # real    15m59.846s user    158m56.794s sys     0m20.880s
 # MOLS$ time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu wdL "" "" 1 16 "5.1,1.1,0.32,0.0001,0.2,0.0801" "" ""
-# running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  8   +count dom enu  wdL   asc  relpr   1     1356 7399572.974 11578327788  0 80136490 53284567  2.917203e+00  2.528526e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc        tr  pelvals      dp
+#535.63  0.82913   8.2303   125.81   233.68   2.2239  1.6386e-06    1.7311  0.92973  14.042
+#    32        0        0   21.364   5.2273        1           0  0.000104        0       0
+#   948        5   1966.7      200   1401.1       14           1    32.201   18.416      21
+#34.355  0.42404   4.3526    1.471   92.171  0.93987   0.0012801    1.0784   1.0578  1.5688
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#470.37    1.645   3.0225   28.027   99.619   1.3673  2.4623e-05  0.81794   7.3719   15.53
+#    16   1.0185        0        0  0.35398        1           0        0  0.35398       9
+#   721        7   138.46   130.02   1382.4       13           3   32.707   26.102      22
+#40.695  0.44725   2.5688   25.761   102.13  0.76359   0.0061631  0.95284   3.5009  1.2731
+#      estlvs       uestlvs
+#5.067401e+08  3.939564e+08
+#2.994057e+05  1.555200e+05
+#1.691066e+14  9.331200e+11
+#7.806426e+10  2.304264e+09
+#   dm0        w   ltausp        minp    meanp     maxp       sdd       tb
+#5.2178   2.9844   3.9774     0.22349  0.36273  0.53454   0.13512  0.96891
+#     0        2        1  2.7754e-08  0.14286  0.17339         0  0.00578
+#   484        7   29.832         0.5      0.5  0.97753   0.47753   11.245
+#6.3863  0.84702  0.85936     0.14696  0.10128  0.11903  0.081958  0.46269
+# real    9164m23.235s user    123326m12.985s sys     2694m51.119s
+# Close to prediction.
+# Rerunning optimisation, first with rep=1000:
+# XXX
 
 # Optimising on uni-probs (MAX_TIME 30000s, rep=10000):
 # sudokudiagfull_8_wdL_ave$ nomad nprand
@@ -339,9 +364,15 @@
 # Blackbox evaluations: 1337 Total model evaluations: 105044 Cache hits: 389 Total number of evaluations: 1726
 # Restarting with rep=10000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np5rand
-# running on server2 XXX
-# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "XXX" 10000 10 all
-# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "XXX" "" ""
+1 48640186.5552     0.555941   8.973638   0.068451   2.206301  -9.795013  -2.136567   2.410295
+76 40243102.392      1          9          3.068451   2.206301 -10         -4.136567  -2.589705
+A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 147 Total model evaluations: 12144 Cache hits: 4 Total number of evaluations: 151
+# Only a small improvement over the previous optimisation.
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "1,9,3.068451,2.206301,-10,-4.136567,-2.589705" 10000 10 all
+# 10000 : 1.72800000000000000000e+05 4.02431023919999999998e+07 1.49299200000000000000e+10; 2.21661274357220159582e+08
+# real    16m4.280s user    159m8.346s sys     0m19.030s
+# Since the predictions seem always very precise, not worse to try this.
 
 # Optimising on ave+sd (rep=10000):
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad nprand
