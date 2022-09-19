@@ -277,8 +277,8 @@
 # Blackbox evaluations: 1100 Total model evaluations: 94252 Cache hits: 410 Total number of evaluations: 1510
 # Refining with rep=10000:
 # TAU/basis_7_wdL_ave$ nomad np3
-# 1 490169466.700853   0.038062   0.05368    0.097326   0.00148    0.639503
-133 446292280.318124   0.124762   0.0001     0.090326   0.01508    0.730303
+# 1   490169466.700853   0.038062   0.05368    0.097326   0.00148    0.639503
+# 133 446292280.318124   0.124762   0.0001     0.090326   0.01508    0.730303
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 173 Total model evaluations: 14145 Cache hits: 20 Total number of evaluations: 193
 # A relatively small improvement; much worse than newvars below.
