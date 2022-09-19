@@ -276,7 +276,12 @@
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Blackbox evaluations: 1100 Total model evaluations: 94252 Cache hits: 410 Total number of evaluations: 1510
 # Refining with rep=10000:
-# running on server2 XXX
+# TAU/basis_7_wdL_ave$ nomad np3
+# 1 490169466.700853   0.038062   0.05368    0.097326   0.00148    0.639503
+133 446292280.318124   0.124762   0.0001     0.090326   0.01508    0.730303
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 173 Total model evaluations: 14145 Cache hits: 20 Total number of evaluations: 193
+# A relatively small improvement; much worse than newvars below.
 
 # Optimising uni-probs (40000s, rep=10000):
 # TAU/basis_7_wdL_ave$ nomad nprand
@@ -287,6 +292,10 @@
 # 10000 : 3.68640000000000000000e+06 5.23163386079999999987e+08 1.71992678400000000000e+11; 2.32581053450552105717e+09
 # real    18m17.305s user    181m37.323s sys     0m22.579s
 # Indeed does not look promising.
+# Running with rep=1000:
+# TAU/basis_7_wdL_ave$ nomad np2rand
+# running on server2 XXX
+
 
 
 

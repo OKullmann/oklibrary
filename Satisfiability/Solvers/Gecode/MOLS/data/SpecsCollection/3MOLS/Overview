@@ -52,7 +52,7 @@ N=7:
  - rlaMols : enu+maxdegdom, 42'178'223
 
  - laMols with wdL:
-  - optimisation on tau-probs: predicts 5*10^8    (reps=10000)
+  - optimisation on tau-probs: predicts 4.5*10^8    (reps=1000,10000)
   - optimisation on uni-probs: predicts 5.2*10^8  (reps=10000)
 
  - laMols with newvars:
