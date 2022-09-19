@@ -60,7 +60,7 @@ N=7:
   - O : 
   - A : 
   - L : 
-  - optimisation on tau-probs: R (reps=1000,10000)
+  - optimisation on tau-probs: 20'240'533 (reps=1000,10000)
   - optimisation on uni-probs: R (reps=1000,10000)
 
 
