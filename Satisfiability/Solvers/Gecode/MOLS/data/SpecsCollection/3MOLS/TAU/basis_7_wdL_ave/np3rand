@@ -1,0 +1,13 @@
+DIMENSION               5
+BB_EXE                  ns3rand
+BB_OUTPUT_TYPE          OBJ
+X0                      ( 0.004828 0.081407 0.087 0.066518 7 )
+LOWER_BOUND             * 0.0001
+UPPER_BOUND             * 7
+NB_THREADS_OPENMP       10
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                40000
+LH_SEARCH               100 10
+MEGA_SEARCH_POLL        true
+SPECULATIVE_SEARCH_MAX  10
