@@ -7,7 +7,6 @@ Euler/sudokudiagfull: laMols, newv, N=8, started 17.9.2022, 16:28, target 1356
 
 
 
-server2:        2 running
+server2:        1 running
 
 Euler/sudokudiagfull: rlaMols, maxdegdom, N=8 (32), target 1356
-3MOLS/basis: gcMols, N=7, started 18.9.2022, 3:28. timeout set

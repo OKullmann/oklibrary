@@ -47,9 +47,10 @@ N=6:
 
 N=7:
 
- - gcMols  : 
+ - gcMols  : with flvs=15'932'702'401 only 8 solutions found (in
+             total time 23062m20.920s)
 
- - rlaMols : enu+maxdegdom, 42'178'223
+ - rlaMols : enu+maxdegdom, 42'178'223 (total time 112023m48.286s)
 
  - laMols with wdL:
   - optimisation on tau-probs: predicts 4.5*10^8    (reps=1000,10000)
@@ -60,12 +61,10 @@ N=7:
   - O : 
   - A : 
   - L : 
-  - optimisation on tau-probs: 20'240'533 (reps=1000,10000)
+  - optimisation on tau-probs: 20'240'533 (reps=1000,10000; total time
+      95613m26.041s)
   - optimisation on uni-probs: R (reps=1000,10000)
 
-
-N=7 solved by rlaMols (enu+maxdegdom) and with half the leaves by laMols
-(with newvars).
 
 
 2) symmb

@@ -23,7 +23,11 @@
 # with 4 solutions found.
 # Rerunning:
 # MOLS> time ./gcMols 7 data/SpecsCollection/3MOLS/basis "" +count dom enu maxdegdom "" 1 16 "flvs,1000000000"
-# running on server2 XXX
+#  1 2 3 4 5 6 7 8
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom enu maxdegdom  asc   1         8 1383740.915 2352511100684 15932702401 26572991192     47  1
+# real    2368m42.956s user    23062m20.920s sys     7375m54.048s
+
 
 
 # rlaMols:
