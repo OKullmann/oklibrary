@@ -303,8 +303,11 @@
 # Blackbox evaluations: 1131 Total model evaluations: 100237 Cache hits: 390 Total number of evaluations: 1521
 # Refining with rep=10000:
 # TAU/basis_7_wdL_ave$ nomad np3rand
-# running on server2 XXX
-
+# 1   587769647.04       0.004828   0.081407   0.087      0.066518   7
+# 122 460406863.08       0.252      0.0001     0.1441     0.0001     7
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 179 Total model evaluations: 16141 Cache hits: 15 Total number of evaluations: 194
+# Very similar to tau-probs.
 
 
 
@@ -609,7 +612,30 @@
 # 10000 : 4.91520000000000000000e+05 1.88950471679999999997e+07 8.49346560000000000000e+08; 2.74511831576101427181e+07
 # real    18m59.136s user    188m32.205s sys     0m22.413s
 # MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/basis "" +count "" enu newv "" "" 1 16  "0.225877,8.061712,-5.990959,1.393746,-10,-5.016335" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1     2400 5283082.217 3395717549  0 35465110 19553491  2.902905e+00  1.518644e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc      tr  pelvals      dp
+#885.22  0.72533    14.86   124.37   165.46    2.032     0  2.2276  0.45035  14.393
+#   687        0   2.7532   58.199   8.8808        1     0  0.1353        0       0
+#  1176        4   652.05   127.19     1180       12     0   28.01   24.264      21
+# 26.86  0.48857   3.4631   1.0857   78.222  0.94599     0  1.2652  0.65853   1.756
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#838.54  1.6424   3.8322   27.342   68.816   1.4645  0.00012274  1.0514   3.6579  16.119
+#   270  1.0159        0        0   0.2401        1           0       0  0.22472      10
+#   923       6   1033.3   126.03   994.06       10           1   22.28    29.31      22
+#36.249  0.4015   6.3134   30.182   93.828  0.82317    0.011078  1.4203   2.1056  1.4003
+#      estlvs       uestlvs
+#1.843279e+08  6.464930e+07
+#1.260315e+05  2.457600e+05
+#2.391261e+11  3.397386e+09
+#1.138356e+09  1.075616e+08
+#   dm0        w  ltausp        minp     meanp     maxp       sdd       tb
+#5.0017   2.2289  65.628     0.35904   0.46735  0.58042   0.10718   1.7462
+#     0        2  1.0157  0.00031314   0.16667  0.18875         0  0.48434
+#   488        6  1325.8         0.5       0.5  0.96843   0.46843   6.4989
+#8.6025  0.55793  44.227     0.11582  0.075668   0.1058  0.082658  0.38604
+# real    5654m41.311s user    88051m22.223s sys     1321m2.668s
+# Slightly better than tau-probs.
 
 
 

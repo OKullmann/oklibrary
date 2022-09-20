@@ -54,16 +54,13 @@ N=7:
 
  - laMols with wdL:
   - optimisation on tau-probs: predicts 4.5*10^8    (reps=1000,10000)
-  - optimisation on uni-probs: predicts 5.2*10^8  (reps=10000)
+  - optimisation on uni-probs: predicts 4.6*10^8    (reps=1000,10000)
 
  - laMols with newvars:
-  - Z : 
-  - O : 
-  - A : 
-  - L : 
   - optimisation on tau-probs: 20'240'533 (reps=1000,10000; total time
       95613m26.041s)
-  - optimisation on uni-probs: R (reps=1000,10000)
+  - optimisation on uni-probs: 19'553'491 (reps=1000,10000); total time
+      88051m22.223s
 
 
 
