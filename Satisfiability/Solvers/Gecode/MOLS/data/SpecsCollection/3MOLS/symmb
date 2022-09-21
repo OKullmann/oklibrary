@@ -321,6 +321,12 @@
 # 307   736028.28       4.08       0.1001     0.8        0.0201     7
 # A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 563 Total model evaluations: 52292 Cache hits: 103 Total number of evaluations: 666
+# TAU/symmb_7_wdL_ave$ time ./TAUscan 7 ../../symmb "" enu,rand wdL hash "4.08,0.1001,0.8,0.0201,7" 1000 10 all
+# 1000 : 2.70000000000000000000e+03 7.36028279999999999973e+05 1.67961600000000000000e+07; 1.46211400770116061074e+06
+# real    1m7.160s user    10m57.266s sys     0m1.765s
+# Restarting with 20000s, rep=2000:
+# TAU/symmb_7_wdL_ave$ nomad np2rand
+# running on server2 XXX
 
 
 
