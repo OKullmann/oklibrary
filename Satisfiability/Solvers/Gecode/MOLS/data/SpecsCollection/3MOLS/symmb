@@ -248,9 +248,18 @@
 # Very similar to the three worse runs above.
 
 # Rerunning with version >= 0.99:
-# TAU/symmb_7_wdL_ave> nomad np
-# sunning on server2 XXX
-# TAU/symmb_7_wdL_ave$ > time ./TAUscan 7 ../symmb "" enu wdL hash "XXX" 1000 10 all
+
+# tau-probs with 10000s, rep=1000:
+# TAU/symmb_7_wdL_ave$ nomad np
+# 449  1529889.832272   4.559999   0.000104   6.640006   0.060001   3.5
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 458 Total model evaluations: 44218 Cache hits: 53 Total number of evaluations: 511
+# TAU/symmb_7_wdL_ave$ time ./TAUscan 7 ../../symmb "" enu wdL hash "4.559999,0.000104,6.640006,0.060001,3.5" 1000 10 all
+# 1000 : 2.07871097518787072058e+04 1.72203029829667626620e+06 6.79529186973404663513e+07; 3.84971818966658985596e+06
+# real    1m25.281s user    13m52.627s sys     0m1.896s
+# Perhaps the number of bb-evaluations is too low; restarting with 20000s, rep=2000:
+# TAU/symmb_7_wdL_ave$ nomad np2
+# running on server2 XXX
 # TAU/symmb_7_wdL_ave$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
 # XXX
 
