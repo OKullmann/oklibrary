@@ -292,11 +292,35 @@
 # 2000 : 1.35070109646084650121e+04 8.22340330077425801960e+05 2.08558416405313953946e+07; 1.29450461787169999980e+06
 # real    2m41.487s user    26m35.535s sys     0m3.537s
 # MOLS> time ./laMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu wdL "" "" 1 16 "3.375199,0.0001,0.709306,0.0083,0.0001" "" ""
-# running on server XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu  wdL   asc  relpr   1       64  122879.554  165106367  0  1406537   916355  4.529915e+00  3.846254e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#827.89  0.71952   14.096   125.87   159.12   1.8813     0   1.5935  0.35297  11.021
+#   537        0   2.8727   62.843   42.857        1     0  0.41314        0       0
+#  1104        5   159.57   133.46    880.7        9     0   11.339   22.368      18
+#38.724   0.5194   3.3535   1.0304   63.043  0.78789     0  0.73909   0.4715   1.768
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+#768.49   1.7289   5.5002   18.616   46.271   1.2544  6.9842e-05  0.52524   2.7824  12.438
+#   270    1.025        0        0  0.23502        1           0        0  0.23502       6
+#   906        6   755.56   130.35   991.72       10           1   13.842   19.953      19
+#42.405  0.52931   6.1104    26.15   76.748  0.62303   0.0083569  0.85583   1.9714  1.6172
+#      estlvs       uestlvs
+#1.972008e+07  1.447261e+07
+#8.948594e+03  3.600000e+03
+#1.662049e+12  9.447840e+09
+#3.735942e+09  5.525745e+07
+#   dm0        w  ltausp        minp    meanp     maxp       sdd       tb
+#3.4808   2.8694  9.1589     0.23754  0.37677  0.54986   0.13851   1.3303
+#     0        2       1  1.9244e-07  0.16667  0.17421         0  0.47809
+#   439        6   121.8         0.5      0.5  0.99428   0.49428   2.7112
+#6.0806  0.81978  3.5899     0.14536  0.10228  0.13262  0.093654   0.2225
+# real    134m49.493s user    2047m59.558s sys     42m4.110s
 
 # uni-probs with 10000s, rep=1000:
 # TAU/symmb_7_wdL_ave$ nomad nprand
-# running on server2 XXX
+# 307   736028.28       4.08       0.1001     0.8        0.0201     7
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 563 Total model evaluations: 52292 Cache hits: 103 Total number of evaluations: 666
 
 
 

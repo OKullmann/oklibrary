@@ -101,7 +101,19 @@
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 32 "" ""
 # running on server2 XXX (32 likely not efficient, but some speedup should be gained)
-# started 7.9.2022, 9:59
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom enu maxdegdom  asc  relpr   1     1356 23358070.084 31304805888  0 184238169 92588300
+#    mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc       tr  pelvals      dp
+#617.518  0.863    31.505  121.507   197.428   2.314  0.000    5.787    1.065  18.037
+# 32.000  0.000     0.000   18.721     4.795   1.000  0.000    0.000    0.000   0.000
+#948.000  5.000  1820.000  200.000  1368.839  15.000  2.000  158.449   28.736  36.000
+# 43.795  0.397    13.109    2.089    80.399   0.919  0.001    3.891    1.192   2.468
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc       tr  pelvals      dp
+#530.320  1.870    1.438   32.876    81.158   1.332  0.000    2.179    6.752  19.985
+# 16.000  1.019    0.000    0.000     0.407   1.000  0.000    0.000    0.405  11.000
+#740.000  6.000   77.600  125.187  1152.336  12.000  4.000  126.170   26.125  37.000
+# 41.257  0.421    2.821   26.649    81.241   0.687  0.005    2.855    2.885   2.116
+# real    20860m24.573s user    389301m10.093s sys     117580m30.856s
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu mindom "" "" 1 16 "" ""
 # aborted:

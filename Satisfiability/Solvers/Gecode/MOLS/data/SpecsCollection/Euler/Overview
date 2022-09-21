@@ -188,7 +188,8 @@ N=8:
 
  - gcMols  : enu+maxdegdom, 2'719'470'620
 
- - rlaMols : bin+maxdeg, R
+ - rlaMols : enu+maxdegdom, 92'588'300;
+     total time 23358070.084s
 
  - laMols with wdL:
   - A : ?
