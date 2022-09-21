@@ -66,7 +66,24 @@ N=7:
 
 2) symmb
 
-All solvers solve N=6.
+N=7:
+
+ - gcMols  : with flvs=XXX only XXX solutions found (in
+             total time XXX)
+
+ - rlaMols : bin+maxdegdom, 865'957 (total time 115246.474s)
+     (enu basically the same number of leaves, thus faster)
+
+ - laMols with wdL:
+  - optimisation on tau-probs: XXX (reps=1000,2000)
+  - optimisation on uni-probs: XXX (reps=1000,2000)
+
+ - laMols with newvars:
+  - optimisation on tau-probs: XXX (reps=1000,2000; total time
+      XXXs)
+  - optimisation on uni-probs: XXX (reps=1000,2000; total time
+      XXXs)
+
 
 gcMols unsuccessful for N=7.
 newvars, rlaMols (enu+maxdegdom), wdL can solve N=7 (in this order).
