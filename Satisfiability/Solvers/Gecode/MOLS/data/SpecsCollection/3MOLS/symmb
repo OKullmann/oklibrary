@@ -21,10 +21,22 @@
 
 # MOLS$ time ./gcMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom desc 1 16 ""
 # aborted after 8h wallclock-time without finding a solution.
-
+# MOLS$ time ./gcMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom "" 1 16 "t,100000"
+# running on server2 XXX
 
 
 # rlaMols:
+
+# N=6:
+
+# MOLS> time ./rlaMols 6 data/SpecsCollection/3MOLS/symmb "" count dom - - "" "" 1 1 "lvs,300" ""
+# solved exactly by bin/enu+maxdegdom/first
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  6    count dom bin maxdegdom  asc  relpr   1        0       2.292      12910  0      203      102
+#  6    count dom bin     first  asc  relpr   1        0       5.863      15727  0      347      174
+#  6    count dom enu maxdegdom  asc  relpr   1        0       2.185      12880  0      200      102
+#  6    count dom enu     first  asc  relpr   1        0       4.378      17618  0      301      199
+# So enu+maxdegdom appears best.
 
 # N=7:
 
@@ -42,6 +54,8 @@
 #902.000  5.000  119.403  126.579  777.803   8.000  1.000  11.219   24.362  30.000
 # 35.200  0.403    2.728   23.048   46.710   0.408  0.008   0.611    1.302   2.743
 # real    115m20.932s user    1503m58.171s sys     116m45.786s
+# MOLS> time ./rlaMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom - maxdegdom "" "" 1 16 ""
+# running on server2 XXX
 
 
 
@@ -232,6 +246,13 @@
 #  5123294.126  1.050  0.000  0.129  0.099  0.171  0.102   0.661
 # real    348m50.686s user    4762m53.183s sys     145m23.773s
 # Very similar to the three worse runs above.
+
+# Rerunning with version >= 0.99:
+# TAU/symmb_7_wdL_ave> nomad np
+# sunning on server2 XXX
+# TAU/symmb_7_wdL_ave$ > time ./TAUscan 7 ../symmb "" enu wdL hash "XXX" 1000 10 all
+# TAU/symmb_7_wdL_ave$ time ./laMols 7 ../symmb "" +count dom enu wdL "" "" 1 16 "XXX" "" ""
+# XXX
 
 
 
