@@ -7,4 +7,4 @@ Euler/sudokudiagfull: laMols, newv, N=8, started 17.9.2022, 16:28, target 1356
 
 server2:        1 running
 
-3MOLS/symmb: gcMols, N=7, maxdegdom, 100000s, started 20.9.2022, 21:11.
+3MOLS/symmb: laMols, newv, target 64

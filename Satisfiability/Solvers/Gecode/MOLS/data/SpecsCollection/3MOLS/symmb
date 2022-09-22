@@ -22,7 +22,10 @@
 # MOLS$ time ./gcMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom desc 1 16 ""
 # aborted after 8h wallclock-time without finding a solution.
 # MOLS$ time ./gcMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu maxdegdom "" 1 16 "t,100000"
-# running on server2 XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7   +count dom enu maxdegdom  asc   1         0  891005.335 1768726052048 11935465536 20060223747     44  1
+# real    1666m40.012s user    14850m5.340s sys     8432m8.360s
+
 
 
 # rlaMols:
@@ -326,7 +329,15 @@
 # real    1m7.160s user    10m57.266s sys     0m1.765s
 # Restarting with 20000s, rep=2000:
 # TAU/symmb_7_wdL_ave$ nomad np2rand
+# 421 726078.366      4.10992    0.200083   0.746612   0.00015    6.97239
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 661 Total model evaluations: 58204 Cache hits: 214 Total number of evaluations: 875
+# TAU/symmb_7_wdL_ave$ time ./TAUscan 7 ../../symmb "" enu,rand wdL hash "4.10992,0.200083,0.746612,0.00015,6.97239" 2000 10 all
+# 2000 : 2.70000000000000000000e+03 8.79036858000000000004e+05 9.95328000000000000000e+07; 3.17559108421549677223e+06
+# real    2m11.449s user    21m21.313s sys     0m3.470s
+# MOLS> time ./laMols 7 ../../symmb "" +count dom enu wdL "" "" 1 16 "4.10992,0.200083,0.746612,0.00015,6.97239" "" ""
 # running on server2 XXX
+
 
 
 
@@ -480,6 +491,27 @@
 # 15.193  0.642  0.000  0.127  0.087  0.117  0.088  0.330
 # real    109m1.731s user    1460m32.387s sys     62m29.879s
 # Slightly worse than above (but likely still very similar).
+
+# Rerunning with version >= 0.99:
+
+# tau-probs with 10000s, rep=1000:
+# TAU/symmb_7_newv_ave$ nomad np
+# running on server2 XXX
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "XXX" 1000 10 all
+# XXX
+# Restarting with 20000s, rep=2000:
+# TAU/symmb_7_newv_ave$ nomad np2
+# XXX
+
+# uni-probs with 10000s, rep=1000:
+# TAU/symmb_7_newv_ave$ nomad nprand
+# XXX
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu,rand newv hash "XXX" 1000 10 all
+# XXX
+# Restarting with 20000s, rep=2000:
+# TAU/symmb_7_newv_ave$ nomad np2rand
+# XXX
+
 
 # N=10:
 

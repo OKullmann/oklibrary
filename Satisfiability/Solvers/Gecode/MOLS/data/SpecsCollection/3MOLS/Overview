@@ -68,8 +68,8 @@ N=7:
 
 N=7:
 
- - gcMols  : with flvs=XXX only XXX solutions found (in
-             total time XXX)
+ - gcMols  : with flvs=11'935'465'536 zero solutions found (in
+             total time 891005.335)
 
  - rlaMols : bin+maxdegdom, 865'957 (total time 115246.474s)
      (enu basically the same number of leaves, thus faster)
