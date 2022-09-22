@@ -336,7 +336,29 @@
 # 2000 : 2.70000000000000000000e+03 8.79036858000000000004e+05 9.95328000000000000000e+07; 3.17559108421549677223e+06
 # real    2m11.449s user    21m21.313s sys     0m3.470s
 # MOLS> time ./laMols 7 ../../symmb "" +count dom enu wdL "" "" 1 16 "4.10992,0.200083,0.746612,0.00015,6.97239" "" ""
-# running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu  wdL   asc  relpr   1       64  107897.594  171956518  0  1457979   947783  3.855257e+00  4.865748e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#814.96  0.72132   13.948   126.17   160.06   1.8768     0    1.0367  0.36309  11.181
+#   522        0   2.5022   62.843   42.857        1     0  0.007278        0       0
+#  1104        4   159.57   135.44   932.01        9     0    13.918   22.644      20
+#62.064  0.51995   3.4547    1.567   63.544  0.78008     0    1.1172  0.49588  1.9135
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc       tr  pelvals      dp
+# 756.7   1.7344   5.3949   18.762   47.121   1.2568  6.7526e-05  0.34951   2.8065  12.579
+#   270    1.025        0        0  0.23502        1           0        0  0.23502       6
+#   906        6   755.56   134.86   995.47       10           1   14.195   21.329      21
+#62.903  0.54507   6.0748   26.264   77.856  0.62545   0.0082171  0.81017        2  1.7707
+#      estlvs       uestlvs
+#1.503469e+07  2.338702e+07
+#1.010118e+04  2.700000e+03
+#2.772495e+11  5.374771e+09
+#4.677815e+08  1.111747e+08
+#   dm0        w  ltausp        minp    meanp     maxp       sdd        tb
+#3.4652   2.8577  7.3758     0.24285   0.3781  0.54687   0.13489   0.87796
+#     0        2       1  3.4887e-06  0.16667  0.17686         0  0.011598
+#   424        6  26.952         0.5      0.5  0.97675   0.47675    4.8069
+#6.0032  0.81503  2.2217     0.14694  0.10207   0.1308  0.093785   0.79894
+# real    345m26.810s user    1798m17.605s sys     50m59.528s
 
 
 
@@ -496,9 +518,12 @@
 
 # tau-probs with 10000s, rep=1000:
 # TAU/symmb_7_newv_ave$ nomad np
-# running on server2 XXX
-# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "XXX" 1000 10 all
-# XXX
+# 148   204375.171886  -1          8        -10          2        -10          8
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 547 Total model evaluations: 50575 Cache hits: 57 Total number of evaluations: 604
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "-1,8,-10,2,-10,8" 1000 10 all
+# 1000 : 3.15919655671359847982e+03 2.04375171885804535805e+05 8.21457976031847265449e+06; 5.88585185513599986905e+05
+# real    1m23.501s user    13m40.225s sys     0m1.750s
 # Restarting with 20000s, rep=2000:
 # TAU/symmb_7_newv_ave$ nomad np2
 # XXX
