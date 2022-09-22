@@ -100,7 +100,6 @@
 # 40.836  0.420    2.841   26.776    80.590   0.680  0.001   1.209    2.853   2.120
 
 # MOLS> time ./rlaMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu maxdegdom "" "" 1 32 "" ""
-# running on server2 XXX (32 likely not efficient, but some speedup should be gained)
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
 #  8   +count dom enu maxdegdom  asc  relpr   1     1356 23358070.084 31304805888  0 184238169 92588300
 #    mu0  qfppc   pprunes  pmprune   pprobes  rounds   solc       tr  pelvals      dp
