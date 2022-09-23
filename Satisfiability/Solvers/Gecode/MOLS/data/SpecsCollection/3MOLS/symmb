@@ -533,16 +533,42 @@
 # 2000 : 3.14226284611996397222e+03 2.89355736411225778170e+05 2.33655245253110099475e+07; 1.22231686713566309322e+06
 # real    2m46.758s user    27m30.172s sys     0m3.550s
 # MOLS$ time ./laMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu newv "" "" 1 16 "-0.96,8.18,-10.0,1.890001,-10.0,8.58" "" ""
-# running on server2 XXX
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  7   +count dom enu newv   asc  relpr   1       64  126235.114   68361823  0   717948   400877  1.647166e+13  4.928928e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#880.76  0.73404   14.757   124.53   166.88   2.0373     0     2.451  0.45717  11.803
+#   590        0   2.3438   63.797   14.219        1     0  0.016359        0       0
+#  1104        3   396.69   133.22     1066       11     0    23.294   23.983      19
+# 43.52  0.48552   3.6278   1.4144   78.574  0.94017     0    1.4925  0.65855  1.8282
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#   834   1.6322   4.1019   27.488   70.144   1.4642  0.00015965  1.1851    3.737  13.497
+#   270   1.0227        0        0  0.23952        1           0       0  0.22779       8
+#   920        6      660   125.42   1087.4       11           1  21.572   27.218      20
+#53.455  0.40117   5.8659   29.794   93.999  0.82141    0.012634  1.6004   2.1235  1.5232
+#      estlvs       uestlvs
+#1.087642e+32  1.013992e+07
+#3.142263e+03  1.228800e+04
+#1.032820e+37  3.439854e+09
+#2.344744e+34  8.062101e+07
+#   dm0        w      ltausp        minp     meanp     maxp      sdd        tb
+#5.0072   2.2643       22632     0.35506   0.46285  0.57568  0.10644    1.9396
+#     0        2      1.0692  1.2765e-30   0.16667  0.19229        0  0.020404
+#   505        6  2.2904e+05         0.5       0.5  0.99321  0.49321      4.06
+#8.7308  0.60388       35484     0.12134  0.080614  0.10984  0.08412   0.58647
+# real    149m56.137s user    2103m55.137s sys     33m20.394s
+# Enormous nsel.
 
 # uni-probs with 10000s, rep=1000:
 # TAU/symmb_7_newv_ave$ nomad nprand
-# running on server2 XXX
-# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu,rand newv hash "XXX" 1000 10 all
-# XXX
+# 216   348162.528     -0.29      10         -7.72       3.24      -7.5        6.5
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 560 Total model evaluations: 50502 Cache hits: 83 Total number of evaluations: 643
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu,rand newv hash "-0.29,10,-7.72,3.24,-7.5,6.5" 1000 10 all
+# 1000 : 1.22880000000000000000e+04 3.48162527999999999992e+05 1.25829120000000000000e+07; 5.89494505695636283406e+05
+# real    1m22.201s user    13m31.270s sys     0m1.828s
 # Restarting with 20000s, rep=2000:
 # TAU/symmb_7_newv_ave$ nomad np2rand
-# XXX
+# running on server2 XXX
 
 
 # N=10:

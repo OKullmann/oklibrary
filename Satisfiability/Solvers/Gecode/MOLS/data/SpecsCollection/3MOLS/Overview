@@ -81,8 +81,8 @@ N=7:
       107897.594s)
 
  - laMols with newvars:
-  - optimisation on tau-probs: XXX (reps=1000,2000; total time
-      XXXs)
+  - optimisation on tau-probs: 400'877 (reps=1000,2000; total time
+      126235.114s)
   - optimisation on uni-probs: XXX (reps=1000,2000; total time
       XXXs)
 
