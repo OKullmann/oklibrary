@@ -526,11 +526,18 @@
 # real    1m23.501s user    13m40.225s sys     0m1.750s
 # Restarting with 20000s, rep=2000:
 # TAU/symmb_7_newv_ave$ nomad np2
-# XXX
+# 565 237917.045371  -0.96       8.18     -10.0        1.890001 -10.0        8.58
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations: 574 Total model evaluations: 50429 Cache hits: 181 Total number of evaluations: 755
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu newv hash "-0.96,8.18,-10.0,1.890001,-10.0,8.58" 2000 10 all
+# 2000 : 3.14226284611996397222e+03 2.89355736411225778170e+05 2.33655245253110099475e+07; 1.22231686713566309322e+06
+# real    2m46.758s user    27m30.172s sys     0m3.550s
+# MOLS$ time ./laMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu newv "" "" 1 16 "-0.96,8.18,-10.0,1.890001,-10.0,8.58" "" ""
+# running on server2 XXX
 
 # uni-probs with 10000s, rep=1000:
 # TAU/symmb_7_newv_ave$ nomad nprand
-# XXX
+# running on server2 XXX
 # TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu,rand newv hash "XXX" 1000 10 all
 # XXX
 # Restarting with 20000s, rep=2000:
