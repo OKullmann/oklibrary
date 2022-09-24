@@ -211,9 +211,6 @@ N=8:
 
 
 
-N=8 with newvars much faster than rlaMols.
-
-
 9) pandiagsudoku
 
 All solvers solve N=11.
