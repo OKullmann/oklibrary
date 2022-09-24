@@ -89,13 +89,9 @@ N=7:
   - L : 
   - optimisation on tau-probs: 400'877 (reps=1000,2000; total time
       126235.114s)
-  - optimisation on uni-probs: XXX (reps=1000,2000; total time
-      XXXs)
+  - optimisation on uni-probs: 406'644 (reps=1000,2000; total time
+      105583.516s)
 
-
-gcMols unsuccessful for N=7.
-newvars, rlaMols (enu+maxdegdom), wdL can solve N=7 (in this order).
-newvars has 50% leafcount of rlaMols, which has 30% leafcount of wdL.
 
 
 3) diag
