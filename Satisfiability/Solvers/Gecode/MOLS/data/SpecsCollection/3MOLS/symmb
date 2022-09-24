@@ -277,6 +277,9 @@
 
 # Rerunning with version >= 0.99:
 
+# MOLS$ time ./laMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu wdL "" "" 1 16 "" "" ""
+# running on server2 XXX
+
 # tau-probs with 10000s, rep=1000:
 # TAU/symmb_7_wdL_ave$ nomad np
 # 449  1529889.832272   4.559999   0.000104   6.640006   0.060001   3.5
@@ -516,6 +519,9 @@
 
 # Rerunning with version >= 0.99:
 
+# MOLS$ time ./laMols 7 data/SpecsCollection/3MOLS/symmb "" +count dom enu newv "" "" 1 16 "" "" ""
+# running on server2 XXX
+
 # tau-probs with 10000s, rep=1000:
 # TAU/symmb_7_newv_ave$ nomad np
 # 148   204375.171886  -1          8        -10          2        -10          8
@@ -568,7 +574,15 @@
 # real    1m22.201s user    13m31.270s sys     0m1.828s
 # Restarting with 20000s, rep=2000:
 # TAU/symmb_7_newv_ave$ nomad np2rand
+# 351 357196.176     -0.280332   6.99964   -8.431      2.740469  -8.559796   5.249404
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 598 Total model evaluations: 50549 Cache hits: 179 Total number of evaluations: 777
+# TAU/symmb_7_newv_ave$ time ./TAUscan 7 ../../symmb "" enu,rand newv hash "-0.280332,6.99964,-8.431,2.740469,-8.559796,5.249404" 2000 10 all
+# 2000 : 1.22880000000000000000e+04 3.83552304000000000002e+05 1.59252480000000000000e+07; 6.42830364206409011615e+05
+# real    2m44.986s user    26m59.021s sys     0m3.653s
+# MOLS$ time ./laMols 7 ../../symmb "" +count dom enu newv "" "" 1 16 "-0.280332,6.99964,-8.431,2.740469,-8.559796,5.249404" "" ""
 # running on server2 XXX
+
 
 
 # N=10:
