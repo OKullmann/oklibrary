@@ -186,28 +186,29 @@ N=7:
 
 N=8:
 
- - gcMols  : enu+maxdegdom, 2'719'470'620
+ - gcMols  : enu+maxdegdom, 2'719'470'620+1356
+     total time 397'586.577s
 
  - rlaMols : enu+maxdegdom, 92'588'300;
-     total time 23358070.084s
+     total time 23'358'070.084s
 
  - laMols with wdL:
-  - A : ?
-  - L : ?
   - optimisation on tau-probs: 53'284'567 (reps=10000)
-              reps=1000,10000: ?
+     total time 7'399'572.974
+              reps=1000,10000: R
   - optimisation on uni-probs: 52'594'518 (reps=10000)
+     total time 7'823'939.849
 
  - laMols with newvars:
-  - Z : ?
-  - O : ?
-  - A : ?
-  - L : ?
   - optimisation on tau-probs: 44'725'294 (reps=10000)
+     total time 9'110'455.219
               reps=1000,10000: R
     - optimisation on ave+sd:  42'916'285 (reps=10000)
+     total time 9'913'785.608
   - optimisation on uni-probs: 42'496'492 (reps=10000)
+     total time 10'554'552.661
     - optimisation on ave+sd:  41'529'625 (reps=10000)
+     total time 9'095'023.585
 
 
 

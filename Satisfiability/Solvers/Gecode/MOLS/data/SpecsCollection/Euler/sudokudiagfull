@@ -175,8 +175,14 @@
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Blackbox evaluations: 1153 Total model evaluations: 92463 Cache hits: 279 Total number of evaluations: 1432
 # Restarting with rep=10000 (30000s):
+# $ nomad np3
+# 163 49698255.154519   0.34       4          1.3001     0.6601     0.8        5.920004
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# sudokudiagfull_8_wdL_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu wdL hash "0.34,4,1.3001,0.6601,0.8,5.920004" 10000 10 all
+# 10000 : 4.99492027658674696710e+05 4.96982551545192016929e+07 5.08718259378250939399e+09; 1.04369604397867639804e+08
+# real    14m32.905s user    144m15.326s sys     0m19.449s
+# MOLS$ time ./laMols 8 ../../sudokudiagfull "" +count dom enu wdL "" "" 1 16 "0.34,4,1.3001,0.6601,0.8,5.920004" "" ""
 # running on server2 XXX
-
 
 # Optimising on uni-probs (MAX_TIME 30000s, rep=10000):
 # sudokudiagfull_8_wdL_ave$ nomad nprand
