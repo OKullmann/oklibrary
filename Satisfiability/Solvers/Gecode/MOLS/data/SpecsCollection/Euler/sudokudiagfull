@@ -169,8 +169,8 @@
 #6.3863  0.84702  0.85936     0.14696  0.10128  0.11903  0.081958  0.46269
 # real    9164m23.235s user    123326m12.985s sys     2694m51.119s
 # Close to prediction.
-# Rerunning optimisation, first with rep=1000:
-# XXX
+# Rerunning optimisation, first with rep=1000, 30000s:
+# running on server2 XXX
 
 # Optimising on uni-probs (MAX_TIME 30000s, rep=10000):
 # sudokudiagfull_8_wdL_ave$ nomad nprand
