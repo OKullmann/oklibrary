@@ -375,9 +375,9 @@
 # Blackbox evaluations: 1337 Total model evaluations: 105044 Cache hits: 389 Total number of evaluations: 1726
 # Restarting with rep=10000:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np5rand
-1 48640186.5552     0.555941   8.973638   0.068451   2.206301  -9.795013  -2.136567   2.410295
-76 40243102.392      1          9          3.068451   2.206301 -10         -4.136567  -2.589705
-A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# 1  48640186.5552     0.555941   8.973638   0.068451   2.206301  -9.795013  -2.136567   2.410295
+# 76 40243102.392      1          9          3.068451   2.206301 -10         -4.136567  -2.589705
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
 # Blackbox evaluations: 147 Total model evaluations: 12144 Cache hits: 4 Total number of evaluations: 151
 # Only a small improvement over the previous optimisation.
 # sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu,rand newv hash "1,9,3.068451,2.206301,-10,-4.136567,-2.589705" 10000 10 all

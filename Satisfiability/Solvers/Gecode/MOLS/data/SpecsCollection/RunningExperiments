@@ -5,7 +5,7 @@ Euler/sudokudiagfull: laMols, newv, N=8, started 17.9.2022, 16:28, target 1356
 3MOLS/sudoku: gcMols, N=7
 
 
-server2:        2 running
+server2:        3 running
 
 3MOLS/symmb: laMols, newv, 4 runs, 4x target 64
 3MOLS/symmb: laMols, wdL, 2 runs, 2x target 64
