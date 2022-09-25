@@ -1,5 +1,26 @@
 # Counts for N >= 2:
-# 2, 0, 8, 0, 32, 0, 512, 0, 3840, 0,  368640
+# 2, 0, 8, 0, 32, 0, 512, 0, 3840
+# 0, 368640
+
+
+# rlaMols:
+
+# MOLS> time ./rlaMols 12 data/SpecsCollection/AbsolutelyTotallySymmetric "" count dom enu maxdegdom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 12    count dom enu maxdegdom  asc  relpr   1   368640     600.445  117097523  0   300601   184328
+#     mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+# 158.144  0.122  2578.216  170.079    8.469   1.036  0.000  0.074    0.028  7.082
+#  24.000  0.000  1100.000   54.545    2.283   1.000  0.000  0.000    0.000  0.000
+#4752.000  4.000  5300.000  200.000   16.667   2.000  0.000  9.022    1.010  8.000
+# 216.337  0.650  1332.356   38.002    5.414   0.187  0.000  0.277    0.155  0.939
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
+#  22.190  2.000    0.000    0.000   12.800   1.000  2.000  0.003   12.800  8.666
+#  12.000  2.000    0.000    0.000    0.286   1.000  0.000  0.000    0.286  3.000
+#2100.000  6.000    0.000    0.000   16.667   1.000  2.000  0.512   16.667  9.000
+#  21.302  0.026    0.000    0.000    5.501   0.000  0.013  0.008    5.501  0.473
+# real    0m37.879s user    10m0.446s sys     0m2.029s
+
+
 
 squares A
 ls A

@@ -1,19 +1,49 @@
 # Number of reduced diagonal+antidiagonal Latin squares of order n
 #
 # Counts for n >= 2:
-# 0, 0, 2, 8, 128, 171200; 7447587840
+# 0, 0, 2, 8, 128, 171200, 7447587840
 #
 # The counts of LSdiag are obtained from that via multiplication by N!.
 #
+# gcMols:
+
 # As with LSdiag, max-deg/dom-var seems the best variable-selection,
 # and domain-prop best node-wise, while values-prop best time-wise.
+
+# N=8:
+
 # N=8 on csltok2:
 # MOLS> ./gcMols 8 data/SpecsCollection/LSdiagrred "" count "dom,val" maxdegdom "" "" > OUT7diagrred &
 # domain-prop max-deg/dom-var bin-branch-min 7447587840 39139.913 206634706490 289249664 15473675007 41
 # values-prop max-deg/dom-var bin-branch-min 7447587840 39604.654 187583869572 4971983265 24839142209 43
 # So apparently here domain-prop pays off, and the best combination also
 # time-wise (by a small margin) is (domain-prop, max-deg/dom-var).
-#
+
+
+
+# rlaMols:
+
+# N=7:
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/LSdiagrred "" count dom enu maxdegdom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  7    count dom enu maxdegdom  asc  relpr   1   171200      56.549    1043674  0    82799    41446
+#    mu0  qfppc   pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+# 38.006  0.664   203.839  152.060   85.844   1.706   1.405  0.019    5.222  11.242
+#  8.000  0.000     0.000   44.444   15.385   1.000   0.000  0.000    0.000   0.000
+#198.000  3.000  1200.000  200.000  315.254   7.000  15.000  0.397   34.545  18.000
+# 21.715  0.547   149.473   29.356   47.966   0.639   1.986  0.028    5.928   2.048
+#   mu0  qfppc  pprunes  pmprune  pprobes  rounds    solc     tr  pelvals      dp
+# 9.534  1.882    5.250   17.271   42.515   1.006   2.729  0.001   37.864  13.224
+# 4.000  1.077    0.000    0.000    6.250   1.000   1.000  0.000    6.250   8.000
+#59.000  4.000  316.667  160.000  210.870   3.000  16.000  0.066   50.000  19.000
+# 9.064  0.281   18.341   32.014   12.385   0.081   1.539  0.002   12.779   1.531
+# real    0m7.750s user    0m56.556s sys     0m50.788s
+
+
+
+# laMols:
+
 # Comparison with laMols of version 0.2.1 (without pruning):
 # MOLS$ ./laMols 14 data/SpecsCollection/LSdiagrred "" satd dom bineag "" 0,2,3,4,5,6,7,8,9,10,11,12,13 1
 # domain-prop binary-eager bin-branch-min 1 6.638 1828 0 80 79
