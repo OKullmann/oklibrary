@@ -1,9 +1,37 @@
 # Counts for N >= 2:
 # 0, 0, 0, 0, 0, 240, 1440, >= 1
 
+# For N <= 8 same counts as Powerset5idem.
+
+
 # gcMols:
+
 # MOLS> time ./gcMols 10 data/SpecsCollection/Powerset4idem "" satd dom enu mindom "" 1 12
 # aborted after 5min wallclock-time without finding a solution.
+
+
+# rlaMols:
+
+# using dom+enu+mindom
+
+# N=8:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset4idem "" +count dom enu mindom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom enu    mindom  asc  relpr   1     1440    2431.602    3994558  0    15061     9072
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+# 823.213  1.140    5.124  119.723  261.097   2.647  0.000   4.929    2.964  5.890
+# 749.000  0.000    0.000  114.581  118.115   1.000  0.000   0.549    0.000  0.000
+#1120.000  2.000    7.809  124.701  547.016   5.000  0.000  14.274    7.439  7.000
+#  60.649  0.503    2.083    3.549   93.505   0.998  0.000   2.181    2.106  0.926
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#661.875  1.924    1.889    8.757   38.413   1.166  0.159   0.807    3.570  7.270
+#577.000  1.098    0.000    0.500    2.341   1.000  0.000   0.001    1.000  6.000
+#822.000  3.667    9.231   40.530  328.345   3.000  1.000  11.110   17.640  8.000
+# 70.350  0.523    2.096    9.854   54.537   0.399  0.365   1.239    2.510  0.478
+# real    2m38.473s user    40m31.607s sys     0m10.833s
+
+
 
 
 squares P1 P2 P3 P4

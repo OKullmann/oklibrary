@@ -1,9 +1,56 @@
 # Counts for N >= 2:
-# 0, 0, 0, 0, 0, 240, >= 1
+# 0, 0, 0, 0, 0, 240, 1440, 10080
+
+# For N <= 8 same counts as Powerset4idem.
 
 # gcMols:
+
 # MOLS> time ./gcMols 9 data/SpecsCollection/Powerset5idem "" satd dom enu mindom "" 1 12
 # aborted after 1min wallclock-time without finding a solution.
+
+
+
+# rlaMols:
+
+# using dom+enu+mindom
+
+# N=8:
+
+# MOLS> time ./rlaMols 8 data/SpecsCollection/Powerset5idem "" +count dom enu mindom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8   +count dom enu    mindom  asc  relpr   1     1440    4715.817    5315315  0    15157     9120
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals     dp
+#1034.066  1.147    5.477  119.380  279.606   2.821  0.048  10.006    2.993  6.284
+# 930.000  0.000    0.000  114.037  116.178   1.000  0.000   1.011    0.000  0.000
+#1400.000  2.000    8.329  125.054  624.516   6.000  1.000  27.050    7.267  9.000
+#  80.929  0.521    2.256    3.716  113.622   1.140  0.213   4.868    2.190  1.270
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 823.861  2.056    1.775    7.779   28.583   1.111  0.126   1.133    2.767   7.666
+# 724.000  1.123    0.000    0.000    0.240   1.000  0.000   0.000    0.240   4.000
+#1261.000  5.000    9.231   48.159  285.078   3.000  1.000  18.423   13.760  10.000
+#  87.028  0.674    2.025    9.574   46.137   0.345  0.332   1.993    2.202   0.982
+# real    5m8.980s user    78m35.818s sys     0m4.087s
+
+# N=9:
+
+# MOLS> time ./rlaMols 9 data/SpecsCollection/Powerset5idem "" +count dom enu mindom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  9   +count dom enu    mindom  asc  relpr   1    10080  229472.128  523622500  0  2127992  1563414
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+#1394.015  0.785    1.382  119.245  163.132   1.782  0.000   6.141    0.478   9.039
+#1257.000  0.000    0.000   93.838   94.621   1.000  0.000   1.600    0.000   0.000
+#2160.000  3.500    6.368  122.275  828.154   8.000  0.000  48.186    4.884  11.000
+# 166.722  0.641    1.778    5.339   63.847   0.713  0.000   3.997    0.945   1.067
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+#1239.280  3.307    0.409    2.139    3.091   1.000  0.006  0.110    0.859  10.607
+#1151.000  1.200    0.000    0.000    0.136   1.000  0.000  0.000    0.136   8.000
+#1638.000  6.000   16.327   29.968  153.231   2.000  1.000  8.426    7.835  12.000
+#  38.763  0.775    1.267    4.017    5.567   0.015  0.080  0.194    0.483   0.734
+# real    241m6.866s user    3824m32.139s sys     3m30.940s
+# Now recording the tree:
+# time ./rlaMols 9 data/SpecsCollection/Powerset5idem "" count dom enu mindom "" "" 1 16 "" "+tree"
+# running on server XXX
+
 
 
 squares P1 P2 P3 P4 P5

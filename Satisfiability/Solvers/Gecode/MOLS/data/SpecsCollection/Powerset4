@@ -1,9 +1,33 @@
 # Counts for N >= 2:
-# 0, 0, 0, 720, 0, >= 1
+# 0, 0, 0, 720, 0, 1814400
+
 
 # gcMols:
+
 # MOLS> time ./gcMols 8 data/SpecsCollection/Powerset4 "" satd dom enu mindom "" 1 12
 # aborted after 1min wallclock-time without finding a solution.
+
+
+
+# rlaMols:
+
+# using dom+enu+mindom
+
+# MOLS> time ./rlaMols 7 data/SpecsCollection/Powerset4 "" +count dom enu mindom "" "" 1 16 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  7    count dom enu    mindom  asc  relpr   1  1814400   31979.094  487332598  0  1790842  1245937
+#     mu0  qfppc   pprunes  pmprune  pprobes  rounds   solc      tr  pelvals      dp
+# 377.672  0.595  1645.659  128.941   50.228   1.380  0.000   0.758    0.533  10.496
+# 168.000  0.000     0.000   82.657    3.358   1.000  0.000   0.001    0.000   0.000
+#1176.000  4.000  2700.000  150.000  605.670   6.000  0.000  15.680    8.594  14.000
+# 232.002  0.952  1198.458   23.387   75.793   0.584  0.000   1.369    1.094   1.483
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
+# 191.466  2.071    1.366    2.754    6.913   1.008  1.456  0.070    3.472  11.899
+#  56.000  1.091    0.000    0.000    0.274   1.000  0.000  0.000    0.274   2.000
+#1040.000  5.000   47.059  120.937  330.607   4.000  2.000  9.584   12.308  15.000
+# 225.081  0.407    3.675    7.526   13.953   0.093  0.890  0.239    0.858   1.239
+# real    34m3.605s user    532m59.096s sys     1m26.459s
+
 
 
 squares P1 P2 P3 P4
