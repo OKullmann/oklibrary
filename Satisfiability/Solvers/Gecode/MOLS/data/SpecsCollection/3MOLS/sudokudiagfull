@@ -157,6 +157,11 @@
 #11.313  0.8891  35.341     0.13319  0.10793  0.12096  0.064736   1.4116
 # real    29561m5.884s user    449451m13.481s sys     4050m40.922s
 
+# Restarting "standard optimisation" (MEGA_SEARCH_POLL true, SPECULATIVE_SEARCH_MAX 10)
+# with rep=10000, 80000s:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np3
+# running on server2 XXX
+
 
 
 

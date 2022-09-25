@@ -126,15 +126,17 @@ N=7:
 N=8:
 
  - gcMols  : bin+mindom, 74'882'837'043
+     total time 12'383'378.129s
 
  - rlaMols : bin+mindom, 34'942'858 aborted after
      56 / 432 solutions found:
+     total time 21'676'834.773
      real    23067m36.353s user    361280m37.372s sys     3138m54.494s
 
  - laMols with wdL:
   - A : ?
   - L : ?
-  - optimisation on tau-probs: 37'066'778
+  - optimisation on tau-probs: ?
   - optimisation on uni-probs: ?
 
  - laMols with newvars:
@@ -143,6 +145,7 @@ N=8:
   - A : ?
   - L : ?
   - optimisation on tau-probs: 37'066'778
+     total time 26'967'073.467
     - optimisation on ave+sd:  ?
   - optimisation on uni-probs: ?
     - optimisation on ave+sd:  ?
