@@ -75,7 +75,7 @@ N=7:
      (enu basically the same number of leaves, thus faster)
 
  - laMols with wdL:
-  - A : R
+  - A : 11'900'571
   - L : R
   - optimisation on tau-probs: 916'355 (reps=1000,2000; total time
       122879.554s)

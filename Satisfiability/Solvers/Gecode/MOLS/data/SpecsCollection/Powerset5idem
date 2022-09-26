@@ -49,7 +49,12 @@
 # real    241m6.866s user    3824m32.139s sys     3m30.940s
 # Now recording the tree:
 # time ./rlaMols 9 data/SpecsCollection/Powerset5idem "" count dom enu mindom "" "" 1 16 "" "+tree"
-# running on server XXX
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  9    count dom enu    mindom  asc  relpr   1    10080  240160.118  523622500  0  2127992  1563414
+#1394.015  0.785    1.382  119.245  163.132   1.782  0.000   6.427    0.478   9.039
+#1239.280  3.307    0.409    2.139    3.091   1.000  0.006   0.116    0.859  10.607
+# MOLS> tar -cjf TREE_rlaMols_9_1664131255903501271.tar.xz TREE_rlaMols_9_1664131255903501271
+# 31446239
 
 
 
