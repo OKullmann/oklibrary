@@ -1,0 +1,13 @@
+DIMENSION               7
+BB_EXE                  ns4
+BB_OUTPUT_TYPE          OBJ
+X0                      ( -0.000105 0.99899 -3.997288 9.99596 -6.997332 -5.998018 -9.999365 )
+LOWER_BOUND             ( -1 -10 -10 -10 -10 -10 -10 )
+UPPER_BOUND             ( 1 10 10 10 10 10 10 )
+NB_THREADS_OPENMP       10
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                40000
+LH_SEARCH               1000 10
+VNS_MADS_SEARCH         yes
+

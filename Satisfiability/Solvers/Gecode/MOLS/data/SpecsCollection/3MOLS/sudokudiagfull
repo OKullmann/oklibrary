@@ -160,8 +160,14 @@
 # Restarting "standard optimisation" (MEGA_SEARCH_POLL true, SPECULATIVE_SEARCH_MAX 10)
 # with rep=10000, 80000s:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np3
+# 1   48404730.533699  -0.000105   0.99899   -3.997288   9.99596   -6.997332  -5.998018  -9.999365
+# 124 46622361.211568  -0.037305   0.99609   -3.885888   9.89886   -6.940232  -6.258018  -9.939265
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# Blackbox evaluations:    133 Total model evaluations: 10116
+# Optimisation not successful.
+# Rerunning with VNS_MADS_SEARCH-form, first with rep=1000, for 40000s:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np4
 # running on server2 XXX
-
 
 
 
