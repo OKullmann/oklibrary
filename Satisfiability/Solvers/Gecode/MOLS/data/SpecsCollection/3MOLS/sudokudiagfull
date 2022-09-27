@@ -81,6 +81,11 @@
 
 
 
+# laMols with wdL:
+
+# XXX
+
+
 # laMols with newvars:
 
 # N=8:
@@ -166,6 +171,16 @@
 # Blackbox evaluations:    133 Total model evaluations: 10116
 # Optimisation not successful.
 # Rerunning with VNS_MADS_SEARCH-form, first with rep=1000, for 40000s:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np4
+# 225 25507281.333616  -0.280105  -5         -3.1       10         -3.397332 -10         -6
+# A termination criterion is reached: Maximum allowed time reached (Base)
+# Blackbox evaluations: 255 Total model evaluations: 32919 Cache hits: 11 Total number of evaluations: 266
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.280105,-5,-3.1,10,-3.397332,-10,-6" 1000 10 all
+# 1000 : 1.41498339477248261300e+04 2.55072813336156270470e+07 1.22949584108415095252e+09; 6.30945440770554755072e+07
+# real    4m47.513s user    46m58.457s sys     0m25.864s
+# Value reached similar to above, but different weights; seems to work much better here than the
+# "standard approach".
+# Rerunning optmisation with rep=5000 (100000s):
 # TAU/sudokudiagfull_8_newv_ave$ nomad np4
 # running on server2 XXX
 

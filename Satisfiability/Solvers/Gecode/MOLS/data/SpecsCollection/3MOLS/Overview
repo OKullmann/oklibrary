@@ -134,18 +134,13 @@ N=8:
      real    23067m36.353s user    361280m37.372s sys     3138m54.494s
 
  - laMols with wdL:
-  - A : ?
-  - L : ?
   - optimisation on tau-probs: ?
   - optimisation on uni-probs: ?
 
  - laMols with newvars:
-  - Z : ?
-  - O : ?
-  - A : ?
-  - L : ?
   - optimisation on tau-probs: 37'066'778
      total time 26'967'073.467
+     trying to improve optimisation: XXX
     - optimisation on ave+sd:  ?
   - optimisation on uni-probs: ?
     - optimisation on ave+sd:  ?
