@@ -194,6 +194,9 @@
 # with rep=10000, 100000s:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np6
 # running on server2 XXX
+# MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.280105,5,-1.1,8,-3.397332,-8,-6" "" ""
+# running on server XXX
+
 
 
 squares A B C AB AC BC
