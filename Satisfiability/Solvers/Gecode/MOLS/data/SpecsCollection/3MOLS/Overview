@@ -76,7 +76,7 @@ N=7:
 
  - laMols with wdL:
   - A : 11'900'571
-  - L : R
+  - L : 12'864'180
   - optimisation on tau-probs: 916'355 (reps=1000,2000; total time
       122879.554s)
   - optimisation on uni-probs: 947'783 (reps=1000,2000); total time
