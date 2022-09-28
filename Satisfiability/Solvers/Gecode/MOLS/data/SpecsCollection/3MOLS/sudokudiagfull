@@ -181,9 +181,19 @@
 # Value reached similar to above, but different weights; seems to work much better here than the
 # "standard approach".
 # Rerunning optmisation with rep=5000 (100000s):
-# TAU/sudokudiagfull_8_newv_ave$ nomad np4
+# TAU/sudokudiagfull_8_newv_ave$ nomad np5
+#  1 37494974.240809  -0.280105  -5         -3.1       10         -3.397332 -10         -6
+# 26 35796190.11825   -0.280105  -3          1.9       10         -4.397332 -10         -8
+# 33 28795003.765966  -0.280105   5         -1.1        8         -3.397332  -8         -6
+# A termination criterion is reached: Maximum allowed time reached (Base)
+# Blackbox evaluations: 112 Total model evaluations: 8917 Cache hits: 5 Total number of evaluations: 117
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.280105,5,-1.1,8,-3.397332,-8,-6" 5000 10 all
+# 5000 : 1.40220445393140483583e+04 2.87950037659659903220e+07 3.79817388218303119484e+09; 9.67465125375661627113e+07
+# real    24m3.384s user    236m43.051s sys     2m10.583s
+# Restarting "standard optimisation" (MEGA_SEARCH_POLL true, SPECULATIVE_SEARCH_MAX 10)
+# with rep=10000, 100000s:
+# TAU/sudokudiagfull_8_newv_ave$ nomad np6
 # running on server2 XXX
-
 
 
 squares A B C AB AC BC
