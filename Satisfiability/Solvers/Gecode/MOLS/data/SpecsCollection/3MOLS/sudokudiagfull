@@ -193,8 +193,20 @@
 # Restarting "standard optimisation" (MEGA_SEARCH_POLL true, SPECULATIVE_SEARCH_MAX 10)
 # with rep=10000, 100000s:
 # TAU/sudokudiagfull_8_newv_ave$ nomad np6
-# running on server2 XXX
+#   1 32367076.1184    -0.280105   5         -1.1        8         -3.397332  -8         -6
+# 149 29269949.425759  -0.310805   4.77      -1.18       7.83      -2.787332  -8.0126    -5.9782
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 191 Total model evaluations: 14174 Cache hits: 20 Total number of evaluations: 211
+# Some improvement.
+# sudokudiagfull_8_newv_ave$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.310805,4.77,-1.18,7.83,-2.787332,-8.0126,-5.9782" 10000 10 all
+# 10000 : 1.15459337114095893622e+04 2.92699494257587822231e+07 4.65435374224991386663e+09; 1.17899259231148771294e+08
+# real    45m45.950s user    451m21.974s sys     4m7.661s
+
+# Old values:
 # MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.280105,5,-1.1,8,-3.397332,-8,-6" "" ""
+# running on server XXX
+# New values:
+# MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.310805,4.77,-1.18,7.83,-2.787332,-8.0126,-5.9782" "" ""
 # running on server XXX
 
 
