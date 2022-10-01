@@ -393,10 +393,17 @@
 #   570        7  49.824         0.5      0.5   0.96204   0.46204   11.547
 #9.1702  0.57984  1.9315     0.13683  0.08679  0.099561  0.080926  0.49055
 # real    11913m31.656s user    165229m45.630s sys     2972m20.220s
-# Optimisation with rep=1000:
+# Optimisation with rep=1000 (30000s):
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np2
+# 1093  15357260.964723  -0.992247   8.731333  -7.093113  -6.057528  -6.592397  -9.53127    5.849547
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 1409 Total model evaluations: 114662 Cache hits: 407 Total number of evaluations: 1816
+# TAU/sudokudiagfull_8_newv_avepsd$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.992247,8.731333,-7.093113,-6.057528,-6.592397,-9.53127,5.849547" 1000 10 all
+# 1000 : 1.69131678364126940437e+04 9.50013010029290443708e+06 4.57129962881769233523e+09; 1.46381020625100152014e+08
+# real    1m44.405s user    17m13.39  sys     0m1.833s
+# Restarting with rep=10000, 100000s:
+# TAU/sudokudiagfull_8_newv_avepsd$ nomad np3
 # running on server2 XXX
-
 
 # Optimisation on uni-probs (30000s, rep=10000):
 # TAU/sudokudiagfull_8_newv_ave$ nomad np3rand
