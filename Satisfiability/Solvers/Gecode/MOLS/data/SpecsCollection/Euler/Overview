@@ -195,18 +195,22 @@ N=8:
  - laMols with wdL:
   - optimisation on tau-probs: 53'284'567 (reps=10000)
      total time 7'399'572.974
-              reps=1000,10000: R
+              reps=1000,10000: 50'877'436
+     total time 7'015'767.864
   - optimisation on uni-probs: 52'594'518 (reps=10000)
      total time 7'823'939.849
 
  - laMols with newvars:
   - optimisation on tau-probs: 44'725'294 (reps=10000)
      total time 9'110'455.219
-              reps=1000,10000: R
+              reps=1000,10000: 83'409'207
+     kind of "trap" with extreme nsel
     - optimisation on ave+sd:  42'916'285 (reps=10000)
      total time 9'913'785.608
+              reps=1000,10000: XXX
   - optimisation on uni-probs: 42'496'492 (reps=10000)
      total time 10'554'552.661
+              reps=1000,10000: R
     - optimisation on ave+sd:  41'529'625 (reps=10000)
      total time 9'095'023.585
 

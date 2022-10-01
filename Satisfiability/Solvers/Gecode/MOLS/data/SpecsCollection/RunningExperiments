@@ -1,7 +1,6 @@
-server:         5 running
+server:         4 running
 
 Euler/sudokudiag: gcMols, N=8
-Euler/sudokudiagfull: laMols, newv, N=8, started 17.9.2022, 16:28, target 1356
 3MOLS/sudoku: gcMols, N=7
 3MOLS/sudokudiagfull: laMols, newv, N=8, started 28.9.2022, 22:20, target 432
 3MOLS/sudokudiagfull: laMols, newv, N=8, started 29.9.2022, 21:34, target 432
@@ -9,5 +8,5 @@ Euler/sudokudiagfull: laMols, newv, N=8, started 17.9.2022, 16:28, target 1356
 
 server2:        2 running
 
-Euler/sudokudiagfull: laMols, wdL, N=8, started 24.9.2022, 23:11, target 1356
+Euler/sudokudiagfull: laMols, N=8, newv, started 1.10.2022, 2:19, target 1356
 3MOLS/symmb: laMols, newv, 4 runs, 4x target 64
