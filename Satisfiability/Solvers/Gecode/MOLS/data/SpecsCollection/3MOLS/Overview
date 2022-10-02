@@ -85,7 +85,7 @@ N=7:
  - laMols with newvars:
   - Z : 48'551'541
   - O : 13'797'512
-  - A : R
+  - A : 14'914'375
   - L : R
   - optimisation on tau-probs: 400'877 (reps=1000,2000; total time
       126235.114s)
