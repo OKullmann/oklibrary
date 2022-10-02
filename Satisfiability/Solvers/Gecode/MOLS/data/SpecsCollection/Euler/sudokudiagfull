@@ -403,7 +403,16 @@
 # real    1m44.405s user    17m13.39  sys     0m1.833s
 # Restarting with rep=10000, 100000s:
 # TAU/sudokudiagfull_8_newv_avepsd$ nomad np3
+# 1   8460086765.894501  -0.992247   8.731333  -7.093113  -6.057528  -6.592397  -9.53127    5.849547
+# 495   94547897.808717  -0.996612  -6.002258  -1.950463  -2.989647  -1.999793   7.9957    -6.0169
+# A termination criterion is reached: Maximum allowed time reached (Base) Success found and opportunistic strategy is used
+# lackbox evaluations: 504 Total model evaluations: 44530 Cache hits: 71 Total number of evaluations: 575
+# TAU/sudokudiagfull_8_newv_avepsd$ time ./TAUscan 8 ../../sudokudiagfull "" enu newv hash "-0.996612,-6.002258,-1.950463,-2.989647,-1.999793,7.9957,-6.0169" 10000 10 all
+# 10000 : 6.90085311739909535106e+05 4.05049844151632844842e+07 1.00450161774132871878e+09; 5.40429133935541895626e+07
+# real    15m43.488s user    156m11.512s sys     0m19.623s
+# MOLS> time ./laMols 8 data/SpecsCollection/Euler/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.996612,-6.002258,-1.950463,-2.989647,-1.999793,7.9957,-6.0169" "" ""
 # running on server2 XXX
+
 
 # Optimisation on uni-probs (30000s, rep=10000):
 # TAU/sudokudiagfull_8_newv_ave$ nomad np3rand
