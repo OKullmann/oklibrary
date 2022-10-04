@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 2, 2, 0, 18, >= 265203, >= 2193, ?
+# 0, 0, 2, 2, 0, 18, 397856, >= 2193, ?
 
 
 # By [Keedwell, 2011] for all prime powers b (the box-size; so N = b^2)
@@ -39,7 +39,8 @@
 # aborted after 934 solutions: on the slower machine server via mindom we get more solutions.
 
 # MOLS> ./gcMols 8 data/SpecsCollection/Euler/sudokudiag "" +count "" enu mindom desc 1 16 ""
-# running on server XXX 265203 solutions found
+  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+  8   +count dom enu    mindom desc   1    397856 91824644.091 132220355887560 856643922133 1649345985457     40  0
 
 
 

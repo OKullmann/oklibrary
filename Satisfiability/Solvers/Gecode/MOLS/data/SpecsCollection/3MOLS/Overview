@@ -86,7 +86,7 @@ N=7:
   - Z : 48'551'541
   - O : 13'797'512
   - A : 14'914'375
-  - L : R
+  - L : 13'176'534
   - optimisation on tau-probs: 400'877 (reps=1000,2000; total time
       126235.114s)
   - optimisation on uni-probs: 406'644 (reps=1000,2000; total time
