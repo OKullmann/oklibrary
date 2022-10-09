@@ -5,7 +5,5 @@ server:         3 running
 3MOLS/sudokudiagfull: laMols, newv, N=8, started 29.9.2022, 21:34, target 432
 
 
-server2:        2 running
+server2:        0 running
 
-Euler/sudokudiagfull: laMols, N=8, newv, started 1.10.2022, 2:19, target 1356
-Euler/sudokudiagfull: laMols, N=8, newv, started 2.10.2022, 23:29, target 1356

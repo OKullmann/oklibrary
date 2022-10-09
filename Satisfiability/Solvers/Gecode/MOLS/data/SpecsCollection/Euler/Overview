@@ -207,10 +207,12 @@ N=8:
      kind of "trap" with extreme nsel
     - optimisation on ave+sd:  42'916'285 (reps=10000)
      total time 9'913'785.608
-              reps=1000,10000: XXX
+              reps=1000,10000: 41'569'135
+     total time 8'397'834.131
   - optimisation on uni-probs: 42'496'492 (reps=10000)
      total time 10'554'552.661
-              reps=1000,10000: R
+              reps=1000,10000: 45'900'994
+     total time 9'562'557.317
     - optimisation on ave+sd:  41'529'625 (reps=10000)
      total time 9'095'023.585
 
