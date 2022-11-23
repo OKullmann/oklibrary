@@ -126,34 +126,54 @@
 
 # N=6:
 
-# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 1 "" ""
+# MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
 #   weights: 0 0 1 2 3 4 5
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
-#  6     satd dom enu  wdL   asc  relpr   1        0      11.077     490910     3988    10905    11  0     6917     3988    2929
-#      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-#   190.833      3.913      5.828      25.846      64.859      77.406     1.298     0.000     0.001     0.025     0.629
-#   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000     0.000
-#   418.000     60.000     69.000     408.000     395.000     719.000     6.000     0.000     0.011     0.228     9.000
-#    80.522      7.259      9.268      51.587      95.486     129.875     0.672     0.000     0.002     0.032     1.308
-#        mu         w      ltau       mind       meand        maxd        sdd         dp        tb
-#    89.773     2.361     0.102     12.533      20.270      27.608      6.659      6.874     0.001
-#    12.000     2.000     0.010      3.000       4.000       4.000      0.000      0.000     0.000
-#   310.000     4.000     0.173     59.000     110.333     160.000     76.500     11.000     0.004
-#    84.224     0.609     0.067     13.725      20.511      31.966     13.015      1.509     0.002
-# MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 1 "L" ""
-#   weights: 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
-#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc     flvs     gnds    gd st      nds      lvs    inds
-#  6     satd dom enu  wdL   asc  relpr   1        0      11.320     496646     3996    10857    11  0     6861     3996    2865
-#      vals      props     elvals      prunes      mprune      probes    rounds      solc        tr   qelvals   qprunes
-#   193.960      3.927      5.995      27.740      67.796      71.859     1.249     0.000     0.001     0.026     0.654
-#   116.000      0.000      0.000       0.000       0.000       2.000     1.000     0.000     0.000     0.000     0.000
-#   418.000     52.000     64.000     422.000     395.000     668.000     5.000     0.000     0.010     0.227     9.000
-#    80.958      7.850      9.984      56.000      97.936     117.555     0.598     0.000     0.002     0.035     1.305
-#        mu         w      ltau       mind      meand        maxd        sdd         dp        tb
-#    70.261     2.394     0.116     11.593     15.689      19.431      3.467      7.277     0.002
-#    12.000     2.000     0.014      2.492      4.000       4.000      0.000      0.000     0.000
-#   187.000     4.000     0.231     70.379     70.379     104.946     43.195     12.000     0.005
-#    55.709     0.602     0.060     17.551     17.682      20.234      5.903      1.726     0.002
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6     satd dom enu  wdL   asc  relpr   1        0      14.337     470836  0     6965     3868  1.146310e+00  1.655407e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#120.01  0.54122   165.95   142.11   102.56     1.68     0  0.0024958   4.0795  7.2945
+#    12        0        0   31.977   8.7719        1     0          0        0       0
+#   310      2.5      900      200   384.53        6     0    0.01388   35.385      11
+#81.591  0.62704   188.02   52.391   70.758  0.90682     0   0.002624    7.291  1.7574
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc          tr  pelvals      dp
+#48.243   2.0292   1.3496   6.0909   26.463  1.0199     0  0.00025848   20.023  8.7839
+#     8   1.1429        0        0   2.4194       1     0           0   2.4194       5
+#   191        5       45   117.88   174.86       2     0     0.00693       25      12
+#64.933  0.39982    4.501   16.219   21.151  0.1397     0   0.0007886   8.1198  1.5363
+#      estlvs       uestlvs
+#8.950657e+03  1.446776e+04
+#5.627191e+02  2.880000e+02
+#1.491274e+05  1.866240e+05
+#1.344266e+04  2.020429e+04
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#29.963   2.2486  1.9447   0.39398   0.46128  0.54351  0.069987  0.0017629
+#     0        2       1  0.017661      0.25     0.25         0          0
+#   164        4       7       0.5       0.5  0.87864    0.3856   0.007712
+#53.833  0.50211  1.2445   0.14444  0.075069  0.10696   0.10277  0.0018318
+#   weights: L -> 0 0 1 1.5849625007211561815 2 2.3219280948873623478 2.5849625007211561815
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6     satd dom enu  wdL   asc  relpr   1        0      14.608     473448  0     7025     3892  1.148240e+00  2.456870e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#116.76  0.49649   185.11   148.78   93.893   1.5918     0  0.0022844   3.9005  7.7689
+#    12        0        0   32.099   6.5574        1     0          0        0       0
+#   310        3      900      200   308.79        5     0   0.012374     37.5      12
+#82.226  0.61488   198.31   45.992   59.152  0.80366     0  0.0023712   7.8673  1.9182
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#58.382  2.1007  0.84131   7.6482    25.27   1.0195     0  0.00028363   18.768  9.2518
+#     8   1.125        0        0   2.5862        1     0           0   2.5862       5
+#   182       5   68.182   107.82   177.14        2     0    0.006796       25      13
+#68.476   0.547   3.4262   16.469   20.477  0.13839     0  0.00077637    8.598  1.7282
+#      estlvs       uestlvs
+#9.023427e+03  2.738494e+04
+#7.165589e+02  2.880000e+02
+#1.812501e+05  4.976640e+05
+#1.825244e+04  6.136358e+04
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#20.816   2.2419  2.1047   0.37595   0.46268  0.56794  0.089457  0.0019777
+#     0        2       1  0.010442      0.25     0.25         0    3.8e-05
+#   161        4       7       0.5       0.5  0.80439   0.30439   0.006281
+#43.667  0.50559  1.1756   0.15611  0.074701  0.10438   0.10977  0.0018818
+# real	0m28.997s user	0m28.949s sys	0m0.048s
 
 # A bit of optimisation by hand:
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler "" satd "" enu wdL "" "" 1 6 "1.2,1.5,0.9,1" ""
@@ -378,7 +398,7 @@
 #55.978  0.73463  1.9328   0.16616  0.097688  0.11759   0.10735  0.0016761
 # Same number of leaves.
 
-# Optimisation on LVS  (10000s, rep=100):
+# Optimisation on LVS  (10000s):
 # LVS/red_6_wdL$ nomad np
 #1   3676          0.1        0.1        0.1        0.1      (Phase One)
 #241 3416          0.059      0.15       0.0001     2.57
@@ -401,6 +421,10 @@
 # LVS/red_6_wdL$ nomad np2
 # no improvement found:
 # Blackbox evaluations: 1683 Total model evaluations: 69137 Cache hits: 42 Total number of evaluations: 1725
+#
+# Rerunning with MAX_TIME=20000, LH_SEARCH=1000 10, MEGA_SEARCH_POLL=true, SPECULATIVE_SEARCH_MAX=10
+# EVAL_OPPORTUNISTIC=yes
+# server2 XXX
 
 # Optimisation on tau-probs (600s, rep=100):
 # TAU/red_6_wdL_ave$ nomad np
