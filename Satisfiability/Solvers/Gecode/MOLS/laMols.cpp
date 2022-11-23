@@ -61,6 +61,16 @@ levels; so there are 4 * 3^2 * 2 = 72 leaves and 1 + 4 + 4*3 + 4*3^2 = 53 inner
 nodes, while the average width is (1*4 + 4*3 +12*3 + 36*2)/53 = 124/53.
 So nsuel = 0.
 
+
+2. There is no Euler-square for N=6:
+
+MOLS> ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
+3072 0
+
+Here we show only the leaf-count and whether the run was stopped or not
+(0 means no-stop, 1 means stop).
+This used 6 threads.
+
 */
 
 /*

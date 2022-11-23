@@ -424,7 +424,40 @@
 #
 # Rerunning with MAX_TIME=20000, LH_SEARCH=1000 10, MEGA_SEARCH_POLL=true, SPECULATIVE_SEARCH_MAX=10
 # EVAL_OPPORTUNISTIC=yes
-# server2 XXX
+# LVS/red_6_wdL$ nomad np
+# 1 3676          0.1        0.1        0.1        0.1      (Phase One)
+# 203 3096          2.5001     0.0001     0.86       5.1
+# 293 3072          2.5701     0.0201     0.87       5.19
+# 902 3071          2.5701     0.0201     0.87       5.19
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Best feasible solution:     #118144 ( 2.5701 0.0201 0.87 5.19 ) Evaluation OK    f = 3071
+# Blackbox evaluations: 1171 Total model evaluations: 68622 Cache hits: 570 Total number of evaluations: 1741
+# Found the known best solution easily this time; perhaps LH_SEARCH was too high.
+# MOLS> ./laMols 6 ../../red "" count dom enu wdL "" "" 1 1 "2.5701,0.0201,0.87,5.19" "" ""
+#   weights: 2.5701 0.020099999999999999999 0.87 5.1900000000000000001 -> 0 0 1 5.9385058941123850937 6.0218217335341814598 11.005860175556927652 401.76275040629190619
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0       9.840     380593  0     5213     3072  9.973704e-01  1.731722e+00
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+# 131.1  0.58433   143.14   138.68   107.23   1.6857     0  0.0021832   4.6921  7.1406
+#    12        0        0   27.473   6.3063        1     0          0        0       0
+#   310        4      900      200   332.99        5     0   0.008757   39.773      11
+#82.725  0.66255    174.1   51.044   67.424  0.87367     0  0.0020338    8.814   1.641
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals      dp
+#73.322   1.9854   1.3383   12.262   32.925   1.0527     0  0.00046327   17.993   8.418
+#     8     1.08        0        0   3.0075        1     0       2e-06   2.2556       5
+#   189        5   32.258   130.05   344.81        4     0    0.008581       25      12
+#75.768  0.42873   3.6615   20.687   41.171  0.30274     0   0.0011345   8.4067  1.4619
+#      estlvs       uestlvs
+#6.127865e+03  1.228450e+04
+#8.189471e+02  3.840000e+02
+#3.809268e+04  1.474560e+05
+#6.115190e+03  2.486265e+04
+#   dm0        w  ltausp      minp     meanp     maxp       sdd         tb
+#30.644   2.4344  3.1433   0.37837   0.44072  0.51722   0.06208  0.0017111
+#     0        2       1  0.053005      0.25     0.25         0    3.8e-05
+#   171        4  11.453       0.5       0.5  0.86316   0.36316   0.006854
+#54.223  0.74884  2.5118   0.16297  0.098232  0.10367  0.094051  0.0016574
+
 
 # Optimisation on tau-probs (600s, rep=100):
 # TAU/red_6_wdL_ave$ nomad np

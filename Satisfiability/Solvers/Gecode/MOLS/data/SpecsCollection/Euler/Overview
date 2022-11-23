@@ -42,7 +42,7 @@ N=6:
  - rlaMols : bin+maxdeg, 2'475
 
  - laMols with wdL:
-  - optimisation on lvs: 3'096
+  - optimisation on lvs: 3'072
   - optimisation on tau-probs: 3'168 (reps=1000)
     - optimisation on tau-probs: 3'539 (reps=100)
     - optimisation on ave+sd:    3'576 (reps=100)
