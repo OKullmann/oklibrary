@@ -555,6 +555,12 @@
 # Very bad optimisation??
 # Trying again, with doubled MAX_TIME=12000, LH_SEARCH=2000 10:
 # TAU/red_6_wdL_ave$ nomad np4
+# 363 3207.693818   0.170088   0.499333   0.0001     1.050757
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 973 Total model evaluations: 86505 Cache hits: 424 Total number of evaluations: 1397
+# Exactly the same as before.
+# Now with EVAL_OPPORTUNISTIC=no:
+# TAU/red_6_wdL_ave$ nomad np5
 # server2 XXX
 
 # Optimisation on uni-prob (600s, rep=100):
