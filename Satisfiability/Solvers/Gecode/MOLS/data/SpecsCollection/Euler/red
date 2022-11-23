@@ -525,6 +525,36 @@
 # Close to known optimum.
 # Rerunning with maximum value 10 for weights:
 # TAU/red_6_wdL_ave$ nomad np3
+# 358 3207.693818   0.170088   0.499333   0.0001     1.050757
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 973 Total model evaluations: 86505 Cache hits: 424 Total number of evaluations: 1397
+# TAU/red_6_wdL_ave$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 6 "0.170088,0.499333,0.0001,1.050757" "" ""
+#   weights: 0.170088 0.499333 0.0001 1.050757 -> 0 0 1 1.1251271119200772599 1.590434546785483562 1.5905447911284141456 3.2949989374444896512
+# N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+# 6    count dom enu  wdL   asc  relpr   1        0      21.278     424529  0     6381     3572  1.877483e+00  1.195938e+00
+#   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp
+#123.31  0.5646   145.84    139.5    105.3   1.6853     0   0.01881   4.8999  6.7497
+#    12       0        0   31.977   9.1503        1     0         0        0       0
+#   310  2.6667   845.45      200   505.65        7     0   0.19894   36.957      10
+#83.274  0.6636   158.13   54.024   75.625  0.97691     0  0.022479   8.9072  1.4861
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#49.351   1.9935  0.96629   6.7584   30.749   1.0381     0   0.002851   20.521  8.1848
+#     8   1.1429        0        0   2.0202        1     0          0   2.0202       5
+#   191        5   25.041   124.04   396.17        4     0      0.135       25      11
+#68.302  0.33643   2.9849   16.287   36.001  0.27232     0  0.0097949   7.5755  1.2869
+#      estlvs       uestlvs
+#1.616309e+04  8.680918e+03
+#3.406178e+02  3.240000e+02
+#9.994633e+05  5.184000e+04
+#7.281175e+04  9.088649e+03
+#   dm0        w  ltausp       minp     meanp     maxp       sdd        tb
+#35.056   2.2713  1.9739    0.40766   0.45795   0.5196  0.049793  0.012988
+#     0        2       1  0.0013331       0.2  0.22857         0         0
+#   174        5  6.2843        0.5       0.5  0.76195   0.31416  0.072471
+#58.295  0.53286  1.1151    0.14759  0.077119  0.08438  0.085866  0.014841
+# Very bad optimisation??
+# Trying again, with doubled MAX_TIME=12000, LH_SEARCH=2000 10:
+# TAU/red_6_wdL_ave$ nomad np4
 # server2 XXX
 
 # Optimisation on uni-prob (600s, rep=100):
