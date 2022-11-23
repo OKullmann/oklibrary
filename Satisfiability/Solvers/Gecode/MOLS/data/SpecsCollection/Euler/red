@@ -523,6 +523,9 @@
 #   171        4  9.5938       0.5       0.5   0.8694    0.3694   0.005285
 #55.969  0.75978  1.8763   0.16223  0.099365  0.11456    0.1018  0.0018242
 # Close to known optimum.
+# Rerunning with maximum value 10 for weights:
+# TAU/red_6_wdL_ave$ nomad np3
+# server2 XXX
 
 # Optimisation on uni-prob (600s, rep=100):
 # TAU/red_6_wdL_ave% nomad nprand
