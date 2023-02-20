@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,26 +12,43 @@ License, or any later version. */
    - DT = DimacsTools
 
    - from Graphs:
-    - AdjVecUInt, id_t, list_t
+    - AdjVecUInt (the graph type)
+    - fromAdjVec:
+     - id_t, list_t, edge_t
 
-   - bc_frame
+
+   Single bicliques:
+   - struct bc_frame (an aggregate containing lists l, r for the two sides):
+       member-functions no_edge, no_vertex check for triviality;
+       function output(std::ostream&, AdjVecUInt G) for output of the two sides
+       with their names as given by G;
+       plus ==, <<.
+   Various validation functions:
     - valid0/01(list_t, AdjVecUInt)
     - valid1/2(list_t)
     - valid(list_t, AdjVecUInt)
     - valid1/2(bc_frame), valid(bc_frame)
-    - disjoint(bc_frame)
 
+   - disjoint(bc_frame)
    - is_star(id_t, list_t, AdjVecUInt)
    - is_bc(bc_frame, AdjVecUInt)
    - covers(bc_frame, id_t, id_t)
 
-   - Bcc_frame
+
+   Lists of bicliques:
+   - Bcc_frame (a concrete data type containing list L of bc_frame's)
+       constructors from size and L;
+       function output(std::ostream&, AdjVecUInt) for named output;
+       plus ==, <<.
    - valid2(Bcc_frame), valid(Bcc_frame, AdjVecUInt)
    - disjoint(Bcc_frame)
    - is_bc(Bcc_frame, AdjVecUInt)
    - covers(Bcc_frame, id_t, id_t)
    - is_cover(Bcc_frame, AdjVecUInt)
    - is_bcc(Bcc_frame, AdjVecUInt)
+
+
+   Translating biclique-covers to CNFs:
 
    - numocc(Bcc_frame)
    - numcl(Bcc_frame)
@@ -42,8 +59,11 @@ License, or any later version. */
    - sort(bc_frame&)
    - sort(Bcc_frame&)
 
-   - triv_trim(Bcc_frame&)
-   - trim(Bcc_frame&)
+   - triv_trim(Bcc_frame&) (removing bicliques with one empty side)
+   - trim(Bcc_frame&) (removing superfluous edges)
+
+   - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
+     biclique)
 
 */
 
@@ -55,6 +75,7 @@ License, or any later version. */
 #include <map>
 #include <iterator>
 #include <utility>
+#include <type_traits>
 
 #include <cassert>
 
@@ -70,6 +91,7 @@ namespace Bicliques {
   typedef AdjVecUInt::id_t id_t;
   typedef AdjVecUInt::list_t list_t;
   typedef AdjVecUInt::edge_t edge_t;
+
 
   struct bc_frame {
     list_t l, r;
@@ -98,6 +120,8 @@ namespace Bicliques {
       else for (const id_t v : r) out << " " << G.name(v);
     }
   };
+  static_assert(std::is_aggregate_v<bc_frame>);
+
 
   // Valid vertices:
   inline bool valid0(const list_t& L, const AdjVecUInt& G) noexcept {
@@ -108,27 +132,33 @@ namespace Bicliques {
   inline bool valid1(const list_t& L) noexcept {
     return std::ranges::is_sorted(L);
   }
+  // Valid sorted vertices:
   inline bool valid01(const list_t& L, const AdjVecUInt& G) noexcept {
     return valid0(L, G) and valid1(L);
   }
-  // All different (given that L is sorted):
+  // Vertices all different (given that L is sorted):
   inline bool valid2(const list_t& L) noexcept {
     assert(valid1(L));
     return std::adjacent_find(L.begin(), L.end()) == L.end();
   }
+  // Valid sorted distinct vertices:
   inline bool valid(const list_t& L, const AdjVecUInt& G) noexcept {
     return valid01(L, G) and valid2(L);
   }
+  // Both sides are sorted:
   bool valid1(const bc_frame& b) noexcept {
     return valid1(b.l) and valid1(b.r);
   }
+  // Both sides are all-different:
   bool valid2(const bc_frame& b) noexcept {
     return valid2(b.l) and valid2(b.r);
   }
+  // Both sides are valid sorted distinct vertices:
   bool valid(const bc_frame& b, const AdjVecUInt& G) noexcept {
     return valid(b.l, G) and valid(b.r, G);
   }
 
+  // Whether the two sides are disjoint(assuming sorted vertices):
   inline bool disjoint(const bc_frame& b) noexcept {
     assert(valid1(b));
     return ConflictGraphs::empty_intersection(b.l, b.r);
@@ -229,6 +259,7 @@ namespace Bicliques {
     return res;
   }
 
+
   DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const id_t c0 = 0) {
     const id_t c = std::max(c0,numcl(B));
     const DT::dimacs_pars dp{B.L.size(), c};
@@ -261,7 +292,7 @@ namespace Bicliques {
     for (bc_frame& b : B.L) sort(b);
   }
 
-  // Returns the number of eliminated bicliques:
+  // Returns the number of eliminated bicliques (since no edge in them):
   id_t triv_trim(Bcc_frame& B) noexcept {
     const auto old_size = B.L.size();
     std::erase_if(B.L, [](const auto& b){return b.no_edge();});
