@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,19 @@ License, or any later version. */
 /*
 
   General definitions regarding the SAT-translation of the bcc-problem
+
+   - Types imported from Bicliques2SAT:
+    - var_t
+
+   - Constants:
+    - default_B
+    - default_sec
+
+   - Functions:
+    - read_var_t(string, var_t) -> var_t
+    - read_uint_t(string, uint_t) -> uint_t
+
+   - Scoped enum Error
 
 */
 
