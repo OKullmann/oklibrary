@@ -1,0 +1,66 @@
+1) A_131_3964_1
+
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 -sb -cs
+c ** Parameters **
+c V                                     3964
+c E                                     157484
+c B                                     131
+c sb-option                             no-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+p cnf 21668972 2141120876
+
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 +sb -cs
+c ** Parameters **
+c V                                     3964
+c E                                     157484
+c B                                     131
+c sb-option                             basic-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         128
+c sb-stats                              100 : 121 124.68 128; 1.4831
+c num_e-seeds                           1
+c  e-seeds                              1677233790299908624
+p cnf 21668972 2141121260
+
+No better symmetry-breaking with 10000 trials.
+
+
+2) A_160_1022_1
+
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 -sb -cs
+c ** Parameters **
+c V                                     1022
+c E                                     3328
+c B                                     160
+c sb-option                             no-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+p cnf 859520 169250688
+
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 +sb -cs
+c ** Parameters **
+c V                                     1022
+c E                                     3328
+c B                                     160
+c sb-option                             basic-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         128
+c sb-stats                              100 : 123 126.22 128; 1.32253
+c num_e-seeds                           1
+c  e-seeds                              1677233942184591485
+p cnf 859520 169251072
+
+No better symmetry-breaking with 10000 trials.
