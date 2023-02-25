@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,7 +11,8 @@ License, or any later version. */
 
   (BCC2SAT computes one single SAT-translation, while this program
    attempts to run a complete chain of SAT-solving, starting with a given
-   upper bound B on the number of bicliqes)
+   upper bound B on the number of bicliqes, and finishing with outputting
+   an optimal solution.)
 
 
 EXAMPLES:
@@ -40,6 +41,18 @@ TODOS:
 2. Read seeds
 
 3. Supply format-options
+
+4. More systematic output:
+    - Explain the special case where no unsat-test
+      is needed due to the results of symmetry-breaking.
+    - Explain the output-line "exact 4 4".
+
+5. Provide a mode which starts with B as given by symmetry-breaking
+   (which is a sound lower bound), and then increases B as long as
+   unsat was found.
+    - This needs an extension of operator-() in BC2SAT.
+    - As a further option it should be possible, for activated symmetry-
+      breaking, to run internal UCP (without intermediate file-output).
 
 */
 
