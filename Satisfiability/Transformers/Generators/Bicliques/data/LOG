@@ -200,13 +200,13 @@ p cnf 0 0
 
 Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT 128 +sb > data/A_160_1022_1_opt
 Bicliques> less data/A_160_1022_1_opt
-Symmetry-breaking: 100 : 124 126.43 128; 1.1033
+Symmetry-breaking: 100 : 124 126.27 128; 1.18794
 Minisat-call for B=128: returned SAT
   Literal-Reduction by trimming: 0
   Size obtained: 128
 
 bcc=128
 exact 128 128
-7 88 91 210 213 216 222 930 | 34 89 90 211 212 215 220 934
+10 100 103 269 272 279 285 939 | 34 101 102 271 273 280 284 943
 ...
 
