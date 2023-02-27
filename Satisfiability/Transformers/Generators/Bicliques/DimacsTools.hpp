@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,7 +42,7 @@ License, or any later version. */
 
    - Using external SAT solvers:
 
-    - typedef Lit_filter
+    - typedef Lit_filter (function from Lit to bool)
     - scoped enum SolverR
     - function extract_ret(SystemCalls::ReturnValue) -> SolverR
     - class Minisat_stats
