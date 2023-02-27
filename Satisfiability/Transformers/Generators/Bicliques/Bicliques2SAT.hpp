@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,9 +12,50 @@ License, or any later version. */
    - var_t
    - MaxN
 
-   - class Param, valid(Param)
+   - class Param:
+       aggregate with variables V, E, B (vertices, edges, bicliques)
+       plus constant MaxV
+   - valid(Param)
 
-   - class VarEncoding
+   - class VarEncoding:
+
+    - constructor VarEncoding(graph_t G, B) (undirected graphs without loops)
+    - typedefs graph_t, Lit, Bcc_frame
+    - public constants G, V, E, lf (Lit_filter for biclique-variables)
+    - access-function to constants:
+     - B()
+     - n() (total number of variables; n() = nb() + ne())
+     - nb() (number of variables for bicliques)
+     - ne() (number of variables for edges)
+    - update_B(newB)
+
+    - encoding-functions (yielding variables):
+     - left(v, b) -> var_t
+     - right(v, b) -> var_t
+     - edge(e, b) -> var_t
+    - the first block of variables is given by left and right, the second by
+      edge;
+
+    - decoding (obtaining the resulting biclique-cover):
+     - aggregate struct elem, specifying an element of a biclique,
+       with elements b (index of biclique), boolean left, v (variable);
+     - inv(v) -> elem (for variables in the first block)
+       (the auxiliary variables don't need to be decoded)
+     - for creating the biclique-cover:
+      - add_literal(Lit x, Bcc_frame& bcc) adds the literal x (with a variable
+        from the first block, and positive x) to the given biclique-frame
+      - extract_bcc(std::istream& in -> Bcc_frame
+        call first core_extraction(in), and then post_process on the result
+       - core_extraction(std::istream&) -> Bcc_frame
+         reads a Dimacs-assignment, populates bicliques according to the
+         positive biclique-literals, and performs trivial trimming and sorting
+       - post_process(Bcc_frame&) -> Bcc_frame checks the frame and returns it
+      - the overload extract_bcc(vector<LIT>) takes the vector of the literals
+        (only the relevant ones, the positive biclique-literals)
+        using the overloaded core_extraction(vector<LIT>)
+      - the more general range-versions rextract_bcc and core_rextraction
+        have a template-parameter for the range (generalising the vector)
+
 
    - scoped enums SB, DC, DP CS
    - const char sep, alg_options_t, format_options_t
@@ -43,6 +84,7 @@ License, or any later version. */
 #include <functional>
 #include <fstream>
 #include <filesystem>
+#include <type_traits>
 
 #include <cstdint>
 #include <cassert>
@@ -83,16 +125,48 @@ namespace Bicliques2SAT {
     if (p.E > bound) return false; // see numvaredg below
     return true;
   }
+  static_assert(valid(Param{}));
 
 
+  /*
+    Encoding and decoding (the meaning of the variables)
+
+    The parameters for encoding are
+      V, E, B,
+    while the graph G plays a role only for the enhanced decoding of a
+    solution (with basic simplifications/reductions).
+
+    The first block of variables is
+     1, ..., nb() = 2*V*B,
+    which encodes the B bicliques, with each biclique given by the left and
+    the right subset of the set of vertices.
+
+    The second block of variables is
+      nb() + 1, ..., nb()+ne(),
+      ne() = E*B,
+     which encodes for every edge the bicliques to which it belongs.
+
+     Encoding (into variables) happens by
+       left(v, b), right(v, b), edge(e, b).
+
+     Decoding (into a Bcc_frame) only needs the positive literals from the
+     first block, and happens by
+      - extract_bcc(std::istream) (filtering out the relevant literals)
+      - extract_bcc(vector<LIT>) (the partial assignments contains only the
+                                  relevant literals)
+      - more general for a range: rextract_bcc(RAN).
+
+  */
   struct VarEncoding {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
 
-    const var_t V, E; // vertices 0 <= v < V, edges are pairs of vertices,
+    const var_t V, E; // vertices are numbered 0 <= v < V,
+      // edge-indices are < E (edges are pairs of vertices)
 
     typedef DimacsTools::Lit Lit;
-    const DimacsTools::Lit_filter lf;
+    const DimacsTools::Lit_filter lf; // true iff the underlying variable is
+      // a biclique-variable and the literal is positive
 
     explicit VarEncoding(const graph_t& G, const var_t B)
       : G(G), V(G.n()), E(G.m()),
@@ -150,6 +224,7 @@ namespace Bicliques2SAT {
       const id_t v;
       constexpr bool operator ==(const elem& rhs) const noexcept = default;
     };
+    static_assert(std::is_aggregate_v<elem>);
     constexpr elem inv(const var_t v) const noexcept {
       assert(1 <= v and v <= nb_);
       const auto [b,r] = std::lldiv(v-1, 2*V);
@@ -164,12 +239,6 @@ namespace Bicliques2SAT {
       if (el.left) bcc.L[el.b].l.push_back(el.v);
       else bcc.L[el.b].r.push_back(el.v);
     }
-    Bcc_frame post_process(Bcc_frame& res) const noexcept {
-      assert(valid(res,G));
-      assert(disjoint(res));
-      assert(is_bcc(res,G));
-      return res;
-    }
     Bcc_frame core_extraction(std::istream& in) const {
       assert(in);
       Bcc_frame res(B_);
@@ -178,6 +247,12 @@ namespace Bicliques2SAT {
       assert(in);
       triv_trim(res);
       sort(res);
+      return res;
+    }
+    Bcc_frame post_process(Bcc_frame& res) const noexcept {
+      assert(valid(res,G));
+      assert(disjoint(res));
+      assert(is_bcc(res,G));
       return res;
     }
     Bcc_frame extract_bcc(std::istream& in) const {
@@ -192,13 +267,13 @@ namespace Bicliques2SAT {
       sort(res);
       return res;
     }
-    Bcc_frame core_extraction(const std::vector<Lit>& pa) const {
-      return core_rextraction(pa);
-    }
     template <class RAN>
     Bcc_frame rextract_bcc(const RAN& pa) const {
       Bcc_frame res = core_rextraction(pa);
       return post_process(res);
+    }
+    Bcc_frame core_extraction(const std::vector<Lit>& pa) const {
+      return core_rextraction(pa);
     }
     Bcc_frame extract_bcc(const std::vector<Lit>& pa) const {
       return rextract_bcc(pa);
@@ -395,7 +470,7 @@ namespace Bicliques2SAT {
     }
     id_t all_edges_in_bc(std::ostream& out) const {
       id_t count = 0;
-      const auto nedges = G.allnonedges(true);
+      const auto nedges = G.allnonedges(true); // including loops
       for (id_t b = 0; b < enc_.B(); ++b)
         for (const auto [v,w] : nedges) {
           const auto F = edge_in_bc(v,w,b);
@@ -415,6 +490,11 @@ namespace Bicliques2SAT {
       const Lit evw{enc_.edge(e,b),1},
         lv{enc_.left(v,b),1}, lw{enc_.left(w,b),1},
         rv{enc_.right(v,b),1}, rw{enc_.right(w,b),1};
+      /*
+        evw <-> (lv and rw) or (lw and rv) =
+        evw  -> (lv or lw) and (lv and rv) and (rw and lw) and (rw and rv) AND
+        lv and rw -> evw  AND  lw and rv -> evw
+      */
       F.push_back({-evw, lv, lw}); F.push_back({-evw, lv, rv});
       F.push_back({-evw, rw, lw}); F.push_back({-evw, rw, rv});
       F.push_back({-lv, -rw, evw}); F.push_back({-lw, -rv, evw});
