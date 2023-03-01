@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
-        "6.3.2022",
+        "0.3.10",
+        "1.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -178,10 +178,10 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.max_bcincomp(3,g).first.size() == 3);
 
    std::stringstream ss;
-   ss << trans.edge_in_bc(0,1,0);
+   ss << trans.nonedge_for_bc(0,1,0);
    assert(ss.str() == "-1 -10 0\n-2 -9 0\n");
    ss.str("");
-   assert(trans.all_edges_in_bc(ss) == 2 * (2 * (36 - 16) - 8)); // 64
+   assert(trans.all_nonedges_for_bcs(ss) == 2 * (2 * (36 - 16) - 8)); // 64
    ss.str("");
    ss << trans.edge_def(0,0);
    assert(ss.str() ==
@@ -224,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
    assert(ss.str() == "p cnf 64 278\n");
    trans.update_B(1);
-   assert(trans.all_edges_in_bc(ss) == 1 * (2 * (36 - 16) - 8)); // 32
+   assert(trans.all_nonedges_for_bcs(ss) == 1 * (2 * (36 - 16) - 8)); // 32
    assert(trans.all_edges_def(ss) == 1 * 6 * 16); // 96
    assert(trans.all_edges_cov(ss) == 16);
    assert(trans.all_basic_clauses(ss) == 32 + 96 + 16); // 144

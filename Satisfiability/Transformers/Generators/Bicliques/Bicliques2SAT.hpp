@@ -82,6 +82,7 @@ License, or any later version. */
         their names in G) as a list of items "(v,w)" (without separation)
       - stats_t (basic statistics for a sequence of float80)
       - symmbreak_res_t (pair of vei_t and stats_t)
+      - imported Var, Lit, Clause, ClauseList from RandGen
      - public constants G, edges (all edges of G)
      - access-functions to data:
       - enc() for the enc_t-object (const-reference)
@@ -93,6 +94,11 @@ License, or any later version. */
         of bc-incompatible edges (using a random generator)
       - max_bcincomp(id_t rounds, RandGen) -> symmbreak_res_t
         (repeat rounds-often, and return best result with statistics)
+     - clause-translations:
+      - nonedge_for_bc(v,w,b) -> ClauseList (edge {v,w} must not be covered)
+      - all_nonedges_for_bcs(std::ostream& out) -> id_t : all non-edges
+        must not be covered, output to out (returned the number of clauses)
+      - num_cl_bcedges() is the number of clauses here
 
 
    - General helper functions
@@ -483,8 +489,10 @@ namespace Bicliques2SAT {
     typedef RandGen::Clause Clause;
     typedef RandGen::ClauseList ClauseList;
 
-    // For edge {v,w} forbid to have both vertices in biclique b:
-    ClauseList edge_in_bc(const id_t v, const id_t w, const id_t b) const noexcept {
+    // Forbid the edge {v,w} to be covered by biclique b
+    // (including the case v, w):
+    ClauseList nonedge_for_bc(const id_t v, const id_t w, const id_t b)
+      const noexcept {
       assert(v < enc_.V and w < enc_.V and v <= w and b < enc_.B());
       if (v == w) {
         return {{Lit{enc_.left(v,b),-1}, Lit{enc_.right(v,b),-1}}};
@@ -502,12 +510,12 @@ namespace Bicliques2SAT {
       const id_t other_edges = (enc_.V * (enc_.V + 1)) / 2 - enc_.E;
       return enc_.B() * (2 * other_edges - enc_.V);
     }
-    id_t all_edges_in_bc(std::ostream& out) const {
+    id_t all_nonedges_for_bcs(std::ostream& out) const {
       id_t count = 0;
       const auto nedges = G.allnonedges(true); // including loops
       for (id_t b = 0; b < enc_.B(); ++b)
         for (const auto [v,w] : nedges) {
-          const auto F = edge_in_bc(v,w,b);
+          const auto F = nonedge_for_bc(v,w,b);
           out << F;
           count += F.size();
         }
@@ -580,7 +588,7 @@ namespace Bicliques2SAT {
     }
     id_t all_basic_clauses(std::ostream& out) const {
       id_t sum = 0;
-      sum += all_edges_in_bc(out);
+      sum += all_nonedges_for_bcs(out);
       sum += all_edges_def(out);
       sum += all_edges_cov(out);
       assert(sum == num_basic_cl());
