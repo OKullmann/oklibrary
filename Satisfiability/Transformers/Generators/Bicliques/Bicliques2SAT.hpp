@@ -56,17 +56,48 @@ License, or any later version. */
       - the more general range-versions rextract_bcc and core_rextraction
         have a template-parameter for the range (generalising the vector)
 
+   SAT translation:
 
-   - scoped enums SB, DC, DP CS
-   - const char sep, alg_options_t, format_options_t
-   - default_sb_rounds
-   - scoped enum Error
+    - scoped enums (all registered with RegistrationPolicies):
+     - SB (symmetry-breaking forms)
+     - DC (Dimacs-comments on/off)
+     - DP (Dimacs-parameters on/off)
+     - CS (clause-set-output on/off)
 
-   - class BC2SAT
+    - input and output control:
+     - const char sep
+     - typedefs alg_options_t, format_options_t
+     - constant default_sb_rounds
+
+    - scoped enum ResultType
+
+    - class BC2SAT:
+
+     - typedefs
+      - graph_t
+      - enc_t = VarEncoding
+      - id_t (64-bit unsigned int, used for vertices, edges, bicliques)
+      - vei_t (vector of id_t -- vector of edge-indices)
+        function output(vei_t, std::ostream) outputs the list of edges (with
+        their names in G) as a list of items "(v,w)" (without separation)
+      - stats_t (basic statistics for a sequence of float80)
+      - symmbreak_res_t (pair of vei_t and stats_t)
+     - public constants G, edges (all edges of G)
+     - access-functions to data:
+      - enc() for the enc_t-object (const-reference)
+      - update_b(newB) (must be smaller than previous B)
+     - constructor BC2SAT(graph_t G, id_t B)
+       stores G, saves all-edges in edges, creates enc_t-object from G, B
+     - symmetry-breaking:
+      - max_bcincomp(RandGen) -> vei_t : compute greedily a maximal sequence
+        of bc-incompatible edges (using a random generator)
+      - max_bcincomp(id_t rounds, RandGen) -> symmbreak_res_t
+        (repeat rounds-often, and return best result with statistics)
 
 
    - General helper functions
-    - erase_if_byswap : faster than erase_if due to not keeping the order
+    - erase_if_byswap(vec, pred) : faster than std::erase_if due to
+      not keeping the order
 
 */
 
@@ -155,7 +186,6 @@ namespace Bicliques2SAT {
       - extract_bcc(vector<LIT>) (the partial assignments contains only the
                                   relevant literals)
       - more general for a range: rextract_bcc(RAN).
-
   */
   struct VarEncoding {
     typedef Graphs::AdjVecUInt graph_t;
@@ -365,13 +395,13 @@ namespace Bicliques2SAT {
 
 
   enum class ResultType {
-    unknown = 0,
-    init_unsat_sb = 1,
-    init_unsat = 2,
-    init_timeout = 3,
-    final_timeout = 4,
-    aborted = 5,
-    exact = 6,
+    unknown = 0,       // default-value
+    init_unsat_sb = 1, // symmetry-breaking showed unsatisfiability
+    init_unsat = 2,    // initial value of B is unsatisfiable
+    init_timeout = 3,  // initial value of B yielded solver-timeout
+    final_timeout = 4, // non-initial value of B yielded solver-timeout
+    aborted = 5,       // solver aborted computation
+    exact = 6,         // exact result obtained
   };
   std::ostream& operator <<(std::ostream& out, const ResultType r) {
     switch(r) {
@@ -388,11 +418,11 @@ namespace Bicliques2SAT {
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
-    typedef graph_t::vecedges_t vecedges_t;
-    const vecedges_t edges;
+    const graph_t::vecedges_t edges; // vector of pairs of id_t's
 
     typedef VarEncoding enc_t;
     typedef VarEncoding::id_t id_t;
+    static_assert(std::is_same_v<id_t, graph_t::id_t>);
 
     explicit BC2SAT(const graph_t& G, const id_t B) noexcept :
       G(G), edges(G.alledges()), enc_(G,B) {}
@@ -405,8 +435,10 @@ namespace Bicliques2SAT {
     }
 
 
-    // Compute a random maximal bc-incompatible sequences of edges
-    // (every pair is incompatible), given by their indices:
+    // Compute a (single) random maximal bc-incompatible sequence of edges
+    // (every pair is incompatible), given by their indices, by  repeatedly
+    // chosing a random edge, and then removing all bc-compatible edges,
+    // until no edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
     vei_t max_bcincomp(RandGen::RandGen_t& g) const {
       vei_t avail; avail.reserve(enc_.E);
@@ -416,24 +448,26 @@ namespace Bicliques2SAT {
       while (not avail.empty()) {
         const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
-        const auto ee = edges[e];
         erase_if_byswap(avail,
-          [&ee,this](const id_t x){
-                     return Bicliques::bccomp(ee,edges[x], G);});
+          [e,this](const id_t x){return
+                                 Bicliques::bccomp(edges[e],edges[x], G);});
       }
       return res;
     }
     typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
-    std::pair<vei_t, stats_t>
-        max_bcincomp(const id_t rounds, RandGen::RandGen_t& g) const {
+    typedef std::pair<vei_t, stats_t> symmbreak_res_t;
+    // Now repeat rounds-often, and return the first best, with statistics:
+    symmbreak_res_t max_bcincomp(const id_t rounds,
+                                 RandGen::RandGen_t& g) const {
       if (rounds == 0) return {};
-      vei_t res = max_bcincomp(g);
-      stats_t S; S += res.size();
+      symmbreak_res_t res;
+      res.first = max_bcincomp(g);
+      res.second += res.first.size();
       for (id_t i = 0; i < rounds-1; ++i) {
         vei_t nres = max_bcincomp(g); const auto s = nres.size();
-        S += s; if (s > res.size()) res = std::move(nres);
+        res.second += s; if (s > res.first.size()) res.first = std::move(nres);
       }
-      return {res, S};
+      return res;
     }
     void output(const vei_t& v, std::ostream& out) const {
       for (const id_t x : v) {
