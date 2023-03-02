@@ -15,7 +15,7 @@ EXAMPLES:
 
 Just obtaining statistics:
 
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 200 "" "-cs"
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" "-cs" 20000
 c ** Parameters **
 c V                                     400
 c E                                     760
@@ -26,14 +26,17 @@ c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 c ** Symmetry Breaking **
-c planted-edges                         159
-c sb-stats                              100 : 141 149.29 159; 3.60498
+c planted-edges                         163
+c sb-stats                              20000 : 136 149.601 163; 3.31464
 c num_e-seeds                           1
-c  e-seeds                              1646648668327395707
-p cnf 312000 32609237
+c  e-seeds                              1677772941341189429
+p cnf 312000 32609249
+real	0m12.618s
+user	0m12.611s
+sys	0m0.009s
 
-One sees that symmetry-breaking with 100 attempts obtained a maximum of
-159 planted edges.
+One sees that symmetry-breaking with 20000 attempts obtained a maximum of
+163 planted edges.
 
 
 TODOS:
@@ -49,6 +52,7 @@ TODOS:
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
 
 #include "Graphs.hpp"
 #include "Bicliques2SAT.hpp"
@@ -58,8 +62,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "8.3.2022",
+        "0.6.0",
+        "2.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -74,15 +78,15 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " B=" << default_B <<
-      " algo-options format-options [sb-rounds=" <<
-      default_sb_rounds << "]\n\n"
+    "> " << proginfo.prg << " B algo-options format-options sb-rounds\n\n"
+    " B              : " << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<DP>{} << "\n"
-    "                : " << Environment::WRP<CS>{} << "\n\n"
+    "                : " << Environment::WRP<CS>{} << "\n"
+    " sb-rounds      : " << default_sb_rounds << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
-    "  - Arguments \"\" (the empty string) yield also the default-values.\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -95,9 +99,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc < 4) {
-    std::cerr << error << "Exactly three arguments (B, algo-opt, form-opt)"
-      " needed, but only " << argc-1 << " provided.\n";
+  if (argc != 5) {
+    std::cerr << error << "Exactly four arguments (B, algo-opt, form-opt, rounds)"
+      " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
@@ -106,8 +110,9 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<alg_options_t>()(argv[2], sep);
   const format_options_t formopt =
     Environment::translate<format_options_t>()(argv[3], sep);
-  const var_t sb_rounds = argc >= 5 ?
-    read_var_t(argv[4], default_sb_rounds) : default_sb_rounds;
+  const var_t sb_rounds =
+    read_var_t(argv[4], default_sb_rounds);
+
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
