@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,6 +39,9 @@ One sees that symmetry-breaking with 100 attempts obtained a maximum of
 TODOS:
 
 1. Read seeds
+
+2. Provide more statistics
+  - See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
 */
 

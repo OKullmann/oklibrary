@@ -44,7 +44,7 @@ License, or any later version. */
      - for creating the biclique-cover:
       - add_literal(Lit x, Bcc_frame& bcc) adds the literal x (with a variable
         from the first block, and positive x) to the given biclique-frame
-      - extract_bcc(std::istream& in -> Bcc_frame
+      - extract_bcc(std::istream& in) -> Bcc_frame
         call first core_extraction(in), and then post_process on the result
        - core_extraction(std::istream&) -> Bcc_frame
          reads a Dimacs-assignment, populates bicliques according to the
@@ -131,10 +131,10 @@ License, or any later version. */
 
      - the complete SAT-solving (from above), computing an optimum
        bcc:
-      - struct result_t (Bcc_frame, B, ResultType, init_b
+      - struct result_t (Bcc_frame, B, ResultType, init_B)
       - operator (ostream*, alg_options, rounds, sec, seeds)
-       stores the Dimacs-file on disc, using the minisat_call, decrementing
-       B until unsatisfiability reached)
+        stores the Dimacs-files on disc, using the minisat_call, decrementing
+        B until unsatisfiability reached
 
 
 

@@ -46,6 +46,7 @@ TODOS:
     - Explain the special case where no unsat-test
       is needed due to the results of symmetry-breaking.
     - Explain the output-line "exact 4 4".
+    - Control logging.
 
 5. Provide a mode which starts with B as given by symmetry-breaking
    (which is a sound lower bound), and then increases B as long as
