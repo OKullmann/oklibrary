@@ -89,16 +89,53 @@ License, or any later version. */
       - update_b(newB) (must be smaller than previous B)
      - constructor BC2SAT(graph_t G, id_t B)
        stores G, saves all-edges in edges, creates enc_t-object from G, B
+
      - symmetry-breaking:
       - max_bcincomp(RandGen) -> vei_t : compute greedily a maximal sequence
         of bc-incompatible edges (using a random generator)
       - max_bcincomp(id_t rounds, RandGen) -> symmbreak_res_t
         (repeat rounds-often, and return best result with statistics)
+
      - clause-translations:
+
       - nonedge_for_bc(v,w,b) -> ClauseList (edge {v,w} must not be covered)
       - all_nonedges_for_bcs(std::ostream& out) -> id_t : all non-edges
         must not be covered, output to out (returned the number of clauses)
       - num_cl_bcedges() is the number of clauses here
+
+      - edge_def(e,b) -> ClauseList
+      - all_edges_def(std::ostream& out) -> id_t
+      - num_cl_defedges()
+
+      - edge_cov(e) -> ClauseList
+      - all_edges_cov(std::ostream& out) -> id_t
+      - num_cl_covedges()
+
+      - all_basic_clauses(std::ostream& out) -> id_t : the above three blocks
+      - num_basic_cl()
+
+      - place_edge(e,b) -> ClauseList
+      - all_sbedges(vei_t sb, std::ostream& out) -> id_t : places all
+        edges from sb (symmetry-breaking)
+      - num_cl_sb(vei_t)
+
+      - all_clauses(vei_t sb, std::ostream& out) -> id_t : combines
+        all_basic_clauses with all_sbedges
+      - num_cl(vei_t)
+
+      - the complete translation (with complete output):
+       - struct Unsatisfiable (thrown when B was too low to start with
+         (from above))
+       - operator (ostream&, alg_options, format_options, rounds, seeds)
+         -> dimacs_pars (throws Unsatisfiable)
+
+     - the complete SAT-solving (from above), computing an optimum
+       bcc:
+      - struct result_t (Bcc_frame, B, ResultType, init_b
+      - operator (ostream*, alg_options, rounds, sec, seeds)
+       stores the Dimacs-file on disc, using the minisat_call, decrementing
+       B until unsatisfiability reached)
+
 
 
    - General helper functions
@@ -635,6 +672,8 @@ namespace Bicliques2SAT {
     }
 
 
+    // Signalling unsatisfiability (necessarily here due to symmetry-breaking
+    // contradicting the given value of B):
     struct Unsatisfiable {
       const vei_t incomp;
       const id_t B;
@@ -667,6 +706,7 @@ namespace Bicliques2SAT {
           DWW{"E"} << enc_.E << "\n" <<
           DWW{"B"} << enc_.B() << "\n" <<
           DWW{"sb-option"} << sb << "\n" <<
+
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
           DWW{"dimacs-parameter-option"} << dp << "\n" <<
@@ -680,7 +720,7 @@ namespace Bicliques2SAT {
             DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
         }
 
-        // XXX
+        // XXX clause- and variables- numbers
       }
 
       if (dp == DP::with) {
