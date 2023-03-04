@@ -123,7 +123,7 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "56"
+#define VERSIONSNUMMER2 "57"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
 #define DATUM "4.3.2023"
@@ -363,24 +363,24 @@ extern bool Belegung;
 /* Maximale Klauselnlaenge, Variablenanzahl, Anzahl von Literalvorkommen */
 /* und Klauselnanzahl in der Eingabe und nach Vorreduktion */
 
-extern unsigned int P0, P;
-//! number of variables in input (a constant)
-extern unsigned int N0;
-//! number of variables after initial reduction (a constant)
-extern unsigned int N;
+extern unsigned long int P0, P;
+//! number of variables in input (a constant):
+extern unsigned long int N0;
+//! number of variables after initial reduction (a constant):
+extern unsigned long int N;
 extern unsigned long int L0, L;
 extern unsigned long int K0, K;
 
 //! current number of unassigned variables (<= N)
-extern unsigned int aktN;
+extern unsigned long int aktN;
 
-extern unsigned int aktP;
+extern unsigned long int aktP;
 /* aktP <= P ist die aktuelle maximale Klauselnlaenge */
 
 /* Die folgenden Variablen sind nur aktiviert, wenn der Schalter */
 /* Schranken gesetzt worden ist: */
 
-extern unsigned int MAXN;
+extern unsigned long int MAXN;
 extern unsigned long int MAXL;
 extern unsigned long int MAXK;
 

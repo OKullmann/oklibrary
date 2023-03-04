@@ -163,7 +163,7 @@ Ausgabeformat Format = XML_Format;
 // (Fuer den Wettbewerb muss sowohl BELEGUNG als auch DIMACSAUS
 // gesetzt werden.)
 
-unsigned int MAXN = 30000;
+unsigned long int MAXN = 30000;
 unsigned long int MAXL = 400000;
 unsigned long int MAXK = 150000;
 
@@ -187,7 +187,7 @@ clock_t akkVerbrauch = 0; /* akkumulierter Verbrauch */
 
 /* Die Darstellung der Eingabe */
 
-unsigned int P, P0, N, N0, aktN, aktP;
+unsigned long int P, P0, N, N0, aktN, aktP;
 unsigned long int K, K0, L, L0;
 
 /* Hilfsvariablen fuer Reduktion und Filter */
@@ -1010,13 +1010,13 @@ void Statistikzeile(FILE* const fp) {
     fprintf(fp, "\n");
     fprintf(fp,
             "c sat_status                            %d\n"
-            "c initial_maximal_clause_length         %u\n"
-            "c initial_number_of_variables           %u\n"
+            "c initial_maximal_clause_length         %lu\n"
+            "c initial_number_of_variables           %lu\n"
             "c initial_number_of_clauses             %lu\n"
             "c initial_number_of_literal_occurrences %lu\n"
             "c number_of_initial_unit-eliminations   %lu\n"
-            "c reddiff_maximal_clause_length         %u\n"
-            "c reddiff_number_of_variables           %u\n"
+            "c reddiff_maximal_clause_length         %lu\n"
+            "c reddiff_number_of_variables           %lu\n"
             "c reddiff_number_of_clauses             %lu\n"
             "c reddiff_number_of_literal_occurrences %lu\n"
             "c number_of_2-clauses_after_reduction   %u\n"
@@ -1097,8 +1097,8 @@ void Statistikzeile(FILE* const fp) {
 
     fprintf(fp, "    <measures>\n");
     fprintf(fp, "      <reduction> <none/> </reduction>\n");
-    fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%d\" />\n", N0);
-    fprintf(fp, "      <clause-length specifier = \"exact\" type = \"maximal\" value = \"%d\" />\n", P0);
+    fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%ld\" />\n", N0);
+    fprintf(fp, "      <clause-length specifier = \"exact\" type = \"maximal\" value = \"%ld\" />\n", P0);
     fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"%ld\" />\n", K0);
     fprintf(fp, "      <number_of_literal_occurrences specifier = \"exact\" count = \"%ld\" />\n", L0);
     fprintf(fp, "    </measures>\n");
@@ -1116,15 +1116,15 @@ void Statistikzeile(FILE* const fp) {
 	fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"0\" />\n");
       }
       else { // keine Entscheidung
-	fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%d\" />\n", N);
-	fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" count = \"%d\" />\n", P);
+	fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%ld\" />\n", N);
+	fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" count = \"%ld\" />\n", P);
 	fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"%ld\" />\n", K);
 	fprintf(fp, "      <number_of_literal_occurrences specifier = \"exact\"count = \"%ld\" />\n", L);
       }
     }
     else { // nun wurde der Suchbaum aufgebaut
-      fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%d\" />\n", N);
-      fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" value = \"%d\" />\n", P);
+      fprintf(fp, "      <number_of_variables specifier = \"exact\" count = \"%ld\" />\n", N);
+      fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" value = \"%ld\" />\n", P);
       fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"%ld\" />\n", K);
       fprintf(fp, "      <numbers_of_clauses list_of_clause-lengths = \"complete\" >\n");
       for (unsigned int i = 0; i <= P - 2; ++i)
@@ -1177,7 +1177,7 @@ static void Abbruch (int) {
 }
 
 static FILE* fp = NULL; /* die aktuelle Eingabedatei */
-static unsigned int Groesse;
+static unsigned long int Groesse;
 static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
 static char* NameBel = NULL; char* NameMon = NULL;
@@ -1458,6 +1458,7 @@ int main(const int argc, const char* const argv[]) {
           fprintf(stderr, Meldung(7), aktName);
           return 1;
         }
+        assert(stbuf.st_size >= 0);
         Groesse = stbuf.st_size;
       }
       

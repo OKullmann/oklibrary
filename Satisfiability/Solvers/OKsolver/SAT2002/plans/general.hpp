@@ -22,7 +22,7 @@ Bicliques> valgrind OKsolver2002_debug data/A_131_3964_1__128.cnf > AUSGABE 2>&1
 XXX
    \endverbatim
    </li>
-   <li> Counting variables with 32-bit is not the problems, but counting
+   <li> DONE Counting variables with 32-bit is not the problem, but counting
    clauses (literal occurrences) is, e.g.
      extern unsigned int L0, L;
      extern unsigned int K0, K;

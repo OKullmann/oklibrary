@@ -211,18 +211,14 @@ __inline__ bool uebernehmenLiteral(const int l) {
   return true;
 }
 
-__inline__ bool uebernehmenKlausel() {
-  K0++;
-  if (aktp0 > P0)
-    P0 = aktp0;
+__inline__ bool uebernehmenKlausel() noexcept {
+  ++K0;
+  if (aktp0 > P0) P0 = aktp0;
   if (! Tautologie) {
-    if (unsichermaxk && K >= maxk)
-    return false;
-    K++;
-    if (aktp > P)
-    P = aktp;
-    if (aktp == 1)
-    EinerKlausel = true;
+    if (unsichermaxk && K >= maxk) return false;
+    ++K;
+    if (aktp > P) P = aktp;
+    if (aktp == 1) EinerKlausel = true;
     *(aktfreies++) = 0;
     aktKlauselAnfang = aktfreies;
   }
@@ -293,14 +289,14 @@ void Fehlerumgebung(FILE* const fp, char c) {
 
 
 
-TEIN Einlesen(FILE* const fp, const unsigned int G) {
+TEIN Einlesen(FILE* const fp, const unsigned long int G) {
   char c; unsigned int v; VZ e;
 
   P = P0 = N = N0 = K = K0 = L = L0 = 0;
 
   if (G == 0) return Sat;
-  {unsigned int trivSchranke;
-   trivSchranke = (unsigned int) ceil(G / 2.0); /* laesst Spiel von +1 zu */
+  {unsigned long int trivSchranke;
+   trivSchranke = (unsigned long int) ceil(G / 2.0); // laesst Spiel von +1 zu
    if (Schranken && (MAXN < trivSchranke)) {
      maxn = MAXN;
      M = Lastfaktor * maxn; /* Groesse der Hashtabelle */
@@ -310,8 +306,7 @@ TEIN Einlesen(FILE* const fp, const unsigned int G) {
      maxn = trivSchranke;
      unsichermaxn = false;
      M = trivSchranke;
-     if (M % 127 == 0)
-     M++;
+     if (M % 127 == 0) ++M;
    }
    if (Schranken && (MAXL < trivSchranke)) {
      maxl = MAXL;
