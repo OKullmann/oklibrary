@@ -68,10 +68,38 @@ Bicliques> minisat data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
 
 Bicliques> OKsolver2002 data/A_131_3964_1__128.cnf
-Segmentation fault (core dumped)
-Also with _debug, _NTP, _NTP_debug -versions.
-See Solvers/OKsolver/SAT2002/plans/general.hpp.
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         128
+c initial_number_of_variables           21172736
+c initial_number_of_clauses             2092091564
+c initial_number_of_literal_occurrences 4324973440
+c number_of_initial_unit-eliminations   21167448
+c reddiff_maximal_clause_length         125
+c reddiff_number_of_variables           21167448
+c reddiff_number_of_clauses             2092078318
+c reddiff_number_of_literal_occurrences 4324946737
+c number_of_2-clauses_after_reduction   13035
+c running_time(sec)                     493.6
+c number_of_nodes                       2
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   598
+c number_of_missed_single_nodes         0
+c max_tree_depth                        1
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 5332
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             data/A_131_3964_1__128.cnf
 
+
+Explicit UCP:
 
 Bicliques> time cat data/A_131_3964_1__128.cnf | UnitClausePropagation > data/A_131_3964_1__128_ucp.cnf
 real    44m18.388s

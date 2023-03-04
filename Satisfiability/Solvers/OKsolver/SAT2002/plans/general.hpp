@@ -12,14 +12,13 @@ License, or any later version. */
 
   \todo Make it handling very large instances
   <ul>
-   <li> In
-   Satisfiability/Transformers/Generators/Bicliques/data/LOG
+   <li> DONE (this works now)
+   In Satisfiability/Transformers/Generators/Bicliques/data/LOG
    one finds reports on segmentation faults on instance
    data/A_131_3964_1__128.cnf. </li>
-   <li> Specifically:
+   <li> DONE Specifically:
    \verbatim
 Bicliques> valgrind OKsolver2002_debug data/A_131_3964_1__128.cnf > AUSGABE 2>&1
-XXX
    \endverbatim
    </li>
    <li> DONE Counting variables with 32-bit is not the problem, but counting
