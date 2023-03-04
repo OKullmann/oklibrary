@@ -15,6 +15,7 @@ License, or any later version. */
     - the (out-)adjacency-list is realised as a map M from (arbitrary) strings
       to sets of strings (using alphanumerical order of strings)
     - the vertices are exactly the arguments of M
+    - const-access to M via graph()
 
     - typedefs:
      - id_t (std::string)
@@ -244,7 +245,7 @@ namespace Graphs {
       assert(fx != M.end());
       return fx->second;
     }
-    const map_t graph() const noexcept { return M; }
+    const map_t& graph() const noexcept { return M; }
 
     bool operator ==(const AdjMapStr& rhs) const noexcept = default;
 
