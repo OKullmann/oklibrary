@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008, 2011, 2019 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2011, 2019, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,7 +46,8 @@ License, or any later version. */
 extern bool nurVorreduktion;
 extern bool Schranken;
 
-static unsigned int maxn, maxl, maxk, maxlk;
+static unsigned int maxn;
+static unsigned long int maxl, maxk, maxlk;
 /* maxn ist die maximale Anzahl von Variablen, */
 /* maxlk die maximale Summe von Literalanzahl und Klauselanzahl */
 static bool unsichermaxn;
@@ -417,7 +418,7 @@ S1:
 	  return Fehler;
 	}
       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
-	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	  return Fehler;
 	 }
        c = getc(fp); goto ZustandS16;
@@ -439,7 +440,7 @@ S1:
 
     if (c == '0') {
       if (! uebernehmenKlausel()) {
-	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	  return Fehler;
 	}
       c = getc(fp); goto ZustandS17;
@@ -553,11 +554,11 @@ S2:
 	  return Fehler;
 	}
       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
-	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	  return Fehler;
 	}
       if (! uebernehmenKlausel()) {
-	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	  return Fehler;
 	}
       c = getc(fp); goto ZustandS21;
@@ -570,7 +571,7 @@ S2:
 	  return Fehler;
 	}
       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
-	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	  return Fehler;
 	}
       c = getc(fp); goto ZustandS27;
@@ -583,7 +584,7 @@ S2:
 	  return Fehler;
 	}
       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
-	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	  return Fehler;
 	}
       c = getc(fp); goto ZustandS26;
@@ -605,7 +606,7 @@ S2:
 
     if (Klauselende(c)) {
       if (! uebernehmenKlausel()) {
-	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	  return Fehler;
 	}
       c = getc(fp); goto ZustandS21;
@@ -757,12 +758,12 @@ S3:
 	 }
        if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
 	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	   fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	   return Fehler;
 	 }
        if (! uebernehmenKlausel())
 	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	   fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS31;
@@ -778,7 +779,7 @@ S3:
 	 }
        if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
 	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	   fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS36;
@@ -806,7 +807,7 @@ S3:
      {
        if (! uebernehmenKlausel())
 	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	   fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS31;
@@ -934,12 +935,12 @@ S4:
 	 }
        if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
 	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	   fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	   return Fehler;
 	 }
        if (! uebernehmenKlausel())
 	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	   fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS41;
@@ -955,7 +956,7 @@ S4:
 	 }
        if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
 	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	   fprintf(stderr, "%s %7ld\n", Meldung(38), maxl);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS46;
@@ -983,7 +984,7 @@ S4:
      {
        if (! uebernehmenKlausel())
 	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	   fprintf(stderr, "%s %6ld\n", Meldung(41), maxk);
 	   return Fehler;
 	 }
        c = getc(fp); goto ZustandS41;

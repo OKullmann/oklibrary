@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009, 2011, 2015, 2019 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011, 2015, 2019, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "55"
+#define VERSIONSNUMMER2 "56"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "28.12.2019"
+#define DATUM "4.3.2023"
 
 extern const bool internal;
 
@@ -368,8 +368,8 @@ extern unsigned int P0, P;
 extern unsigned int N0;
 //! number of variables after initial reduction (a constant)
 extern unsigned int N;
-extern unsigned int L0, L;
-extern unsigned int K0, K;
+extern unsigned long int L0, L;
+extern unsigned long int K0, K;
 
 //! current number of unassigned variables (<= N)
 extern unsigned int aktN;
@@ -381,8 +381,8 @@ extern unsigned int aktP;
 /* Schranken gesetzt worden ist: */
 
 extern unsigned int MAXN;
-extern unsigned int MAXL;
-extern unsigned int MAXK;
+extern unsigned long int MAXL;
+extern unsigned long int MAXK;
 
 enum Ausgabeformat {Dimacs_Format, XML_Format};
 
