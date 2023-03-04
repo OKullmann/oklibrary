@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,20 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/general.hpp
   \brief Plans on the maintenance of the code for the old OKsolver
+
+
+  \todo Make it handling very large instances
+  <ul>
+   <li> In
+   Satisfiability/Transformers/Generators/Bicliques/data/LOG
+   one finds reports on segmentation faults on instance
+   data/A_131_3964_1__128.cnf. </li>
+   <li> Counting variables with 32-bit is not the problems, but counting
+   clauses is, e.g.
+extern unsigned int L0, L;
+extern unsigned int K0, K;
+   </li>
+  </ul>
 
 
   \todo More information on the current path

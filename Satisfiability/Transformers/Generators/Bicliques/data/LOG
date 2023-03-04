@@ -1,6 +1,6 @@
 1) A_131_3964_1
 
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 -sb -cs
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 -sb -cs "" ""
 c ** Parameters **
 c V                                     3964
 c E                                     157484
@@ -12,7 +12,7 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 p cnf 21668972 2141120876
 
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 +sb -cs
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 +sb -cs "" ""
 c ** Parameters **
 c V                                     3964
 c E                                     157484
@@ -24,9 +24,9 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 121 124.68 128; 1.4831
-c num_e-seeds                           1
-c  e-seeds                              1677233790299908624
+c sb-stats                              100 : 120 124.75 128; 1.57874
+c num_e-seeds                           0
+c  e-seeds                              
 p cnf 21668972 2141121260
 
 No better symmetry-breaking with 10000 trials.
@@ -34,7 +34,12 @@ No better symmetry-breaking with 10000 trials.
 
 SAT-solving on server:
 
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb "" > data/A_131_3964_1__128.cnf
+Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb "" "" "" > data/A_131_3964_1__128.cnf
+real    7m40.211s
+user    7m22.261s
+sys     0m17.993s
+Bicliques> ls -l data/A_131_3964_1__128.cnf
+38384519194 Mar  4 02:31 data/A_131_3964_1__128.cnf
 38384519213 Feb 24 10:33 A_131_3964_1__128.cnf
 Bicliques> head -15 data/A_131_3964_1__128.cnf
 c ** Parameters **
@@ -48,9 +53,9 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        with-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 122 125.08 128; 1.2924
-c num_e-seeds                           1
-c  e-seeds                              1677234375009802420
+c sb-stats                              100 : 120 124.75 128; 1.57874
+c num_e-seeds                           0
+c  e-seeds                              
 p cnf 21172736 2092091564
 
 
@@ -64,11 +69,16 @@ Segmentation fault (core dumped)
 
 Bicliques> OKsolver2002 data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
+Also with _debug, _NTP, _NTP_debug -versions.
 
 
-Bicliques> cat data/A_131_3964_1__128.cnf | UnitClausePropagation-O3-DNDEBUG > data/A_131_3964_1__128_ucp.cnf
+Bicliques> time cat data/A_131_3964_1__128.cnf | UnitClausePropagation > data/A_131_3964_1__128_ucp.cnf
+real    44m18.388s
+user    38m9.313s
+sys     6m52.869s
+max 347 GB
 Bicliques> ls -l data/A_131_3964_1__128_ucp.cnf
-247079 Feb 24 13:22 data/A_131_3964_1__128_ucp.cnf
+245469 Mar  4 03:32 data/A_131_3964_1__128_ucp.cnf
 Bicliques> head -20 data/A_131_3964_1__128_ucp.cnf
 c ** Parameters **
 c V                                     3964
@@ -81,15 +91,15 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        with-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 122 125.08 128; 1.2924
-c num_e-seeds                           1
-c  e-seeds                              1677234375009802420
+c sb-stats                              100 : 120 124.75 128; 1.57874
+c num_e-seeds                           0
+c  e-seeds                              
 c Additional comments regarding the unit-clause propagation:
 c The original parameter were: n = 21172736, c = 2092091564.
 c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 2092091180.
 c Number of unit-clauses in input = 384.
 c UCP performed 21167448 assignments.
-p cnf 21051987 13246
+p cnf 21172646 13246
 
 Bicliques> minisat-2.2.0 data/A_131_3964_1__128_ucp.cnf
 |  Number of variables:      21051987                                         |
@@ -107,7 +117,7 @@ SATISFIABLE
 
 2) A_160_1022_1
 
-Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 -sb -cs
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 -sb -cs "" ""
 c ** Parameters **
 c V                                     1022
 c E                                     3328
@@ -119,7 +129,7 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 p cnf 859520 169250688
 
-Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 +sb -cs
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 "" -cs "" ""
 c ** Parameters **
 c V                                     1022
 c E                                     3328
@@ -131,18 +141,21 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 123 126.22 128; 1.32253
-c num_e-seeds                           1
-c  e-seeds                              1677233942184591485
+c sb-stats                              100 : 122 126.17 128; 1.37109
+c num_e-seeds                           0
+c  e-seeds                              
 p cnf 859520 169251072
 
 No better symmetry-breaking with 10000 trials.
 
 SAT-solving on server:
 
-Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 128 +sb "" > data/A_160_1022_1__128.cnf
+Bicliques> time cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 128 "" "" "" "" > data/A_160_1022_1__128.cnf
+real    0m29.212s
+user    0m28.053s
+sys     0m1.162s
 Bicliques> ls -l data/A_160_1022_1__128.cnf
-2341343944 Feb 24 16:56 data/A_160_1022_1__128.cnf
+2341343923 Mar  4 11:07 data/A_160_1022_1__128.cnf
 Bicliques> head -15 data/A_160_1022_1__128.cnf
 c ** Parameters **
 c V                                     1022
@@ -155,9 +168,9 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        with-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 123 126.42 128; 1.15627
-c num_e-seeds                           1
-c  e-seeds                              1677257742542419957
+c sb-stats                              100 : 122 126.17 128; 1.37109
+c num_e-seeds                           0
+c  e-seeds                              
 p cnf 687616 135401600
 
 Bicliques> minisat-2.2.0 data/A_160_1022_1__128.cnf
@@ -173,9 +186,48 @@ conflict literals     : 0              (-nan % deleted)
 Memory used           : 8357.03 MB
 CPU time              : 522.962 s
 
-So, as above, it's mostly just UCP.
+So, as above, it's mostly just UCP (indeed here it's only UCP).
 
-Bicliques> cat data/A_160_1022_1__128.cnf | UnitClausePropagation-O3-DNDEBUG > data/A_160_1022_1__128_ucp.cnf
+Bicliques> OKsolver2002 data/A_160_1022_1__128.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         128
+c initial_number_of_variables           687616
+c initial_number_of_clauses             135401600
+c initial_number_of_literal_occurrences 273778048
+c number_of_initial_unit-eliminations   687616
+c reddiff_maximal_clause_length         128
+c reddiff_number_of_variables           687616
+c reddiff_number_of_clauses             135401600
+c reddiff_number_of_literal_occurrences 273778048
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     28.8
+c number_of_nodes                       0
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             data/A_160_1022_1__128.cnf
+
+Interesting that OKsolver2002 is indeed much faster than minisat here.
+
+
+Running dedicated UCP:
+
+Bicliques> time cat data/A_160_1022_1__128.cnf | UnitClausePropagation > data/A_160_1022_1__128_ucp.cnf
+real    2m4.173s
+user    1m53.972s
+sys     0m12.822s
 Bicliques> head -20 data/A_160_1022_1__128_ucp.cnf
 c ** Parameters **
 c V                                     1022
@@ -188,15 +240,18 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        with-cs
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 123 126.42 128; 1.15627
-c num_e-seeds                           1
-c  e-seeds                              1677257742542419957
+c sb-stats                              100 : 122 126.17 128; 1.37109
+c num_e-seeds                           0
+c  e-seeds                              
 c Additional comments regarding the unit-clause propagation:
 c The original parameter were: n = 687616, c = 135401600.
 c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 135401216.
 c Number of unit-clauses in input = 384.
 c UCP determines satisfiability after processing 687616 assignments.
 p cnf 0 0
+
+
+Extracting the solution:
 
 Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT 128 +sb > data/A_160_1022_1_opt
 Bicliques> less data/A_160_1022_1_opt
