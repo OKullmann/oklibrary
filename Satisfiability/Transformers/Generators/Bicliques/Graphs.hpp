@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,25 @@ License, or any later version. */
    - scoped enum GT ("dir" and "und")
 
    - class AdjMapStr: a simple string-based class for creating graphs
+    - the (out-)adjacency-list is realised as a map M from (arbitrary) strings
+      to sets of strings (using alphanumerical order of strings)
+    - the vertices are exactly the arguments of M
+
+    - typedefs:
+     - id_t (std::string)
+     - idv_t (vector of id_t)
+     - edv_t (vector of pairs of id_t)
+
+    - one constructor from GT (empty graph)
+    - edge-insertion (returning the number of vertices and edges inserted --
+      new vertices are always automatically inserted):
+     - a single edge from a to b: insert(a, b)
+     - edges from a to all members of idv_t B: insert(a, B)
+     - edges from a to all members of the range B: insertr(a, B)
+    - edge-removal (returning the number of edges removed):
+     - remove_edges(edv_t E)
+     - for a range E: remove_edges(E)
+
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
 
