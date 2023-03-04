@@ -16,11 +16,20 @@ License, or any later version. */
    Satisfiability/Transformers/Generators/Bicliques/data/LOG
    one finds reports on segmentation faults on instance
    data/A_131_3964_1__128.cnf. </li>
-   <li> Counting variables with 32-bit is not the problems, but counting
-   clauses is, e.g.
-extern unsigned int L0, L;
-extern unsigned int K0, K;
+   <li> Specifically:
+   \verbatim
+Bicliques> valgrind OKsolver2002_debug data/A_131_3964_1__128.cnf > AUSGABE 2>&1
+XXX
+   \endverbatim
    </li>
+   <li> Counting variables with 32-bit is not the problems, but counting
+   clauses (literal occurrences) is, e.g.
+     extern unsigned int L0, L;
+     extern unsigned int K0, K;
+   These should be unsigned-64-bits.
+   </li>
+   <li> The datatypes need to be udpated, so that at least reasonable typedefs
+   are used. </li>
   </ul>
 
 

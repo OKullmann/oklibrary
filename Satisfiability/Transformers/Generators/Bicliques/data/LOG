@@ -34,13 +34,13 @@ No better symmetry-breaking with 10000 trials.
 
 SAT-solving on server:
 
+Creating the cnf-file:
 Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb "" "" "" > data/A_131_3964_1__128.cnf
 real    7m40.211s
 user    7m22.261s
 sys     0m17.993s
 Bicliques> ls -l data/A_131_3964_1__128.cnf
-38384519194 Mar  4 02:31 data/A_131_3964_1__128.cnf
-38384519213 Feb 24 10:33 A_131_3964_1__128.cnf
+38384519194 Mar  4 15:32 data/A_131_3964_1__128.cnf
 Bicliques> head -15 data/A_131_3964_1__128.cnf
 c ** Parameters **
 c V                                     3964
@@ -70,6 +70,7 @@ Segmentation fault (core dumped)
 Bicliques> OKsolver2002 data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
 Also with _debug, _NTP, _NTP_debug -versions.
+See Solvers/OKsolver/SAT2002/plans/general.hpp.
 
 
 Bicliques> time cat data/A_131_3964_1__128.cnf | UnitClausePropagation > data/A_131_3964_1__128_ucp.cnf
