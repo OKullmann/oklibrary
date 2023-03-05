@@ -294,3 +294,45 @@ exact 128 128
 10 100 103 269 272 279 285 939 | 34 101 102 271 273 280 284 943
 ...
 
+
+
+3) A_77_1090_1
+
+Measurements:
+
+Bicliques> cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 -sb -cs "" ""
+c ** Parameters **
+c V                                     1090
+c E                                     7026
+c B                                     77
+c sb-option                             no-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+p cnf 708862 93654734
+
+Symmetry-breaking:
+
+Bicliques> cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 "" -cs "" ""
+c ** Parameters **
+c V                                     1090
+c E                                     7026
+c B                                     77
+c sb-option                             basic-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         77
+c sb-stats                              100 : 75 76.71 77; 0.518253
+c num_e-seeds                           0
+c  e-seeds                              
+p cnf 708862 93654965
+
+So upper bound equals lower bound -- B=77 is optimal.
+
+Solving with OKsolver on server:
+
+XXX
