@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
-        "1.3.2023",
+        "0.3.11",
+        "5.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -124,6 +124,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(enc2.core_extraction(ss), { { {{0,1,3},{2}}, {{0,1},{2,3}} } }));
 
    BC2SAT trans1(G, 1);
+   assert(trans1.num_basic_lit() == 2*4 + 3*36 + 1*6);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
      for (unsigned e2 = 0; e2 < G.m(); ++e2)
        assert(Bicliques::bccomp(trans1.edges[e1], trans1.edges[e2], G));

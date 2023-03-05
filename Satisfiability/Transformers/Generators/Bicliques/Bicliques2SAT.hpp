@@ -547,6 +547,9 @@ namespace Bicliques2SAT {
       const id_t other_edges = (enc_.V * (enc_.V + 1)) / 2 - enc_.E;
       return enc_.B() * (2 * other_edges - enc_.V);
     }
+    id_t num_lit_bcedges() const noexcept {
+      return 2 * num_cl_bcedges();
+    }
     id_t all_nonedges_for_bcs(std::ostream& out) const {
       id_t count = 0;
       const auto nedges = G.allnonedges(true); // including loops
@@ -584,6 +587,9 @@ namespace Bicliques2SAT {
     id_t num_cl_defedges() const noexcept {
       return enc_.B() * 6 * enc_.E;
     }
+    id_t num_lit_defedges() const noexcept {
+      return 3 * num_cl_defedges();
+    }
     id_t all_edges_def(std::ostream& out) const {
       id_t count = 0;
       for (id_t b = 0; b < enc_.B(); ++b)
@@ -609,6 +615,9 @@ namespace Bicliques2SAT {
     id_t num_cl_covedges() const noexcept {
       return enc_.E;
     }
+    id_t num_lit_covedges() const noexcept {
+      return enc_.B() * num_cl_covedges();
+    }
     id_t all_edges_cov(std::ostream& out) const {
       id_t count = 0;
       for (id_t e = 0; e < enc_.E; ++e) {
@@ -622,6 +631,9 @@ namespace Bicliques2SAT {
 
     id_t num_basic_cl() const noexcept {
       return num_cl_bcedges() + num_cl_defedges() + num_cl_covedges();
+    }
+    id_t num_basic_lit() const noexcept {
+      return num_lit_bcedges() + num_lit_defedges() + num_lit_covedges();
     }
     id_t all_basic_clauses(std::ostream& out) const {
       id_t sum = 0;
@@ -647,6 +659,9 @@ namespace Bicliques2SAT {
     id_t num_cl_sb(const vei_t& sb) const noexcept {
       return 3 * sb.size();
     }
+    id_t num_lit_sb(const vei_t& sb) const noexcept {
+      return num_cl_sb(sb);
+    }
     id_t all_sbedges(const vei_t& sb, std::ostream& out) const {
       assert(sb.size() <= enc_.B());
       id_t count = 0;
@@ -662,6 +677,9 @@ namespace Bicliques2SAT {
 
     id_t num_cl(const vei_t& sb) const noexcept {
       return num_basic_cl() + num_cl_sb(sb);
+    }
+    id_t num_lit(const vei_t& sb) const noexcept {
+      return num_basic_lit() + num_lit_sb(sb);
     }
     id_t all_clauses(const vei_t& sb, std::ostream& out) const {
       id_t sum = 0;
@@ -707,10 +725,25 @@ namespace Bicliques2SAT {
           DWW{"B"} << enc_.B() << "\n" <<
           DWW{"sb-option"} << sb << "\n" <<
 
+          DHW{"Statistics"} <<
+          DWW{" bc-variables"} << enc_.nb() << "\n" <<
+          DWW{" edge-variables"} << enc_.ne() << "\n" <<
+          DWW{"total-variables"} << enc_.n() << "\n" <<
+          DWW{" bc-clauses"} << num_cl_bcedges() << "\n" <<
+          DWW{"  bc-lit-occurrences"} << num_lit_bcedges() << "\n" <<
+          DWW{" edge-clauses"} << num_cl_defedges() << "\n" <<
+          DWW{"  edge-lit-occurrences"} << num_lit_defedges() << "\n" <<
+          DWW{" cover-clauses"} << num_cl_covedges() << "\n" <<
+          DWW{"  cover-lit-occurrences"} << num_lit_covedges() << "\n" <<
+          DWW{" unit-clauses"} << num_cl_sb(sbv) << "\n" <<
+          DWW{"total-clauses"} << num_cl(sbv) << "\n" <<
+          DWW{"total-lit-occurrences"} << num_lit(sbv) << "\n" <<
+
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
           DWW{"dimacs-parameter-option"} << dp << "\n" <<
           DWW{"clauses-option"} << cs << "\n";
+
         if (sb != SB::none) {
           out <<
             DHW{"Symmetry Breaking"} <<
@@ -719,8 +752,6 @@ namespace Bicliques2SAT {
             DWW{"num_e-seeds"} << seeds.size() << "\n" <<
             DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
         }
-
-        // XXX clause- and variables- numbers
       }
 
       if (dp == DP::with) {

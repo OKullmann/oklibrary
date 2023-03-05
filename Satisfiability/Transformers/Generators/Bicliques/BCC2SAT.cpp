@@ -21,6 +21,19 @@ c V                                     400
 c E                                     760
 c B                                     200
 c sb-option                             basic-sb
+c ** Statistics **
+c  bc-variables                         160000
+c  edge-variables                       152000
+c total-variables                       312000
+c  bc-clauses                           31696000
+c   bc-lit-occurrences                  63392000
+c  edge-clauses                         912000
+c   edge-lit-occurrences                2736000
+c  cover-clauses                        760
+c   cover-lit-occurrences               152000
+c  unit-clauses                         495
+c total-clauses                         32609255
+c total-lit-occurrences                 66280495
 c ** Formatting **
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
@@ -45,7 +58,7 @@ TODOS:
 1. DONE Read seeds
 
 2. Provide more statistics
-  - See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
+  - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
 */
 
@@ -63,8 +76,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "2.3.2023",
+        "0.6.2",
+        "5.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
