@@ -335,4 +335,69 @@ So upper bound equals lower bound -- B=77 is optimal.
 
 Solving with OKsolver on server:
 
-XXX
+Bicliques> time cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 "" "" "" "" > data/A_77_1090_1__77.cnf
+real    0m22.319s
+user    0m21.406s
+sys     0m0.919s
+Bicliques> ls -l data/A_77_1090_1__77.cnf
+1586053448 Mar  5 00:07 data/A_77_1090_1__77.cnf
+Bicliques> head -15 data/A_77_1090_1__77.cnf
+c ** Parameters **
+c V                                     1090
+c E                                     7026
+c B                                     77
+c sb-option                             basic-sb
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        with-cs
+c ** Symmetry Breaking **
+c planted-edges                         77
+c sb-stats                              100 : 75 76.71 77; 0.518253
+c num_e-seeds                           0
+c  e-seeds                              
+p cnf 708862 93654965
+
+Bicliques> OKsolver2002 data/A_77_1090_1__77.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         77
+c initial_number_of_variables           708862
+c initial_number_of_clauses             93654965
+c initial_number_of_literal_occurrences 191082661
+c number_of_initial_unit-eliminations   708862
+c reddiff_maximal_clause_length         77
+c reddiff_number_of_variables           708862
+c reddiff_number_of_clauses             93654965
+c reddiff_number_of_literal_occurrences 191082661
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     19.6
+c number_of_nodes                       0
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             data/A_77_1090_1__77.cnf
+
+Bicliques> minisat-2.2.0 data/A_77_1090_1__77.cnf
+|  Number of variables:        708862                                         |
+|  Number of clauses:        93654734                                         |
+|  Parse time:                  11.80 s                                       |
+|  Simplification time:        337.22 s                                       |
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 1              (0.00 % random) (0 /sec)
+propagations          : 708862         (2031 /sec)
+conflict literals     : 0              (-nan % deleted)
+Memory used           : 6470.39 MB
+CPU time              : 349.027 s
