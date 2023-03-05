@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo Make it reading from standard input
+  <ul>
+   <li> As an "undocumented feature" one can use cin for the filename, which
+        is then interpreted as reading from standard input. </li>
+   <li> One should then use
+   \verbatim
+-B -MAXN=XXX -MAXK=XXX -MAXL=XXX
+   \endverbatim
+   with the exact values. </li>
+   <li> The problem here is that the size of the input-file is used, and
+   for cin this is then "approximated" by 2*MAXL. </li>
+   <li> A complete review of the use of "Schranken" (with -B) and MAXN,
+   MAXK, MAXL is needed. </li>
+  </ul>
+
+
   \todo Make it handling very large instances
   <ul>
    <li> DONE (this works now)

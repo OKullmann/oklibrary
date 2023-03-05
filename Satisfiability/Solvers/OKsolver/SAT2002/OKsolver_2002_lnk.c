@@ -1176,7 +1176,8 @@ static void Abbruch (int) {
   longjmp(Ausgabepunkt, 1);
 }
 
-static FILE* fp = NULL; /* die aktuelle Eingabedatei */
+static FILE* inputfp = NULL; /* die aktuelle Eingabedatei */
+bool input_cin = false;
 static unsigned long int Groesse;
 static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
@@ -1342,8 +1343,8 @@ int main(const int argc, const char* const argv[]) {
       Beobachtungsniveau = Nummer;
     }
     else if (strncmp("-MAXN=", argv[Argument], 6) == 0) {
-      int maxn;
-      if (sscanf(argv[Argument] + 6, "%d", &maxn) != 1) {
+      long int maxn;
+      if (sscanf(argv[Argument] + 6, "%ld", &maxn) != 1) {
         fprintf(stderr, "%s\n", Meldung(33));
         return 1;
       }
@@ -1354,8 +1355,8 @@ int main(const int argc, const char* const argv[]) {
       MAXN = maxn;
     }
     else if (strncmp("-MAXL=", argv[Argument], 6) == 0) {
-      int maxl;
-      if (sscanf(argv[Argument] + 6, "%d", &maxl) != 1) {
+      long int maxl;
+      if (sscanf(argv[Argument] + 6, "%ld", &maxl) != 1) {
         fprintf(stderr, "%s\n", Meldung(36));
         return 1;
       }
@@ -1366,8 +1367,8 @@ int main(const int argc, const char* const argv[]) {
       MAXL = maxl;
     }
     else if (strncmp("-MAXK=", argv[Argument], 6) == 0) {
-      int maxk;
-      if (sscanf(argv[Argument] + 6, "%d", &maxk) != 1) {
+      long int maxk;
+      if (sscanf(argv[Argument] + 6, "%ld", &maxk) != 1) {
         fprintf(stderr, "%s\n", Meldung(39));
         return 1;
       }
@@ -1448,14 +1449,18 @@ int main(const int argc, const char* const argv[]) {
       akkVerbrauch = SysZeit.tms_utime;
 #endif
       if (randomisiert) srand_S();
-      if ((fp = fopen(aktName, "r")) == NULL) {
+      input_cin = strcmp(aktName, "cin") == 0;
+      if (input_cin) inputfp = stdin;
+      else if ((inputfp = fopen(aktName, "r")) == NULL) {
         fprintf(stderr, "%s %s\n", Meldung(4), aktName);
         return 1;
       }
-      {
+      assert(inputfp);
+      if (input_cin) Groesse = 2*MAXL;
+      else {
         struct stat stbuf;
         if (stat(aktName, &stbuf) == -1) {
-          fprintf(stderr, Meldung(7), aktName);
+          fprintf(stderr, "%s %s\n", Meldung(7), aktName);
           return 1;
         }
         assert(stbuf.st_size >= 0);
@@ -1505,7 +1510,7 @@ int main(const int argc, const char* const argv[]) {
       }
 #endif
       
-      switch (Einlesen(fp, Groesse)) {
+      switch (Einlesen(inputfp, Groesse)) {
       case Sat : s = SAT; break;
       case Unsat : s = UNSAT; break;
       case Fehler :
@@ -1580,7 +1585,8 @@ int main(const int argc, const char* const argv[]) {
         fclose(TreeDataFile); TreeDataFile = NULL;
       }
 #endif
-      if (fp != NULL) { fclose(fp); fp = NULL; }
+      if (inputfp != NULL and inputfp != stdin) fclose(inputfp);
+      inputfp = NULL;
       if (fpmo != NULL) { fclose(fpmo); fpmo = NULL; }
       if (fpaus != NULL) { fclose(fpaus); fpaus = NULL; }
       if (fppa != NULL) { fclose(fppa); fppa = NULL; }
