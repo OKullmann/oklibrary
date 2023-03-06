@@ -142,6 +142,27 @@ License, or any later version. */
     - erase_if_byswap(vec, pred) : faster than std::erase_if due to
       not keeping the order
 
+
+TODOS:
+
+1. UCP for BC2SAT
+
+(a) The class gets bloated, but for a start it seems easiest to develop
+    the functinality in this (richer) context.
+
+(b) Given and initial edge-placement via sb of type vei_t and an initial
+    consistent frame F (either empty or obtained by complete previous
+    processing), place the edges of sb in F, and perform complete UCP for F.
+
+(c) A frame F contains for each 0 <= i < B:
+  - the assigned vertices L, R;
+    perhaps as sorted vectors;
+  - the (other) possible vertices PL, PR;
+    this data only shrinks (after the initial setting), so perhaps also a
+    sorted vector is best;
+  - the edges watching this bc, as pairs (i,e), with 0 <= i < E and e in {0,1},
+    for the direction (forward/backward).
+
 */
 
 #ifndef BICLIQUES2SAT_MI3iJYZoB5
