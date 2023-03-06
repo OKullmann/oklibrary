@@ -10,6 +10,16 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo For option -P (only preprocessing), enable output of processed input
+  <ul>
+   <li> See the more general todo "Output of clause-sets" below. </li>
+   <li> And see the todo "Output intermediate results" below. </li>
+   <li> See also todo "Make it handling very large instances" below
+        (there seems to be a large superfluous memory allocation at the
+        end of the computation). </li>
+  </ul>
+
+
   \todo Make it reading from standard input
   <ul>
    <li> As an "undocumented feature" one can use cin for the filename, which
@@ -28,6 +38,14 @@ License, or any later version. */
 
   \todo Make it handling very large instances
   <ul>
+   <li> When using -P, then apparently short before completition a superfluous
+   (large) memory request is issued, which might exhaust the system, although
+   the instance was alread completed.
+   See Bicliques/data/LOG, the base
+   \verbatim
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 "" "" "" "" | OKsolver2002 -B -MAXN=21172736 -MAXK=2092091564 -MAXL=4324973440 -P cin
+   \endverbatim
+   </li>
    <li> DONE (this works now)
    In Satisfiability/Transformers/Generators/Bicliques/data/LOG
    one finds reports on segmentation faults on instance
@@ -578,7 +596,11 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    <li> We need the ability to output the following intermediate clause-sets:
     <ol>
      <li> The original clause-sets, but "cleaned-up". </li>
-     <li> The original clause-set after preprocessing. </li>
+     <li> The original clause-set after preprocessing.
+          See todo
+        "For option -P (only preprocessing), enable output of processed input"
+          above.
+     </li>
      <li> The current residual clause-set. </li>
     </ol>
    </li>
@@ -1013,5 +1035,3 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 */
-
-

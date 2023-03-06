@@ -185,6 +185,41 @@ Memory used           : 2697.37 MB
 CPU time              : 4.9401 s
 SATISFIABLE
 
+Using OKsolver for UCP:
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 "" "" "" "" | OKsolver2002 -B -MAXN=21172736 -MAXK=2092091564 -MAXL=4324973440 -P cin
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         128
+c initial_number_of_variables           21172736
+c initial_number_of_clauses             2092091564
+c initial_number_of_literal_occurrences 4324973440
+c number_of_initial_unit-eliminations   21167448
+c reddiff_maximal_clause_length         125
+c reddiff_number_of_variables           21167448
+c reddiff_number_of_clauses             2092078318
+c reddiff_number_of_literal_occurrences 4324946737
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     527.0
+c number_of_nodes                       0
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             cin
+
+This is much faster, but unfortunately at the moment OKsolver doesn't output
+the result (and also there is a superfluous memory-blow-up at the finish).
+
 
 
 2) A_160_1022_1
