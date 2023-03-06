@@ -13,8 +13,43 @@ License, or any later version. */
 
 EXAMPLES:
 
-Just obtaining statistics:
+Just obtaining statistics (by "-cs"):
 
+Obtaining B from symmetry-breaking:
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" "-cs" "" ""
+c ** Parameters **
+c V                                     400
+c E                                     760
+c B                                     159
+c sb-option                             basic-sb
+c ** Statistics **
+c  bc-variables                         127200
+c  edge-variables                       120840
+c total-variables                       248040
+c  bc-clauses                           25198320
+c   bc-lit-occurrences                  50396640
+c  edge-clauses                         725040
+c   edge-lit-occurrences                2175120
+c  cover-clauses                        760
+c   cover-lit-occurrences               120840
+c  unit-clauses                         477
+c total-clauses                         25924597
+c total-lit-occurrences                 52693077
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         159
+c sb-stats                              100 : 142 149.2 159; 3.34241
+c num_e-seeds                           0
+c  e-seeds                              
+p cnf 248040 25924597
+real	0m0.079s
+user	0m0.081s
+sys	0m0.000s
+
+Specifying B=200:, and 20000 symmetry-breaking-rounds:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" "-cs" 20000 ""
 c ** Parameters **
 c V                                     400
@@ -44,7 +79,6 @@ c sb-stats                              20000 : 135 149.572 165; 3.30518
 c num_e-seeds                           0
 c  e-seeds                              
 p cnf 312000 32609255
-
 real	0m12.931s
 user	0m12.918s
 sys	0m0.009s
@@ -76,8 +110,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "5.3.2023",
+        "0.7.0",
+        "6.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -93,15 +127,17 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg << " B algo-options format-options sb-rounds seeds\n\n"
-    " B              : " << default_B << "\n"
+    " B              : " << "biclique-cover-size, default is "
+         << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n"
-    " sb-rounds      : " << default_sb_rounds << "\n"
-    " seeds          : " << "can contain \"t\" or \"r\"" << "\n\n"
+    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
+    "  - B=0 means the value is chosen by symmetry-breaking if enabled.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;

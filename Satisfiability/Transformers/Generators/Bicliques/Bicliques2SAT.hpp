@@ -145,6 +145,8 @@ License, or any later version. */
 
 TODOS:
 
+0. Upwards-search
+
 1. UCP for BC2SAT
 
 (a) The class gets bloated, but for a start it seems easiest to develop
@@ -500,7 +502,7 @@ namespace Bicliques2SAT {
 
 
     // Compute a (single) random maximal bc-incompatible sequence of edges
-    // (every pair is incompatible), given by their indices, by  repeatedly
+    // (every pair is incompatible), given by their indices, by repeatedly
     // chosing a random edge, and then removing all bc-compatible edges,
     // until no edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
@@ -720,10 +722,11 @@ namespace Bicliques2SAT {
         assert(ip.size() > B);
       }
     };
+    // Output a (single) SAT-translation (updating enc.B if it is zero):
     RandGen::dimacs_pars operator()(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
-        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) const {
+        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
       const SB sb = std::get<SB>(ao);
       const DC dc = std::get<DC>(fo);
       const DP dp = std::get<DP>(fo);
@@ -734,7 +737,8 @@ namespace Bicliques2SAT {
         [&sb_rounds, &seeds, this]{
           RandGen::RandGen_t g(seeds);
           return max_bcincomp(sb_rounds, g);}();
-      if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
+      if (enc_.B() == 0) enc_.update_B(sbv.size());
+      else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res{enc_.n(), num_cl(sbv)};
 
       if (dc == DC::with) {
@@ -775,14 +779,8 @@ namespace Bicliques2SAT {
         }
       }
 
-      if (dp == DP::with) {
-        out << res;
-      }
-
-      if (cs == CS::with) {
-        all_clauses(sbv, out);
-      }
-
+      if (dp == DP::with) out << res;
+      if (cs == CS::with) all_clauses(sbv, out);
       return res;
     }
 
@@ -815,6 +813,8 @@ namespace Bicliques2SAT {
       }
     };
 
+
+    // Perform a complete optimisation, with SAT-solving, downwards:
     result_t operator()(std::ostream* const log,
         const alg_options_t ao, const id_t sb_rounds,
         const FloatingPoint::uint_t sec,

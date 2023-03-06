@@ -37,7 +37,7 @@ License, or any later version. */
 namespace BCC2SAT {
 
   typedef Bicliques2SAT::var_t var_t;
-  constexpr var_t default_B = 2;
+  constexpr var_t default_B = 0;
   constexpr FloatingPoint::int_t default_sec = FloatingPoint::P231m1;
 
   var_t read_var_t(const std::string& s, const var_t def) {
