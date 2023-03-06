@@ -109,7 +109,7 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             data/A_131_3964_1__128.cnf
 
 Without creating the cnf-file:
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb "" "" "" | OKsolver2002 -B -MAXN=21172736 -MAXK=2092091564 -MAXL=4324973440 cin
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | OKsolver2002 -B -MAXN=21172736 -MAXK=2092091564 -MAXL=4324973440 cin
 s SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         128
