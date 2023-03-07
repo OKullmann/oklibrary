@@ -63,6 +63,21 @@ TODOS:
 
 2. Read the minisat-statistics.
 
+3. Directing a stream to stdin of minisat
+   - This is important for very large files (especially when used in
+     parallel).
+   - The tool here to use is
+     ( https://man7.org/linux/man-pages/man3/popen.3.html )
+     #include <stdio.h>
+     FILE *popen(const char *command, const char *type);
+     int pclose(FILE *stream);
+   - Better to use std::FILE from cstdio
+     https://en.cppreference.com/w/cpp/io/c/FILE
+   - Within C, C++, Posix, there doesn't seem to be a way, given
+     a FILE*, to convert this into an ostream.
+     Thus the file-output-function need to be duplicated: additionally
+     to the C++-function also C-functions, outputting to FILE*.
+
 */
 
 #ifndef DIMACSTOOLS_E5ASWHPBqt
