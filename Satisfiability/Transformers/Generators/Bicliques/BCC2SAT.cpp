@@ -126,7 +126,8 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " B algo-options format-options sb-rounds seeds\n\n"
+    "> " << proginfo.prg
+         << " B algo-options format-options sb-rounds seeds\n\n"
     " B              : " << "biclique-cover-size, default is "
          << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
@@ -151,7 +152,8 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   if (argc != 6) {
-    std::cerr << error << "Exactly five arguments (B, algo-opt, form-opt, rounds, seeds)"
+    std::cerr << error <<
+      "Exactly five arguments (B, algo-opt, form-opt, rounds, seeds)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
