@@ -89,9 +89,7 @@ One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 
 TODOS:
 
-1. DONE Read seeds
-
-2. Provide more statistics
+1. Provide more statistics
   - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
 */
