@@ -17,7 +17,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 4 ""
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 4 "" "" ""
 Minisat-call for B=4: returned SAT
   Literal-Reduction by trimming: 0
   Size obtained: 4
@@ -55,6 +55,8 @@ TODOS:
     - As a further option it should be possible, for activated symmetry-
       breaking, to run internal UCP (without intermediate file-output).
 
+6. Provide log-control
+
 */
 
 
@@ -70,8 +72,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "7.3.2022",
+        "0.3.0",
+        "7.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -86,12 +88,15 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " B=" << default_B << " algo-options"
-      " [sb-rounds=" << default_sb_rounds << "]"
-      " [timeout(sec)=" << default_sec << "]\n\n"
-    " algo-options   : " << Environment::WRP<SB>{} << "\n\n"
+    "> " << proginfo.prg
+         << " B algo-options sb-rounds timeout\n\n"
+    " B              : " << "biclique-cover-size, default is "
+         << default_B << "\n"
+    " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
+    " timeout        : " << "in s, default is " << default_sec << "\n\n"
     " reads a graph from standard input, and attempts to compute its bcc-number:\n\n"
-    "  - Arguments \"\" (the empty string) yield also the default-values.\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -104,8 +109,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc < 3) {
-    std::cerr << error << "At least two arguments (B, algo-opt)"
+  if (argc != 5) {
+    std::cerr << error <<
+      "Exactly four arguments (B, algo-opt, sb-rounds, timeout)"
       " needed, but only " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
