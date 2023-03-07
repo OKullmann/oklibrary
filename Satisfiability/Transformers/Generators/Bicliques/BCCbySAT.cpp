@@ -17,28 +17,32 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 4 "" "" ""
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" ""
+Symmetry-breaking: 100 : 1 1 1; 0
+Minisat-call for B=5: returned SAT
+  Literal-Reduction by trimming: 1
+  Size obtained: 5
 Minisat-call for B=4: returned SAT
   Literal-Reduction by trimming: 0
   Size obtained: 4
 Minisat-call for B=3: returned UNSAT
 
 bcc=4
-exact 4 4
-4 7 10 11 12 13 15 16 | 1 2 3 5 6 8 9 14
-1 3 4 9 12 14 15 16 | 2 5 6 7 8 10 11 13
-3 4 5 6 7 10 12 14 | 1 2 8 9 11 13 15 16
-4 6 7 8 9 11 14 16 | 1 2 3 5 10 12 13 15
+exact 4 5
+1 2 5 6 13 14 15 16 | 3 4 7 8 9 10 11 12
+1 2 3 4 5 10 12 14 | 6 7 8 9 11 13 15 16
+2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
+1 3 4 7 9 14 15 16 | 2 5 6 8 10 11 12 13
 
-Remark: The symmetry-breaking is randomised (100 trials above),
-and thus the results are also randomised.
 
 
 TODOS:
 
 1. Output seeds
+    - It seems parameter-output is needed.
+    - This should include symmetry-breaking.
 
-2. Read seeds
+2. DONE Read seeds
 
 3. Supply format-options
 
@@ -47,6 +51,7 @@ TODOS:
       is needed due to the results of symmetry-breaking.
     - Explain the output-line "exact 4 4".
     - Control logging.
+    - Output symmetry-breaking statistics.
 
 5. Provide a mode which starts with B as given by symmetry-breaking
    (which is a sound lower bound), and then increases B as long as
@@ -55,14 +60,13 @@ TODOS:
     - As a further option it should be possible, for activated symmetry-
       breaking, to run internal UCP (without intermediate file-output).
 
-6. Provide log-control
-
 */
 
 
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
 
 #include "Graphs.hpp"
 #include "Bicliques2SAT.hpp"
@@ -72,7 +76,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "7.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -89,12 +93,13 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " B algo-options sb-rounds timeout\n\n"
+         << " B algo-options sb-rounds timeout seeds\n\n"
     " B              : " << "biclique-cover-size, default is "
          << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
-    " timeout        : " << "in s, default is " << default_sec << "\n\n"
+    " timeout        : " << "in s, default is " << default_sec << "\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
     " reads a graph from standard input, and attempts to compute its bcc-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
@@ -109,9 +114,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 5) {
+  if (argc != 6) {
     std::cerr << error <<
-      "Exactly four arguments (B, algo-opt, sb-rounds, timeout)"
+      "Exactly five arguments (B, algo-opt, sb-rounds, timeout, seeds)"
       " needed, but only " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -123,6 +128,7 @@ int main(const int argc, const char* const argv[]) {
     read_var_t(argv[3], default_sb_rounds) : default_sb_rounds;
   const auto sec = argc >= 5 ?
     read_uint_t(argv[4], default_sec) : default_sec;
+  const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -137,7 +143,7 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT trans(G, B);
-  const auto res = trans(&std::cout, algopt, sb_rounds, sec);
+  const auto res = trans(&std::cout, algopt, sb_rounds, sec, seeds);
   std::cout << "\n"; // separation from log-output
   res.output(std::cout, G);
 
