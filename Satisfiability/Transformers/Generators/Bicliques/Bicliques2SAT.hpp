@@ -140,7 +140,7 @@ License, or any later version. */
 
    - General helper functions
     - erase_if_byswap(vec, pred) : faster than std::erase_if due to
-      not keeping the order
+      not keeping the order.
 
 
 TODOS:
@@ -150,20 +150,30 @@ TODOS:
 1. UCP for BC2SAT
 
 (a) The class gets bloated, but for a start it seems easiest to develop
-    the functinality in this (richer) context.
+    the functionality in this (richer) context.
 
 (b) Given and initial edge-placement via sb of type vei_t and an initial
-    consistent frame F (either empty or obtained by complete previous
+    consistent bcc-frame F (either empty or obtained by complete previous
     processing), place the edges of sb in F, and perform complete UCP for F.
 
-(c) A frame F contains for each 0 <= i < B:
+(c) A bcc-frame F contains for each 0 <= i < B:
   - the assigned vertices L, R;
-    perhaps as sorted vectors;
+    perhaps as sorted vectors; both are empty or both are non-empty;
   - the (other) possible vertices PL, PR;
+    as long as L,R are empty, also PL, PR are empty, and then with the first
+    edge PL, PR are assigned the other neighbours;
+    with further edges only the common neighbours remain;
     this data only shrinks (after the initial setting), so perhaps also a
     sorted vector is best;
   - the edges watching this bc, as pairs (i,e), with 0 <= i < E and e in {0,1},
     for the direction (forward/backward).
+
+(d) For each edge-index 0 <= i < E:
+     - indication whether assigned to which biclique (with which polarity)
+     - if unassigned, then two watched bicliques (with polarity; which
+       can cover the edge)
+    The two watched bicliques in "ladder- order" (updating advances
+    in this order).
 
 */
 
@@ -722,7 +732,8 @@ namespace Bicliques2SAT {
         assert(ip.size() > B);
       }
     };
-    // Output a (single) SAT-translation (updating enc.B if it is zero):
+    // Output a (single) SAT-translation (updating enc.B if it is zero, in
+    // case of symmetry-breaking):
     RandGen::dimacs_pars operator()(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
