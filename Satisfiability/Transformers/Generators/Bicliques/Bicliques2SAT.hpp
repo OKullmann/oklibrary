@@ -398,9 +398,12 @@ namespace Bicliques2SAT {
   enum class DC { with=0, without=1 }; // Dimacs-comments
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
+  enum class DI { upwards=0, downwards=1 }; // search direction
+  enum class UB { check=0, trust=1 }; // upper-bound: check or trust
 
   constexpr char sep = ',';
   typedef std::tuple<SB> alg_options_t;
+  typedef std::tuple<SB,DI,UB> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
 
   constexpr id_t default_sb_rounds = 100;
@@ -430,6 +433,18 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"+cs", "-cs"};
   };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::DI> {
+    static constexpr int size = int(Bicliques2SAT::DI::downwards)+1;
+    static constexpr std::array<const char*, size> string
+    {"up", "down"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::UB> {
+    static constexpr int size = int(Bicliques2SAT::UB::trust)+1;
+    static constexpr std::array<const char*, size> string
+    {"check", "trust"};
+  };
 }
 namespace Bicliques2SAT {
   std::ostream& operator <<(std::ostream& out, const SB s) {
@@ -456,6 +471,18 @@ namespace Bicliques2SAT {
     case CS::with : return out << "with-cs";
     case CS::without : return out << "without-cs";
     default : return out << "CS::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const DI d) {
+    switch (d) {
+    case DI::upwards : return out << "upwards";
+    case DI::downwards : return out << "downwards";
+    default : return out << "DI::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const UB u) {
+    switch (u) {
+    case UB::check : return out << "check-ub";
+    case UB::trust : return out << "trust-ub";
+    default : return out << "UB::UNKNOWN";}
   }
 
 
@@ -827,7 +854,7 @@ namespace Bicliques2SAT {
 
     // Perform a complete optimisation, with SAT-solving, downwards:
     result_t operator()(std::ostream* const log,
-        const alg_options_t ao, const id_t sb_rounds,
+        const alg2_options_t ao, const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
       result_t res(enc_.B());

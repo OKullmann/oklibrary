@@ -76,8 +76,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "7.3.2023",
+        "0.3.2",
+        "8.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -122,8 +122,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const var_t B = read_var_t(argv[1], default_B);
-  const alg_options_t algopt =
-    Environment::translate<alg_options_t>()(argv[2], sep);
+  const alg2_options_t algopt =
+    Environment::translate<alg2_options_t>()(argv[2], sep);
   const var_t sb_rounds = argc >= 4 ?
     read_var_t(argv[3], default_sb_rounds) : default_sb_rounds;
   const auto sec = argc >= 5 ?

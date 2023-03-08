@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,8 +45,8 @@ clauses is always equal to the original number)).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "7.3.2022",
+        "0.1.3",
+        "8.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -86,8 +86,8 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const alg_options_t algopt =
-    Environment::translate<alg_options_t>()(argv[1], sep);
+  const alg2_options_t algopt =
+    Environment::translate<alg2_options_t>()(argv[1], sep);
   const var_t sb_rounds = argc >= 3 ?
     read_var_t(argv[2], default_sb_rounds) : default_sb_rounds;
   const auto sec = argc >= 4 ?
