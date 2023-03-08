@@ -16,12 +16,14 @@ License, or any later version. */
 
 #include "Bicliques2SAT.hpp"
 #include "Graphs.hpp"
+#include "Generators.hpp"
+#include "Bicliques.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.11",
-        "5.3.2023",
+        "0.4.0",
+        "8.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -29,6 +31,8 @@ namespace {
 
   using namespace Bicliques2SAT;
   using namespace Graphs;
+  using namespace Generators;
+  using namespace Bicliques;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -247,6 +251,65 @@ int main(const int argc, const char* const argv[]) {
    const auto t35 = [](const auto& x){return x==3 or x==5;};
    assert(erase_if_byswap(v, t35) == 2);
    assert(eqp(v, {1,2,4}));
+  }
+
+  {for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(clique(n));
+     const size_t bcc = bcc_clique(n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcc + dist;
+       BC2SAT trans(G, B);
+       std::stringstream out;
+       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       assert(res.B == bcc);
+       assert(res.init_B == B);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcc(res.bcc, G));
+     }
+   }
+   for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(biclique(n,n));
+     const size_t bcc = bcc_biclique(n,n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcc + dist;
+       BC2SAT trans(G, B);
+       std::stringstream out;
+       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       assert(res.B == bcc);
+       assert(res.init_B == B);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcc(res.bcc, G));
+     }
+   }
+   for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(crown(n));
+     const size_t bcc = bcc_crown(n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcc + dist;
+       BC2SAT trans(G, B);
+       std::stringstream out;
+       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       assert(res.B == bcc);
+       assert(res.init_B == B);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcc(res.bcc, G));
+     }
+   }
+   for (size_t n = 0; n < 6; ++n)
+     for (size_t m = 0; m < 6; ++m) {
+       const auto G = BC2SAT::graph_t(grid(n,m));
+       const size_t bcc = bcc_grid(n,m);
+       for (size_t dist = 0; dist < 4; ++dist) {
+         const size_t B = bcc + dist;
+         BC2SAT trans(G, B);
+         std::stringstream out;
+         const auto res = trans(nullptr, {}, 100, 1, {dist});
+         assert(res.B == bcc);
+         assert(res.init_B == B);
+         assert(res.rt == ResultType::exact);
+         assert(is_bcc(res.bcc, G));
+       }
+     }
   }
 
 }
