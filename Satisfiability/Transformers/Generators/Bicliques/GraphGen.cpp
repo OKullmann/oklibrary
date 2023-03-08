@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -47,6 +47,11 @@ Bicliques> ./GraphGen grid 2 3
 2,1 1,1 2,2
 2,2 1,2 2,1 2,3
 2,3 1,3 2,2
+
+
+TODOS:
+
+1. Provide better documentation on output
 
 */
 
