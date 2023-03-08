@@ -124,10 +124,8 @@ int main(const int argc, const char* const argv[]) {
   const var_t B = read_var_t(argv[1], default_B);
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[2], sep);
-  const var_t sb_rounds = argc >= 4 ?
-    read_var_t(argv[3], default_sb_rounds) : default_sb_rounds;
-  const auto sec = argc >= 5 ?
-    read_uint_t(argv[4], default_sec) : default_sec;
+  const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
+  const auto sec = read_uint_t(argv[4], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
