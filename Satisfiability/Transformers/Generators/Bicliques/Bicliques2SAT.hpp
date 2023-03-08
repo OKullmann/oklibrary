@@ -863,7 +863,7 @@ namespace Bicliques2SAT {
         const alg2_options_t ao,
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
-        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
+        const RandGen::vec_eseed_t& seeds) {
       result_t res(enc_.B());
       if (enc_.E == 0) {
         res.B = 0; res.rt = ResultType::exact;
