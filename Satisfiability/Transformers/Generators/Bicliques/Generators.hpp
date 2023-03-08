@@ -14,10 +14,10 @@ License, or any later version. */
    - size_t
 
   - scoped enum Types:
-   - clique
-   - biclique
-   - crown
-   - grid
+   - clique      (n)
+   - biclique    (n,m)
+   - crown       (n)    a biclique of size n+n minus one perfect matching
+   - grid        (n,m)
 
   - For each type T:
    - bcc_T(params) (minimum bc-cover)
