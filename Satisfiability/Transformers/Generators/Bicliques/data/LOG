@@ -140,6 +140,10 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             cin
 
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | minisat-2.2.0 -no-pre /dev/stdin
+INDETERMINATE
+
+
 
 
 Explicit UCP:
