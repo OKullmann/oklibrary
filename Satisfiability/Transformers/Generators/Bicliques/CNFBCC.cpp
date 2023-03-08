@@ -12,7 +12,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC ""
+Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC "" "" "" ""
 p cnf 1 5
 0
 0
@@ -20,20 +20,31 @@ p cnf 1 5
 -1 0
 1 0
 
-Since there is randomisation involved, in general the output is also
-randomised (but if the biclique-covering-number was succesfully computed,
-then the number of variables is uniquely determined (the number of
-clauses is always equal to the original number)).
+
+Symmetry-breaking is randomised, and thus for example (using "t" for
+"timestampe")
+
+Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t
+
+yields with 50% chance of the two (trimmed) realisations:
+
+p cnf 2 3
+1 2 0
+1 -2 0
+-1 0
+or
+p cnf 2 3
+1 2 0
+-1 0
+1 -2 0
 
 */
 
 
 #include <iostream>
-#include <algorithm>
-
-#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/Numbers.hpp>
 
 #include "Bicliques.hpp"
 #include "DimacsTools.hpp"
@@ -45,7 +56,7 @@ clauses is always equal to the original number)).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.2.0",
         "8.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -61,13 +72,14 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " algo-options"
-      " [sb-rounds=" << default_sb_rounds << "]"
-      " [timeout(sec)=" << default_sec << "]\n\n"
-    " algo-options   : " << Environment::WRP<SB>{} << "\n\n"
-    " reads a CNF from standard input, and attempts to compute its bcc-number,\n"
-    " realised by a CNF printed to standard output:\n\n"
-    "  - Arguments \"\" (the empty string) yield also the default-values.\n"
+    "> " << proginfo.prg
+         << " algo-options sb-rounds timeout seeds\n\n"
+    " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
+    " timeout        : " << "in s, default is " << default_sec << "\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
+    " reads a graph from standard input, and attempts to compute its bcc-number:\n\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -80,18 +92,18 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc < 2) {
-    std::cerr << error << "At least algo-opt"
-      " needed.\n";
+  if (argc != 5) {
+    std::cerr << error <<
+      "Exactly four arguments (algo-opt, sb-rounds, timeout, seeds)"
+      " needed, but only " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[1], sep);
-  const var_t sb_rounds = argc >= 3 ?
-    read_var_t(argv[2], default_sb_rounds) : default_sb_rounds;
-  const auto sec = argc >= 4 ?
-    read_uint_t(argv[3], default_sec) : default_sec;
+  const var_t sb_rounds = read_var_t(argv[2], default_sb_rounds);
+  const auto sec = read_uint_t(argv[3], default_sec);
+  const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[4]);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -108,7 +120,7 @@ int main(const int argc, const char* const argv[]) {
   const auto G = ConflictGraphs::conflictgraph_bydef(F);
   assert(G.n() == F.first.c);
   BC2SAT trans(G, std::min(F.first.n, G.m()));
-  const auto res = trans(nullptr, algopt, sb_rounds, sec);
+  const auto res = trans(nullptr, algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::init_unsat_sb and
          res.rt != ResultType::init_unsat and
          res.rt != ResultType::unknown);
