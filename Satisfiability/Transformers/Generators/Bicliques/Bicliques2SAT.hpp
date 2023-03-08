@@ -222,10 +222,16 @@ namespace Bicliques2SAT {
     static constexpr var_t MaxV =
       std::numeric_limits<std::uint32_t>::max() - 1;
   };
+  /*
+    A parameter-tripe (V,E,B) is valid iff
+     - V <= MaxV
+     - E <= maximal number of edges for V
+     - B allows for valid var-encoding.
+  */
   constexpr bool valid(const Param p) noexcept {
     if (p.V > Param::MaxV) return false;
-    if (p.B > p.E) return false;
-    if (p.E > (p.V * (p.V - 1)) / 2) return false;
+    const var_t maxE = (p.V * (p.V - 1)) / 2;
+    if (p.E > maxE) return false;
     if (p.B == 0) return true;
     const var_t bound = MaxN / 2 / p.B;
     if (p.V > bound / 2) return false; // see numvarbic below
@@ -290,7 +296,7 @@ namespace Bicliques2SAT {
     }
 
     void update_B(const var_t newB) noexcept {
-      assert(newB < B_);
+      assert(B_ == 0 or newB < B_);
       B_ = newB;
       nb_ = numvarbic(V,B_); ne_ = numvaredg(E,B_); n_ = nb_ + ne_;
     }
