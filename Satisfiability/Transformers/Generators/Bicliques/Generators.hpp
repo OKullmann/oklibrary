@@ -29,6 +29,11 @@ License, or any later version. */
 
   - create(argc, argv) for generating all the T's
 
+
+TODOS:
+
+1. Providing a creation-mode, which creates only half of the edges
+
 */
 
 #ifndef GENERATORS_1twuS7HUpM
@@ -133,6 +138,7 @@ namespace Generators {
     return F;
   }
 
+
   size_t bcc_biclique(const size_t n, const size_t m) noexcept {
     if (n == 0 or m == 0) return 0;
     else return 1;
@@ -156,6 +162,7 @@ namespace Generators {
     assert(res.first == n+m and res.second == n*m);
     return G;
   }
+
 
   bool special_case_grid(size_t n, size_t m) noexcept {
     assert(n >= 2 and m >= 2);
@@ -202,6 +209,7 @@ namespace Generators {
     assert(G.n() == n*m); assert(G.m() == n*(m-1) + m*(n-1));
     return G;
   }
+
 
   size_t bcc_crown(const size_t n) noexcept {
     return FloatingPoint::inv_fcbinomial_coeff(n);
