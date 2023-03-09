@@ -524,6 +524,7 @@ namespace Bicliques2SAT {
     default : return out << "ResultType::UNKNOWN";}
   }
 
+
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
