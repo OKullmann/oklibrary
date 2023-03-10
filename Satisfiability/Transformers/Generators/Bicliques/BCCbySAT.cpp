@@ -75,6 +75,11 @@ TODOS:
     - As a further option it should be possible, for activated symmetry-
       breaking, to run internal UCP (without intermediate file-output).
 
+6. Provide the possibility to use -no-pre for minisat:
+    - This is important for the large sparse examples we get from
+      GSM (global slice minimisation).
+    - THough for small hard problems it seems not suitable.
+
 */
 
 
