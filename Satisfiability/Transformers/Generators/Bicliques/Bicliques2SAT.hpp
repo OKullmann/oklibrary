@@ -950,7 +950,7 @@ namespace Bicliques2SAT {
 
 
     // Perform a complete optimisation, with SAT-solving, downwards:
-    result_t operator()(std::ostream* const log,
+    result_t sat_solve(std::ostream* const log,
         const alg2_options_t ao,
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,

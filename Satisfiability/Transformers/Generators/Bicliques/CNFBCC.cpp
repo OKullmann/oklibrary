@@ -141,8 +141,8 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_Dimacs(std::cin);
   const auto G = ConflictGraphs::conflictgraph_bydef(F);
   assert(G.n() == F.first.c);
-  BC2SAT trans(G, std::min(F.first.n, G.m()));
-  const auto res = trans(nullptr, algopt, sb_rounds, sec, seeds);
+  BC2SAT T(G, std::min(F.first.n, G.m()));
+  const auto res = T.sat_solve(nullptr, algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::init_unsat_sb and
          res.rt != ResultType::init_unsat and
          res.rt != ResultType::unknown);

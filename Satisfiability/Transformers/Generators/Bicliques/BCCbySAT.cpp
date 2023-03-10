@@ -161,8 +161,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT trans(G, B);
-  const auto res = trans(&std::cout, algopt, sb_rounds, sec, seeds);
+  BC2SAT T(G, B);
+  const auto res = T.sat_solve(&std::cout, algopt, sb_rounds, sec, seeds);
   std::cout << "\n"; // separation from log-output
   res.output(std::cout, G);
 

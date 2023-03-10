@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
+        "0.4.3",
         "10.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -263,7 +263,7 @@ int main(const int argc, const char* const argv[]) {
        const size_t B = bcc + dist;
        BC2SAT trans(G, B);
        std::stringstream out;
-       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
@@ -277,7 +277,7 @@ int main(const int argc, const char* const argv[]) {
        const size_t B = bcc + dist;
        BC2SAT trans(G, B);
        std::stringstream out;
-       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
@@ -291,7 +291,7 @@ int main(const int argc, const char* const argv[]) {
        const size_t B = bcc + dist;
        BC2SAT trans(G, B);
        std::stringstream out;
-       const auto res = trans(nullptr, {}, 100, 1, {dist});
+       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
@@ -306,7 +306,7 @@ int main(const int argc, const char* const argv[]) {
          const size_t B = bcc + dist;
          BC2SAT trans(G, B);
          std::stringstream out;
-         const auto res = trans(nullptr, {}, 100, 1, {dist});
+         const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
          assert(res.B == bcc);
          assert(res.init_B == B);
          assert(res.rt == ResultType::exact);
@@ -323,7 +323,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, B);
        std::stringstream out;
        const auto res =
-         trans(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
@@ -339,7 +339,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, B);
        std::stringstream out;
        const auto res =
-         trans(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
