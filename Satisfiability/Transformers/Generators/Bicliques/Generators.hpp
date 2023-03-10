@@ -16,11 +16,12 @@ License, or any later version. */
   - scoped enum Types:
    - clique      (n)
    - biclique    (n,m)
-   - crown       (n)    a biclique of size n+n minus one perfect matching
+   - crown       (n)    a biclique(n,n) minus one perfect matching
    - grid        (n,m)
 
   - For each type T:
    - bcc_T(params) (minimum bc-cover)
+   - bcp_T(params) (minimum bc-partition, if known)
    - numcc_T(params) (number of connected components)
    - T(params) generatoring AdjMapStr
 
@@ -33,6 +34,10 @@ License, or any later version. */
 TODOS:
 
 1. Providing a creation-mode, which creates only half of the edges
+
+2. Prove that bcp(crown(n)) = n.
+
+3. What is bcp(grid(n,m)) ?
 
 */
 
@@ -89,6 +94,10 @@ namespace Generators {
     if (n == 0) return 0;
     else return FloatingPoint::ceil(FloatingPoint::log2(n));
   }
+  size_t bcp_clique(const size_t n) noexcept {
+    if (n == 0) return 0;
+    else return n-1;
+  }
   size_t numcc_clique(const size_t n) noexcept {
     return n == 0 ? 0 : 1;
   }
@@ -140,6 +149,10 @@ namespace Generators {
 
 
   size_t bcc_biclique(const size_t n, const size_t m) noexcept {
+    if (n == 0 or m == 0) return 0;
+    else return 1;
+  }
+  size_t bcp_biclique(const size_t n, const size_t m) noexcept {
     if (n == 0 or m == 0) return 0;
     else return 1;
   }
@@ -213,6 +226,9 @@ namespace Generators {
 
   size_t bcc_crown(const size_t n) noexcept {
     return FloatingPoint::inv_fcbinomial_coeff(n);
+  }
+  size_t bcp_crown(const size_t n) noexcept {
+    return n;
   }
   size_t numcc_crown(const size_t n) noexcept {
     switch (n) {
