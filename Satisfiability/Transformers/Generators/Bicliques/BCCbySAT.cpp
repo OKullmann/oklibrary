@@ -57,28 +57,27 @@ TODOS:
     - It seems parameter-output is needed.
     - This should include symmetry-breaking.
 
-2. DONE Read seeds
+2. Supply format-options
 
-3. Supply format-options
-
-4. More systematic output:
+3. More systematic output:
     - Explain the special case where no unsat-test
       is needed due to the results of symmetry-breaking.
     - Explain the output-line "exact 4 4".
     - Control logging.
     - Output symmetry-breaking statistics.
 
-5. Provide a mode which starts with B as given by symmetry-breaking
+4. Provide a mode which starts with B as given by symmetry-breaking
    (which is a sound lower bound), and then increases B as long as
    unsat was found.
     - This needs an extension of operator-() in BC2SAT.
     - As a further option it should be possible, for activated symmetry-
       breaking, to run internal UCP (without intermediate file-output).
+    - See "Upwards-search" in Bicliques2SAT.hpp.
 
-6. Provide the possibility to use -no-pre for minisat:
+5. Provide the possibility to use -no-pre for minisat:
     - This is important for the large sparse examples we get from
       GSM (global slice minimisation).
-    - THough for small hard problems it seems not suitable.
+    - Though for small hard problems it seems not suitable.
 
 */
 

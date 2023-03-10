@@ -175,6 +175,10 @@ TODOS:
     The two watched bicliques in "ladder- order" (updating advances
     in this order).
 
+2. Implement partition1:
+  - This linear form is available under LatinSquares.
+  - At this time then the structure of BC2SAT needs to be improved.
+
 */
 
 #ifndef BICLIQUES2SAT_MI3iJYZoB5
