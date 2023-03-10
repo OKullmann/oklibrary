@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -159,7 +159,6 @@ TODOS:
 #ifndef ENVIRONMENT_6Kk9MX4Wbw
 #define ENVIRONMENT_6Kk9MX4Wbw
 
-#include <string>
 #include <string_view>
 #include <sstream>
 #include <algorithm>
@@ -170,7 +169,6 @@ TODOS:
 #include <optional>
 #include <array>
 #include <ios>
-#include <tuple>
 #include <exception>
 #include <limits>
 #include <random>
@@ -178,6 +176,10 @@ TODOS:
 #include <type_traits>
 #include <functional>
 #include <istream>
+
+// Guaranteed to be included:
+#include <string>
+#include <tuple>
 
 namespace Environment {
   constexpr bool ndebug =
