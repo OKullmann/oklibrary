@@ -39,6 +39,13 @@ License, or any later version. */
    - has_loops(AdjVecUInt)
    - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
 
+
+TODOS:
+
+1. Complete documentation
+
+2. Provide derived form of AdjVecUInt with access to indexed edges
+
 */
 
 #ifndef GRAPHS_yNSfT2tQs4
