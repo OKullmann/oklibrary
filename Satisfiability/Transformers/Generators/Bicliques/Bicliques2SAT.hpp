@@ -126,7 +126,7 @@ License, or any later version. */
       - the complete translation (with complete output):
        - struct Unsatisfiable (thrown when B was too low to start with
          (from above))
-       - operator (ostream&, alg_options, format_options, rounds, seeds)
+       - sat_translate(ostream&, alg_options, format_options, rounds, seeds)
          -> dimacs_pars (throws Unsatisfiable)
 
      - the complete SAT-solving (from above), computing an optimum
@@ -845,7 +845,7 @@ namespace Bicliques2SAT {
     };
     // Output a (single) SAT-translation (updating enc.B if it is zero, in
     // case of symmetry-breaking):
-    RandGen::dimacs_pars operator()(std::ostream& out,
+    RandGen::dimacs_pars sat_translate(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {

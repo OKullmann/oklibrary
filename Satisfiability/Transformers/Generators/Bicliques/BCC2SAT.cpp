@@ -158,7 +158,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
+        "0.7.2",
         "10.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -228,8 +228,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT trans(G, B);
-  try { trans(std::cout, algopt, formopt, sb_rounds, seeds); }
+  BC2SAT T(G, B);
+  try { T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds); }
   catch (const BC2SAT::Unsatisfiable& e) {
     std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
     return int(Error::found_unsat);
