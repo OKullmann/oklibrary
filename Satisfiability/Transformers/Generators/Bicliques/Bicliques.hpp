@@ -29,7 +29,7 @@ License, or any later version. */
     - valid(list_t, AdjVecUInt)
     - valid1/2(bc_frame), valid(bc_frame)
 
-   - disjoint(bc_frame)
+   - disjoint(bc_frame) (whether the two sides are disjoint)
    - is_star(id_t, list_t, AdjVecUInt)
    - is_bc(bc_frame, AdjVecUInt)
    - covers(bc_frame, id_t, id_t)
@@ -41,11 +41,13 @@ License, or any later version. */
        function output(std::ostream&, AdjVecUInt) for named output;
        plus ==, <<.
    - valid2(Bcc_frame), valid(Bcc_frame, AdjVecUInt)
-   - disjoint(Bcc_frame)
+   - disjoint(Bcc_frame) (whether all bicliques are disjoint)
    - is_bc(Bcc_frame, AdjVecUInt)
    - covers(Bcc_frame, id_t, id_t)
    - is_cover(Bcc_frame, AdjVecUInt)
+   - is_partition(Bcc_frame, AdjVecUInt)
    - is_bcc(Bcc_frame, AdjVecUInt)
+   - is_bcp(Bcc_frame, AdjVecUInt)
 
 
    Translating biclique-covers to CNFs:
@@ -64,6 +66,12 @@ License, or any later version. */
 
    - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
      biclique)
+
+
+TODOS:
+
+1. Once edges-index-access for a derived form of AdjVecUInt is provided,
+   try to remove the inefficient calls to alledges.
 
 */
 
@@ -181,6 +189,7 @@ namespace Bicliques {
       return std::all_of(b.r.begin(), b.r.end(), test);
     }
   }
+  // Is {v,w} covered (v left or v right):
   inline bool covers(const bc_frame& b, const id_t v, const id_t w) noexcept {
     const auto lb = b.l.begin(); const auto le = b.l.end();
     const auto rb = b.r.begin(); const auto re = b.r.end();
@@ -217,6 +226,7 @@ namespace Bicliques {
     return std::all_of(B.L.begin(), B.L.end(),
                        [&G](const bc_frame& b){return valid(b, G);});
   }
+
   inline bool is_bc(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     assert(valid(B, G));
     return std::all_of(B.L.begin(), B.L.end(),
@@ -232,8 +242,25 @@ namespace Bicliques {
     return std::all_of(E.begin(), E.end(),
                        [&B](const auto e){return covers(B,e.first,e.second);});
   }
+  inline bool is_partition(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    assert(valid(B, G));
+    const auto E = G.alledges();
+    for (const auto [v,w] : E) {
+      id_t count = 0;
+      for (const auto& b : B.L)
+        if (covers(b, v, w)) {
+          ++count;
+          if (count == 2) return false;
+        }
+      if (count != 1) return false;
+    }
+    return true;
+  }
   inline bool is_bcc(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     return is_bc(B, G) and is_cover(B, G);
+  }
+  inline bool is_bcp(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
+    return is_bc(B, G) and is_partition(B, G);
   }
 
   inline bool disjoint(const Bcc_frame& B) noexcept {
