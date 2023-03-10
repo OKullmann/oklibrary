@@ -401,6 +401,7 @@ namespace Bicliques2SAT {
 
 
   enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking
+  enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DC { with=0, without=1 }; // Dimacs-comments
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
@@ -408,8 +409,8 @@ namespace Bicliques2SAT {
   enum class UB { check=0, trust=1 }; // upper-bound: check or trust
 
   constexpr char sep = ',';
-  typedef std::tuple<SB> alg_options_t;
-  typedef std::tuple<SB,DI,UB> alg2_options_t;
+  typedef std::tuple<SB,PT> alg_options_t;
+  typedef std::tuple<SB,PT,DI,UB> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
 
   constexpr id_t default_sb_rounds = 100;
@@ -420,6 +421,12 @@ namespace Environment {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
     {"+sb", "++sb", "-sb"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::PT> {
+    static constexpr int size = int(Bicliques2SAT::PT::partition2)+1;
+    static constexpr std::array<const char*, size> string
+    {"cover", "partition1", "partition2"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DC> {
@@ -459,6 +466,13 @@ namespace Bicliques2SAT {
     case SB::extended : return out << "extended-sb";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const PT s) {
+    switch (s) {
+    case PT::cover : return out << "cover";
+    case PT::partition1 : return out << "partition-linear";
+    case PT::partition2 : return out << "partition-quadratic";
+    default : return out << "PT::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const DC s) {
     switch (s) {
@@ -756,6 +770,65 @@ namespace Bicliques2SAT {
       return sum;
     }
 
+    // Require that edge e is covered by at most one biclique, via all primes:
+    ClauseList edge_part2(const id_t e) const noexcept {
+      assert(e < enc_.E);
+      const id_t B = enc_.B();
+      if (B <= 1) return {};
+      const id_t count = (B * (B-1)) / 2;
+      ClauseList F; F.reserve(count);
+      for (id_t b1 = 0; b1 < B-1; ++b1)
+        for (id_t b2 = b1+1; b2 < B; ++b2)
+          F.push_back({-Lit(enc_.edge(e,b1)),-Lit(enc_.edge(e,b2))});
+      assert(F.size() == count);
+      assert(RandGen::valid(F));
+      return F;
+    }
+    id_t num_cl_edgepart2() const noexcept {
+      return (enc_.B() * (enc_.B()-1)) / 2 * enc_.E;
+    }
+    id_t num_lit_edgepart2() const noexcept {
+      return 2 * num_cl_edgepart2();
+    }
+    id_t all_edgepart2(std::ostream& out) const noexcept {
+      id_t count = 0;
+      for (id_t e = 0; e < enc_.E; ++e) {
+        const auto F = edge_part2(e);
+        out << F;
+        count += F.size();
+      }
+      assert(count == num_cl_edgepart2());
+      return count;
+    }
+
+    id_t num_basicpart2_cl() const noexcept {
+      return num_basic_cl() + num_cl_edgepart2();
+    }
+    id_t num_basicpart2_lit() const noexcept {
+      return num_basic_lit() + num_lit_edgepart2();
+    }
+    id_t all_basicpart2_clauses(std::ostream& out) const {
+      id_t sum = 0;
+      sum += all_basic_clauses(out);
+      sum += all_edgepart2(out);
+      assert(sum == num_basicpart2_cl());
+      return sum;
+    }
+
+    id_t num_part2_cl(const vei_t& sb) const noexcept {
+      return num_basicpart2_cl() + num_cl_sb(sb);
+    }
+    id_t num_part2_lit(const vei_t& sb) const noexcept {
+      return num_basicpart2_lit() + num_lit_sb(sb);
+    }
+    id_t all_part2_clauses(const vei_t& sb, std::ostream& out) const {
+      id_t sum = 0;
+      sum += all_basicpart2_clauses(out);
+      sum += all_sbedges(sb, out);
+      assert(sum == num_part2_cl(sb));
+      return sum;
+    }
+
 
     // Signalling unsatisfiability (necessarily here due to symmetry-breaking
     // contradicting the given value of B):
@@ -773,6 +846,8 @@ namespace Bicliques2SAT {
         const id_t sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
       const SB sb = std::get<SB>(ao);
+      const PT pt = std::get<PT>(ao);
+      if (pt == PT::partition1) throw "partition1 not implemented yet.\n";
       const DC dc = std::get<DC>(fo);
       const DP dp = std::get<DP>(fo);
       const CS cs = std::get<CS>(fo);
@@ -784,7 +859,8 @@ namespace Bicliques2SAT {
           return max_bcincomp(sb_rounds, g);}();
       if (enc_.B() == 0) enc_.update_B(sbv.size());
       else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
-      const RandGen::dimacs_pars res{enc_.n(), num_cl(sbv)};
+      const RandGen::dimacs_pars res{enc_.n(),
+          pt == PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
@@ -794,6 +870,7 @@ namespace Bicliques2SAT {
           DWW{"E"} << enc_.E << "\n" <<
           DWW{"B"} << enc_.B() << "\n" <<
           DWW{"sb-option"} << sb << "\n" <<
+          DWW{"pt-option"} << pt << "\n" <<
 
           DHW{"Statistics"} <<
           DWW{" bc-variables"} << enc_.nb() << "\n" <<
@@ -804,10 +881,16 @@ namespace Bicliques2SAT {
           DWW{" edge-clauses"} << num_cl_defedges() << "\n" <<
           DWW{"  edge-lit-occurrences"} << num_lit_defedges() << "\n" <<
           DWW{" cover-clauses"} << num_cl_covedges() << "\n" <<
-          DWW{"  cover-lit-occurrences"} << num_lit_covedges() << "\n" <<
+          DWW{"  cover-lit-occurrences"} << num_lit_covedges() << "\n";
+        if (pt == PT::partition2)
+          out <<
+            DWW{" partition-clauses"} << num_cl_edgepart2() << "\n" <<
+            DWW{"  partition-lit-occurrences"} << num_lit_edgepart2() << "\n";
+        out <<
           DWW{" unit-clauses"} << num_cl_sb(sbv) << "\n" <<
-          DWW{"total-clauses"} << num_cl(sbv) << "\n" <<
-          DWW{"total-lit-occurrences"} << num_lit(sbv) << "\n" <<
+          DWW{"total-clauses"} << res.c << "\n" <<
+          DWW{"total-lit-occurrences"} <<
+            (pt==PT::cover ? num_lit(sbv) : num_part2_lit(sbv)) << "\n" <<
 
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
@@ -825,7 +908,8 @@ namespace Bicliques2SAT {
       }
 
       if (dp == DP::with) out << res;
-      if (cs == CS::with) all_clauses(sbv, out);
+      if (cs == CS::with) pt==PT::cover ? all_clauses(sbv, out)
+        : all_part2_clauses(sbv, out);
       return res;
     }
 
@@ -835,12 +919,14 @@ namespace Bicliques2SAT {
       id_t B;
       ResultType rt;
       const id_t init_B;
-      explicit result_t(const id_t B) noexcept
-        : B(B), rt(ResultType::unknown), init_B(B) {}
+      const PT pt;
+      explicit result_t(const id_t B, const PT pt) noexcept
+        : B(B), rt(ResultType::unknown), init_B(B), pt(pt) {}
 
       void output(std::ostream& out, const Graphs::AdjVecUInt& G) const {
         assert(int(rt) >= 1 and int(rt) <= 6);
-        out << "bcc";
+        if (pt == PT::cover) out << "bcc";
+        else out << "bcp";
         if (rt == ResultType::init_timeout or
             rt == ResultType::aborted)
           out << " ?";
@@ -865,7 +951,8 @@ namespace Bicliques2SAT {
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds) {
-      result_t res(enc_.B());
+      const PT pt = std::get<PT>(ao);
+      result_t res(enc_.B(), pt);
       if (enc_.E == 0) {
         res.B = 0; res.rt = ResultType::exact;
         assert(is_bcc(res.bcc, G));
@@ -891,7 +978,8 @@ namespace Bicliques2SAT {
         + "_";
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec);
       for (bool found_bcc = false; ;) {
-        const RandGen::dimacs_pars dp{enc_.n(), num_cl(sbv)};
+        const RandGen::dimacs_pars dp{enc_.n(),
+            pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
         const std::string inp = filename_head + std::to_string(enc_.B())
           + ".dimacs";
         {std::ofstream file(inp);
@@ -900,7 +988,8 @@ namespace Bicliques2SAT {
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
          file << dp;
-         all_clauses(sbv, file);
+         if (pt == PT::cover) all_clauses(sbv, file);
+         else all_part2_clauses(sbv, file);
         }
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);

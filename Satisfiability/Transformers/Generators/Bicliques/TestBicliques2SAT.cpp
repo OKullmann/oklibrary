@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "8.3.2023",
+        "0.4.1",
+        "9.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -211,12 +211,12 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 1, {}), {64, 272 + 2*3})); // 278
+   assert(eqp(trans(ss, {}, {DC::without, DP::without, CS::without}, 1, {}), {64, 272 + 2*3})); // 278
    assert(ss.str().empty());
    ss.str("");
    {bool caught = false;
     try {
-      trans(ss, {SB::basic}, {DC::without, DP::without, CS::without}, 7, {});
+      trans(ss, {}, {DC::without, DP::without, CS::without}, 7, {});
     }
     catch(const BC2SAT::Unsatisfiable& exc) {
       caught = true;
@@ -226,14 +226,14 @@ int main(const int argc, const char* const argv[]) {
     assert(caught);
    }
    ss.str("");
-   assert(eqp(trans(ss, {SB::basic}, {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
+   assert(eqp(trans(ss, {}, {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
    assert(ss.str() == "p cnf 64 278\n");
    trans.update_B(1);
    assert(trans.all_nonedges_for_bcs(ss) == 1 * (2 * (36 - 16) - 8)); // 32
    assert(trans.all_edges_def(ss) == 1 * 6 * 16); // 96
    assert(trans.all_edges_cov(ss) == 16);
    assert(trans.all_basic_clauses(ss) == 32 + 96 + 16); // 144
-   assert(eqp(trans(ss, {SB::none}, {DC::without, DP::with, CS::without}, 0, {}), {32, 144}));
+   assert(eqp(trans(ss, {SB::none,{}}, {DC::without, DP::with, CS::without}, 0, {}), {32, 144}));
   }
 
   {typedef std::vector<int> v_t;
@@ -310,6 +310,39 @@ int main(const int argc, const char* const argv[]) {
          assert(is_bcc(res.bcc, G));
        }
      }
+  }
+
+  {for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(clique(n));
+     const size_t bcp = bcp_clique(n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcp + dist;
+       BC2SAT trans(G, B);
+       std::stringstream out;
+       const auto res =
+         trans(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+       assert(res.B == bcp);
+       assert(res.init_B == B);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcp(res.bcc, G));
+     }
+    }
+  }
+  {for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(biclique(n,n));
+     const size_t bcp = bcp_biclique(n,n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcp + dist;
+       BC2SAT trans(G, B);
+       std::stringstream out;
+       const auto res =
+         trans(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+       assert(res.B == bcp);
+       assert(res.init_B == B);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcp(res.bcc, G));
+     }
+    }
   }
 
 }

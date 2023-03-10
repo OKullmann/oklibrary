@@ -26,7 +26,7 @@ Symmetry-breaking is randomised, and thus for example (using "t" for
 
 Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t
 
-yields with 50% chance of the two (trimmed) realisations:
+yields one of (trimmed) realisations:
 
 p cnf 2 3
 1 2 0
@@ -37,6 +37,26 @@ p cnf 2 3
 1 2 0
 -1 0
 1 -2 0
+or
+p cnf 2 3
+1 2 0
+-1 0
+1 -2 0
+or
+p cnf 2 3
+1 -2 0
+1 2 0
+-1 0
+
+
+BUGS:
+
+1.
+Bicliques> echo -e "p cnf 2 4\n1 2 0\n1 -2 0\n-1 -2 0\n-1 2 0\n" | ./CNFBCC_debug partition2 "" "" t
+CNFBCC_debug: CNFBCC.cpp:126: int main(int, const char* const*): Assertion `res.rt != ResultType::init_unsat_sb and res.rt != ResultType::init_unsat and res.rt != ResultType::unknown' failed.
+
+The start-value is not sufficient here, since one doesn't start with a
+precise realisation.
 
 */
 
@@ -56,8 +76,8 @@ p cnf 2 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "8.3.2023",
+        "0.2.1",
+        "10.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -75,12 +95,14 @@ namespace {
     "> " << proginfo.prg
          << " algo-options sb-rounds timeout seeds\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    "                : " << Environment::WRP<PT>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
-    " reads a graph from standard input, and attempts to compute its bcc-number:\n\n"
+    " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - Default-values for the options are the first possibilities given.\n\n"
+    "  - Default-values for the options are the first possibilities given.\n"
+    "  - The representation is exact (for the conflict-*graph*) iff considering bcp.\n\n"
 ;
     return true;
   }

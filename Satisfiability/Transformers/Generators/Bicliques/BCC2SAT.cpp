@@ -16,12 +16,13 @@ EXAMPLES:
 Just obtaining statistics (by "-cs"):
 
 Obtaining B from symmetry-breaking:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" "-cs" "" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
 c ** Parameters **
 c V                                     400
 c E                                     760
 c B                                     159
 c sb-option                             basic-sb
+c pt-option                             cover
 c ** Statistics **
 c  bc-variables                         127200
 c  edge-variables                       120840
@@ -50,12 +51,13 @@ user	0m0.081s
 sys	0m0.000s
 
 Specifying B=200:, and 20000 symmetry-breaking-rounds:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" "-cs" 20000 ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
 c ** Parameters **
 c V                                     400
 c E                                     760
 c B                                     200
 c sb-option                             basic-sb
+c pt-option                             cover
 c ** Statistics **
 c  bc-variables                         160000
 c  edge-variables                       152000
@@ -86,6 +88,54 @@ sys	0m0.009s
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
 
+One can also consider partition-problems (instead of cover-problems, the
+default).
+The above for partitioning (using the quadratically many prime-clauses):
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 partition2 -cs 20000 ""
+c ** Parameters **
+c V                                     400
+c E                                     760
+c B                                     200
+c sb-option                             basic-sb
+c pt-option                             partition-quadratic
+c ** Statistics **
+c  bc-variables                         160000
+c  edge-variables                       152000
+c total-variables                       312000
+c  bc-clauses                           31696000
+c   bc-lit-occurrences                  63392000
+c  edge-clauses                         912000
+c   edge-lit-occurrences                2736000
+c  cover-clauses                        760
+c   cover-lit-occurrences               152000
+c  partition-clauses                    15124000
+c   partition-lit-occurrences           30248000
+c  unit-clauses                         495
+c total-clauses                         47733255
+c total-lit-occurrences                 96528495
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         165
+c sb-stats                              20000 : 135 149.572 165; 3.30518
+c num_e-seeds                           0
+c  e-seeds                              
+p cnf 312000 47733255
+real	0m13.002s
+user	0m12.996s
+sys	0m0.008s
+
+For example covering the K_4 can be done with 2 bicliques,
+but partition requires 3 bicliques:
+Bicliques> ./GraphGen clique 4 | ./BCC2SAT 2 "" "" "" "" | minisat /dev/stdin
+SATISFIABLE
+Bicliques> ./GraphGen clique 4 | ./BCC2SAT 2 partition2 "" "" "" | minisat /dev/stdin
+UNSATISFIABLE
+
+
+
 
 TODOS:
 
@@ -108,8 +158,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "6.3.2023",
+        "0.7.1",
+        "10.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -129,6 +179,7 @@ namespace {
     " B              : " << "biclique-cover-size, default is "
          << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    "                : " << Environment::WRP<PT>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n"

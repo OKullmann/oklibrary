@@ -34,6 +34,21 @@ exact 4 5
 2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
 1 3 4 7 9 14 15 16 | 2 5 6 8 10 11 12 13
 
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" ""
+Symmetry-breaking: 100 : 1 1 1; 0
+Minisat-call for B=6: returned SAT
+  Literal-Reduction by trimming: 0
+  Size obtained: 5
+Minisat-call for B=4: returned UNSAT
+
+bcp=5
+exact 5 6
+1 5 6 | 2 4
+6 | 1 5
+3 | 1 2 5 6
+4 | 2 3
+5 | 1
+
 
 
 TODOS:
@@ -76,8 +91,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "8.3.2023",
+        "0.4.0",
+        "10.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -97,10 +112,12 @@ namespace {
     " B              : " << "biclique-cover-size, default is "
          << default_B << "\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    "                : " << Environment::WRP<PT>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
-    " reads a graph from standard input, and attempts to compute its bcc-number:\n\n"
+    " reads a graph from standard input, and attempts to compute its"
+    " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
