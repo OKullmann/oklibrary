@@ -143,8 +143,8 @@ int main(const int argc, const char* const argv[]) {
   assert(G.n() == F.first.c);
   BC2SAT T(G, std::min(F.first.n, G.m()));
   const auto res = T.sat_solve(nullptr, algopt, sb_rounds, sec, seeds);
-  assert(res.rt != ResultType::init_unsat_sb and
-         res.rt != ResultType::init_unsat and
+  assert(res.rt != ResultType::upper_unsat_sb and
+         res.rt != ResultType::upper_unsat and
          res.rt != ResultType::unknown);
   std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
 

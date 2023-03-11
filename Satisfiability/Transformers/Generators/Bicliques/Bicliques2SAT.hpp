@@ -523,20 +523,24 @@ namespace Bicliques2SAT {
 
   enum class ResultType {
     unknown = 0,       // default-value
-    init_unsat_sb = 1, // symmetry-breaking showed unsatisfiability
-    init_unsat = 2,    // initial value of B is unsatisfiable
-    init_timeout = 3,  // initial value of B yielded solver-timeout
-    final_timeout = 4, // non-initial value of B yielded solver-timeout
+
+    // contradictions to given upper-bound:
+    upper_unsat_sb = 1, // symmetry-breaking showed unsatisfiability
+    upper_unsat = 2,    // upper-bound-value of B is unsatisfiable (bu solving)
+    // timeouts:
+    upper_timeout = 3,  // upper-bound-value of B yielded solver-timeout
+    other_timeout = 4, // non-upper-bound-value of B yielded solver-timeout
+
     aborted = 5,       // solver aborted computation
     exact = 6,         // exact result obtained
   };
   std::ostream& operator <<(std::ostream& out, const ResultType r) {
     switch(r) {
     case ResultType::unknown : return out << "initialy-unknown";
-    case ResultType::init_unsat_sb : return out << "immediately-unsat-by-sb";
-    case ResultType::init_unsat : return out << "immediately-unsat";
-    case ResultType::init_timeout : return out << "immediately-timeout";
-    case ResultType::final_timeout : return out << "timeout";
+    case ResultType::upper_unsat_sb : return out << "upper-bound-unsat-by-sb";
+    case ResultType::upper_unsat : return out << "upper-bound-unsat-by-solver";
+    case ResultType::upper_timeout : return out << "upper-bound-timeout";
+    case ResultType::other_timeout : return out << "timeout";
     case ResultType::aborted : return out << "aborted";
     case ResultType::exact : return out << "exact";
     default : return out << "ResultType::UNKNOWN";}
@@ -931,16 +935,16 @@ namespace Bicliques2SAT {
         assert(int(rt) >= 1 and int(rt) <= 6);
         if (pt == PT::cover) out << "bcc";
         else out << "bcp";
-        if (rt == ResultType::init_timeout or
+        if (rt == ResultType::upper_timeout or
             rt == ResultType::aborted)
           out << " ?";
         else if (rt == ResultType::exact)
           out << "=" << B;
-        else if (rt == ResultType::init_unsat_sb or
-                 rt == ResultType::init_unsat)
+        else if (rt == ResultType::upper_unsat_sb or
+                 rt == ResultType::upper_unsat)
           out << ">" << B;
         else {
-          assert(rt == ResultType::final_timeout);
+          assert(rt == ResultType::other_timeout);
           out << "<=" << B + 1;
         }
         out << "\n" << rt << " " << B << " " << init_B << "\n";
@@ -973,7 +977,7 @@ namespace Bicliques2SAT {
         *log << "Symmetry-breaking: " << sbs << "\n";
       }
       if (sbv.size() > enc_.B()) {
-        res.rt = ResultType::init_unsat_sb;
+        res.rt = ResultType::upper_unsat_sb;
         return res;
       }
 
@@ -1011,11 +1015,11 @@ namespace Bicliques2SAT {
         }
         else if (call_res.stats.sr == DimacsTools::SolverR::unknown) {
           res.rt = found_bcc ?
-            ResultType::final_timeout : ResultType::init_timeout;
+            ResultType::other_timeout : ResultType::upper_timeout;
           return res;
         }
         else if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
-          if (not found_bcc) res.rt = ResultType::init_unsat;
+          if (not found_bcc) res.rt = ResultType::upper_unsat;
           else {
             ++res.B; res.rt = ResultType::exact;
             assert(is_bcc(res.bcc, G));
