@@ -46,7 +46,12 @@ License, or any later version. */
     - scoped enum SolverR
     - function extract_ret(SystemCalls::ReturnValue) -> SolverR
     - class Minisat_stats
+     - sr : SolverR
     - class Minisat_return
+     - rv : EReturnValue
+      - ReturnValue rv, string out, err
+     - stats : Minisat_stats
+     - pa : Clause (partial assignment)
 
     - const strings input_filename, output_filename, minisat_string
 
