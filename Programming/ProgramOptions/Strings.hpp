@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -82,8 +82,9 @@ TODOS:
 #ifndef STRINGS_fi927Z4OV3
 #define STRINGS_fi927Z4OV3
 
-#include <string>
-#include <string_view>
+// Guaranteed to be include:
+# include <string>
+# include <string_view>
 #include <algorithm>
 #include <sstream>
 #include <ostream>
