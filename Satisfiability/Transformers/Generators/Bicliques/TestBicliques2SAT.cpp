@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "10.3.2023",
+        "0.5.0",
+        "12.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -127,7 +127,7 @@ int main(const int argc, const char* const argv[]) {
    ss.str("9 10 15 1 2 -3 -4 7 -8 4 16 0\n");
    assert(eqp(enc2.core_extraction(ss), { { {{0,1,3},{2}}, {{0,1},{2,3}} } }));
 
-   BC2SAT trans1(G, 1);
+   BC2SAT trans1(G, {DI::downwards, false,0, 0, 1});
    assert(trans1.num_basic_lit() == 2*4 + 3*36 + 1*6);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
      for (unsigned e2 = 0; e2 < G.m(); ++e2)
@@ -139,7 +139,7 @@ int main(const int argc, const char* const argv[]) {
    G.add_clique(std::vector{"e", "f", "g", "h"});
    AdjVecUInt Ga(G);
 
-   {BC2SAT trans(Ga, 2);
+   {BC2SAT trans(Ga, {DI::downwards, false,0, 0, 2});
     assert(trans.enc().V == 8);
     assert(trans.enc().E == 12);
     assert(trans.enc().n() == 56);
@@ -159,7 +159,7 @@ int main(const int argc, const char* const argv[]) {
    Ga = AdjVecUInt(G);
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
-   BC2SAT trans(Ga,2);
+   BC2SAT trans(Ga, {DI::downwards, false,0, 0, 2});
    assert(trans.enc().n() == 64);
    assert(trans.enc().nb() == 32);
    assert(eqp(trans.edges[0], {0,1}));
@@ -261,7 +261,7 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcc = bcc_clique(n);
      for (size_t dist = 0; dist < 4; ++dist) {
        const size_t B = bcc + dist;
-       BC2SAT trans(G, B);
+       BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
@@ -275,7 +275,7 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcc = bcc_biclique(n,n);
      for (size_t dist = 0; dist < 4; ++dist) {
        const size_t B = bcc + dist;
-       BC2SAT trans(G, B);
+       BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
@@ -289,7 +289,7 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcc = bcc_crown(n);
      for (size_t dist = 0; dist < 4; ++dist) {
        const size_t B = bcc + dist;
-       BC2SAT trans(G, B);
+       BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
@@ -304,7 +304,7 @@ int main(const int argc, const char* const argv[]) {
        const size_t bcc = bcc_grid(n,m);
        for (size_t dist = 0; dist < 4; ++dist) {
          const size_t B = bcc + dist;
-         BC2SAT trans(G, B);
+         BC2SAT trans(G, {DI::downwards, false,0, 0, B});
          std::stringstream out;
          const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
          assert(res.B == bcc);
@@ -320,7 +320,7 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcp = bcp_clique(n);
      for (size_t dist = 0; dist < 4; ++dist) {
        const size_t B = bcp + dist;
-       BC2SAT trans(G, B);
+       BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res =
          trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
@@ -336,7 +336,7 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcp = bcp_biclique(n,n);
      for (size_t dist = 0; dist < 4; ++dist) {
        const size_t B = bcp + dist;
-       BC2SAT trans(G, B);
+       BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res =
          trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
@@ -344,6 +344,23 @@ int main(const int argc, const char* const argv[]) {
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
        assert(is_bcp(res.bcc, G));
+     }
+    }
+  }
+
+  {for (size_t n = 0; n < 6; ++n) {
+     const auto G = BC2SAT::graph_t(grid(n,n));
+     const size_t bcc = bcc_grid(n,n);
+     for (size_t dist = 0; dist < 4; ++dist) {
+       const size_t B = bcc + dist;
+       BC2SAT trans(G, {DI::downwards, true,B, 0, 0});
+       std::stringstream out;
+       const auto res =
+         trans.sat_solve(nullptr, {}, 100, 1, {dist});
+       assert(res.B == bcc);
+       assert(res.init_B == 0);
+       assert(res.rt == ResultType::exact);
+       assert(is_bcc(res.bcc, G));
      }
     }
   }

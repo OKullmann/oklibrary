@@ -196,6 +196,7 @@ TODOS:
 #include <fstream>
 #include <filesystem>
 #include <type_traits>
+#include <algorithm>
 
 #include <cstdint>
 #include <cassert>
@@ -409,7 +410,7 @@ namespace Bicliques2SAT {
   enum class DC { with=0, without=1 }; // Dimacs-comments
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
-  enum class DI { upwards=0, downwards=1 }; // search direction
+  enum class DI { downwards=0, upwards=1, none=2 }; // search direction
   enum class UB { check=0, trust=1 }; // upper-bound: check or trust
 
   constexpr char sep = ',';
@@ -452,9 +453,9 @@ namespace Environment {
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DI> {
-    static constexpr int size = int(Bicliques2SAT::DI::downwards)+1;
+    static constexpr int size = int(Bicliques2SAT::DI::none)+1;
     static constexpr std::array<const char*, size> string
-    {"up", "down"};
+    {"down", "up", "stationary"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::UB> {
@@ -498,8 +499,9 @@ namespace Bicliques2SAT {
   }
   std::ostream& operator <<(std::ostream& out, const DI d) {
     switch (d) {
-    case DI::upwards : return out << "upwards";
     case DI::downwards : return out << "downwards";
+    case DI::upwards : return out << "upwards";
+    case DI::none : return out << "stationary";
     default : return out << "DI::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const UB u) {
@@ -546,18 +548,111 @@ namespace Bicliques2SAT {
     default : return out << "ResultType::UNKNOWN";}
   }
 
+  /* Class Bounds
+
+    lower bound l : all B < l are unsatisfiable
+    upper bound u : all B >= u are satisfiable.
+
+  1. di==DI::downwards: until the first unsatisfiable
+
+   - only u given:
+     c = u; l = 0;
+     for ub==UB::trust: c = u-1 ?
+       what if here u==l ?
+     perhaps bool found_unsatifiable, found_satisfiable ?
+
+  2. di==DI::upwards: until the first satisfiable
+
+   - nothing given:
+     l, u = trivial, c = l
+     better with G taken into account
+
+   - l given:
+     u = trivial, c = l
+     better with G taken into account
+
+  The lower bound needs to be updated via sb.
+  The upper bound doesn't need to be updated (but possible is updated).
+
+    */
+  struct Bounds {
+    typedef Graphs::AdjVecUInt graph_t;
+    typedef VarEncoding::id_t id_t;
+
+    const DI di;
+    const bool update_u_by_inc; // if true, update_by_sb needs to be called
+    const id_t inc_u;
+  private :
+    id_t l, u, c; // upper, lower, current
+  public :
+    id_t lb() const noexcept { return l; }
+    id_t ub() const noexcept { return u; }
+    id_t cv() const noexcept { return c; }
+
+    Bounds() = delete;
+    constexpr Bounds(const DI di,
+      const bool update, const id_t inc,
+      const id_t lower_bound, const id_t upper_bound)
+      : di(di), update_u_by_inc(update), inc_u(inc),
+        l(lower_bound), u(upper_bound),
+        c(current_value(di, l, u)) {
+      assert(valid());
+    }
+    explicit constexpr Bounds(const id_t B)
+      : di(DI::none), update_u_by_inc(false), inc_u(0), l(0), u(0), c(B) {}
+
+    constexpr bool valid() const {
+      if (di == DI::upwards) throw "DI::upwards not implemented yet.\n";
+      return l <= c and c <= u;
+    }
+
+    void update_by_sb(const size_t sb) noexcept {
+      l = std::max(l, sb);
+      if (update_u_by_inc) {
+        assert(u == 0);
+        u = sb + inc_u;
+      }
+      update_c();
+    }
+
+    static constexpr id_t current_value(const DI di, const id_t l, const id_t u) noexcept {
+      return di == DI::downwards ? u : l;
+    }
+    void update_c() noexcept { c = current_value(di, l, u); }
+    static constexpr id_t trivial_lower_bound() noexcept { return 0; }
+    static constexpr id_t trivial_upper_bound() noexcept {
+      return Param::MaxV;
+    }
+    static id_t simple_lower_bound(const graph_t& G) noexcept {
+      if (G.m() == 0) return 0; else return 1;
+    }
+    static id_t simple_upper_bound(const graph_t& G) noexcept {
+      if (G.m() == 0) return 0;
+      assert(G.n() >= 1);
+      return G.n() - 1; // can be improved for disconnected G
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
+      out << b.di << "\n";
+      out << b.update_u_by_inc << " " << b.inc_u << "\n";
+      out << b.l << " " << b.u << " " << b.c << "\n";
+      return out;
+    }
+  };
+
 
   struct BC2SAT {
     typedef Graphs::AdjVecUInt graph_t;
     const graph_t& G;
     const graph_t::vecedges_t edges; // vector of pairs of id_t's
+    Bounds bounds;
 
     typedef VarEncoding enc_t;
     typedef VarEncoding::id_t id_t;
     static_assert(std::is_same_v<id_t, graph_t::id_t>);
 
-    explicit BC2SAT(const graph_t& G, const id_t B) noexcept :
-      G(G), edges(G.alledges()), enc_(G,B) {}
+    explicit BC2SAT(const graph_t& G, Bounds b) noexcept :
+      G(G), edges(G.alledges()), bounds(b), enc_(G,bounds.cv()) {}
 
 
     const enc_t& enc() const noexcept { return enc_; }
@@ -960,8 +1055,8 @@ namespace Bicliques2SAT {
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds) {
       const PT pt = std::get<PT>(ao);
-      result_t res(enc_.B(), pt);
       if (enc_.E == 0) {
+        result_t res(enc_.B(), pt);
         res.B = 0; res.rt = ResultType::exact;
         assert(is_bcc(res.bcc, G));
         return res;
@@ -973,12 +1068,20 @@ namespace Bicliques2SAT {
         [&sb_rounds, &seeds, this]{
         RandGen::RandGen_t g(seeds);
         return max_bcincomp(sb_rounds, g);}();
+      const auto optsbs = sbv.size();
       if (log) {
         *log << "Symmetry-breaking: " << sbs << "\n";
       }
-      if (sbv.size() > enc_.B()) {
+
+      result_t res(enc_.B(), pt);
+      bounds.update_by_sb(optsbs);
+      if (bounds.lb() > bounds.ub()) {
         res.rt = ResultType::upper_unsat_sb;
         return res;
+      }
+      if (const id_t nc = bounds.cv(); enc_.B() == 0 or nc < enc_.B()) {
+        enc_.update_B(nc);
+        res.B = nc;
       }
 
       const std::string filename_head = SystemCalls::system_filename(
@@ -1038,8 +1141,8 @@ namespace Bicliques2SAT {
           assert(res.bcc.L.size() <= res.B);
           res.B = std::min(res.B, res.bcc.L.size());
           assert(res.B > 0);
-          assert(res.B >= sbv.size());
-          if (res.B == sbv.size()) {
+          assert(res.B >= optsbs);
+          if (res.B == optsbs) {
             res.rt = ResultType::exact;
             assert(is_bcc(res.bcc, G));
             return res;

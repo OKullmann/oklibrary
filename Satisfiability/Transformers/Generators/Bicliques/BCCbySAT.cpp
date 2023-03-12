@@ -53,11 +53,19 @@ exact 5 6
 
 TODOS:
 
+0. Currently the lower bound is just ignored (for downwards).
+  - One needed perhaps a special return-type "conditioally exact" ?
+  - A problem is that the solver-loop uses res.B, and not the bounds-
+    object -- that needs update.
+
 1. Output seeds
     - It seems parameter-output is needed.
     - This should include symmetry-breaking.
 
 2. Supply format-options
+    - +- solution
+    - += parameters
+    - +- logs
 
 3. More systematic output:
     - Explain the special case where no unsat-test
@@ -78,6 +86,15 @@ TODOS:
     - This is important for the large sparse examples we get from
       GSM (global slice minimisation).
     - Though for small hard problems it seems not suitable.
+    - This should be an algo-option.
+
+
+BUGS:
+
+1.
+Bicliques> ./GraphGen_debug grid 8 8 | ./BCCbySAT_debug 25,+0 -sb "" "" ""
+BCCbySAT_debug: Bicliques2SAT.hpp:599: constexpr Bicliques2SAT::Bounds::Bounds(Bicliques2SAT::DI, bool, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t): Assertion `valid()' failed.
+Aborted (core dumped)
 
 */
 
@@ -95,8 +112,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "10.3.2023",
+        "0.4.1",
+        "12.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -113,16 +130,18 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options sb-rounds timeout seeds\n\n"
-    " B              : " << "biclique-cover-size, default is "
-         << default_B << "\n"
+    " B              : " << "[+]biclique-cover-size, default is \"+"
+         << default_B << "\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
+    "                : " << Environment::WRP<DI>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
+    "  - using \"+\" for B means the increment from the lower-bound.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -142,9 +161,14 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const var_t B = read_var_t(argv[1], default_B);
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[2], sep);
+  const auto bounds0 = read_bounds(argv[1]);
+  if (not bounds0) {
+    std::cerr << error <<
+      "Symmetry-breaking on, but number of rounds is zero.\n";
+    return int(Error::faulty_parameters);
+  }
   const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
   const auto sec = read_uint_t(argv[4], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
@@ -161,7 +185,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT T(G, B);
+  BC2SAT T(G, bounds0.value());
   const auto res = T.sat_solve(&std::cout, algopt, sb_rounds, sec, seeds);
   std::cout << "\n"; // separation from log-output
   res.output(std::cout, G);

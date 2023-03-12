@@ -139,6 +139,8 @@ UNSATISFIABLE
 
 TODOS:
 
+0. Complete output of parameters.
+
 1. Provide more statistics
   - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
@@ -158,8 +160,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
-        "10.3.2023",
+        "0.7.3",
+        "12.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -228,7 +230,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT T(G, B);
+  BC2SAT T(G, Bounds(B));
   try { T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds); }
   catch (const BC2SAT::Unsatisfiable& e) {
     std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
