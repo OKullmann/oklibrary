@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "12.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -323,7 +323,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},PT::partition2,{},{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);
@@ -339,7 +339,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, false,0, 0, B});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},PT::partition2,{},{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == B);
        assert(res.rt == ResultType::exact);

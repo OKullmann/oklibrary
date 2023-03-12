@@ -76,8 +76,8 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "10.3.2023",
+        "0.2.2",
+        "12.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -96,6 +96,8 @@ namespace {
          << " algo-options sb-rounds timeout seeds\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
+    "                : " << Environment::WRP<DI>{} << "\n"
+    "                : " << Environment::WRP<SO>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"

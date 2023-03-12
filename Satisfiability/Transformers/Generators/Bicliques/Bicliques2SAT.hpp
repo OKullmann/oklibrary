@@ -411,11 +411,17 @@ namespace Bicliques2SAT {
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
   enum class DI { downwards=0, upwards=1, none=2 }; // search direction
+  enum class SO { none=0, nopre=1 }; // solver options
   enum class UB { check=0, trust=1 }; // upper-bound: check or trust
+
+  std::string solver_option(const SO so) {
+    if (so == SO::nopre) return " -no-pre";
+    else return "";
+  }
 
   constexpr char sep = ',';
   typedef std::tuple<SB,PT> alg_options_t;
-  typedef std::tuple<SB,PT,DI,UB> alg2_options_t;
+  typedef std::tuple<SB,PT,DI,SO,UB> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
 
   constexpr id_t default_sb_rounds = 100;
@@ -456,6 +462,12 @@ namespace Environment {
     static constexpr int size = int(Bicliques2SAT::DI::none)+1;
     static constexpr std::array<const char*, size> string
     {"down", "up", "stationary"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::SO> {
+    static constexpr int size = int(Bicliques2SAT::SO::nopre)+1;
+    static constexpr std::array<const char*, size> string
+    {"defsolve", "nopre"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::UB> {
@@ -503,6 +515,12 @@ namespace Bicliques2SAT {
     case DI::upwards : return out << "upwards";
     case DI::none : return out << "stationary";
     default : return out << "DI::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const SO s) {
+    switch (s) {
+    case SO::none : return out << "default-solver";
+    case SO::nopre : return out << "-no-pre";
+    default : return out << "SO::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const UB u) {
     switch (u) {
@@ -1087,7 +1105,8 @@ namespace Bicliques2SAT {
       const std::string filename_head = SystemCalls::system_filename(
         "Bicliques2SAT_" + std::to_string(Environment::CurrentTime::timestamp()))
         + "_";
-      const std::string solver_options = "-cpu-lim=" + std::to_string(sec);
+      const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
+        + solver_option(std::get<SO>(ao));
       for (bool found_bcc = false; ;) {
         const RandGen::dimacs_pars dp{enc_.n(),
             pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
@@ -1105,7 +1124,8 @@ namespace Bicliques2SAT {
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);
         if (log) {
-          *log << "Minisat-call for B=" << res.B << ": " << call_res.stats;
+          *log << "Minisat-call for B=" << res.B << ": " << call_res.stats
+               << call_res.rv.out << "\n";
         }
         if (not std::filesystem::remove(std::filesystem::path(inp)))
           throw std::runtime_error(
