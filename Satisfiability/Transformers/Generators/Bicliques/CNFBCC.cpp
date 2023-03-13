@@ -51,6 +51,17 @@ p cnf 2 3
 
 BUGS:
 
+0.
+Bicliques> cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" ""
+CPU time              : 40.7075 s
+Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" ""
+real    1m54.284s
+user    1m41.837s
+sys     0m11.462s
+
+The runtime should be the same here?
+The problem is that the instance is stored on file!
+
 1.
 Bicliques> echo -e "p cnf 2 4\n1 2 0\n1 -2 0\n-1 -2 0\n-1 2 0\n" | ./CNFBCC_debug partition2 "" "" t
 CNFBCC_debug: CNFBCC.cpp:126: int main(int, const char* const*): Assertion `res.rt != ResultType::init_unsat_sb and res.rt != ResultType::init_unsat and res.rt != ResultType::unknown' failed.
