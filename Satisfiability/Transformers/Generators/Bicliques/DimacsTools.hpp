@@ -9,35 +9,71 @@ License, or any later version. */
 
   Certain tools for handling Dimacs-files
 
-   - Imported from Random/ClauseSets.hpp:
 
-      Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
-     plus var_t.
+   - Imported from Random/ClauseSets.hpp (first three from VarLit.hpp):
+
+      - var_t : typedef for unsigned 64-bit
+      - Var : concrete type, wrapper around var_t
+      - Lit : conrete type, wrapper around v : Var, s : bool (true is positive)
+
+      - Clause : typedef for vector of Lit
+      - ClauseList : typedef for vector of Clause
+      - dimacs_pars : concrete type, wrapper around n, c : var_t
+      - DimacsClauseList : typedef for pair of dimacs_pars, ClauseList.
 
 
    - Reading strict Dimacs from istream:
 
-    - read_strict_dimacs_pars
-    - read_strict_literal
-    - read_strict_clause
-    - read_strict_Dimacs.
+    - read_strict_dimacs_pars -> dimacs_pars :
+        skipping lines starting with "c", then expecting a line exactly
+        starting with "p cnf ", and then reading two var_t's.
+    - read_strict_literal -> Lit :
+        reading a string (in the normal way), extracting a possible leading
+        "-", and then reading one ull.
+    - read_strict_clause -> Clause :
+        via read_string_literal, literals are read, and pushed into the
+        vector, until 0 is read; end-of-line then asserted.
+    - read_strict_Dimacs -> DimacsClauseList :
+        first read_strict_dimacs_pars, establishing c, then reading exactly
+        c clauses via read_strict_clause.
+
 
    Reading strict QDimacs from istream:
 
-    - read_strict_variable
-    - typedef varlist_t (vector of Var)
-    - read_strict_aline
-    - skip_strict_eline
-    - read_strict_gline
+    - read_strict_variable -> Var :
+        reading a string, asserting it not starting with "-", and then
+        reading ull, converting to Var.
 
-    - typedef varmap_t (map from Var to Var)
-    - list2map(varlist_t) -> varmap_t
-    - rename(Lit, varmap_t) -> Lit
+    - varlist_t : typedef for vector of Var
+    - read_strict_aline -> varlist_t :
+        read string, assert it to be "a", then similar to read_strict_clause
+        use read_strict_variable until 0 found (eol also asserted).
+    - skip_strict_eline -> void :
+        read string, assert it to be "e", read and discard the rest of line.
+    - read_strict_gline -> varlist_t :
+        expects lines starting with a or e (as above with aline/eline),
+        if the first line is an a-line, this is taken as the list of
+        global variables, all other a/e-lines are discarded (stoping with the
+        first none-a/e-line).
 
-    - read_strict_clause_filterrename (also for Dimacs)
+    - varmap_t : typedef for map from Var to Var
+    - list2map(varlist_t V) -> varmap_t :
+        maps the variables in V to 1, ..., V.size() (asserting that all
+        variables were different)
+    - rename(Lit, varmap_t) -> Lit :
+        rename the literal according to the var-map, return {0,+1} iff
+        the literal is Lit(0), and return {0,-1} if the map does not
+        contain the variable.
 
-    - extract_apart_strict2qcnf (see application 2QCNF2aCNF)
-    - extract_gpart_strictqcnf (see application QCNF2gCNF).
+    - read_strict_clause_filterrename (also for Dimacs) -> Clause :
+        using a var-map, like read_strict_clause, also reading until
+        Lit(0) found, but extracting only literals in the var-map.
+
+    - extract_apart_strict2qcnf -> void, sice-effect -> ostream :
+        reads a whole strict 2QCNF, and puts the extracted global slice
+        to the out-stream (see application 2QCNF2aCNF)
+    - extract_gpart_strictqcnf -> void, sice-effect -> ostream :
+        more general, read strict QCNF (see application QCNF2gCNF).
 
 
    - Using external SAT solvers:
@@ -76,12 +112,16 @@ TODOS:
      #include <stdio.h>
      FILE *popen(const char *command, const char *type);
      int pclose(FILE *stream);
+   - The pclose-function returns the exist-status.
    - Better to use std::FILE from cstdio
      https://en.cppreference.com/w/cpp/io/c/FILE
    - Within C, C++, Posix, there doesn't seem to be a way, given
      a FILE*, to convert this into an ostream.
      Thus the file-output-function need to be duplicated: additionally
      to the C++-function also C-functions, outputting to FILE*.
+
+4. skip_strict_eline : don't store the characters discarded.
+   - Similarly in read_string_gline.
 
 */
 
@@ -111,7 +151,7 @@ namespace DimacsTools {
       - for the parameters n, c: n is an upper bound for the occurring
         var-indices, c is the exact number of clauses.
   */
-  typedef RandGen::gen_uint_t var_t;
+  typedef RandGen::var_t var_t;
   typedef RandGen::Var Var;
   typedef RandGen::Lit Lit;
   typedef RandGen::Clause Clause;
@@ -216,6 +256,7 @@ namespace DimacsTools {
     if (f == m.end()) return {0,-1};
     else return {x.s, f->second};
   }
+
   Clause read_strict_clause_filterrename(std::istream& in,
                                          const varmap_t m) noexcept {
     assert(in);
