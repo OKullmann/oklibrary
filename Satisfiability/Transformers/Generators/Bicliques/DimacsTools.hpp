@@ -116,6 +116,9 @@ TODOS:
      - The meaning of o, g is simply the maximal index used by the
        respective variables; if first we have all o-variables, then all
        g-variables, one can also infer their numbers.
+     - Alternatively one could use to DimacsClauseLists (with the same
+       number of clauses). Perhaps this is more appropriate to express the
+       nature of "slices" ?
      - The main operation (for now) is the gcg-equivalence of two
        SDimacsClauseList : the global slices have the same conflict-graph,
        the remaining-slices are equal.
@@ -124,6 +127,9 @@ TODOS:
        is checked, in which case then a nested loop over all pairs of g-clauses
        checks whether the corresponding pairs either have at least one conflict
        or have no conflict.
+     - Similar to the computatio of ConflictGraphs::conflictgraph_bydef
+       (using global complements of the global slices and checking for
+       non-empty intersections).
      - The corresponding application, GCGeq, reads the two QCNFs and determines
        their equivalence.
      - We require for gcg-equivalence that the c-parameters are equal, and thus
