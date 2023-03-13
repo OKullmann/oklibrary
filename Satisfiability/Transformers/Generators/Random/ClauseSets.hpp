@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
   - clausepart_v as vector of ClausePart's
   - struct RParam for the (complete) parameters of a clause-block
   - rparam_v as vector of RParam's
-  - typedef dimacs_pars for the two Dimacs-parameters
+  - typedef dimacs_pars as pair of the two Dimacs-parameters
   - function extract_parameters(rparam_v) to compute the formal
     Dimacs-parameters
   - function read_rparam_v(string)
