@@ -45,8 +45,10 @@ License, or any later version. */
 
     File access:
     - get_content(std::istream), get_content(std:filesystem::path)
-    - string_or_cin(string)
+       both -> string
+    - string_or_cin(string) -> pair<string, bool>
     - get_lines(std::istream), get_lines(std:filesystem::path)
+       both -> tokens_t
 
     Alphanumerical sorting of strings:
     - class CDstr ("component digit string") for the "digit-components" of a
