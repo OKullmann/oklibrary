@@ -119,6 +119,11 @@ TODOS:
      - Alternatively one could use to DimacsClauseLists (with the same
        number of clauses). Perhaps this is more appropriate to express the
        nature of "slices" ?
+       Then no new data structures are needed: equivality of the o-slice
+       by direct comparison, etc.; looks better.
+       So an SDimacsClauseList is then a pair of DimacsClauseList, with the
+       second component the global slice.
+       One could also use a tuple, or a vector?
      - The main operation (for now) is the gcg-equivalence of two
        SDimacsClauseList : the global slices have the same conflict-graph,
        the remaining-slices are equal.
