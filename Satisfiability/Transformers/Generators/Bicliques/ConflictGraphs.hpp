@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   Conflict graphs of clause-sets etc.
 
    - Import from Random/ClauseSets.hpp
-    - var_t Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
+    - var_t, Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
 
    General algorithmic tools:
     - empty_intersection(RAN r1, RAN r2)
@@ -19,8 +19,25 @@ License, or any later version. */
     - ewcompl(Clause) (elementwise complementation)
     - ewcompl(ClauseList)
 
-   The cnflict-graph:
-    - conflictgraph_bydef(DimacsClauseList)
+   The conflict-graph:
+
+    - conflictgraph_bydef(DimacsClauseList) -> AdjVecUInt
+        by pairwise comparison
+    - More efficient approach by occurrence-lists:
+     - struct OccVar : containing an array of size 2 of vectors of
+       literal-occurrence-indices
+     - struct AllOcc : contains a vector of OccVar
+     - allocc(DimacsClauseList) -> AllOcc
+     - conflictgraph(var_t c, AllOcc) -> AdjVecUInt
+         by adding bicliques
+     - conflictgraph(DimacsClauseList) -> AdjVecUInt
+
+    - cc_by_dfs(DimacsClauseList) -> CCbyIndices
+        returns the vector stating for every clause to which connected
+        component of the global-conflict graph it belongs;
+        algorithm the same as GraphTraversal::cc_by_dfs, however not
+        explicitly creating the conflict-graph but using the occurrence-lists
+        to access the adjacent vertices.
 
 */
 
