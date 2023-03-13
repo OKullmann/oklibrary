@@ -31,14 +31,33 @@ License, or any later version. */
     parameter-values.
 
  - Variables, literals, clauses, clause-sets:
-  - typedef Clause as vector of Lit's
-  - typedef ClauseList as vector of Clause's
-  - typedef ClauseSet as std::set of Clause's
+
+  - Clause : typedef for vector of Lit's
+  - valid(Clause) : true iff all literals are valid (i.e., underlying variable
+      are not 0)
+  - ClauseList : typedef for vector of Clause's
+  - valid(ClauseList) : true iff all clauses are valid
+  - ClauseSet : typedef for std::set of Clause's
   - function max_var_index for computing the maximal var-index in a list
     of clauses
-  - function rename_clauselist for renaming the variables in a clause-list
-  - typedefs DimacsClauseList, DimacsClauseSet, containing also the
-    Dimacs-parameter-values.
+
+  - rename_vt : typedef for vector of gen_uint_t
+      stating a mapping var -> new-var
+  - rename_info_t : pair of gen_uint_t and rename_vt (new max-n and the
+      list of renamings)
+  - rename_clauselist(CLS& F, bool sorted) -> rename_info_t :
+      renaming the variables in a clause-list to contiguous indices
+      starting from 1, return the mapping old-var -> new-var
+
+  - typedefs DimacsClauseList, DimacsClauseSet, pairs containing also the
+    Dimacs-parameter-values (as first component)
+  - valid(DimacsClauseList) : true if the clause-list is valid, the number
+    of clauses is exact, and no var-index is greater than the bound
+
+  - RDimacsClauseList : pair of DimacsClauseList and rename_info_t
+  - DimacsComments : concrete datatype containing a vector of strings
+
+  - output-streaming for most above types
 
 
  - The generation of random clauses:
