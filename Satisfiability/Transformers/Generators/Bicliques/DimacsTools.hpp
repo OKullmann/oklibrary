@@ -97,6 +97,41 @@ License, or any later version. */
 
 TODOS:
 
+-1. Variation of extract_gpart_strictqcnf, which extracts the
+    global slice and the remainder into a pair of clause-lists
+     - Every initial clause is read into a pair of ClauseSet,
+       with the global literals and the remaining literals.
+     - Using a pair or a struct? In any case, perhaps with the
+       above order.
+     - Do we need lexicographical order on these pairs?
+       Perhaps, and then it seems the non-global part is more
+       important (since fixed), and thus should indeed come first.
+     - Perhaps a struct SClause (split-clause), with components
+       O, G : Clause.
+     - Typedef SClauseList (vector).
+     - For the parameters we have the other variables, the global
+       variables, and the clauses.
+     - Perhaps a struct with components o, g, c, named s_dimacs_pars.
+     - The pair then is SDimacsClauseList.
+     - The meaning of o, g is simply the maximal index used by the
+       respective variables; if first we have all o-variables, then all
+       g-variables, one can also infer their numbers.
+     - The main operation (for now) is the gcg-equivalence of two
+       SDimacsClauseList : the global slices have the same conflict-graph,
+       the remaining-slices are equal.
+     - This is simply implemented by first checking whether the o+c-parameters
+       are equal, in which case then first the equality of the other-slice
+       is checked, in which case then a nested loop over all pairs of g-clauses
+       checks whether the corresponding pairs either have at least one conflict
+       or have no conflict.
+     - The corresponding application, GCGeq, reads the two QCNFs and determines
+       their equivalence.
+     - We require for gcg-equivalence that the c-parameters are equal, and thus
+       we can concatenate both inputs to standard input.
+     - In case of inequality a precise witness needs to be output; so the
+       equivalence-check needs to output an object which contains the
+       witnesses.
+
 0. Generalise extract_apart_strict2qcnf to handle arbitrary qcnf
    (extracting "global variables").
 
