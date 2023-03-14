@@ -21,6 +21,13 @@ License, or any later version. */
       - dimacs_pars : concrete type, wrapper around n, c : var_t
       - DimacsClauseList : typedef for pair of dimacs_pars, ClauseList.
 
+   - General tools:
+
+      - VarSet : typedef for set of Var
+      - var(Clause) -> VarSet
+      - var(ClauseList) -> VarSet
+      - var(DimacsClauseList) -> VarSet
+
 
    - Reading strict Dimacs from istream:
 
@@ -74,6 +81,20 @@ License, or any later version. */
         to the out-stream (see application 2QCNF2aCNF)
     - extract_gpart_strictqcnf -> void, sice-effect -> ostream :
         more general, read strict QCNF (see application QCNF2gCNF).
+
+
+   - Sliced clause-sets (-lists)
+
+    - valid_slicedcnf(F) : defines the concepts of a "sliced CNF"
+        true iff all members are valid DimacsClauseList's
+        and have the same number of clauses
+    - struct GslicedCNF :
+     - typedef scnf_t (sliced CNF as array of size 2)
+     - members
+      - SF : scnf_t
+      - references O, G to index 0 resp 1
+      - VarSet V
+   - valid(GslicedCNF) : SF is valid V == var(G)
 
 
    - Using external SAT solvers:
@@ -184,6 +205,9 @@ TODOS:
 #include <fstream>
 #include <vector>
 #include <map>
+#include <type_traits>
+#include <array>
+#include <set>
 
 #include <cassert>
 
@@ -204,6 +228,26 @@ namespace DimacsTools {
   typedef RandGen::ClauseList ClauseList;
   typedef RandGen::dimacs_pars dimacs_pars;
   typedef RandGen::DimacsClauseList DimacsClauseList;
+
+
+  typedef std::set<Var> VarSet;
+  VarSet var(const Clause& C) {
+    VarSet res;
+    for (const Lit x : C) res.insert(var(x));
+    return res;
+  }
+  VarSet var(const ClauseList& F) {
+    VarSet res;
+    for (const Clause& C : F) {
+      const VarSet V = var(C);
+      res.insert(V.begin(), V.end());
+    }
+    return res;
+  }
+  VarSet var(const DimacsClauseList& F) {
+    return var(F.second);
+  }
+
 
   // Skipping lines which start with "c", after which must come a line
   // starting with "p cnf ":
@@ -331,6 +375,41 @@ namespace DimacsTools {
     out << dimacs_pars(m.size(), dp.c);
     for (var_t c = dp.c; c != 0; --c)
       out << read_strict_clause_filterrename(in, m);
+  }
+
+
+  template <class CNF>
+  bool valid_slicedcnf(const CNF& F) noexcept {
+    {typedef typename CNF::value_type cnf_t;
+     if (not std::is_same_v<cnf_t, DimacsClauseList>) return false;}
+    typedef typename CNF::size_type size_t;
+    const size_t size = F.size();
+    if (size == 0) return true;
+    const DimacsClauseList& F0 = F[0];
+    if (not valid(F0)) return false;
+    const auto c = F0.first.c;
+    for (size_t i = 1; i < size; ++i) {
+      const DimacsClauseList& G = F[i];
+      if (G.first.c != c) return false;
+      if (not valid(G.second)) return false;
+    }
+    return true;
+  }
+
+  struct GslicedCNF {
+    typedef std::array<DimacsClauseList, 2> scnf_t;
+    scnf_t SF; // "other" and "global"
+    VarSet V; // global variables
+
+    GslicedCNF() noexcept {}
+
+    const DimacsClauseList& O() const noexcept { return SF[0]; }
+    DimacsClauseList& O() noexcept { return SF[0]; }
+    const DimacsClauseList& G() const noexcept { return SF[1]; }
+    DimacsClauseList& G() noexcept { return SF[1]; }
+  };
+  bool valid (const GslicedCNF& F) noexcept {
+    return valid_slicedcnf(F.SF) and var(F.G()) == F.V;
   }
 
 

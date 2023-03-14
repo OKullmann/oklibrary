@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "15.4.2022",
+        "0.2.1",
+        "15.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -35,6 +35,16 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {assert(eqp(var(Clause{}),{}));
+   assert(eqp(var(Clause{Lit(), Lit(1,-1), Lit(1,1)}), {Var(0), Var(1)}));
+   assert(eqp(var(ClauseList{}),{}));
+   assert(eqp(var(ClauseList{{}, {Lit(2,-1)}, {Lit(2,1), Lit(3,1)}}),
+              {Var(2), Var(3)}));
+   assert(eqp(var(DimacsClauseList{{0,0},
+                      {{Lit()}, {Lit(2,-1)}, {Lit(2,1), Lit(3,1)}}}),
+              {Var(), Var(2), Var(3)}));
+  }
 
   {std::stringstream ss;
    ss.str("p cnf 0 0\n");
@@ -85,6 +95,21 @@ int main(const int argc, const char* const argv[]) {
    ss.str("p cnf 5 1\n1 2 3 0\n");
    assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
    assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+
+  {GslicedCNF F;
+   assert(valid(F));
+   F.O() = DimacsClauseList{{0,1},{{}}};
+   assert(valid(F.O()));
+   assert(F.O().first.c == 1);
+   F.G() = DimacsClauseList{{1,1},{{Lit(1,1)}}};
+   assert(valid(F.G()));
+   assert(F.G().first.c == 1);
+   assert(valid_slicedcnf(F.SF));
+   assert(F.V.empty());
+   assert(not valid(F));
+   F.V = {Var(1)};
+   assert(valid(F));
   }
 
   {DimacsClauseList F{{0,0},{}};
