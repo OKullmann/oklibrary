@@ -43,6 +43,10 @@ License, or any later version. */
 
   See also Bicliques/DimacsTools.hpp.
 
+TODOS:
+
+1. Move to a central place
+
 */
 
 #ifndef VARLIT_PXJ0EaHqJd
