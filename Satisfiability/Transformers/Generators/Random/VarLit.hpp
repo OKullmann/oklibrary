@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,18 +8,40 @@ License, or any later version. */
 /*
   Components for variables and literals
 
-   - typedefs var_t, lit_t
-   - constants max_var, max_lit, min_lit
+   - typedefs
+    - var_t (unsigned 64-bit)
+    - lit_t (signed 64-bit)
+   - constants
+    - max_var = 2^64-1
+    - max_lit = 2^63-1
+    - min_lit = -2^63
 
-   - classe Var
-   - singular(Var), valid(Var)
+   - classe Var: concrete data type, wrapping v : var_t
+    - constructors Var(), Var(var_t)
+    - operator <=>
+   - singular(Var) (v == 0)
+   - valid(Var) (v != 0)
    - operator <<
 
-   - class Lit
-   - singular(Lit), valid(Lit)
+   - class Lit : concrete data type, wrapping v : Var, s : bool
+    - s==true means positive
+    - constructors Lit(), Lit(Var), Lit(bool, Var),
+        Lit(var_t, lit_t), Lit(lit_t)
+    - sign() -> lit_t
+    - neg()
+    - convertible() -> bool (whether a safe lit_t can be extracted)
+    - convert() -> lit_t
+    - operator <=>
+   - Lit::var(lit_t) -> var_t
+   - Lit::sign(lit_t) -> bool (x == 0 yields true)
+   - singular(Lit) (true if v == 0)
+   - valid(Lit) (true if v >= 1)
+   - var(Lit) -> Var
    - operator <<
    - operator -(Lit)
 
+
+  See also Bicliques/DimacsTools.hpp.
 
 */
 
@@ -34,7 +56,7 @@ License, or any later version. */
 namespace RandGen {
 
   typedef std::uint64_t var_t;
-  constexpr var_t max_var = 18446744073709551615ULL;
+  constexpr var_t max_var = 18446744073709551615ULL; // 2^64 - 1
 
   /*
     Var is a concrete data type, holding member v of type var_t:
@@ -52,7 +74,6 @@ namespace RandGen {
     constexpr Var() noexcept : v(0) {}
     explicit constexpr Var(const var_t v) noexcept : v(v) {}
 
-    friend constexpr bool operator ==(Var, Var) noexcept = default;
     friend constexpr auto operator <=>(Var, Var) noexcept = default;
   };
   static_assert(Var() == Var(0));
@@ -72,8 +93,9 @@ namespace RandGen {
 
 
   typedef std::int64_t lit_t;
-  constexpr lit_t max_lit = 9223372036854775807LL;
+  constexpr lit_t max_lit = 9223372036854775807LL; // 2^63 - 1
   constexpr lit_t min_lit = -max_lit - 1;
+  static_assert(var_t(max_lit) + 1 == max_var/2 + 1);
 
   /*
     Lit is a concrete data type, holding members v of type Var, and
@@ -133,7 +155,6 @@ namespace RandGen {
       return s ? v.v : -lit_t(v.v);
     }
 
-    friend constexpr bool operator ==(Lit, Lit) noexcept = default;
     friend constexpr auto operator <=>(Lit, Lit) noexcept = default;
   };
   static_assert(Lit::var(max_lit) == max_lit);
@@ -190,6 +211,14 @@ namespace RandGen {
     if (not x.s) out << "-";
     return out << x.v.v;
   }
+
+  inline constexpr Var var(const Lit x) noexcept {
+    return x.v;
+  }
+  static_assert(var(Lit()) == Var(0));
+  static_assert(var(Lit(0, -1)) == Var(0));
+  static_assert(var(Lit(1, -1)) == Var(1));
+  static_assert(var(Lit(1, 1)) == Var(1));
 
   inline constexpr Lit operator -(const Lit x) noexcept {
     Lit res(x); res.neg(); return res;
