@@ -8,6 +8,7 @@ License, or any later version. */
 /*
   For input-CNF F, compute another CNF F' which has the same conflict-graph
   and the minimal number of variables.
+  The clauses of F are sorted.
 
 
 EXAMPLES:

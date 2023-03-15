@@ -55,8 +55,8 @@ License, or any later version. */
    - numocc(Bcc_frame)
    - numcl(Bcc_frame)
 
-   - bcc2CNF(Bcc_frame)
-   - CNF2bcc(DT::DimacsClauseList)
+   - bcc2CNF(Bcc_frame) -> DimacsClauseList (elements sorted)
+   - CNF2bcc(DT::DimacsClauseList) -> Bcc_frame (sides sorted)
 
    - sort(bc_frame&)
    - sort(Bcc_frame&)
