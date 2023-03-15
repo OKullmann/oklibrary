@@ -212,6 +212,8 @@ TODOS:
 #include "Graphs.hpp"
 #include "Bicliques.hpp"
 #include "DimacsTools.hpp"
+#include "GraphTraversal.hpp"
+#include "ConflictGraphs.hpp"
 
 namespace Bicliques2SAT {
 
@@ -1176,6 +1178,28 @@ namespace Bicliques2SAT {
 
     enc_t enc_;
 
+  };
+
+
+  /*
+    For a DT::GslicedCNF, compute an optimal replacement of the global
+    slice.
+
+     - Keeping the order of the clauses.
+     - Reusing the given variable numbers, for each component using the
+       initial part.
+
+  */
+  struct GlobRepl {
+    typedef DimacsTools::GslicedCNF GslicedCNF;
+    const GslicedCNF& F;
+    typedef GraphTraversal::CCbyIndices CCbyIndices;
+    const CCbyIndices CC;
+    typedef CCbyIndices::sizes_t sizes_t;
+    const sizes_t sizes;
+
+    explicit GlobRepl(const GslicedCNF& F) noexcept
+    : F(F), CC(ConflictGraphs::cc_by_dfs(F.G())), sizes(CC.sizes()) {}
   };
 
 }
