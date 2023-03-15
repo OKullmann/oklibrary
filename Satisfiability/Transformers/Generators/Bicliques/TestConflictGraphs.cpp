@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,8 +26,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "13.3.2022",
+        "0.2.2",
+        "15.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -151,6 +151,24 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(cc_by_dfs(DCL{{10,3},{{1},{-1},{2}}}), CC({1,1,2}, 2)));
    assert(eqp(cc_by_dfs(DCL{{10,4},{{1,2},{-1},{-2},{5}}}), CC({1,1,1,2}, 2)));
    assert(eqp(cc_by_dfs(DCL{{10,5},{{-5},{1,2},{-1},{-2},{5}}}), CC({1,2,2,2,1}, 2)));
+  }
+
+  {std::stringstream ss;
+   ss.str("p cnf 2 8\n"
+          "2 0\n"
+          "-2 0\n"
+          "2 0\n"
+          "1 0\n"
+          "-2 -1 0\n"
+          "2 0\n"
+          "1 0\n"
+          "-2 -1 0\n");
+   const DimacsClauseList F = read_strict_Dimacs(ss);
+   const auto FC = ewcompl(F.second);
+   assert(empty_intersection(F.second[3], FC[4]));
+   const auto G1 = conflictgraph_bydef(F);
+   const auto G2 = conflictgraph(F);
+   assert(G1 == G2);
   }
 
 }

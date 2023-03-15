@@ -32,8 +32,12 @@ License, or any later version. */
       - var(varlist_t) -> VarSet
 
       - is_sorted(Clause)
-      - sorted_elements(ClauseList)
-      - sorted_elements(DimacsClauseList)
+      - msort_elements(ClauseList&)
+        sort_elements(ClauseList) -> ClauseList
+        sorted_elements(ClauseList)
+      - msort_elements(DimacsClauseList&)
+        sort_elements(DimacsClauseList) -> DimacsClauseList
+        sorted_elements(DimacsClauseList)
 
 
    - Reading strict Dimacs from istream:
@@ -269,6 +273,21 @@ namespace DimacsTools {
 
   bool is_sorted(const Clause& C) noexcept {
     return std::ranges::is_sorted(C);
+  }
+
+  void msort_elements(ClauseList& F) noexcept {
+    for (Clause& C : F) std::ranges::sort(C);
+  }
+  void msort_elements(DimacsClauseList& F) noexcept {
+    msort_elements(F.second);
+  }
+  ClauseList sort_elements(ClauseList F) noexcept {
+    for (Clause& C : F) std::ranges::sort(C);
+    return F;
+  }
+  DimacsClauseList sort_elements(DimacsClauseList F) noexcept {
+    for (Clause& C : F.second) std::ranges::sort(C);
+    return F;
   }
   // Only elements need to be sorted:
   bool sorted_elements(const ClauseList& F) noexcept {

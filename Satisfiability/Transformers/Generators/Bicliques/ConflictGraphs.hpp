@@ -61,6 +61,7 @@ License, or any later version. */
 
 #include "Graphs.hpp"
 #include "GraphTraversal.hpp"
+#include "DimacsTools.hpp"
 
 namespace ConflictGraphs {
 
@@ -113,16 +114,20 @@ namespace ConflictGraphs {
   }
 
 
-  Graphs::AdjVecUInt conflictgraph_bydef(const DimacsClauseList& F) {
-    Graphs::AdjVecUInt G(Graphs::GT::und, F.first.c);
-    if (F.first.c <= 1) return G;
-    Graphs::AdjVecUInt::adjlist_t A(F.first.c);
+  // Does not assume the elements of F to be sorted, but sorts them:
+  Graphs::AdjVecUInt conflictgraph_bydef(DimacsClauseList F) {
+    assert(valid(F));
+    DimacsTools::msort_elements(F);
+    const auto c = F.first.c;
+    Graphs::AdjVecUInt G(Graphs::GT::und, c);
+    if (c <= 1) return G;
+    Graphs::AdjVecUInt::adjlist_t A(c);
     const ClauseList FC = ewcompl(F.second);
-    for (size_t i = 0; i < F.first.c-1; ++i) {
+    for (size_t i = 0; i < c-1; ++i) {
       const Clause& C = F.second[i];
       if (C.empty()) continue;
       auto& neighbours = A[i];
-      for (size_t j = i+1; j < F.first.c; ++j)
+      for (size_t j = i+1; j < c; ++j)
         if (not empty_intersection(C, FC[j])) {
           neighbours.push_back(j);
           A[j].push_back(i);
