@@ -226,9 +226,9 @@ namespace ConflictGraphs {
   }
 
 
-  GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F) {
+  GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F,
+                                        const AllOcc& O) {
     assert(valid(F));
-    const AllOcc O = allocc(F);
     const var_t c = F.first.c;
     GraphTraversal::CCbyIndices res(c);
     for (var_t v = 0; v < c; ++v) {
@@ -249,6 +249,9 @@ namespace ConflictGraphs {
     }
     assert(valid(res));
     return res;
+  }
+  GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F) {
+    return cc_by_dfs(F, allocc(F));
   }
 
 }
