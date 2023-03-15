@@ -10,19 +10,21 @@ License, or any later version. */
   Conflict graphs of clause-sets etc.
 
    - Import from Random/ClauseSets.hpp
-    - var_t, Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
+    - var_t : typedef for gen_uint_t
+    - Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
 
    General algorithmic tools:
     - empty_intersection(RAN r1, RAN r2)
 
    General tools for clause-sets:
-    - ewcompl(Clause) (elementwise complementation)
-    - ewcompl(ClauseList)
+    - ewcompl(Clause) -> Clause (elementwise complementation)
+    - ewcompl(ClauseList) -> ClauseList
 
    The conflict-graph:
 
     - conflictgraph_bydef(DimacsClauseList) -> AdjVecUInt
         by pairwise comparison
+
     - More efficient approach by occurrence-lists:
      - struct OccVar : containing an array of size 2 of vectors of
        literal-occurrence-indices
@@ -33,7 +35,7 @@ License, or any later version. */
      - conflictgraph(DimacsClauseList) -> AdjVecUInt
 
     - cc_by_dfs(DimacsClauseList) -> CCbyIndices
-        returns the vector stating for every clause to which connected
+        returns the vector stating for every clause-index to which connected
         component of the global-conflict graph it belongs;
         algorithm the same as GraphTraversal::cc_by_dfs, however not
         explicitly creating the conflict-graph but using the occurrence-lists

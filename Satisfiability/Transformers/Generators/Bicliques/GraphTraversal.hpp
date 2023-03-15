@@ -13,7 +13,12 @@ License, or any later version. */
 
   - struct CCbyIndices : the mapping of a vertex to its cc-index
     ("cc": connected component)
-   - valid(CCbyIndices)
+   - typedefs indvec_t, sizes_t : both vector of size_t
+   - members cv : indvec_t (vertex-index -> cc-index), numcc : size_t
+   - Constructors (n, cc) and (indvec_t, cc)
+   - sizes() -> sizes_t : for every cc its size
+   - operator ==
+  - valid(CCbyIndices)
 
   - struct StatsCC : statistics
    - constructor from CCbyIndices
@@ -46,14 +51,17 @@ namespace GraphTraversal {
 
   struct CCbyIndices {
     typedef std::vector<size_t> indvec_t;
-    indvec_t cv; // mapping every vertex-index to its cc-index
+    indvec_t cv; // mapping every vertex-index to its cc-index (>= 1)
+    // the valid vertices are the valid indices of cv
     size_t numcc; // number of connected components
+    // the valid cc-indices are 1, ..., numcc
 
     explicit CCbyIndices(const size_t n = 0, const size_t cc = 0)
       : cv(n), numcc(cc) {}
     CCbyIndices(indvec_t cv, const size_t cc) : cv(cv), numcc(cc) {}
 
     typedef std::vector<size_t> sizes_t;
+    // mapping  cc-index - 1  ->  size
     sizes_t sizes() const {
       sizes_t res(numcc);
       for (const auto c : cv) {
