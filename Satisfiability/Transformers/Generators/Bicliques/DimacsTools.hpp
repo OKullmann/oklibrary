@@ -28,6 +28,13 @@ License, or any later version. */
       - var(ClauseList) -> VarSet
       - var(DimacsClauseList) -> VarSet
 
+      - varlist_t : typedef for vector of Var
+      - var(varlist_t) -> VarSet
+
+      - is_sorted(Clause)
+      - sorted_elements(ClauseList)
+      - sorted_elements(DimacsClauseList)
+
 
    - Reading strict Dimacs from istream:
 
@@ -51,7 +58,6 @@ License, or any later version. */
         reading a string, asserting it not starting with "-", and then
         reading ull, converting to Var.
 
-    - varlist_t : typedef for vector of Var
     - read_strict_aline -> varlist_t :
         read string, assert it to be "a", then similar to read_strict_clause
         use read_strict_variable until 0 found (eol also asserted).
@@ -61,7 +67,10 @@ License, or any later version. */
         expects lines starting with a or e (as above with aline/eline),
         if the first line is an a-line, this is taken as the list of
         global variables, all other a/e-lines are discarded (stoping with the
-        first none-a/e-line).
+        first none-a/e-line)
+    - read_strict_gline_withother -> pair<VarSet, other_ealines_t>
+        other_ealines_t = vector<string>
+      now also returning the other e/a-lines as is (and returning a set)
 
     - varmap_t : typedef for map from Var to Var
     - list2map(varlist_t V) -> varmap_t :
@@ -76,6 +85,10 @@ License, or any later version. */
         using a var-map, like read_strict_clause, also reading until
         Lit(0) found, but extracting only literals in the var-map.
 
+    - read_strict_clause_split (also for Dimacs) -> std::array<Clause,2} :
+        using a var-set, like read_strict_clause, also reading until
+        Lit(0) found, and splitting into two clauses according to var-set.
+
     - extract_apart_strict2qcnf -> void, sice-effect -> ostream :
         reads a whole strict 2QCNF, and puts the extracted global slice
         to the out-stream (see application 2QCNF2aCNF)
@@ -88,13 +101,17 @@ License, or any later version. */
     - valid_slicedcnf(F) : defines the concepts of a "sliced CNF"
         true iff all members are valid DimacsClauseList's
         and have the same number of clauses
+    - sorted_elements_slicedcnf(F)
     - struct GslicedCNF :
      - typedef scnf_t (sliced CNF as array of size 2)
      - members
       - SF : scnf_t
-      - references O, G to index 0 resp 1
+      - reference-access O(), G() to index 0 resp 1
       - VarSet V
-   - valid(GslicedCNF) : SF is valid V == var(G)
+      - other : other_ealines_t
+   - valid(GslicedCNF) : SF is valid and has sorted elements and V == var(G)
+   - operator << for GslicedCNF
+   - read_stringGslicedCNF(istream) -> GslicedCNF
 
 
    - Using external SAT solvers:
@@ -208,6 +225,7 @@ TODOS:
 #include <type_traits>
 #include <array>
 #include <set>
+#include <algorithm>
 
 #include <cassert>
 
@@ -246,6 +264,18 @@ namespace DimacsTools {
   }
   VarSet var(const DimacsClauseList& F) {
     return var(F.second);
+  }
+
+
+  bool is_sorted(const Clause& C) noexcept {
+    return std::ranges::is_sorted(C);
+  }
+  // Only elements need to be sorted:
+  bool sorted_elements(const ClauseList& F) noexcept {
+    return std::ranges::all_of(F, [](const Clause& C){return is_sorted(C);});
+  }
+  bool sorted_elements(const DimacsClauseList& F) noexcept {
+    return sorted_elements(F.second);
   }
 
 
@@ -294,6 +324,7 @@ namespace DimacsTools {
   }
 
   typedef std::vector<Var> varlist_t;
+  VarSet var(const varlist_t& v) { return VarSet(v.begin(), v.end()); }
 
   varlist_t read_strict_aline(std::istream& in) noexcept {
     assert(in);
@@ -311,7 +342,7 @@ namespace DimacsTools {
   }
   // Reading all a-,e-lines, extracting "global variables", which are the
   // outermost universal variables if existing:
-  varlist_t read_strict_gline(std::istream& in) noexcept {
+  varlist_t read_strict_gline(std::istream& in) {
     assert(in);
     varlist_t res;
     {std::string s; in >> s; assert(s == "a" or s == "e");
@@ -328,6 +359,34 @@ namespace DimacsTools {
       c = in.peek();
     }
     assert(in);
+    return res;
+  }
+  typedef std::vector<std::string> other_ealines_t;
+  // Now also return the other e/a-lines, and returning a VarSet:
+  std::pair<VarSet, other_ealines_t>
+  read_strict_gline_withother(std::istream& in) {
+    assert(in);
+    std::pair<VarSet, other_ealines_t> res;
+    {std::string s; in >> s; assert(s == "a" or s == "e");
+     if (s == "a") {
+       for (Var v; (v = read_strict_variable(in)) != Var(0);
+            res.first.insert(v));
+       [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
+     }
+     else {
+       std::string line; std::getline(in, line, '\n');
+       res.second.push_back("e" + std::move(line) + "\n");
+     }
+    }
+    assert(in);
+    char c = in.peek();
+    while (not in.eof() and (c == 'a' or c == 'e')) {
+      std::string line; std::getline(in, line, '\n');
+      res.second.push_back(std::move(line) + "\n");
+      c = in.peek();
+    }
+    assert(in);
+    assert(res.second.empty() or res.second[0].starts_with("e "));
     return res;
   }
 
@@ -347,8 +406,9 @@ namespace DimacsTools {
     else return {x.s, f->second};
   }
 
+  // Reading a clause, filtering out (and otherwise) renaming by m:
   Clause read_strict_clause_filterrename(std::istream& in,
-                                         const varmap_t m) noexcept {
+                                         const varmap_t m) {
     assert(in);
     Clause res;
     for (Lit x; (x = rename(read_strict_literal(in), m)) != Lit(0);)
@@ -356,8 +416,19 @@ namespace DimacsTools {
     return res;
   }
 
+  // Reading a clause, splitting into two according to vs (in/out):
+  std::array<Clause,2> read_strict_clause_split(std::istream& in,
+                                                const VarSet& vs) {
+    assert(in);
+    std::array<Clause,2> res;
+    for (Lit x; (x = read_strict_literal(in)) != Lit(0);)
+      if (vs.contains(x.v)) res[0].push_back(x);
+      else res[1].push_back(x);
+    return res;
+  }
+
   void extract_apart_strict2qcnf(std::istream& in,
-                                 std::ostream& out) noexcept {
+                                 std::ostream& out) {
     const dimacs_pars dp = read_strict_dimacs_pars(in);
     const varmap_t m = list2map(read_strict_aline(in));
     skip_strict_eline(in);
@@ -368,7 +439,7 @@ namespace DimacsTools {
   // More generally, extract the "global part" of a QCNF, but with the
   // difference that now the empty clause-set is returned in case there were
   // no global variables (in which case also "in" is not read further):
-  void extract_gpart_strictqcnf(std::istream& in, std::ostream& out) noexcept {
+  void extract_gpart_strictqcnf(std::istream& in, std::ostream& out) {
     const dimacs_pars dp = read_strict_dimacs_pars(in);
     const varmap_t m = list2map(read_strict_gline(in));
     if (m.empty()) { out << dimacs_pars(0,0); return; }
@@ -395,11 +466,17 @@ namespace DimacsTools {
     }
     return true;
   }
+  template <class CNF>
+  bool sorted_elements_slicedcnf(const CNF& FF) noexcept {
+    return std::all_of(FF.begin(), FF.end(),
+      [](const DimacsClauseList& F){return sorted_elements(F);});
+  }
 
   struct GslicedCNF {
     typedef std::array<DimacsClauseList, 2> scnf_t;
     scnf_t SF; // "other" and "global"
     VarSet V; // global variables
+    other_ealines_t other;
 
     GslicedCNF() noexcept {}
 
@@ -409,7 +486,49 @@ namespace DimacsTools {
     DimacsClauseList& G() noexcept { return SF[1]; }
   };
   bool valid (const GslicedCNF& F) noexcept {
-    return valid_slicedcnf(F.SF) and var(F.G()) == F.V;
+    return valid_slicedcnf(F.SF) and sorted_elements_slicedcnf(F.SF)
+      and var(F.G()) == F.V;
+  }
+
+  std::ostream& operator <<(std::ostream& out, const GslicedCNF& F) {
+    assert(valid(F));
+    const var_t n = std::max(F.SF[0].first.n, F.SF[1].first.n),
+      c = F.SF[0].first.c;
+    out << dimacs_pars{n, c} << "a";
+    for (const Var v : F.V) out << " " << v;
+    out << " 0\n";
+    for (const std::string& line : F.other) out << line;
+    for (var_t i = 0; i < c; ++i) {
+      const Clause& O = F.SF[0].second[i];
+      if (not O.empty())
+        for (const Lit x : O) out << x << " ";
+      out << F.SF[1].second[i];
+    }
+    return out;
+  }
+
+  GslicedCNF read_strict_GslicedCNF(std::istream& in) {
+    const dimacs_pars dp = read_strict_dimacs_pars(in);
+    GslicedCNF res;
+    res.O().first.c = dp.c;
+    res.G().first.c = dp.c;
+    {auto gline = read_strict_gline_withother(in);
+     res.V = std::move(gline.first);
+     res.other = std::move(gline.second);
+    }
+    for (var_t c = dp.c; c != 0; --c) {
+      auto [C1,C0] = read_strict_clause_split(in, res.V);
+      std::ranges::sort(C0); std::ranges::sort(C1);
+      if (not C0.empty())
+        res.O().first.n = std::max(res.O().first.n, C0.back().v.v);
+      if (not C1.empty())
+        res.G().first.n = std::max(res.G().first.n, C1.back().v.v);
+      res.O().second.push_back(std::move(C0));
+      res.G().second.push_back(std::move(C1));
+    }
+    assert(dp.n == std::max(res.O().first.n, res.G().first.n));
+    assert(valid(res));
+    return res;
   }
 
 

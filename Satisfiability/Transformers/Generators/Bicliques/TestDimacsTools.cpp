@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "15.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -225,5 +225,33 @@ int main(const int argc, const char* const argv[]) {
    assert(os.str() == "p cnf 1 2\n0\n0\n");
   }
 
+  {std::istringstream is;
+   is.str("1 -2 3 -4 5 0\n");
+   const auto res = read_strict_clause_split(is, {Var(2),Var(3)});
+   assert(eqp(res[0], {Lit(-2), Lit(3)}));
+   assert(eqp(res[1], {Lit(1), Lit(-4), Lit(5)}));
+  }
+  {std::istringstream is;
+   is.str("p cnf 10 4\n"
+          "a 3 7 5 8 0\n"
+          "e  2 1  0\n"
+          "a 4  9 10 6 0\n"
+          "-1  10 0\n"
+          " -5 3 -3 0\n"
+          "-8 4 -10  3 0\n"
+          "-7  10 -1  6 0\n");
+   const GslicedCNF F = read_strict_GslicedCNF(is);
+   std::ostringstream os;
+   os << F;
+   assert(os.str() ==
+          "p cnf 10 4\n"
+          "a 3 5 7 8 0\n"
+          "e  2 1  0\n"
+          "a 4  9 10 6 0\n"
+          "-1 10 0\n"
+          "-3 3 -5 0\n"
+          "4 -10 3 -8 0\n"
+          "-1 6 10 -7 0\n");
+  }
 
 }
