@@ -26,7 +26,7 @@ Symmetry-breaking is randomised, and thus for example (using "t" for
 
 Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t
 
-yields one of (trimmed) realisations:
+yields one of the following (trimmed) realisations:
 
 p cnf 2 3
 1 2 0
@@ -87,8 +87,8 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "12.3.2023",
+        "0.3.0",
+        "15.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -152,7 +152,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto F = DimacsTools::read_strict_Dimacs(std::cin);
-  const auto G = ConflictGraphs::conflictgraph_bydef(F);
+  const auto G = ConflictGraphs::conflictgraph(F);
   assert(G.n() == F.first.c);
   BC2SAT T(G, {DI::downwards, false, 0, 0, std::min(F.first.n, G.m())});
   const auto res = T.sat_solve(nullptr, algopt, sb_rounds, sec, seeds);

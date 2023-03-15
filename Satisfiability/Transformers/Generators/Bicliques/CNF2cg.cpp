@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,12 +10,12 @@ License, or any later version. */
 
   The clause-indices (0-based) are used as the vertices.
   For the input the simple graph-format is used (one line per vertex,
-  showing the adjacent vertices).
+  showing the vertex and the adjacent vertices).
 
 
 EXAMPLES:
 
-Bicliques> echo -e "p cnf 3 4\n0\n1 2 0 \n-1 -2 0\n3 4 0\n" | ./CNF2cg
+Bicliques> echo -e "p cnf 4 4\n0\n1 2 0\n-1 -2 0\n3 4 0\n" | ./CNF2cg
 # 4 1 1
 0
 1 2
@@ -27,7 +27,7 @@ The header says "4 vertices, 1 edges, undirected".
 TODOS:
 
 1. Write application tests.
-2. Use more efficient "conflictgraph(F)".
+2. DONE Use more efficient "conflictgraph(F)".
 
 */
 
@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "7.3.2022",
+        "0.2.0",
+        "15.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
@@ -70,6 +70,6 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  std::cout << conflictgraph_bydef(read_strict_Dimacs(std::cin));
+  std::cout << conflictgraph(read_strict_Dimacs(std::cin));
 
 }
