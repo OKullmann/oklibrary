@@ -1193,13 +1193,16 @@ namespace Bicliques2SAT {
   struct GlobRepl {
     typedef DimacsTools::GslicedCNF GslicedCNF;
     const GslicedCNF& F;
+    typedef ConflictGraphs::AllOcc AllOcc;
+    const AllOcc occ;
     typedef GraphTraversal::CCbyIndices CCbyIndices;
     const CCbyIndices CC;
     typedef CCbyIndices::sizes_t sizes_t;
     const sizes_t sizes;
 
     explicit GlobRepl(const GslicedCNF& F) noexcept
-    : F(F), CC(ConflictGraphs::cc_by_dfs(F.G())), sizes(CC.sizes()) {}
+    : F(F), occ(ConflictGraphs::allocc(F.O())),
+      CC(ConflictGraphs::cc_by_dfs(F.G(), occ)), sizes(CC.sizes()) {}
   };
 
 }
