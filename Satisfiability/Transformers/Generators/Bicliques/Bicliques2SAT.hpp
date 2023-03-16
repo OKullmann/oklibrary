@@ -1199,10 +1199,13 @@ namespace Bicliques2SAT {
     const CCbyIndices CC;
     typedef CCbyIndices::sizes_t sizes_t;
     const sizes_t sizes;
+    typedef CCbyIndices::components_t components_t;
+    const components_t ccvec;
 
     explicit GlobRepl(const GslicedCNF& F) noexcept
     : F(F), occ(ConflictGraphs::allocc(F.O())),
-      CC(ConflictGraphs::cc_by_dfs(F.G(), occ)), sizes(CC.sizes()) {}
+      CC(ConflictGraphs::cc_by_dfs(F.G(), occ)), sizes(CC.sizes()),
+      ccvec(CC.components(sizes)) {}
   };
 
 }
