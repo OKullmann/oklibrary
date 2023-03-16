@@ -10,8 +10,11 @@ License, or any later version. */
   Basic components for handling graphs
 
    - scoped enum GT ("dir" and "und")
+   - valid(GT)
+
 
    - class AdjMapStr: a simple string-based class for creating graphs
+
     - the (out-)adjacency-list is realised as a map M from (arbitrary) strings
       to sets of strings (using alphanumerical order of strings)
     - the vertices are exactly the arguments of M
@@ -19,15 +22,35 @@ License, or any later version. */
 
     - typedefs:
      - id_t (std::string)
+     - set_t (set of id_t with alphanumerical sorting)
+     - map_t (map from id_t to set_t, with alphanumerical sorting)
+     - iterator (map-const-iterator)
+     - ins_ret_t (pair of iterator, bool)
+     - size_t (size_t of map_t)
      - idv_t (vector of id_t)
      - edv_t (vector of pairs of id_t)
 
+    - public data:
+     - comments (vector of string)
+
     - one constructor from GT (empty graph)
+
+    - statistics:
+     - type() -> GT
+     - n() -> size_t (number of vertices)
+     - m() -> size_t (number of edges)
+
+    - vertex-insertion:
+     - insert(id_t) -> ins_ret_t (inserts the empty adjacency-set if the
+       vertex is not already present, otherwise no-op)
+
     - edge-insertion (returning the number of vertices and edges inserted --
       new vertices are always automatically inserted):
      - a single edge from a to b: insert(a, b)
      - edges from a to all members of idv_t B: insert(a, B)
      - edges from a to all members of the range B: insertr(a, B)
+     - from an istream: insert(istream), with every line like insert(a,B)
+
     - edge-removal (returning the number of edges removed):
      - remove_edges(edv_t E)
      - for a range E: remove_edges(E)
