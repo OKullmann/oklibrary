@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,6 +7,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 
 #include <cassert>
 
@@ -18,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "12.3.2022",
+        "0.1.1",
+        "16.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphTraversal.cpp",
@@ -91,6 +92,20 @@ int main(const int argc, const char* const argv[]) {
      assert(res.numcc == Generators::numcc_crown(n));
      assert(res.cv.size() == 2*n);
    }
+  }
+
+  {GR::AdjMapStr G0(GR::GT::und);
+   std::istringstream is;
+   is.str("a b c\nd c\ne f\nf g\n");
+   G0.insert(is);
+   GR::AdjVecUInt G(G0);
+   const CCbyIndices CC = cc_by_dfs(G);
+   assert(valid(CC));
+   assert(CC.numcc == 2);
+   assert(eqp(CC.cv, {1,1,1,1,2,2,2}));
+   assert(eqp(CC.sizes(), {4,3}));
+   assert(eqp(CC.components(), {{0,1,2,3},{4,5,6}}));
+   assert(eqp(CC.components({4,3}), {{0,1,2,3},{4,5,6}}));
   }
 
 }

@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Graph traversal (BFS, DFS, etc.), for various purposes
 
+  - namespace-abbreviation "GR" for "Graphs"
+
   - typedef size_t (unsigned 64-bit)
   - constant max_size : size_t
 
@@ -17,6 +19,8 @@ License, or any later version. */
    - members cv : indvec_t (vertex-index -> cc-index), numcc : size_t
    - Constructors (n, cc) and (indvec_t, cc)
    - sizes() -> sizes_t : for every cc its size
+   - components(sizes_t), components() : the vector of the sorted components
+     (the first version, supplied with the sizes_t-vector, applies reserve)
    - operator ==
   - valid(CCbyIndices)
 
@@ -71,9 +75,32 @@ namespace GraphTraversal {
       return res;
     }
 
+    typedef std::vector<indvec_t> components_t;
+    components_t components(const sizes_t& S) const {
+      assert(S.size() == numcc);
+      components_t res(numcc);
+      for (size_t i = 0; i < numcc; ++i) res[i].reserve(S[i]);
+      for (size_t i = 0; i < cv.size(); ++i) {
+        const size_t c = cv[i];
+        assert(1 <= c and c <= numcc);
+        res[c-1].push_back(i);
+      }
+      return res;
+    }
+    components_t components() const {
+      components_t res(numcc);
+      for (size_t i = 0; i < cv.size(); ++i) {
+        const size_t c = cv[i];
+        assert(1 <= c and c <= numcc);
+        res[c-1].push_back(i);
+      }
+      return res;
+    }
+
     bool operator ==(const CCbyIndices&) const noexcept = default;
   };
-  // The elements of cv are exactly the numbers in [1, ..., numcc]:
+  // Checking that the elements of cv are exactly the numbers in
+  // [1, ..., numcc]:
   inline bool valid(const CCbyIndices& cc) {
     const size_t C = cc.numcc;
     if (C == 0) return cc.cv.empty();
@@ -83,6 +110,7 @@ namespace GraphTraversal {
       else ++found[i-1];
     return std::ranges::find(found, 0) == found.end();
   }
+
 
   // Statistics on the connected components:
   struct StatsCC {
