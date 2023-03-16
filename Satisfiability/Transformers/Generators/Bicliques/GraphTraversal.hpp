@@ -64,12 +64,16 @@ namespace GraphTraversal {
       : cv(n), numcc(cc) {}
     CCbyIndices(indvec_t cv, const size_t cc) : cv(cv), numcc(cc) {}
 
+    bool valid_cc(const size_t i) const noexcept {
+      return 1 <= i and i <= numcc;
+    }
+
     typedef std::vector<size_t> sizes_t;
     // mapping  cc-index - 1  ->  size
     sizes_t sizes() const {
       sizes_t res(numcc);
       for (const auto c : cv) {
-        assert(1 <= c and c <= numcc);
+        assert(valid_cc(c));
         ++res[c-1];
       }
       return res;
@@ -82,7 +86,7 @@ namespace GraphTraversal {
       for (size_t i = 0; i < numcc; ++i) res[i].reserve(S[i]);
       for (size_t i = 0; i < cv.size(); ++i) {
         const size_t c = cv[i];
-        assert(1 <= c and c <= numcc);
+        assert(valid_cc(c));
         res[c-1].push_back(i);
       }
       return res;
@@ -91,7 +95,7 @@ namespace GraphTraversal {
       components_t res(numcc);
       for (size_t i = 0; i < cv.size(); ++i) {
         const size_t c = cv[i];
-        assert(1 <= c and c <= numcc);
+        assert(valid_cc(c));
         res[c-1].push_back(i);
       }
       return res;
