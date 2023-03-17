@@ -58,6 +58,7 @@ License, or any later version. */
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
     - Statistics: n(), m(), loops() -> size_t
+    - to be completed XXX
 
 
    - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
