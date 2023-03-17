@@ -113,6 +113,7 @@ License, or any later version. */
       - reference-access O(), G() to index 0 resp 1
       - VarSet V
       - other : other_ealines_t
+      - operator ==
    - valid(GslicedCNF) : SF is valid and has sorted elements and V == var(G)
    - operator << for GslicedCNF
    - read_stringGslicedCNF(istream) -> GslicedCNF
@@ -503,6 +504,8 @@ namespace DimacsTools {
     DimacsClauseList& O() noexcept { return SF[0]; }
     const DimacsClauseList& G() const noexcept { return SF[1]; }
     DimacsClauseList& G() noexcept { return SF[1]; }
+
+    bool operator ==(const GslicedCNF& rhs) const noexcept = default;
   };
   bool valid (const GslicedCNF& F) noexcept {
     return valid_slicedcnf(F.SF) and sorted_elements_slicedcnf(F.SF)
