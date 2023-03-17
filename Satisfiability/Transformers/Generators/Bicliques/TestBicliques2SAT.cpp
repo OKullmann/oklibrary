@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "17.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -397,6 +397,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(GR.ccvec, {{0},{1,2},{3,4}}));
    assert(eqp(GR.ntcc, {2,3}));
    assert(eqp(GR.ntvar, {{Var(3),Var(5),Var(8)}, {Var(7)}}));
+
+   GlobRepl GR2(GR);
+   // assert(GR2 == GR); GCC 10.3 compiler error CERR
+   assert(gcg_equivalence(GR, GR2, nullptr));
+   // further tests to be added XXX
   }
 
 }

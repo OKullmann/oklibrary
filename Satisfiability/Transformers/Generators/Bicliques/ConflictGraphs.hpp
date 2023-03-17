@@ -309,6 +309,7 @@ namespace ConflictGraphs {
       }
     }
     assert(valid(res));
+    assert(res.canonical());
     return res;
   }
   GraphTraversal::CCbyIndices cc_by_dfs(const DimacsClauseList& F) {

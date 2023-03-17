@@ -179,6 +179,10 @@ TODOS:
   - This linear form is available under LatinSquares.
   - At this time then the structure of BC2SAT needs to be improved.
 
+3. GCC compiler error CERR
+  - When updating to GCC version 12 or later, activate the places with CERR
+    (currently disabled due to compiler error)
+
 */
 
 #ifndef BICLIQUES2SAT_MI3iJYZoB5
@@ -1271,7 +1275,39 @@ namespace Bicliques2SAT {
 
       // 
     }
+
+    // bool operator ==(const GlobRepl& rhs) const noexcept = default;
+    // GCC 10.3 compiler error CERR
+
   };
+
+  bool gcg_equivalence(const GlobRepl& G1, const GlobRepl& G2,
+                       std::ostream* const log) noexcept {
+    if (G1.F.O() != G2.F.O()) {
+      *log << "other different\n";
+      return false;
+    }
+    if (G1.F.G().first != G2.F.G().first) {
+      *log << "global parameters different\n";
+      return false;
+    }
+    if (G1.sizes != G2.sizes) {
+      *log << "sizes of components differ\n";
+      return false;
+    }
+    assert(G1.numntcc == G2.numntcc);
+    assert(G1.ntcc == G2.ntcc);
+    if (G1.ccvec != G2.ccvec) {
+      *log << "components differ\n";
+      return false;
+    }
+    for (size_t i = 0; i < G1.numntcc; ++i)
+      if (G1.conflictgraph(i) != G2.conflictgraph(i)) {
+        *log << "conflict-graphs " << i << " differ\n";
+        return false;
+      }
+    return true;
+  }
 
 }
 

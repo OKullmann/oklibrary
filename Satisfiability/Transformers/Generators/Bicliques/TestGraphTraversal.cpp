@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "16.3.2023",
+        "0.1.2",
+        "17.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphTraversal.cpp",
@@ -39,17 +39,21 @@ int main(const int argc, const char* const argv[]) {
   return 0;
 
   {assert(valid(CCbyIndices()));
+   assert(CCbyIndices().canonical());
    assert(not valid(CCbyIndices(0,1)));
    assert(not valid(CCbyIndices(1,1)));
    CCbyIndices cc(1,1);
+   assert(not cc.canonical());
    assert(not valid(cc));
    cc.cv[0] = 1;
    assert(valid(cc));
+   assert(cc.canonical());
   }
 
   {for (size_t n = 0; n <= 10; ++n) {
      const CCbyIndices res = cc_by_dfs(GR::AdjVecUInt(GR::GT::und, n));
      assert(valid(res));
+     assert(res.canonical());
      assert(res.numcc == n);
      assert(res.cv.size() == n);
    }
@@ -57,6 +61,7 @@ int main(const int argc, const char* const argv[]) {
   {for (size_t n = 0; n <= 10; ++n) {
      const CCbyIndices res = cc_by_dfs(GR::AdjVecUInt(GR::GT::dir, n));
      assert(valid(res));
+     assert(res.canonical());
      assert(res.numcc == n);
      assert(res.cv.size() == n);
    }
@@ -64,6 +69,7 @@ int main(const int argc, const char* const argv[]) {
   {for (size_t n = 0; n <= 10; ++n) {
       const CCbyIndices res = cc_by_dfs(GR::AdjVecUInt(Generators::clique(n)));
       assert(valid(res));
+      assert(res.canonical());
       assert(res.numcc == Generators::numcc_clique(n));
       assert(res.cv.size() == n);
     }
@@ -73,6 +79,7 @@ int main(const int argc, const char* const argv[]) {
        const CCbyIndices res =
          cc_by_dfs(GR::AdjVecUInt(Generators::biclique(n,m)));
        assert(valid(res));
+       assert(res.canonical());
        assert(res.numcc == Generators::numcc_biclique(n,m));
        assert(res.cv.size() == n+m);
      }
@@ -82,6 +89,7 @@ int main(const int argc, const char* const argv[]) {
        const CCbyIndices res =
          cc_by_dfs(GR::AdjVecUInt(Generators::grid(n,m)));
        assert(valid(res));
+       assert(res.canonical());
        assert(res.numcc == Generators::numcc_grid(n,m));
        assert(res.cv.size() == n*m);
      }
@@ -89,6 +97,7 @@ int main(const int argc, const char* const argv[]) {
   {for (size_t n = 0; n <= 10; ++n) {
      const CCbyIndices res = cc_by_dfs(GR::AdjVecUInt(Generators::crown(n)));
      assert(valid(res));
+     assert(res.canonical());
      assert(res.numcc == Generators::numcc_crown(n));
      assert(res.cv.size() == 2*n);
    }
@@ -101,11 +110,20 @@ int main(const int argc, const char* const argv[]) {
    GR::AdjVecUInt G(G0);
    const CCbyIndices CC = cc_by_dfs(G);
    assert(valid(CC));
+   assert(CC.canonical());
    assert(CC.numcc == 2);
    assert(eqp(CC.cv, {1,1,1,1,2,2,2}));
    assert(eqp(CC.sizes(), {4,3}));
    assert(eqp(CC.components(), {{0,1,2,3},{4,5,6}}));
    assert(eqp(CC.components({4,3}), {{0,1,2,3},{4,5,6}}));
+  }
+
+  {CCbyIndices CC{{1,1,2,3,2,1,2,3,4,4},4};
+   assert(valid(CC));
+   assert(CC.canonical());
+   CC.cv[2]=3;
+   assert(valid(CC));
+   assert(not CC.canonical());
   }
 
 }

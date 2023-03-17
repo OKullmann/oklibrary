@@ -101,6 +101,17 @@ namespace GraphTraversal {
       return res;
     }
 
+    // The first cc is 1, the next one 2, and so on:
+    bool canonical() const noexcept {
+      if (cv.empty()) return true;
+      if (cv[0] != 1) return false;
+      for (size_t next = 2; const size_t x : cv) {
+        if (x > next) return false;
+        else if (x == next) ++next;
+      }
+      return true;
+    }
+
     bool operator ==(const CCbyIndices&) const noexcept = default;
 
     friend std::ostream& operator <<(std::ostream& out, const CCbyIndices& C) {
@@ -137,6 +148,11 @@ namespace GraphTraversal {
   };
 
 
+  /*
+     The vertices reachable from vertex v=0 have cc-number 1, the
+     vertices reachable from the first open vertex then cc-number 2,
+     and so on:
+  */
   CCbyIndices cc_by_dfs(const GR::AdjVecUInt& G) {
     const size_t n = G.n();
     CCbyIndices res(n);
@@ -154,6 +170,7 @@ namespace GraphTraversal {
       }
     }
     assert(valid(res));
+    assert(res.canonical());
     return res;
   }
 
