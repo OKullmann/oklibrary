@@ -1191,6 +1191,7 @@ namespace Bicliques2SAT {
 
   */
   struct GlobRepl {
+    typedef GraphTraversal::size_t size_t;
     typedef DimacsTools::GslicedCNF GslicedCNF;
     const GslicedCNF& F;
     typedef ConflictGraphs::AllOcc AllOcc;
@@ -1198,14 +1199,70 @@ namespace Bicliques2SAT {
     typedef GraphTraversal::CCbyIndices CCbyIndices;
     const CCbyIndices CC;
     typedef CCbyIndices::sizes_t sizes_t;
-    const sizes_t sizes;
+    const sizes_t sizes; // for a cc its size (at index cc-1)
+    const size_t numntcc; // number of non-trivial connected components
     typedef CCbyIndices::components_t components_t;
-    const components_t ccvec;
+    const components_t ccvec; // for a cc the (sorted) clause-indices
+    typedef CCbyIndices::indvec_t indvec_t;
+    const indvec_t ntcc; // the non-trivial components (creating a
+                         // 0-based numbering 0, ..., numntcc-1)
+    typedef DimacsTools::varlist_t varlist_t;
+    typedef std::vector<varlist_t> ntvar_t;
+    const ntvar_t ntvar; // ntvar[i] are the (sorted) variables of cc ntcc[i]
 
     explicit GlobRepl(const GslicedCNF& F) noexcept
-    : F(F), occ(ConflictGraphs::allocc(F.O())),
+    : F(F), occ(ConflictGraphs::allocc(F.G())),
       CC(ConflictGraphs::cc_by_dfs(F.G(), occ)), sizes(CC.sizes()),
-      ccvec(CC.components(sizes)) {}
+      numntcc(count_ntcc()), ccvec(CC.components(sizes)),
+      ntcc(create_ntcc()), ntvar(create_ntvar()) {}
+
+    bool nontrivial(const size_t c) const noexcept {
+      assert(CC.valid_cc(c));
+      assert(sizes[c-1] >= 1);
+      return sizes[c-1] >= 2;
+    }
+    size_t count_ntcc() const noexcept {
+      size_t res = 0;
+      for (size_t c = 1; c <= CC.numcc; ++c) res += nontrivial(c);
+      return res;
+    }
+    indvec_t create_ntcc() const {
+      indvec_t res; res.reserve(numntcc);
+      for (size_t c = 1; c <= CC.numcc; ++c)
+        if (nontrivial(c)) res.push_back(c);
+      return res;
+    }
+    ntvar_t create_ntvar() const {
+      ntvar_t res(numntcc);
+      for (size_t i = 0; i < numntcc; ++i) {
+        const size_t c = ntcc[i];
+        const auto& clis = ccvec[c-1];
+        DimacsTools::VarSet V;
+        for (const auto cli : clis) {
+          const DimacsTools::VarSet Vi = DimacsTools::var(F.G().second[cli]);
+          V.insert(Vi.begin(), Vi.end());
+        }
+        res[i].assign(V.begin(), V.end());
+      }
+      return res;
+    }
+
+    // The clause-indices in the result refer to the clauses in the
+    // component, in that order:
+    DimacsTools::DimacsClauseList
+    solve_cc(const size_t c,
+             std::ostream* const log,
+             const alg2_options_t ao,
+             const size_t sb_rounds,
+             const FloatingPoint::uint_t sec,
+             const RandGen::vec_eseed_t& seeds) {
+      assert(CC.valid_cc(c));
+      // Extract conflict graph for component i, renamed to variables 1, ...
+
+      // optimise conflict graph
+
+      // 
+    }
   };
 
 }

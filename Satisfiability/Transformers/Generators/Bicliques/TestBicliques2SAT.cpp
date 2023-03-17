@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "12.3.2023",
+        "0.5.2",
+        "17.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -363,6 +363,40 @@ int main(const int argc, const char* const argv[]) {
        assert(is_bcc(res.bcc, G));
      }
     }
+  }
+
+  {using namespace DimacsTools;
+   std::istringstream is;
+   is.str("p cnf 10 5\n"
+          "a 3 7 5 8 0\n"
+          "e  2 1  0\n"
+          "a 4  9 10 6 0\n"
+          "-1  10 0\n"               // purely other
+          " -5 -3 0\n"               // purely global : -3 -5
+          "-8 4 -10  3 0\n"          // mixed         : 3 -8
+          "-7  10 -1  6 0\n"         // mixed         : -7
+          "4 -9 7 0\n");             // mixed         : 7
+   const GslicedCNF F = read_strict_GslicedCNF(is);
+   std::ostringstream os;
+   os << F;
+   assert(os.str() ==
+          "p cnf 10 5\n"
+          "a 3 5 7 8 0\n"
+          "e  2 1  0\n"
+          "a 4  9 10 6 0\n"
+          "-1 10 0\n"
+          "-3 -5 0\n"
+          "4 -10 3 -8 0\n"
+          "-1 6 10 -7 0\n"
+          "4 -9 7 0\n");
+   const GlobRepl GR(F);
+   assert(GR.F == F);
+   assert((GR.CC == GraphTraversal::CCbyIndices{{1,2,2,3,3},3}));
+   assert(eqp(GR.sizes, {1,2,2}));
+   assert(GR.numntcc == 2);
+   assert(eqp(GR.ccvec, {{0},{1,2},{3,4}}));
+   assert(eqp(GR.ntcc, {2,3}));
+   assert(eqp(GR.ntvar, {{Var(3),Var(5),Var(8)}, {Var(7)}}));
   }
 
 }
