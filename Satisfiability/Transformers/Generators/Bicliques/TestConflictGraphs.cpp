@@ -179,14 +179,16 @@ int main(const int argc, const char* const argv[]) {
           "a 3 7 5 8 0\n"
           "e  2 1  0\n"
           "a 4  9 10 6 0\n"
-          "-1  10 0\n"               // 0 purely other           cc=0
-          " -5 -3 0\n"               // 1 purely global : -3 -5  cc=1
-          "-8 4 -10  3 0\n"          // 2 mixed         : 3 -8   cc=1
-          "-7  10 -1  6 0\n"         // 3 mixed         : -7     cc=2
-          "4 -9 7 0\n");             // 4 mixed         : 7      cc=2
+          "-1  10 0\n"               // 0 purely other           cc=1
+          " -5 -3 0\n"               // 1 purely global : -3 -5  cc=2
+          "-8 4 -10  3 0\n"          // 2 mixed         : 3 -8   cc=2
+          "-7  10 -1  6 0\n"         // 3 mixed         : -7     cc=3
+          "4 -9 7 0\n");             // 4 mixed         : 7      cc=3
    const GslicedCNF F = read_strict_GslicedCNF(is);
    const Bicliques2SAT::GlobRepl GR(F);
    assert(eqp(GR.F.G().first, {8,5}));
+   assert(GR.numntcc == 2);
+   assert(eqp(GR.ntcc, {2,3}));
    {const GRT G = conflictgraph({0,1,2,3,4}, {Var(3),Var(5),Var(7),Var(8)},
                                 GR.occ);
     assert(G == conflictgraph(F.G()));
@@ -202,14 +204,21 @@ int main(const int argc, const char* const argv[]) {
    {const GRT G = conflictgraph({1,2}, {Var(3),Var(5),Var(7),Var(8)},
                                 GR.occ);
     assert(G == GRT(Generators::clique(2)));
+    assert(G == GR.conflictgraph(0));
    }
    {const GRT G = conflictgraph({1,2}, {Var(3)},
                                 GR.occ);
     assert(G == GRT(Generators::clique(2)));
+    assert(G == GR.conflictgraph(0));
    }
    {const GRT G = conflictgraph({1,2}, {Var(5)},
                                 GR.occ);
     assert(G == GRT(und, 2));
+   }
+   {const GRT G = conflictgraph({3,4}, {Var(7)},
+                                GR.occ);
+    assert(G == GRT(Generators::clique(2)));
+    assert(G == GR.conflictgraph(1));
    }
   }
 

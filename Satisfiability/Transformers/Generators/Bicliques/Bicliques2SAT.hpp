@@ -1247,6 +1247,14 @@ namespace Bicliques2SAT {
       return res;
     }
 
+    typedef Graphs::AdjVecUInt graph_t;
+    graph_t conflictgraph(const size_t i) const {
+      assert(i < numntcc);
+      const auto cc = ntcc[i];
+      assert(nontrivial(cc));
+      return ConflictGraphs::conflictgraph(ccvec[cc-1], ntvar[i], occ);
+    }
+
     // The clause-indices in the result refer to the clauses in the
     // component, in that order:
     DimacsTools::DimacsClauseList
