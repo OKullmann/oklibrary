@@ -9,16 +9,23 @@ License, or any later version. */
 
   Conflict graphs of clause-sets etc.
 
-   - Import from Random/ClauseSets.hpp
+   - Import from Random/ClauseSets.hpp:
     - var_t : typedef for gen_uint_t
+      size_t = var_t
     - Var, Lit, Clause, ClauseList, dimacs_pars, DimacsClauseList
+    - varlist_t
+    - indexlist_t = std::vector<size_t>
 
    General algorithmic tools:
     - empty_intersection(RAN r1, RAN r2)
+    - list2map(vector<X>) -> map<x,size_t>
+    - filter_rename(indexlist_t, std::map) -> indexlist_t :
+        remove elements not in the map, and rename the rest.
 
    General tools for clause-sets:
     - ewcompl(Clause) -> Clause (elementwise complementation)
     - ewcompl(ClauseList) -> ClauseList
+
 
    The conflict-graph:
 
@@ -32,7 +39,9 @@ License, or any later version. */
        occurrences)
      - allocc(DimacsClauseList) -> AllOcc
      - conflictgraph(var_t c, AllOcc) -> AdjVecUInt
-         by adding bicliques
+         (works by adding bicliques)
+     - conflictgraph(indexlist_t, varlist_t, AllOcc) :
+         more generally, for a list of clauses and variables
      - conflictgraph(DimacsClauseList) -> AdjVecUInt
 
     - cc_by_dfs(DimacsClauseList) -> CCbyIndices
@@ -55,6 +64,7 @@ License, or any later version. */
 #include <vector>
 #include <array>
 #include <stack>
+#include <map>
 
 #include <cassert>
 
@@ -73,6 +83,10 @@ namespace ConflictGraphs {
   typedef RandGen::ClauseList ClauseList;
   typedef RandGen::dimacs_pars dimacs_pars;
   typedef RandGen::DimacsClauseList DimacsClauseList;
+  typedef DimacsTools::varlist_t varlist_t;
+
+  typedef var_t size_t;
+  typedef std::vector<size_t> indexlist_t;
 
 
   // For sorted ranges decide whether their intersection is empty:
@@ -229,6 +243,47 @@ namespace ConflictGraphs {
   }
   Graphs::AdjVecUInt conflictgraph(const DimacsClauseList& F) {
     return conflictgraph(F.first.c, allocc(F));
+  }
+
+  // Translate list (x_1, ..., x_n) to map x_i -> i :
+  template <typename X>
+  std::map<X, size_t> list2map(const std::vector<X>& v) {
+    std::map<X, size_t> res;
+    for (size_t i = 0; i < v.size(); ++i) res.insert({v[i], i});
+    return res;
+  }
+  indexlist_t filter_rename(const indexlist_t& L,
+                            const std::map<size_t, size_t>& m) {
+    indexlist_t res;
+    const auto end = m.end();
+    for (const size_t x : L) {
+      const auto f = m.find(x);
+      if (f != end) res.push_back(f->second);
+    }
+    return res;
+  }
+
+  // More generally, use a list of clause-indices and a list of variables:
+  Graphs::AdjVecUInt conflictgraph(const indexlist_t& F, const varlist_t& V,
+                                   const AllOcc& O) {
+    const auto c = F.size(), n = V.size();
+    Graphs::AdjVecUInt G(Graphs::GT::und, c);
+    if (c <= 1 or n == 0) return G;
+    Graphs::AdjVecUInt::adjlist_t A(c);
+    const auto map = list2map(F);
+    for (size_t i = 0; i < n; ++i) {
+      const Var v = V[i];
+      Graphs::add_biclique(A, Graphs::GT::und,
+        filter_rename(O[Lit(v)], map), filter_rename(O[-Lit(v)], map));
+    }
+    for (auto& v : A) {
+      std::ranges::sort(v);
+      const auto dup = std::ranges::unique(v);
+      v.erase(dup.begin(), dup.end());
+    }
+    G.set(std::move(A));
+    assert(A.empty());
+    return G;
   }
 
 

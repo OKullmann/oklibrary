@@ -22,12 +22,13 @@ License, or any later version. */
 
 #include "ConflictGraphs.hpp"
 #include "Generators.hpp"
+#include "Bicliques2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "15.3.2023",
+        "0.3.0",
+        "17.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -169,6 +170,47 @@ int main(const int argc, const char* const argv[]) {
    const auto G1 = conflictgraph_bydef(F);
    const auto G2 = conflictgraph(F);
    assert(G1 == G2);
+  }
+
+  {using GRT = Graphs::AdjVecUInt;
+   const auto und = Graphs::GT::und;
+   std::istringstream is;
+   is.str("p cnf 10 5\n"
+          "a 3 7 5 8 0\n"
+          "e  2 1  0\n"
+          "a 4  9 10 6 0\n"
+          "-1  10 0\n"               // 0 purely other           cc=0
+          " -5 -3 0\n"               // 1 purely global : -3 -5  cc=1
+          "-8 4 -10  3 0\n"          // 2 mixed         : 3 -8   cc=1
+          "-7  10 -1  6 0\n"         // 3 mixed         : -7     cc=2
+          "4 -9 7 0\n");             // 4 mixed         : 7      cc=2
+   const GslicedCNF F = read_strict_GslicedCNF(is);
+   const Bicliques2SAT::GlobRepl GR(F);
+   assert(eqp(GR.F.G().first, {8,5}));
+   {const GRT G = conflictgraph({0,1,2,3,4}, {Var(3),Var(5),Var(7),Var(8)},
+                                GR.occ);
+    assert(G == conflictgraph(F.G()));
+   }
+   {const GRT G = conflictgraph({}, {Var(3),Var(5),Var(7),Var(8)},
+                                GR.occ);
+    assert(G == GRT(und));
+   }
+   {const GRT G = conflictgraph({0,1,2,3,4}, {},
+                                GR.occ);
+    assert(G == GRT(und,5));
+   }
+   {const GRT G = conflictgraph({1,2}, {Var(3),Var(5),Var(7),Var(8)},
+                                GR.occ);
+    assert(G == GRT(Generators::clique(2)));
+   }
+   {const GRT G = conflictgraph({1,2}, {Var(3)},
+                                GR.occ);
+    assert(G == GRT(Generators::clique(2)));
+   }
+   {const GRT G = conflictgraph({1,2}, {Var(5)},
+                                GR.occ);
+    assert(G == GRT(und, 2));
+   }
   }
 
 }
