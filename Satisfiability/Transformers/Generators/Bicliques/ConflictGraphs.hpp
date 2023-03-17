@@ -28,7 +28,8 @@ License, or any later version. */
     - More efficient approach by occurrence-lists:
      - struct OccVar : containing an array of size 2 of vectors of
        literal-occurrence-indices
-     - struct AllOcc : contains a vector of OccVar
+     - struct AllOcc : contains a vector of OccVar (for every variable its
+       occurrences)
      - allocc(DimacsClauseList) -> AllOcc
      - conflictgraph(var_t c, AllOcc) -> AdjVecUInt
          by adding bicliques
@@ -145,8 +146,8 @@ namespace ConflictGraphs {
 
   // The occurrences of a variable:
   struct OccVar {
-    typedef std::vector<var_t> lit_occ_t;
-    typedef std::array<lit_occ_t, 2> var_occ_t; // 0 = false
+    typedef std::vector<var_t> lit_occ_t; // clause-index
+    typedef std::array<lit_occ_t, 2> var_occ_t; // index 0 -> false (negative)
     var_occ_t o;
 
     OccVar() noexcept = default;
