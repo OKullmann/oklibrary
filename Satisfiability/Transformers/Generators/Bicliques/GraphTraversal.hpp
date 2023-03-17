@@ -56,7 +56,7 @@ namespace GraphTraversal {
   struct CCbyIndices {
     typedef std::vector<size_t> indvec_t;
     indvec_t cv; // mapping every vertex-index to its cc-index (>= 1)
-    // the valid vertices are the valid indices of cv
+    // the valid vertices are the valid indices of cv, the cc's are the values
     size_t numcc; // number of connected components
     // the valid cc-indices are 1, ..., numcc
 
@@ -102,6 +102,13 @@ namespace GraphTraversal {
     }
 
     bool operator ==(const CCbyIndices&) const noexcept = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const CCbyIndices& C) {
+      out << C.numcc << ";";
+      for (size_t i = 0; i < C.cv.size(); ++i)
+        out << " " << i << ":" << C.cv[i];
+      return out << "\n";
+    }
   };
   // Checking that the elements of cv are exactly the numbers in
   // [1, ..., numcc]:
