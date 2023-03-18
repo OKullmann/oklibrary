@@ -1,5 +1,5 @@
 # Oliver Kullman, 20.2.2022 (Swansea
-# Copyright 2022 Oliver Kullmann
+# Copyright 2022, 2023 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -53,6 +53,9 @@ QCNF2gCNF_debug : QCNF2gCNF.cpp DimacsTools.hpp
 
 CNFBCC : CNFBCC.cpp Bicliques2SAT.hpp BCC2SAT.hpp
 CNFBCC_debug : CNFBCC.cpp Bicliques2SAT.hpp BCC2SAT.hpp
+
+GCGeq : GCGeq.cpp Bicliques2SAT.hpp DimacsTools.hpp
+GCGeq_debug : GCGeq.cpp Bicliques2SAT.hpp DimacsTools.hpp
 
 # -------------------------
 

@@ -51,6 +51,8 @@ License, or any later version. */
     - read_strict_clause -> Clause :
         via read_string_literal, literals are read, and pushed into the
         vector, until 0 is read; end-of-line then asserted.
+      Remark: all clause-reading-functions read including the end-of-line
+      character.
     - read_strict_Dimacs -> DimacsClauseList :
         first read_strict_dimacs_pars, establishing c, then reading exactly
         c clauses via read_strict_clause.
@@ -116,7 +118,7 @@ License, or any later version. */
       - operator ==
    - valid(GslicedCNF) : SF is valid and has sorted elements and V == var(G)
    - operator << for GslicedCNF
-   - read_stringGslicedCNF(istream) -> GslicedCNF
+   - read_strict_GslicedCNF(istream) -> GslicedCNF
 
 
    - Using external SAT solvers:
@@ -433,6 +435,7 @@ namespace DimacsTools {
     Clause res;
     for (Lit x; (x = rename(read_strict_literal(in), m)) != Lit(0);)
       if (x != Lit(0,-1)) res.push_back(x);
+    [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
     return res;
   }
 
@@ -444,6 +447,7 @@ namespace DimacsTools {
     for (Lit x; (x = read_strict_literal(in)) != Lit(0);)
       if (vs.contains(x.v)) res[0].push_back(x);
       else res[1].push_back(x);
+    [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
     return res;
   }
 
