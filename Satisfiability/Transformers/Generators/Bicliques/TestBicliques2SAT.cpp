@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "17.3.2023",
+        "0.5.4",
+        "18.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -368,27 +368,20 @@ int main(const int argc, const char* const argv[]) {
   {using namespace DimacsTools;
    std::istringstream is;
    is.str("p cnf 10 5\n"
-          "a 3 7 5 8 0\n"
-          "e  2 1  0\n"
-          "a 4  9 10 6 0\n"
-          "-1  10 0\n"               // purely other
-          " -5 -3 0\n"               // purely global : -3 -5
-          "-8 4 -10  3 0\n"          // mixed         : 3 -8
-          "-7  10 -1  6 0\n"         // mixed         : -7
-          "4 -9 7 0\n");             // mixed         : 7
+          "a 3 5 7 8 0\n"
+          "e 1 2 0\n"
+          "a 4 6 9 10 0\n"
+          "-1 10      0\n"          // 0
+          "           -3 -5 0\n"    // 1
+          "4 -10      3 -8 0\n"     // 2
+          "-1 6 10    -7 0\n"       // 3
+          "4 -9       7 0\n");      // 4
    const GslicedCNF F = read_strict_GslicedCNF(is);
    std::ostringstream os;
    os << F;
    assert(os.str() ==
-          "p cnf 10 5\n"
-          "a 3 5 7 8 0\n"
-          "e  2 1  0\n"
-          "a 4  9 10 6 0\n"
-          "-1 10 0\n"
-          "-3 -5 0\n"
-          "4 -10 3 -8 0\n"
-          "-1 6 10 -7 0\n"
-          "4 -9 7 0\n");
+       "p cnf 10 5\n" "a 3 5 7 8 0\n" "e 1 2 0\n" "a 4 6 9 10 0\n"
+       "-1 10 0\n" "-3 -5 0\n" "4 -10 3 -8 0\n" "-1 6 10 -7 0\n" "4 -9 7 0\n");
    const GlobRepl GR(F);
    assert(GR.F == F);
    assert((GR.CC == GraphTraversal::CCbyIndices{{1,2,2,3,3},3}));
@@ -398,10 +391,75 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(GR.ntcc, {2,3}));
    assert(eqp(GR.ntvar, {{Var(3),Var(5),Var(8)}, {Var(7)}}));
 
-   GlobRepl GR2(GR);
-   // assert(GR2 == GR); GCC 10.3 compiler error CERR
-   assert(gcg_equivalence(GR, GR2, nullptr));
-   // further tests to be added XXX
+   {const GlobRepl GR2(GR);
+    // assert(GR2 == GR); GCC 10.3 compiler error CERR
+    assert(gcg_equivalence(GR, GR2, nullptr) == GCGE::eq);
+   }
+   {GslicedCNF F2(F);
+    F2.G().second[0].push_back(Lit(-5));
+    assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::eq);
+    F2.G().second[0].push_back(Lit(-8));
+    assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::eq);
+    F2.G().second[0].back().neg();
+    assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::diff_sizes);
+   }
+
+   {std::istringstream is;
+    is.str("p cnf 10 5\n"
+           "a 3 5 0\n"
+           "e 1 2 0\n"
+           "a 4 6 9 10 0\n"
+           "-1 10      0\n"       // 0
+           "           -3 0\n"    // 1
+           "4 -10      3 0\n"     // 2
+           "-1 6 10    -5 0\n"    // 3
+           "4 -9       5 0\n");   // 4
+    const auto F2 = read_strict_GslicedCNF(is);
+    assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::eq);
+    {auto F3(F2);
+     F3.O().second[1].push_back(Lit(2));
+     assert(gcg_equivalence(GR, GlobRepl(F3), nullptr) == GCGE::diff_O);}
+   }
+
+   {std::istringstream is;
+    is.str("p cnf 10 5\n"
+           "a 3 5 0\n"
+           "e 1 2 0\n"
+           "a 4 6 9 10 0\n"
+           "-1 10      0\n"       // 0
+           "           -3 0\n"    // 1
+           "4 -10      -5 0\n"    // 2
+           "-1 6 10    3 0\n"     // 3
+           "4 -9       5 0\n");   // 4
+    const auto F2 = read_strict_GslicedCNF(is);
+    assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::diff_comp);
+   }
+
+   {std::istringstream is;
+    is.str("p cnf 10 5\n"
+           "a 3 5 7 0\n"
+           "e 1 2 0\n"
+           "a 4 6 9 10 0\n"
+           "-1 10      0\n"       // 0
+           "           3 0\n"     // 1
+           "4 -10      -3 5 0\n"  // 2
+           "-1 6 10    -5 7 0\n"  // 3
+           "4 -9       -7 0\n");  // 4
+    const auto F = read_strict_GslicedCNF(is);
+    is.str("p cnf 10 5\n"
+           "a 3 5 7 0\n"
+           "e 1 2 0\n"
+           "a 4 6 9 10 0\n"
+           "-1 10      0\n"       // 0
+           "           3 0\n"     // 1
+           "4 -10      -3 5 0\n"  // 2
+           "-1 6 10    -5 7 0\n"  // 3
+           "4 -9       -7 3 0\n");  // 4
+    const auto F2 = read_strict_GslicedCNF(is);
+    assert(gcg_equivalence(GlobRepl(F), GlobRepl(F2), nullptr)
+           == GCGE::diff_cg);
+   }
+
   }
 
 }

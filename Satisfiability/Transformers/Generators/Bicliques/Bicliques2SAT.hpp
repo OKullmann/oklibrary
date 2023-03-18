@@ -1281,32 +1281,38 @@ namespace Bicliques2SAT {
 
   };
 
-  bool gcg_equivalence(const GlobRepl& G1, const GlobRepl& G2,
+
+  enum class GCGE {
+    eq=0,
+    diff_O=1,
+    diff_sizes=2,
+    diff_comp=3,
+    diff_cg=4
+  };
+  GCGE gcg_equivalence(const GlobRepl& G1, const GlobRepl& G2,
                        std::ostream* const log) noexcept {
+    assert(valid(G1.F));
+    assert(valid(G2.F));
     if (G1.F.O() != G2.F.O()) {
-      *log << "other different\n";
-      return false;
-    }
-    if (G1.F.G().first != G2.F.G().first) {
-      *log << "global parameters different\n";
-      return false;
+      if (log) *log << "other different\n";
+      return GCGE::diff_O;
     }
     if (G1.sizes != G2.sizes) {
-      *log << "sizes of components differ\n";
-      return false;
+      if (log) *log << "sizes of components differ\n";
+      return GCGE::diff_sizes;
     }
     assert(G1.numntcc == G2.numntcc);
     assert(G1.ntcc == G2.ntcc);
     if (G1.ccvec != G2.ccvec) {
-      *log << "components differ\n";
-      return false;
+      if (log) *log << "components differ\n";
+      return GCGE::diff_comp;
     }
     for (size_t i = 0; i < G1.numntcc; ++i)
       if (G1.conflictgraph(i) != G2.conflictgraph(i)) {
-        *log << "conflict-graphs " << i << " differ\n";
-        return false;
+        if (log) *log << "conflict-graphs " << i << " differ\n";
+        return GCGE::diff_cg;
       }
-    return true;
+    return GCGE::eq;
   }
 
 }
