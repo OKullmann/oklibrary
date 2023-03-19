@@ -1268,6 +1268,26 @@ namespace Bicliques2SAT {
     }
   public :
 
+    // ignoring pure universal literals:
+    bool is_pure_other(const size_t i) const noexcept {
+      const size_t c = F.O().first.c;
+      assert(i < c);
+      return sizes[CC.cv[i]-1] == 1;
+    }
+    // The pure "other" clauses:
+    void E0(std::ostream& out) const {
+      const size_t n = F.O().first.n;
+      const size_t c = CC.numcc - numntcc;
+      out << dimacs_pars{n,c};
+      size_t count = 0;
+      for (size_t i = 0; i < F.O().first.c; ++i)
+        if (is_pure_other(i)) {
+          out << F.O().second[i];
+          ++count;
+        }
+      assert(count == c);
+    }
+
     typedef Graphs::AdjVecUInt graph_t;
     graph_t conflictgraph(const size_t i) const {
       assert(i < numntcc);
