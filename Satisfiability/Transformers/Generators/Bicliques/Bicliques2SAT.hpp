@@ -1271,7 +1271,7 @@ namespace Bicliques2SAT {
 
     // ignoring pure universal literals:
     bool is_pure_other(const size_t i) const noexcept {
-      const size_t c = F.O().first.c;
+      [[maybe_unused]]const size_t c = F.O().first.c;
       assert(i < c);
       return sizes[CC.cv[i]-1] == 1;
     }
