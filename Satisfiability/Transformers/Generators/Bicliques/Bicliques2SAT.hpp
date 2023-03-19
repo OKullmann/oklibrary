@@ -201,6 +201,7 @@ TODOS:
 #include <filesystem>
 #include <type_traits>
 #include <algorithm>
+#include <map>
 
 #include <cstdint>
 #include <cassert>
@@ -1213,18 +1214,24 @@ namespace Bicliques2SAT {
     typedef DimacsTools::varlist_t varlist_t;
     typedef std::vector<varlist_t> ntvar_t;
     const ntvar_t ntvar; // ntvar[i] are the (sorted) variables of cc ntcc[i]
+    typedef RandGen::dimacs_pars dimacs_pars;
+    typedef std::map<dimacs_pars, indvec_t> ntcc_map_t;
+    const ntcc_map_t ntcc_map; // (n,c) -> list of nt-cc's
+
 
     explicit GlobRepl(const GslicedCNF& F) noexcept
     : F(F), occ(ConflictGraphs::allocc(F.G())),
       CC(ConflictGraphs::cc_by_dfs(F.G(), occ)), sizes(CC.sizes()),
       numntcc(count_ntcc()), ccvec(CC.components(sizes)),
-      ntcc(create_ntcc()), ntvar(create_ntvar()) {}
+      ntcc(create_ntcc()), ntvar(create_ntvar()),
+      ntcc_map(create_ntcc_map()) {}
 
     bool nontrivial(const size_t c) const noexcept {
       assert(CC.valid_cc(c));
       assert(sizes[c-1] >= 1);
       return sizes[c-1] >= 2;
     }
+  private :
     size_t count_ntcc() const noexcept {
       size_t res = 0;
       for (size_t c = 1; c <= CC.numcc; ++c) res += nontrivial(c);
@@ -1250,6 +1257,16 @@ namespace Bicliques2SAT {
       }
       return res;
     }
+    ntcc_map_t create_ntcc_map() const {
+      ntcc_map_t res;
+      for (size_t i = 0; i < numntcc; ++i) {
+        const size_t n = ntvar[i].size();
+        const size_t c = sizes[ntcc[i]-1];
+        res[{n,c}].push_back(i);
+      }
+      return res;
+    }
+  public :
 
     typedef Graphs::AdjVecUInt graph_t;
     graph_t conflictgraph(const size_t i) const {

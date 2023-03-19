@@ -371,11 +371,11 @@ int main(const int argc, const char* const argv[]) {
           "a 3 5 7 8 0\n"
           "e 1 2 0\n"
           "a 4 6 9 10 0\n"
-          "-1 10      0\n"          // 0
-          "           -3 -5 0\n"    // 1
-          "4 -10      3 -8 0\n"     // 2
-          "-1 6 10    -7 0\n"       // 3
-          "4 -9       7 0\n");      // 4
+          "-1 10      0\n"          // 0 0
+          "           -3 -5 0\n"    // 1 1 0
+          "4 -10      3 -8 0\n"     // 2 1 0
+          "-1 6 10    -7 0\n"       // 3 2 1
+          "4 -9       7 0\n");      // 4 2 1
    const GslicedCNF F = read_strict_GslicedCNF(is);
    std::ostringstream os;
    os << F;
@@ -390,6 +390,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(GR.ccvec, {{0},{1,2},{3,4}}));
    assert(eqp(GR.ntcc, {2,3}));
    assert(eqp(GR.ntvar, {{Var(3),Var(5),Var(8)}, {Var(7)}}));
+   assert(eqp(GR.ntcc_map, {{{1,2},{1}}, {{3,2},{0}}}));
 
    {const GlobRepl GR2(GR);
     // assert(GR2 == GR); GCC 10.3 compiler error CERR
