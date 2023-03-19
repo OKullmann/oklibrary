@@ -162,14 +162,14 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const alg2_options_t algopt =
-    Environment::translate<alg2_options_t>()(argv[2], sep);
   const auto bounds0 = read_bounds(argv[1]);
   if (not bounds0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
     return int(Error::faulty_parameters);
   }
+  const alg2_options_t algopt =
+    Environment::translate<alg2_options_t>()(argv[2], sep);
   const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
   const auto sec = read_uint_t(argv[4], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
