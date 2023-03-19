@@ -276,7 +276,7 @@ namespace RandGen {
 
   struct dimacs_pars {
     gen_uint_t n, c;
-    friend constexpr bool operator ==(dimacs_pars, dimacs_pars) = default;
+    friend constexpr auto operator <=>(dimacs_pars, dimacs_pars) = default;
   };
   // Extracting the formal parameters from the clause-blocks:
   inline dimacs_pars extract_parameters(const rparam_v par) noexcept {
