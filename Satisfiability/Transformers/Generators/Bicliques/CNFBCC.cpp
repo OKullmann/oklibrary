@@ -13,7 +13,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC "" "" "" "" ""
+Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC "" "" "" "" "" ""
 p cnf 1 5
 0
 0
@@ -25,7 +25,7 @@ p cnf 1 5
 Symmetry-breaking is randomised, and thus for example (using "t" for
 "timestampe")
 
-Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t ""
+Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t "" ""
 
 yields one of the following (trimmed) realisations:
 
@@ -51,11 +51,11 @@ p cnf 2 3
 
 Remarks:
 
-The last argument can be a filename or /dev/stdout for logging information
+The fifth argument can be a filename or /dev/stdout for logging information
 on the solution-process.
 
 For example
-Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile
+Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile ""
 
 p cnf 10 20
 4 0
@@ -83,7 +83,7 @@ With "less logfile" one can see the solution-process.
 
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile ""
 
 p cnf 10 20
 4 7 0
@@ -108,7 +108,22 @@ p cnf 10 20
 4 -5 7 0
 
 
+With the last argument one can stipulate an upper-bound (search-movement
+is downwards), either absolute or via "+" related to the lower-bound
+by symmetry-breaking:
+
+So
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile 10
+and
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile +1
+yield also the above result ("+1" since symmetry-breaking yields the
+lower-bound bcc >= 9).
+
+
 BUGS:
+
+-1. Inappropriate reaction yet when first run (for given B) is unsatisfiable.
+  - The asserts at the end trigger.
 
 0.
 Bicliques> cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" ""
@@ -147,7 +162,7 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.4.0",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -188,9 +203,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 6) {
+  if (argc != 7) {
     std::cerr << error <<
-      "Exactly five arguments (algo-opt, sb-rounds, timeout, seeds, log)"
+      "Exactly six arguments (algo-opt, sb-rounds, timeout, seeds, log, B)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -208,6 +223,7 @@ int main(const int argc, const char* const argv[]) {
       "Log-output-file \"" << logfile << "\" can not be opened.\n";
     return int(Error::bad_log);
   }
+  const std::string bounds_str = argv[6];
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -223,7 +239,13 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_Dimacs(std::cin);
   const auto G = ConflictGraphs::conflictgraph(F);
   assert(G.n() == F.first.c);
-  BC2SAT T(G, {DI::downwards, false, 0, 0, std::min(F.first.n, G.m())});
+  const auto bounds0 = read_bounds(bounds_str, F.first.n, G.n(), G.m());
+  if (not bounds0) {
+    std::cerr << error <<
+      "Bounds-argument faulty.\n";
+    return int(Error::faulty_parameters);
+  }
+  BC2SAT T(G, bounds0.value());
   const auto res = T.sat_solve(log, algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::upper_unsat_sb and
          res.rt != ResultType::upper_unsat and

@@ -112,7 +112,7 @@ Aborted (core dumped)
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -165,7 +165,7 @@ int main(const int argc, const char* const argv[]) {
   const auto bounds0 = read_bounds(argv[1]);
   if (not bounds0) {
     std::cerr << error <<
-      "Symmetry-breaking on, but number of rounds is zero.\n";
+      "Bounds-argument faulty.\n";
     return int(Error::faulty_parameters);
   }
   const alg2_options_t algopt =

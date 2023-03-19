@@ -19,8 +19,15 @@ License, or any later version. */
    - Functions:
     - read_var_t(string, var_t) -> var_t
     - read_uint_t(string, uint_t) -> uint_t
+    -   read_uint_with_plus(string) -> <uint_t, bool> (helper function)
+    - read_bounds(string) -> optional<Bounds>
 
    - Scoped enum Error
+
+TODOS:
+
+1. Complete read_bounds
+   - enable the direction as an argument
 
 */
 
@@ -29,6 +36,7 @@ License, or any later version. */
 
 #include <utility>
 #include <optional>
+#include <algorithm>
 
 #include <Numerics/NumTypes.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -80,6 +88,18 @@ namespace BCC2SAT {
       else return Bounds{DI::downwards, false, 0, l, u};
     }
   }
+
+  std::optional<Bicliques2SAT::Bounds> read_bounds(const std::string& s,
+      const var_t n, const var_t numver, const var_t numedg) {
+    // assuming for now DI::downwards XXX
+    using namespace Bicliques2SAT;
+    if (s.empty()) {
+      const var_t B = std::min({n, numver-1, numedg});
+      return Bounds{DI::downwards, false, 0, 0, B};
+    }
+    else return read_bounds(s);
+  }
+
 
   enum class Error {
     missing_parameters = 1,
