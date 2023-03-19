@@ -36,6 +36,33 @@ Bicliques> echo $?
 Here we have non-equivalence, signalled by a return-code 1= 0, and there
 is some explanation on the difference.
 
+Bicliques> echo -e "p cnf 4 2\na 3 4 0\ne 1 2 0\n1 2 3 4 0\n-1 -2 -3 -4 0\np cnf 3 2\na 3 3 0\ne 1 2 0\n1 2 3 0\n-1 -3 0\n" | ./GCGeq_debug
+other-parts different
+  clauses with index 2 differ:
+-1 -2 0
+-1 0
+Bicliques> echo $?
+1
+
+
+Remarks:
+
+If the inputs are in files A, B, then use
+Bicliques> cat A B | ./GCGeq_debug
+
+Also the final line of the (strict) QCNF must be concluded by end-of-line.
+If say both files don't have them, use
+> echo > EOL
+> cat A EOL B EOL | ./GCGeq_debug
+
+Above the debug-versions are used (shown by "_debug").
+
+
+TODOS:
+
+1. Output showing the differences
+2. Help should show the meaning of the return-codes.
+
 */
 
 #include <iostream>
@@ -48,8 +75,8 @@ is some explanation on the difference.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "18.3.2023",
+        "0.0.5",
+        "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GCGeq.cpp",

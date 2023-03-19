@@ -1362,7 +1362,21 @@ namespace Bicliques2SAT {
     assert(valid(G1.F));
     assert(valid(G2.F));
     if (G1.F.O() != G2.F.O()) {
-      if (log) *log << "other different\n";
+      if (log) {
+        *log << "other-parts different\n";
+        const auto dpars = G1.F.O().first;
+        if (dpars != G2.F.O().first)
+          *log << "  parameters not equal\n";
+        else {
+          for (size_t i = 0; i < dpars.c; ++i) {
+            const auto& C1 = G1.F.O().second[i], C2 = G2.F.O().second[i];
+            if (C1 != C2) {
+              *log << "  clauses with index " << i+1 << " differ:\n" <<C1<<C2;
+              break;
+            }
+          }
+        }
+      }
       return GCGE::diff_O;
     }
     if (G1.sizes != G2.sizes) {

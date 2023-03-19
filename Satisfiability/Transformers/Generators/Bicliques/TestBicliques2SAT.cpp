@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -444,7 +444,14 @@ int main(const int argc, const char* const argv[]) {
     assert(gcg_equivalence(GR, GlobRepl(F2), nullptr) == GCGE::eq);
     {auto F3(F2);
      F3.O().second[1].push_back(Lit(2));
-     assert(gcg_equivalence(GR, GlobRepl(F3), nullptr) == GCGE::diff_O);}
+     std::ostringstream os;
+     assert(gcg_equivalence(GR, GlobRepl(F3), &os) == GCGE::diff_O);
+     assert(os.str() ==
+            "other-parts different\n"
+            "  clauses with index 2 differ:\n"
+            "0\n"
+            "2 0\n");
+    }
    }
 
    {std::istringstream is;
