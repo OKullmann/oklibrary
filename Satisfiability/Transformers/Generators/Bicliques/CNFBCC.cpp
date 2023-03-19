@@ -164,7 +164,7 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -181,7 +181,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " algo-options sb-rounds timeout seeds log\n\n"
+         << " algo-options sb-rounds timeout seeds log B\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"
@@ -189,10 +189,12 @@ namespace {
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
-    " log            : " << "filename for solving-log, default is null\n\n"
+    " log            : " << "filename for solving-log, default is null\n"
+    " B              : " << "[+]upper-bound, default is automatic upper bound\n"
     " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
+    "  - Using \"+\" for B means the increment added to the lower-bound.\n"
     "  - The representation is exact (for the conflict-*graph*) iff considering bcp.\n\n"
 ;
     return true;
