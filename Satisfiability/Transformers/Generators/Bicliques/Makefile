@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -56,6 +56,9 @@ CNFBCC_debug : CNFBCC.cpp Bicliques2SAT.hpp BCC2SAT.hpp
 
 GCGeq : GCGeq.cpp Bicliques2SAT.hpp DimacsTools.hpp
 GCGeq_debug : GCGeq.cpp Bicliques2SAT.hpp DimacsTools.hpp
+
+Disassemble : Disassemble.cpp Disassemble.hpp DimacsTools.hpp Bicliques2SAT.hpp
+Disassemble_debug : Disassemble.cpp Disassemble.hpp DimacsTools.hpp Bicliques2SAT.hpp
 
 # -------------------------
 
