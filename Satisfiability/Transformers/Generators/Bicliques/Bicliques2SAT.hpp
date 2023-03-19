@@ -1207,7 +1207,7 @@ namespace Bicliques2SAT {
     const sizes_t sizes; // for a cc its size (at index cc-1)
     const size_t numntcc; // number of non-trivial connected components
     typedef CCbyIndices::components_t components_t;
-    const components_t ccvec; // for a cc the (sorted) clause-indices
+    const components_t ccvec; // for a cc the (sorted) clause-indices (at cc-1)
     typedef CCbyIndices::indvec_t indvec_t;
     const indvec_t ntcc; // the non-trivial components (creating a
                          // 0-based numbering 0, ..., numntcc-1)
@@ -1217,6 +1217,7 @@ namespace Bicliques2SAT {
     typedef RandGen::dimacs_pars dimacs_pars;
     typedef std::map<dimacs_pars, indvec_t> ntcc_map_t;
     const ntcc_map_t ntcc_map; // (n,c) -> list of nt-cc's
+    typedef ntcc_map_t::const_iterator map_it;
 
 
     explicit GlobRepl(const GslicedCNF& F) noexcept
@@ -1286,6 +1287,36 @@ namespace Bicliques2SAT {
           ++count;
         }
       assert(count == c);
+    }
+    // The other-part at it, index i:
+    void E(std::ostream& out, const map_it& it, const size_t i) const {
+      const auto [P, L] = *it;
+      assert(i < L.size());
+      const size_t n = F.O().first.n, c = P.c;
+      assert(c >= 2);
+      out << dimacs_pars{n,c};
+      const size_t cci = L[i];
+      const size_t cc = ntcc[cci];
+      const auto& clause_indices = ccvec[cc-1];
+      assert(clause_indices.size() == c);
+      for (const size_t i : clause_indices)
+        out << F.O().second[i];
+    }
+    // The global-part at it, index i, variables renamed to 1, ... :
+    void A(std::ostream& out, const map_it& it, const size_t i) const {
+      const auto [P, L] = *it;
+      assert(i < L.size());
+      const auto [n,c] = P;
+      assert(n >= 1); assert(c >= 2);
+      out << dimacs_pars{n,c};
+      const size_t cci = L[i];
+      const size_t cc = ntcc[cci];
+      const auto& clause_indices = ccvec[cc-1];
+      assert(clause_indices.size() == c);
+      const auto& V = ntvar[cci];
+      const auto m = DimacsTools::list2map(V);
+      for (const size_t i : clause_indices)
+        out << DimacsTools::rename(F.G().second[i], m);
     }
 
     typedef Graphs::AdjVecUInt graph_t;

@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -397,6 +397,25 @@ int main(const int argc, const char* const argv[]) {
    assert(os);
    assert(os.str() ==
           "p cnf 10 1\n" "-1 10 0\n");
+   {auto it = GR.ntcc_map.begin();
+    os.clear(); os.str("");
+    GR.A(os, it, 0);
+    assert(os.str() ==
+           "p cnf 1 2\n" "-1 0\n" "1 0\n");
+    os.clear(); os.str("");
+    GR.E(os, it, 0);
+    assert(os.str() ==
+           "p cnf 10 2\n" "-1 6 10 0\n" "4 -9 0\n");
+    ++it;
+    os.clear(); os.str("");
+    GR.A(os, it, 0);
+    assert(os.str() ==
+           "p cnf 3 2\n" "-1 -2 0\n" "1 -3 0\n");
+    os.clear(); os.str("");
+    GR.E(os, it, 0);
+    assert(os.str() ==
+           "p cnf 10 2\n" "0\n" "4 -10 0\n");
+   }
 
    {const GlobRepl GR2(GR);
     // assert(GR2 == GR); GCC 10.3 compiler error CERR
@@ -471,20 +490,38 @@ int main(const int argc, const char* const argv[]) {
     is.str("p cnf 7 6\n"
            "a 3 5 7 0\n"
            "e 1 2 4 6 0\n"
-           "3 2 -4 0\n"
-           "-3 5 1 6 0\n"
-           "-2 -4 0\n"
-           "-5 -6 0\n"
-           "7 2 4 6 0\n"
-           "-7 -2 -4 -6 0\n");
+           "3 2 -4 0\n"        // 0 0
+           "-3 5 1 6 0\n"      // 0 0
+           "-2 -4 0\n"         // 1
+           "-5 -6 0\n"         // 0 0
+           "7 2 4 6 0\n"       // 2 1
+           "-7 -2 -4 -6 0\n"); // 2 1
      const auto F = read_strict_GslicedCNF(is);
      const GlobRepl GR(F);
-     {std::ostringstream os;
-      GR.E0(os);
-      assert(os);
-      assert(os.str() ==
-             "p cnf 6 1\n" "-2 -4 0\n");
-     }
+     assert(eqp(GR.ntcc_map, {{{1,2},{1}}, {{2,3},{0}}}));
+     std::ostringstream os;
+     GR.E0(os);
+     assert(os);
+     assert(os.str() ==
+            "p cnf 6 1\n" "-2 -4 0\n");
+     auto it = GR.ntcc_map.begin();
+     os.clear(); os.str("");
+     GR.A(os, it, 0);
+     assert(os.str() ==
+            "p cnf 1 2\n" "1 0\n" "-1 0\n");
+     os.clear(); os.str("");
+     GR.E(os, it, 0);
+     assert(os.str() ==
+            "p cnf 6 2\n" "2 4 6 0\n" "-2 -4 -6 0\n");
+     ++it;
+     os.clear(); os.str("");
+     GR.A(os, it, 0);
+     assert(os.str() ==
+            "p cnf 2 3\n" "1 0\n" "-1 2 0\n" "-2 0\n");
+     os.clear(); os.str("");
+     GR.E(os, it, 0);
+     assert(os.str() ==
+            "p cnf 6 3\n" "2 -4 0\n" "1 6 0\n" "-6 0\n");
    }
 
   }
