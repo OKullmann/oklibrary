@@ -112,8 +112,8 @@ Aborted (core dumped)
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "12.3.2023",
+        "0.4.3",
+        "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -142,7 +142,7 @@ namespace {
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - using \"+\" for B means the increment from the lower-bound.\n"
+    "  - using \"+\" for B means the increment added to the lower-bound.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
