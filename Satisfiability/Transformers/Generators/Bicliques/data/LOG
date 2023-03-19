@@ -225,6 +225,10 @@ This is much faster, but unfortunately at the moment OKsolver doesn't output
 the result (and also there is a superfluous memory-blow-up at the finish).
 
 
+UPDATE (the above was wrong due to input not sorted):
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | minisat-2.2.0 -no-pre /dev/stdin
+INDETERMINATE
+
 
 2) A_160_1022_1
 
@@ -426,6 +430,23 @@ exact 128 128
 ...
 
 
+UPDATE (above is wrong):
+
+Bicliques> time cat data/A_160_1022_1 | ./CNFBCC nopre "" "" "" logfile "" > data/A_160_1022_1_opt.cnf
+real    1m40.227s
+user    1m30.368s
+sys     0m9.850s
+Bicliques> head data/A_160_1022_1_opt.cnf
+p cnf 160 1022
+Bicliques> less logfile
+CPU time              : 18.536 s
+SATISFIABLE
+CPU time              : 18.4533 s
+UNSATISFIABLE
+
+So bcc=160 (no improvement).
+
+
 
 3) A_77_1090_1
 
@@ -580,3 +601,16 @@ propagations          : 708862         (2031 /sec)
 conflict literals     : 0              (-nan % deleted)
 Memory used           : 6470.39 MB
 CPU time              : 349.027 s
+
+
+UPDATE (above is wrong):
+
+Bicliques> time cat data/A_77_1090_1 | ./CNFBCC nopre "" "" "" logfile "" > data/A_77_1090_1_opt.cnf
+real    0m28.343s
+user    0m25.393s
+sys     0m2.950s
+Bicliques> head data/A_77_1090_1_opt.cnf
+p cnf 77 1090
+Bicliques> less logfile
+
+So bcc=77 (no improvement).
