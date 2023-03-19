@@ -122,6 +122,8 @@ lower-bound bcc >= 9).
 
 BUGS:
 
+-2. Remove the additional empty line for the solution.
+
 -1. Inappropriate reaction yet when first run (for given B) is unsatisfiable.
   - The asserts at the end trigger.
 
