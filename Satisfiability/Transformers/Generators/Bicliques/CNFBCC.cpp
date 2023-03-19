@@ -13,7 +13,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC "" "" "" ""
+Bicliques> echo -e "p cnf 100 5\n0\n1 2 0\n3 4 0\n -3 5 0\n-5 0\n" | ./CNFBCC "" "" "" "" ""
 p cnf 1 5
 0
 0
@@ -25,7 +25,7 @@ p cnf 1 5
 Symmetry-breaking is randomised, and thus for example (using "t" for
 "timestampe")
 
-Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t
+Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t ""
 
 yields one of the following (trimmed) realisations:
 
@@ -48,6 +48,38 @@ p cnf 2 3
 1 -2 0
 1 2 0
 -1 0
+
+Remarks:
+
+The last argument can be a filename or /dev/stdout for logging information
+on the solution-process.
+
+For example
+Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile
+
+p cnf 10 20
+4 0
+-4 -9 0
+9 0
+-1 -2 -3 -9 0
+-4 -7 8 0
+2 8 -9 0
+-2 5 -8 0
+-2 -6 -10 0
+-1 2 6 0
+-2 -8 10 0
+1 6 -7 0
+-2 6 -7 0
+7 0
+3 -5 6 0
+1 -3 0
+-1 -6 0
+-4 -7 0
+-8 0
+-1 -2 -5 -8 -9 0
+-2 4 -5 0
+
+With "less logfile" one can see the solution-process.
 
 
 BUGS:
@@ -74,6 +106,7 @@ precise realisation.
 
 
 #include <iostream>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
@@ -88,7 +121,7 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -105,14 +138,15 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " algo-options sb-rounds timeout seeds\n\n"
+         << " algo-options sb-rounds timeout seeds log\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"
     "                : " << Environment::WRP<SO>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
+    " log            : " << "filename for solving-log, default is null\n\n"
     " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
@@ -128,9 +162,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 5) {
+  if (argc != 6) {
     std::cerr << error <<
-      "Exactly four arguments (algo-opt, sb-rounds, timeout, seeds)"
+      "Exactly five arguments (algo-opt, sb-rounds, timeout, seeds, log)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -140,6 +174,14 @@ int main(const int argc, const char* const argv[]) {
   const var_t sb_rounds = read_var_t(argv[2], default_sb_rounds);
   const auto sec = read_uint_t(argv[3], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[4]);
+  const std::string logfile = argv[5];
+  std::ofstream* const log = logfile.empty() ? nullptr :
+    new std::ofstream(logfile);
+  if (log and not *log) {
+    std::cerr << error <<
+      "Log-output-file \"" << logfile << "\" can not be opened.\n";
+    return int(Error::bad_log);
+  }
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -156,10 +198,11 @@ int main(const int argc, const char* const argv[]) {
   const auto G = ConflictGraphs::conflictgraph(F);
   assert(G.n() == F.first.c);
   BC2SAT T(G, {DI::downwards, false, 0, 0, std::min(F.first.n, G.m())});
-  const auto res = T.sat_solve(nullptr, algopt, sb_rounds, sec, seeds);
+  const auto res = T.sat_solve(log, algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::upper_unsat_sb and
          res.rt != ResultType::upper_unsat and
          res.rt != ResultType::unknown);
+  if (log) {log->close(); std::cout << std::endl;}
   std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
 
 }
