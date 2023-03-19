@@ -82,6 +82,32 @@ p cnf 10 20
 With "less logfile" one can see the solution-process.
 
 
+Passing the option "nopre" to minisat can for large sparse instances be helpful:
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile
+
+p cnf 10 20
+4 7 0
+-4 0
+4 9 -10 0
+-1 -3 9 10 0
+5 -7 8 0
+2 5 8 -9 0
+-3 5 -8 0
+2 -3 -6 9 0
+-1 2 3 5 0
+-2 -8 0
+1 6 0
+-2 6 0
+-6 7 0
+3 0
+1 -3 0
+-1 -3 -6 0
+-7 0
+-8 0
+-1 -5 10 0
+4 -5 7 0
+
+
 BUGS:
 
 0.
