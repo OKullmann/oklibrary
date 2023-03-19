@@ -88,8 +88,8 @@ precise realisation.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "15.3.2023",
+        "0.3.1",
+        "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -131,7 +131,7 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 5) {
     std::cerr << error <<
       "Exactly four arguments (algo-opt, sb-rounds, timeout, seeds)"
-      " needed, but only " << argc-1 << " provided.\n";
+      " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
