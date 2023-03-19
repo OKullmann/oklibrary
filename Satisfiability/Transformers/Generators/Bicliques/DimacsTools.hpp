@@ -85,7 +85,10 @@ License, or any later version. */
     - rename(Lit, varmap_t) -> Lit :
         rename the literal according to the var-map, return {0,+1} iff
         the literal is Lit(0), and return {0,-1} if the map does not
-        contain the variable.
+        contain the variable
+    - rename(Clause, varmap_t) -> Clause :
+        rename the literals in the clause according to the var-map,
+        ignoring literals with variables not in the map.
 
     - read_strict_clause_filterrename (also for Dimacs) -> Clause :
         using a var-map, like read_strict_clause, also reading until
@@ -426,6 +429,14 @@ namespace DimacsTools {
     const auto f = m.find(x.v);
     if (f == m.end()) return {0,-1};
     else return {x.s, f->second};
+  }
+  Clause rename(const Clause& C, const varmap_t& m) noexcept {
+    Clause res;
+    for (const Lit x : C) {
+      const Lit y = rename(x, m);
+      if (y != Lit{0,-1}) res.push_back(y);
+    }
+    return res;
   }
 
   // Reading a clause, filtering out (and otherwise) renaming by m:

@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "15.3.2023",
+        "0.2.3",
+        "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -252,6 +252,11 @@ int main(const int argc, const char* const argv[]) {
           "-3 3 -5 0\n"
           "4 -10 3 -8 0\n"
           "-1 6 10 -7 0\n");
+  }
+
+  {const Clause C{Lit(1), Lit(-3), Lit(0), Lit(-6)};
+   const varmap_t m = list2map({Var(1),Var(3),Var(4)});
+   assert((rename(C,m) == Clause{Lit(1),Lit(-2),Lit(0)}));
   }
 
 }
