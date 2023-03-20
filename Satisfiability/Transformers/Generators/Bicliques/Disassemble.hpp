@@ -26,10 +26,15 @@ namespace Disassemble {
       return dirname;
   }
 
+  std::filesystem::path E0(const std::filesystem::path& dir) {
+    return dir / "E0";
+  }
+
   enum class Error {
     missing_parameters = 1,
     input_file_error = 2,
-    output_directory_error = 3
+    output_directory_error = 3,
+    output_E0_error = 4
   };
 
 }

@@ -27,7 +27,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "20.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -84,5 +84,14 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_GslicedCNF(input);
   const GlobRepl GR(F);
 
+  {std::filesystem::path E0path(E0(dir));
+   std::ofstream E0file(E0path);
+   if (not E0file) {
+     std::cerr << error << "Can not create output-file " << E0path
+               << ".\n";
+     return int(Error::output_E0_error);
+   }
+   GR.E0(E0file);
+  }
 
 }
