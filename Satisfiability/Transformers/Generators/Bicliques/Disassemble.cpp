@@ -15,6 +15,7 @@ EXAMPLES:
 
 #include <iostream>
 #include <filesystem>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -26,8 +27,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "19.3.2023",
+        "0.0.5",
+        "20.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -43,8 +44,11 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " filename\n\n"
-    " reads a qcnf from filename, and computes its parts.\n\n"
+         << " filename dirname\n\n"
+    " filename       : " << "the input-QCNF\n"
+    " dirname        : " << "the output-directory; default is the stripped input-name\n\n"
+    " reads a qcnf from filename, and computes its parts:\n\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n\n"
 ;
     return true;
   }
@@ -56,16 +60,29 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 2) {
+  if (argc != 3) {
     std::cerr << error <<
-      "Exactly one argument (filename)"
+      "Exactly two arguments (filename, dirname)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
-  const std::string filenae = argv[1];
+  const std::string filename = argv[1], dirname = argv[2];
+  std::ifstream input(filename);
+  if (not input) {
+    std::cerr << error << "Can not open input-file \"" << filename
+              << "\" for reading.\n";
+    return int(Error::input_file_error);
+  }
+  const std::filesystem::path dir(extract_dir_path(filename, dirname));
+  if (not std::filesystem::create_directory(dir)) {
+    std::cerr << error << "Can not create output-directory " << dir
+              << ".\n";
+    return int(Error::output_directory_error);
+  }
 
-  const auto F = DimacsTools::read_strict_GslicedCNF(std::cin);
+  const auto F = DimacsTools::read_strict_GslicedCNF(input);
   const GlobRepl GR(F);
+
 
 }

@@ -14,10 +14,22 @@ License, or any later version. */
 #ifndef DISASSEMBLE_Ao2I2cdXjQ
 #define DISASSEMBLE_Ao2I2cdXjQ
 
+#include <filesystem>
+
 namespace Disassemble {
+
+  std::filesystem::path extract_dir_path(const std::string& filename,
+                                         const std::string& dirname) {
+    if (dirname.empty())
+      return std::filesystem::path(filename).stem();
+    else
+      return dirname;
+  }
 
   enum class Error {
     missing_parameters = 1,
+    input_file_error = 2,
+    output_directory_error = 3
   };
 
 }
