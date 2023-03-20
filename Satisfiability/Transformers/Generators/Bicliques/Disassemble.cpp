@@ -8,8 +8,49 @@ License, or any later version. */
 /*
   For input-QCNF F, disassemble F into the global-part and the other-part
 
+  The order of the clauses is maintained, and the other-variables are also
+  maintained.
 
 EXAMPLES:
+
+Bicliques> cat data/Example_00.qcnf
+p cnf 7 6
+a 3 5 7 0
+e 1 2 4 6 0
+3 2 -4 0
+-3 5 1 6 0
+-2 -4 0
+-5 -6 0
+7 2 4 6 0
+-7 -2 -4 -6 0
+Bicliques> ./Disassemble_debug data/Example_00.qcnf ""
+Bicliques> ls -l Example_00/
+19 A_1_2_1
+26 A_2_3_1
+18 E0
+29 E_1_2_1
+28 E_2_3_1
+Bicliques> cat Example_00/E0
+p cnf 6 1
+-2 -4 0
+Bicliques> cat Example_00/A_1_2_1
+p cnf 1 2
+1 0
+-1 0
+Bicliques> cat Example_00/E_1_2_1
+p cnf 6 2
+2 4 6 0
+-2 -4 -6 0
+Bicliques> cat Example_00/A_2_3_1
+p cnf 2 3
+1 0
+-1 2 0
+-2 0
+Bicliques> cat Example_00/E_2_3_1
+p cnf 6 3
+2 -4 0
+1 6 0
+-6 0
 
 */
 
@@ -27,7 +68,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.1.0",
         "20.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -84,7 +125,7 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_GslicedCNF(input);
   const GlobRepl GR(F);
 
-  {std::filesystem::path E0path(E0(dir));
+  {const std::filesystem::path E0path(E0(dir));
    std::ofstream E0file(E0path);
    if (not E0file) {
      std::cerr << error << "Can not create output-file " << E0path
@@ -92,6 +133,32 @@ int main(const int argc, const char* const argv[]) {
      return int(Error::output_E0_error);
    }
    GR.E0(E0file);
+  }
+
+  {const auto begin = GR.ntcc_map.begin(), end = GR.ntcc_map.end();
+   for (auto it = begin; it != end; ++it) {
+     const auto& [dp, list] = *it;
+     for (size_t i = 0; i < list.size(); ++i) {
+       {const std::filesystem::path Epath(E(dir, dp, i));
+        std::ofstream Efile(Epath);
+        if (not Efile) {
+          std::cerr << error << "Can not create output-file " << Epath
+                    << ".\n";
+          return int(Error::output_E_error);
+        }
+        GR.E(Efile, it, i);
+       }
+       {const std::filesystem::path Apath(A(dir, dp, i));
+        std::ofstream Afile(Apath);
+        if (not Afile) {
+          std::cerr << error << "Can not create output-file " << Apath
+                    << ".\n";
+          return int(Error::output_A_error);
+        }
+        GR.A(Afile, it, i);
+       }
+     }
+   }
   }
 
 }

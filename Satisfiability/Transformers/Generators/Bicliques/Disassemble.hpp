@@ -15,8 +15,15 @@ License, or any later version. */
 #define DISASSEMBLE_Ao2I2cdXjQ
 
 #include <filesystem>
+#include <sstream>
+
+#include "Bicliques2SAT.hpp"
 
 namespace Disassemble {
+
+  typedef Bicliques2SAT::GlobRepl::size_t size_t;
+  typedef Bicliques2SAT::GlobRepl::dimacs_pars dimacs_pars;
+
 
   std::filesystem::path extract_dir_path(const std::string& filename,
                                          const std::string& dirname) {
@@ -30,11 +37,28 @@ namespace Disassemble {
     return dir / "E0";
   }
 
+  std::string par_part(const dimacs_pars dp, const size_t i) {
+    std::stringstream ss;
+    ss << dp.n << "_" << dp.c << "_" << i+1;
+    return ss.str();
+  }
+  std::filesystem::path E(const std::filesystem::path& dir,
+                          const dimacs_pars dp, const size_t i) {
+    return dir / ("E_" + par_part(dp, i));
+  }
+  std::filesystem::path A(const std::filesystem::path& dir,
+                          const dimacs_pars dp, const size_t i) {
+    return dir / ("A_" + par_part(dp, i));
+  }
+
+
   enum class Error {
     missing_parameters = 1,
     input_file_error = 2,
     output_directory_error = 3,
-    output_E0_error = 4
+    output_E0_error = 4,
+    output_E_error = 5,
+    output_A_error = 6
   };
 
 }
