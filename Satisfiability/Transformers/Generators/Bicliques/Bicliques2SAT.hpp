@@ -1373,7 +1373,7 @@ namespace Bicliques2SAT {
         const varlist_t V = resize(ntvar[i]);
         res.V.insert(V.begin(), V.end());
         n += ni;
-        const auto map = DimacsTools::list2map(V);
+        const auto map = DimacsTools::list_as_map(V);
         const size_t cc = ntcc[i];
         const auto clause_indices = ccvec[cc-1];
         assert(clause_indices.size() == Fi.first.c);
@@ -1382,7 +1382,7 @@ namespace Bicliques2SAT {
             DimacsTools::rename(Fi.second[i], map);
         }
       }
-      assert(F.V.size() == n);
+      assert(res.V.size() == n);
       return res;
     }
 

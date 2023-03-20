@@ -422,6 +422,10 @@ int main(const int argc, const char* const argv[]) {
    {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
     assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
    }
+   {const auto F = GR.solve(nullptr, {}, 100, 1, {});
+    assert(eqp(F, {{{8,5}, {{}, {Lit(3)}, {Lit(-3)}, {Lit(7)}, {Lit(-7)}}},
+                   {Var(3),Var(7)}}));
+   }
 
 
    {const GlobRepl GR2(GR);
@@ -541,6 +545,11 @@ int main(const int argc, const char* const argv[]) {
      }
      {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
       assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
+     }
+     {const auto F = GR.solve(nullptr, {}, 100, 1, {});
+      assert(eqp(F, {{{7,6},
+                     {{Lit(3)}, {Lit(-3)}, {}, {Lit(3)}, {Lit(7)}, {Lit(-7)}}},
+                     {Var(3),Var(7)}}));
      }
 
    }
