@@ -228,6 +228,36 @@ the result (and also there is a superfluous memory-blow-up at the finish).
 UPDATE (the above was wrong due to input not sorted):
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | minisat-2.2.0 -no-pre /dev/stdin
 INDETERMINATE
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 "" -cs "" ""
+c ** Parameters **
+c V                                     3964
+c E                                     157484
+c B                                     131
+c sb-option                             basic-sb
+c pt-option                             cover
+c ** Statistics **
+c  bc-variables                         1038568
+c  edge-variables                       20630404
+c total-variables                       21668972
+c  bc-clauses                           2017180968
+c   bc-lit-occurrences                  4034361936
+c  edge-clauses                         123782424
+c   edge-lit-occurrences                371347272
+c  cover-clauses                        157484
+c   cover-lit-occurrences               20630404
+c  unit-clauses                         384
+c total-clauses                         2141121260
+c total-lit-occurrences                 4426339996
+c ** Formatting **
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Symmetry Breaking **
+c planted-edges                         128
+c sb-stats                              100 : 120 124.75 128; 1.57874
+c num_e-seeds                           0
+
+So this instance is still UNDECIDED.
 
 
 2) A_160_1022_1
