@@ -31,6 +31,7 @@ License, or any later version. */
       - struct FormalClauseList: wrapper for
        - DimacsClauseList F
        - VarSet V
+       - operations <=> and <<
 
       - varlist_t : typedef for vector of Var
       - var(varlist_t) -> VarSet
@@ -86,6 +87,8 @@ License, or any later version. */
     - list2map(varlist_t V) -> varmap_t :
         maps the variables in V to 1, ..., V.size() (asserting that all
         variables were different)
+    - list_as_map(varlist_t V) -> varmap_t :
+        the inverse map (i -> vi)
     - rename(Lit, varmap_t) -> Lit :
         rename the literal according to the var-map, return {0,+1} iff
         the literal is Lit(0), and return {0,-1} if the map does not
@@ -283,6 +286,14 @@ namespace DimacsTools {
   struct FormalClauseList {
     DimacsClauseList F;
     VarSet V;
+    friend auto operator <=>(const FormalClauseList&,
+                             const FormalClauseList&) noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const FormalClauseList& F) {
+      out << F.F;
+      Environment::out_line(out, F.V);
+      return out << "\n";
+    }
   };
 
 
@@ -426,13 +437,24 @@ namespace DimacsTools {
 
   typedef std::map<Var, Var> varmap_t;
 
-  varmap_t list2map(const varlist_t V) {
+  // For V=[v1,v2,...,vn] create the mapping vi -> i
+  // (i.e., for the map m holds m(V[i]) = i):
+  varmap_t list2map(const varlist_t& V) {
     var_t v = 1;
     varmap_t m;
     for (const Var w : V) m.insert({w,Var(v++)});
     assert(m.size() == V.size());
     return m;
   }
+  // For V=[v1,v2,...,vn] create the mapping i -> iv
+  // (i.e., for the map m holds m(i) = V[i]):
+  varmap_t list_as_map(const varlist_t& V) {
+    varmap_t m;
+    for (var_t i = 0; i < V.size(); ++i) m.insert({Var(i+1),V[i]});
+    assert(m.size() == V.size());
+    return m;
+  }
+
   Lit rename(const Lit x, const varmap_t& m) noexcept {
     if (x == Lit(0)) return {0,+1};
     const auto f = m.find(x.v);
