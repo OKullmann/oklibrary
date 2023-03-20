@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.8",
+        "0.5.9",
         "20.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -423,7 +423,7 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
    }
    {const auto F = GR.solve(nullptr, {}, 100, 1, {});
-    assert(eqp(F, {{{8,5}, {{}, {Lit(3)}, {Lit(-3)}, {Lit(7)}, {Lit(-7)}}},
+    assert(eqp(F, {{{7,5}, {{}, {Lit(3)}, {Lit(-3)}, {Lit(7)}, {Lit(-7)}}},
                    {Var(3),Var(7)}}));
    }
 

@@ -1383,6 +1383,11 @@ namespace Bicliques2SAT {
         }
       }
       assert(res.V.size() == n);
+      if (res.V.empty()) res.F.first.n = 0;
+      else {
+        auto end = res.V.end(); --end;
+        res.F.first.n = end->v;
+      }
       return res;
     }
 
