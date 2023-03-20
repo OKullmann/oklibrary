@@ -631,7 +631,7 @@ namespace Bicliques2SAT {
       return l <= c and c <= u;
     }
 
-    void update_by_sb(const size_t sb) noexcept {
+    void update_by_sb(const id_t sb) noexcept {
       l = std::max(l, sb);
       if (update_u_by_inc) {
         assert(u == 0);
