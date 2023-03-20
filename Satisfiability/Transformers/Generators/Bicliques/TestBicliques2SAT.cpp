@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "19.3.2023",
+        "0.5.8",
+        "20.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -416,6 +416,13 @@ int main(const int argc, const char* const argv[]) {
     assert(os.str() ==
            "p cnf 10 2\n" "0\n" "4 -10 0\n");
    }
+   {const auto F = GR.solve_ntcc(0, nullptr, {}, 100, 1, {});
+    assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
+   }
+   {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
+    assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
+   }
+
 
    {const GlobRepl GR2(GR);
     // assert(GR2 == GR); GCC 10.3 compiler error CERR
@@ -529,6 +536,13 @@ int main(const int argc, const char* const argv[]) {
      GR.E(os, it, 0);
      assert(os.str() ==
             "p cnf 6 3\n" "2 -4 0\n" "1 6 0\n" "-6 0\n");
+     {const auto F = GR.solve_ntcc(0, nullptr, {}, 100, 1, {});
+      assert(eqp(F, {{1,3}, {{Lit(1)}, {Lit(-1)}, {Lit(1)}}}));
+     }
+     {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
+      assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
+     }
+
    }
 
   }

@@ -1327,21 +1327,31 @@ namespace Bicliques2SAT {
       return ConflictGraphs::conflictgraph(ccvec[cc-1], ntvar[i], occ);
     }
 
-    // The clause-indices in the result refer to the clauses in the
-    // component, in that order:
+    // The clause of the result have the same order as the clauses in the
+    // component:
     DimacsTools::DimacsClauseList
-    solve_cc(const size_t c,
+    solve_ntcc(const size_t i,
              std::ostream* const log,
              const alg2_options_t ao,
              const size_t sb_rounds,
              const FloatingPoint::uint_t sec,
-             const RandGen::vec_eseed_t& seeds) {
-      assert(CC.valid_cc(c));
-      // Extract conflict graph for component i, renamed to variables 1, ...
-
-      // optimise conflict graph
-
-      // 
+             const RandGen::vec_eseed_t& seeds) const {
+      assert(i < numntcc);
+      const graph_t G = conflictgraph(i);
+      const size_t upper_B = std::min(ntvar[i].size(), G.n()-1);
+      const Bounds B{DI::downwards, false, 0, 0, upper_B};
+      BC2SAT solver(G, B);
+      const auto res = solver.sat_solve(log, ao, sb_rounds, sec, seeds);
+      if (res.rt != ResultType::exact) {
+        if (log)
+          *log << "FAILURE to solve non-trivial component " << i << ": "
+               << res.rt << "\n";
+        std::stringstream ss;
+        ss << "GlobRepl::solve_ntcc: can not solve nt-component " << i
+           << ", return-code " << res.rt;
+        throw std::runtime_error(ss.str());
+      }
+      return Bicliques::bcc2CNF(res.bcc, G.m());
     }
 
     // bool operator ==(const GlobRepl& rhs) const noexcept = default;
