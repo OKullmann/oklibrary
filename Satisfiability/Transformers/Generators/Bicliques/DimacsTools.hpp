@@ -28,6 +28,10 @@ License, or any later version. */
       - var(ClauseList) -> VarSet
       - var(DimacsClauseList) -> VarSet
 
+      - struct FormalClauseList: wrapper for
+       - DimacsClauseList F
+       - VarSet V
+
       - varlist_t : typedef for vector of Var
       - var(varlist_t) -> VarSet
 
@@ -275,6 +279,11 @@ namespace DimacsTools {
   VarSet var(const DimacsClauseList& F) {
     return var(F.second);
   }
+
+  struct FormalClauseList {
+    DimacsClauseList F;
+    VarSet V;
+  };
 
 
   bool is_sorted(const Clause& C) noexcept {

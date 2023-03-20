@@ -1329,13 +1329,13 @@ namespace Bicliques2SAT {
 
     // The clause of the result have the same order as the clauses in the
     // component:
-    DimacsTools::DimacsClauseList
-    solve_ntcc(const size_t i,
-             std::ostream* const log,
-             const alg2_options_t ao,
-             const size_t sb_rounds,
-             const FloatingPoint::uint_t sec,
-             const RandGen::vec_eseed_t& seeds) const {
+    typedef DimacsTools::DimacsClauseList DimacsClauseList;
+    DimacsClauseList solve_ntcc(const size_t i,
+                                std::ostream* const log,
+                                const alg2_options_t ao,
+                                const size_t sb_rounds,
+                                const FloatingPoint::uint_t sec,
+                                const RandGen::vec_eseed_t& seeds) const {
       assert(i < numntcc);
       const graph_t G = conflictgraph(i);
       const size_t upper_B = std::min(ntvar[i].size(), G.n()-1);
@@ -1352,6 +1352,38 @@ namespace Bicliques2SAT {
         throw std::runtime_error(ss.str());
       }
       return Bicliques::bcc2CNF(res.bcc, G.m());
+    }
+
+    typedef DimacsTools::FormalClauseList FormalClauseList;
+    FormalClauseList solve(std::ostream* const log,
+                           const alg2_options_t ao,
+                           const size_t sb_rounds,
+                           const FloatingPoint::uint_t sec,
+                           RandGen::vec_eseed_t seeds) const {
+      FormalClauseList res;
+      res.F.first = F.G().first;
+      res.F.second.resize(res.F.first.c);
+      size_t n = 0;
+      seeds.push_back({});
+      for (size_t i = 0; i < numntcc; ++i) {
+        seeds.back() = i;
+        const DimacsClauseList Fi = solve_ntcc(i,log,ao,sb_rounds,sec,seeds);
+        const size_t ni = Fi.first.n;
+        auto resize = [&ni](varlist_t V){V.resize(ni);return V;};
+        const varlist_t V = resize(ntvar[i]);
+        res.V.insert(V.begin(), V.end());
+        n += ni;
+        const auto map = DimacsTools::list2map(V);
+        const size_t cc = ntcc[i];
+        const auto clause_indices = ccvec[cc-1];
+        assert(clause_indices.size() == Fi.first.c);
+        for (size_t i = 0; i < Fi.first.c; ++i) {
+          res.F.second[clause_indices[i]] =
+            DimacsTools::rename(Fi.second[i], map);
+        }
+      }
+      assert(F.V.size() == n);
+      return res;
     }
 
     // bool operator ==(const GlobRepl& rhs) const noexcept = default;
