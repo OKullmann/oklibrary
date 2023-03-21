@@ -13,14 +13,16 @@ EXAMPLES:
 Bicliques> echo -e "p cnf 4 2\na 3 4 0\ne 1 2 0\n1 2 3 4 0\n-1 -2 -3 -4 0\np cnf 3 2\na 3 0\ne 1 2 0\n1 2 3 0\n-1 -2 -3 0\n" | ./GCGeq_debug
 # 1: O = p cnf 2 2
 # 1: G = p cnf 4 2
+# 1: n_g = 2
 # 2: O = p cnf 2 2
 # 2: G = p cnf 3 2
+# 2: n_g = 1
 Bicliques> echo $?
 0
 
 The log-output shows first the dimacs-parameters of the first input,
-split into the other-part and the global-part, and then the same for the
-second input.
+split into the other-part and the global-part, followed by the (real) number
+of global variables, and then the same for the second input.
 There is no further output in case of equivalence, which is signalled by
 return-code 0.
 
@@ -79,8 +81,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "20.3.2023",
+        "0.1.0",
+        "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GCGeq.cpp",
@@ -111,9 +113,11 @@ int main(const int argc, const char* const argv[]) {
   const auto F1 = read_strict_GslicedCNF(std::cin);
   std::cout << "# 1: O = " << F1.O().first;
   std::cout << "# 1: G = " << F1.G().first;
+  std::cout << "# 1: n_g = " << F1.V.size() << "\n";
   const auto F2 = read_strict_GslicedCNF(std::cin);
   std::cout << "# 2: O = " << F2.O().first;
   std::cout << "# 2: G = " << F2.G().first;
+  std::cout << "# 2: n_g = " << F2.V.size() << "\n";
   const GlobRepl G1(F1), G2(F2);
   const auto res = gcg_equivalence(G1, G2, &std::cout);
   return int(res);
