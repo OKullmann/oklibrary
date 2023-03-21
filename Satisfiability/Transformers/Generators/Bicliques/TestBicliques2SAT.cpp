@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.10",
+        "0.5.11",
         "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -592,7 +592,7 @@ int main(const int argc, const char* const argv[]) {
    const auto F = DimacsTools::read_strict_GslicedCNF(is);
    const GlobRepl GR(F);
    const auto R = GR.solve(nullptr, {}, 100, 1, {});
-   const DimacsTools::GslicedCNF F2(F.O(), R);
+   const DimacsTools::GslicedCNF F2(F.O(), R, F.other);
    const GlobRepl GR2(F2);
    assert(int(gcg_equivalence(GR, GR2, nullptr)) == 0);
   }

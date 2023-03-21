@@ -545,8 +545,9 @@ namespace DimacsTools {
     other_ealines_t other;
 
     GslicedCNF() noexcept {}
-    GslicedCNF(const DimacsClauseList& O, const FormalClauseList& R) :
-      SF{O, R.F}, V{R.V} {}
+    GslicedCNF(const DimacsClauseList& O, const FormalClauseList& R,
+               const other_ealines_t& other) :
+      SF{O, R.F}, V{R.V}, other(other) {}
 
     const DimacsClauseList& O() const noexcept { return SF[0]; }
     DimacsClauseList& O() noexcept { return SF[0]; }

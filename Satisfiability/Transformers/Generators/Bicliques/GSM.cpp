@@ -25,6 +25,7 @@ Bicliques> cat data/Example_00.qcnf | ./GSM_debug "" "" "" "" > R.qcnf
 Bicliques> cat R.qcnf
 p cnf 7 6
 a 3 7 0
+e 1 2 4 6 0
 2 -4 3 0
 1 6 -3 0
 -2 -4 0
@@ -36,6 +37,7 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 # 1: G = p cnf 7 6
 # 2: O = p cnf 6 6
 # 2: G = p cnf 7 6
+
 
 TODOS:
 
@@ -78,7 +80,7 @@ not disjoint.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -146,6 +148,6 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_GslicedCNF(std::cin);
   const GlobRepl GR(F);
   const auto R = GR.solve(nullptr, algopt, sb_rounds, sec, seeds);
-  const DimacsTools::GslicedCNF Fnew(F.O(), R);
+  const DimacsTools::GslicedCNF Fnew(F.O(), R, F.other);
   std::cout << Fnew;
 }
