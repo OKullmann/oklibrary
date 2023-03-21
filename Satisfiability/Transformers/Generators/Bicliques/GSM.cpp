@@ -37,6 +37,38 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 # 2: O = p cnf 6 6
 # 2: G = p cnf 7 6
 
+TODOS:
+
+1. The option, that in case of no-improvement nothing is changed, is needed.
+
+BUGS:
+
+1. DONE
+Bicliques> time cat ~/BicliqueCover/benchmarks/smallpipelinefixpoint1/P_948_417_3483_smallpipelinefixpoint1.qdimacs | ./GSM nopre "" "" "" > R.qdimacs
+Segmentation fault (core dumped)
+real    1m45.387s
+user    1m28.143s
+sys     0m9.686s
+
+Bicliques> time cat ~/BicliqueCover/benchmarks/smallpipelinefixpoint1/P_948_417_3483_smallpipelinefixpoint1.qdimacs | ./GSM_debug nopre "" "" "" > R.qdimacs
+GSM_debug: Bicliques2SAT.hpp:1379: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `clause_indices.size() == Fi.first.c' failed.
+Aborted (core dumped)
+real    17m51.397s
+user    17m30.542s
+sys     0m10.365s
+
+Bicliques> QBRG "a10 10" "10*2,6" "" 5 | ./GSM_debug "" "" "" ""
+GSM_debug: Bicliques2SAT.hpp:1381: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `clause_indices.size() == Fi.first.c' failed.
+
+
+2.
+Bicliques> QBRG "a20 20" "10*2,5" "" 5 | ./GSM_debug nopre "" "" ""
+GSM_debug: Bicliques2SAT.hpp:1385: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `res.V.size() == n' failed.
+
+That comes from pure universal variables in the input.
+Need to be removed, otherwise the variable-sets of components are
+not disjoint.
+
 */
 
 #include <iostream>
@@ -53,8 +85,8 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "20.3.2023",
+        "0.1.1",
+        "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",

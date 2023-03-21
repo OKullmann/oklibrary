@@ -1338,6 +1338,7 @@ namespace Bicliques2SAT {
                                 const RandGen::vec_eseed_t& seeds) const {
       assert(i < numntcc);
       const graph_t G = conflictgraph(i);
+      assert(G.n() == ccvec[ntcc[i]-1].size());
       const size_t upper_B = std::min(ntvar[i].size(), G.n()-1);
       const Bounds B{DI::downwards, false, 0, 0, upper_B};
       BC2SAT solver(G, B);
@@ -1351,7 +1352,7 @@ namespace Bicliques2SAT {
            << ", return-code " << res.rt;
         throw std::runtime_error(ss.str());
       }
-      return Bicliques::bcc2CNF(res.bcc, G.m());
+      return Bicliques::bcc2CNF(res.bcc, G.n());
     }
 
     typedef DimacsTools::FormalClauseList FormalClauseList;
@@ -1371,18 +1372,19 @@ namespace Bicliques2SAT {
         const size_t ni = Fi.first.n;
         auto resize = [&ni](varlist_t V){V.resize(ni);return V;};
         const varlist_t V = resize(ntvar[i]);
+        assert(V.size() == ni);
         res.V.insert(V.begin(), V.end());
         n += ni;
+        assert(res.V.size() == n);
         const auto map = DimacsTools::list_as_map(V);
         const size_t cc = ntcc[i];
-        const auto clause_indices = ccvec[cc-1];
+        const auto& clause_indices = ccvec[cc-1];
         assert(clause_indices.size() == Fi.first.c);
-        for (size_t i = 0; i < Fi.first.c; ++i) {
-          res.F.second[clause_indices[i]] =
-            DimacsTools::rename(Fi.second[i], map);
+        for (size_t j = 0; j < Fi.first.c; ++j) {
+          res.F.second[clause_indices[j]] =
+            DimacsTools::rename(Fi.second[j], map);
         }
       }
-      assert(res.V.size() == n);
       if (res.V.empty()) res.F.first.n = 0;
       else {
         auto end = res.V.end(); --end;

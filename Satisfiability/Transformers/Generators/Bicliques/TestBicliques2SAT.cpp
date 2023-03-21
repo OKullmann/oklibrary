@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.9",
-        "20.3.2023",
+        "0.5.10",
+        "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -554,6 +554,47 @@ int main(const int argc, const char* const argv[]) {
 
    }
 
+  }
+
+  {std::istringstream is;
+   is.str("p cnf 28 10\n"
+          "a 1 2 3 4 5 6 7 8 9 10 11 12 13 0\n"
+          "e 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 0\n"
+          "1 4 10 -15 18 0\n"
+          "-7 -9 12 15 18 0\n"
+          "1 11 12 20 -21 0\n"
+          "14 15 16 19 21 0\n"
+          "5 9 -11 -15 -22 0\n"
+          "1 -8 12 19 24 0\n"
+          "9 -13 -15 -23 26 0\n"
+          "2 3 -4 21 -27 0\n"
+          "-6 8 -17 -25 -27 0\n"
+          "-2 7 13 -18 -28 0\n");
+   const auto F = DimacsTools::read_strict_GslicedCNF(is);
+   const GlobRepl GR(F);
+   //const auto G = GR.solve(nullptr, {{},{},{},SO::nopre,{}}, 100, 1, {});
+  }
+
+  {std::istringstream is;
+   is.str("p cnf 20 10\n"
+          "a 1 2 3 4 5 6 7 8 9 10 0\n"
+          "e 11 12 13 14 15 16 17 18 19 20 0\n"
+          "-5 8 9 11 -12 15 0\n"
+          "-1 2 5 7 -14 16 0\n"
+          "-9 -11 -12 13 -16 -17 0\n"
+          "1 2 -12 -13 16 17 0\n"
+          "4 -7 9 -14 -18 -19 0\n"
+          "2 6 -8 14 18 -19 0\n"
+          "-7 9 10 13 -16 -20 0\n"
+          "10 -11 12 -14 -17 -20 0\n"
+          "-3 -4 -9 15 -18 -20 0\n"
+          "3 -7 -8 -12 -15 20 0\n");
+   const auto F = DimacsTools::read_strict_GslicedCNF(is);
+   const GlobRepl GR(F);
+   const auto R = GR.solve(nullptr, {}, 100, 1, {});
+   const DimacsTools::GslicedCNF F2(F.O(), R);
+   const GlobRepl GR2(F2);
+   assert(int(gcg_equivalence(GR, GR2, nullptr)) == 0);
   }
 
 }
