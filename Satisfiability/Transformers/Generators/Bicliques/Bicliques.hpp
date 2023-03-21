@@ -287,8 +287,10 @@ namespace Bicliques {
   }
 
 
-  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const id_t c0 = 0) {
-    const id_t c = std::max(c0,numcl(B));
+  // c is the minimum number of clauses to be used (clauses not mentioned
+  // in B are then empty):
+  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const id_t c) {
+    assert(c >= numcl(B));
     const DT::dimacs_pars dp{B.L.size(), c};
     DT::ClauseList F(dp.c);
     for (DT::var_t v = 0; v < dp.n; ++v) {
