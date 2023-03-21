@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ L1 3 : 1 2 3; 1 2
 1:1 2:1 3:1
 L2 3 : 1 1 1; 0 1
 
-The clause-list:
+The clause-list written out:
 p cnf 4 6
 3 0
 -4 0
@@ -49,8 +49,8 @@ deviation 0, median 1.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "20.3.2022",
+        "0.1.1",
+        "21.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2statscg.cpp",
@@ -79,6 +79,6 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  std::cout << StatsCC(cc_by_dfs(read_strict_Dimacs(std::cin))).S;
+  std::cout << StatsCC(cc_by_dfs(read_strict_Dimacs(std::cin)));
 
 }

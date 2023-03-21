@@ -34,6 +34,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <stack>
+#include <ostream>
 
 #include <cassert>
 #include <cstdint>
@@ -144,6 +145,10 @@ namespace GraphTraversal {
 
     StatsCC(const CCbyIndices& cc)
       : N(cc.numcc), sizes(cc.sizes()), S(sizes) {}
+
+    friend std::ostream& operator <<(std::ostream& out, const StatsCC& s) {
+      return out << s.S;
+    }
 
   };
 
