@@ -54,25 +54,7 @@ TODOS:
 
 BUGS:
 
-1. DONE
-Bicliques> time cat ~/BicliqueCover/benchmarks/smallpipelinefixpoint1/P_948_417_3483_smallpipelinefixpoint1.qdimacs | ./GSM nopre "" "" "" > R.qdimacs
-Segmentation fault (core dumped)
-real    1m45.387s
-user    1m28.143s
-sys     0m9.686s
-
-Bicliques> time cat ~/BicliqueCover/benchmarks/smallpipelinefixpoint1/P_948_417_3483_smallpipelinefixpoint1.qdimacs | ./GSM_debug nopre "" "" "" > R.qdimacs
-GSM_debug: Bicliques2SAT.hpp:1379: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `clause_indices.size() == Fi.first.c' failed.
-Aborted (core dumped)
-real    17m51.397s
-user    17m30.542s
-sys     0m10.365s
-
-Bicliques> QBRG "a10 10" "10*2,6" "" 5 | ./GSM_debug "" "" "" ""
-GSM_debug: Bicliques2SAT.hpp:1381: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `clause_indices.size() == Fi.first.c' failed.
-
-
-2.
+1.
 Bicliques> QBRG "a20 20" "10*2,5" "" 5 | ./GSM_debug nopre "" "" ""
 GSM_debug: Bicliques2SAT.hpp:1385: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `res.V.size() == n' failed.
 
