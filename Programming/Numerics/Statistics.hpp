@@ -659,6 +659,10 @@ namespace GenStats {
     FreqStats() : num_in(0) {}
     template <class RAN>
     explicit FreqStats(const RAN& R) : num_in(0) { insert(R); }
+    template <class RAN, class FILT>
+    explicit FreqStats(const RAN& R, const FILT& f) : num_in(0) {
+      insert(R,f);
+    }
 
     // Returns the total number of insertions, and the number of new
     // elements inserted:
@@ -667,6 +671,15 @@ namespace GenStats {
     pcount_t insert(const RAN& R) {
       pcount_t res{num_in, cm.size()};
       for (const input_t& x : R) { ++cm[x]; ++num_in; }
+      res.first = num_in - res.first;
+      res.second = cm.size() - res.second;
+      return res;
+    }
+    template <class RAN, class FILT>
+    pcount_t insert(const RAN& R, const FILT& f) {
+      pcount_t res{num_in, cm.size()};
+      for (const input_t& x : R)
+        if (f(x)) { ++cm[x]; ++num_in; }
       res.first = num_in - res.first;
       res.second = cm.size() - res.second;
       return res;
