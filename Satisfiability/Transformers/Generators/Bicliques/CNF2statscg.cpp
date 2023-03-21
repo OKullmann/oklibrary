@@ -8,6 +8,8 @@ License, or any later version. */
 /*
   Statistics on the components of the conflict-graph
 
+  Currently only the number of clauses in a component is considered.
+
 
 EXAMPLES:
 
@@ -15,6 +17,10 @@ Bicliques> echo -e "p cnf 4 6\n3 0\n-4 0\n1 2 0 \n-1 -2 0\n2 3 0\n4 0\n" | ./CNF
 L1 3 : 1 2 3; 1 2
 1:1 2:1 3:1
 L2 3 : 1 1 1; 0 1
+non-trivial:
+L1 2 : 2 2.5 3; 0.707107 2.5
+2:1 3:1
+L2 2 : 1 1 1; 0 1
 
 The clause-list written out:
 p cnf 4 6
@@ -32,9 +38,11 @@ deviation 1, median 2.
 Then the count of the sizes:
 size 1 once, size 2 once, size 3 once.
 
-Finally the "level-1 statistics" about the counts (of the sizes):
+Then the "level-2 statistics" about the counts (of the sizes):
 3 different sizes, min-count 1, average-count 1, max-count 1, standard
 deviation 0, median 1.
+
+The same repeated for the non-trivial components (of size >= 2).
 
 */
 
@@ -49,7 +57,7 @@ deviation 0, median 1.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "21.3.2023",
         __FILE__,
         "Oliver Kullmann",

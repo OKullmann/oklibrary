@@ -141,13 +141,15 @@ namespace GraphTraversal {
     typedef CCbyIndices::sizes_t sizes_t;
     sizes_t sizes; // sizes of the components
     typedef GenStats::FreqStats<size_t, FloatingPoint::float80> stats_t;
-    stats_t S;
+    stats_t S, Snt;
+    static constexpr auto ntfilter = [](const size_t x){return x >= 2;};
 
     StatsCC(const CCbyIndices& cc)
-      : N(cc.numcc), sizes(cc.sizes()), S(sizes) {}
+      : N(cc.numcc), sizes(cc.sizes()), S(sizes),
+        Snt(sizes, ntfilter) {}
 
     friend std::ostream& operator <<(std::ostream& out, const StatsCC& s) {
-      return out << s.S;
+      return out << s.S << "non-trivial:\n" << s.Snt;
     }
 
   };
