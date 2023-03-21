@@ -39,7 +39,18 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 
 TODOS:
 
+-2. Output statistics
+  - A log-file argument.
+
+-1. Handle pure global variables
+  - See bug below.
+
+0. Fuzzing
+
 1. The option, that in case of no-improvement nothing is changed, is needed.
+
+2. Better handling of replacement in sliced CNFs.
+
 
 BUGS:
 
