@@ -82,11 +82,6 @@ TODOS:
       breaking, to run internal UCP (without intermediate file-output).
     - See "Upwards-search" in Bicliques2SAT.hpp.
 
-5. Provide the possibility to use -no-pre for minisat:
-    - This is important for the large sparse examples we get from
-      GSM (global slice minimisation).
-    - Though for small hard problems it seems not suitable.
-    - This should be an algo-option.
 
 
 BUGS:
