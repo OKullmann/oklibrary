@@ -179,7 +179,17 @@ TODOS:
   - This linear form is available under LatinSquares.
   - At this time then the structure of BC2SAT needs to be improved.
 
-3. GCC compiler error CERR
+3. More efficient symmetry-breaking
+  - Likely this should go into a dedicated file.
+  - A more intelligent algorithm is needed.
+  - And also a greedy version, choosing from the available edges one with
+    minimum sum (or product) of degrees of end-points.
+  - For cases which take a long time, a log-output with the current best
+    and its index is needed.
+    From that index one should be able to perform a single run.
+  - One should also return the index in general (for quick reproduction).
+
+4. GCC compiler error CERR
   - When updating to GCC version 12 or later, activate the places with CERR
     (currently disabled due to compiler error)
 
