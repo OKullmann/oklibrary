@@ -1,0 +1,27 @@
+Oliver Kullmann, 23.3.2023 (Swansea)
+
+Priorities:
+
+1. TODOS and BUGS in GSM.cpp
+
+2. TODOS in BCC2SAT.cpp
+
+3. TODOS and BUGS in BCCbySAT.cpp
+
+4. BUGS in CNFBCC.cpp
+
+5. TODOS in GCGeq.cpp
+
+6. TODOS in Bicliques2SAT.hpp
+
+7. TODOS in DImacsTools.hpp
+
+8. We need, besides Disassemble.cpp, als Reassemble.cpp.
+
+9. TODOS in QCNF2CNF.cpp
+
+
+In general:
+
+ - good support for statistics
+ - parallelisation.
