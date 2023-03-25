@@ -33,8 +33,16 @@ License, or any later version. */
         by pairwise comparison
 
     - More efficient approach by occurrence-lists:
-     - struct OccVar : containing an array of size 2 of vectors of
-       literal-occurrence-indices
+     - struct OccVar : containing an array o of size 2 of vectors of
+       literal-occurrence-indices (lit_occ_t)
+       - default constructor
+       - constructor from occurrence-lists
+       - operator [bool], [Lit x] for accessing the occurrence-lists
+         (const and non-const)
+       - conflicts(Lit x) -> -> const lit_occ_t&
+       - test-functions trivial, pure, singular, osingular, nonosingular,
+         nonsingular
+       - operator ==
      - struct AllOcc : contains a vector of OccVar (for every variable its
        occurrences)
      - allocc(DimacsClauseList) -> AllOcc
@@ -175,6 +183,27 @@ namespace ConflictGraphs {
     const lit_occ_t& conflicts(const Lit x) const noexcept {
       return o[not x.s];
     }
+
+    bool trivial() const noexcept {
+      return o[0].empty() and o[1].empty();
+    }
+    bool pure() const noexcept {
+      return not trivial() and (o[0].empty() or o[1].empty());
+    }
+    bool singular() const noexcept {
+      return not pure() and (o[0].size() == 1 or o[1].size() == 1);
+    }
+    bool osingular() const noexcept {
+      return o[0].size() == 1 and o[1].size() == 1;
+    }
+    bool nonosingular() const noexcept {
+      return (o[0].size() == 1 and o[1].size() >= 2)
+        or (o[1].size() == 1 and o[0].size() >= 2);
+    }
+    bool nonsingular() const noexcept {
+      return o[0].size() >= 2 and o[1].size() >= 2;
+    }
+
     bool operator ==(const OccVar&) const noexcept = default;
   };
 

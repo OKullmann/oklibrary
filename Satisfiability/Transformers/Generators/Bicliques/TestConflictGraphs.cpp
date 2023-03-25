@@ -27,8 +27,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "17.3.2023",
+        "0.3.1",
+        "25.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -119,14 +119,50 @@ int main(const int argc, const char* const argv[]) {
    assert(o.o.size() == 2);
    assert(o[false].empty());
    assert(o[true].empty());
+   assert(o.trivial());
+   assert(not o.pure());
+   assert(not o.singular());
+   assert(not o.osingular());
+   assert(not o.nonosingular());
+   assert(not o.nonsingular());
    o[false].push_back(0);
    assert(eqp(o[false], {0}));
    assert(o[true].empty());
    assert(eqp(o.conflicts({77,1}), {0}));
+   assert(not o.trivial());
+   assert(o.pure());
+   assert(not o.singular());
+   assert(not o.osingular());
+   assert(not o.nonosingular());
+   assert(not o.nonsingular());
+   o = {{1}, {3}};
+   assert(not o.trivial());
+   assert(not o.pure());
+   assert(o.singular());
+   assert(o.osingular());
+   assert(not o.nonosingular());
+   assert(not o.nonsingular());
+   o = {{1}, {3,4}};
+   assert(not o.trivial());
+   assert(not o.pure());
+   assert(o.singular());
+   assert(not o.osingular());
+   assert(o.nonosingular());
+   assert(not o.nonsingular());
+   o = {{1,2}, {4}};
+   assert(not o.trivial());
+   assert(not o.pure());
+   assert(o.singular());
+   assert(not o.osingular());
+   assert(o.nonosingular());
+   assert(not o.nonsingular());
    o = {{1,2}, {3,4}};
-   assert(eqp(o[false], {1,2}));
-   assert(eqp(o[true], {3,4}));
-   assert(eqp(o, {{1,2}, {3,4}}));
+   assert(not o.trivial());
+   assert(not o.pure());
+   assert(not o.singular());
+   assert(not o.osingular());
+   assert(not o.nonosingular());
+   assert(o.nonsingular());
   }
 
   {assert(eqp(allocc({}), {}));
