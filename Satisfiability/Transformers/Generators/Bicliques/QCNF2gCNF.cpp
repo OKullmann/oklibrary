@@ -45,12 +45,7 @@ p cnf 10 5
 -9 -10 0
 
 
-TODOS:
-
-1. Generalise to DQCNF
-    - The set of global variables now is the intersection of the
-      dependencies of all existential variables.
-
+See plans/general.txt.
 
 */
 

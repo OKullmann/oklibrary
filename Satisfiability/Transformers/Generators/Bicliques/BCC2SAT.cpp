@@ -135,14 +135,7 @@ Bicliques> ./GraphGen clique 4 | ./BCC2SAT 2 partition2 "" "" "" | minisat /dev/
 UNSATISFIABLE
 
 
-
-
-TODOS:
-
-0. Complete output of parameters.
-
-1. Provide more statistics
-  - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
+See plans/general.txt.
 
 */
 

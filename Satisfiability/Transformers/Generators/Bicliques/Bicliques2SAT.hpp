@@ -143,55 +143,7 @@ License, or any later version. */
       not keeping the order.
 
 
-TODOS:
-
-0. Upwards-search
-
-1. UCP for BC2SAT
-
-(a) The class gets bloated, but for a start it seems easiest to develop
-    the functionality in this (richer) context.
-
-(b) Given and initial edge-placement via sb of type vei_t and an initial
-    consistent bcc-frame F (either empty or obtained by complete previous
-    processing), place the edges of sb in F, and perform complete UCP for F.
-
-(c) A bcc-frame F contains for each 0 <= i < B:
-  - the assigned vertices L, R;
-    perhaps as sorted vectors; both are empty or both are non-empty;
-  - the (other) possible vertices PL, PR;
-    as long as L,R are empty, also PL, PR are empty, and then with the first
-    edge PL, PR are assigned the other neighbours;
-    with further edges only the common neighbours remain;
-    this data only shrinks (after the initial setting), so perhaps also a
-    sorted vector is best;
-  - the edges watching this bc, as pairs (i,e), with 0 <= i < E and e in {0,1},
-    for the direction (forward/backward).
-
-(d) For each edge-index 0 <= i < E:
-     - indication whether assigned to which biclique (with which polarity)
-     - if unassigned, then two watched bicliques (with polarity; which
-       can cover the edge)
-    The two watched bicliques in "ladder- order" (updating advances
-    in this order).
-
-2. Implement partition1:
-  - This linear form is available under LatinSquares.
-  - At this time then the structure of BC2SAT needs to be improved.
-
-3. More efficient symmetry-breaking
-  - Likely this should go into a dedicated file.
-  - A more intelligent algorithm is needed.
-  - And also a greedy version, choosing from the available edges one with
-    minimum sum (or product) of degrees of end-points.
-  - For cases which take a long time, a log-output with the current best
-    and its index is needed.
-    From that index one should be able to perform a single run.
-  - One should also return the index in general (for quick reproduction).
-
-4. GCC compiler error CERR
-  - When updating to GCC version 12 or later, activate the places with CERR
-    (currently disabled due to compiler error)
+See plans/general.txt.
 
 */
 

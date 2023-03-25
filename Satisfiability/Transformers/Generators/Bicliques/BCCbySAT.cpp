@@ -50,46 +50,7 @@ exact 5 6
 5 | 1
 
 
-
-TODOS:
-
-0. Currently the lower bound is just ignored (for downwards).
-  - One needed perhaps a special return-type "conditioally exact" ?
-  - A problem is that the solver-loop uses res.B, and not the bounds-
-    object -- that needs update.
-
-1. Output seeds
-    - It seems parameter-output is needed.
-    - This should include symmetry-breaking.
-
-2. Supply format-options
-    - +- solution
-    - += parameters
-    - +- logs
-
-3. More systematic output:
-    - Explain the special case where no unsat-test
-      is needed due to the results of symmetry-breaking.
-    - Explain the output-line "exact 4 4".
-    - Control logging.
-    - Output symmetry-breaking statistics.
-
-4. Provide a mode which starts with B as given by symmetry-breaking
-   (which is a sound lower bound), and then increases B as long as
-   unsat was found.
-    - This needs an extension of operator-() in BC2SAT.
-    - As a further option it should be possible, for activated symmetry-
-      breaking, to run internal UCP (without intermediate file-output).
-    - See "Upwards-search" in Bicliques2SAT.hpp.
-
-
-
-BUGS:
-
-1.
-Bicliques> ./GraphGen_debug grid 8 8 | ./BCCbySAT_debug 25,+0 -sb "" "" ""
-BCCbySAT_debug: Bicliques2SAT.hpp:599: constexpr Bicliques2SAT::Bounds::Bounds(Bicliques2SAT::DI, bool, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t): Assertion `valid()' failed.
-Aborted (core dumped)
+See plans/general.txt.
 
 */
 

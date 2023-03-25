@@ -41,34 +41,7 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 # 2: n_g = 2
 
 
-TODOS:
-
--2. Output statistics
-  - A log-file argument.
-
--1. Handle pure global variables
-  - See bug below.
-
-0. Fuzzing
-
-1. The option, that in case of no-improvement nothing is changed, is needed.
-
-2. Better handling of replacement in sliced CNFs.
-
-3. Add the usual comments to the output:
-  - The parameter-values, version, etc.
-  - With the usual formatting-options.
-
-
-BUGS:
-
-1.
-Bicliques> QBRG "a20 20" "10*2,5" "" 5 | ./GSM_debug nopre "" "" ""
-GSM_debug: Bicliques2SAT.hpp:1385: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `res.V.size() == n' failed.
-
-That comes from pure universal variables in the input.
-Need to be removed, otherwise the variable-sets of components are
-not disjoint.
+See plans/general.txt.
 
 */
 

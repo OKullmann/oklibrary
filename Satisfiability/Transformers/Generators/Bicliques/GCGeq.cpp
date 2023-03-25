@@ -64,10 +64,7 @@ If say both files don't have them, use
 Above the debug-versions are used (shown by "_debug").
 
 
-TODOS:
-
-1. Output showing the differences
-2. Help should show the meaning of the return-codes.
+See plans/general.txt.
 
 */
 

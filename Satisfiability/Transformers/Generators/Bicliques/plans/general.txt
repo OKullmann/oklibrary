@@ -2,23 +2,282 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
-1. TODOS and BUGS in GSM.cpp
+---
 
-2. TODOS in BCC2SAT.cpp
+1. GSM.cpp:
 
-3. TODOS and BUGS in BCCbySAT.cpp
+TODOS:
 
-4. BUGS in CNFBCC.cpp
+-2. Output statistics
+  - A log-file argument.
 
-5. TODOS in GCGeq.cpp
+-1. Handle pure global variables
+  - See bug below.
 
-6. TODOS in Bicliques2SAT.hpp
+0. Fuzzing
 
-7. TODOS in DImacsTools.hpp
+1. The option, that in case of no-improvement nothing is changed, is needed.
+
+2. Better handling of replacement in sliced CNFs.
+
+3. Add the usual comments to the output:
+  - The parameter-values, version, etc.
+  - With the usual formatting-options.
+
+
+BUGS:
+
+1.
+Bicliques> QBRG "a20 20" "10*2,5" "" 5 | ./GSM_debug nopre "" "" ""
+GSM_debug: Bicliques2SAT.hpp:1385: Bicliques2SAT::GlobRepl::FormalClauseList Bicliques2SAT::GlobRepl::solve(std::ostream*, Bicliques2SAT::alg2_options_t, Bicliques2SAT::GlobRepl::size_t, FloatingPoint::uint_t, RandGen::vec_eseed_t) const: Assertion `res.V.size() == n' failed.
+
+That comes from pure universal variables in the input.
+Need to be removed, otherwise the variable-sets of components are
+not disjoint.
+
+---
+
+
+2. BCC2SAT.cpp:
+
+TODOS:
+
+0. Complete output of parameters.
+
+1. Provide more statistics
+  - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
+
+
+---
+
+3. BCCbySAT.cpp:
+
+TODOS:
+
+0. Currently the lower bound is just ignored (for downwards).
+  - One needed perhaps a special return-type "conditioally exact" ?
+  - A problem is that the solver-loop uses res.B, and not the bounds-
+    object -- that needs update.
+
+1. Output seeds
+    - It seems parameter-output is needed.
+    - This should include symmetry-breaking.
+
+2. Supply format-options
+    - +- solution
+    - += parameters
+    - +- logs
+
+3. More systematic output:
+    - Explain the special case where no unsat-test
+      is needed due to the results of symmetry-breaking.
+    - Explain the output-line "exact 4 4".
+    - Control logging.
+    - Output symmetry-breaking statistics.
+
+4. Provide a mode which starts with B as given by symmetry-breaking
+   (which is a sound lower bound), and then increases B as long as
+   unsat was found.
+    - This needs an extension of operator-() in BC2SAT.
+    - As a further option it should be possible, for activated symmetry-
+      breaking, to run internal UCP (without intermediate file-output).
+    - See "Upwards-search" in Bicliques2SAT.hpp.
+
+
+BUGS:
+
+1.
+Bicliques> ./GraphGen_debug grid 8 8 | ./BCCbySAT_debug 25,+0 -sb "" "" ""
+BCCbySAT_debug: Bicliques2SAT.hpp:599: constexpr Bicliques2SAT::Bounds::Bounds(Bicliques2SAT::DI, bool, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t): Assertion `valid()' failed.
+Aborted (core dumped)
+
+---
+
+4. CNFBCC.cpp:
+
+BUGS:
+
+-2. Remove the additional empty line for the solution.
+
+-1. Inappropriate reaction yet when first run (for given B) is unsatisfiable.
+  - The asserts at the end trigger.
+
+0.
+Bicliques> cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" ""
+CPU time              : 40.7075 s
+Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" ""
+real    1m54.284s
+user    1m41.837s
+sys     0m11.462s
+
+The runtime should be the same here?
+The problem is that the instance is stored on file!
+
+1.
+Bicliques> echo -e "p cnf 2 4\n1 2 0\n1 -2 0\n-1 -2 0\n-1 2 0\n" | ./CNFBCC_debug partition2 "" "" t
+CNFBCC_debug: CNFBCC.cpp:126: int main(int, const char* const*): Assertion `res.rt != ResultType::init_unsat_sb and res.rt != ResultType::init_unsat and res.rt != ResultType::unknown' failed.
+
+The start-value is not sufficient here, since one doesn't start with a
+precise realisation.
+
+---
+
+5. GCGeq.cpp:
+
+TODOS:
+
+1. Output showing the differences
+2. Help should show the meaning of the return-codes.
+
+---
+
+6. Bicliques2SAT.hpp:
+
+TODOS:
+
+0. Upwards-search
+
+1. UCP for BC2SAT
+
+(a) The class gets bloated, but for a start it seems easiest to develop
+    the functionality in this (richer) context.
+
+(b) Given and initial edge-placement via sb of type vei_t and an initial
+    consistent bcc-frame F (either empty or obtained by complete previous
+    processing), place the edges of sb in F, and perform complete UCP for F.
+
+(c) A bcc-frame F contains for each 0 <= i < B:
+  - the assigned vertices L, R;
+    perhaps as sorted vectors; both are empty or both are non-empty;
+  - the (other) possible vertices PL, PR;
+    as long as L,R are empty, also PL, PR are empty, and then with the first
+    edge PL, PR are assigned the other neighbours;
+    with further edges only the common neighbours remain;
+    this data only shrinks (after the initial setting), so perhaps also a
+    sorted vector is best;
+  - the edges watching this bc, as pairs (i,e), with 0 <= i < E and e in {0,1},
+    for the direction (forward/backward).
+
+(d) For each edge-index 0 <= i < E:
+     - indication whether assigned to which biclique (with which polarity)
+     - if unassigned, then two watched bicliques (with polarity; which
+       can cover the edge)
+    The two watched bicliques in "ladder- order" (updating advances
+    in this order).
+
+2. Implement partition1:
+  - This linear form is available under LatinSquares.
+  - At this time then the structure of BC2SAT needs to be improved.
+
+3. More efficient symmetry-breaking
+  - Likely this should go into a dedicated file.
+  - A more intelligent algorithm is needed.
+  - And also a greedy version, choosing from the available edges one with
+    minimum sum (or product) of degrees of end-points.
+  - For cases which take a long time, a log-output with the current best
+    and its index is needed.
+    From that index one should be able to perform a single run.
+  - One should also return the index in general (for quick reproduction).
+
+4. GCC compiler error CERR
+  - When updating to GCC version 12 or later, activate the places with CERR
+    (currently disabled due to compiler error)
+
+---
+
+7. DimacsTools.hpp:
+
+TODOS:
+
+-1. Variation of extract_gpart_strictqcnf, which extracts the
+    global slice and the remainder into a pair of clause-lists
+     - Every initial clause is read into a pair of ClauseSet,
+       with the global literals and the remaining literals.
+     - Using a pair or a struct? In any case, perhaps with the
+       above order.
+     - Do we need lexicographical order on these pairs?
+       Perhaps, and then it seems the non-global part is more
+       important (since fixed), and thus should indeed come first.
+     - Perhaps a struct SClause (split-clause), with components
+       O, G : Clause.
+     - Typedef SClauseList (vector).
+     - For the parameters we have the other variables, the global
+       variables, and the clauses.
+     - Perhaps a struct with components o, g, c, named s_dimacs_pars.
+     - The pair then is SDimacsClauseList.
+     - The meaning of o, g is simply the maximal index used by the
+       respective variables; if first we have all o-variables, then all
+       g-variables, one can also infer their numbers.
+     - Alternatively one could use to DimacsClauseLists (with the same
+       number of clauses). Perhaps this is more appropriate to express the
+       nature of "slices" ?
+       Then no new data structures are needed: equivality of the o-slice
+       by direct comparison, etc.; looks better.
+       So an SDimacsClauseList is then a pair of DimacsClauseList, with the
+       second component the global slice.
+       One could also use a tuple, or a vector?
+     - The main operation (for now) is the gcg-equivalence of two
+       SDimacsClauseList : the global slices have the same conflict-graph,
+       the remaining-slices are equal.
+     - This is simply implemented by first checking whether the o+c-parameters
+       are equal, in which case then first the equality of the other-slice
+       is checked, in which case then a nested loop over all pairs of g-clauses
+       checks whether the corresponding pairs either have at least one conflict
+       or have no conflict.
+     - Similar to the computatio of ConflictGraphs::conflictgraph_bydef
+       (using global complements of the global slices and checking for
+       non-empty intersections).
+     - The corresponding application, GCGeq, reads the two QCNFs and determines
+       their equivalence.
+     - We require for gcg-equivalence that the c-parameters are equal, and thus
+       we can concatenate both inputs to standard input.
+     - In case of inequality a precise witness needs to be output; so the
+       equivalence-check needs to output an object which contains the
+       witnesses.
+
+0. Generalise extract_apart_strict2qcnf to handle arbitrary qcnf
+   (extracting "global variables").
+
+1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
+
+2. Read the minisat-statistics.
+
+3. Directing a stream to stdin of minisat
+   - This is important for very large files (especially when used in
+     parallel).
+   - The tool here to use is
+     ( https://man7.org/linux/man-pages/man3/popen.3.html )
+     #include <stdio.h>
+     FILE *popen(const char *command, const char *type);
+     int pclose(FILE *stream);
+   - The pclose-function returns the exist-status.
+   - Better to use std::FILE from cstdio
+     https://en.cppreference.com/w/cpp/io/c/FILE
+   - Within C, C++, Posix, there doesn't seem to be a way, given
+     a FILE*, to convert this into an ostream.
+     Thus the file-output-function need to be duplicated: additionally
+     to the C++-function also C-functions, outputting to FILE*.
+
+4. skip_strict_eline : don't store the characters discarded.
+   - Similarly in read_string_gline.
+
+---
 
 8. We need, besides Disassemble.cpp, als Reassemble.cpp.
 
-9. TODOS in QCNF2CNF.cpp
+---
+
+9. QCNF2gCNF.cpp:
+
+TODOS:
+
+1. Generalise to DQCNF
+    - The set of global variables now is the intersection of the
+      dependencies of all existential variables.
+
+
+
+---
 
 
 In general:
