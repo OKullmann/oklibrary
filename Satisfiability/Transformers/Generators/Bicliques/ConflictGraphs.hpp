@@ -220,14 +220,20 @@ namespace ConflictGraphs {
       return O.size();
     }
 
+    const OccVar& operator[](const Var v) const noexcept {
+      const var_t v0 = v.v;
+      assert(1 <= v0 and v0 <= O.size());
+      return O[v0-1];
+    }
+
     typedef OccVar::lit_occ_t lit_occ_t;
 
-    lit_occ_t& operator[](const Lit x) {
+    lit_occ_t& operator[](const Lit x) noexcept {
       const var_t v = x.v.v;
       assert(1 <= v and v <= O.size());
       return O[v-1][x.s];
     }
-    const lit_occ_t& operator[](const Lit x) const {
+    const lit_occ_t& operator[](const Lit x) const noexcept {
       const var_t v = x.v.v;
       assert(1 <= v and v <= O.size());
       return O[v-1][x.s];
@@ -238,6 +244,7 @@ namespace ConflictGraphs {
       assert(1 <= v and v <= O.size());
       return O[v-1].conflicts(x);
     }
+
     bool operator ==(const AllOcc&) const noexcept = default;
   };
 

@@ -1317,6 +1317,17 @@ namespace Bicliques2SAT {
       return Bicliques::bcc2CNF(res.bcc, G.n());
     }
 
+    varlist_t first_nonpure(const size_t i, const size_t ns) const {
+      assert(i < numntcc);
+      varlist_t res = ntvar[i];
+      const auto pure = [this](const DimacsTools::Var v){
+        return occ[v].pure();
+      };
+      std::erase_if(res, pure);
+      res.resize(std::min(ns, res.size()));
+      return res;
+    }
+
     typedef DimacsTools::FormalClauseList FormalClauseList;
     FormalClauseList solve(std::ostream* const log,
                            const alg2_options_t ao,
@@ -1331,12 +1342,12 @@ namespace Bicliques2SAT {
       for (size_t i = 0; i < numntcc; ++i) {
         seeds.back() = i;
         const DimacsClauseList Fi = solve_ntcc(i,log,ao,sb_rounds,sec,seeds);
-        const size_t ni = Fi.first.n;
-        auto resize = [&ni](varlist_t V){V.resize(ni);return V;};
-        const varlist_t V = resize(ntvar[i]);
-        assert(V.size() == ni);
-        res.V.insert(V.begin(), V.end());
-        n += ni;
+        const varlist_t V = first_nonpure(i, Fi.first.n);
+        {const size_t ni = V.size();
+         assert(ni == Fi.first.n);
+         res.V.insert(V.begin(), V.end());
+         n += ni;
+        }
         assert(res.V.size() == n);
         const auto map = DimacsTools::list_as_map(V);
         const size_t cc = ntcc[i];

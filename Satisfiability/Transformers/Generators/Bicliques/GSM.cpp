@@ -8,6 +8,10 @@ License, or any later version. */
 /*
   Global Slice Minimisation
 
+  The original clause-order is kept as well as the other-variables,
+  while the replacement-global variables re-use (per connected component)
+  the non-pure global variables in numerical order.
+
 
 EXAMPLES:
 
@@ -41,6 +45,67 @@ Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 # 2: n_g = 2
 
 
+Bicliques> cat data/Example_01.qcnf
+p cnf 9 6
+a 8 9 3 5 7 0
+e 1 2 4 6 0
+9 3 2 -4 0
+9 -3 5 1 6 0
+-2 -4 0
+-5 -6 0
+7 2 4 6 8 0
+-7 -2 -4 -6 0
+Bicliques> cat data/Example_01.qcnf | ./GSM_debug "" "" "" "" > R.qcnf
+Bicliques> cat R.qcnf
+p cnf 7 6
+a 3 7 0
+e 1 2 4 6 0
+2 -4 3 0
+1 6 -3 0
+-2 -4 0
+-6 3 0
+2 4 6 7 0
+-2 -4 -6 -7 0
+Bicliques> cat data/Example_01.qcnf R.qcnf | ./GCGeq_debug
+# 1: O = p cnf 6 6
+# 1: G = p cnf 9 6
+# 1: n_g = 5
+# 2: O = p cnf 6 6
+# 2: G = p cnf 7 6
+# 2: n_g = 2
+
+Bicliques> cat data/Example_02.qcnf
+p cnf 9 6
+a 8 9 3 5 7 0
+e 1 2 4 6 0
+9 3 2 -4 0
+-9 3 5 1 6 0
+-2 -4 0
+5 -6 9 0
+7 2 4 6 8 0
+-7 -2 -4 -6 0
+Bicliques> cat data/Example_02.qcnf | ./GSM_debug "" "" "" "" > R.qcnf
+Bicliques> cat R.qcnf
+p cnf 9 6
+a 7 9 0
+e 1 2 4 6 0
+2 -4 9 0
+1 6 -9 0
+-2 -4 0
+-6 9 0
+2 4 6 7 0
+-2 -4 -6 -7 0
+Bicliques> cat data/Example_01.qcnf R.qcnf | ./GCGeq_debug
+Bicliques> cat data/Example_02.qcnf R.qcnf | ./GCGeq_debug
+# 1: O = p cnf 6 6
+# 1: G = p cnf 9 6
+# 1: n_g = 5
+# 2: O = p cnf 6 6
+# 2: G = p cnf 9 6
+# 2: n_g = 2
+
+
+
 See plans/general.txt.
 
 */
@@ -59,7 +124,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.2.0",
         "25.3.2023",
         __FILE__,
         "Oliver Kullmann",
