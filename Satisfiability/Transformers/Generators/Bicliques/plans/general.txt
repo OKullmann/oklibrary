@@ -13,6 +13,11 @@ TODOS:
 
 0. Fuzzing
 
+ - Bicliques> ./Fuzzer "a20 40" "100*2,6;100*2,10" "" t
+   running on server.
+ - Bicliques> ./Fuzzer "a30 40" "100*2,6;100*2,10;10*2,3" "" t
+   running on server.
+
 1. The option, that in case of no-improvement nothing is changed, is needed.
 
 2. Better handling of replacement in sliced CNFs.
