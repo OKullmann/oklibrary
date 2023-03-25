@@ -35,8 +35,10 @@ e 1 2 4 6 0
 Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
 # 1: O = p cnf 6 6
 # 1: G = p cnf 7 6
+# 1: n_g = 3
 # 2: O = p cnf 6 6
 # 2: G = p cnf 7 6
+# 2: n_g = 2
 
 
 TODOS:
@@ -52,6 +54,10 @@ TODOS:
 1. The option, that in case of no-improvement nothing is changed, is needed.
 
 2. Better handling of replacement in sliced CNFs.
+
+3. Add the usual comments to the output:
+  - The parameter-values, version, etc.
+  - With the usual formatting-options.
 
 
 BUGS:
@@ -80,8 +86,8 @@ not disjoint.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "21.3.2023",
+        "0.1.3",
+        "25.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",
@@ -104,11 +110,10 @@ namespace {
     "                : " << Environment::WRP<SO>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
     " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
-    "  - Using \"+\" for B means the increment added to the lower-bound.\n"
     "  - The representation is exact (for the conflict-*graph*) iff considering bcp.\n\n"
 ;
     return true;
