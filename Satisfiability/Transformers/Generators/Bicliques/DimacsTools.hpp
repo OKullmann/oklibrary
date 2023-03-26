@@ -158,8 +158,13 @@ License, or any later version. */
 
     - const strings input_filename, output_filename, minisat_string
 
-    - minisat_call(string, Lit_filter) -> Minisat_return
-    - minisat_call(DimacsClauseList, Lit_filter) -> Minisat_return
+    - minisat_call(string CNFfile, Lit_filter, string options)
+          -> Minisat_return
+      the Lit_filter is for the interpretation of a satisfying assignment,
+      while the options-string is passed as is
+    - minisat_call(DimacsClauseList F, Lit_filter, string options)
+          -> Minisat_return
+      writes F to a CNFfile, and then calls the above version.
 
 
 See plans/general.txt.
