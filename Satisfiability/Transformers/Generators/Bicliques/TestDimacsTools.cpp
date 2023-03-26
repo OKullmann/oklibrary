@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "19.3.2023",
+        "0.2.4",
+        "26.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -232,21 +232,23 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(res[1], {Lit(1), Lit(-4), Lit(5)}));
   }
   {std::istringstream is;
-   is.str("p cnf 10 4\n"
-          "a 3 7 5 8 0\n"
-          "e  2 1  0\n"
+   is.str("p cnf 111 4\n"
+          "a 3 7 5 8  111 0\n"
+          "e  2 1  55  0\n"
           "a 4  9 10 6 0\n"
           "-1  10 0\n"
           " -5 3 -3 0\n"
           "-8 4 -10  3 0\n"
           "-7  10 -1  6 0\n");
    const GslicedCNF F = read_strict_GslicedCNF(is);
+   assert(eqp(F.V, {Var(3), Var(5), Var(7), Var(8)}));
+   assert(eqp(F.T, {Var(111)}));
    std::ostringstream os;
    os << F;
    assert(os.str() ==
           "p cnf 10 4\n"
           "a 3 5 7 8 0\n"
-          "e  2 1  0\n"
+          "e  2 1  55  0\n"
           "a 4  9 10 6 0\n"
           "-1 10 0\n"
           "-3 3 -5 0\n"

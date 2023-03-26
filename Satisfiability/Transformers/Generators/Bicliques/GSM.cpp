@@ -11,6 +11,9 @@ License, or any later version. */
   The original clause-order is kept as well as the other-variables,
   while the replacement-global variables re-use (per connected component)
   the non-pure global variables in numerical order.
+  The output-clauses are sorted per slice, with the other-slice first,
+  the dimacs-parameters are exact, and exactly the occurring new global
+  variables are listed.
 
 
 EXAMPLES:
@@ -75,8 +78,8 @@ Bicliques> cat data/Example_01.qcnf R.qcnf | ./GCGeq_debug
 # 2: n_g = 2
 
 Bicliques> cat data/Example_02.qcnf
-p cnf 9 6
-a 8 9 3 5 7 0
+p cnf 111 6
+a 8 9 3 5 111 7 0
 e 1 2 4 6 0
 9 3 2 -4 0
 -9 3 5 1 6 0
@@ -104,6 +107,7 @@ Bicliques> cat data/Example_02.qcnf R.qcnf | ./GCGeq_debug
 # 2: G = p cnf 9 6
 # 2: n_g = 2
 
+We note here that trivial global variables (not occurring at all) are ignored.
 
 
 See plans/general.txt.
@@ -124,8 +128,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "25.3.2023",
+        "0.2.1",
+        "26.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",

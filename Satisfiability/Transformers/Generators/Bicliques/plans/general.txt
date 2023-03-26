@@ -17,6 +17,14 @@ TODOS:
    running on server.
  - Bicliques> ./Fuzzer "a30 40" "100*2,6;100*2,10;10*2,3" "" t
    running on server.
+ - Bicliques> ./Fuzzer "a40 e40 a40 40" "100*4,6" "" t
+   running on server.
+ - Bicliques> ./Fuzzer "a100 100" "100*2,4" u,m t
+   running on server.
+   Note "m" here (not "o", which yields an assert-error).
+
+Needs to be automised.
+
 
 1. The option, that in case of no-improvement nothing is changed, is needed.
 

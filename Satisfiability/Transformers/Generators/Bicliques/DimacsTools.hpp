@@ -47,6 +47,15 @@ License, or any later version. */
 
    - Reading strict Dimacs from istream:
 
+    "Strict" means
+     - the n-bound and the c-bound is sharp
+     - all comments before the p-line (and they start with "c")
+     - the p-line starts exactly with "p cnf "
+     - every clause on its own line
+     - reading of literals using reading of unsigned integers.
+    Pure variables (occurring in exactly one sign) and trivial variables
+    (not occurring at all) are allowed.
+
     - read_strict_dimacs_pars -> dimacs_pars :
         skipping lines starting with "c", then expecting a line exactly
         starting with "p cnf ", and then reading two var_t's.
@@ -64,6 +73,9 @@ License, or any later version. */
 
 
    Reading strict QDimacs from istream:
+
+   "Strict" additionally means here that a- and e-line are on their
+   lines, and are not broken over several lines.
 
     - read_strict_variable -> Var :
         reading a string, asserting it not starting with "-", and then
@@ -177,6 +189,8 @@ See plans/general.txt.
 #include <ProgramOptions/Strings.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
+
+#include "Algorithms.hpp"
 
 namespace DimacsTools {
 
@@ -469,7 +483,8 @@ namespace DimacsTools {
   struct GslicedCNF {
     typedef std::array<DimacsClauseList, 2> scnf_t;
     scnf_t SF; // "other" and "global"
-    VarSet V; // global variables
+    VarSet V; // occurring global variables and 
+    VarSet T; // trivial global variables
     other_ealines_t other;
 
     GslicedCNF() noexcept {}
@@ -486,9 +501,13 @@ namespace DimacsTools {
   };
   bool valid (const GslicedCNF& F) noexcept {
     return valid_slicedcnf(F.SF) and sorted_elements_slicedcnf(F.SF)
-      and var(F.G()) == F.V;
+      and var(F.G()) == F.V and
+      Algorithms::empty_intersection(F.V, F.T);
   }
 
+  // Ignoring the trivial variables, standardising the global a-line,
+  // outputting the clauses, sorting the clauses per slice, with
+  // global-slice output second:
   std::ostream& operator <<(std::ostream& out, const GslicedCNF& F) {
     assert(valid(F));
     const var_t n = std::max(F.SF[0].first.n, F.SF[1].first.n),
@@ -506,26 +525,35 @@ namespace DimacsTools {
     return out;
   }
 
+
+  // The trivial global variables are not taken into accout for G.n:
   GslicedCNF read_strict_GslicedCNF(std::istream& in) {
     const dimacs_pars dp = read_strict_dimacs_pars(in);
     GslicedCNF res;
     res.O().first.c = dp.c;
     res.G().first.c = dp.c;
     {auto gline = read_strict_gline_withother(in);
-     res.V = std::move(gline.first);
+     res.T = std::move(gline.first);
      res.other = std::move(gline.second);
     }
     for (var_t c = dp.c; c != 0; --c) {
-      auto [C1,C0] = read_strict_clause_split(in, res.V);
+      auto [C1,C0] = read_strict_clause_split(in, res.T);
       std::ranges::sort(C0); std::ranges::sort(C1);
       if (not C0.empty())
         res.O().first.n = std::max(res.O().first.n, C0.back().v.v);
-      if (not C1.empty())
-        res.G().first.n = std::max(res.G().first.n, C1.back().v.v);
       res.O().second.push_back(std::move(C0));
       res.G().second.push_back(std::move(C1));
     }
-    assert(dp.n == std::max(res.O().first.n, res.G().first.n));
+    for (const Clause& C : res.G().second)
+      for (const Lit& x : C) {
+        const Var v = var(x);
+        res.V.insert(v);
+        res.T.erase(v);
+      }
+    if (not res.V.empty()) res.G().first.n = (--res.V.end())->v;
+    {[[maybe_unused]] const var_t nt = res.T.empty() ? 0 :
+        (--res.T.end())->v;
+     assert(dp.n == std::max({res.O().first.n, res.G().first.n, nt}));}
     assert(valid(res));
     return res;
   }
