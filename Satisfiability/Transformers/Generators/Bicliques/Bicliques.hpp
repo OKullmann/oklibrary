@@ -90,6 +90,7 @@ TODOS:
 #include "Graphs.hpp"
 #include "DimacsTools.hpp"
 #include "ConflictGraphs.hpp"
+#include "Algorithms.hpp"
 
 namespace Bicliques {
 
@@ -169,7 +170,7 @@ namespace Bicliques {
   // Whether the two sides are disjoint(assuming sorted vertices):
   inline bool disjoint(const bc_frame& b) noexcept {
     assert(valid1(b));
-    return ConflictGraphs::empty_intersection(b.l, b.r);
+    return Algorithms::empty_intersection(b.l, b.r);
   }
 
   inline bool is_star(const id_t v, const list_t& L, const AdjVecUInt& G) noexcept {

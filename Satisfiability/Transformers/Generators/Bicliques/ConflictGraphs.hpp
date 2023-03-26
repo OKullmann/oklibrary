@@ -17,7 +17,6 @@ License, or any later version. */
     - indexlist_t = std::vector<size_t>
 
    General algorithmic tools:
-    - empty_intersection(RAN r1, RAN r2)
     - list2map(vector<X>) -> map<x,size_t>
     - filter_rename(indexlist_t, std::map) -> indexlist_t :
         remove elements not in the map, and rename the rest.
@@ -81,6 +80,7 @@ License, or any later version. */
 #include "Graphs.hpp"
 #include "GraphTraversal.hpp"
 #include "DimacsTools.hpp"
+#include "Algorithms.hpp"
 
 namespace ConflictGraphs {
 
@@ -96,31 +96,6 @@ namespace ConflictGraphs {
   typedef var_t size_t;
   typedef std::vector<size_t> indexlist_t;
 
-
-  // For sorted ranges decide whether their intersection is empty:
-  template <class RAN>
-  inline bool empty_intersection(const RAN& r1, const RAN& r2) noexcept {
-    if (r1.empty() or r2.empty()) return true;
-    const auto e1 = r1.end(); const auto e2 = r2.end();
-    auto i1 = r1.begin(); auto i2 = r2.begin();
-    if (r1.size() <= r2.size()) {
-      for (;;) {
-        while (*i1 < *i2) { ++i1; if (i1 == e1) return true; }
-        if (*i1 == *i2) return false;
-        do { ++i2; if (i2 == e2) return true; } while  (*i2 < *i1);
-        if (*i2 == *i1) return false;
-      }
-    }
-    else {
-      for (;;) {
-        while (*i2 < *i1) { ++i2; if (i2 == e2) return true; }
-        if (*i2 == *i1) return false;
-        do { ++i1; if (i1 == e1) return true; } while (*i1 < *i2);
-        if (*i1 == *i2) return false;
-      }
-    }
-    return true;
-  }
 
 
   // Element-wise complementation:
@@ -151,7 +126,7 @@ namespace ConflictGraphs {
       if (C.empty()) continue;
       auto& neighbours = A[i];
       for (size_t j = i+1; j < c; ++j)
-        if (not empty_intersection(C, FC[j])) {
+        if (not Algorithms::empty_intersection(C, FC[j])) {
           neighbours.push_back(j);
           A[j].push_back(i);
         }
