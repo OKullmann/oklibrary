@@ -12,14 +12,17 @@
 
 # ./Fuzzer "a10 10" "10*2,4" "" t
 
+# See plans/general.txt for examples.
+
 
 set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.0.7"
+version="0.0.8"
 
 : ${command1:="./GSM_debug"}
+: ${argument1:="\"\""}
 : ${command2:="./GCGeq_debug"}
 : ${generator:="QBRG"}
 
@@ -44,7 +47,7 @@ counter=0
 while [ 0 ]; do
   ((++counter)); printf "\r%d" ${counter}
   ${generator} "$@" -${genfile}
-  cat ${genfile} | ${command1} "" "" "" "" > ${repfile}
+  cat ${genfile} | ${command1} ${argument1} "" "" "" > ${repfile}
   cat ${genfile} ${repfile} | ${command2} > ${outfile}
   rm ${genfile} ${repfile} ${outfile}
 done

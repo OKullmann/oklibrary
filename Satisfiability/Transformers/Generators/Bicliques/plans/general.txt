@@ -22,8 +22,13 @@ TODOS:
  - Bicliques> ./Fuzzer "a100 100" "100*2,4" u,m t
    running on server.
    Note "m" here (not "o", which yields an assert-error).
+ - Bicliques> argument1="nopre" ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
 
-Needs to be automised.
+ - Needs to be automised.
+
+ - DONE And options like "nopre" need to be handled.
+
+  -Likely the name should be Fuzzer_GSM.
 
 
 1. The option, that in case of no-improvement nothing is changed, is needed.

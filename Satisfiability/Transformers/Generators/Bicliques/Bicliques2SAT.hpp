@@ -1311,7 +1311,7 @@ namespace Bicliques2SAT {
                << res.rt << "\n";
         std::stringstream ss;
         ss << "GlobRepl::solve_ntcc: can not solve nt-component " << i
-           << ", return-code " << res.rt;
+           << ", return-code \"" << res.rt << "\"";
         throw std::runtime_error(ss.str());
       }
       return Bicliques::bcc2CNF(res.bcc, G.n());
