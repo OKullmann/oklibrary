@@ -250,13 +250,13 @@ TODOS:
 3. Directing a stream to stdin of minisat
    - This is important for very large files (especially when used in
      parallel).
-   - The tool here to use is
+   - DONE The tool here to use is
      ( https://man7.org/linux/man-pages/man3/popen.3.html )
      #include <stdio.h>
      FILE *popen(const char *command, const char *type);
      int pclose(FILE *stream);
-   - The pclose-function returns the exist-status.
-   - Better to use std::FILE from cstdio
+   - DONE The pclose-function returns the exit-status.
+   - DONE Better to use std::FILE from cstdio
      https://en.cppreference.com/w/cpp/io/c/FILE
    - Within C, C++, Posix, there doesn't seem to be a way, given
      a FILE*, to convert this into an ostream.
