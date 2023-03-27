@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.2.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,29 +11,93 @@ License, or any later version. */
 
   Namespace SystemCalls, abbreviated "SC".
 
+  Main functions are
+
+   - function esystem(command, cin)
+     executes command, possibly getting file or command cin piped into
+     stdin, returning a structure with return-status-information and
+     strings for standard output and standard input (which were temporarily
+     stored on file).
+
+   - struct Popen performs a similar operator, but now allowing access to
+     stdin for the command:
+     - constructor Popen(command)
+     - etransfer(FUN pcin) : pcin(FILE*) puts the content into FILE*, which
+       is delivered to stdin of the command
+     - the destructor of Popen removes the two auxiliary files for cout
+       and cerr.
+
+   - tsystem(command, cout, cerr) performing command, putting standard output
+     and error into files cout resp. cerr, and returning ReturnValue plus
+     timing-information on the command (user/wall/system-time).
+
+   - vsystem(command) for extracting version-information.
+
+
   OKlib/General/SystemHandling.hpp contains older code on the topic.
 
-   - Pid_t (typedef)
-   - pid()
 
-   - ExitStatus (scoped enum)
-   - ReturnValue (class for holding return-values of system-calls)
-   - EReturnValue (class extended ReturnValue by strings for out and err)
+   - Pid_t (typedef for pid_t from sys/types.h)
+   - pid() -> Pid_t
+
+   - ExitStatus (scoped enum: normal, aborted, stopped)
+   - ReturnValue:
+    - constructor ReturnValue(r), where r : int is a return-code of
+      a system-call
+    - the const-members s : ExitStatus, continued : bool, analyse r,
+      while val : int is the original return-value
+   - EReturnValue (wrapper for rv : ReturnValue and out, err : string)
 
    - name_prefix (string-constant)
-   - system_filename(string stem) (extending stem with fixed prefix and
-     suffix "_pid")
+   - system_filename(string stem) -> string :
+     extending stem with fixed prefix and suffix "_pid" (with current pid)
 
    - call_extension(string command, string cin, string cout, string cerr)
-     helper-function for producing commands
+       -> string :
+     helper-function for extending commands by standard-input/output/error
+     redirection
 
 
    - esystem(string command, string cin, string cout, string cerr,
-     bool cinexec) -> ReturnValue
-     makes a system-call, handling the three streams
+       bool cinexec) -> ReturnValue
+     makes a system-call, handling the three streams:
+      - empty cin,cout,cerr means ignoring the respective stream
+      - /dev/stdin resp. /dev/stdout resp. /dev/stderr yield the respective
+        system-streams
+      - in general names are treated as (system-)files
+      - if cinexec is true, cin is considered an executable command, whose
+        output is piped into the command.
 
-   - esystem(string command, string cin,  bool cinexec) -> EReturnValue
-     handles cout and cerr internally
+     Examples:
+
+     > esystem("cat -", "/dev/stdin", "/dev/stdout", "");
+     copies input from standard input to standard output
+
+     > esystem("cat -", "TestSystemCalls.cpp", "XXX", "");
+     copies the file TestSystemCalls.cpp to file XXX (creating it,
+     if needed)
+
+     > esystem("cat -", "echo XYZ", "/dev/stdout", "", true);
+     prints XYZ to standard output.
+
+
+     The convenience wrapper
+
+   - esystem(string command, string cin, bool cinexec) -> EReturnValue
+
+     handles cout and cerr internally (by temporary files, which are deleted).
+
+
+     Class Popen:
+
+   - similar to function esystem, but now broken into three stages
+     (construction, delivery of input to standard input, removal
+     of auxiliary files), so that the input to the command does not need
+     to be stored on file (or in memory)
+   - the transfer-function uses a functor-template to take the function
+     which provides the input;
+   - helper types put_cin_t and stringref_put, which can be used for the
+     transfer.
 
 
    - timing_output, timing_command, timing_options_header, timing_options
@@ -54,6 +118,10 @@ License, or any later version. */
 
 TODOS:
 
+1. Class ProfInfo
+    - Likely this should be integrated now with
+      ProgramOptions/Environment.hpp ?
+
 */
 
 #ifndef SYSTEMCALLS_HLADUC6aKT
@@ -69,8 +137,11 @@ TODOS:
 #include <regex>
 
 #include <cassert>
-#include <cstdlib> // for system
+#include <cstdlib> // for std::system
 #include <cstdint>
+#include <cstdio> // for std::FILE, std::fputs
+
+#include <stdio.h> // for popen
 
 #include <sys/types.h> // for pid_t
 #include <unistd.h> // for getpid
@@ -93,12 +164,15 @@ namespace SystemCalls {
     default : return out << "ExitStatus::UNKNOWN";}
   }
 
+
   struct ReturnValue {
     const ExitStatus s;
     const int val;
     const bool continued;
+
     ReturnValue(const int ret) noexcept : s(status(ret)), val(value(ret)),
                                           continued(WIFCONTINUED(ret)) {}
+
     operator std::string() const noexcept {
       return std::to_string(int(s)) + " " + std::to_string(val) + " " +
         std::to_string(continued);
@@ -118,6 +192,9 @@ namespace SystemCalls {
       else if (signaled) return ExitStatus::aborted;
       else return ExitStatus::stopped;
     }
+
+    bool operator ==(const ReturnValue&) const noexcept = default;
+
   private :
     int value(const int ret) noexcept {
       switch (s) {
@@ -128,6 +205,15 @@ namespace SystemCalls {
   };
 
 
+  /*
+    Extending std::system
+
+    Capturing stdout, stderr by files, delivered as strings,
+    and returning everything as EReturnValue.
+
+    The basic version uses given files for standard input/output/error.
+  */
+
   const std::string name_prefix = "SystemCalls_";
   std::string system_filename(const std::string& stem) {
     static const std::string p = std::to_string(pid());
@@ -135,7 +221,11 @@ namespace SystemCalls {
     return name_prefix + stem + "_" + p;
   }
 
-  std::string call_extension(const std::string& command, const std::string& cin, const std::string& cout, const std::string& cerr, const bool cinexec=false) {
+  std::string call_extension(const std::string& command,
+                             const std::string& cin,
+                             const std::string& cout,
+                             const std::string& cerr,
+                             const bool cinexec=false) {
     assert(not cinexec or not cin.empty());
     std::string res;
     if (not cin.empty())
@@ -148,8 +238,13 @@ namespace SystemCalls {
 
   // If cin != "", then either the file cin or the result of the command cin
   // (if cinexec=true) is piped to the command; standard output is redirected
-  // to file cout, standard error to cerr:
-  ReturnValue esystem(const std::string command, const std::string& cin, const std::string& cout, const std::string& cerr, const bool cinexec=false) {
+  // to file cout, standard error to cerr; here using given files cin,
+  // cout, cerr:
+  ReturnValue esystem(const std::string command,
+                      const std::string& cin,
+                      const std::string& cout,
+                      const std::string& cerr,
+                      const bool cinexec=false) {
     std::cout.flush();
     return ReturnValue(std::system(
       call_extension(command, cin, cout, cerr, cinexec).c_str()));
@@ -157,8 +252,12 @@ namespace SystemCalls {
   struct EReturnValue {
     ReturnValue rv;
     std::string out, err;
+    bool operator ==(const EReturnValue&) const noexcept = default;
   };
-  EReturnValue esystem(const std::string command, const std::string& cin, const bool cinexec=false) {
+  // Now handling cout and cerr internally:
+  EReturnValue esystem(const std::string command,
+                       const std::string& cin,
+                       const bool cinexec=false) {
     const std::string error = "ERROR[SystemCalls::esystem]: ";
     using Environment::hash;
     const std::uint64_t hcom = hash(command), hcin = hash(cin);
@@ -189,6 +288,117 @@ namespace SystemCalls {
     return {rv, cout, cerr};
   }
 
+
+  /*
+    Extending popen, piping stdin from a function-object
+  */
+
+  typedef std::function<void(std::FILE*)> put_cin_t;
+  struct stringref_put {
+    const std::string& ref;
+    stringref_put(const std::string& ref) noexcept : ref(ref) {}
+    void operator ()(std::FILE* const fp) const {
+      std::fputs(ref.c_str(), fp);
+    }
+  };
+
+
+  class Popen {
+  public :
+    typedef std::string str_t;
+    const str_t command;
+    // For the automatic output-files (if applicable):
+       const str_t hcom, out_stem, err_stem, timestamp;
+    const str_t cout, cerr, command_ext;
+    inline static const std::string error = "ERROR[SystemCalls::Popen]: ";
+
+    // Empty cout or cerr means ignoring that output:
+    Popen(const str_t& command, const str_t& cout, const str_t& cerr) :
+        command(command), cout(cout), cerr(cerr),
+        command_ext(call_extension(command, cout, cerr)),
+        delete_files(false),
+        cin(internal_popen(command_ext)) {
+      test_validity();
+    }
+    Popen(const str_t& command) :
+        command(command),
+        hcom("_"+std::to_string(Environment::hash(command))+"_"),
+        out_stem("Popen_out" + hcom), err_stem("Popen_err" + hcom),
+        timestamp(std::to_string(Environment::CurrentTime::timestamp())),
+        cout(system_filename(out_stem + timestamp)),
+        cerr(system_filename(err_stem + timestamp)),
+        command_ext(call_extension(command, cout, cerr)),
+        delete_files(true),
+        cin(internal_popen(command_ext)) {
+      test_validity();
+    }
+
+    bool delete_on_exit() const noexcept { return delete_files; }
+    bool cin_valid() const noexcept { return cin; }
+
+  private :
+    static std::string call_extension(str_t com,
+                                      const str_t& cout, const str_t& cerr) {
+      if (not cout.empty()) com += " > " + cout;
+      if (not cerr.empty()) com += " 2> " + cerr;
+      return com;
+    }
+    static std::FILE* internal_popen(const str_t& ce) {
+      std::cout.flush();
+      return popen(ce.c_str(), "w");
+    }
+    void test_validity() const {
+      if (cin == nullptr)
+        throw std::runtime_error(error +
+          "popen returned nullptr in constructor");
+    }
+
+  public :
+    template <class FUN>
+    ReturnValue transfer(const FUN& pcin) {
+      if (not cin_valid())
+        throw std::runtime_error(error +
+          "FILE* = nullptr");
+      pcin(cin);
+      return pclose_null();
+    }
+    template <class FUN>
+    EReturnValue etransfer(const FUN& pcin) {
+      if (not cin_valid())
+        throw std::runtime_error(error +
+          "FILE* = nullptr");
+      EReturnValue res{transfer(pcin)};
+      res.out = Environment::get_content(std::filesystem::path(cout));
+      res.err = Environment::get_content(std::filesystem::path(cerr));
+      return res;
+    }
+
+    ~Popen() noexcept(false) {
+      if (cin) pclose(cin);
+      if (not delete_files) return;
+      const std::filesystem::path pout(cout), perr(cerr);
+      if (not std::filesystem::remove(pout))
+        throw std::runtime_error(error + "Can't remove file\n  " + cout);
+      if (not std::filesystem::remove(perr))
+        throw std::runtime_error(error + "Can't remove file\n  " + cerr);
+    }
+
+  private :
+    const bool delete_files;
+    std::FILE* cin;
+
+    ReturnValue pclose_null() {
+      assert(cin);
+      ReturnValue res{pclose(cin)};
+      cin = nullptr;
+      return res;
+    }
+  };
+
+
+  /*
+    Similar to esystem, now also measuring the time used.
+  */
 
   const std::string timing_output = "TIMING";
   const std::string timing_command = "/usr/bin/time";
