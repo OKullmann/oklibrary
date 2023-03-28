@@ -919,6 +919,13 @@ namespace Bicliques2SAT {
       return sum;
     }
 
+    RandGen::dimacs_pars all_dimacs(const vei_t& sb,
+                                    const PT pt) const noexcept {
+      assert(pt == PT::cover or pt == PT::partition2);
+      return {enc_.n(),
+          pt == PT::cover ? num_cover_cl(sb) : num_part2_cl(sb)};
+    }
+
 
     // Signalling unsatisfiability (necessarily here due to symmetry-breaking
     // contradicting the given value of B):
@@ -949,8 +956,7 @@ namespace Bicliques2SAT {
           return max_bcincomp(sb_rounds, g);}();
       if (enc_.B() == 0) enc_.update_B(sbv.size());
       else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
-      const RandGen::dimacs_pars res{enc_.n(),
-          pt == PT::cover ? num_cover_cl(sbv) : num_part2_cl(sbv)};
+      const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
@@ -1086,8 +1092,7 @@ namespace Bicliques2SAT {
            throw std::runtime_error(
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
-         const RandGen::dimacs_pars dp{enc_.n(),
-             pt==PT::cover ? num_cover_cl(sbv) : num_part2_cl(sbv)};
+         const RandGen::dimacs_pars dp = all_dimacs(sbv, pt);
          file << dp;
          if (pt == PT::cover) all_cover_clauses(sbv, file);
          else all_part2_clauses(sbv, file);
