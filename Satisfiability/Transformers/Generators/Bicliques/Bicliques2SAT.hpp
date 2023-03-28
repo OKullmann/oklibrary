@@ -925,6 +925,11 @@ namespace Bicliques2SAT {
       return {enc_.n(),
           pt == PT::cover ? num_cover_cl(sb) : num_part2_cl(sb)};
     }
+    void all_clauses(const vei_t& sb, const PT pt, std::ostream& out) {
+      assert(pt == PT::cover or pt == PT::partition2);
+      if (pt == PT::cover) all_cover_clauses(sb, out);
+      else all_part2_clauses(sb, out);
+    }
 
 
     // Signalling unsatisfiability (necessarily here due to symmetry-breaking
@@ -1004,8 +1009,7 @@ namespace Bicliques2SAT {
       }
 
       if (dp == DP::with) out << res;
-      if (cs == CS::with) pt==PT::cover ? all_cover_clauses(sbv, out)
-        : all_part2_clauses(sbv, out);
+      if (cs == CS::with) all_clauses(sbv, pt, out);
       return res;
     }
 
@@ -1092,10 +1096,8 @@ namespace Bicliques2SAT {
            throw std::runtime_error(
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
-         const RandGen::dimacs_pars dp = all_dimacs(sbv, pt);
-         file << dp;
-         if (pt == PT::cover) all_cover_clauses(sbv, file);
-         else all_part2_clauses(sbv, file);
+         file << all_dimacs(sbv, pt);
+         all_clauses(sbv, pt, file);
         }
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);
