@@ -119,7 +119,7 @@ License, or any later version. */
         edges from sb (symmetry-breaking)
       - num_cl_sb(vei_t)
 
-      - all_clauses(vei_t sb, std::ostream& out) -> id_t : combines
+      - all_cover_clauses(vei_t sb, std::ostream& out) -> id_t : combines
         all_basic_clauses with all_sbedges
       - num_cl(vei_t)
 
@@ -852,7 +852,7 @@ namespace Bicliques2SAT {
     id_t num_lit(const vei_t& sb) const noexcept {
       return num_basic_lit() + num_lit_sb(sb);
     }
-    id_t all_clauses(const vei_t& sb, std::ostream& out) const {
+    id_t all_cover_clauses(const vei_t& sb, std::ostream& out) const {
       id_t sum = 0;
       sum += all_basic_clauses(out);
       sum += all_sbedges(sb, out);
@@ -998,7 +998,7 @@ namespace Bicliques2SAT {
       }
 
       if (dp == DP::with) out << res;
-      if (cs == CS::with) pt==PT::cover ? all_clauses(sbv, out)
+      if (cs == CS::with) pt==PT::cover ? all_cover_clauses(sbv, out)
         : all_part2_clauses(sbv, out);
       return res;
     }
@@ -1089,7 +1089,7 @@ namespace Bicliques2SAT {
          const RandGen::dimacs_pars dp{enc_.n(),
              pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
          file << dp;
-         if (pt == PT::cover) all_clauses(sbv, file);
+         if (pt == PT::cover) all_cover_clauses(sbv, file);
          else all_part2_clauses(sbv, file);
         }
         const auto call_res = DimacsTools::minisat_call
