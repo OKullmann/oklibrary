@@ -1072,20 +1072,22 @@ namespace Bicliques2SAT {
       }
 
       const std::string filename_head = SystemCalls::system_filename(
-        "Bicliques2SAT_" + std::to_string(Environment::CurrentTime::timestamp()))
+        "Bicliques2SAT_" + std::to_string(
+                                        Environment::CurrentTime::timestamp()))
         + "_";
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
       for (bool found_bcc = false; ;) {
-        const RandGen::dimacs_pars dp{enc_.n(),
-            pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
         const std::string inp = filename_head + std::to_string(enc_.B())
           + ".dimacs";
+        // output of instance to file with name inp :
         {std::ofstream file(inp);
          if (not file)
            throw std::runtime_error(
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
+         const RandGen::dimacs_pars dp{enc_.n(),
+             pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
          file << dp;
          if (pt == PT::cover) all_clauses(sbv, file);
          else all_part2_clauses(sbv, file);
