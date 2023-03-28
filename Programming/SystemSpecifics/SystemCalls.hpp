@@ -62,6 +62,8 @@ License, or any later version. */
        bool cinexec) -> ReturnValue
      makes a system-call, handling the three streams:
       - empty cin,cout,cerr means ignoring the respective stream
+        (that means the called process will use the three streams from
+        the running program
       - /dev/stdin resp. /dev/stdout resp. /dev/stderr yield the respective
         system-streams
       - in general names are treated as (system-)files
@@ -70,15 +72,23 @@ License, or any later version. */
 
      Examples:
 
-     > esystem("cat -", "/dev/stdin", "/dev/stdout", "");
-     copies input from standard input to standard output
+       esystem("cat -", "/dev/stdin", "/dev/stdout", "");
+     copies input from standard input to standard output (of the calling
+     program), which is equivalent to
+       esystem("cat -", "", "", "");
 
-     > esystem("cat -", "TestSystemCalls.cpp", "XXX", "");
+     If no standard input is wished:
+       esystem("cat -", "/dev/null", "", "");
+     If the output is to be discarded:
+       esystem("cat -", "", "/dev/null", "");
+
+       esystem("cat -", "TestSystemCalls.cpp", "XXX", "");
      copies the file TestSystemCalls.cpp to file XXX (creating it,
      if needed)
 
-     > esystem("cat -", "echo XYZ", "/dev/stdout", "", true);
-     prints XYZ to standard output.
+       esystem("cat -", "echo XYZ", "/dev/stdout", "", true);
+     prints XYZ to standard output, same as
+       esystem("cat -", "echo XYZ", "", "", true);
 
 
      The convenience wrapper
@@ -86,6 +96,11 @@ License, or any later version. */
    - esystem(string command, string cin, bool cinexec) -> EReturnValue
 
      handles cout and cerr internally (by temporary files, which are deleted).
+
+     Examples:
+
+       const auto res = esystem("cat -", "");
+     collects standard input (from the program) in res.out;
 
 
      Class Popen:
@@ -98,6 +113,9 @@ License, or any later version. */
      which provides the input;
    - helper types put_cin_t and stringref_put, which can be used for the
      transfer.
+
+     For etransfer, which reads the output-files, cout can't be "" (can't be
+     read), nor "/dev/stdout" (endless reading), and similarly for cerr.
 
 
    - timing_output, timing_command, timing_options_header, timing_options
@@ -121,6 +139,10 @@ TODOS:
 1. Class ProfInfo
     - Likely this should be integrated now with
       ProgramOptions/Environment.hpp ?
+
+2. Popen3 would be useful
+    - Handling also standard output and standard error with pipes
+      (not involing files).
 
 */
 
