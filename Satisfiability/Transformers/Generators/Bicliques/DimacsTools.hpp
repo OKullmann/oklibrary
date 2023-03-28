@@ -691,16 +691,26 @@ namespace DimacsTools {
     return res;
   }
 
+  std::FILE* operator <<(std::FILE* const fp, const dimacs_pars& dp) {
+    std::ostringstream os; os << dp; std::fputs(os.str().c_str(), fp);
+    return fp;
+  }
+  std::FILE* operator <<(std::FILE* const fp, const Clause& C) {
+    std::ostringstream os; os << C; std::fputs(os.str().c_str(), fp);
+    return fp;
+  }
+  std::FILE* operator <<(std::FILE* const fp, const ClauseList& F) {
+    for (const Clause& C : F) fp << C;
+    return fp;
+  }
+  std::FILE* operator <<(std::FILE* const fp, const DimacsClauseList& F) {
+    return fp << F.first << F.second;
+  }
   // Simple wrapper for FILE*-output, using strings per line:
   struct DimacsClauseListref_put {
     const DimacsClauseList& F;
     DimacsClauseListref_put(const DimacsClauseList& F) noexcept : F(F) {}
-    void operator ()(std::FILE* const fp) const {
-      {std::ostringstream os; os << F.first; std::fputs(os.str().c_str(), fp);}
-      for (const Clause& C : F.second) {
-        std::ostringstream os; os << C; std::fputs(os.str().c_str(), fp);
-      }
-    }
+    void operator ()(std::FILE* const fp) const { fp << F; }
   };
 
   // Using a pipe for stdin of minisat:
