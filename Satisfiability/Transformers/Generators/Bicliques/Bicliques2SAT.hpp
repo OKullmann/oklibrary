@@ -846,17 +846,17 @@ namespace Bicliques2SAT {
       return count;
     }
 
-    id_t num_cl(const vei_t& sb) const noexcept {
+    id_t num_cover_cl(const vei_t& sb) const noexcept {
       return num_basic_cl() + num_cl_sb(sb);
     }
-    id_t num_lit(const vei_t& sb) const noexcept {
+    id_t num_cover_lit(const vei_t& sb) const noexcept {
       return num_basic_lit() + num_lit_sb(sb);
     }
     id_t all_cover_clauses(const vei_t& sb, std::ostream& out) const {
       id_t sum = 0;
       sum += all_basic_clauses(out);
       sum += all_sbedges(sb, out);
-      assert(sum == num_cl(sb));
+      assert(sum == num_cover_cl(sb));
       return sum;
     }
 
@@ -950,7 +950,7 @@ namespace Bicliques2SAT {
       if (enc_.B() == 0) enc_.update_B(sbv.size());
       else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res{enc_.n(),
-          pt == PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
+          pt == PT::cover ? num_cover_cl(sbv) : num_part2_cl(sbv)};
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
@@ -980,7 +980,7 @@ namespace Bicliques2SAT {
           DWW{" unit-clauses"} << num_cl_sb(sbv) << "\n" <<
           DWW{"total-clauses"} << res.c << "\n" <<
           DWW{"total-lit-occurrences"} <<
-            (pt==PT::cover ? num_lit(sbv) : num_part2_lit(sbv)) << "\n" <<
+           (pt==PT::cover ? num_cover_lit(sbv) : num_part2_lit(sbv)) << "\n" <<
 
           DHW{"Formatting"} <<
           DWW{"comments-option"} << dc << "\n" <<
@@ -1087,7 +1087,7 @@ namespace Bicliques2SAT {
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
          const RandGen::dimacs_pars dp{enc_.n(),
-             pt==PT::cover ? num_cl(sbv) : num_part2_cl(sbv)};
+             pt==PT::cover ? num_cover_cl(sbv) : num_part2_cl(sbv)};
          file << dp;
          if (pt == PT::cover) all_cover_clauses(sbv, file);
          else all_part2_clauses(sbv, file);
