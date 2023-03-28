@@ -23,6 +23,7 @@ TODOS:
    running on server.
    Note "m" here (not "o", which yields an assert-error).
  - Bicliques> argument1="nopre" ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
+   aborted after minisat-call run for 54h (on nt-component 0).
 
  - Needs to be automised.
 
@@ -52,6 +53,8 @@ TODOS:
 1. Provide more statistics
   - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
+2. Option for greedy symmetry-breaking;
+   see Biclqliques2SAT.hpp below.
 
 ---
 
