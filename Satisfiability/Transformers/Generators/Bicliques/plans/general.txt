@@ -59,6 +59,11 @@ TODOS:
 
 TODOS:
 
+-1. Handling of log
+  - Currently log = std::cout.
+  - There needs to be an option (also for other programs), by which
+    log can be set to cout or a filename or ignored.
+
 0. Currently the lower bound is just ignored (for downwards).
   - One needed perhaps a special return-type "conditioally exact" ?
   - A problem is that the solver-loop uses res.B, and not the bounds-

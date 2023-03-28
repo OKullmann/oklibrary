@@ -691,6 +691,9 @@ namespace DimacsTools {
     return res;
   }
 
+
+  // To make the following overloads of << available, use
+  // "using DimacsTools:: operator <<;" :
   std::FILE* operator <<(std::FILE* const fp, const dimacs_pars& dp) {
     std::ostringstream os; os << dp; std::fputs(os.str().c_str(), fp);
     return fp;
@@ -706,6 +709,7 @@ namespace DimacsTools {
   std::FILE* operator <<(std::FILE* const fp, const DimacsClauseList& F) {
     return fp << F.first << F.second;
   }
+
   // Simple wrapper for FILE*-output, using strings per line:
   struct DimacsClauseListref_put {
     const DimacsClauseList& F;

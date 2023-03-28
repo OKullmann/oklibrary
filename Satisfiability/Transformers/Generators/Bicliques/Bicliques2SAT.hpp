@@ -728,6 +728,7 @@ namespace Bicliques2SAT {
       for (id_t b = 0; b < enc_.B(); ++b)
         for (const auto [v,w] : nedges) {
           const auto F = nonedge_for_bc(v,w,b);
+          using DimacsTools:: operator <<;
           out << F;
           count += F.size();
         }
@@ -768,6 +769,7 @@ namespace Bicliques2SAT {
       for (id_t b = 0; b < enc_.B(); ++b)
         for (id_t e = 0; e < enc_.E; ++e) {
           const auto F = edge_def(e,b);
+          using DimacsTools:: operator <<;
           out << F;
           count += F.size();
         }
@@ -796,6 +798,7 @@ namespace Bicliques2SAT {
       id_t count = 0;
       for (id_t e = 0; e < enc_.E; ++e) {
         const auto F = edge_cov(e);
+        using DimacsTools:: operator <<;
         out << F;
         count += F.size();
       }
@@ -843,6 +846,7 @@ namespace Bicliques2SAT {
       id_t count = 0;
       for (id_t b = 0; const id_t e : sb) {
         const auto F = place_edge(e, b);
+        using DimacsTools:: operator <<;
         out << F;
         count += F.size();
         ++b;
@@ -891,6 +895,7 @@ namespace Bicliques2SAT {
       id_t count = 0;
       for (id_t e = 0; e < enc_.E; ++e) {
         const auto F = edge_part2(e);
+        using DimacsTools:: operator <<;
         out << F;
         count += F.size();
       }
@@ -1098,27 +1103,18 @@ namespace Bicliques2SAT {
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
       for (bool found_bcc = false; ;) {
-        const std::string inp = filename_head + std::to_string(enc_.B())
-          + ".dimacs";
-        // output of instance to file with name inp :
-        {std::ofstream file(inp);
-         if (not file)
-           throw std::runtime_error(
-             "Bicliques2SAT::operator(...): can not open output-file \"" +
-             inp + "\"");
-         file << all_dimacs(sbv, pt);
-         all_clauses<std::ostream&>(sbv, pt, file);
-        }
+
+        const auto inp = [this, &sbv, pt](std::FILE* const fp){
+          using DimacsTools:: operator <<;
+          fp << all_dimacs(sbv, pt);
+          all_clauses(sbv, pt, fp);
+        };
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);
         if (log) {
           *log << "Minisat-call for B=" << res.B << ": " << call_res.stats
                << call_res.rv.out << "\n";
         }
-        if (not std::filesystem::remove(std::filesystem::path(inp)))
-          throw std::runtime_error(
-            "Bicliques2SAT::operator(...): can not remove output-file \"" +
-            inp + "\"");
 
         if (call_res.stats.sr == DimacsTools::SolverR::aborted) {
           res.rt = ResultType::aborted;
