@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "26.3.2023",
+        "0.2.5",
+        "28.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -113,20 +113,31 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {DimacsClauseList F{{0,0},{}};
-   const auto res = minisat_call(F);
-   assert(res.stats.sr == SolverR::sat);
-   assert(eqp(res.pa, {}));
+   {const auto res = minisat_call(F);
+    assert(res.stats.sr == SolverR::sat);
+    assert(eqp(res.pa, {}));}
+   {const auto res = minisat_call(DimacsClauseListref_put(F));
+    assert(res.stats.sr == SolverR::sat);
+    assert(eqp(res.pa, {}));}
   }
   {DimacsClauseList F{{1,2}, { {Lit(1,1)}, {Lit(1,-1)} } };
-   const auto res = minisat_call(F);
-   assert(res.stats.sr == SolverR::unsat);
-   assert(eqp(res.pa, {}));
+   {const auto res = minisat_call(F);
+    assert(res.stats.sr == SolverR::unsat);
+    assert(eqp(res.pa, {}));}
+   {const auto res = minisat_call(DimacsClauseListref_put(F));
+    assert(res.stats.sr == SolverR::unsat);
+    assert(eqp(res.pa, {}));}
   }
   {DimacsClauseList F{{2,2}, {  {Lit{1,1},Lit{2,1}}, {Lit{1,-1}} } };
-   assert(F.second.size() == 2);
-   const auto res = minisat_call(F, [](const Lit x){return x.v.v!=1;});
-   assert(res.stats.sr == SolverR::sat);
-   assert(eqp(res.pa, {Lit{2,1}}));
+   {assert(F.second.size() == 2);
+    const auto res = minisat_call(F, [](const Lit x){return x.v.v!=1;});
+    assert(res.stats.sr == SolverR::sat);
+    assert(eqp(res.pa, {Lit{2,1}}));}
+   {assert(F.second.size() == 2);
+    const auto res = minisat_call(DimacsClauseListref_put(F),
+                                  [](const Lit x){return x.v.v!=1;});
+    assert(res.stats.sr == SolverR::sat);
+    assert(eqp(res.pa, {Lit{2,1}}));}
   }
 
   {bool caught = false;
@@ -138,7 +149,7 @@ int main(const int argc, const char* const argv[]) {
      assert(lines[0] ==
             "DimacsTools::minisat_call: Error when calling SAT-solver by");
      assert(lines[3].starts_with(
-       "DimacsTools::minisat_call: error when removing file"));
+       "DimacsTools::minisat_call(file): error when removing file"));
      caught = true;
     }
    assert(caught);

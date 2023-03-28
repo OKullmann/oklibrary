@@ -165,6 +165,10 @@ License, or any later version. */
     - minisat_call(DimacsClauseList F, Lit_filter, string options)
           -> Minisat_return
       writes F to a CNFfile, and then calls the above version.
+    - minisat_call(SystemCalls::put_cin_t, Lit_filter, string options)
+          -> Minisat_return
+      does not create a file, but uses a pipe to stdin of minisat.
+      Via DimacsClauseListref_put(F) one can wrapp a DimacsClauseList.
 
 
 See plans/general.txt.
@@ -190,6 +194,7 @@ See plans/general.txt.
 #include <algorithm>
 
 #include <cassert>
+#include <cstdio> // for std::FILE, std::fputs
 
 #include <ProgramOptions/Strings.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
@@ -637,6 +642,7 @@ namespace DimacsTools {
   const std::string output_filename = "DimacsTools_minisatcall_out_";
   const std::string minisat_string = "minisat";
 
+  // Reading from file:
   Minisat_return minisat_call(const std::string& input,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "") {
@@ -652,7 +658,7 @@ namespace DimacsTools {
       const Minisat_return res(SystemCalls::esystem(command, ""), f, pout);
       if (not std::filesystem::remove(pout))
         throw std::runtime_error(
-          "DimacsTools::minisat_call: error when removing file " + out);
+          "DimacsTools::minisat_call(file): error when removing file " + out);
       return res;
     }
     catch (const std::runtime_error& e) {
@@ -682,6 +688,37 @@ namespace DimacsTools {
     if (not std::filesystem::remove(pin))
       throw std::runtime_error(
         "DimacsTools::minisat_call(F): error when removing file " + in);
+    return res;
+  }
+
+  // Simple wrapper for FILE*-output, using strings per line:
+  struct DimacsClauseListref_put {
+    const DimacsClauseList& F;
+    DimacsClauseListref_put(const DimacsClauseList& F) noexcept : F(F) {}
+    void operator ()(std::FILE* const fp) const {
+      {std::ostringstream os; os << F.first; std::fputs(os.str().c_str(), fp);}
+      for (const Clause& C : F.second) {
+        std::ostringstream os; os << C; std::fputs(os.str().c_str(), fp);
+      }
+    }
+  };
+
+  // Using a pipe for stdin of minisat:
+  Minisat_return minisat_call(const SystemCalls::put_cin_t& PF,
+                              const Lit_filter& f = triv_filter,
+                              const std::string& options = "") {
+    const std::string timestamp =
+      std::to_string(Environment::CurrentTime::timestamp());
+    const std::string out =
+      SystemCalls::system_filename(output_filename + timestamp);
+    const std::string command = minisat_string + " " + options + " "
+      + "/dev/stdin" + " " + out;
+    const std::filesystem::path pout(out);
+    SystemCalls::Popen po(command);
+    const Minisat_return res(po.etransfer(PF), f, pout);
+    if (not std::filesystem::remove(pout))
+      throw std::runtime_error(
+        "DimacsTools::minisat_call(pipe): error when removing file " + out);
     return res;
   }
 
