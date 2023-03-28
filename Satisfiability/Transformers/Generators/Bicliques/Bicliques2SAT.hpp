@@ -721,7 +721,8 @@ namespace Bicliques2SAT {
     id_t num_lit_bcedges() const noexcept {
       return 2 * num_cl_bcedges();
     }
-    id_t all_nonedges_for_bcs(std::ostream& out) const {
+    template <class STREAM>
+    id_t all_nonedges_for_bcs(STREAM out) const {
       id_t count = 0;
       const auto nedges = G.allnonedges(true); // including loops
       for (id_t b = 0; b < enc_.B(); ++b)
@@ -761,7 +762,8 @@ namespace Bicliques2SAT {
     id_t num_lit_defedges() const noexcept {
       return 3 * num_cl_defedges();
     }
-    id_t all_edges_def(std::ostream& out) const {
+    template <class STREAM>
+    id_t all_edges_def(STREAM out) const {
       id_t count = 0;
       for (id_t b = 0; b < enc_.B(); ++b)
         for (id_t e = 0; e < enc_.E; ++e) {
@@ -789,7 +791,8 @@ namespace Bicliques2SAT {
     id_t num_lit_covedges() const noexcept {
       return enc_.B() * num_cl_covedges();
     }
-    id_t all_edges_cov(std::ostream& out) const {
+    template <class STREAM>
+    id_t all_edges_cov(STREAM out) const {
       id_t count = 0;
       for (id_t e = 0; e < enc_.E; ++e) {
         const auto F = edge_cov(e);
@@ -806,11 +809,12 @@ namespace Bicliques2SAT {
     id_t num_basic_lit() const noexcept {
       return num_lit_bcedges() + num_lit_defedges() + num_lit_covedges();
     }
-    id_t all_basic_clauses(std::ostream& out) const {
+    template <class STREAM>
+    id_t all_basic_clauses(STREAM out) const {
       id_t sum = 0;
-      sum += all_nonedges_for_bcs(out);
-      sum += all_edges_def(out);
-      sum += all_edges_cov(out);
+      sum += all_nonedges_for_bcs<STREAM>(out);
+      sum += all_edges_def<STREAM>(out);
+      sum += all_edges_cov<STREAM>(out);
       assert(sum == num_basic_cl());
       return sum;
     }
@@ -833,7 +837,8 @@ namespace Bicliques2SAT {
     id_t num_lit_sb(const vei_t& sb) const noexcept {
       return num_cl_sb(sb);
     }
-    id_t all_sbedges(const vei_t& sb, std::ostream& out) const {
+    template <class STREAM>
+    id_t all_sbedges(const vei_t& sb, STREAM out) const {
       assert(sb.size() <= enc_.B());
       id_t count = 0;
       for (id_t b = 0; const id_t e : sb) {
@@ -852,10 +857,11 @@ namespace Bicliques2SAT {
     id_t num_cover_lit(const vei_t& sb) const noexcept {
       return num_basic_lit() + num_lit_sb(sb);
     }
-    id_t all_cover_clauses(const vei_t& sb, std::ostream& out) const {
+    template <class STREAM>
+    id_t all_cover_clauses(const vei_t& sb, STREAM out) const {
       id_t sum = 0;
-      sum += all_basic_clauses(out);
-      sum += all_sbedges(sb, out);
+      sum += all_basic_clauses<STREAM>(out);
+      sum += all_sbedges<STREAM>(sb, out);
       assert(sum == num_cover_cl(sb));
       return sum;
     }
@@ -880,7 +886,8 @@ namespace Bicliques2SAT {
     id_t num_lit_edgepart2() const noexcept {
       return 2 * num_cl_edgepart2();
     }
-    id_t all_edgepart2(std::ostream& out) const noexcept {
+    template <class STREAM>
+    id_t all_edgepart2(STREAM out) const noexcept {
       id_t count = 0;
       for (id_t e = 0; e < enc_.E; ++e) {
         const auto F = edge_part2(e);
@@ -897,10 +904,11 @@ namespace Bicliques2SAT {
     id_t num_basicpart2_lit() const noexcept {
       return num_basic_lit() + num_lit_edgepart2();
     }
-    id_t all_basicpart2_clauses(std::ostream& out) const {
+    template <class STREAM>
+    id_t all_basicpart2_clauses(STREAM out) const {
       id_t sum = 0;
-      sum += all_basic_clauses(out);
-      sum += all_edgepart2(out);
+      sum += all_basic_clauses<STREAM>(out);
+      sum += all_edgepart2<STREAM>(out);
       assert(sum == num_basicpart2_cl());
       return sum;
     }
@@ -911,10 +919,11 @@ namespace Bicliques2SAT {
     id_t num_part2_lit(const vei_t& sb) const noexcept {
       return num_basicpart2_lit() + num_lit_sb(sb);
     }
-    id_t all_part2_clauses(const vei_t& sb, std::ostream& out) const {
+    template <class STREAM>
+    id_t all_part2_clauses(const vei_t& sb, STREAM out) const {
       id_t sum = 0;
-      sum += all_basicpart2_clauses(out);
-      sum += all_sbedges(sb, out);
+      sum += all_basicpart2_clauses<STREAM>(out);
+      sum += all_sbedges<STREAM>(sb, out);
       assert(sum == num_part2_cl(sb));
       return sum;
     }
@@ -925,10 +934,11 @@ namespace Bicliques2SAT {
       return {enc_.n(),
           pt == PT::cover ? num_cover_cl(sb) : num_part2_cl(sb)};
     }
-    void all_clauses(const vei_t& sb, const PT pt, std::ostream& out) {
+    template <class STREAM>
+    void all_clauses(const vei_t& sb, const PT pt, STREAM out) {
       assert(pt == PT::cover or pt == PT::partition2);
-      if (pt == PT::cover) all_cover_clauses(sb, out);
-      else all_part2_clauses(sb, out);
+      if (pt == PT::cover) all_cover_clauses<STREAM>(sb, out);
+      else all_part2_clauses<STREAM>(sb, out);
     }
 
 
@@ -1009,7 +1019,7 @@ namespace Bicliques2SAT {
       }
 
       if (dp == DP::with) out << res;
-      if (cs == CS::with) all_clauses(sbv, pt, out);
+      if (cs == CS::with) all_clauses<std::ostream&>(sbv, pt, out);
       return res;
     }
 
@@ -1097,7 +1107,7 @@ namespace Bicliques2SAT {
              "Bicliques2SAT::operator(...): can not open output-file \"" +
              inp + "\"");
          file << all_dimacs(sbv, pt);
-         all_clauses(sbv, pt, file);
+         all_clauses<std::ostream&>(sbv, pt, file);
         }
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);

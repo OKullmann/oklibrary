@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "25.3.2023",
+        "0.6.1",
+        "28.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -186,7 +186,8 @@ int main(const int argc, const char* const argv[]) {
    ss << trans.nonedge_for_bc(0,1,0);
    assert(ss.str() == "-1 -10 0\n-2 -9 0\n");
    ss.str("");
-   assert(trans.all_nonedges_for_bcs(ss) == 2 * (2 * (36 - 16) - 8)); // 64
+   assert(trans.all_nonedges_for_bcs<std::ostream&>(ss)
+          == 2 * (2 * (36 - 16) - 8)); // 64
    ss.str("");
    ss << trans.edge_def(0,0);
    assert(ss.str() ==
@@ -197,10 +198,10 @@ int main(const int argc, const char* const argv[]) {
           "-1 -10 33 0\n"
           "-2 -9 33 0\n");
    ss.str("");
-   assert(trans.all_edges_def(ss) == 2 * 6 * 16); // 192
+   assert(trans.all_edges_def<std::ostream&>(ss) == 2 * 6 * 16); // 192
    assert(eqp(trans.edge_cov(0), {{{33,1},{49,1}}}));
-   assert(trans.all_edges_cov(ss) == 16);
-   assert(trans.all_basic_clauses(ss) == 64 + 192 + 16); // 272
+   assert(trans.all_edges_cov<std::ostream&>(ss) == 16);
+   assert(trans.all_basic_clauses<std::ostream&>(ss) == 64 + 192 + 16); // 272
 
    ss.str("");
    ss << trans.place_edge(0,0);
@@ -208,7 +209,7 @@ int main(const int argc, const char* const argv[]) {
           "1 0\n"
           "10 0\n"
           "33 0\n");
-   assert(trans.all_sbedges({0,1},ss) == 6);
+   assert(trans.all_sbedges<std::ostream&>({0,1},ss) == 6);
 
    ss.str("");
    assert(eqp(trans.sat_translate(ss, {},
@@ -231,10 +232,11 @@ int main(const int argc, const char* const argv[]) {
      {DC::without, DP::with, CS::without}, 6, {}), {64, 278}));
    assert(ss.str() == "p cnf 64 278\n");
    trans.update_B(1);
-   assert(trans.all_nonedges_for_bcs(ss) == 1 * (2 * (36 - 16) - 8)); // 32
-   assert(trans.all_edges_def(ss) == 1 * 6 * 16); // 96
-   assert(trans.all_edges_cov(ss) == 16);
-   assert(trans.all_basic_clauses(ss) == 32 + 96 + 16); // 144
+   assert(trans.all_nonedges_for_bcs<std::ostream&>(ss)
+          == 1 * (2 * (36 - 16) - 8)); // 32
+   assert(trans.all_edges_def<std::ostream&>(ss) == 1 * 6 * 16); // 96
+   assert(trans.all_edges_cov<std::ostream&>(ss) == 16);
+   assert(trans.all_basic_clauses<std::ostream&>(ss) == 32 + 96 + 16); // 144
    assert(eqp(trans.sat_translate(ss,
      {SB::none,{}}, {DC::without, DP::with, CS::without}, 0, {}), {32, 144}));
   }
