@@ -150,10 +150,10 @@ namespace ConflictGraphs {
     OccVar() noexcept = default;
     OccVar(lit_occ_t l, lit_occ_t r) : o({l,r}) {}
 
-    lit_occ_t& operator[](const bool s) { return o[s]; }
-    const lit_occ_t& operator[](const bool s) const { return o[s]; }
-    lit_occ_t& operator[](const Lit x) { return o[x.s]; }
-    const lit_occ_t& operator[](const Lit x) const { return o[x.s]; }
+    lit_occ_t& operator[](const bool s) noexcept { return o[s]; }
+    const lit_occ_t& operator[](const bool s) const noexcept { return o[s]; }
+    lit_occ_t& operator[](const Lit x) noexcept { return o[x.s]; }
+    const lit_occ_t& operator[](const Lit x) const noexcept { return o[x.s]; }
 
     const lit_occ_t& conflicts(const Lit x) const noexcept {
       return o[not x.s];
@@ -178,6 +178,13 @@ namespace ConflictGraphs {
     bool nonsingular() const noexcept {
       return o[0].size() >= 2 and o[1].size() >= 2;
     }
+
+    size_t deg() const noexcept { return o[0].size() + o[1].size(); }
+    size_t muldeg() const noexcept { return o[0].size() * o[1].size(); }
+    size_t maxdeg() const noexcept { return std::max(o[0].size(), o[1].size()); }
+    size_t mindeg() const noexcept { return std::min(o[0].size(), o[1].size()); }
+    size_t deg(const bool s) const noexcept { return o[s].size(); }
+    size_t deg(const Lit x) const noexcept { return o[x.s].size(); }
 
     bool operator ==(const OccVar&) const noexcept = default;
   };
