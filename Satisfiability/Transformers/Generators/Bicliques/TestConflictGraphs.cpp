@@ -28,8 +28,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "26.3.2023",
+        "0.3.3",
+        "19.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -101,6 +101,14 @@ int main(const int argc, const char* const argv[]) {
    assert(not o.osingular());
    assert(not o.nonosingular());
    assert(not o.nonsingular());
+   assert(o.deg() == 0);
+   assert(o.muldeg() == 0);
+   assert(o.maxdeg() == 0);
+   assert(o.mindeg() == 0);
+   assert(o.deg(false) == 0);
+   assert(o.deg(true) == 0);
+   assert(o.deg(Lit(1)) == 0);
+   assert(o.deg(-Lit(1)) == 0);
    o[false].push_back(0);
    assert(eqp(o[false], {0}));
    assert(o[true].empty());
@@ -111,6 +119,14 @@ int main(const int argc, const char* const argv[]) {
    assert(not o.osingular());
    assert(not o.nonosingular());
    assert(not o.nonsingular());
+   assert(o.deg() == 1);
+   assert(o.muldeg() == 0);
+   assert(o.maxdeg() == 1);
+   assert(o.mindeg() == 0);
+   assert(o.deg(false) == 1);
+   assert(o.deg(true) == 0);
+   assert(o.deg(Lit(1)) == 0);
+   assert(o.deg(-Lit(1)) == 1);
    o = {{1}, {3}};
    assert(not o.trivial());
    assert(not o.pure());
@@ -118,6 +134,14 @@ int main(const int argc, const char* const argv[]) {
    assert(o.osingular());
    assert(not o.nonosingular());
    assert(not o.nonsingular());
+   assert(o.deg() == 2);
+   assert(o.muldeg() == 1);
+   assert(o.maxdeg() == 1);
+   assert(o.mindeg() == 1);
+   assert(o.deg(false) == 1);
+   assert(o.deg(true) == 1);
+   assert(o.deg(Lit(1)) == 1);
+   assert(o.deg(-Lit(1)) == 1);
    o = {{1}, {3,4}};
    assert(not o.trivial());
    assert(not o.pure());
@@ -125,6 +149,14 @@ int main(const int argc, const char* const argv[]) {
    assert(not o.osingular());
    assert(o.nonosingular());
    assert(not o.nonsingular());
+   assert(o.deg() == 3);
+   assert(o.muldeg() == 2);
+   assert(o.maxdeg() == 2);
+   assert(o.mindeg() == 1);
+   assert(o.deg(false) == 1);
+   assert(o.deg(true) == 2);
+   assert(o.deg(Lit(1)) == 2);
+   assert(o.deg(-Lit(1)) == 1);
    o = {{1,2}, {4}};
    assert(not o.trivial());
    assert(not o.pure());
@@ -132,6 +164,20 @@ int main(const int argc, const char* const argv[]) {
    assert(not o.osingular());
    assert(o.nonosingular());
    assert(not o.nonsingular());
+   assert(not o.trivial());
+   assert(not o.pure());
+   assert(o.singular());
+   assert(not o.osingular());
+   assert(o.nonosingular());
+   assert(not o.nonsingular());
+   assert(o.deg() == 3);
+   assert(o.muldeg() == 2);
+   assert(o.maxdeg() == 2);
+   assert(o.mindeg() == 1);
+   assert(o.deg(false) == 2);
+   assert(o.deg(true) == 1);
+   assert(o.deg(Lit(1)) == 1);
+   assert(o.deg(-Lit(1)) == 2);
    o = {{1,2}, {3,4}};
    assert(not o.trivial());
    assert(not o.pure());
@@ -139,6 +185,14 @@ int main(const int argc, const char* const argv[]) {
    assert(not o.osingular());
    assert(not o.nonosingular());
    assert(o.nonsingular());
+   assert(o.deg() == 4);
+   assert(o.muldeg() == 4);
+   assert(o.maxdeg() == 2);
+   assert(o.mindeg() == 2);
+   assert(o.deg(false) == 2);
+   assert(o.deg(true) == 2);
+   assert(o.deg(Lit(1)) == 2);
+   assert(o.deg(-Lit(1)) == 2);
   }
 
   {assert(eqp(allocc({}), {}));
