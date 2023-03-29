@@ -38,6 +38,8 @@ c   cover-lit-occurrences               20157952
 c  unit-clauses                         384
 c total-clauses                         2092091564
 c total-lit-occurrences                 4324973440
+c planted-edges                         128
+c sb-stats                              100 : 120 124.75 128; 1.57874
 
 No better symmetry-breaking with 10000 trials.
 

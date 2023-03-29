@@ -10,6 +10,8 @@ License, or any later version. */
   and the minimal number of variables.
   The clauses of F are sorted.
 
+  No splitting into connected components is performed.
+
 
 EXAMPLES:
 
