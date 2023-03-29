@@ -195,6 +195,7 @@ See plans/general.txt.
 
 #include <cassert>
 #include <cstdio> // for std::FILE, std::fputs
+#include <cinttypes> // for PRIu64
 
 #include <ProgramOptions/Strings.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
@@ -695,11 +696,14 @@ namespace DimacsTools {
   // To make the following overloads of << available, use
   // "using DimacsTools:: operator <<;" :
   std::FILE* operator <<(std::FILE* const fp, const dimacs_pars& dp) {
-    std::ostringstream os; os << dp; std::fputs(os.str().c_str(), fp);
+    std::fprintf(fp, "p cnf %" PRIu64 " %" PRIu64 "\n", dp.n, dp.c);
     return fp;
   }
   std::FILE* operator <<(std::FILE* const fp, const Clause& C) {
-    std::ostringstream os; os << C; std::fputs(os.str().c_str(), fp);
+    for (const Lit x : C)
+      if (not x.s) fprintf(fp, "-%" PRIu64 " ", x.v.v);
+      else fprintf(fp, "%" PRIu64 " ", x.v.v);
+    fprintf(fp, "0\n");
     return fp;
   }
   std::FILE* operator <<(std::FILE* const fp, const ClauseList& F) {
