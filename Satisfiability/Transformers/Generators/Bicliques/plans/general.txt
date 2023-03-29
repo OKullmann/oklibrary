@@ -31,14 +31,12 @@ TODOS:
 
  - Needs to be automised.
 
- - Options like rounds for symmetry-breaking are needed.
-
   -Likely the name should be Fuzzer_GSM.
 
 
 1. The option, that in case of no-improvement nothing is changed, is needed.
 
-2. Better handling of replacement in sliced CNFs.
+2. Better code-handling of replacement in sliced CNFs.
 
 3. Add the usual comments to the output:
   - The parameter-values, version, etc.
@@ -120,15 +118,78 @@ BUGS:
   - The asserts at the end trigger.
 
 0.
-Bicliques> cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" ""
+An instance where upper and lower bound coincide:
+
+OLD:
+Bicliques> cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" "" > OUT
 CPU time              : 40.7075 s
-Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" ""
+
+With new (piped) form on server:
+Bicliques> time cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" "" > OUT
+real    2m42.009s
+user    3m58.973s
+sys     0m12.527s
+> less OUT
+|  Parse time:                  81.27 s                                       |
+|  Simplification time:          7.95 s                                       |
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 1              (0.00 % random) (0 /sec)
+propagations          : 1220134        (13674 /sec)
+conflict literals     : 0              (-nan % deleted)
+Memory used           : 14899.69 MB
+CPU time              : 89.2333 s
+Why such a long total time??
+
+
+OLD:
+Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" "" "" ""
 real    1m54.284s
 user    1m41.837s
 sys     0m11.462s
 
-The runtime should be the same here?
-The problem is that the instance is stored on file!
+With new form on server:
+Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" "" "" "" > OUT2
+real    2m47.329s
+user    4m4.146s
+sys     0m12.254s
+Why so much slower now?
+Apparently the hand-shaking takes more time?
+
+
+Storing on file on server:
+Bicliques> time cat temp/A_131_1623_1 | ./CNF2cg | ./BCC2SAT 0 nopre "" "" "" > OUT.cnf
+real    1m15.843s
+user    1m12.755s
+sys     0m3.090s
+Bicliques> ls -l OUT.cnf
+6123851055  OUT.cnf
+Bicliques> time minisat -no-pre OUT.cnf
+|  Parse time:                  31.96 s                                       |
+|  Simplification time:          7.99 s                                       |
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 1              (0.00 % random) (0 /sec)
+propagations          : 1220134        (30537 /sec)
+conflict literals     : 0              (-nan % deleted)
+Memory used           : 14899.69 MB
+CPU time              : 39.9554 s
+real    0m45.164s
+user    0m39.958s
+sys     0m5.204s
+Without storage:
+Bicliques> time cat temp/A_131_1623_1 | ./CNF2cg | ./BCC2SAT 0 nopre "" "" "" | minisat -no-pre /dev/stdin
+|  Parse time:                  42.71 s                                       |
+|  Simplification time:          7.93 s                                       |
+CPU time              : 50.6394 s
+real    1m25.711s
+user    2m4.683s
+sys     0m8.415s
+
+Far faster than BCCbySAT and CNFBCC.
+One needs to see whether direct FILE*-output (without first calling
+the ostream-output and storing this on string) is much faster.
+
 
 1.
 Bicliques> echo -e "p cnf 2 4\n1 2 0\n1 -2 0\n-1 -2 0\n-1 2 0\n" | ./CNFBCC_debug partition2 "" "" t
