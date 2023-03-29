@@ -19,10 +19,11 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.0.8"
+version="0.0.9"
 
 : ${command1:="./GSM_debug"}
-: ${argument1:="\"\""}
+: ${argument1:=}
+: ${argument2:=}
 : ${command2:="./GCGeq_debug"}
 : ${generator:="QBRG"}
 
@@ -47,7 +48,7 @@ counter=0
 while [ 0 ]; do
   ((++counter)); printf "\r%d" ${counter}
   ${generator} "$@" -${genfile}
-  cat ${genfile} | ${command1} ${argument1} "" "" "" > ${repfile}
+  cat ${genfile} | ${command1} "${argument1}" "${argument2}" "" "" > ${repfile}
   cat ${genfile} ${repfile} | ${command2} > ${outfile}
   rm ${genfile} ${repfile} ${outfile}
 done

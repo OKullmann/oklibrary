@@ -22,12 +22,16 @@ TODOS:
  - Bicliques> ./Fuzzer "a100 100" "100*2,4" u,m t
    running on server.
    Note "m" here (not "o", which yields an assert-error).
+
  - Bicliques> argument1="nopre" ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
    aborted after minisat-call run for 54h (on nt-component 0).
 
+   Bicliques> argument1=nopre argument2=1000 ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
+   running on server.
+
  - Needs to be automised.
 
- - DONE And options like "nopre" need to be handled.
+ - Options like rounds for symmetry-breaking are needed.
 
   -Likely the name should be Fuzzer_GSM.
 
@@ -187,6 +191,9 @@ TODOS:
   - A more intelligent algorithm is needed.
   - And also a greedy version, choosing from the available edges one with
     minimum sum (or product) of degrees of end-points.
+
+    MOre precisely, one considers the resulting sizes of the possible
+    sides, and minimises their sum resp. product (oder tau?).
   - For cases which take a long time, a log-output with the current best
     and its index is needed.
     From that index one should be able to perform a single run.
