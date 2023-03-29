@@ -140,6 +140,13 @@ conflict literals     : 0              (-nan % deleted)
 Memory used           : 14899.69 MB
 CPU time              : 89.2333 s
 Why such a long total time??
+Bicliques> time cat temp/A_131_1623_1 | ./CNF2cg | ./BCCbySAT +0 nopre "" "" "" > OUT_NEW
+real    1m14.948s
+user    1m47.713s
+sys     0m7.851s
+|  Parse time:                  36.70 s                                       |
+|  Simplification time:          7.91 s                                       |
+CPU time              : 44.6112 s
 
 
 OLD:
@@ -155,6 +162,11 @@ user    4m4.146s
 sys     0m12.254s
 Why so much slower now?
 Apparently the hand-shaking takes more time?
+Bicliques> time cat temp/A_131_1623_1 | ./CNFBCC nopre "" "" "" "" "" > OUT2_NEW
+real    1m14.649s
+user    1m47.538s
+sys     0m7.527s
+
 
 
 Storing on file on server:
