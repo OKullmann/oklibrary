@@ -45,6 +45,7 @@ License, or any later version. */
      - struct AllOcc : contains a vector of OccVar (for every variable its
        occurrences)
      - allocc(DimacsClauseList) -> AllOcc
+     - struct VarStatistics for variable-statistics, constructed from AllOcc
      - conflictgraph(var_t c, AllOcc) -> AdjVecUInt
          (works by adding bicliques)
      - conflictgraph(indexlist_t, varlist_t, AllOcc) :
@@ -76,6 +77,8 @@ License, or any later version. */
 #include <cassert>
 
 #include <Transformers/Generators/Random/ClauseSets.hpp>
+#include <Numerics/FloatingPoint.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "Graphs.hpp"
 #include "GraphTraversal.hpp"
@@ -239,6 +242,37 @@ namespace ConflictGraphs {
         res[x].push_back(i);
     return res;
   }
+
+  struct VarStatistics {
+    typedef FloatingPoint::float80 float80;
+    typedef GenStats::FreqStats<size_t, float80> freqstats_t;
+
+    size_t n_total, n_max=0, n;
+    // n_max: maximal occurring index, n : number of occurring variables
+    // Counters:
+    size_t num_trivial=0, num_pure=0, num_singular=0, num_osingular=0,
+      num_nonosingular=0, num_nonsingular=0;
+    freqstats_t freq_deg, freq_muldeg, freq_maxdeg, freq_mindeg,
+      freq_ldeg;
+
+    VarStatistics(const AllOcc& O) noexcept : n_total(O.size()) {
+      for (size_t i = 0; i < n_total; ++i) {
+        const OccVar& o = O.O[i];
+        {const bool trivial = o.trivial();
+         num_trivial += trivial;
+         if (not trivial) n_max = std::max(n_max, i+1);}
+        num_pure += o.pure(); num_singular += o.singular();
+        num_osingular += o.osingular(); num_nonosingular += o.nonosingular();
+        num_nonsingular += o.nonsingular();
+        freq_deg += o.deg(); freq_muldeg += o.muldeg();
+        freq_maxdeg += o.maxdeg(); freq_mindeg += o.mindeg();
+        freq_ldeg += o.deg(false); freq_ldeg += o.deg(true);
+      }
+      n = n_total - num_trivial;
+    }
+
+    bool operator ==(const VarStatistics&) const noexcept = default;
+  };
 
 
   Graphs::AdjVecUInt conflictgraph(const var_t c, const AllOcc& O) {

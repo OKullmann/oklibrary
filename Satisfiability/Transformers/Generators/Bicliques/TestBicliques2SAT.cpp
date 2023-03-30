@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "28.3.2023",
+        "0.6.2",
+        "29.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -387,6 +387,32 @@ int main(const int argc, const char* const argv[]) {
        "-1 10 0\n" "-3 -5 0\n" "4 -10 3 -8 0\n" "-1 6 10 -7 0\n" "4 -9 7 0\n");
    const GlobRepl GR(F);
    assert(GR.F == F);
+   {const ConflictGraphs::VarStatistics s(GR.occ);
+    assert(s.n_total == 8);
+    assert(s.n_max == 8);
+    assert(s.n == 4);
+    assert(s.num_trivial == 4); // 1, 2, 4, 6
+    assert(s.num_pure == 2); // 5, 8
+    assert(s.num_singular == 2); // 3, 7
+    assert(s.num_osingular == 2);
+    assert(s.num_nonosingular == 0);
+    assert(s.num_nonsingular == 0);
+    assert(s.freq_deg.num_inputs() == 8);
+    assert(s.freq_deg.num_values() == 3);
+    assert(eqp(s.freq_deg.cmap(), {{0,4},{1,2},{2,2}}));
+    assert(s.freq_muldeg.num_inputs() == 8);
+    assert(s.freq_muldeg.num_values() == 2);
+    assert(eqp(s.freq_muldeg.cmap(), {{0,6},{1,2}}));
+    assert(s.freq_maxdeg.num_inputs() == 8);
+    assert(s.freq_maxdeg.num_values() == 2);
+    assert(eqp(s.freq_maxdeg.cmap(), {{0,4},{1,4}}));
+    assert(s.freq_mindeg.num_inputs() == 8);
+    assert(s.freq_mindeg.num_values() == 2);
+    assert(eqp(s.freq_mindeg.cmap(), {{0,6},{1,2}}));
+    assert(s.freq_ldeg.num_inputs() == 16);
+    assert(s.freq_ldeg.num_values() == 2);
+    assert(eqp(s.freq_ldeg.cmap(), {{0,10},{1,6}}));
+   }
    assert((GR.CC == GraphTraversal::CCbyIndices{{1,2,2,3,3},3}));
    assert(eqp(GR.sizes, {1,2,2}));
    assert(GR.numntcc == 2);
@@ -518,6 +544,32 @@ int main(const int argc, const char* const argv[]) {
            "-7 -2 -4 -6 0\n"); // 2 1
      const auto F = read_strict_GslicedCNF(is);
      const GlobRepl GR(F);
+     {const ConflictGraphs::VarStatistics s(GR.occ);
+      assert(s.n_total == 7);
+      assert(s.n_max == 7);
+      assert(s.n == 3);
+      assert(s.num_trivial == 4); // 1, 2, 4, 6
+      assert(s.num_pure == 0);
+      assert(s.num_singular == 3); // 3, 5, 7
+      assert(s.num_osingular == 3);
+      assert(s.num_nonosingular == 0);
+      assert(s.num_nonsingular == 0);
+      assert(s.freq_deg.num_inputs() == 7);
+      assert(s.freq_deg.num_values() == 2);
+      assert(eqp(s.freq_deg.cmap(), {{0,4},{2,3}}));
+      assert(s.freq_muldeg.num_inputs() == 7);
+      assert(s.freq_muldeg.num_values() == 2);
+      assert(eqp(s.freq_muldeg.cmap(), {{0,4},{1,3}}));
+      assert(s.freq_maxdeg.num_inputs() == 7);
+      assert(s.freq_maxdeg.num_values() == 2);
+      assert(eqp(s.freq_maxdeg.cmap(), {{0,4},{1,3}}));
+      assert(s.freq_mindeg.num_inputs() == 7);
+      assert(s.freq_mindeg.num_values() == 2);
+      assert(eqp(s.freq_mindeg.cmap(), {{0,4},{1,3}}));
+      assert(s.freq_ldeg.num_inputs() == 14);
+      assert(s.freq_ldeg.num_values() == 2);
+      assert(eqp(s.freq_ldeg.cmap(), {{0,8},{1,6}}));
+     }
      assert(eqp(GR.ntcc_map, {{{1,2},{1}}, {{2,3},{0}}}));
      std::ostringstream os;
      GR.E0(os);
@@ -574,6 +626,32 @@ int main(const int argc, const char* const argv[]) {
           "-2 7 13 -18 -28 0\n");
    const auto F = DimacsTools::read_strict_GslicedCNF(is);
    const GlobRepl GR(F);
+   {const ConflictGraphs::VarStatistics s(GR.occ);
+    assert(s.n_total == 13);
+    assert(s.n_max == 13);
+    assert(s.n == 13);
+    assert(s.num_trivial == 0);
+    assert(s.num_pure == 6); // 1(3), 3(1), 5(1), 6(1), 10(1), 12(3)
+    assert(s.num_singular == 7); // 2, 4, 7, 8, 9, 11, 13
+    assert(s.num_osingular == 6); // 2, 4, 7, 8, 11, 13
+    assert(s.num_nonosingular == 1); // 9(2,1)
+    assert(s.num_nonsingular == 0);
+    assert(s.freq_deg.num_inputs() == 13);
+    assert(s.freq_deg.num_values() == 3);
+    assert(eqp(s.freq_deg.cmap(), {{1,4},{2,6},{3,3}}));
+    assert(s.freq_muldeg.num_inputs() == 13);
+    assert(s.freq_muldeg.num_values() == 3);
+    assert(eqp(s.freq_muldeg.cmap(), {{0,6},{1,6},{2,1}}));
+    assert(s.freq_maxdeg.num_inputs() == 13);
+    assert(s.freq_maxdeg.num_values() == 3);
+    assert(eqp(s.freq_maxdeg.cmap(), {{1,10},{2,1},{3,2}}));
+    assert(s.freq_mindeg.num_inputs() == 13);
+    assert(s.freq_mindeg.num_values() == 2);
+    assert(eqp(s.freq_mindeg.cmap(), {{0,6},{1,7}}));
+    assert(s.freq_ldeg.num_inputs() == 26);
+    assert(s.freq_ldeg.num_values() == 4);
+    assert(eqp(s.freq_ldeg.cmap(), {{0,6},{1,17},{2,1},{3,2}}));
+   }
    const auto R = GR.solve(nullptr, {{},{},{},SO::nopre,{}}, 100, 1, {});
    const DimacsTools::GslicedCNF F2(F.O(), R, F.other);
    const GlobRepl GR2(F2);
