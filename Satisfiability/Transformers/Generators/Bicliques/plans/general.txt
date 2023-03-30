@@ -265,12 +265,21 @@ TODOS:
   - And also a greedy version, choosing from the available edges one with
     minimum sum (or product) of degrees of end-points.
 
-    MOre precisely, one considers the resulting sizes of the possible
+    More precisely, one considers the resulting sizes of the possible
     sides, and minimises their sum resp. product (oder tau?).
+
+    This can be easily achieved by just sorting, after the initial random
+    permutation, the edges according to this criterion (just using std::sort)
+    -- only this additional step is needed, then by always choosing the first
+    remaining edge we get greediness (since the population of other bicliques
+    does not matter here)>
   - For cases which take a long time, a log-output with the current best
-    and its index is needed.
+    and its index (for the seed) is needed.
     From that index one should be able to perform a single run.
-  - One should also return the index in general (for quick reproduction).
+  - One should also return the result in general (for quick reproduction):
+    just the complete seed plus what has been achieved (so that with a single
+    round one can recompute the sb-assignment, and one can stop as soon as
+    in that single run one filled all available bicliques).
 
 4. GCC compiler error CERR
   - When updating to GCC version 12 or later, activate the places with CERR
