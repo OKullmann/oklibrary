@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "29.3.2023",
+        "0.6.3",
+        "31.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -397,21 +397,21 @@ int main(const int argc, const char* const argv[]) {
     assert(s.num_osingular == 2);
     assert(s.num_nonosingular == 0);
     assert(s.num_nonsingular == 0);
-    assert(s.freq_deg.num_inputs() == 8);
-    assert(s.freq_deg.num_values() == 3);
-    assert(eqp(s.freq_deg.cmap(), {{0,4},{1,2},{2,2}}));
-    assert(s.freq_muldeg.num_inputs() == 8);
+    assert(s.freq_deg.num_inputs() == 4);
+    assert(s.freq_deg.num_values() == 2);
+    assert(eqp(s.freq_deg.cmap(), {{1,2},{2,2}}));
+    assert(s.freq_muldeg.num_inputs() == 4);
     assert(s.freq_muldeg.num_values() == 2);
-    assert(eqp(s.freq_muldeg.cmap(), {{0,6},{1,2}}));
-    assert(s.freq_maxdeg.num_inputs() == 8);
-    assert(s.freq_maxdeg.num_values() == 2);
-    assert(eqp(s.freq_maxdeg.cmap(), {{0,4},{1,4}}));
-    assert(s.freq_mindeg.num_inputs() == 8);
+    assert(eqp(s.freq_muldeg.cmap(), {{0,2},{1,2}}));
+    assert(s.freq_maxdeg.num_inputs() == 4);
+    assert(s.freq_maxdeg.num_values() == 1);
+    assert(eqp(s.freq_maxdeg.cmap(), {{1,4}}));
+    assert(s.freq_mindeg.num_inputs() == 4);
     assert(s.freq_mindeg.num_values() == 2);
-    assert(eqp(s.freq_mindeg.cmap(), {{0,6},{1,2}}));
-    assert(s.freq_ldeg.num_inputs() == 16);
+    assert(eqp(s.freq_mindeg.cmap(), {{0,2},{1,2}}));
+    assert(s.freq_ldeg.num_inputs() == 8);
     assert(s.freq_ldeg.num_values() == 2);
-    assert(eqp(s.freq_ldeg.cmap(), {{0,10},{1,6}}));
+    assert(eqp(s.freq_ldeg.cmap(), {{0,2},{1,6}}));
    }
    assert((GR.CC == GraphTraversal::CCbyIndices{{1,2,2,3,3},3}));
    assert(eqp(GR.sizes, {1,2,2}));
@@ -547,28 +547,28 @@ int main(const int argc, const char* const argv[]) {
      {const ConflictGraphs::VarStatistics s(GR.occ);
       assert(s.n_total == 7);
       assert(s.n_max == 7);
-      assert(s.n == 3);
+      assert(s.n == 3); // 3, 5, 7
       assert(s.num_trivial == 4); // 1, 2, 4, 6
       assert(s.num_pure == 0);
       assert(s.num_singular == 3); // 3, 5, 7
       assert(s.num_osingular == 3);
       assert(s.num_nonosingular == 0);
       assert(s.num_nonsingular == 0);
-      assert(s.freq_deg.num_inputs() == 7);
-      assert(s.freq_deg.num_values() == 2);
-      assert(eqp(s.freq_deg.cmap(), {{0,4},{2,3}}));
-      assert(s.freq_muldeg.num_inputs() == 7);
-      assert(s.freq_muldeg.num_values() == 2);
-      assert(eqp(s.freq_muldeg.cmap(), {{0,4},{1,3}}));
-      assert(s.freq_maxdeg.num_inputs() == 7);
-      assert(s.freq_maxdeg.num_values() == 2);
-      assert(eqp(s.freq_maxdeg.cmap(), {{0,4},{1,3}}));
-      assert(s.freq_mindeg.num_inputs() == 7);
-      assert(s.freq_mindeg.num_values() == 2);
-      assert(eqp(s.freq_mindeg.cmap(), {{0,4},{1,3}}));
-      assert(s.freq_ldeg.num_inputs() == 14);
-      assert(s.freq_ldeg.num_values() == 2);
-      assert(eqp(s.freq_ldeg.cmap(), {{0,8},{1,6}}));
+      assert(s.freq_deg.num_inputs() == 3);
+      assert(s.freq_deg.num_values() == 1);
+      assert(eqp(s.freq_deg.cmap(), {{2,3}}));
+      assert(s.freq_muldeg.num_inputs() == 3);
+      assert(s.freq_muldeg.num_values() == 1);
+      assert(eqp(s.freq_muldeg.cmap(), {{1,3}}));
+      assert(s.freq_maxdeg.num_inputs() == 3);
+      assert(s.freq_maxdeg.num_values() == 1);
+      assert(eqp(s.freq_maxdeg.cmap(), {{1,3}}));
+      assert(s.freq_mindeg.num_inputs() == 3);
+      assert(s.freq_mindeg.num_values() == 1);
+      assert(eqp(s.freq_mindeg.cmap(), {{1,3}}));
+      assert(s.freq_ldeg.num_inputs() == 6);
+      assert(s.freq_ldeg.num_values() == 1);
+      assert(eqp(s.freq_ldeg.cmap(), {{1,6}}));
      }
      assert(eqp(GR.ntcc_map, {{{1,2},{1}}, {{2,3},{0}}}));
      std::ostringstream os;

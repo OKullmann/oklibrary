@@ -28,8 +28,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "30.3.2023",
+        "0.3.5",
+        "31.3.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -255,28 +255,28 @@ int main(const int argc, const char* const argv[]) {
    {const VarStatistics s(GR.occ);
     assert(s.n_total == 8);
     assert(s.n_max == 8);
-    assert(s.n == 4);
+    assert(s.n == 4); // 3, 5, 7, 8
     assert(s.num_trivial == 4); // 1, 2, 4, 6
     assert(s.num_pure == 2); // 5, 8
     assert(s.num_singular == 2); // 3, 7
     assert(s.num_osingular == 2);
     assert(s.num_nonosingular == 0);
     assert(s.num_nonsingular == 0);
-    assert(s.freq_deg.num_inputs() == 8);
-    assert(s.freq_deg.num_values() == 3);
-    assert(eqp(s.freq_deg.cmap(), {{0,4},{1,2},{2,2}}));
-    assert(s.freq_muldeg.num_inputs() == 8);
+    assert(s.freq_deg.num_inputs() == 4);
+    assert(s.freq_deg.num_values() == 2);
+    assert(eqp(s.freq_deg.cmap(), {{1,2},{2,2}}));
+    assert(s.freq_muldeg.num_inputs() == 4);
     assert(s.freq_muldeg.num_values() == 2);
-    assert(eqp(s.freq_muldeg.cmap(), {{0,6},{1,2}}));
-    assert(s.freq_maxdeg.num_inputs() == 8);
-    assert(s.freq_maxdeg.num_values() == 2);
-    assert(eqp(s.freq_maxdeg.cmap(), {{0,4},{1,4}}));
-    assert(s.freq_mindeg.num_inputs() == 8);
+    assert(eqp(s.freq_muldeg.cmap(), {{0,2},{1,2}}));
+    assert(s.freq_maxdeg.num_inputs() == 4);
+    assert(s.freq_maxdeg.num_values() == 1);
+    assert(eqp(s.freq_maxdeg.cmap(), {{1,4}}));
+    assert(s.freq_mindeg.num_inputs() == 4);
     assert(s.freq_mindeg.num_values() == 2);
-    assert(eqp(s.freq_mindeg.cmap(), {{0,6},{1,2}}));
-    assert(s.freq_ldeg.num_inputs() == 16);
+    assert(eqp(s.freq_mindeg.cmap(), {{0,2},{1,2}}));
+    assert(s.freq_ldeg.num_inputs() == 8);
     assert(s.freq_ldeg.num_values() == 2);
-    assert(eqp(s.freq_ldeg.cmap(), {{0,10},{1,6}}));
+    assert(eqp(s.freq_ldeg.cmap(), {{0,2},{1,6}}));
    }
    assert(eqp(GR.F.G().first, {8,5}));
    assert(GR.numntcc == 2);

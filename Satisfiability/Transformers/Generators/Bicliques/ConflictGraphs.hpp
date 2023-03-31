@@ -243,6 +243,7 @@ namespace ConflictGraphs {
     return res;
   }
 
+  // Variable statistics, mostly ignoring trivial variables:
   struct VarStatistics {
     typedef FloatingPoint::float80 float80;
     typedef GenStats::FreqStats<size_t, float80> freqstats_t;
@@ -258,9 +259,10 @@ namespace ConflictGraphs {
     VarStatistics(const AllOcc& O) noexcept : n_total(O.size()) {
       for (size_t i = 0; i < n_total; ++i) {
         const OccVar& o = O.O[i];
-        {const bool trivial = o.trivial();
-         num_trivial += trivial;
-         if (not trivial) n_max = std::max(n_max, i+1);}
+        if (const bool trivial = o.trivial(); trivial) {
+          num_trivial += trivial; continue;
+        }
+        n_max = std::max(n_max, i+1);
         num_pure += o.pure(); num_singular += o.singular();
         num_osingular += o.osingular(); num_nonosingular += o.nonosingular();
         num_nonsingular += o.nonsingular();
