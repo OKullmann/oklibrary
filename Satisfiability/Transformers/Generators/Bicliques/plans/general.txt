@@ -281,6 +281,33 @@ TODOS:
     round one can recompute the sb-assignment, and one can stop as soon as
     in that single run one filled all available bicliques).
 
+  - Extended symmetry-breaking: if a maximal sb-assignment left k >= 2
+    bicliques unoccupied (which we assume are the k last ones), use the
+    following "potential placements":
+     for the first k-1 unplaced edges, forbid the final k-1, k-2, ..., 1
+     bicliques (this means "conditionally occupying" bicliques
+     B-k+1, B-k+2, ..., B-1).
+     And also conditionally choose the canonical order (smaller vertex first),
+     that means for the conditionally occupied biclique a further binary
+     clause forbidding the wrong order.
+  - This creates negative unit-clauses (k(k-1)/2).
+  - In this way all bicliques are at least conditionally occupied, and all
+    internal symmetries are broken.
+  - No further basic statistics are needed.
+  - The same greedy mechanism (presorting the edges) from above works here
+    (no further action needed).
+  - The basic UCP will just do extended sb, and then run UCP.
+  - While extended UCP will first to basic sb, then UCP, then check whether
+    now there are edges where are remaining possible bicliques are (completely)
+    unoccupied, where now again basic sb can be applied, and the whole process
+    is repeated until stabilisation.
+    Finally extended sb is applied and a final round of UCP.
+  - The basic version first finds the best basic sb, and then applies the
+    extension.
+  - A more intelligent version runs the full process with extension and UCP,
+    and judges the outcome (for example minimising the sum of the volumes of
+    the potential bicliques).
+
 4. GCC compiler error CERR
   - When updating to GCC version 12 or later, activate the places with CERR
     (currently disabled due to compiler error)
