@@ -745,7 +745,7 @@ namespace GenStats {
     template <class RAN, class FILT, class TRANS>
     pcount_t insert(const RAN& R, const FILT& f, const TRANS& T) {
       pcount_t res{num_in, cm.size()};
-      for (const input_t& x : R)
+      for (const auto& x : R)
         if (f(x)) { ++cm[T(x)]; ++num_in; }
       res.first = num_in - res.first;
       res.second = cm.size() - res.second;
