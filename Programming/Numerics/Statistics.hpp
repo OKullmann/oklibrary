@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020, 2021, 2022 Oliver Kullmann
+/* Copyright 2020, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,9 +12,12 @@ License, or any later version. */
    One-dimensional sequences (count, min, max, arithmetic mean, standard
    deviation and median):
 
+
     General arithmetic facilities:
 
     - function sum_kbn(begin, end) : more precise summation
+      (https://en.wikipedia.org/wiki/Kahan_summation_algorithm :
+      reducing numerical error by accumulating small errors)
     - class Sum_kbn : same algorithm, now based on +=
     - function sumdiffsq_kbn(begin, end, m) : for all x from the sequence,
       the sum of (x-m)^2 (again using more precise summation)
@@ -23,32 +26,81 @@ License, or any later version. */
     - min_element(begin, end), max_element(begin, end) (using the
       above suprema/infima)
 
+
     Containers for output of the basic measures (at once):
 
-    - class BStatsR<OUT> (reporting the basic statistics)
-    - class StatsR<OUT> (derived class, additionally reporting the median).
+    - class BStatsR<OUT> (reporting the four basic statistics):
+     - typedefs: output_t, count_t
+     - data members N, min, amean, max, sdc
+     - operators ==, <=>
+     - operator << : "N : min mean max; sdc"
+    - class StatsR<OUT> (derived class, additionally containing the median)
+     - operator << appends " median".
+
 
     Complete classes for computing the basic statistics:
+
 
     - helper class CoreStats<IN> for sum, sum-of-squares, min and max
     - class BasicStats<IN, OUT>: complete class for one quantity (see below
       for k quantities)
     - typedef StdStats for BasicStats with float80
 
+
     - FourStats<IN, OUT, RAN> : the four basic statistics for a range,
       computed with the kbn-algorithms
     - alias StdFourStats for IN=OUT=float80
     - typedef StdVFourStats furthermore has RAN=vector<float80>
 
+
     - BasicStats generalised to k quantities:
         GBasicStats<k,IN,OUT> and GStdStats<k>
+
 
     - function median<OUT, V>(V v)
     - class StatsStore<IN, OUT> (as BasicStats, but keeps the data, and
       providing the median)
 
+
     - class FreqStats<IN, OUT> (also keeps the data and providing median, now
-      in the form of a frequency-table).
+      in the form of a frequency-table):
+      - provided types:
+       - input_t, output_t, count_t, cmap_t (count-map-type)
+       - pair_t (value-type of cmap_t
+       - secord_t ("second order"): StatsStore<count_t, float80>)
+       - stats_t : StatsR<output_t>
+       - stats2_t : StatsR<float80>
+      - four constructors:
+       - FreqStats()
+       - FreqStats(RANGE)
+       - FreqStats(RANGE, FILTER)
+       - FreqStats(RANGE, FILTER, TRANSFORM)
+      - insertion:
+       - insert(RANGE)
+       - insert(RANGE, FILTER)
+       - insert(RANGE, FILTER, TRNAFORM)
+       - +=(input_t
+      - reports:
+       - num_inputs(), num_values(), cmap()
+       - min(), max()  -> input_t
+       - sum(), sum_sq(), sum_sqd(mean), sum_sqd(), amean()  -> output_t
+       - var_population(mean), var_population(), var_unbiased(mean),
+         var_unbiased(), sd_population(mean), sd_population(),
+         sd_corrected(mean), sd_corrected()  -> output_t
+       - median() -> output_t
+       - second_order_stats() -> secord_t (statistics on the counts)
+       - extract1() -> stats_t (statistics on the primary data)
+       - extract2() -> stats2_t (statistics on the secondary data (counts))
+      - operator ==
+      - output:
+       - out_pair(ostream, pair)
+       - out_map(ostream) (calling out_pair)
+       - operator << :
+        - "L1 " followed by extract1()
+          if map not empty:
+            output of map
+            on the next line "L2 " followed by extract2().
+
 
    Sequences of points (pairs of x/y-values):
 
@@ -654,14 +706,19 @@ namespace GenStats {
     typedef IN input_t;
     typedef OUT output_t;
     typedef std::uint64_t count_t;
-    typedef std::map<input_t, count_t> cmap_t;
+    typedef std::map<input_t, count_t> cmap_t; // private cm : cmap_t
 
     FreqStats() : num_in(0) {}
     template <class RAN>
     explicit FreqStats(const RAN& R) : num_in(0) { insert(R); }
     template <class RAN, class FILT>
-    explicit FreqStats(const RAN& R, const FILT& f) : num_in(0) {
+    FreqStats(const RAN& R, const FILT& f) : num_in(0) {
       insert(R,f);
+    }
+    template <class RAN, class FILT, class TRANS>
+    FreqStats(const RAN& R, const FILT& f, const TRANS& T)
+        : num_in(0) {
+      insert(R,f,T);
     }
 
     // Returns the total number of insertions, and the number of new
@@ -684,6 +741,17 @@ namespace GenStats {
       res.second = cm.size() - res.second;
       return res;
     }
+    static constexpr auto true_filter = [](const auto){return true;};
+    template <class RAN, class FILT, class TRANS>
+    pcount_t insert(const RAN& R, const FILT& f, const TRANS& T) {
+      pcount_t res{num_in, cm.size()};
+      for (const input_t& x : R)
+        if (f(x)) { ++cm[T(x)]; ++num_in; }
+      res.first = num_in - res.first;
+      res.second = cm.size() - res.second;
+      return res;
+    }
+
     pcount_t operator +=(const input_t x) noexcept {
       ++num_in;
       const count_t old = cm.size();

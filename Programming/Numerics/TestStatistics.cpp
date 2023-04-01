@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "4.7.2022",
+        "0.3.2",
+        "1.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -235,7 +235,7 @@ int main(const int argc, const char* const argv[]) {
 
   {typedef FreqStats<FP::UInt_t, FP::float80> fst;
    typedef fst::stats_t stats_t;
-   
+   {
    fst FS;
    assert(FS == fst{});
    assert(FS.num_inputs() == 0);
@@ -284,6 +284,14 @@ int main(const int argc, const char* const argv[]) {
     assert(ex.median == 1);
    }
    assert((FS.extract2() == stats_t{{4,1,1.5,2,FP::sqrt(1.0L/3)},1.5}));
+   }
+   typedef std::vector<fst::input_t> iv_t;
+   const fst FS(iv_t{0,1,2,3}, [](auto x){return x % 2 == 0;},
+                [](auto x){return 3*x;});
+   assert(FS.num_inputs() == 2);
+   assert(FS.num_values() == 2);
+   std::cerr << FS;
+   assert(eqp(FS.cmap(), {{0,1},{6,1}}));
   }
 
   {typedef GStdStats<0> ST;
