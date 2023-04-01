@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
-        "28.3.2023",
+        "0.2.6",
+        "1.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -270,6 +270,102 @@ int main(const int argc, const char* const argv[]) {
   {const Clause C{Lit(1), Lit(-3), Lit(0), Lit(-6)};
    const varmap_t m = list2map({Var(1),Var(3),Var(4)});
    assert((rename(C,m) == Clause{Lit(1),Lit(-2),Lit(0)}));
+  }
+
+  {Clause C;
+   msort(C);
+   assert(C.empty());
+   C.push_back(Lit(0));
+   msort(C);
+   eqp(C, {Lit(0)});
+   C.push_back(-Lit(0));
+   assert(not is_sorted(C));
+   msort(C);
+   assert(eqp(C, {-Lit(0),Lit(0)}));
+   emsort(C);
+   assert(eqp(C, {-Lit(0),Lit(0)}));
+   C.push_back(-Lit(0));
+   emsort(C);
+   assert(eqp(C, {-Lit(0),Lit(0)}));
+   assert(is_tautological(C));
+   ClauseList F({C});
+   assert(F.size() == 1);
+   assert(F[0] == C);
+   emtautological(F);
+   assert(F.empty());
+   emtautological(F);
+   assert(F.empty());
+   DimacsClauseList G({{0,1},{C}});
+   assert(G.second.size() == 1);
+   emtautological(G);
+   assert(eqp(G, {{0,0},{}}));
+   emtautological(G);
+   assert(eqp(G, {{0,0},{}}));
+  }
+
+  {const ClauseList F{{Lit(2),Lit(-1)},{},{Lit(3), Lit(1), Lit(-3), Lit(1)}};
+   assert(not sorted_elements(F));
+   assert(num_litocc(F) == 6);
+   const auto S = length_statistics(F);
+   assert(S.num_inputs() == 3);
+   assert(S.num_values() == 3);
+   assert(eqp(S.cmap(), {{0,1},{2,1},{4,1}}));
+   {ClauseList F2(F);
+    msort_elements(F2);
+    assert(sorted_elements(F2));
+    assert(eqp(F2, {{Lit(-1),Lit(2)},{},{Lit(1),Lit(1),Lit(-3),Lit(3)}}));
+    assert(length_statistics(F2) == S);
+    DimacsClauseList G2({3,3}, F);
+    msort_elements(G2);
+    assert(sorted_elements(F2));
+    assert(eqp(G2.first, {3,3}));
+    assert(G2.second == F2);
+    assert(length_statistics(G2) == S);
+    assert(sort_elements(F) == F2);
+    assert(sort_elements(DimacsClauseList{{3,3},F}) == G2);
+    assert(not is_fully_sorted(F2));
+    assert(not is_fully_sorted(G2));
+    full_emsort(F2);
+    assert(is_fully_sorted(F2));
+    assert(eqp(F2, {{},{Lit(-1),Lit(2)},{Lit(1),Lit(-3),Lit(3)}}));
+    const auto S2 = length_statistics(F2);
+    assert(S2.num_inputs() == 3);
+    assert(S2.num_values() == 3);
+    assert(eqp(S2.cmap(), {{0,1},{2,1},{3,1}}));
+    full_emsort(G2);
+    assert(is_fully_sorted(G2));
+    assert(eqp(G2, {{3,3},{{},{Lit(-1),Lit(2)},{Lit(1),Lit(-3),Lit(3)}}}));
+    assert(length_statistics(G2) == S2);
+    standardise_clauses(F2);
+    assert(is_fully_sorted(F2));
+    assert(eqp(F2, {{},{Lit(-1),Lit(2)}}));
+    const auto S3 = length_statistics(F2);
+    assert(S3.num_inputs() == 2);
+    assert(S3.num_values() == 2);
+    assert(eqp(S3.cmap(), {{0,1},{2,1}}));
+    standardise_clauses(G2);
+    assert(is_fully_sorted(G2));
+    assert(eqp(G2, {{3,2},{{},{Lit(-1),Lit(2)}}}));
+    assert(length_statistics(G2) == S3);
+    ClauseList F3(F);
+    standardise_clauses(F3);
+    assert(F3 == F2);
+    DimacsClauseList G3({3,3}, F);
+    standardise_clauses(G3);
+    assert(G3 == G2);
+   }
+   {ClauseList F2(F);
+    emsort_elements(F2);
+    assert(eqp(F2, {{Lit(-1),Lit(2)},{},{Lit(1),Lit(-3),Lit(3)}}));
+    DimacsClauseList G2({3,3}, F);
+    emsort_elements(G2);
+    assert(eqp(G2.first, {3,3}));
+    assert(G2.second == F2);
+    assert(esort_elements(F) == F2);
+    assert(esort_elements(DimacsClauseList{{3,3},F}) == G2);
+    assert(not is_fully_sorted(F2));
+    assert(not is_fully_sorted(G2));
+   }
   }
 
 }

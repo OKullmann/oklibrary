@@ -36,13 +36,46 @@ License, or any later version. */
       - varlist_t : typedef for vector of Var
       - var(varlist_t) -> VarSet
 
-      - is_sorted(Clause)
-      - msort_elements(ClauseList&)
-        sort_elements(ClauseList) -> ClauseList
-        sorted_elements(ClauseList)
-      - msort_elements(DimacsClauseList&)
-        sort_elements(DimacsClauseList) -> DimacsClauseList
-        sorted_elements(DimacsClauseList)
+      - is_sorted(Clause) -> bool
+      - sorted_elements(ClauseList) -> bool
+      - sorted_elements(DimacsClauseList) -> bool
+      - is_fully_sorted(ClauseList) -> bool
+      - is_fully_sorted(DimacsClauseList) -> bool
+
+      - is_tautological(Clause) -> bool
+
+      Modifiers ("m" for in-place-modification, "e" for erase):
+
+       - msort(Clause&)
+       - emsort(Clause&) (erase duplicated literals)
+
+       - emtautological(ClauseList&) (remove tautological clauses)
+       - emtautological(DimacsClauseList&)
+
+       - msort_elements(ClauseList&)
+       - msort_elements(DimacsClauseList&)
+       - emsort_elements(ClauseList&)
+       - emsort_elements(DimacsClauseList&)
+
+       - sort_elements(ClauseList) -> ClauseList
+       - esort_elements(ClauseList) -> ClauseList
+       - sort_elements(DimacsClauseList) -> DimacsClauseList
+       - esort_elements(DimacsClauseList) -> DimacsClauseList
+
+       "full" means elements and list itself:
+       - full_emsort(ClauseList&)
+       - full_emsort(DimacsClauseList&)
+       - standardise_clauses(ClauseList&) (full_emsort plus removal of
+         tautological clauses)
+       - standardise_clauses(DimacsClauseList&).
+
+      Statistics:
+
+       - num_litocc(ClauseList) -> var_t
+       - num_litocc(DimacsClauseList) -> var_t
+       - length_statistics(ClauseList) -> GenStats::FreqStats
+         (result type has typedef length_statistics_t)
+       - length_statistics(DimacsClauseList) -> GenStats::FreqStats
 
 
    - Reading strict Dimacs from istream:
@@ -200,6 +233,7 @@ See plans/general.txt.
 #include <ProgramOptions/Strings.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "Algorithms.hpp"
 
@@ -250,30 +284,114 @@ namespace DimacsTools {
   };
 
 
+  void msort(Clause& C) noexcept {
+    std::ranges::sort(C);
+  }
   bool is_sorted(const Clause& C) noexcept {
     return std::ranges::is_sorted(C);
   }
+  void emsort(Clause& C) noexcept {
+    msort(C);
+    C.erase(std::unique(C.begin(), C.end()), C.end());
+  }
+
+  bool is_tautological(const Clause& C) noexcept {
+    assert(is_sorted(C));
+    const auto adjfind = std::ranges::adjacent_find(C,
+      [](const Lit x, const Lit y) {return x == -y;});
+    return adjfind != C.end();
+  }
+  void emtautological(ClauseList& F) noexcept {
+    std::erase_if(F, is_tautological);
+  }
+  void emtautological(DimacsClauseList& F) noexcept {
+    assert(F.first.c == F.second.size());
+    emtautological(F.second);
+    F.first.c = F.second.size();
+  }
 
   void msort_elements(ClauseList& F) noexcept {
-    for (Clause& C : F) std::ranges::sort(C);
+    std::ranges::for_each(F, msort);
   }
   void msort_elements(DimacsClauseList& F) noexcept {
     msort_elements(F.second);
   }
+  void emsort_elements(ClauseList& F) noexcept {
+    std::ranges::for_each(F, emsort);
+  }
+  void emsort_elements(DimacsClauseList& F) noexcept {
+    emsort_elements(F.second);
+  }
+
   ClauseList sort_elements(ClauseList F) noexcept {
-    for (Clause& C : F) std::ranges::sort(C);
-    return F;
+    msort_elements(F); return F;
+  }
+  ClauseList esort_elements(ClauseList F) noexcept {
+    emsort_elements(F); return F;
   }
   DimacsClauseList sort_elements(DimacsClauseList F) noexcept {
-    for (Clause& C : F.second) std::ranges::sort(C);
-    return F;
+    msort_elements(F.second); return F;
   }
-  // Only elements need to be sorted:
+  DimacsClauseList esort_elements(DimacsClauseList F) noexcept {
+    emsort_elements(F.second); return F;
+  }
+
   bool sorted_elements(const ClauseList& F) noexcept {
-    return std::ranges::all_of(F, [](const Clause& C){return is_sorted(C);});
+    return std::ranges::all_of(F, is_sorted);
   }
   bool sorted_elements(const DimacsClauseList& F) noexcept {
     return sorted_elements(F.second);
+  }
+
+  bool is_fully_sorted(const ClauseList& F) noexcept {
+    return sorted_elements(F) and std::ranges::is_sorted(F);
+  }
+  bool is_fully_sorted(const DimacsClauseList& F) noexcept {
+    return is_fully_sorted(F.second);
+  }
+
+  // The result of full_emsort corresponds precisely to first creating
+  // clauses as sets from the clauses of F, and then put this into a set:
+  void full_emsort(ClauseList& F) noexcept {
+    emsort_elements(F);
+    std::ranges::sort(F);
+    F.erase(std::unique(F.begin(), F.end()), F.end());
+  }
+  void full_emsort(DimacsClauseList& F) noexcept {
+    full_emsort(F.second);
+    F.first.c = F.second.size();
+  }
+  // Sorted non-tautological elements without repetitions, and
+  // the whole list also sorted without repetitions (full_emsort plus
+  // elimination of tautological clauses):
+  void standardise_clauses(ClauseList& F) noexcept {
+    emsort_elements(F);
+    emtautological(F);
+    std::ranges::sort(F);
+    F.erase(std::unique(F.begin(), F.end()), F.end());
+  }
+  void standardise_clauses(DimacsClauseList& F) noexcept {
+    standardise_clauses(F.second);
+    F.first.c = F.second.size();
+  }
+
+
+  var_t num_litocc(const ClauseList& F) noexcept {
+    var_t sum = 0;
+    for (const Clause& C : F) sum += C.size();
+    return sum;
+  }
+  var_t num_litocc(const DimacsClauseList& F) noexcept {
+    return num_litocc(F.second);
+  }
+  typedef GenStats::FreqStats<var_t, FloatingPoint::float80>
+          length_statistics_t;
+  length_statistics_t length_statistics(const ClauseList& F) {
+    return {F, [](auto){return true;},
+        [](const Clause& C){return C.size();}};
+  }
+  length_statistics_t length_statistics(const DimacsClauseList& F) {
+    return length_statistics(F.second);
   }
 
 
