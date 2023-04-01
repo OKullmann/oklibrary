@@ -290,7 +290,6 @@ int main(const int argc, const char* const argv[]) {
                 [](auto x){return 3*x;});
    assert(FS.num_inputs() == 2);
    assert(FS.num_values() == 2);
-   std::cerr << FS;
    assert(eqp(FS.cmap(), {{0,1},{6,1}}));
   }
 
