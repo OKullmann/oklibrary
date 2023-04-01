@@ -274,6 +274,21 @@ namespace ConflictGraphs {
     }
 
     bool operator ==(const VarStatistics&) const noexcept = default;
+
+    friend std::ostream& operator <<(std::ostream& out, const VarStatistics& s) {
+      out << "Variables "
+          << s.n_total << " " << s.n_max << " " << s.n << "\n" <<
+        "  trivial-pure-singular-1singular-non1singular-nonsingular " <<
+        s.num_trivial << " " << s.num_pure << " " << s.num_singular << " " <<
+        s.num_osingular << " " << s.num_nonosingular << " " <<
+        s.num_nonsingular << "\n" <<
+        "degree " << s.freq_deg <<
+        "muldegree " << s.freq_muldeg <<
+        "maxdegree " << s.freq_maxdeg <<
+        "mindegree " << s.freq_mindeg <<
+        "litdegree " << s.freq_ldeg;
+      return out;
+    }
   };
 
 
