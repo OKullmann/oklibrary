@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -62,6 +62,9 @@ Disassemble_debug : Disassemble.cpp Disassemble.hpp DimacsTools.hpp Bicliques2SA
 
 GSM : GSM.cpp Bicliques2SAT.hpp DimacsTools.hpp BCC2SAT.hpp
 GSM_debug : GSM.cpp Bicliques2SAT.hpp DimacsTools.hpp BCC2SAT.hpp
+
+CNFstats : CNFstats.cpp DimacsTools.hpp ConflictGraphs.hpp GraphTraversal.hpp
+CNFstats_debug : CNFstats.cpp DimacsTools.hpp ConflictGraphs.hpp GraphTraversal.hpp
 
 # -------------------------
 
