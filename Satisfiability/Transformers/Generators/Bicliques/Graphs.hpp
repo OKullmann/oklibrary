@@ -57,20 +57,70 @@ License, or any later version. */
 
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
-    - Statistics: n(), m(), loops() -> size_t
-    - to be completed XXX
 
+    - the out-adjacency-list A is realised as a vector of vectors is uints
+    - the vertices are exactly the natural numbers 0, ..., n()-1
+    - const-access to A via graph()
 
-   - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
-   - has_loops(AdjVecUInt)
-   - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
+    - typedefs:
+     - id_t (uint64_t)
+     - list_t (vector of id_t)
+     - adjlist_t (vector of list_t)
+     - namesvec_t (vector os string)
+     - namesmap_t (map string -> id_t)
+     - size_t = id_t
+     - edge_t (pair of id_t)
+     - vecedges_t (vector of edge_t)
+
+    - constructors:
+     - AdjVecUInt(GT) : empty graph
+     - AdjVecUInt(GT, size_t n) : n isolated vertices
+     - AdjVecUInt(AdjMapStr) : indexing in the given order, with storing
+       the names
+
+    - statistics:
+     - type() -> GT
+     - n() -> size_t (number of vertices)
+     - m() -> size_t (number of edges)
+     - loops() -> size_t
+
+    - name-handling:
+     - with_names() -> bool : whether names are active
+     - unset_names() : deactivate names
+     - set_names() : activate names
+     - name(id_t) -> string
+     - allnames() -> const namesvec_t&
+     - index(string) -> id_t
+     - allindices() -> const namesmap_t&
+
+    - providing whole adjacency-list:
+     - valid(adjlist_t) -> bool
+     - set(adjlist_t)
+
+    - graph access:
+     - adjacent(id_t, id_t) -> bool
+     - neighbours(id) -> const list_t&
+     - graph() -> const adjlist_t&
+     - alledges() -> vecedges_t
+     - all nonedges(bool withloops) -> vecedges_t
+
+    - operators:
+     - ==
+     - << :
+      - comment-line (started with "# ") with n, m, type
+      - all adjacency-lists (either via indices, or, whith names activated,
+        via names).
+
+    - free-standing helper-functions:
+     - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
+       (just reading an AdjMapStr and converting to AdjVecUInt)
+     - has_loops(AdjVecUInt) -> bool
+     - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
 
 
 TODOS:
 
-1. Complete documentation
-
-2. Provide derived form of AdjVecUInt with access to indexed edges
+1. Provide derived form of AdjVecUInt with access to indexed edges
 
 */
 
@@ -441,6 +491,7 @@ namespace Graphs {
     const adjlist_t& graph() const noexcept {
       return A;
     }
+
     const std::string& name(const id_t x) const noexcept {
       assert(x < n_);
       assert(names_);
