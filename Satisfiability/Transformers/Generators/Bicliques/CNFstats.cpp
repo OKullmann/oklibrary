@@ -25,7 +25,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.1.0",
         "2.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -56,5 +56,13 @@ int main(const int argc, const char* const argv[]) {
   if (show_usage(argc, argv)) return 0;
 
   const DimacsClauseList F = read_strict_Dimacs(std::cin);
-
+  std::cout << "Dimacs: " << F.first.n << " " << F.first.c << "; L = "
+            << num_litocc(F) << "\n\n";
+  std::cout << "Clauses " << length_statistics(F) << "\n";
+  const auto occ = allocc(F);
+  std::cout << VarStatistics(occ) << "\n";
+  const auto G = conflictgraph(F.first.c, occ);
+  std::cout << "Conflict graph " << G.n() << " " << G.m() << "\n";
+  std::cout << "Degrees " << degree_statistics(G);
+  std::cout << "Sizes of components " << StatsCC(cc_by_dfs(G));
 }
