@@ -6,14 +6,21 @@ Priorities:
 
 0. New program CNFstats.cpp
 
- - Reading strict Dimacs.
- - Reporting the dimacs-parameters.
- - Then the clause-statistics.
- - Then the variable-statistics.
- - Then the basic conflict-graphs statistics V, E.
- - Similar to the clause-statistics, a FreqStats-
+ - DONE Reading strict Dimacs.
+ - DONE Reporting the dimacs-parameters.
+ - DONE Then the clause-statistics.
+ - DONE Then the variable-statistics.
+ - DONE Then the basic conflict-graphs statistics V, E.
+ - DONE Similar to the clause-statistics, a FreqStats-
    object for the degrees of the vertices of the
    conflict-graph is created and reported.
+ - Output under "Variables" needs improvement:
+  - the first three numbers need short explanations
+  - the next six numbers need a better structuring
+  - perhaps "trivial-pure" on one line
+  - then "singular-nonsingular"
+  - finally "1singular-non1singular".
+ - Provide examples and explanations.
 
 ---
 
