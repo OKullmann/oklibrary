@@ -4,6 +4,19 @@ Priorities:
 
 ---
 
+0. New program CNFstats.cpp
+
+ - Reading strict Dimacs.
+ - Reporting the dimacs-parameters.
+ - Then the clause-statistics.
+ - Then the variable-statistics.
+ - Then the basic conflict-graphs statistics V, E.
+ - Similar to the clause-statistics, a FreqStats-
+   object for the degrees of the vertices of the
+   conflict-graph is created and reported.
+
+---
+
 1. GSM.cpp:
 
 TODOS:
@@ -42,6 +55,12 @@ TODOS:
   - The parameter-values, version, etc.
   - With the usual formatting-options.
 
+4. Handling dimacs and dqdimacs:
+  - dqdimacs just needs a different to read, besides the possible
+    outermost a-block, the dependencies, to fill it into the G-slided CNF.
+  - dimacs could also be handled as a Gsliced CNF, just with all
+    other-clauses being empty.
+  - See QCNF2gCNF.cpp below.
 
 ---
 
@@ -98,6 +117,9 @@ TODOS:
       breaking, to run internal UCP (without intermediate file-output).
     - See "Upwards-search" in Bicliques2SAT.hpp.
 
+5. As an option, split into the connected components.
+    - Or should this be an independent program?
+      We have CNFBCC and GSM?
 
 BUGS:
 
@@ -379,8 +401,9 @@ TODOS:
 
 2. Read the minisat-statistics.
 
-3. Directing a stream to stdin of minisat
-   - This is important for very large files (especially when used in
+3. DONE (some reports are needed)
+   Directing a stream to stdin of minisat
+   - DONE This is important for very large files (especially when used in
      parallel).
    - DONE The tool here to use is
      ( https://man7.org/linux/man-pages/man3/popen.3.html )
@@ -390,7 +413,8 @@ TODOS:
    - DONE The pclose-function returns the exit-status.
    - DONE Better to use std::FILE from cstdio
      https://en.cppreference.com/w/cpp/io/c/FILE
-   - Within C, C++, Posix, there doesn't seem to be a way, given
+   - DONE (using template-parameters)
+     Within C, C++, Posix, there doesn't seem to be a way, given
      a FILE*, to convert this into an ostream.
      Thus the file-output-function need to be duplicated: additionally
      to the C++-function also C-functions, outputting to FILE*.
@@ -411,8 +435,8 @@ TODOS:
 1. Generalise to DQCNF
     - The set of global variables now is the intersection of the
       dependencies of all existential variables.
-
-
+    - See GSM above.
+    - Perhaps this should be a new program, DQCNF2gCNF.cpp ?
 
 ---
 

@@ -10,7 +10,8 @@ License, or any later version. */
   and the minimal number of variables.
   The clauses of F are sorted.
 
-  No splitting into connected components is performed.
+  No splitting into connected components is performed (see GSM for this
+  more general handling).
 
 
 EXAMPLES:
