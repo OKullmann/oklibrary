@@ -32,6 +32,7 @@ License, or any later version. */
         by pairwise comparison
 
     - More efficient approach by occurrence-lists:
+
      - struct OccVar : containing an array o of size 2 of vectors of
        literal-occurrence-indices (lit_occ_t)
        - default constructor
