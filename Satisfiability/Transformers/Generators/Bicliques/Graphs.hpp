@@ -116,6 +116,8 @@ License, or any later version. */
        (just reading an AdjMapStr and converting to AdjVecUInt)
      - has_loops(AdjVecUInt) -> bool
      - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
+     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
+       FreqStats<size_t, float80>)
 
 
 TODOS:
@@ -140,6 +142,7 @@ TODOS:
 #include <cstdint>
 
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/Statistics.hpp>
 
 namespace Graphs {
 
@@ -687,6 +690,14 @@ namespace Graphs {
         for (const id_t v1 : V1) { assert(v1<A.size()); neigh.push_back(v1); }
       }
     }
+  }
+
+
+  typedef GenStats::FreqStats<size_t, FloatingPoint::float80>
+          degree_statistics_t;
+  degree_statistics_t degree_statistics(const AdjVecUInt& G) {
+    return {G.graph(), [](auto){return true;},
+        [](const auto& L){return L.size();}};
   }
 
 }

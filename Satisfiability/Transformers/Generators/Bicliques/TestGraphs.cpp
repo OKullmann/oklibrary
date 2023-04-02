@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "13.3.2022",
+        "0.3.5",
+        "2.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -470,6 +470,11 @@ int main(const int argc, const char* const argv[]) {
           "4 1 4\n"
           "5\n");
    G2.set_names(); assert(G2.with_names());
+   {const auto S = degree_statistics(G2);
+    assert(S.num_inputs() == 6);
+    assert(S.num_values() == 2);
+    assert(eqp(S.cmap(), {{0,2},{2,4}}));
+   }
   }
 
   {AdjMapStr G(GT::und);
@@ -488,6 +493,11 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G2.neighbours(4), {1})); // e
    assert(eqp(G2.neighbours(5), {})); // f
    assert(eqp(G2.graph(), {{1,2,3},{0,3,4},{0},{0,1},{1},{}}));
+   {const auto S = degree_statistics(G2);
+    assert(S.num_inputs() == 6);
+    assert(S.num_values() == 4);
+    assert(eqp(S.cmap(), {{0,1},{1,2},{2,1},{3,2}}));
+   }
    assert(G2.name(0) == std::string("a"));
    assert(G2.name(1) == std::string("b"));
    assert(G2.name(2) == std::string("c"));
