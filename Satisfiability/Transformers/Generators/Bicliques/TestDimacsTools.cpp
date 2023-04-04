@@ -13,12 +13,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "DimacsTools.hpp"
+#include "Generators.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.6",
-        "1.4.2023",
+        "0.3.0",
+        "4.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -113,9 +114,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {DimacsClauseList F{{0,0},{}};
-   {const auto res = minisat_call(F);
+   {const auto res = minisat_call(DimacsClauseListref_put(F));
     assert(res.stats.sr == SolverR::sat);
-    assert(eqp(res.pa, {}));}
+    assert(eqp(res.pa, {}));
+    const auto m = read_minisat_results(res.rv.out);
+    assert(eqp(Mm_nt(m), {0,0,0,
+                   1,0,0,0,0,0,0}));
+   }
    {const auto res = minisat_call(DimacsClauseListref_put(F));
     assert(res.stats.sr == SolverR::sat);
     assert(eqp(res.pa, {}));}
@@ -138,6 +143,13 @@ int main(const int argc, const char* const argv[]) {
                                   [](const Lit x){return x.v.v!=1;});
     assert(res.stats.sr == SolverR::sat);
     assert(eqp(res.pa, {Lit{2,1}}));}
+  }
+
+  {for (size_t n = 0; n <= 10; ++n) {
+     const auto F = Generators::acnf(n);
+     const auto res = minisat_call(DimacsClauseListref_put(F), {}, "-no-pre");
+     // XXX
+   }
   }
 
   {bool caught = false;

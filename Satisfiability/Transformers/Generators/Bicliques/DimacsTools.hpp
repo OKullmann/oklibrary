@@ -234,6 +234,7 @@ See plans/general.txt.
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 #include <Numerics/Statistics.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "Algorithms.hpp"
 
@@ -688,6 +689,11 @@ namespace DimacsTools {
   }
 
 
+  /*
+    Calling SAT-solvers
+  */
+
+
   typedef std::function<bool(Lit)> Lit_filter;
   const Lit_filter triv_filter = [](Lit){return true;};
 
@@ -718,6 +724,127 @@ namespace DimacsTools {
         "  The exit-type of the solver-call was: " << rv.s << ".\n";
       throw std::runtime_error(m.str());
     }
+  }
+
+  struct Minisat_measurements {
+    typedef FloatingPoint::float80 float_t;
+    const float_t
+    num_var, num_cl, ptime, stime, elim_cl,
+      restarts, conflicts, cfl_psec, decisions, dec_prand, dec_psec,
+      propagations, prop_psec, conflict_literals, cfllit_pdel,
+      memory, ttime;
+    bool operator ==(const Minisat_measurements&) const noexcept = default;
+  };
+  // Without timing- or memory-results:
+  struct Mm_nt {
+    typedef FloatingPoint::float80 float_t;
+    const float_t
+    num_var, num_cl, elim_cl,
+      restarts, conflicts, decisions, dec_prand,
+      propagations, conflict_literals, cfllit_pdel;
+    Mm_nt(float_t nv, float_t nc, float_t ec, float_t r, float_t cf,
+          float_t dc, float_t dcp, float_t p, float_t cfl, float_t cflp)
+      noexcept :
+    num_var(nv), num_cl(nc), elim_cl(ec),
+    restarts(r), conflicts(cf), decisions(dc),
+    dec_prand(dcp), propagations(p),
+    conflict_literals(cfl), cfllit_pdel(cflp) {}
+    Mm_nt(const Minisat_measurements& m) noexcept :
+    num_var(m.num_var), num_cl(m.num_cl), elim_cl(m.elim_cl),
+    restarts(m.restarts), conflicts(m.conflicts), decisions(m.decisions),
+    dec_prand(m.dec_prand), propagations(m.propagations),
+    conflict_literals(m.conflict_literals), cfllit_pdel(m.cfllit_pdel) {}
+    bool operator ==(const Mm_nt&) const noexcept = default;
+  };
+
+  Minisat_measurements read_minisat_results(const std::string& output) {
+    using f_t =  Minisat_measurements::float_t;
+    const auto split = Environment::split2_spaces(output, '\n');
+    if (split.size() < 17) {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: at least 17 lines expected,"
+        " but only " <<split.size() << " many lines";
+      throw std::runtime_error(ss.str());
+    }
+
+    // |  Number of variables:           ABC        |
+    const auto& var_line = split[3];
+    if (var_line.size() != 6 or var_line[3] != "variables:") {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective variables-line:\n";
+      Environment::out_tokens(ss, var_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t num_var = FloatingPoint::to_UInt(var_line[4]);
+
+    // |  Number of clauses:             ABC        |
+    const auto& cl_line = split[4];
+    if (cl_line.size() != 6 or cl_line[3] != "clauses:") {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective clauses-line:\n";
+      Environment::out_tokens(ss, cl_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t num_cl = FloatingPoint::to_UInt(cl_line[4]);
+
+    // |  Parse time:                    ABC        |
+    const auto& ptime_line = split[5];
+    if (ptime_line.size() != 6 or ptime_line[1] != "Parse") {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective parse-time-line:\n";
+      Environment::out_tokens(ss, ptime_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t ptime = FloatingPoint::to_float80(ptime_line[3]);
+
+    // First line optional:
+    // |  Eliminated clauses:            ABC Mb     |
+    // |  Simplification time:           ABC s      |
+    const auto& el_or_si_line = split[6];
+    if (el_or_si_line.size() != 6) {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective line:\n";
+      Environment::out_tokens(ss, el_or_si_line);
+      throw std::runtime_error(ss.str());
+    }
+    const bool with_elimination = el_or_si_line[1] == "Eliminated";
+    const f_t elim_cl = with_elimination ?
+      FloatingPoint::to_float80(el_or_si_line[3]) : 0;
+    if (with_elimination and
+        (split[7].size() != 6 or split[7][1] != "Simplification")) {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective simplification-line"
+         << " (with elimination):\n";
+      Environment::out_tokens(ss, split[7]);
+      throw std::runtime_error(ss.str());
+    }
+    if (not with_elimination and
+        (el_or_si_line.size() != 6 or el_or_si_line[1] != "Simplification")) {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective"
+         << " simplification-line:\n";
+      Environment::out_tokens(ss, el_or_si_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t stime = FloatingPoint::to_float80(
+      (with_elimination ? split[7] : el_or_si_line)[3]);
+
+    const size_t final_part = split.size() - 8;
+
+    // restarts              : 3
+    const auto& restarts_line = split[final_part];
+    if (restarts_line.size() != 3 or restarts_line[0] != "restarts") {
+      std::stringstream ss;
+      ss << "DimacsTolls::read_minisat_results: defective restarts-line:\n";
+      Environment::out_tokens(ss, restarts_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t restarts = FloatingPoint::to_UInt(restarts_line[2]);
+
+    // XXX
+
+    return {num_var, num_cl, ptime, stime, elim_cl,
+        restarts};
   }
 
   struct Minisat_stats {
