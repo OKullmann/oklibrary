@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.18",
-        "12.3.2023",
+        "0.2.19",
+        "4.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -59,6 +59,18 @@ int main(const int argc, const char* const argv[]) {
   {assert(basename("abc.def") == "abc");
   }
   {assert(auto_prg("abc.def") == "abc_debug");
+  }
+
+  {std::stringstream s;
+   out_tokens(s,{});
+   assert(s);
+   assert(s.str().empty());
+   s.clear(); s.str("");
+   out_tokens(s,{1,""});
+   assert(s.str() == "\"\"");
+   s.clear(); s.str("");
+   out_tokens(s,{2,""});
+   assert(s.str() == "\"\" \"\"");
   }
 
   {assert(split("", ',') == tokens_t{}),
@@ -340,6 +352,13 @@ int main(const int argc, const char* const argv[]) {
    const std::string t = "# 555 \nab\n \t\n x y # nm\n  # hg\n  \t\n\n 789";
    ss.str(t); ss.clear();
    assert(eqp(split_cutoff(ss, '\n', '#'), {"ab", " x y ", " 789"}));
+  }
+
+  {assert(eqp(split2_spaces("", '0'), {}));
+   assert(eqp(split2_spaces(" ", '0'), {}));
+   assert(eqp(split2_spaces("  ", '0'), {}));
+   assert(eqp(split2_spaces(" aj c \n \t x xx 87 x ", 'x'),
+              {{"aj", "c"}, {"87"}}));
   }
 
   {std::istringstream ss;

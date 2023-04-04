@@ -24,14 +24,19 @@ License, or any later version. */
     Splitting strings:
     - typedef size_t
     - typedef tokens_t = vector<string>
+      out_tokens(std::ostream, tokens_t) : with quotes, separated by spaces
 
+      Exact splitting (splitting-symbols are just (single) characters):
     - split(string, char), split(istream, char),
       split(istream, char, char& final_character),
       split_cutoff(istream, char, char cutoff-character)
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
-    - for char2= ' ' :
-      split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
+
+      Splitting on (strings of) space-symbols:
+    - split2_spaces(string_view, char) -> vector<tokens_t>
+    - split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
+      (removing all content from lines from cut-off-characters on)
 
     Handling of spaces:
     - isspace(char)
@@ -65,6 +70,8 @@ License, or any later version. */
       -> indstr_t.
 
     Formatted output:
+    - out_tokens(ostream&, tokens_t) : quoting each string, with separating
+        spaces
     - out_line(ostream&, RAN R, sep, width)
     - out_lines(ostream&, RAN R, sep1, sep2, width)
     - print1d(ostream&, tuple<T1, ...>, width_vector, seps)
@@ -161,6 +168,13 @@ namespace Environment {
   // Split string s into a vector of tokens, using separator sep (ignoring
   // a final character sep, but otherwise possibly producing empty tokens):
   typedef std::vector<std::string> tokens_t;
+  void out_tokens(std::ostream& out, const tokens_t& T) {
+    const size_t size = T.size();
+    if (size == 0) return;
+    out << qu(T[0]);
+    for (size_t i = 1; i < size; ++i) out << " " << qu(T[i]);
+  }
+
   inline tokens_t split(const std::string_view s, const char sep) {
     std::istringstream ss(s.data());
     tokens_t res;
@@ -252,7 +266,19 @@ namespace Environment {
   }
 
 
-  // Secondary split on spaces, eliminating all whitespace otherwise:
+  // Secondary split on space-symbols, eliminating all whitespace otherwise:
+  inline std::vector<tokens_t> split2_spaces(const std::string_view s,
+                                             const char sep1) {
+    const tokens_t res0 = split(s, sep1);
+    std::vector<tokens_t> res;
+    for (std::string line : res0) {
+      transform_spaces_mod(line);
+      if (not line.empty()) res.push_back(split(line, ' '));
+    }
+    return res;
+  }
+  // Secondary split on spaces, eliminating all whitespace otherwise, and
+  // using cutoff:
   inline std::vector<tokens_t> split2_cutoff(std::istream& s,
                                       const char sep1,
                                       const char c) {
