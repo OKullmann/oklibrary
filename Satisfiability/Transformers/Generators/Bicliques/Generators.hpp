@@ -21,6 +21,7 @@ License, or any later version. */
 
   - For each type T:
    - bcc_T(params) (minimum bc-cover)
+     realised by cnf_t(params)
    - bcp_T(params) (minimum bc-partition, if known)
    - numcc_T(params) (number of connected components)
    - T(params) generatoring AdjMapStr
