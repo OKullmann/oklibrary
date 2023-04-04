@@ -734,14 +734,26 @@ namespace DimacsTools {
       propagations, prop_psec, conflict_literals, cfllit_pdel,
       memory, ttime;
     bool operator ==(const Minisat_measurements&) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const Minisat_measurements& m) {
+      return out << m.num_var << " " << m.num_cl << " " << m.ptime << " " <<
+        m.stime << " " << m.elim_cl << " " <<
+        m.restarts << " " <<
+        m.conflicts << " " << m.cfl_psec << " " <<
+        m.decisions << " " << m.dec_prand << " " << m.dec_psec << " " <<
+        m.propagations << " " << m.prop_psec << " " <<
+        m.conflict_literals << " " << m.cfllit_pdel << " " <<
+        m.memory << " " << m.ttime;
+    }
   };
-  // Without timing- or memory-results:
+  // Without timing- or memory-results, and suppressing NaNs:
   struct Mm_nt {
     typedef FloatingPoint::float80 float_t;
     const float_t
     num_var, num_cl, elim_cl,
       restarts, conflicts, decisions, dec_prand,
       propagations, conflict_literals, cfllit_pdel;
+
     Mm_nt(float_t nv, float_t nc, float_t ec, float_t r, float_t cf,
           float_t dc, float_t dcp, float_t p, float_t cfl, float_t cflp)
       noexcept :
@@ -749,11 +761,18 @@ namespace DimacsTools {
     restarts(r), conflicts(cf), decisions(dc),
     dec_prand(dcp), propagations(p),
     conflict_literals(cfl), cfllit_pdel(cflp) {}
+
     Mm_nt(const Minisat_measurements& m) noexcept :
     num_var(m.num_var), num_cl(m.num_cl), elim_cl(m.elim_cl),
     restarts(m.restarts), conflicts(m.conflicts), decisions(m.decisions),
     dec_prand(m.dec_prand), propagations(m.propagations),
-    conflict_literals(m.conflict_literals), cfllit_pdel(m.cfllit_pdel) {}
+    conflict_literals(m.conflict_literals), cfllit_pdel(sn(m.cfllit_pdel)) {}
+
+    // suppress NaNs:
+    static float_t sn(const float_t x) noexcept {
+      return FloatingPoint::isnan(x) ? 0 : x;
+    }
+
     bool operator ==(const Mm_nt&) const noexcept = default;
   };
 
@@ -762,40 +781,43 @@ namespace DimacsTools {
     const auto split = Environment::split2_spaces(output, '\n');
     if (split.size() < 17) {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: at least 17 lines expected,"
+      ss << "DimacsTools::read_minisat_results: at least 17 lines expected,"
         " but only " <<split.size() << " many lines";
       throw std::runtime_error(ss.str());
     }
+
+    using FloatingPoint::to_UInt;
+    using FloatingPoint::to_float80;
 
     // |  Number of variables:           ABC        |
     const auto& var_line = split[3];
     if (var_line.size() != 6 or var_line[3] != "variables:") {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective variables-line:\n";
+      ss << "DimacsTools::read_minisat_results: defective variables-line:\n";
       Environment::out_tokens(ss, var_line);
       throw std::runtime_error(ss.str());
     }
-    const f_t num_var = FloatingPoint::to_UInt(var_line[4]);
+    const f_t num_var = to_UInt(var_line[4]);
 
     // |  Number of clauses:             ABC        |
     const auto& cl_line = split[4];
     if (cl_line.size() != 6 or cl_line[3] != "clauses:") {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective clauses-line:\n";
+      ss << "DimacsTools::read_minisat_results: defective clauses-line:\n";
       Environment::out_tokens(ss, cl_line);
       throw std::runtime_error(ss.str());
     }
-    const f_t num_cl = FloatingPoint::to_UInt(cl_line[4]);
+    const f_t num_cl = to_UInt(cl_line[4]);
 
     // |  Parse time:                    ABC        |
     const auto& ptime_line = split[5];
     if (ptime_line.size() != 6 or ptime_line[1] != "Parse") {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective parse-time-line:\n";
+      ss << "DimacsTools::read_minisat_results: defective parse-time-line:\n";
       Environment::out_tokens(ss, ptime_line);
       throw std::runtime_error(ss.str());
     }
-    const f_t ptime = FloatingPoint::to_float80(ptime_line[3]);
+    const f_t ptime = to_float80(ptime_line[3]);
 
     // First line optional:
     // |  Eliminated clauses:            ABC Mb     |
@@ -803,17 +825,16 @@ namespace DimacsTools {
     const auto& el_or_si_line = split[6];
     if (el_or_si_line.size() != 6) {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective line:\n";
+      ss << "DimacsTools::read_minisat_results: defective line:\n";
       Environment::out_tokens(ss, el_or_si_line);
       throw std::runtime_error(ss.str());
     }
     const bool with_elimination = el_or_si_line[1] == "Eliminated";
-    const f_t elim_cl = with_elimination ?
-      FloatingPoint::to_float80(el_or_si_line[3]) : 0;
+    const f_t elim_cl = with_elimination ? to_float80(el_or_si_line[3]) : 0;
     if (with_elimination and
         (split[7].size() != 6 or split[7][1] != "Simplification")) {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective simplification-line"
+      ss << "DimacsTools::read_minisat_results: defective simplification-line"
          << " (with elimination):\n";
       Environment::out_tokens(ss, split[7]);
       throw std::runtime_error(ss.str());
@@ -821,38 +842,113 @@ namespace DimacsTools {
     if (not with_elimination and
         (el_or_si_line.size() != 6 or el_or_si_line[1] != "Simplification")) {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective"
+      ss << "DimacsTools::read_minisat_results: defective"
          << " simplification-line:\n";
       Environment::out_tokens(ss, el_or_si_line);
       throw std::runtime_error(ss.str());
     }
-    const f_t stime = FloatingPoint::to_float80(
+    const f_t stime = to_float80(
       (with_elimination ? split[7] : el_or_si_line)[3]);
 
     const size_t final_part = split.size() - 8;
 
-    // restarts              : 3
+    // restarts              : ABC
     const auto& restarts_line = split[final_part];
     if (restarts_line.size() != 3 or restarts_line[0] != "restarts") {
       std::stringstream ss;
-      ss << "DimacsTolls::read_minisat_results: defective restarts-line:\n";
+      ss << "DimacsTools::read_minisat_results: defective restarts-line:\n";
       Environment::out_tokens(ss, restarts_line);
       throw std::runtime_error(ss.str());
     }
-    const f_t restarts = FloatingPoint::to_UInt(restarts_line[2]);
+    const f_t restarts = to_UInt(restarts_line[2]);
 
-    // XXX
+    // conflicts            : ABC
+    const auto& conflicts_line = split[final_part+1];
+    if (conflicts_line.size() != 5 or conflicts_line[0] != "conflicts") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results: defective conflicts-line:\n";
+      Environment::out_tokens(ss, conflicts_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t conflicts = to_UInt(conflicts_line[2]);
+    const f_t cfl_psec = to_float80(conflicts_line[3].substr(1));
+
+    // decisions            : ABC
+    const auto& decisions_line = split[final_part+2];
+    if (decisions_line.size() != 8 or decisions_line[0] != "decisions") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results: defective decisions-line:\n";
+      Environment::out_tokens(ss, decisions_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t decisions = to_UInt(decisions_line[2]);
+    const f_t dec_prand = to_float80(decisions_line[3].substr(1));
+    const f_t dec_psec = to_float80(decisions_line[6].substr(1));
+
+    // propagations         : ABC
+    const auto& propagations_line = split[final_part+3];
+    if (propagations_line.size() != 5 or
+        propagations_line[0] != "propagations") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results:"
+        " defective propagations-line:\n";
+      Environment::out_tokens(ss, propagations_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t propagations = to_UInt(propagations_line[2]);
+    const f_t prop_psec = to_float80(propagations_line[3].substr(1));
+
+     // conflict literals   : ABC
+    const auto& conflict_literals_line = split[final_part+4];
+    if (conflict_literals_line.size() != 7 or
+        conflict_literals_line[0] != "conflict") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results:"
+        " defective conflict-literals-line:\n";
+      Environment::out_tokens(ss, conflict_literals_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t conflict_literals = to_UInt(conflict_literals_line[3]);
+    const f_t cfllit_pdel = to_float80(conflict_literals_line[4].substr(1));
+
+    // memory               : ABC
+    const auto& memory_line = split[final_part+5];
+    if (memory_line.size() != 5 or memory_line[0] != "Memory") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results: defective memory-line:\n";
+      Environment::out_tokens(ss, memory_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t memory = to_float80(memory_line[3]);
+
+    // CPU time             : ABC
+    const auto& ttime_line = split[final_part+6];
+    if (ttime_line.size() != 5 or ttime_line[0] != "CPU") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_minisat_results: defective CUP-time-line:\n";
+      Environment::out_tokens(ss, ttime_line);
+      throw std::runtime_error(ss.str());
+    }
+    const f_t ttime = to_float80(ttime_line[3]);
 
     return {num_var, num_cl, ptime, stime, elim_cl,
-        restarts};
+        restarts, conflicts, cfl_psec, decisions, dec_prand, dec_psec,
+        propagations, prop_psec, conflict_literals, cfllit_pdel,
+        memory, ttime};
   }
 
   struct Minisat_stats {
     SolverR sr;
+    Minisat_measurements m;
+
     typedef SystemCalls::EReturnValue ret_t;
-    Minisat_stats(const ret_t& rv) : sr(extract_ret(rv.rv)) {}
-    friend std::ostream& operator <<(std::ostream& out, const Minisat_stats& s) {
-      return out << s.sr << "\n";
+    Minisat_stats(const ret_t& rv, const bool with_measurement) :
+      sr(extract_ret(rv.rv)),
+      m(with_measurement ? read_minisat_results(rv.out) : Minisat_measurements{}) {}
+
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const Minisat_stats& s) {
+      return out << s.sr << "\n" << s.m << "\n";
     }
   };
 
@@ -863,8 +959,10 @@ namespace DimacsTools {
     Clause pa; // satisfyfing assignment, otherwise empty
 
     Minisat_return(const ret_t rv, const Lit_filter& f,
-                   const std::filesystem::path& out)
-      : rv(rv), stats(rv), pa(extract_pa(stats.sr, f, out)) {}
+                   const std::filesystem::path& out,
+                   const bool with_measurement)
+      : rv(rv), stats(rv, with_measurement),
+        pa(extract_pa(stats.sr, f, out)) {}
 
     static Clause extract_pa(const SolverR sr, const Lit_filter& f,
                              const std::filesystem::path& out) {
@@ -891,7 +989,8 @@ namespace DimacsTools {
   // Reading from file:
   Minisat_return minisat_call(const std::string& input,
                               const Lit_filter& f = triv_filter,
-                              const std::string& options = "") {
+                              const std::string& options = "",
+                              const bool with_measurement = true) {
     assert(not input.empty());
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
@@ -901,7 +1000,8 @@ namespace DimacsTools {
       + input + " " + out;
     const std::filesystem::path pout(out);
     try {
-      const Minisat_return res(SystemCalls::esystem(command, ""), f, pout);
+      const Minisat_return res(SystemCalls::esystem(command, ""), f, pout,
+                               with_measurement);
       if (not std::filesystem::remove(pout))
         throw std::runtime_error(
           "DimacsTools::minisat_call(file): error when removing file " + out);
@@ -918,7 +1018,8 @@ namespace DimacsTools {
 
   Minisat_return minisat_call(const DimacsClauseList& F,
                               const Lit_filter& f = triv_filter,
-                              const std::string& options = "") {
+                              const std::string& options = "",
+                              const bool with_measurement = true) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string in =
@@ -929,7 +1030,7 @@ namespace DimacsTools {
          "DimacsTools::minisat_call(F): error when creating input-file " + in);
      fin << F;
     }
-    const Minisat_return res = minisat_call(in, f, options);
+    const Minisat_return res = minisat_call(in, f, options, with_measurement);
     const std::filesystem::path pin(in);
     if (not std::filesystem::remove(pin))
       throw std::runtime_error(
@@ -969,7 +1070,8 @@ namespace DimacsTools {
   // Using a pipe for stdin of minisat:
   Minisat_return minisat_call(const SystemCalls::put_cin_t& PF,
                               const Lit_filter& f = triv_filter,
-                              const std::string& options = "") {
+                              const std::string& options = "",
+                              const bool with_measurement = true) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string out =
@@ -978,7 +1080,7 @@ namespace DimacsTools {
       + "/dev/stdin" + " " + out;
     const std::filesystem::path pout(out);
     SystemCalls::Popen po(command);
-    const Minisat_return res(po.etransfer(PF), f, pout);
+    const Minisat_return res(po.etransfer(PF), f, pout, with_measurement);
     if (not std::filesystem::remove(pout))
       throw std::runtime_error(
         "DimacsTools::minisat_call(pipe): error when removing file " + out);

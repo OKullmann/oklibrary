@@ -119,7 +119,7 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(res.pa, {}));
     const auto m = read_minisat_results(res.rv.out);
     assert(eqp(Mm_nt(m), {0,0,0,
-                   1,0,0,0,0,0,0}));
+                   1,0,1,0,0,0,0}));
    }
    {const auto res = minisat_call(DimacsClauseListref_put(F));
     assert(res.stats.sr == SolverR::sat);
@@ -154,7 +154,7 @@ int main(const int argc, const char* const argv[]) {
 
   {bool caught = false;
    // In the following case, minisat does not create an output-file:
-   try { const auto res = minisat_call("X", triv_filter, "--help"); }
+   try { const auto res = minisat_call("X", triv_filter, "--help", false); }
    catch(const std::runtime_error& e) {
      const auto lines = Environment::split(e.what(), '\n');
      assert(lines.size() >= 4);
