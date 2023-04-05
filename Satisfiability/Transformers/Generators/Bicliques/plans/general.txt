@@ -82,7 +82,7 @@ TODOS:
   - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
 
 2. Option for greedy symmetry-breaking;
-   see Biclqliques2SAT.hpp below.
+   see Bicliques2SAT.hpp below.
 
 ---
 
@@ -97,9 +97,6 @@ TODOS:
     - stats (including solving-stats)
     - solution
    - (2) Logging (informing about the progress).
-  - DONE
-    Currently log = std::cout.
-    We use the same system as CNFBCC.cpp.
   - Format options for the result:
      - +- parameters (inculding seeds)
      - +- statistics
