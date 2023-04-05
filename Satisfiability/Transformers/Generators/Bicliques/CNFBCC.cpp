@@ -144,8 +144,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "29.3.2023",
+        "0.5.1",
+        "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -174,6 +174,7 @@ namespace {
     " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
+    "  - By using \"/dev/stdout\" for log the log goes to standard output.\n"
     "  - Using \"+\" for B means the increment added to the lower-bound.\n"
     "  - The representation is exact (for the conflict-*graph*) iff considering bcp.\n\n"
 ;

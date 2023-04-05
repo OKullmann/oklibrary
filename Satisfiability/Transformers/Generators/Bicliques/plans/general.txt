@@ -98,9 +98,7 @@ TODOS:
     - solution
    - (2) Logging (informing about the progress).
   - Currently log = std::cout.
-    There needs to be an option (also for other programs), by which
-    log can be set to cout or a filename or ignored, the latter being
-    the default (empty string), otherwise "cout" or any other name.
+    We use the same system as CNFBCC.cpp.
   - Format options for the result:
      - +- parameters (inculding seeds)
      - +- statistics
@@ -145,6 +143,9 @@ Aborted (core dumped)
 ---
 
 4. CNFBCC.cpp:
+
+1. Should be similar to BCCbySAT (above).
+    - logging should be handled in the same way.
 
 BUGS:
 
