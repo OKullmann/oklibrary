@@ -97,7 +97,8 @@ TODOS:
     - stats (including solving-stats)
     - solution
    - (2) Logging (informing about the progress).
-  - Currently log = std::cout.
+  - DONE
+    Currently log = std::cout.
     We use the same system as CNFBCC.cpp.
   - Format options for the result:
      - +- parameters (inculding seeds)
@@ -145,11 +146,9 @@ Aborted (core dumped)
 4. CNFBCC.cpp:
 
 1. Should be similar to BCCbySAT (above).
-    - logging should be handled in the same way.
+    - DONE logging should be handled in the same way.
 
 BUGS:
-
--2. Remove the additional empty line for the solution.
 
 -1. Inappropriate reaction yet when first run (for given B) is unsatisfiable.
   - The asserts at the end trigger.

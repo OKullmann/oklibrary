@@ -17,16 +17,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" ""
-Symmetry-breaking: 100 : 1 1 1; 0
-Minisat-call for B=5: returned SAT
-  Literal-Reduction by trimming: 1
-  Size obtained: 5
-Minisat-call for B=4: returned SAT
-  Literal-Reduction by trimming: 0
-  Size obtained: 4
-Minisat-call for B=3: returned UNSAT
-
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" ""
 bcc=4
 exact 4 5
 100 : 1 1 1; 0
@@ -35,13 +26,7 @@ exact 4 5
 2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
 1 3 4 7 9 14 15 16 | 2 5 6 8 10 11 12 13
 
-Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" ""
-Symmetry-breaking: 100 : 1 1 1; 0
-Minisat-call for B=6: returned SAT
-  Literal-Reduction by trimming: 0
-  Size obtained: 5
-Minisat-call for B=4: returned UNSAT
-
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" ""
 bcp=5
 exact 5 6
 100 : 1 1 1; 0
@@ -70,7 +55,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.6.0",
         "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -87,7 +72,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " B algo-options sb-rounds timeout seeds\n\n"
+         << " B algo-options sb-rounds timeout seeds log\n\n"
     " B              : " << "[+]biclique-cover-size, default is \"+"
          << default_B << "\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
@@ -96,12 +81,14 @@ namespace {
     "                : " << Environment::WRP<SO>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
+    " log            : " << "filename for solving-log, default is null\n\n"
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Using \"+\" for B means the increment added to the lower-bound.\n"
-    "  - Default-values for the options are the first possibilities given.\n\n"
+    "  - Default-values for the options are the first possibilities given.\n"
+    "  - By using \"/dev/stdout\" for log the log goes to standard output.\n\n"
 ;
     return true;
   }
@@ -113,10 +100,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 6) {
+  if (argc != 7) {
     std::cerr << error <<
-      "Exactly five arguments (B, algo-opt, sb-rounds, timeout, seeds)"
-      " needed, but only " << argc-1 << " provided.\n";
+      "Exactly six arguments (B, algo-opt, sb-rounds, timeout, seeds, log)"
+      " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
@@ -131,6 +118,7 @@ int main(const int argc, const char* const argv[]) {
   const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
   const auto sec = read_uint_t(argv[4], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
+  const auto log = read_log(argv[6], error);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -145,8 +133,8 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, bounds0.value());
-  const auto res = T.sat_solve(&std::cout, algopt, sb_rounds, sec, seeds);
-  std::cout << "\n"; // separation from log-output
+  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
+  log.close();
   res.output(std::cout, G);
 
 }

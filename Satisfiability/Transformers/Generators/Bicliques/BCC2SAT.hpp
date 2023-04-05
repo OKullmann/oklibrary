@@ -37,6 +37,11 @@ TODOS:
 #include <utility>
 #include <optional>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+
+#include <cstdlib>
+#include <cassert>
 
 #include <Numerics/NumTypes.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -50,13 +55,22 @@ namespace BCC2SAT {
   constexpr var_t default_B = 0;
   constexpr FloatingPoint::int_t default_sec = FloatingPoint::P231m1;
 
+  enum class Error {
+    missing_parameters = 1,
+    faulty_parameters = 2,
+    bad_sb = 3,
+    bad_log = 4,
+    found_unsat = 20,
+  };
+
 
   var_t read_var_t(const std::string& s, const var_t def) {
     if (s.empty()) return def;
     return FloatingPoint::toUInt(s);
   }
 
-  FloatingPoint::uint_t read_uint_t(const std::string& s, const FloatingPoint::uint_t def) {
+  FloatingPoint::uint_t read_uint_t(const std::string& s,
+                                    const FloatingPoint::uint_t def) {
     if (s.empty()) return def;
     return FloatingPoint::touint(s);
   }
@@ -101,13 +115,29 @@ namespace BCC2SAT {
   }
 
 
-  enum class Error {
-    missing_parameters = 1,
-    faulty_parameters = 2,
-    bad_sb = 3,
-    bad_log = 4,
-    found_unsat = 20,
+  class Log {
+    mutable std::ofstream* p;
+  public :
+    const bool is_cout;
+    Log(std::ofstream* const p, const bool ic) noexcept : p(p), is_cout(ic) {}
+    std::ofstream* pointer() const noexcept { return p; }
+    void close() const {
+      if (is_cout) {assert(p and *p); std::cout << std::endl;}
+      else if (p) {p->close(), p = nullptr;}
+    }
   };
+  Log read_log(const std::string& s, const std::string& error) {
+    if (s.empty()) return {nullptr, false};
+    if (s == "/dev/stdout") return {new std::ofstream(s), true};
+    std::ofstream* const res = new std::ofstream(s);
+    if (res and not *res) {
+      std::cerr << error <<
+        "Log-output-file \"" << s << "\" can not be opened.\n";
+      std::exit(int(Error::bad_log));
+    }
+    return {res, false};
+  }
+
 
 }
 

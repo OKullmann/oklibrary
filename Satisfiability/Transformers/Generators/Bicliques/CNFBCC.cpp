@@ -129,7 +129,6 @@ See plans/general.txt.
 
 
 #include <iostream>
-#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
@@ -144,7 +143,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -170,7 +169,7 @@ namespace {
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
     " log            : " << "filename for solving-log, default is null\n"
-    " B              : " << "[+]upper-bound, default is automatic upper bound\n"
+    " B              : " << "[+]upper-bound, default is automatic upper bound\n\n"
     " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
@@ -200,14 +199,7 @@ int main(const int argc, const char* const argv[]) {
   const var_t sb_rounds = read_var_t(argv[2], default_sb_rounds);
   const auto sec = read_uint_t(argv[3], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[4]);
-  const std::string logfile = argv[5];
-  std::ofstream* const log = logfile.empty() ? nullptr :
-    new std::ofstream(logfile);
-  if (log and not *log) {
-    std::cerr << error <<
-      "Log-output-file \"" << logfile << "\" can not be opened.\n";
-    return int(Error::bad_log);
-  }
+  const auto log = read_log(argv[5], error);
   const std::string bounds_str = argv[6];
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
@@ -231,11 +223,11 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::faulty_parameters);
   }
   BC2SAT T(G, bounds0.value());
-  const auto res = T.sat_solve(log, algopt, sb_rounds, sec, seeds);
+  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::upper_unsat_sb and
          res.rt != ResultType::upper_unsat and
          res.rt != ResultType::unknown);
-  if (log) {log->close(); std::cout << std::endl;}
+  log.close();
   std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
 
 }
