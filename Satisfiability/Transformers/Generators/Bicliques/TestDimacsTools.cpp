@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "4.4.2023",
+        "0.3.1",
+        "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -145,10 +145,30 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(res.pa, {Lit{2,1}}));}
   }
 
-  {for (size_t n = 0; n <= 10; ++n) {
+  {const std::vector<FloatingPoint::float80>
+      restarts = {0,0,1,1,1,1,1,1,2,3,5},
+      conflicts = {0,0,2,4,8,16,32,64,129,257,514},
+      decisions = {0,0,1,3,7,15,31,63,130,262,525},
+      propagations = {0,1,2,6,14,30,62,126,260,535,1065},
+      conflict_literals = {0,0,1,4,12,32,80,192,453,1072,2459},
+      cfllit_pdel = {0,0,7.69L,15.79L,22.33L,27.27L,30.63L,35.11L,36.11L};
+    for (size_t n = 0; n <= 10; ++n) {
      const auto F = Generators::acnf(n);
      const auto res = minisat_call(DimacsClauseListref_put(F), {}, "-no-pre");
-     // XXX
+     assert(res.stats.m.num_var == n);
+     assert(res.stats.m.num_cl == (n <= 1 ? 0 : FloatingPoint::exp2(n)));
+     assert(res.stats.m.elim_cl == 0);
+     assert(res.stats.m.restarts == restarts[n]);
+     assert(res.stats.m.conflicts == conflicts[n]);
+     assert(res.stats.m.decisions == decisions[n]);
+     assert(n >= 2 or FloatingPoint::isnan(res.stats.m.dec_prand));
+     assert(n <= 1 or res.stats.m.dec_prand == 0);
+     assert(res.stats.m.propagations == propagations[n]);
+     assert(res.stats.m.conflict_literals == conflict_literals[n]);
+     assert(n >= 2 or FloatingPoint::isnan(res.stats.m.cfllit_pdel));
+     assert(n <= 1 or res.stats.m.cfllit_pdel == cfllit_pdel[n-2]);
+     assert(res.stats.m.memory > 1);
+     assert(res.stats.sr == SolverR::unsat);
    }
   }
 
