@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -158,7 +158,8 @@ int main(const int argc, const char* const argv[]) {
       propagations = {0,1,2,6,14,30,62,126,260,535,1065},
       conflict_literals = {0,0,1,4,12,32,80,192,453,1072,2459},
       cfllit_pdel = {0,0,7.69L,15.79L,22.33L,27.27L,30.63L,35.11L,36.11L};
-    for (size_t n = 0; n <= 10; ++n) {
+    // n >= 9 not reproducible for different machines:
+    for (size_t n = 0; n <= 8; ++n) {
      const auto F = Generators::acnf(n);
      const auto res = minisat_call(DimacsClauseListref_put(F), {}, "-no-pre");
      assert(res.stats.m.num_var == n);
