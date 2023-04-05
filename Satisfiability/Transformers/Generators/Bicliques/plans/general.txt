@@ -94,6 +94,7 @@ TODOS:
   - Currently log = std::cout.
   - There needs to be an option (also for other programs), by which
     log can be set to cout or a filename or ignored.
+  - DONE log shows results as soon as possible, and thus is always flushed.
 
 0. Currently the lower bound is just ignored (for downwards).
   - One needed perhaps a special return-type "conditioally exact" ?

@@ -29,6 +29,7 @@ Minisat-call for B=3: returned UNSAT
 
 bcc=4
 exact 4 5
+100 : 1 1 1; 0
 1 2 5 6 13 14 15 16 | 3 4 7 8 9 10 11 12
 1 2 3 4 5 10 12 14 | 6 7 8 9 11 13 15 16
 2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
@@ -43,6 +44,7 @@ Minisat-call for B=4: returned UNSAT
 
 bcp=5
 exact 5 6
+100 : 1 1 1; 0
 1 5 6 | 2 4
 6 | 1 5
 3 | 1 2 5 6
@@ -68,8 +70,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "29.3.2023",
+        "0.5.2",
+        "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",

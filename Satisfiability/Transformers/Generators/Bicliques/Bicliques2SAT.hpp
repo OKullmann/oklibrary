@@ -164,6 +164,7 @@ See plans/general.txt.
 #include <type_traits>
 #include <algorithm>
 #include <map>
+#include <ios>
 
 #include <cstdint>
 #include <cassert>
@@ -1033,10 +1034,13 @@ namespace Bicliques2SAT {
       Bicliques::Bcc_frame bcc;
       id_t B;
       ResultType rt;
+
       const id_t init_B;
       const PT pt;
-      explicit result_t(const id_t B, const PT pt) noexcept
-        : B(B), rt(ResultType::unknown), init_B(B), pt(pt) {}
+      const stats_t sbs; // symmetry-breaking statistics
+
+      result_t(const id_t B, const PT pt, const stats_t& sbs) noexcept
+        : B(B), rt(ResultType::unknown), init_B(B), pt(pt), sbs(sbs) {}
 
       void output(std::ostream& out, const Graphs::AdjVecUInt& G) const {
         assert(int(rt) >= 1 and int(rt) <= 6);
@@ -1054,7 +1058,8 @@ namespace Bicliques2SAT {
           assert(rt == ResultType::other_timeout);
           out << "<=" << B + 1;
         }
-        out << "\n" << rt << " " << B << " " << init_B << "\n";
+        out << "\n" << rt << " " << B << " " << init_B << "\n"
+            << sbs << "\n";
         bcc.output(out, G);
       }
     };
@@ -1068,7 +1073,7 @@ namespace Bicliques2SAT {
         const RandGen::vec_eseed_t& seeds) {
       const PT pt = std::get<PT>(ao);
       if (enc_.E == 0) {
-        result_t res(enc_.B(), pt);
+        result_t res(enc_.B(), pt, {});
         res.B = 0; res.rt = ResultType::exact;
         assert(is_bcc(res.bcc, G));
         return res;
@@ -1082,10 +1087,10 @@ namespace Bicliques2SAT {
         return max_bcincomp(sb_rounds, g);}();
       const auto optsbs = sbv.size();
       if (log) {
-        *log << "Symmetry-breaking: " << sbs << "\n";
+        *log << "Symmetry-breaking: " << sbs << std::endl;
       }
 
-      result_t res(enc_.B(), pt);
+      result_t res(enc_.B(), pt, sbs);
       bounds.update_by_sb(optsbs);
       if (bounds.lb() > bounds.ub()) {
         res.rt = ResultType::upper_unsat_sb;
@@ -1102,7 +1107,8 @@ namespace Bicliques2SAT {
         + "_";
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
-      for (bool found_bcc = false; ;) {
+
+      for (bool found_bcc = false; ;) { // main solver-loop
 
         const auto inp = [this, &sbv, pt](std::FILE* const fp){
           using DimacsTools:: operator <<;
@@ -1113,7 +1119,7 @@ namespace Bicliques2SAT {
           (inp, enc_.lf, solver_options);
         if (log) {
           *log << "Minisat-call for B=" << res.B << ": " << call_res.stats
-               << call_res.rv.out << "\n";
+               << call_res.rv.out << std::endl;
         }
 
         if (call_res.stats.sr == DimacsTools::SolverR::aborted) {
@@ -1140,7 +1146,7 @@ namespace Bicliques2SAT {
           const auto red = trim(res.bcc);
           if (log) {
             *log << "  Literal-Reduction by trimming: " << red << "\n"
-              "  Size obtained: " << res.bcc.L.size() << "\n";
+              "  Size obtained: " << res.bcc.L.size() << std::endl;
           }
           assert(res.bcc.L.size() <= res.B);
           res.B = std::min(res.B, res.bcc.L.size());
@@ -1323,7 +1329,7 @@ namespace Bicliques2SAT {
       if (res.rt != ResultType::exact) {
         if (log)
           *log << "FAILURE to solve non-trivial component " << i << ": "
-               << res.rt << "\n";
+               << res.rt << std::endl;
         std::stringstream ss;
         ss << "GlobRepl::solve_ntcc: can not solve nt-component " << i
            << ", return-code \"" << res.rt << "\"";
@@ -1400,15 +1406,16 @@ namespace Bicliques2SAT {
     assert(valid(G2.F));
     if (G1.F.O() != G2.F.O()) {
       if (log) {
-        *log << "other-parts different\n";
+        *log << "other-parts different" << std::endl;
         const auto dpars = G1.F.O().first;
         if (dpars != G2.F.O().first)
-          *log << "  parameters not equal\n";
+          *log << "  parameters not equal" << std::endl;
         else {
           for (size_t i = 0; i < dpars.c; ++i) {
             const auto& C1 = G1.F.O().second[i], C2 = G2.F.O().second[i];
             if (C1 != C2) {
-              *log << "  clauses with index " << i+1 << " differ:\n" <<C1<<C2;
+              *log << "  clauses with index " << i+1 << " differ:\n" <<C1<<C2
+                   << std::flush;
               break;
             }
           }
@@ -1417,18 +1424,18 @@ namespace Bicliques2SAT {
       return GCGE::diff_O;
     }
     if (G1.sizes != G2.sizes) {
-      if (log) *log << "sizes of components differ\n";
+      if (log) *log << "sizes of components differ" << std::endl;
       return GCGE::diff_sizes;
     }
     assert(G1.numntcc == G2.numntcc);
     assert(G1.ntcc == G2.ntcc);
     if (G1.ccvec != G2.ccvec) {
-      if (log) *log << "components differ\n";
+      if (log) *log << "components differ" << std::endl;
       return GCGE::diff_comp;
     }
     for (size_t i = 0; i < G1.numntcc; ++i)
       if (G1.conflictgraph(i) != G2.conflictgraph(i)) {
-        if (log) *log << "conflict-graphs " << i << " differ\n";
+        if (log) *log << "conflict-graphs " << i << " differ" << std::endl;
         return GCGE::diff_cg;
       }
     return GCGE::eq;
