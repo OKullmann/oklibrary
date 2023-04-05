@@ -90,34 +90,40 @@ TODOS:
 
 TODOS:
 
--1. Handling of log
+1. Renewal of output
+  - We have two basic channels:
+   - (1) The result:
+    - parameters
+    - stats (including solving-stats)
+    - solution
+   - (2) Logging (informing about the progress).
   - Currently log = std::cout.
-  - There needs to be an option (also for other programs), by which
-    log can be set to cout or a filename or ignored.
-  - DONE log shows results as soon as possible, and thus is always flushed.
+    There needs to be an option (also for other programs), by which
+    log can be set to cout or a filename or ignored, the latter being
+    the default (empty string), otherwise "cout" or any other name.
+  - Format options for the result:
+     - +- parameters (inculding seeds)
+     - +- statistics
+     - +- solution
+  - Similar to Dimacs-output:
+    - comments (with "#"), for parameters and statistics
+    - Then V, E, B (the optimal B), on a special parameter-line.
+    - Then the bicliques
+    One could reuse "+-dc" and "+-cs" ?
+    Better not, but there needs to be some common ground.
+  - Explain the special case where no unsat-test
+    is needed due to the results of symmetry-breaking.
+  - We need an option whether also for known exact-B one computes
+    a solution or not.
+  - Explain the output-line "exact 4 4".
 
-0. Currently the lower bound is just ignored (for downwards).
+
+2. Currently the lower bound is just ignored (for downwards).
   - One needed perhaps a special return-type "conditioally exact" ?
   - A problem is that the solver-loop uses res.B, and not the bounds-
     object -- that needs update.
 
-1. Output seeds
-    - It seems parameter-output is needed.
-    - This should include symmetry-breaking.
-
-2. Supply format-options
-    - +- solution
-    - += parameters
-    - +- logs
-
-3. More systematic output:
-    - Explain the special case where no unsat-test
-      is needed due to the results of symmetry-breaking.
-    - Explain the output-line "exact 4 4".
-    - Control logging.
-    - Output symmetry-breaking statistics.
-
-4. Provide a mode which starts with B as given by symmetry-breaking
+3. Provide a mode which starts with B as given by symmetry-breaking
    (which is a sound lower bound), and then increases B as long as
    unsat was found.
     - This needs an extension of operator-() in BC2SAT.
@@ -125,7 +131,7 @@ TODOS:
       breaking, to run internal UCP (without intermediate file-output).
     - See "Upwards-search" in Bicliques2SAT.hpp.
 
-5. As an option, split into the connected components.
+4. As an option, split into the connected components.
     - Or should this be an independent program?
       We have CNFBCC and GSM?
 
