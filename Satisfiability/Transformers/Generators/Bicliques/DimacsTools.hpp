@@ -179,15 +179,39 @@ License, or any later version. */
    - Using external SAT solvers:
 
     - typedef Lit_filter (function from Lit to bool)
-    - scoped enum SolverR
+    - scoped enum SolverR (unknown=0, sat=1, unsat=2, aborted=3)
     - function extract_ret(SystemCalls::ReturnValue) -> SolverR
-    - class Minisat_stats
+
+    - struct Minisat_measurements:
+     - contains 17 elements of type float80 for the corresponding
+       minisat-measurements:
+         num_var, num_cl, ptime, stime, elim_cl,
+         restarts, conflicts, cfl_psec, decisions, dec_prand, dec_psec,
+         propagations, prop_psec, conflict_literals, cfllit_pdel,
+         memory, ttime
+     - num_stats is the number of statistics
+     - stats_header() returns the vector of column-names
+     - extract() returns an array of the data
+     - operators ==, <<
+    - the variation struct Mm_nt contains the testable data-fields,
+      for unit-testing
+    - read_minisat_results(string) -> Minisat_measurements
+
+    - class Minisat_stats:
      - sr : SolverR
-    - class Minisat_return
-     - rv : EReturnValue
-      - ReturnValue rv, string out, err
-     - stats : Minisat_stats
-     - pa : Clause (partial assignment)
+     - m : Minisat_measurements
+     - constructor from SystemCalls::EReturnValue and bool "with_measurement"
+       (the bool controls whether read_minisat_results is called)
+     - operator << returns on first line sr and on second line m
+
+    - class Minisat_return (the full data):
+      data members
+       - rv : EReturnValue
+        - contains ReturnValue rv, string out, err
+       - stats : Minisat_stats
+       - pa : Clause (partial assignment)
+      - constructed from rv, Lit_filter, out of type path (partial assignment),
+        bool with_measurement
 
     - const strings input_filename, output_filename, minisat_string
 
@@ -613,7 +637,7 @@ namespace DimacsTools {
   struct GslicedCNF {
     typedef std::array<DimacsClauseList, 2> scnf_t;
     scnf_t SF; // "other" and "global"
-    VarSet V; // occurring global variables and 
+    VarSet V; // occurring global variables and
     VarSet T; // trivial global variables
     other_ealines_t other;
 
@@ -726,24 +750,47 @@ namespace DimacsTools {
     }
   }
 
+
   struct Minisat_measurements {
     typedef FloatingPoint::float80 float_t;
     const float_t
     num_var, num_cl, ptime, stime, elim_cl,
-      restarts, conflicts, cfl_psec, decisions, dec_prand, dec_psec,
-      propagations, prop_psec, conflict_literals, cfllit_pdel,
+      restarts, conflicts, cfl_psec,
+      decisions, dec_prand, dec_psec,
+      propagations, prop_psec,
+      conflict_literals, cfllit_pdel,
       memory, ttime;
     bool operator ==(const Minisat_measurements&) const noexcept = default;
+    typedef std::vector<std::string> header_t;
+    // Extending ExperimentSystem/SolverMonitoring/headers :
+    static header_t stats_header() noexcept {
+      const header_t res =
+        {"maxn", "c", "ptime", "stime", "elimc",
+         "rts", "cfs", "cfsps",
+         "dec", "decpr", "decps",
+         "r1", "r1ps",
+         "cfl", "cflpd",
+         "mem", "t"};
+      assert(res.size() == num_stats);
+      return res;
+    }
+    static constexpr size_t num_stats = 17;
+    typedef std::array<float_t, num_stats> export_t;
+    export_t extract() const noexcept {
+      export_t res;
+      res[0]=num_var,res[1]=num_cl,res[2]=ptime,res[3]=stime,res[4]=elim_cl,
+      res[5]=restarts, res[6]=conflicts, res[7]=cfl_psec,
+      res[8]=decisions, res[9]=dec_prand, res[10]=dec_psec,
+      res[11]=propagations, res[12]=prop_psec,
+      res[13]=conflict_literals, res[14]=cfllit_pdel,
+      res[15]=memory, res[16]=ttime;
+      return res;
+    }
+
     friend std::ostream& operator <<(std::ostream& out,
                                      const Minisat_measurements& m) {
-      return out << m.num_var << " " << m.num_cl << " " << m.ptime << " " <<
-        m.stime << " " << m.elim_cl << " " <<
-        m.restarts << " " <<
-        m.conflicts << " " << m.cfl_psec << " " <<
-        m.decisions << " " << m.dec_prand << " " << m.dec_psec << " " <<
-        m.propagations << " " << m.prop_psec << " " <<
-        m.conflict_literals << " " << m.cfllit_pdel << " " <<
-        m.memory << " " << m.ttime;
+      Environment::out_line(out, m.extract());
+      return out;
     }
   };
   // Without timing- or memory-results, and suppressing NaNs:
@@ -937,6 +984,7 @@ namespace DimacsTools {
         memory, ttime};
   }
 
+
   struct Minisat_stats {
     SolverR sr;
     Minisat_measurements m;
@@ -944,7 +992,8 @@ namespace DimacsTools {
     typedef SystemCalls::EReturnValue ret_t;
     Minisat_stats(const ret_t& rv, const bool with_measurement) :
       sr(extract_ret(rv.rv)),
-      m(with_measurement ? read_minisat_results(rv.out) : Minisat_measurements{}) {}
+      m(with_measurement ?
+        read_minisat_results(rv.out) : Minisat_measurements{}) {}
 
     friend std::ostream& operator <<(std::ostream& out,
                                      const Minisat_stats& s) {
@@ -954,9 +1003,9 @@ namespace DimacsTools {
 
   struct Minisat_return {
     typedef SystemCalls::EReturnValue ret_t;
-    ret_t rv;
-    Minisat_stats stats;
-    Clause pa; // satisfyfing assignment, otherwise empty
+    const ret_t rv;
+    const Minisat_stats stats;
+    const Clause pa; // satisfyfing assignment, otherwise empty
 
     Minisat_return(const ret_t rv, const Lit_filter& f,
                    const std::filesystem::path& out,
@@ -981,6 +1030,7 @@ namespace DimacsTools {
       return pa;
     }
   };
+
 
   const std::string input_filename = "DimacsTools_minisatcall_in_";
   const std::string output_filename = "DimacsTools_minisatcall_out_";

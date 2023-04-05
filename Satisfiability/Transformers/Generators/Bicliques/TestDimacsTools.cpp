@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "5.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -111,6 +111,12 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(F));
    F.V = {Var(1)};
    assert(valid(F));
+  }
+
+  {const Minisat_measurements m{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+   std::ostringstream ss;
+   ss << m;
+   assert(ss.str() == "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16");
   }
 
   {DimacsClauseList F{{0,0},{}};
