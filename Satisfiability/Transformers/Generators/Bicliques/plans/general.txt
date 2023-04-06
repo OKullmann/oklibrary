@@ -98,7 +98,7 @@ TODOS:
     - solution
    - (2) Logging (informing about the progress).
   - Format options for the result:
-     - +- parameters (inculding seeds)
+     - +- parameters (including seeds)
      - +- statistics
      - +- solution
   - Similar to Dimacs-output:
@@ -107,10 +107,14 @@ TODOS:
     - Then the bicliques
     One could reuse "+-dc" and "+-cs" ?
     Better not, but there needs to be some common ground.
+  - One needs the option to get the statistics (including parameters)
+    in R-format.
+
+    Likely the comments should only contain summary-statistics, while
+    the full statistics goes to a separate file (with automatic name,
+    given in the comments).
   - Explain the special case where no unsat-test
     is needed due to the results of symmetry-breaking.
-  - We need an option whether also for known exact-B one computes
-    a solution or not.
   - Explain the output-line "exact 4 4".
 
 
@@ -118,6 +122,9 @@ TODOS:
   - One needed perhaps a special return-type "conditioally exact" ?
   - A problem is that the solver-loop uses res.B, and not the bounds-
     object -- that needs update.
+  - We need an option whether also for known exact-B one computes
+    a solution or not.
+
 
 3. Provide a mode which starts with B as given by symmetry-breaking
    (which is a sound lower bound), and then increases B as long as
