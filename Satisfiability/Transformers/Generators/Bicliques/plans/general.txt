@@ -300,6 +300,9 @@ TODOS:
   - At this time then the structure of BC2SAT needs to be improved.
 
 3. More efficient symmetry-breaking
+   (not taking the symmetries of the graph into account, only
+   "all completely open bicliques are alike").
+
   - Likely this should go into a dedicated file.
   - A more intelligent algorithm is needed.
   - And also a greedy version, choosing from the available edges one with
@@ -312,7 +315,11 @@ TODOS:
     permutation, the edges according to this criterion (just using std::sort)
     -- only this additional step is needed, then by always choosing the first
     remaining edge we get greediness (since the population of other bicliques
-    does not matter here)>
+    does not matter here).
+
+    Actually the best heuristics should be to sort the edges according to the
+    number of compatible edges (the fewer the better).
+    A refined version updates this according to the edges already placed.
   - For cases which take a long time, a log-output with the current best
     and its index (for the seed) is needed.
     From that index one should be able to perform a single run.
@@ -336,25 +343,52 @@ TODOS:
   - No further basic statistics are needed.
   - The same greedy mechanism (presorting the edges) from above works here
     (no further action needed).
-  - The basic UCP will just do extended sb, and then run UCP.
-  - While extended UCP will first to basic sb, then UCP, then check whether
-    now there are edges where are remaining possible bicliques are (completely)
-    unoccupied, where now again basic sb can be applied, and the whole process
-    is repeated until stabilisation.
-    Finally extended sb is applied and a final round of UCP.
-  - The basic version first finds the best basic sb, and then applies the
-    extension.
+  - This "extension" can always be applied, for example also to the empty
+    sb-assignment.
+    So perhaps better speaking of "trivial" or "uninformed" symmetry-breaking
+    fo this scheme.
+
+  - If we have a maximal sb-assignment, then every non-placed edge has at least
+    one occupied biclique to go, so if there is at least one open biclique
+    (which we denoted here by B > sb), then no further UCP is possible.
+  - So basic UCP (combined with basic sb) just cleans up the occupied
+    bicliques (keeping only the relevant vertices and related 2-clauses)
+    and for every edge cleans up the list of available bicliques.
+    If B > bcp, then no further unit-clauses can be derived.
+    To enable recovering of the solution, all relevant unit-clauses are
+    placed in the output.
+
+    It seems best to create for all clause-creating functions another version
+    which takes an sb-assignment as input.
+  - One could then also always run "special UCP, for B = sb, seeing whether
+    a decision can be reached here.
+
   - A more intelligent version runs the full process with extension and UCP,
     and judges the outcome (for example minimising the sum of the volumes of
     the potential bicliques).
 
-  - Possibly the unit-clauses should be placed first in the file?!
-    And one could also add the directly inferred unit-clauses for the
-    occupied biclique.
-  - This makes one output-option "+- place unit-clause first", and another
-    output-option "+- state immediately inferred unit-clauses".
-  - However since we should do internal UCP anyway, this is likely
-    superfluous.
+  - The options are (five independent groups):
+
+     - no basic-sb
+     - basic-sb (just adding the 3k unit-clauses)
+     - basic-sb-with-clean-up (this should be the default)
+
+     - no trivial-sb
+     - trivial-sb (the default)
+
+     - no-test-B=sb
+     - test-B=sb (for the best order found)
+     - test-B=sb-every-order
+
+     - place unit-clauses last (default)
+     - place unit-clauses first
+
+     - random order
+     - sorting by number of compatible edges (static)
+     - sorting by number of compatible edges (dynamic)
+
+  -
+
 
 4. GCC compiler error CERR
   - When updating to GCC version 12 or later, activate the places with CERR
