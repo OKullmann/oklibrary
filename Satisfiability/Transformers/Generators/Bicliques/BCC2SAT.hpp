@@ -16,13 +16,18 @@ License, or any later version. */
     - default_B
     - default_sec
 
+   - Scoped enum Error
+
    - Functions:
+
     - read_var_t(string, var_t) -> var_t
     - read_uint_t(string, uint_t) -> uint_t
     -   read_uint_with_plus(string) -> <uint_t, bool> (helper function)
+
     - read_bounds(string) -> optional<Bounds>
 
-   - Scoped enum Error
+    - class Log for a pointer to an ofstream
+    - read_log(string name, string error) -> Log
 
 TODOS:
 
