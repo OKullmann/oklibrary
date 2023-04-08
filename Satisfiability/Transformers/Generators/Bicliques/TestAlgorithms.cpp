@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "25.3.2023",
+        "0.1.0",
+        "8.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -64,6 +64,35 @@ int main(const int argc, const char* const argv[]) {
      for (unsigned j = 0; j < N2; ++j) v2.push_back(val2_dist());
      assert(empty_int(v1, v2) == empty_intersection(v1, v2));
    }
+  }
+
+  {typedef std::vector<int> vi_t;
+   typedef std::vector<unsigned> vu_t;
+   typedef std::vector<double> vd_t;
+   typedef std::vector<std::string> vs_t;
+
+   assert(append_ranges(vi_t{}, vd_t{}) == vi_t{});
+   assert(append_ranges(vi_t{}, vd_t{}, vu_t{}) == vi_t{});
+   assert((append_ranges(vi_t{0,3,2}, vd_t{1.1,-2.2}) == vi_t{0,3,2,1,-2}));
+   assert((append_ranges(vi_t{0,3,2}, vd_t{1.1,-2.2}, vu_t{77,99}) ==
+           vi_t{0,3,2,1,-2,77,99}));
+   assert((append_ranges(vs_t{"abc","def"}, vs_t{"ghi","jkl"}) ==
+          vs_t{"abc","def","ghi","jkl"}));
+   assert((append_ranges(vs_t{"abc","def"}, vs_t{"ghi","jkl"}, vs_t{"mno"}) ==
+           vs_t{"abc","def","ghi","jkl","mno"}));
+
+   struct X {
+     X() {}
+     X(const std::string&) {};
+     bool operator ==(const X&) const noexcept = default;
+   };
+   typedef std::vector<X> vx_t;
+   assert(append_ranges(vx_t{}, vx_t{}) == vx_t{});
+   assert((vx_t{{},{}}.size() == 2)); // this *needs* declaration of X()
+   assert((append_ranges(vx_t{{}}, vx_t{{}}) == vx_t{{},{}}));
+   assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{},{},{}}));
+   assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{""},{""},{""}}));
+   assert((append_ranges(vx_t{{}}, vs_t{"A"}, vs_t{"B"}) == vx_t{{""},{""},{""}}));
   }
 
 }

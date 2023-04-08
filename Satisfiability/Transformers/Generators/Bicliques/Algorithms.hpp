@@ -7,9 +7,18 @@ License, or any later version. */
 
 /*
 
-  General algorithms (tools) extracted
+  General algorithms (tools)
 
-   - empty_intersection(RAN r1, RAN r2)
+   - empty_intersection(RAN r1, RAN r2) (r1, r2 must be sorted)
+
+   - append_ranges(RAN1 r1, RAN2 r2) (copies r1, and appends to it)
+   - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3)
+
+
+TODOS:
+
+1. Once we switch to C++23, use std::vector::append_range
+   in function append_ranges.
 
 */
 
@@ -42,6 +51,26 @@ namespace Algorithms {
       }
     }
     return true;
+  }
+
+
+  // Using implicit conversions:
+  template <class RANGE1, class RANGE2>
+  RANGE1 append_ranges(RANGE1 r1, const RANGE2& r2) {
+    const auto size = r1.size() + r2.size();
+    r1.reserve(size);
+    for (const auto& x : r2) r1.push_back(x);
+    assert(r1.size() == size);
+    return r1;
+  }
+  template <class RANGE1, class RANGE2, class RANGE3>
+  RANGE1 append_ranges(RANGE1 r1, const RANGE2& r2, const RANGE3& r3) {
+    const auto size = r1.size() + r2.size() + r3.size();
+    r1.reserve(size);
+    for (const auto& x : r2) r1.push_back(x);
+    for (const auto& x : r3) r1.push_back(x);
+    assert(r1.size() == size);
+    return r1;
   }
 
 }
