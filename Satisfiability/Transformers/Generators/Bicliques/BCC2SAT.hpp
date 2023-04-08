@@ -28,6 +28,7 @@ License, or any later version. */
 
     - class Log for a pointer to an ofstream
     - read_log(string name, string error) -> Log
+    - read_stats(name, infix, error) -> <Log,string>
 
 TODOS:
 
