@@ -108,6 +108,7 @@ License, or any later version. */
     - get_date(time_t*, string), get_time(time_t*, string)
       to extract from a time_t-object date and time, using the given formats
     - class CurrentTime (contains the now-timepoint in various formats)
+     - especially static function timestamp_str() for the current timestamp
     - output-streaming for CurrentTime.
 
    Tools for Dimacs-output:
@@ -639,6 +640,9 @@ namespace Environment {
     static ticks_t timestamp() noexcept {
       return clock::now().time_since_epoch().count();
     }
+    static std::string timestamp_str() noexcept {
+      return std::to_string(timestamp());
+    }
 
     // The number of nanoseconds per tick of timestamp:
     static constexpr FloatingPoint::float80 ns_per_tick =
@@ -646,6 +650,7 @@ namespace Environment {
     typedef clock::period period;
     static_assert(ns_per_tick == 1e9L * FloatingPoint::float80(period::num) / FloatingPoint::float80(period::den));
 
+    // Converting ticks_t into unsigned integer:
     typedef std::uintmax_t uint_ticks_t;
     static constexpr uint_ticks_t ticks_as_uints(const ticks_t ts) {
       if constexpr (ticks_t_is_signed) assert(ts >= 0);
