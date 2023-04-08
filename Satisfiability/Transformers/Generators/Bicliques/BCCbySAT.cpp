@@ -17,7 +17,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" ""
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" ""
 bcc=4
 exact 4 5
 100 : 1 1 1; 0
@@ -26,7 +26,7 @@ exact 4 5
 2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
 1 3 4 7 9 14 15 16 | 2 5 6 8 10 11 12 13
 
-Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" ""
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ""
 bcp=5
 exact 5 6
 100 : 1 1 1; 0
@@ -55,8 +55,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "5.4.2023",
+        "0.6.1",
+        "8.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -72,7 +72,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " B algo-options sb-rounds timeout seeds log\n\n"
+         << " B algo-options sb-rounds timeout seeds stats log\n\n"
     " B              : " << "[+]biclique-cover-size, default is \"+"
          << default_B << "\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
@@ -82,13 +82,15 @@ namespace {
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
+    " stats          : " << "filename for solving-stats, default is null\n\n"
     " log            : " << "filename for solving-log, default is null\n\n"
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Using \"+\" for B means the increment added to the lower-bound.\n"
     "  - Default-values for the options are the first possibilities given.\n"
-    "  - By using \"/dev/stdout\" for log the log goes to standard output.\n\n"
+    "  - For stats the special value \"t\" creates an automatic name (with timestamp).\n"
+    "  - By using \"/dev/stdout\" for stats/log the output goes to standard output.\n\n"
 ;
     return true;
   }
@@ -100,9 +102,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 7) {
+  if (argc != 8) {
     std::cerr << error <<
-      "Exactly six arguments (B, algo-opt, sb-rounds, timeout, seeds, log)"
+      "Exactly seven arguments (B, algo-opt, sb-rounds, timeout, seeds, stats, log)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -118,7 +120,8 @@ int main(const int argc, const char* const argv[]) {
   const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
   const auto sec = read_uint_t(argv[4], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
-  const auto log = read_log(argv[6], error);
+  const auto [stats, statsname] = read_stats(argv[6], proginfo.prg, error);
+  const auto log = read_log(argv[7], error);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -135,6 +138,9 @@ int main(const int argc, const char* const argv[]) {
   BC2SAT T(G, bounds0.value());
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   log.close();
-  res.output(std::cout, G);
+
+  std::cout << "\"" << statsname << "\" " << stats.is_cout << "\n";
+  res.output(std::cout, G, stats.pointer());
+  stats.close();
 
 }

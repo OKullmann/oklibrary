@@ -65,6 +65,7 @@ namespace BCC2SAT {
     faulty_parameters = 2,
     bad_sb = 3,
     bad_log = 4,
+    bad_stats = 5,
     found_unsat = 20,
   };
 
@@ -127,7 +128,7 @@ namespace BCC2SAT {
     Log(std::ofstream* const p, const bool ic) noexcept : p(p), is_cout(ic) {}
     std::ofstream* pointer() const noexcept { return p; }
     void close() const {
-      if (is_cout) {assert(p and *p); std::cout << std::endl;}
+      if (is_cout) {assert(p and *p); *p << std::endl;}
       else if (p) {p->close(), p = nullptr;}
     }
   };
@@ -141,6 +142,22 @@ namespace BCC2SAT {
       std::exit(int(Error::bad_log));
     }
     return {res, false};
+  }
+
+  std::pair<Log, std::string> read_stats(std::string s,
+                                         const std::string& infix,
+                                         const std::string& error) {
+    if (s.empty()) return {{nullptr, false},""};
+    if (s == "/dev/stdout") return {{new std::ofstream(s), true}, s};
+    if (s == "t")
+      s = "Stats_" + infix + "_" + Environment::CurrentTime::timestamp_str();
+    std::ofstream* const res = new std::ofstream(s);
+    if (res and not *res) {
+      std::cerr << error <<
+        "Stats-output-file \"" << s << "\" can not be opened.\n";
+      std::exit(int(Error::bad_stats));
+    }
+    return {{res, false}, s};
   }
 
 

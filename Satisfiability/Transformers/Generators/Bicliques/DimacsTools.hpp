@@ -180,6 +180,7 @@ License, or any later version. */
 
     - typedef Lit_filter (function from Lit to bool)
     - scoped enum SolverR (unknown=0, sat=1, unsat=2, aborted=3)
+     - code(SolverR) -> int (unsat=0, sat=1, unknown=2, other=3)
     - function extract_ret(SystemCalls::ReturnValue) -> SolverR
 
     - struct Minisat_measurements:
@@ -212,6 +213,10 @@ License, or any later version. */
        - pa : Clause (partial assignment)
       - constructed from rv, Lit_filter, out of type path (partial assignment),
         bool with_measurement
+
+    - class TableMinisatStats for storing and formatted output of a table
+      of minisat-results
+      - member add(Minisat_return, parameter-list)
 
     - const strings input_filename, output_filename, minisat_string
 
@@ -749,6 +754,15 @@ namespace DimacsTools {
       throw std::runtime_error(m.str());
     }
   }
+  constexpr int code(SolverR r) noexcept {
+    switch(r) {
+    case SolverR::unknown : return 2;
+    case SolverR::sat : return 1;
+    case SolverR::unsat : return 0;
+    case SolverR::aborted : return 3;
+    default : return -1;
+    }
+  }
 
 
   struct Minisat_measurements {
@@ -1031,6 +1045,57 @@ namespace DimacsTools {
     }
   };
 
+  struct TableMinisatStats {
+    typedef std::vector<Minisat_stats> stats_vec_t;
+
+    typedef FloatingPoint::float80 float_t;
+    typedef std::vector<float_t> params_t;
+    typedef std::vector<params_t> params_vec_t;
+
+    typedef std::vector<SolverR> solverres_vec_t;
+
+    typedef std::vector<std::string> header_t;
+    const header_t params_header;
+    const var_t cols;
+    const var_t sep = 1;
+
+  private:
+    stats_vec_t statsvec;
+    params_vec_t paramsvec; // appended with sat-result
+  public :
+
+    explicit TableMinisatStats(header_t hp, const var_t s = 1) :
+      params_header(Algorithms::append_ranges(hp, header_t{"sat"})),
+      cols(params_header.size() + Minisat_measurements::num_stats),
+      sep(s) {
+      assert(not params_header.empty());
+    }
+
+    const stats_vec_t& stats() const noexcept { return statsvec; }
+    const params_vec_t& params() const noexcept { return paramsvec; }
+
+    void add(const Minisat_return& mr, params_t p) {
+      assert(p.size() == params_header.size()-1);
+      statsvec.push_back(mr.stats);
+      p.push_back(code(mr.stats.sr));
+      paramsvec.push_back(p);
+    }
+
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const TableMinisatStats& T) {
+      assert(T.stats().size() == T.params().size());
+      const auto rows = T.stats().size();
+      params_vec_t M; M.reserve(rows);
+      for (var_t i = 0; i < rows; ++i)
+        M.push_back(Algorithms::append_ranges(T.params()[i],
+                                              T.stats()[i].m.extract()));
+      Environment::print2dformat(out, M, T.sep,
+        Algorithms::append_ranges(T.params_header,
+                                  Minisat_measurements::stats_header()));
+      return out;
+    }
+  };
+
 
   const std::string input_filename = "DimacsTools_minisatcall_in_";
   const std::string output_filename = "DimacsTools_minisatcall_out_";
@@ -1043,7 +1108,7 @@ namespace DimacsTools {
                               const bool with_measurement = true) {
     assert(not input.empty());
     const std::string timestamp =
-      std::to_string(Environment::CurrentTime::timestamp());
+      Environment::CurrentTime::timestamp_str();
     const std::string out =
       SystemCalls::system_filename(output_filename + timestamp);
     const std::string command = minisat_string + " " + options + " "

@@ -91,28 +91,16 @@ TODOS:
 TODOS:
 
 1. Renewal of output
-  - We have two basic channels:
-   - (1) The result:
-    - parameters
-    - stats (including solving-stats)
-    - solution
-   - (2) Logging (informing about the progress).
   - Format options for the result:
-     - +- parameters (including seeds)
-     - +- statistics
+     - +- parameters (including seeds and filenames)
+     - +- summary-statistics
+     - +- dimacs-like-parameters
      - +- solution
   - Similar to Dimacs-output:
-    - comments (with "#"), for parameters and statistics
+    - comments (with "#"), for parameters and summary-statistics
     - Then V, E, B (the optimal B), on a special parameter-line.
     - Then the bicliques
-    One could reuse "+-dc" and "+-cs" ?
-    Better not, but there needs to be some common ground.
-  - One needs the option to get the statistics (including parameters)
-    in R-format.
-
-    Likely the comments should only contain summary-statistics, while
-    the full statistics goes to a separate file (with automatic name,
-    given in the comments).
+  - Review the addition of line-ends for log and stats.
   - Explain the special case where no unsat-test
     is needed due to the results of symmetry-breaking.
   - Explain the output-line "exact 4 4".
@@ -451,7 +439,13 @@ TODOS:
 
 1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
 
-2. Read the minisat-statistics.
+2. Read the minisat-statistics:
+    - DONE reports are extracted
+    - Perhaps the minisat-call should be replaced by
+      "stdbuf -oL minisat ..."
+      which achieves line-buffering for the output -- thus for a long
+      solver-run in the SystemCalls_Popen_out_ -file one can see the
+      progress.
 
 3. DONE (some reports are needed)
    Directing a stream to stdin of minisat

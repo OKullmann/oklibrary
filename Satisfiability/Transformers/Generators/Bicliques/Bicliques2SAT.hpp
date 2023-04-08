@@ -1039,10 +1039,15 @@ namespace Bicliques2SAT {
       const PT pt;
       const stats_t sbs; // symmetry-breaking statistics
 
-      result_t(const id_t B, const PT pt, const stats_t& sbs) noexcept
-        : B(B), rt(ResultType::unknown), init_B(B), pt(pt), sbs(sbs) {}
+      typedef DimacsTools::TableMinisatStats::float_t float_t;
+      DimacsTools::TableMinisatStats minisat_stats;
 
-      void output(std::ostream& out, const Graphs::AdjVecUInt& G) const {
+      result_t(const id_t B, const PT pt, const stats_t& sbs) noexcept
+        : B(B), rt(ResultType::unknown), init_B(B), pt(pt), sbs(sbs),
+          minisat_stats({"B"}) {}
+
+      void output(std::ostream& out, const Graphs::AdjVecUInt& G,
+                  std::ofstream* const stats) const {
         assert(int(rt) >= 1 and int(rt) <= 6);
         if (pt == PT::cover) out << "bcc";
         else out << "bcp";
@@ -1061,6 +1066,7 @@ namespace Bicliques2SAT {
         out << "\n" << rt << " " << B << " " << init_B << "\n"
             << sbs << "\n";
         bcc.output(out, G);
+        if (stats) *stats << minisat_stats;
       }
     };
 
@@ -1102,8 +1108,7 @@ namespace Bicliques2SAT {
       }
 
       const std::string filename_head = SystemCalls::system_filename(
-        "Bicliques2SAT_" + std::to_string(
-                                        Environment::CurrentTime::timestamp()))
+        "Bicliques2SAT_" + Environment::CurrentTime::timestamp_str())
         + "_";
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
@@ -1131,7 +1136,8 @@ namespace Bicliques2SAT {
             ResultType::other_timeout : ResultType::upper_timeout;
           return res;
         }
-        else if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
+        res.minisat_stats.add(call_res, {result_t::float_t(res.B)});
+        if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
           if (not found_bcc) res.rt = ResultType::upper_unsat;
           else {
             ++res.B; res.rt = ResultType::exact;
