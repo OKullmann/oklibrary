@@ -17,14 +17,23 @@ Just obtaining statistics (by "-cs"):
 
 Obtaining B from symmetry-breaking:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
-c command-line: "./BCC2SAT" "" "" "-cs" "" ""
+c "./BCC2SAT" "" "" "-cs" "" ""
 c ** Parameters **
+c B                                     0
+c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             100
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         159
+c sb-stats                              100 : 142 149.2 159; 3.34241
+c ** Statistics **
 c V                                     400
 c E                                     760
 c B                                     159
-c sb-option                             basic-sb
-c pt-option                             cover
-c ** Statistics **
 c  bc-variables                         127200
 c  edge-variables                       120840
 c total-variables                       248040
@@ -37,29 +46,31 @@ c   cover-lit-occurrences               120840
 c  unit-clauses                         477
 c total-clauses                         25924597
 c total-lit-occurrences                 52693077
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
-c ** Symmetry Breaking **
-c planted-edges                         159
-c sb-stats                              100 : 142 149.2 159; 3.34241
-c num_e-seeds                           0
-c  e-seeds                              
 p cnf 248040 25924597
-real	0m0.079s
-user	0m0.081s
-sys	0m0.000s
+real	0m0.080s
+user	0m0.078s
+sys	0m0.004s
+
 
 Specifying B=200:, and 20000 symmetry-breaking-rounds:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
+c "./BCC2SAT" "200" "" "-cs" "20000" ""
 c ** Parameters **
-c V                                     400
-c E                                     760
 c B                                     200
 c sb-option                             basic-sb
 c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             20000
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         165
+c sb-stats                              20000 : 135 149.572 165; 3.30518
 c ** Statistics **
+c V                                     400
+c E                                     760
+c B                                     200
 c  bc-variables                         160000
 c  edge-variables                       152000
 c total-variables                       312000
@@ -72,19 +83,11 @@ c   cover-lit-occurrences               152000
 c  unit-clauses                         495
 c total-clauses                         32609255
 c total-lit-occurrences                 66280495
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
-c ** Symmetry Breaking **
-c planted-edges                         165
-c sb-stats                              20000 : 135 149.572 165; 3.30518
-c num_e-seeds                           0
-c  e-seeds                              
 p cnf 312000 32609255
-real	0m12.931s
-user	0m12.918s
-sys	0m0.009s
+real	0m12.698s
+user	0m12.693s
+sys	0m0.007s
+
 
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
@@ -93,13 +96,23 @@ One can also consider partition-problems (instead of cover-problems, the
 default).
 The above for partitioning (using the quadratically many prime-clauses):
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 partition2 -cs 20000 ""
+c "./BCC2SAT" "200" "partition2" "-cs" "20000" ""
 c ** Parameters **
-c V                                     400
-c E                                     760
 c B                                     200
 c sb-option                             basic-sb
 c pt-option                             partition-quadratic
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             20000
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         165
+c sb-stats                              20000 : 135 149.572 165; 3.30518
 c ** Statistics **
+c V                                     400
+c E                                     760
+c B                                     200
 c  bc-variables                         160000
 c  edge-variables                       152000
 c total-variables                       312000
@@ -114,19 +127,11 @@ c   partition-lit-occurrences           30248000
 c  unit-clauses                         495
 c total-clauses                         47733255
 c total-lit-occurrences                 96528495
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
-c ** Symmetry Breaking **
-c planted-edges                         165
-c sb-stats                              20000 : 135 149.572 165; 3.30518
-c num_e-seeds                           0
-c  e-seeds                              
 p cnf 312000 47733255
-real	0m13.002s
-user	0m12.996s
-sys	0m0.008s
+real	0m12.833s
+user	0m12.834s
+sys	0m0.000s
+
 
 For example covering the K_4 can be done with 2 bicliques,
 but partition requires 3 bicliques:
@@ -154,7 +159,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
+        "0.8.1",
         "8.4.2023",
         __FILE__,
         "Oliver Kullmann",

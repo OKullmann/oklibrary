@@ -76,10 +76,15 @@ TODOS:
 
 TODOS:
 
-0. Complete output of parameters.
+-1. More information in case of UNSAT (that is, sb contradicts the given
+    B > 0).
+     - What about B=0 in case -sb ? So well, if explicitly demanded.
+
+0. DONE Complete output of parameters.
 
 1. Provide more statistics
   - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
+  - Currently we run symmetry-breaking even if there is no output at all?
 
 2. Option for greedy symmetry-breaking;
    see Bicliques2SAT.hpp below.

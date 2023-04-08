@@ -957,8 +957,8 @@ namespace Bicliques2SAT {
         assert(ip.size() > B);
       }
     };
-    // Output a (single) SAT-translation (updating enc.B if it is zero, in
-    // case of symmetry-breaking):
+    // Output a (single) SAT-translation (not using bounds, but
+    // updating enc.B if it is zero, in case of symmetry-breaking):
     RandGen::dimacs_pars sat_translate(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
@@ -969,6 +969,27 @@ namespace Bicliques2SAT {
       const DC dc = std::get<DC>(fo);
       const DP dp = std::get<DP>(fo);
       const CS cs = std::get<CS>(fo);
+
+      if (dc == DC::with) {
+        using Environment::DWW; using Environment::DHW;
+        out <<
+          DHW{"Parameters"} <<
+          DWW{"B"} << enc_.B() << "\n" <<
+          DWW{"sb-option"} << sb << "\n" <<
+          DWW{"pt-option"} << pt << "\n" <<
+          DWW{"comments-option"} << dc << "\n" <<
+          DWW{"dimacs-parameter-option"} << dp << "\n" <<
+          DWW{"clauses-option"} << cs << "\n";
+        if (sb != SB::none)
+          out <<
+            DWW{"sb-rounds"} << sb_rounds << "\n";
+        out <<
+          DWW{"num_e-seeds"} << seeds.size() << "\n";
+        if (not seeds.empty())
+          out <<
+            DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+        out.flush();
+      }
 
       const auto [sbv, sbs] = sb == SB::none ?
         std::make_pair(vei_t{}, stats_t{}) :
@@ -981,15 +1002,17 @@ namespace Bicliques2SAT {
 
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
+        if (sb != SB::none) {
+          out <<
+            DHW{"Symmetry Breaking"} <<
+            DWW{"planted-edges"} << sbv.size() << "\n" <<
+            DWW{"sb-stats"} << sbs << "\n";
+        }
         out <<
-          DHW{"Parameters"} <<
+          DHW{"Statistics"} <<
           DWW{"V"} << enc_.V << "\n" <<
           DWW{"E"} << enc_.E << "\n" <<
           DWW{"B"} << enc_.B() << "\n" <<
-          DWW{"sb-option"} << sb << "\n" <<
-          DWW{"pt-option"} << pt << "\n" <<
-
-          DHW{"Statistics"} <<
           DWW{" bc-variables"} << enc_.nb() << "\n" <<
           DWW{" edge-variables"} << enc_.ne() << "\n" <<
           DWW{"total-variables"} << enc_.n() << "\n" <<
@@ -1007,21 +1030,7 @@ namespace Bicliques2SAT {
           DWW{" unit-clauses"} << num_cl_sb(sbv) << "\n" <<
           DWW{"total-clauses"} << res.c << "\n" <<
           DWW{"total-lit-occurrences"} <<
-           (pt==PT::cover ? num_cover_lit(sbv) : num_part2_lit(sbv)) << "\n" <<
-
-          DHW{"Formatting"} <<
-          DWW{"comments-option"} << dc << "\n" <<
-          DWW{"dimacs-parameter-option"} << dp << "\n" <<
-          DWW{"clauses-option"} << cs << "\n";
-
-        if (sb != SB::none) {
-          out <<
-            DHW{"Symmetry Breaking"} <<
-            DWW{"planted-edges"} << sbv.size() << "\n" <<
-            DWW{"sb-stats"} << sbs << "\n" <<
-            DWW{"num_e-seeds"} << seeds.size() << "\n" <<
-            DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
-        }
+           (pt==PT::cover ? num_cover_lit(sbv) : num_part2_lit(sbv)) << "\n";
       }
 
       if (dp == DP::with) out << res;
