@@ -162,6 +162,18 @@ namespace BCC2SAT {
   }
 
 
+  template <class FORMOPT>
+  void commandline_output(const FORMOPT& formopt, const std::string& com,
+                          std::ostream& out, const int argc,
+                          const char* const argv[]) {
+    using DC = Bicliques2SAT::DC;
+    if (std::get<DC>(formopt) != DC::with) return;
+    out << com;
+    Environment::args_output(out, argc, argv);
+    out << "\n";
+  }
+
+
 }
 
 #endif

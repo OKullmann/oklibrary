@@ -55,7 +55,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
+        "0.6.2",
         "8.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -66,6 +66,7 @@ namespace {
   using namespace BCC2SAT;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+  const std::string comment = "# ";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -134,12 +135,13 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::bad_sb);
   }
 
+  commandline_output(std::make_tuple(DC::with), comment, std::cout, argc, argv);
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, bounds0.value());
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   log.close();
 
-  std::cout << "\"" << statsname << "\" " << stats.is_cout << "\n";
+  std::cout << comment << "\"" << statsname << "\" " << stats.is_cout << "\n";
   res.output(std::cout, G, stats.pointer());
   stats.close();
 

@@ -17,6 +17,7 @@ Just obtaining statistics (by "-cs"):
 
 Obtaining B from symmetry-breaking:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
+c command-line: "./BCC2SAT" "" "" "-cs" "" ""
 c ** Parameters **
 c V                                     400
 c E                                     760
@@ -153,8 +154,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
-        "12.3.2023",
+        "0.8.0",
+        "8.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -164,6 +165,7 @@ namespace {
   using namespace BCC2SAT;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+  const std::string comment = "c ";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -222,6 +224,7 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::bad_sb);
   }
 
+  commandline_output(formopt, comment, std::cout, argc, argv);
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, Bounds(B));
   try { T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds); }

@@ -377,7 +377,7 @@ namespace Bicliques2SAT {
 
   enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
-  enum class DC { with=0, without=1 }; // Dimacs-comments
+  enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
   enum class DI { downwards=0, upwards=1, none=2 }; // search direction
@@ -413,7 +413,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::DC> {
     static constexpr int size = int(Bicliques2SAT::DC::without)+1;
     static constexpr std::array<const char*, size> string
-    {"+dc", "-dc"};
+    {"+com", "-com"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DP> {
