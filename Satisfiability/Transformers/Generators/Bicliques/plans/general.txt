@@ -463,7 +463,8 @@ TODOS:
 
 1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
 
-2. Better minisat-calls:
+2. DONE
+   Better minisat-calls:
     - The minisat-call should be replaced by
       "stdbuf -oL minisat ..."
       which achieves line-buffering for the output -- thus for a long

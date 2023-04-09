@@ -1099,13 +1099,14 @@ namespace DimacsTools {
 
   const std::string input_filename = "DimacsTools_minisatcall_in_";
   const std::string output_filename = "DimacsTools_minisatcall_out_";
-  const std::string minisat_string = "minisat";
+  const std::string minisat_default_string = "stdbuf -oL minisat";
 
   // Reading from file:
   Minisat_return minisat_call(const std::string& input,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
-                              const bool with_measurement = true) {
+                              const bool with_measurement = true,
+                 const std::string& minisat_string = minisat_default_string) {
     assert(not input.empty());
     const std::string timestamp =
       Environment::CurrentTime::timestamp_str();
@@ -1135,7 +1136,8 @@ namespace DimacsTools {
   Minisat_return minisat_call(const DimacsClauseList& F,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
-                              const bool with_measurement = true) {
+                              const bool with_measurement = true,
+                 const std::string& minisat_string = minisat_default_string) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string in =
@@ -1146,7 +1148,8 @@ namespace DimacsTools {
          "DimacsTools::minisat_call(F): error when creating input-file " + in);
      fin << F;
     }
-    const Minisat_return res = minisat_call(in, f, options, with_measurement);
+    const Minisat_return res =
+      minisat_call(in, f, options, with_measurement, minisat_string);
     const std::filesystem::path pin(in);
     if (not std::filesystem::remove(pin))
       throw std::runtime_error(
@@ -1187,7 +1190,8 @@ namespace DimacsTools {
   Minisat_return minisat_call(const SystemCalls::put_cin_t& PF,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
-                              const bool with_measurement = true) {
+                              const bool with_measurement = true,
+                 const std::string& minisat_string = minisat_default_string) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string out =

@@ -66,6 +66,14 @@ exact 5 6
 5 | 1
 
 
+Remarks on logging:
+
+If a log-file is given (or /dev/stdout used), then the (complete) minisat-
+output is only shown with a completed run (which may have been aborted);
+in order to see the progress of the current run, in the calling directory
+the file SystemCalls_Popen_out_* can be inspected.
+
+
 See plans/general.txt.
 
 */
@@ -84,7 +92,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.1",
+        "0.7.2",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
