@@ -49,9 +49,16 @@ Bicliques> ./GraphGen grid 2 3
 2,3 1,3 2,2
 
 
-TODOS:
+Remarks:
 
-1. Provide better documentation on output
+A graph with n vertices and zero edges is obtained by
+Bicliques> ./GraphGen biclique n 0
+
+A path graph with n vertices (and n-1 edges) is obtained by
+Bicliques> ./GraphGen grid n 1
+
+
+See plans/general.txt.
 
 */
 

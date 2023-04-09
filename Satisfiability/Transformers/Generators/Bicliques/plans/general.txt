@@ -4,6 +4,15 @@ Priorities:
 
 ---
 
+-1. One needs to read BicliqueLists
+     - Same format as for general graphs, but with separator "|".
+     - Since we are handling only graphs, not multigraphs (yet), automatically
+       the covering-relation is assumed (multiple edges are ignored).
+     - So that for ClauseLists, Graphs, BicliqueLists we have all
+       conversions.
+
+---
+
 0. New program CNFstats.cpp
 
  - DONE Reading strict Dimacs.
@@ -76,17 +85,20 @@ TODOS:
 
 TODOS:
 
--1. More information in case of UNSAT (that is, sb contradicts the given
-    B > 0).
-     - What about B=0 in case -sb ? So well, if explicitly demanded.
+1. More information in case of UNSAT (that is, sb contradicts the given
+   B > 0).
+    - Perhaps one wants to create such an instance?
+      Then symmetry-breaking should be capped.
+      One needed a symmetry-breaking mode for that?
+      But that doesn't seem interesting (easily unsatisfiable).
+    - What about B=0 in case -sb ? So well, if explicitly demanded.
 
-0. DONE Complete output of parameters.
-
-1. Provide more statistics
-  - DONE See "XXX clause- and variables- numbers" in Bicliques2SAT.hpp.
+2. Provide more statistics
   - Currently we run symmetry-breaking even if there is no output at all?
+    Perhaps in this special case one only shows the symmetry-breaking results,
+    nothing else (sb-rounds num_e-seeds +symmetry-breaking-section) ?
 
-2. Option for greedy symmetry-breaking;
+3. Option for greedy symmetry-breaking;
    see Bicliques2SAT.hpp below.
 
 ---
@@ -451,13 +463,17 @@ TODOS:
 
 1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
 
-2. Read the minisat-statistics:
-    - DONE reports are extracted
-    - Perhaps the minisat-call should be replaced by
+2. Better minisat-calls:
+    - The minisat-call should be replaced by
       "stdbuf -oL minisat ..."
       which achieves line-buffering for the output -- thus for a long
       solver-run in the SystemCalls_Popen_out_ -file one can see the
       progress.
+      Otherwise logging is not very effective); perhaps an option to turn
+      that off is needed.
+    - Perhaps a further optional argument to the minisat-calls is introduced,
+      the string for the minisat-call; by default this is
+      "stdbuf -oL minisat".
 
 3. DONE (some reports are needed)
    Directing a stream to stdin of minisat
@@ -498,6 +514,28 @@ TODOS:
 
 ---
 
+10. Generators.hpp
+
+1. Providing a creation-mode, which creates only half of the edges
+    - Currently for undirected graphs, every edge is printed twice.
+
+2. Prove that bcp(crown(n)) = n.
+
+3. What is bcp(grid(n,m)) ?
+
+4. We should have the cnf-generation-functions for all provided
+   graph-types.
+
+---
+
+11. GraphGen.cpp
+
+1. Provide better documentation on output
+
+2. Can we obtain the basic forms of random graphs from BRG?
+   Or should they be provided here?
+
+---
 
 In general:
 

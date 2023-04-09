@@ -32,13 +32,7 @@ License, or any later version. */
   - create(argc, argv) for generating all the T's
 
 
-TODOS:
-
-1. Providing a creation-mode, which creates only half of the edges
-
-2. Prove that bcp(crown(n)) = n.
-
-3. What is bcp(grid(n,m)) ?
+See plans/general.txt.
 
 */
 

@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*
 
-  Basic components for handling graphs
+  Basic components for handling graphs (directed and undirected; no
+  parallel edges, but loops are possible)
+
 
    - scoped enum GT ("dir" and "und")
    - valid(GT)
