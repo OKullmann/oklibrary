@@ -671,15 +671,19 @@ namespace Bicliques2SAT {
       return res;
     }
     typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
-    typedef std::pair<vei_t, stats_t> symmbreak_res_t;
+
+    struct symmbreak_res_t {
+      vei_t v;
+      stats_t s;
+    };
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
                                  RandGen::vec_eseed_t seeds) const {
       if (rounds == 0 or enc_.E == 0) return {};
       if (rounds == 1) {
         symmbreak_res_t res;
-        res.first = max_bcincomp(seeds);
-        res.second += res.first.size();
+        res.v = max_bcincomp(seeds);
+        res.s += res.v.size();
         return res;
       }
       seeds.push_back(0);
@@ -689,8 +693,8 @@ namespace Bicliques2SAT {
         vei_t nres = max_bcincomp(seeds);
         const auto s = nres.size();
         assert(s >= 1);
-        res.second += s;
-        if (s > res.first.size()) res.first = std::move(nres);
+        res.s += s;
+        if (s > res.v.size()) res.v = std::move(nres);
       }
       return res;
     }
@@ -1002,7 +1006,7 @@ namespace Bicliques2SAT {
       }
 
       const auto [sbv, sbs] = sb == SB::none ?
-        std::make_pair(vei_t{}, stats_t{}) : max_bcincomp(sb_rounds, seeds);
+        symmbreak_res_t{vei_t{}, stats_t{}} : max_bcincomp(sb_rounds, seeds);
       if (enc_.B() == 0) enc_.update_B(sbv.size());
       else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
@@ -1103,7 +1107,7 @@ namespace Bicliques2SAT {
 
       const SB sb = std::get<SB>(ao);
       const auto [sbv, sbs] = sb == SB::none ?
-        std::make_pair(vei_t{}, stats_t{}) : max_bcincomp(sb_rounds, seeds);
+        symmbreak_res_t{vei_t{}, stats_t{}} : max_bcincomp(sb_rounds, seeds);
       const auto optsbs = sbv.size();
       if (log) {
         *log << "Symmetry-breaking: " << sbs << std::endl;
