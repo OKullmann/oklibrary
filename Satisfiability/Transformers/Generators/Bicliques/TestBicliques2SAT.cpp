@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.3",
-        "31.3.2023",
+        "0.6.4",
+        "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -180,7 +180,8 @@ int main(const int argc, const char* const argv[]) {
      std::ranges::sort(res);
      assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
    }
-   assert(trans.max_bcincomp(3,g).first.size() == 3);
+   assert(trans.max_bcincomp(6,{}).first.size() == 2);
+   assert(trans.max_bcincomp(7,{}).first.size() == 3);
 
    std::stringstream ss;
    ss << trans.nonedge_for_bc(0,1,0);
