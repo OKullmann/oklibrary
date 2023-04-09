@@ -243,6 +243,12 @@ CNFBCC_debug: CNFBCC.cpp:126: int main(int, const char* const*): Assertion `res.
 The start-value is not sufficient here, since one doesn't start with a
 precise realisation.
 
+2.
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +1
+p cnf 0 20
+...
+
+
 ---
 
 5. GCGeq.cpp:

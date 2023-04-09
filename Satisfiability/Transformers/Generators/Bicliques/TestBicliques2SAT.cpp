@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.4",
+        "0.7.0",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -171,17 +171,18 @@ int main(const int argc, const char* const argv[]) {
    assert(not Bicliques::bccomp(trans.edges[3],trans.edges[9],Ga));
    assert(not Bicliques::bccomp(trans.edges[9],trans.edges[3],Ga));
 
-   RandGen::RandGen_t g;
+   RandGen::vec_eseed_t seeds(1);
    for (unsigned i = 0; i < 100; ++i) {
-     auto res = trans.max_bcincomp(g);
+     seeds[0] = i;
+     auto res = trans.max_bcincomp(seeds);
      const auto s = res.size();
      assert(s==2 or s==3);
      if (s == 2) continue;
      std::ranges::sort(res);
      assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
    }
-   assert(trans.max_bcincomp(6,{}).first.size() == 2);
-   assert(trans.max_bcincomp(7,{}).first.size() == 3);
+   assert(trans.max_bcincomp(11,{}).first.size() == 2);
+   assert(trans.max_bcincomp(12,{}).first.size() == 3);
 
    std::stringstream ss;
    ss << trans.nonedge_for_bc(0,1,0);
@@ -219,7 +220,7 @@ int main(const int argc, const char* const argv[]) {
    ss.str("");
    {bool caught = false;
     try {
-      trans.sat_translate(ss,{},{DC::without,DP::without,CS::without},7,{});
+      trans.sat_translate(ss,{},{DC::without,DP::without,CS::without},12,{});
     }
     catch(const BC2SAT::Unsatisfiable& exc) {
       caught = true;
@@ -602,9 +603,9 @@ int main(const int argc, const char* const argv[]) {
       assert(eqp(F, {{1,2}, {{Lit(1)}, {Lit(-1)}}}));
      }
      {const auto F = GR.solve(nullptr, {}, 100, 1, {});
-      assert(eqp(F, {{{7,6},
-                     {{Lit(3)}, {Lit(-3)}, {}, {Lit(3)}, {Lit(7)}, {Lit(-7)}}},
-                     {Var(3),Var(7)}}));
+      assert(eqp(F,{{{7,6},
+                    {{Lit(-3)}, {Lit(3)}, {}, {Lit(-3)}, {Lit(7)}, {Lit(-7)}}},
+                    {Var(3),Var(7)}}));
      }
 
    }

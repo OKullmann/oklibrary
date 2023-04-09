@@ -28,31 +28,31 @@ c clauses-option                        without-cs
 c sb-rounds                             100
 c num_e-seeds                           0
 c ** Symmetry Breaking **
-c planted-edges                         159
-c sb-stats                              100 : 142 149.2 159; 3.34241
+c planted-edges                         156
+c sb-stats                              100 : 143 149.23 156; 2.84571
 c ** Statistics **
 c V                                     400
 c E                                     760
-c B                                     159
-c  bc-variables                         127200
-c  edge-variables                       120840
-c total-variables                       248040
-c  bc-clauses                           25198320
-c   bc-lit-occurrences                  50396640
-c  edge-clauses                         725040
-c   edge-lit-occurrences                2175120
+c B                                     156
+c  bc-variables                         124800
+c  edge-variables                       118560
+c total-variables                       243360
+c  bc-clauses                           24722880
+c   bc-lit-occurrences                  49445760
+c  edge-clauses                         711360
+c   edge-lit-occurrences                2134080
 c  cover-clauses                        760
-c   cover-lit-occurrences               120840
-c  unit-clauses                         477
-c total-clauses                         25924597
-c total-lit-occurrences                 52693077
-p cnf 248040 25924597
-real	0m0.080s
-user	0m0.078s
-sys	0m0.004s
+c   cover-lit-occurrences               118560
+c  unit-clauses                         468
+c total-clauses                         25435468
+c total-lit-occurrences                 51698868
+p cnf 243360 25435468
+real	0m0.085s
+user	0m0.074s
+sys	0m0.011s
 
 
-Specifying B=200:, and 20000 symmetry-breaking-rounds:
+Specifying B=200, and 20000 symmetry-breaking-rounds:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
 c "./BCC2SAT" "200" "" "-cs" "20000" ""
 c ** Parameters **
@@ -66,7 +66,7 @@ c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
 c planted-edges                         165
-c sb-stats                              20000 : 135 149.572 165; 3.30518
+c sb-stats                              20000 : 136 149.591 165; 3.29045
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -84,9 +84,9 @@ c  unit-clauses                         495
 c total-clauses                         32609255
 c total-lit-occurrences                 66280495
 p cnf 312000 32609255
-real	0m12.698s
-user	0m12.693s
-sys	0m0.007s
+real	0m13.098s
+user	0m13.091s
+sys	0m0.009s
 
 
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
@@ -108,7 +108,7 @@ c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
 c planted-edges                         165
-c sb-stats                              20000 : 135 149.572 165; 3.30518
+c sb-stats                              20000 : 136 149.591 165; 3.29045
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -128,8 +128,8 @@ c  unit-clauses                         495
 c total-clauses                         47733255
 c total-lit-occurrences                 96528495
 p cnf 312000 47733255
-real	0m12.833s
-user	0m12.834s
+real	0m12.923s
+user	0m12.925s
 sys	0m0.000s
 
 
@@ -159,8 +159,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
-        "8.4.2023",
+        "0.9.0",
+        "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

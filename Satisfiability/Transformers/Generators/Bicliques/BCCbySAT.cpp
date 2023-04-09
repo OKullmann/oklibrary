@@ -18,23 +18,27 @@ License, or any later version. */
 EXAMPLES:
 
 Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" ""
+# "./BCCbySAT" "5" "" "" "" "" "" ""
+# "" 0
 bcc=4
 exact 4 5
 100 : 1 1 1; 0
-1 2 5 6 13 14 15 16 | 3 4 7 8 9 10 11 12
-1 2 3 4 5 10 12 14 | 6 7 8 9 11 13 15 16
-2 3 7 8 12 13 14 15 | 1 4 5 6 9 10 11 16
-1 3 4 7 9 14 15 16 | 2 5 6 8 10 11 12 13
+3 4 5 7 10 13 14 15 | 1 2 6 8 9 11 12 16
+1 5 6 7 8 9 10 15 | 2 3 4 11 12 13 14 16
+1 2 7 8 13 14 15 16 | 3 4 5 6 9 10 11 12
+1 4 6 7 10 11 13 16 | 2 3 5 8 9 12 14 15
 
 Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ""
+# "./BCCbySAT" "6" "partition2" "" "" "" "" ""
+# "" 0
 bcp=5
 exact 5 6
 100 : 1 1 1; 0
-1 5 6 | 2 4
-6 | 1 5
-3 | 1 2 5 6
-4 | 2 3
-5 | 1
+2 5 | 3 6
+1 4 | 2 3 5 6
+6 | 3
+5 | 2
+1 | 4
 
 
 See plans/general.txt.
@@ -55,8 +59,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.2",
-        "8.4.2023",
+        "0.7.0",
+        "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",

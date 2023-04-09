@@ -655,7 +655,8 @@ namespace Bicliques2SAT {
     // chosing a random edge, and then removing all bc-compatible edges,
     // until no edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
-    vei_t max_bcincomp(RandGen::RandGen_t& g) const {
+    vei_t max_bcincomp(const RandGen::vec_eseed_t& seeds) const {
+      RandGen::RandGen_t g(seeds);
       vei_t avail; avail.reserve(enc_.E);
       for (id_t i = 0; i < enc_.E; ++i) avail.push_back(i);
       RandGen::shuffle(avail.begin(), avail.end(), g);
@@ -673,15 +674,23 @@ namespace Bicliques2SAT {
     typedef std::pair<vei_t, stats_t> symmbreak_res_t;
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
-                                 const RandGen::vec_eseed_t& seeds) const {
-      if (rounds == 0) return {};
-      RandGen::RandGen_t g(seeds);
+                                 RandGen::vec_eseed_t seeds) const {
+      if (rounds == 0 or enc_.E == 0) return {};
+      if (rounds == 1) {
+        symmbreak_res_t res;
+        res.first = max_bcincomp(seeds);
+        res.second += res.first.size();
+        return res;
+      }
+      seeds.push_back(0);
       symmbreak_res_t res;
-      res.first = max_bcincomp(g);
-      res.second += res.first.size();
-      for (id_t i = 0; i < rounds-1; ++i) {
-        vei_t nres = max_bcincomp(g); const auto s = nres.size();
-        res.second += s; if (s > res.first.size()) res.first = std::move(nres);
+      for (id_t i = 0; i < rounds; ++i) {
+        seeds.back() = i;
+        vei_t nres = max_bcincomp(seeds);
+        const auto s = nres.size();
+        assert(s >= 1);
+        res.second += s;
+        if (s > res.first.size()) res.first = std::move(nres);
       }
       return res;
     }

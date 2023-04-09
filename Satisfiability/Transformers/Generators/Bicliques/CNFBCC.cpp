@@ -61,54 +61,54 @@ For example
 Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile ""
 
 p cnf 10 20
-4 0
--4 -9 0
-9 0
--1 -2 -3 -9 0
--4 -7 8 0
-2 8 -9 0
--2 5 -8 0
--2 -6 -10 0
--1 2 6 0
--2 -8 10 0
-1 6 -7 0
--2 6 -7 0
-7 0
-3 -5 6 0
-1 -3 0
--1 -6 0
--4 -7 0
--8 0
--1 -2 -5 -8 -9 0
--2 4 -5 0
+1 0
+-1 -9 0
+7 9 0
+-2 5 7 -9 0
+-1 4 0
+6 -7 8 0
+-4 5 7 8 0
+-3 5 6 7 0
+-3 -5 6 8 0
+-4 -6 0
+2 3 0
+3 -6 0
+-3 -4 -10 0
+-5 0
+2 5 0
+-2 -3 5 0
+-1 10 0
+-4 7 0
+-2 -4 -8 -9 0
+1 -8 0
 
 With "less logfile" one can see the solution-process.
 
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile ""
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" ""
 
 p cnf 10 20
-4 7 0
+1 0
+-1 -10 0
+2 7 10 0
+-2 5 7 0
+-1 3 4 0
+4 -7 8 0
+-4 5 8 0
+5 6 7 0
+-5 6 8 0
+-4 -6 0
+2 3 -6 9 0
+3 -6 7 9 0
+-3 0
+-5 0
+2 5 9 0
+5 -9 0
+-1 3 0
 -4 0
-4 9 -10 0
--1 -3 9 10 0
-5 -7 8 0
-2 5 8 -9 0
--3 5 -8 0
-2 -3 -6 9 0
--1 2 3 5 0
--2 -8 0
-1 6 0
--2 6 0
--6 7 0
-3 0
-1 -3 0
--1 -3 -6 0
--7 0
--8 0
--1 -5 10 0
-4 -5 7 0
+-2 -4 -8 0
+1 -8 0
 
 
 With the last argument one can stipulate an upper-bound (search-movement
@@ -116,11 +116,16 @@ is downwards), either absolute or via "+" related to the lower-bound
 by symmetry-breaking:
 
 So
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile 10
-and
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile +1
-yield also the above result ("+1" since symmetry-breaking yields the
-lower-bound bcc >= 9).
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" 10
+yield also the above result.
+
+For using "+k", we need to know how far off is symmetry-breaking:
+Bicliques> BRG "20*15,3" | ./CNF2cg | ./BCC2SAT "" "" -cs "" "" | grep "planted"
+c planted-edges                         8
+
+Thus
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +2
+yield also the above result
 
 
 See plans/general.txt.
@@ -143,8 +148,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "5.4.2023",
+        "0.6.0",
+        "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
