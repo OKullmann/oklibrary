@@ -23,22 +23,47 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" ""
 bcc=4
 exact 4 5
 100 : 1 1 1; 0
-3 4 5 7 10 13 14 15 | 1 2 6 8 9 11 12 16
-1 5 6 7 8 9 10 15 | 2 3 4 11 12 13 14 16
-1 2 7 8 13 14 15 16 | 3 4 5 6 9 10 11 12
-1 4 6 7 10 11 13 16 | 2 3 5 8 9 12 14 15
+1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
+1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
+2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
+1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
 
+One can investigate the symmetry-breaking as preprocessing:
+Bicliques> ./GraphGen grid 10 11 | ./BCC2SAT 0 "" -cs 3000000 ""
+c sb-stats                              3000000 : 33 41.0195 50; 1.7225
+c sb-seed                               2128577
+Then one can provide this sb-sequence (here with showing the log directly
+on standard output):
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" 1 "" 2128577 Stats /dev/stdout
+bcc=55
+exact 55 55
+real	0m1.198s
+user	0m1.200s
+sys	0m0.029s
+
+As the first line of Log shows:
+Symmetry-breaking: 1 : 50 50 50; 0
+the good symmetry-breaking (found with the more extensive search) was used.
+The solution-statistics:
+Bicliques> cat Stats
+55   1 23045 709479  0.07  0.27  0.03   3   351  1021   4126     0  12003       98340      286082  16894  4.84  62 0.343748
+54   0 22626 696583  0.07  0.26  0.02  66 19625 31752 113668     0 183909 4.49213e+06 7.26803e+06 545464 34.75  59 0.618067
+
+Even with sb=49 the unsat-result takes much longer.
+
+
+The above were biclique-cover-problems; a partition-problem:
 Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ""
 # "./BCCbySAT" "6" "partition2" "" "" "" "" ""
 # "" 0
 bcp=5
 exact 5 6
 100 : 1 1 1; 0
-2 5 | 3 6
-1 4 | 2 3 5 6
-6 | 3
-5 | 2
-1 | 4
+1 5 6 | 2 4
+6 | 1 5
+3 | 1 2 5 6
+4 | 2 3
+5 | 1
 
 
 See plans/general.txt.
@@ -59,7 +84,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
+        "0.7.1",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",

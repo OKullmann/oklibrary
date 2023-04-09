@@ -148,7 +148,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
+        "0.6.1",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",

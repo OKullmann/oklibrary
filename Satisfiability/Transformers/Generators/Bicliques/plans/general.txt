@@ -319,7 +319,8 @@ TODOS:
     Actually the best heuristics should be to sort the edges according to the
     number of compatible edges (the fewer the better).
     A refined version updates this according to the edges already placed.
-  - For cases which take a long time, a log-output with the current best
+  - DONE
+    For cases which take a long time, a log-output with the current best
     and its index (for the seed) is needed.
     From that index one should be able to perform a single run.
   - One should also return the result in general (for quick reproduction):

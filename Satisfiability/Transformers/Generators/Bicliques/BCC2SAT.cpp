@@ -27,9 +27,10 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 c sb-rounds                             100
 c num_e-seeds                           0
+c sb-seed                               35
 c ** Symmetry Breaking **
 c planted-edges                         156
-c sb-stats                              100 : 143 149.23 156; 2.84571
+c sb-stats                              100 : 143 149.17 156; 2.80712
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -47,9 +48,21 @@ c  unit-clauses                         468
 c total-clauses                         25435468
 c total-lit-occurrences                 51698868
 p cnf 243360 25435468
-real	0m0.085s
-user	0m0.074s
-sys	0m0.011s
+real	0m0.080s
+user	0m0.081s
+sys	0m0.000s
+
+Via appending the sb-seed to the given seed-sequence (above it is empty)
+one can get the best sb-result in one round:
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
+...
+c sb-rounds                             1
+c num_e-seeds                           1
+c  e-seeds                              35
+c ** Symmetry Breaking **
+c planted-edges                         156
+c sb-stats                              1 : 156 156 156; 0
+c sb-seed                               0
 
 
 Specifying B=200, and 20000 symmetry-breaking-rounds:
@@ -66,7 +79,8 @@ c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
 c planted-edges                         165
-c sb-stats                              20000 : 136 149.591 165; 3.29045
+c sb-stats                              20000 : 136 149.59 165; 3.2904
+c sb-seed                               12440
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -84,9 +98,9 @@ c  unit-clauses                         495
 c total-clauses                         32609255
 c total-lit-occurrences                 66280495
 p cnf 312000 32609255
-real	0m13.098s
-user	0m13.091s
-sys	0m0.009s
+real	0m13.533s
+user	0m13.534s
+sys	0m0.001s
 
 
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
@@ -108,7 +122,8 @@ c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
 c planted-edges                         165
-c sb-stats                              20000 : 136 149.591 165; 3.29045
+c sb-stats                              20000 : 136 149.59 165; 3.2904
+c sb-seed                               12440
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -128,9 +143,9 @@ c  unit-clauses                         495
 c total-clauses                         47733255
 c total-lit-occurrences                 96528495
 p cnf 312000 47733255
-real	0m12.923s
-user	0m12.925s
-sys	0m0.000s
+real	0m13.473s
+user	0m13.457s
+sys	0m0.013s
 
 
 For example covering the K_4 can be done with 2 bicliques,
@@ -159,7 +174,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
+        "0.9.1",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",

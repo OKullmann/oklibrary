@@ -675,10 +675,12 @@ namespace Bicliques2SAT {
     struct symmbreak_res_t {
       vei_t v;
       stats_t s;
+      id_t i = 0;
     };
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
                                  RandGen::vec_eseed_t seeds) const {
+      assert(rounds < id_t(-1));
       if (rounds == 0 or enc_.E == 0) return {};
       if (rounds == 1) {
         symmbreak_res_t res;
@@ -688,13 +690,13 @@ namespace Bicliques2SAT {
       }
       seeds.push_back(0);
       symmbreak_res_t res;
-      for (id_t i = 0; i < rounds; ++i) {
+      for (id_t i = 1; i <= rounds; ++i) {
         seeds.back() = i;
         vei_t nres = max_bcincomp(seeds);
         const auto s = nres.size();
         assert(s >= 1);
         res.s += s;
-        if (s > res.v.size()) res.v = std::move(nres);
+        if (s > res.v.size()) {res.i = i; res.v = std::move(nres);}
       }
       return res;
     }
@@ -1005,8 +1007,8 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const auto [sbv, sbs] = sb == SB::none ?
-        symmbreak_res_t{vei_t{}, stats_t{}} : max_bcincomp(sb_rounds, seeds);
+      const auto [sbv, sbs, sbi] = sb == SB::none ?
+        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
       if (enc_.B() == 0) enc_.update_B(sbv.size());
       else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
@@ -1017,7 +1019,8 @@ namespace Bicliques2SAT {
           out <<
             DHW{"Symmetry Breaking"} <<
             DWW{"planted-edges"} << sbv.size() << "\n" <<
-            DWW{"sb-stats"} << sbs << "\n";
+            DWW{"sb-stats"} << sbs << "\n" <<
+            DWW{"sb-seed"} << sbi << "\n";
         }
         out <<
           DHW{"Statistics"} <<
@@ -1106,11 +1109,12 @@ namespace Bicliques2SAT {
       }
 
       const SB sb = std::get<SB>(ao);
-      const auto [sbv, sbs] = sb == SB::none ?
-        symmbreak_res_t{vei_t{}, stats_t{}} : max_bcincomp(sb_rounds, seeds);
+      const auto [sbv, sbs, sbi] = sb == SB::none ?
+        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
       const auto optsbs = sbv.size();
       if (log) {
-        *log << "Symmetry-breaking: " << sbs << std::endl;
+        *log << "Symmetry-breaking: index=" << sbi << ", stats= " << sbs
+             << std::endl;
       }
 
       result_t res(enc_.B(), pt, sbs);

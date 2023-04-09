@@ -33,10 +33,10 @@ Bicliques> cat R.qcnf
 p cnf 7 6
 a 3 7 0
 e 1 2 4 6 0
-2 -4 -3 0
-1 6 3 0
+2 -4 3 0
+1 6 -3 0
 -2 -4 0
--6 -3 0
+-6 3 0
 2 4 6 7 0
 -2 -4 -6 -7 0
 Bicliques> cat data/Example_00.qcnf R.qcnf | ./GCGeq_debug
@@ -63,10 +63,10 @@ Bicliques> cat R.qcnf
 p cnf 7 6
 a 3 7 0
 e 1 2 4 6 0
-2 -4 -3 0
-1 6 3 0
+2 -4 3 0
+1 6 -3 0
 -2 -4 0
--6 -3 0
+-6 3 0
 2 4 6 7 0
 -2 -4 -6 -7 0
 Bicliques> cat data/Example_01.qcnf R.qcnf | ./GCGeq_debug
@@ -92,10 +92,10 @@ Bicliques> cat R.qcnf
 p cnf 9 6
 a 7 9 0
 e 1 2 4 6 0
-2 -4 -9 0
-1 6 9 0
+2 -4 9 0
+1 6 -9 0
 -2 -4 0
--6 -9 0
+-6 9 0
 2 4 6 7 0
 -2 -4 -6 -7 0
 Bicliques> cat data/Example_01.qcnf R.qcnf | ./GCGeq_debug
@@ -128,7 +128,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "9.4.2023",
         __FILE__,
         "Oliver Kullmann",
