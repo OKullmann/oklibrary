@@ -1131,6 +1131,7 @@ namespace DimacsTools {
     }
   }
 
+  // Storing F first in a file:
   Minisat_return minisat_call(const DimacsClauseList& F,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
