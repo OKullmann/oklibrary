@@ -572,7 +572,7 @@ namespace Bicliques2SAT {
     typedef VarEncoding::id_t id_t;
 
     const DI di;
-    const bool update_u_by_inc; // if true, update_by_sb needs to be called
+    const bool update_by_inc; // if true, update_by_sb needs to be called
     const id_t inc_u;
   private :
     id_t l, u, c; // upper, lower, current
@@ -585,13 +585,13 @@ namespace Bicliques2SAT {
     constexpr Bounds(const DI di,
       const bool update, const id_t inc,
       const id_t lower_bound, const id_t upper_bound)
-      : di(di), update_u_by_inc(update), inc_u(inc),
+      : di(di), update_by_inc(update), inc_u(inc),
         l(lower_bound), u(upper_bound),
         c(current_value(di, l, u)) {
       assert(valid());
     }
     explicit constexpr Bounds(const id_t B)
-      : di(DI::none), update_u_by_inc(false), inc_u(0), l(0), u(0), c(B) {}
+      : di(DI::none), update_by_inc(false), inc_u(0), l(0), u(0), c(B) {}
 
     constexpr bool valid() const {
       if (di == DI::upwards) throw "DI::upwards not implemented yet.\n";
@@ -600,14 +600,15 @@ namespace Bicliques2SAT {
 
     void update_by_sb(const id_t sb) noexcept {
       l = std::max(l, sb);
-      if (update_u_by_inc) {
+      if (update_by_inc) {
         assert(u == 0);
         u = sb + inc_u;
       }
       update_c();
     }
 
-    static constexpr id_t current_value(const DI di, const id_t l, const id_t u) noexcept {
+    static constexpr id_t current_value(const DI di,
+                                        const id_t l, const id_t u) noexcept {
       return di == DI::downwards ? u : l;
     }
     void update_c() noexcept { c = current_value(di, l, u); }
@@ -626,7 +627,7 @@ namespace Bicliques2SAT {
 
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
       out << b.di << "\n";
-      out << b.update_u_by_inc << " " << b.inc_u << "\n";
+      out << b.update_by_inc << " " << b.inc_u << "\n";
       out << b.l << " " << b.u << " " << b.c << "\n";
       return out;
     }
