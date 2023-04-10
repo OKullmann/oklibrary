@@ -91,6 +91,8 @@ TODOS:
       Then symmetry-breaking should be capped.
       One needed a symmetry-breaking mode for that?
       But that doesn't seem interesting (easily unsatisfiable).
+      Though for efficiency-reasons one could always just stop the
+      symmetry-breaking-computation once one reached the current B?
     - What about B=0 in case -sb ? So well, if explicitly demanded.
 
 2. Provide more statistics
@@ -462,19 +464,6 @@ TODOS:
    (extracting "global variables").
 
 1. In the same way, generalise extract_apart_strict2qcnf to dqcnf.
-
-2. DONE
-   Better minisat-calls:
-    - The minisat-call should be replaced by
-      "stdbuf -oL minisat ..."
-      which achieves line-buffering for the output -- thus for a long
-      solver-run in the SystemCalls_Popen_out_ -file one can see the
-      progress.
-      Otherwise logging is not very effective); perhaps an option to turn
-      that off is needed.
-    - Perhaps a further optional argument to the minisat-calls is introduced,
-      the string for the minisat-call; by default this is
-      "stdbuf -oL minisat".
 
 3. DONE (some reports are needed)
    Directing a stream to stdin of minisat
