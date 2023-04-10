@@ -573,7 +573,7 @@ namespace Bicliques2SAT {
 
     const DI di;
     const bool update_by_inc; // if true, update_by_sb needs to be called
-    const id_t inc_u;
+    const id_t inc;
   private :
     id_t l, u, c; // upper, lower, current
   public :
@@ -585,13 +585,13 @@ namespace Bicliques2SAT {
     constexpr Bounds(const DI di,
       const bool update, const id_t inc,
       const id_t lower_bound, const id_t upper_bound)
-      : di(di), update_by_inc(update), inc_u(inc),
+      : di(di), update_by_inc(update), inc(inc),
         l(lower_bound), u(upper_bound),
         c(current_value(di, l, u)) {
       assert(valid());
     }
     explicit constexpr Bounds(const id_t B)
-      : di(DI::none), update_by_inc(false), inc_u(0), l(0), u(0), c(B) {}
+      : di(DI::none), update_by_inc(false), inc(0), l(0), u(0), c(B) {}
 
     constexpr bool valid() const {
       if (di == DI::upwards) throw "DI::upwards not implemented yet.\n";
@@ -602,7 +602,7 @@ namespace Bicliques2SAT {
       l = std::max(l, sb);
       if (update_by_inc) {
         assert(u == 0);
-        u = sb + inc_u;
+        u = sb + inc;
       }
       update_c();
     }
@@ -627,7 +627,7 @@ namespace Bicliques2SAT {
 
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
       out << b.di << "\n";
-      out << b.update_by_inc << " " << b.inc_u << "\n";
+      out << b.update_by_inc << " " << b.inc << "\n";
       out << b.l << " " << b.u << " " << b.c << "\n";
       return out;
     }
