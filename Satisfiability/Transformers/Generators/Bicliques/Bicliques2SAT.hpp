@@ -60,9 +60,13 @@ License, or any later version. */
 
     - scoped enums (all registered with RegistrationPolicies):
      - SB (symmetry-breaking forms)
+     - PT (problem-types)
      - DC (Dimacs-comments on/off)
      - DP (Dimacs-parameters on/off)
      - CS (clause-set-output on/off)
+     - DI (search direction)
+     - SO (solver options)
+     - UB (check or trust upper bound)
 
     - input and output control:
      - const char sep
