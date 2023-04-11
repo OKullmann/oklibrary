@@ -618,9 +618,21 @@ namespace Bicliques2SAT {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
-      out << b.di << "\n";
-      out << b.update_by_inc << " " << b.inc << "\n";
-      out << b.l << " " << b.u << " " << b.c << "\n";
+      if (b.di == DI::none) {
+        if (b.update_by_inc) {
+          assert(b.cv() == 0);
+          out << "+" << b.inc;
+        }
+        else {
+          assert(b.inc == 0);
+          out << b.cv();
+        }
+      }
+      else {
+        out << b.di << "\n";
+        out << b.update_by_inc << " " << b.inc << "\n";
+        out << b.l << " " << b.u << " " << b.c << "\n";
+      }
       return out;
     }
   };
@@ -988,31 +1000,21 @@ namespace Bicliques2SAT {
       using Environment::DWW; using Environment::DHW;
       if (dc == DC::with) {
         out <<
-          DHW{"Parameters"};
-        if (bounds.update_by_inc) {
-          assert(bounds.cv() == 0);
-          out <<
-            DWW{"B"} << "+" << bounds.inc << "\n";
-        }
-        else {
-          assert(bounds.inc == 0);
-          out <<
-            DWW{"B"} << bounds.cv() << "\n";
-        }
-        out <<
+          DHW{"Parameters"} <<
+          DWW{"B"} << bounds << "\n" <<
           DWW{"sb-option"} << sb << "\n" <<
           DWW{"pt-option"} << pt << "\n" <<
           DWW{"comments-option"} << dc << "\n" <<
           DWW{"dimacs-parameter-option"} << dp << "\n" <<
           DWW{"clauses-option"} << cs << "\n";
-        if (sb != SB::none)
+        if (sb != SB::none) {
           out <<
-            DWW{"sb-rounds"} << sb_rounds << "\n";
-        out <<
-          DWW{"num_e-seeds"} << seeds.size() << "\n";
-        if (not seeds.empty())
-          out <<
-            DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+            DWW{"sb-rounds"} << sb_rounds << "\n" <<
+            DWW{"num_e-seeds"} << seeds.size() << "\n";
+          if (not seeds.empty())
+            out <<
+              DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+        }
         out.flush();
       }
 
