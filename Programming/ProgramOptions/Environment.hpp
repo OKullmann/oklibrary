@@ -116,7 +116,9 @@ License, or any later version. */
     - constant default_dimacs_width
     - variable dimacs_width
     - wrapper DWW(string) for outputting the initial part of a Dimacs-line
-    - wrapper DHW(string) for outputting a dimacs-header-line.
+        using global member prefix (default " c")
+    - wrapper DHW(string) for outputting a dimacs-header-line
+        (using same prefix).
 
 
 Assumes the macros
@@ -681,12 +683,15 @@ namespace Environment {
   constexpr std::streamsize default_dimacs_width = 40;
   std::streamsize dimacs_width = default_dimacs_width;
   // "Dimacs Width-Wrapper":
-  struct DWW { std::string s; };
+  struct DWW {
+    std::string s;
+    static inline std::string prefix = "c ";
+  };
   std::ostream& operator <<(std::ostream& out, const DWW& s) {
     const auto ow = out.width();
     out.width(dimacs_width);
     const auto of = out.setf(std::ios_base::left, std::ios_base::adjustfield);
-    out << "c " + s.s;
+    out << DWW::prefix + s.s;
     out.setf(of, std::ios_base::adjustfield);
     out.width(ow);
     return out;
@@ -694,7 +699,7 @@ namespace Environment {
   // "Dimacs Header-Wrapper":
   struct DHW { std::string s; };
   std::ostream& operator <<(std::ostream& out, const DHW& s) {
-    return out << "c ** " << s.s << " **\n";
+    return out << DWW::prefix + "** " << s.s << " **\n";
   }
 
 
