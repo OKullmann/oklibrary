@@ -85,8 +85,10 @@ TODOS:
 
 TODOS:
 
-1. More information in case of UNSAT (that is, sb contradicts the given
-   B > 0).
+0. Write application-tests
+    - And/or some fuzzer.
+
+1. Options in case of UNSAT (that is, sb contradicts the given B).
     - Perhaps one wants to create such an instance?
       Then symmetry-breaking should be capped.
       One needed a symmetry-breaking mode for that?
@@ -117,18 +119,15 @@ TODOS:
       is done via an algo-option.
       We have option-class UB, which currently is not used.
 
-      DONE We have currently the special case B=0 for the update-by-sb.
-      This should better be handled by specifying "+B".
-      The encoding-object (initialised at the beginning) just has the
-      plain B-value; B=0 here means "update needed" (handled by
-      VarEncoding::update_B(newB)).
-
-    - DONE What about B=0 in case -sb ? So well, if explicitly demanded.
-
-2. Provide more statistics
+2. Special output for symmetry-breaking
   - Currently we run symmetry-breaking even if there is no output at all?
     Perhaps in this special case one only shows the symmetry-breaking results,
-    nothing else (sb-rounds num_e-seeds +symmetry-breaking-section) ?
+    nothing else (sb-rounds num_e-seeds + symmetry-breaking-section) ?
+  - But perhaps this is better handled by a sb-results-only mode, that is,
+    instead of "+- comments" we have:
+     - all-comments
+     - only-sb-comments
+     - no-comments .
 
 3. Option for greedy symmetry-breaking;
    see Bicliques2SAT.hpp below.

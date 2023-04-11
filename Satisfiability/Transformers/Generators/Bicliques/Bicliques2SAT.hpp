@@ -983,8 +983,8 @@ namespace Bicliques2SAT {
       const DP dp = std::get<DP>(fo);
       const CS cs = std::get<CS>(fo);
 
+      using Environment::DWW; using Environment::DHW;
       if (dc == DC::with) {
-        using Environment::DWW; using Environment::DHW;
         out <<
           DHW{"Parameters"};
         if (bounds.update_by_inc) {
@@ -1017,20 +1017,19 @@ namespace Bicliques2SAT {
       const auto [sbv, sbs, sbi] = sb == SB::none ?
         symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
       const auto optsbs = sbv.size();
+      if (dc == DC::with and sb != SB::none) {
+        out <<
+          DHW{"Symmetry Breaking"} <<
+          DWW{"planted-edges"} << optsbs << "\n" <<
+          DWW{"sb-stats"} << sbs << "\n" <<
+          DWW{"sb-seed"} << sbi << "\n";
+      }
       bounds.update_by_sb(optsbs);
       if (bounds.update_by_inc) enc_.update_B(bounds.cv());
       else if (optsbs > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
-      const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
 
+      const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
       if (dc == DC::with) {
-        using Environment::DWW; using Environment::DHW;
-        if (sb != SB::none) {
-          out <<
-            DHW{"Symmetry Breaking"} <<
-            DWW{"planted-edges"} << optsbs << "\n" <<
-            DWW{"sb-stats"} << sbs << "\n" <<
-            DWW{"sb-seed"} << sbi << "\n";
-        }
         out <<
           DHW{"Statistics"} <<
           DWW{"V"} << enc_.V << "\n" <<

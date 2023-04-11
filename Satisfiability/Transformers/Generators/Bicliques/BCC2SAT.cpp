@@ -65,7 +65,7 @@ c sb-stats                              1 : 156 156 156; 0
 c sb-seed                               0
 
 
-Specifying B=200, and 20000 symmetry-breaking-rounds:
+Explicitly specifying B=200, and 20000 symmetry-breaking-rounds:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
 c "./BCC2SAT" "200" "" "-cs" "20000" ""
 c ** Parameters **
@@ -106,9 +106,32 @@ One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
 
 Since for the above 200=165+35, one obtains the same result by
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 20000 ""
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 20000 ""
 or (via a single round) b
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
+
+If one uses an explicitly specified B which is lower than what symmetry-
+breaking obtained, UNSAT is given immediately:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 164 "" -cs 1 12440
+c "./BCC2SAT" "164" "" "-cs" "1" "12440"
+c ** Parameters **
+c B                                     164
+c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             1
+c num_e-seeds                           1
+c  e-seeds                              12440
+c ** Symmetry Breaking **
+c planted-edges                         165
+c sb-stats                              1 : 165 165 165; 0
+c sb-seed                               0
+UNSAT
+B >= 165
+
+(with return-code 20).
 
 
 One can also consider partition-problems (instead of cover-problems, the
@@ -179,7 +202,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
+        "1.0.0",
         "11.4.2023",
         __FILE__,
         "Oliver Kullmann",
