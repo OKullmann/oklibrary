@@ -52,7 +52,7 @@ Bicliques> cat Stats
 Even with sb=49 the unsat-result takes much longer.
 
 
-The above were biclique-cover-problems; a partition-problem:
+The above were biclique-cover-problems; now a partition-problem:
 Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ""
 # "./BCCbySAT" "6" "partition2" "" "" "" "" ""
 # "" 0
@@ -111,8 +111,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options sb-rounds timeout seeds stats log\n\n"
-    " B              : " << "[+]biclique-cover-size, default is \"+"
-         << default_B << "\"\n"
+    " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"

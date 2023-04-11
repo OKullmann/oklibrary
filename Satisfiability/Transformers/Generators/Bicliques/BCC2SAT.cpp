@@ -19,7 +19,7 @@ Obtaining B from symmetry-breaking:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
 c "./BCC2SAT" "" "" "-cs" "" ""
 c ** Parameters **
-c B                                     0
+c B                                     +0
 c sb-option                             basic-sb
 c pt-option                             cover
 c comments-option                       with-comments
@@ -27,10 +27,10 @@ c dimacs-parameter-option               with-parameters
 c clauses-option                        without-cs
 c sb-rounds                             100
 c num_e-seeds                           0
-c sb-seed                               35
 c ** Symmetry Breaking **
 c planted-edges                         156
 c sb-stats                              100 : 143 149.17 156; 2.80712
+c sb-seed                               35
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -48,12 +48,12 @@ c  unit-clauses                         468
 c total-clauses                         25435468
 c total-lit-occurrences                 51698868
 p cnf 243360 25435468
-real	0m0.080s
-user	0m0.081s
+real	0m0.082s
+user	0m0.083s
 sys	0m0.000s
 
 Via appending the sb-seed to the given seed-sequence (above it is empty)
-one can get the best sb-result in one round:
+one can get the best sb-result in a single round:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
 ...
 c sb-rounds                             1
@@ -102,9 +102,14 @@ real	0m13.533s
 user	0m13.534s
 sys	0m0.001s
 
-
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
+
+Since for the above 200=165+35, one obtains the same result by
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 20000 ""
+or (via a single round) b
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
+
 
 One can also consider partition-problems (instead of cover-problems, the
 default).
@@ -174,8 +179,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "9.4.2023",
+        "0.9.2",
+        "11.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -193,8 +198,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options format-options sb-rounds seeds\n\n"
-    " B              : " << "biclique-cover-size, default is "
-         << default_B << "\n"
+    " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
@@ -204,7 +208,8 @@ namespace {
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - B=0 means the value is chosen by symmetry-breaking if enabled.\n"
+    "  - \"+\" for B means the increment from the symmetry-breaking result.\n"
+    "  - If rounds=1, then seeds are taken as given, otherwise a round-index is appended.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -224,7 +229,7 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const var_t B = read_var_t(argv[1], default_B);
+  const Bounds B = read_current(argv[1]);
   const alg_options_t algopt =
     Environment::translate<alg_options_t>()(argv[2], sep);
   const format_options_t formopt =

@@ -24,6 +24,7 @@ License, or any later version. */
     - read_uint_t(string, uint_t) -> uint_t
     -   read_uint_with_plus(string) -> <uint_t, bool> (helper function)
 
+    - read_current(string) -> Bounds
     - read_bounds(string) -> optional<Bounds>
 
     - class Log for a pointer to an ofstream
@@ -58,7 +59,6 @@ TODOS:
 namespace BCC2SAT {
 
   typedef Bicliques2SAT::var_t var_t;
-  constexpr var_t default_B = 0;
   constexpr FloatingPoint::int_t default_sec = FloatingPoint::P231m1;
 
   enum class Error {
@@ -89,6 +89,15 @@ namespace BCC2SAT {
       return {FloatingPoint::touint(s.substr(1)), true};
     else return {FloatingPoint::touint(s), false};
   }
+
+  Bicliques2SAT::Bounds read_current(const std::string& s) {
+    using namespace Bicliques2SAT;
+    if (s.empty()) return Bounds(0, true, 0);
+    const auto [B, with_plus] = read_uint_with_plus(s);
+    if (with_plus) return Bounds(0, true, B);
+    else return Bounds(B, false, 0);
+  }
+
   std::optional<Bicliques2SAT::Bounds> read_bounds(const std::string& s) {
     // assuming for now DI::downwards XXX
     using namespace Bicliques2SAT;

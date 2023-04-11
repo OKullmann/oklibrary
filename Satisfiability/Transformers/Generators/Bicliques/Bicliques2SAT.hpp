@@ -544,29 +544,7 @@ namespace Bicliques2SAT {
 
     lower bound l : all B < l are unsatisfiable
     upper bound u : all B >= u are satisfiable.
-
-  1. di==DI::downwards: until the first unsatisfiable
-
-   - only u given:
-     c = u; l = 0;
-     for ub==UB::trust: c = u-1 ?
-       what if here u==l ?
-     perhaps bool found_unsatifiable, found_satisfiable ?
-
-  2. di==DI::upwards: until the first satisfiable
-
-   - nothing given:
-     l, u = trivial, c = l
-     better with G taken into account
-
-   - l given:
-     u = trivial, c = l
-     better with G taken into account
-
-  The lower bound needs to be updated via sb.
-  The upper bound doesn't need to be updated (but possible is updated).
-
-    */
+  */
   struct Bounds {
     typedef Graphs::AdjVecUInt graph_t;
     typedef VarEncoding::id_t id_t;
@@ -587,11 +565,12 @@ namespace Bicliques2SAT {
       const id_t lower_bound, const id_t upper_bound)
       : di(di), update_by_inc(update), inc(inc),
         l(lower_bound), u(upper_bound),
-        c(current_value(di, l, u)) {
+        c(current_value(di, l, 0, u)) {
       assert(valid());
     }
-    explicit constexpr Bounds(const id_t B)
-      : di(DI::none), update_by_inc(false), inc(0), l(0), u(0), c(B) {}
+    constexpr Bounds(const id_t B, const bool update, const id_t inc)
+      : di(DI::none), update_by_inc(update), inc(inc),
+        l(trivial_lower_bound()), u(trivial_upper_bound()), c(B) {}
 
     constexpr bool valid() const {
       if (di == DI::upwards) throw "DI::upwards not implemented yet.\n";
@@ -600,22 +579,35 @@ namespace Bicliques2SAT {
 
     void update_by_sb(const id_t sb) noexcept {
       l = std::max(l, sb);
-      if (update_by_inc) {
-        assert(u == 0);
-        u = sb + inc;
+      if (di == DI::none) {
+        if (update_by_inc) {
+          assert(c == 0);
+          c = sb + inc;
+          u = std::max(u,c);
+        }
+        else
+          u = std::max(u,l);
       }
-      update_c();
+      else {
+        if (update_by_inc) {
+          assert(u == 0);
+          u = sb + inc;
+        }
+        update_c();
+      }
     }
 
     static constexpr id_t current_value(const DI di,
-                                        const id_t l, const id_t u) noexcept {
-      return di == DI::downwards ? u : l;
+                          const id_t l, const id_t c, const id_t u) noexcept {
+      switch (di) {
+      case DI::none : return c;
+      case DI::downwards : return u;
+      case DI::upwards : return l;
+      default : return 0;}
     }
-    void update_c() noexcept { c = current_value(di, l, u); }
-    static constexpr id_t trivial_lower_bound() noexcept { return 0; }
-    static constexpr id_t trivial_upper_bound() noexcept {
-      return Param::MaxV;
-    }
+    void update_c() noexcept { c = current_value(di, l, c, u); }
+    static constexpr id_t trivial_lower_bound() noexcept {return 0;}
+    static constexpr id_t trivial_upper_bound() noexcept {return Param::MaxV;}
     static id_t simple_lower_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0; else return 1;
     }
@@ -994,8 +986,18 @@ namespace Bicliques2SAT {
       if (dc == DC::with) {
         using Environment::DWW; using Environment::DHW;
         out <<
-          DHW{"Parameters"} <<
-          DWW{"B"} << enc_.B() << "\n" <<
+          DHW{"Parameters"};
+        if (bounds.update_by_inc) {
+          assert(bounds.cv() == 0);
+          out <<
+            DWW{"B"} << "+" << bounds.inc << "\n";
+        }
+        else {
+          assert(bounds.inc == 0);
+          out <<
+            DWW{"B"} << bounds.cv() << "\n";
+        }
+        out <<
           DWW{"sb-option"} << sb << "\n" <<
           DWW{"pt-option"} << pt << "\n" <<
           DWW{"comments-option"} << dc << "\n" <<
@@ -1014,8 +1016,10 @@ namespace Bicliques2SAT {
 
       const auto [sbv, sbs, sbi] = sb == SB::none ?
         symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
-      if (enc_.B() == 0) enc_.update_B(sbv.size());
-      else if (sbv.size() > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
+      const auto optsbs = sbv.size();
+      bounds.update_by_sb(optsbs);
+      if (bounds.update_by_inc) enc_.update_B(bounds.cv());
+      else if (optsbs > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
       const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
 
       if (dc == DC::with) {
@@ -1023,7 +1027,7 @@ namespace Bicliques2SAT {
         if (sb != SB::none) {
           out <<
             DHW{"Symmetry Breaking"} <<
-            DWW{"planted-edges"} << sbv.size() << "\n" <<
+            DWW{"planted-edges"} << optsbs << "\n" <<
             DWW{"sb-stats"} << sbs << "\n" <<
             DWW{"sb-seed"} << sbi << "\n";
         }

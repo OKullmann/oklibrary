@@ -93,7 +93,37 @@ TODOS:
       But that doesn't seem interesting (easily unsatisfiable).
       Though for efficiency-reasons one could always just stop the
       symmetry-breaking-computation once one reached the current B?
-    - What about B=0 in case -sb ? So well, if explicitly demanded.
+      Such a capping makes sense for applications like CNFBCC, where
+      a valid upper bound is given.
+
+      Regarding capping, there are two dimensions: stopping the current
+      extension of the symmetry-breaking-assignment, and making no further
+      runs (one might want to do all runs for statistical purposes).
+      Actually these are not two independent dimensions: making no further
+      run is only given in case one has reached the upper bound.
+
+      So one further algo-options are needed, with three values:
+       - fully-run
+       - stop-extension-at-upper-bound, but make all runs
+       - fully-stop (set by CNFBCC and GSM).
+      Or should this be part of the bounds-object?
+      One could call an upper-bound "obligatory" or not, where in the
+      former case every run would stop when reaching the bound, otherweise
+      never.
+      So the algo-option would be
+       - +- perform-all-runs.
+
+      Setting the bound to "obligatory" on the command-line perhaps best
+      is done via an algo-option.
+      We have option-class UB, which currently is not used.
+
+      DONE We have currently the special case B=0 for the update-by-sb.
+      This should better be handled by specifying "+B".
+      The encoding-object (initialised at the beginning) just has the
+      plain B-value; B=0 here means "update needed" (handled by
+      VarEncoding::update_B(newB)).
+
+    - DONE What about B=0 in case -sb ? So well, if explicitly demanded.
 
 2. Provide more statistics
   - Currently we run symmetry-breaking even if there is no output at all?
@@ -277,6 +307,30 @@ TODOS:
 6. Bicliques2SAT.hpp:
 
 TODOS:
+
+-1. Finish class Bounds
+
+  1. di==DI::downwards: until the first unsatisfiable
+
+   - only u given:
+     c = u; l = 0;
+     for ub==UB::trust: c = u-1 ?
+       what if here u==l ?
+     perhaps bool found_unsatifiable, found_satisfiable ?
+
+  2. di==DI::upwards: until the first satisfiable
+
+   - nothing given:
+     l, u = trivial, c = l
+     better with G taken into account
+
+   - l given:
+     u = trivial, c = l
+     better with G taken into account
+
+  The lower bound needs to be updated via sb.
+  The upper bound doesn't need to be updated (but possible is updated).
+
 
 0. Upwards-search
 
