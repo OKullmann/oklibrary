@@ -976,6 +976,8 @@ namespace Bicliques2SAT {
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
+      // this function is not called by sat_solve:
+      assert(bounds.di == DI::none);
       const SB sb = std::get<SB>(ao);
       const PT pt = std::get<PT>(ao);
       if (pt == PT::partition1) throw "partition1 not implemented yet.\n";

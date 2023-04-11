@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
-        "9.4.2023",
+        "0.7.3",
+        "11.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -127,7 +127,7 @@ int main(const int argc, const char* const argv[]) {
    ss.str("9 10 15 1 2 -3 -4 7 -8 4 16 0\n");
    assert(eqp(enc2.core_extraction(ss), { { {{0,1,3},{2}}, {{0,1},{2,3}} } }));
 
-   BC2SAT trans1(G, {DI::downwards, false,0, 0, 1});
+   BC2SAT trans1(G, {1,false,0});
    assert(trans1.num_basic_lit() == 2*4 + 3*36 + 1*6);
    for (unsigned e1 = 0; e1 < G.m(); ++e1)
      for (unsigned e2 = 0; e2 < G.m(); ++e2)
@@ -139,7 +139,7 @@ int main(const int argc, const char* const argv[]) {
    G.add_clique(std::vector{"e", "f", "g", "h"});
    AdjVecUInt Ga(G);
 
-   {BC2SAT trans(Ga, {DI::downwards, false,0, 0, 2});
+   {BC2SAT trans(Ga, {2,false,0});
     assert(trans.enc().V == 8);
     assert(trans.enc().E == 12);
     assert(trans.enc().n() == 56);
@@ -159,7 +159,7 @@ int main(const int argc, const char* const argv[]) {
    Ga = AdjVecUInt(G);
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
-   BC2SAT trans(Ga, {DI::downwards, false,0, 0, 2});
+   BC2SAT trans(Ga, {2, false, 0});
    assert(trans.enc().n() == 64);
    assert(trans.enc().nb() == 32);
    assert(eqp(trans.edges[0], {0,1}));
