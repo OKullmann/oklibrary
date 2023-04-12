@@ -98,7 +98,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
+        "0.8.1",
         "12.4.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -125,8 +125,8 @@ namespace {
     "                : " << Environment::WRP<SO>{} << "\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<BC>{} << "\n"
-    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
+    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
     " stats          : " << "filename for solving-stats, default is null\n"
     " log            : " << "filename for solving-log, default is null\n\n"
@@ -165,11 +165,12 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<alg2_options_t>()(argv[2], sep);
   const format2_options_t formopt =
     Environment::translate<format2_options_t>()(argv[3], sep);
-  const var_t sb_rounds = read_var_t(argv[4], default_sb_rounds);
-  const auto sec = read_uint_t(argv[5], default_sec);
+  const auto sec = read_uint_t(argv[4], default_sec);
+  const var_t sb_rounds = read_var_t(argv[5], default_sb_rounds);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[6]);
   const auto [stats, statsname] = read_stats(argv[7], proginfo.prg, error);
-  const auto log = read_log(argv[8], error);
+  const std::string logname = argv[8];
+  const auto log = read_log(logname, error);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -188,7 +189,34 @@ int main(const int argc, const char* const argv[]) {
     commandline_output(std::make_tuple(DC::with), comment, std::cout,
                        argc, argv);
     Environment::DWW::prefix = comment;
-    std::cout << comment << "\"" << statsname << "\" " << stats.is_cout << "\n";
+    using Environment::DWW; using Environment::DHW;
+    std::cout <<
+      DHW{"Parameters"} <<
+      DWW{"B"} << bounds0.value() << "\n" <<
+      DWW{"sb-option"} << std::get<SB>(algopt) << "\n" <<
+      DWW{"pt-option"} << std::get<PT>(algopt) << "\n" <<
+      DWW{"di-option"} << std::get<DI>(algopt) << "\n" <<
+      DWW{"so-option"} << std::get<SO>(algopt) << "\n" <<
+      DWW{"comments-option"} << dc << "\n" <<
+      DWW{"bicliques-option"} << bc << "\n" <<
+      DWW{"solver-timeout(s)"} << sec << "\n";
+    if (std::get<SB>(algopt) != SB::none) {
+      std::cout <<
+        DWW{"sb-rounds"} << sb_rounds << "\n" <<
+        DWW{"num_e-seeds"} << seeds.size() << "\n";
+      if (not seeds.empty())
+        std::cout <<
+          DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+    }
+    std::cout <<
+      DWW{"statistics-output"};
+    print(std::cout, {stats,statsname});
+    std::cout <<
+      DWW{"log-output"};
+    print(std::cout, {log,logname});
+    std::cout <<
+      DHW{"Results"};
+    std::cout.flush();
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
@@ -196,7 +224,7 @@ int main(const int argc, const char* const argv[]) {
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   log.close();
 
-  if (bc == BC::with) res.output(std::cout, G, stats.pointer());
+  res.output(dc == DC::with ? &std::cout : nullptr, bc, G, stats.pointer());
   stats.close();
 
 }

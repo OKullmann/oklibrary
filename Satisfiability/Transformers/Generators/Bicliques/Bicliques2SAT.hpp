@@ -642,11 +642,12 @@ namespace Bicliques2SAT {
           out << b.cv();
         }
       }
-      else {
-        out << b.di << "\n";
-        out << b.update_by_inc << " " << b.inc << "\n";
-        out << b.l << " " << b.u << " " << b.c << "\n";
+      else if (b.di == DI::downwards) {
+        out << b.di << " ";
+        if (b.update_by_inc) out << "+" << b.inc << " ";
+        out<< b.l << " " << b.c << " " << b.u;
       }
+
       return out;
     }
   };
@@ -1095,26 +1096,31 @@ namespace Bicliques2SAT {
         : B(B), rt(ResultType::unknown), init_B(B), pt(pt), sbs(sbs),
           minisat_stats({"B"}) {}
 
-      void output(std::ostream& out, const Graphs::AdjVecUInt& G,
+      void output(std::ostream* const out,
+                  const BC bc,
+                  const Graphs::AdjVecUInt& G,
                   std::ofstream* const stats) const {
         assert(int(rt) >= 1 and int(rt) <= 6);
-        if (pt == PT::cover) out << "bcc";
-        else out << "bcp";
-        if (rt == ResultType::upper_timeout or
-            rt == ResultType::aborted)
-          out << " ?";
-        else if (rt == ResultType::exact)
-          out << "=" << B;
-        else if (rt == ResultType::upper_unsat_sb or
-                 rt == ResultType::upper_unsat)
-          out << ">" << B;
-        else {
-          assert(rt == ResultType::other_timeout);
-          out << "<=" << B + 1;
+        if (out) {
+          *out << "# ";
+          if (pt == PT::cover) *out << "bcc";
+          else *out << "bcp";
+          if (rt == ResultType::upper_timeout or
+              rt == ResultType::aborted)
+            *out << " ?";
+          else if (rt == ResultType::exact)
+            *out << "=" << B;
+          else if (rt == ResultType::upper_unsat_sb or
+                   rt == ResultType::upper_unsat)
+            *out << ">" << B;
+          else {
+            assert(rt == ResultType::other_timeout);
+            *out << "<=" << B + 1;
+          }
+          *out << "\n# " << rt << " " << B << " " << init_B << "\n# "
+              << sbs << "\n";
         }
-        out << "\n" << rt << " " << B << " " << init_B << "\n"
-            << sbs << "\n";
-        bcc.output(out, G);
+        if (bc == BC::with) bcc.output(*out, G);
         if (stats) *stats << minisat_stats;
       }
     };

@@ -135,13 +135,24 @@ namespace BCC2SAT {
     mutable std::ofstream* p;
   public :
     const bool is_cout;
-    Log(std::ofstream* const p, const bool ic) noexcept : p(p), is_cout(ic) {}
+    Log(std::ofstream* const p, const bool ic) noexcept : p(p), is_cout(ic) {
+      assert(not is_cout or not null());
+    }
     std::ofstream* pointer() const noexcept { return p; }
+    bool null() const noexcept { return p == nullptr; }
     void close() const {
       if (is_cout) {assert(p and *p); *p << std::endl;}
       else if (p) {p->close(), p = nullptr;}
     }
   };
+
+  typedef std::pair<Log, std::string> log_t;
+  void print(std::ostream& out, const log_t& L) {
+    if (L.first.is_cout) out << "/dev/stdout\n";
+    else if (L.first.null()) out << "null\n";
+    else out << L.second << "\n";
+  }
+
   Log read_log(const std::string& s, const std::string& error) {
     if (s.empty()) return {nullptr, false};
     if (s == "/dev/stdout") return {new std::ofstream(s), true};
@@ -154,9 +165,9 @@ namespace BCC2SAT {
     return {res, false};
   }
 
-  std::pair<Log, std::string> read_stats(std::string s,
-                                         const std::string& infix,
-                                         const std::string& error) {
+  log_t read_stats(std::string s,
+                   const std::string& infix,
+                   const std::string& error) {
     if (s.empty()) return {{nullptr, false},""};
     if (s == "/dev/stdout") return {{new std::ofstream(s), true}, s};
     if (s == "t")
