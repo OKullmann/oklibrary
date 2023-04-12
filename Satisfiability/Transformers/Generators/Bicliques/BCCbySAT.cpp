@@ -34,6 +34,7 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 # log-output                            null
 # ** Results **
 # sb-stats                              100 : 1 1 1; 0
+# result-type                           exact
 # bcc                                   = 4
 1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
 1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
@@ -64,6 +65,7 @@ Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats "
 # log-output                            LOG
 # ** Results **
 # sb-stats                              1 : 50 50 50; 0
+# result-type                           exact
 # bcc                                   = 55
 ...
 1,9 2,8 2,10 3,9 | 2,9
@@ -103,6 +105,7 @@ Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" "" ""
 # log-output                            null
 # ** Results **
 # sb-stats                              100 : 1 1 1; 0
+# result-type                           exact
 # bcp                                   = 5
 1 5 6 | 2 4
 6 | 1 5
@@ -137,7 +140,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
+        "0.8.3",
         "12.4.2023",
         __FILE__,
         "Oliver Kullmann",

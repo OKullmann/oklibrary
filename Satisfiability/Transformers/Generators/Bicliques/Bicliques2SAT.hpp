@@ -1103,7 +1103,8 @@ namespace Bicliques2SAT {
         assert(int(rt) >= 1 and int(rt) <= 6);
         if (out) {
           using Environment::DWW;
-          *out <<  DWW{"sb-stats"} << sbs << "\n";
+          *out << DWW{"sb-stats"} << sbs << "\n"
+               << DWW{"result-type"} << rt << "\n";
           *out << DWW{pt == PT::cover ? "bcc" : "bcp"};
           if (rt == ResultType::upper_timeout or
               rt == ResultType::aborted)
