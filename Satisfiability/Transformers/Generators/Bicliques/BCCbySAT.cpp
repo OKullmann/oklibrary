@@ -17,7 +17,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" ""
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 # "./BCCbySAT" "5" "" "" "" "" "" ""
 # "" 0
 bcc=4
@@ -34,8 +34,14 @@ c sb-stats                              3000000 : 33 41.0195 50; 1.7225
 c sb-seed                               2128577
 Then one can provide this sb-sequence (here with showing the log directly
 on standard output):
-Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" 1 "" 2128577 Stats /dev/stdout
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" 1 "" 2128577 Stats /dev/stdout
 bcc=55
+...
+1,9 2,8 2,10 3,9 | 2,9
+2,2 | 2,3 3,2
+3,2 4,3 | 4,2
+9,5 10,4 10,6 | 10,5
+
 exact 55 55
 real	0m1.198s
 user	0m1.200s
@@ -53,7 +59,7 @@ Even with sb=49 the unsat-result takes much longer.
 
 
 The above were biclique-cover-problems; now a partition-problem:
-Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ""
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" "" ""
 # "./BCCbySAT" "6" "partition2" "" "" "" "" ""
 # "" 0
 bcp=5
@@ -92,8 +98,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
-        "9.4.2023",
+        "0.8.0",
+        "12.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -110,16 +116,19 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " B algo-options sb-rounds timeout seeds stats log\n\n"
+         << " B algo-options format-options"
+            " sb-rounds timeout seeds stats log\n\n"
     " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"
     "                : " << Environment::WRP<SO>{} << "\n"
+    " format-options : " << Environment::WRP<DC>{} << "\n"
+    "                : " << Environment::WRP<BC>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
-    " stats          : " << "filename for solving-stats, default is null\n\n"
+    " stats          : " << "filename for solving-stats, default is null\n"
     " log            : " << "filename for solving-log, default is null\n\n"
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
@@ -139,9 +148,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 8) {
+  if (argc != 9) {
     std::cerr << error <<
-      "Exactly seven arguments (B, algo-opt, sb-rounds, timeout, seeds, stats, log)"
+      "Exactly eight arguments (B, algo-opt, form-opt, sb-rounds, timeout, seeds, stats, log)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -154,11 +163,13 @@ int main(const int argc, const char* const argv[]) {
   }
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[2], sep);
-  const var_t sb_rounds = read_var_t(argv[3], default_sb_rounds);
-  const auto sec = read_uint_t(argv[4], default_sec);
-  const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
-  const auto [stats, statsname] = read_stats(argv[6], proginfo.prg, error);
-  const auto log = read_log(argv[7], error);
+  const format2_options_t formopt =
+    Environment::translate<format2_options_t>()(argv[3], sep);
+  const var_t sb_rounds = read_var_t(argv[4], default_sb_rounds);
+  const auto sec = read_uint_t(argv[5], default_sec);
+  const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[6]);
+  const auto [stats, statsname] = read_stats(argv[7], proginfo.prg, error);
+  const auto log = read_log(argv[8], error);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -171,14 +182,21 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::bad_sb);
   }
 
-  commandline_output(std::make_tuple(DC::with), comment, std::cout, argc, argv);
+  const DC dc = std::get<DC>(formopt);
+  const BC bc = std::get<BC>(formopt);
+  if (dc == DC::with) {
+    commandline_output(std::make_tuple(DC::with), comment, std::cout,
+                       argc, argv);
+    Environment::DWW::prefix = comment;
+    std::cout << comment << "\"" << statsname << "\" " << stats.is_cout << "\n";
+  }
+
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, bounds0.value());
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   log.close();
 
-  std::cout << comment << "\"" << statsname << "\" " << stats.is_cout << "\n";
-  res.output(std::cout, G, stats.pointer());
+  if (bc == BC::with) res.output(std::cout, G, stats.pointer());
   stats.close();
 
 }

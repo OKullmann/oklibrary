@@ -145,9 +145,10 @@ TODOS:
      - +- dimacs-like-parameters
      - +- solution
   - Similar to Dimacs-output:
-    - comments (with "#"), for parameters and summary-statistics
-    - Then V, E, B (the optimal B), on a special parameter-line.
-    - Then the bicliques
+    - +- comments (with "#"), for parameters and summary-statistics
+    - Then V, E, B (the optimal B), on a special parameter-line (but as
+      comment).
+    - Then the bicliques.
   - Review the addition of line-ends for log and stats.
   - Explain the special case where no unsat-test
     is needed due to the results of symmetry-breaking.

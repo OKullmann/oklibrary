@@ -384,6 +384,7 @@ namespace Bicliques2SAT {
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
+  enum class BC { with=0, without=1 }; // biclique-list
   enum class DI { downwards=0, upwards=1, none=2 }; // search direction
   enum class SO { none=0, nopre=1 }; // solver options
   enum class UB { check=0, trust=1 }; // upper-bound: check or trust
@@ -397,6 +398,7 @@ namespace Bicliques2SAT {
   typedef std::tuple<SB,PT> alg_options_t;
   typedef std::tuple<SB,PT,DI,SO,UB> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
+  typedef std::tuple<DC,BC> format2_options_t;
 
   constexpr id_t default_sb_rounds = 100;
 }
@@ -430,6 +432,12 @@ namespace Environment {
     static constexpr int size = int(Bicliques2SAT::CS::without)+1;
     static constexpr std::array<const char*, size> string
     {"+cs", "-cs"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::BC> {
+    static constexpr int size = int(Bicliques2SAT::BC::without)+1;
+    static constexpr std::array<const char*, size> string
+    {"+bcl", "-bcl"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DI> {
@@ -482,6 +490,12 @@ namespace Bicliques2SAT {
     case CS::with : return out << "with-cs";
     case CS::without : return out << "without-cs";
     default : return out << "CS::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const BC b) {
+    switch (b) {
+    case BC::with : return out << "with-bicliques";
+    case BC::without : return out << "without-bicliques";
+    default : return out << "BC::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const DI d) {
     switch (d) {
