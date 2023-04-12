@@ -18,11 +18,23 @@ License, or any later version. */
 EXAMPLES:
 
 Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
-# "./BCCbySAT" "5" "" "" "" "" "" ""
-# "" 0
-bcc=4
-exact 4 5
-100 : 1 1 1; 0
+# "./BCCbySAT" "5" "" "" "" "" "" "" ""
+# ** Parameters **
+# B                                     downwards 0 5 5
+# sb-option                             basic-sb
+# pt-option                             cover
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     null
+# log-output                            null
+# ** Results **
+# sb-stats                              100 : 1 1 1; 0
+# bcc                                   = 4
 1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
 1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
 2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
@@ -34,18 +46,33 @@ c sb-stats                              3000000 : 33 41.0195 50; 1.7225
 c sb-seed                               2128577
 Then one can provide this sb-sequence (here with showing the log directly
 on standard output):
-Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" 1 "" 2128577 Stats /dev/stdout
-bcc=55
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats ""
+# "./BCCbySAT" "55" "" "" "" "1" "2128577" "Stats" LOG
+# ** Parameters **
+# B                                     downwards 0 55 55
+# sb-option                             basic-sb
+# pt-option                             cover
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             1
+# num_e-seeds                           1
+#  e-seeds                              2128577
+# statistics-output                     Stats
+# log-output                            LOG
+# ** Results **
+# sb-stats                              1 : 50 50 50; 0
+# bcc                                   = 55
 ...
 1,9 2,8 2,10 3,9 | 2,9
 2,2 | 2,3 3,2
 3,2 4,3 | 4,2
 9,5 10,4 10,6 | 10,5
-
-exact 55 55
-real	0m1.198s
-user	0m1.200s
-sys	0m0.029s
+real	0m1.224s
+user	0m1.239s
+sys	0m0.014s
 
 As the first line of Log shows:
 Symmetry-breaking: 1 : 50 50 50; 0
@@ -60,11 +87,23 @@ Even with sb=49 the unsat-result takes much longer.
 
 The above were biclique-cover-problems; now a partition-problem:
 Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" "" ""
-# "./BCCbySAT" "6" "partition2" "" "" "" "" ""
-# "" 0
-bcp=5
-exact 5 6
-100 : 1 1 1; 0
+# "./BCCbySAT" "6" "partition2" "" "" "" "" "" ""
+# ** Parameters **
+# B                                     downwards 0 6 6
+# sb-option                             basic-sb
+# pt-option                             partition-quadratic
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     null
+# log-output                            null
+# ** Results **
+# sb-stats                              100 : 1 1 1; 0
+# bcp                                   = 5
 1 5 6 | 2 4
 6 | 1 5
 3 | 1 2 5 6
@@ -98,7 +137,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "12.4.2023",
         __FILE__,
         "Oliver Kullmann",

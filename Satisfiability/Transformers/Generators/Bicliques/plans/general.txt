@@ -152,7 +152,6 @@ TODOS:
   - Review the addition of line-ends for log and stats.
   - Explain the special case where no unsat-test
     is needed due to the results of symmetry-breaking.
-  - Explain the output-line "exact 4 4".
 
 
 2. Currently the lower bound is just ignored (for downwards).

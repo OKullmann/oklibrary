@@ -1102,23 +1102,22 @@ namespace Bicliques2SAT {
                   std::ofstream* const stats) const {
         assert(int(rt) >= 1 and int(rt) <= 6);
         if (out) {
-          *out << "# ";
-          if (pt == PT::cover) *out << "bcc";
-          else *out << "bcp";
+          using Environment::DWW;
+          *out <<  DWW{"sb-stats"} << sbs << "\n";
+          *out << DWW{pt == PT::cover ? "bcc" : "bcp"};
           if (rt == ResultType::upper_timeout or
               rt == ResultType::aborted)
-            *out << " ?";
+            *out << "?";
           else if (rt == ResultType::exact)
-            *out << "=" << B;
+            *out << "= " << B;
           else if (rt == ResultType::upper_unsat_sb or
                    rt == ResultType::upper_unsat)
-            *out << ">" << B;
+            *out << "> " << B;
           else {
             assert(rt == ResultType::other_timeout);
-            *out << "<=" << B + 1;
+            *out << "<= " << B + 1;
           }
-          *out << "\n# " << rt << " " << B << " " << init_B << "\n# "
-              << sbs << "\n";
+          *out << "\n";
         }
         if (bc == BC::with) bcc.output(*out, G);
         if (stats) *stats << minisat_stats;
