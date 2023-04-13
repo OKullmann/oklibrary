@@ -138,20 +138,38 @@ TODOS:
 
 TODOS:
 
+0. Systematic treatment of file-output
+  - Three possibilities: stats, log, solution.
+  - There should always be the option "t", for automatic name;
+    this uses the same timestamp; this timestamp is part of the
+    comments-output in any case.
+  - All streams by default are null.
+  - Perhaps we use "cout" for standard output, and then use
+    &std::cout.
+  - For solution=null, no minisat-solution is used (need to check whether
+    we can tell that in the minisat-call).
+  - But still all minisat-calls run; if superfluous runs are to be avoided,
+    then
+
+
 1. Renewal of output
-  - Format options for the result:
-     - +- parameters (including seeds and filenames)
-     - +- summary-statistics
-     - +- dimacs-like-parameters
-     - +- solution
-  - Similar to Dimacs-output:
-    - +- comments (with "#"), for parameters and summary-statistics
-    - Then V, E, B (the optimal B), on a special parameter-line (but as
-      comment).
-    - Then the bicliques.
+  - Additional output in the comments:
+     - timestamp
+     - statistics on the graph (at least V, E)
+     - summary-statistics on solving (at least on conflicts and time;
+       count, standard-statistics, sum).
   - Review the addition of line-ends for log and stats.
   - Explain the special case where no unsat-test
     is needed due to the results of symmetry-breaking.
+  - There needs to be an (algo)-)option for just computing bcc/bcp, without
+    computing a solution:
+     - Then solution=null (as above).
+     - And if lower-bound and upper-bound coincide, then also
+       no solution is needed.
+     - This replaces the BC-algo-option.
+     - Perhaps NS ("no-solution"), with "-+ns" (default -ns).
+     - We also have UB currently?? Seems out-dated.
+     - Solution-output then is automatically null (error if not).
 
 
 2. Currently the lower bound is just ignored (for downwards).
@@ -169,6 +187,7 @@ TODOS:
     - As a further option it should be possible, for activated symmetry-
       breaking, to run internal UCP (without intermediate file-output).
     - See "Upwards-search" in Bicliques2SAT.hpp.
+
 
 4. As an option, split into the connected components.
     - Or should this be an independent program?
