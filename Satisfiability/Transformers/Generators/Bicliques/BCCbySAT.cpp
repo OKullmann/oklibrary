@@ -20,7 +20,7 @@ EXAMPLES:
 Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 # "./BCCbySAT" "5" "" "" "" "" "" "" ""
 # ** Parameters **
-# B                                     downwards 0 5 5
+# B                                     downwards 0 5
 # sb-option                             basic-sb
 # pt-option                             cover
 # di-option                             downwards
@@ -45,12 +45,11 @@ One can investigate the symmetry-breaking as preprocessing:
 Bicliques> ./GraphGen grid 10 11 | ./BCC2SAT 0 "" -cs 3000000 ""
 c sb-stats                              3000000 : 33 41.0195 50; 1.7225
 c sb-seed                               2128577
-Then one can provide this sb-sequence (here with showing the log directly
-on standard output):
+Then one can provide this sb-sequence:
 Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats ""
-# "./BCCbySAT" "55" "" "" "" "1" "2128577" "Stats" LOG
+# "./BCCbySAT" "55" "" "" "" "1" "2128577" "Stats" ""
 # ** Parameters **
-# B                                     downwards 0 55 55
+# B                                     downwards 0 55
 # sb-option                             basic-sb
 # pt-option                             cover
 # di-option                             downwards
@@ -62,36 +61,42 @@ Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats "
 # num_e-seeds                           1
 #  e-seeds                              2128577
 # statistics-output                     Stats
-# log-output                            LOG
+# log-output                            null
 # ** Results **
 # sb-stats                              1 : 50 50 50; 0
 # result-type                           exact
 # bcc                                   = 55
+real	0m0.755s
+user	0m0.742s
+sys	0m0.029s
+
+
+As the solution-statistics shows:
+Bicliques> cat Stats
+ B sat  maxn      c ptime stime elimc rts   cfs cfsps    dec decpr  decps          r1        r1ps    cfl cflpd mem        t
+54   0 22626 696583  0.06  0.26  0.02  66 19625 31010 113668     0 179608 4.49213e+06 7.09807e+06 545464 34.75  61 0.632866
+
+no solution was produced (since not needed).
+In order to produce a solution:
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 56 "" "" "" 1 2128577 Stats ""
 ...
 1,9 2,8 2,10 3,9 | 2,9
 2,2 | 2,3 3,2
 3,2 4,3 | 4,2
 9,5 10,4 10,6 | 10,5
-real	0m1.224s
-user	0m1.239s
-sys	0m0.014s
+real	0m1.182s
+user	0m1.173s
+sys	0m0.038s
 
-As the first line of Log shows:
-Symmetry-breaking: 1 : 50 50 50; 0
-the good symmetry-breaking (found with the more extensive search) was used.
-The solution-statistics:
-Bicliques> cat Stats
-55   1 23045 709479  0.07  0.27  0.03   3   351  1021   4126     0  12003       98340      286082  16894  4.84  62 0.343748
-54   0 22626 696583  0.07  0.26  0.02  66 19625 31752 113668     0 183909 4.49213e+06 7.26803e+06 545464 34.75  59 0.618067
 
 Even with sb=49 the unsat-result takes much longer.
 
 
 The above were biclique-cover-problems; now a partition-problem:
-Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" "" ""
-# "./BCCbySAT" "6" "partition2" "" "" "" "" "" ""
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" STATS ""
+# "./BCCbySAT" "6" "partition2" "" "" "" "" "STATS" ""
 # ** Parameters **
-# B                                     downwards 0 6 6
+# B                                     downwards 0 6
 # sb-option                             basic-sb
 # pt-option                             partition-quadratic
 # di-option                             downwards
@@ -101,17 +106,21 @@ Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" "" ""
 # solver-timeout(s)                     2147483647
 # sb-rounds                             100
 # num_e-seeds                           0
-# statistics-output                     null
+# statistics-output                     STATS
 # log-output                            null
 # ** Results **
 # sb-stats                              100 : 1 1 1; 0
 # result-type                           exact
 # bcp                                   = 5
-1 5 6 | 2 4
-6 | 1 5
-3 | 1 2 5 6
-4 | 2 3
-5 | 1
+1 6 | 2 4 5
+2 5 | 4
+2 4 6 | 3
+2 3 | 5
+3 6 | 1
+Bicliques> cat STATS
+B sat maxn   c ptime stime elimc rts   cfs  cfsps   dec decpr  decps     r1        r1ps    cfl cflpd mem        t
+5   1  135 645     0     0     0   2   107  66708   217     0 135287   2346 1.46259e+06   1526  2.43  25 0.001604
+4   0  108 489     0     0     0  70 20225 320864 24368     0 386591 424705 6.73782e+06 195719 27.67  25 0.063033
 
 
 Remarks on logging:
@@ -140,8 +149,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
-        "12.4.2023",
+        "0.9.0",
+        "17.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -197,14 +206,16 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const auto bounds0 = read_bounds(argv[1]);
-  if (not bounds0) {
+  const auto bounds0 = read_vecvalorinc(argv[1]);
+  if (bounds0.size() > 2) {
     std::cerr << error <<
-      "Bounds-argument faulty.\n";
+      "Bounds-argument has " << bounds0.size() << " > 2 components.\n";
     return int(Error::faulty_parameters);
   }
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[2], sep);
+  const DI di = std::get<DI>(algopt);
+  const Bounds bounds = extract_bounds(di, bounds0);
   const format2_options_t formopt =
     Environment::translate<format2_options_t>()(argv[3], sep);
   const auto sec = read_uint_t(argv[4], default_sec);
@@ -234,10 +245,10 @@ int main(const int argc, const char* const argv[]) {
     using Environment::DWW; using Environment::DHW;
     std::cout <<
       DHW{"Parameters"} <<
-      DWW{"B"} << bounds0.value() << "\n" <<
+      DWW{"B"} << bounds << "\n" <<
       DWW{"sb-option"} << std::get<SB>(algopt) << "\n" <<
       DWW{"pt-option"} << std::get<PT>(algopt) << "\n" <<
-      DWW{"di-option"} << std::get<DI>(algopt) << "\n" <<
+      DWW{"di-option"} << di << "\n" <<
       DWW{"so-option"} << std::get<SO>(algopt) << "\n" <<
       DWW{"comments-option"} << dc << "\n" <<
       DWW{"bicliques-option"} << bc << "\n" <<
@@ -262,7 +273,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT T(G, bounds0.value());
+  BC2SAT T(G, bounds);
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   log.close();
 

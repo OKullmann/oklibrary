@@ -275,7 +275,6 @@ namespace Bicliques2SAT {
     }
 
     void update_B(const var_t newB) noexcept {
-      assert(B_ == 0 or newB < B_);
       B_ = newB;
       nb_ = numvarbic(V,B_); ne_ = numvaredg(E,B_); n_ = nb_ + ne_;
     }
@@ -385,7 +384,8 @@ namespace Bicliques2SAT {
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
   enum class BC { with=0, without=1 }; // biclique-list
-  enum class DI { downwards=0, upwards=1, none=2 }; // search direction
+  enum class DI { downwards=0, upwards=1, binary_search=2,
+                  none=3 }; // search direction
   enum class SO { none=0, nopre=1 }; // solver options
   enum class UB { check=0, trust=1 }; // upper-bound: check or trust
 
@@ -443,7 +443,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::DI> {
     static constexpr int size = int(Bicliques2SAT::DI::none)+1;
     static constexpr std::array<const char*, size> string
-    {"down", "up", "stationary"};
+    {"down", "up", "binsearch", "stationary"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SO> {
@@ -559,96 +559,94 @@ namespace Bicliques2SAT {
     lower bound l : all B < l are unsatisfiable
     upper bound u : all B >= u are satisfiable.
   */
+  typedef std::pair<var_t, bool> value_or_increment_t; // true means inc
+
   struct Bounds {
     typedef Graphs::AdjVecUInt graph_t;
     typedef VarEncoding::id_t id_t;
 
     const DI di;
-    const bool update_by_inc; // if true, update_by_sb needs to be called
-    const id_t inc;
+    const bool incl = false, incu = false;
   private :
-    id_t l, u, c; // upper, lower, current
+    id_t l = trivial_lower_bound(), u = trivial_upper_bound();
+    bool init;
   public :
-    id_t lb() const noexcept { return l; }
-    id_t ub() const noexcept { return u; }
-    id_t cv() const noexcept { return c; }
 
     Bounds() = delete;
-    constexpr Bounds(const DI di,
-      const bool update, const id_t inc,
-      const id_t lower_bound, const id_t upper_bound)
-      : di(di), update_by_inc(update), inc(inc),
-        l(lower_bound), u(upper_bound),
-        c(current_value(di, l, 0, u)) {
-      assert(valid());
-    }
-    constexpr Bounds(const id_t B, const bool update, const id_t inc)
-      : di(DI::none), update_by_inc(update), inc(inc),
-        l(trivial_lower_bound()), u(trivial_upper_bound()), c(B) {}
 
-    constexpr bool valid() const {
-      if (di == DI::upwards) throw "DI::upwards not implemented yet.\n";
-      return l <= c and c <= u;
+    struct choose_l {};
+    constexpr Bounds(DI d, choose_l, const value_or_increment_t B) noexcept :
+    di(d), incl(B.second), l(B.first), init(not incl) {
+      assert(di == DI::upwards or di == DI::none);
     }
+    struct choose_u {};
+    constexpr Bounds(DI d, choose_u, const value_or_increment_t B) noexcept :
+    di(d), incu(B.second), u(B.first), init(not incu) {
+      assert(di == DI::downwards or di == DI::binary_search);
+    }
+
+    constexpr Bounds(DI d, const value_or_increment_t lower,
+                     const value_or_increment_t upper ) noexcept :
+    di(d), incl(lower.second), incu(upper.second),
+    l(lower.first), u(upper.first), init(not incl and not incu) {}
+
+    id_t lb() const noexcept { return l; }
+    id_t ub() const noexcept { return u; }
+
+    id_t next() const noexcept {
+      if (not init) return 0;
+      if (di == DI::downwards) return u-1;
+      else if (di == DI::binary_search) return l + (u-l)/2;
+      else return l;
+    }
+
+    constexpr bool initialised() const noexcept { return init; }
+    constexpr bool open() const noexcept { return l < u; }
+    constexpr bool closed() const noexcept { return l == u; }
+    constexpr bool inconsistent() const noexcept { return l > u; }
 
     void update_by_sb(const id_t sb) noexcept {
-      l = std::max(l, sb);
-      if (di == DI::none) {
-        if (update_by_inc) {
-          assert(c == 0);
-          c = sb + inc;
-          u = std::max(u,c);
-        }
-        else
-          u = std::max(u,l);
-      }
-      else {
-        if (update_by_inc) {
-          assert(u == 0);
-          u = sb + inc;
-        }
-        update_c();
-      }
+      init = true;
+      l = incl ? sb + l : std::max(l, sb);
+      if (incu) u = sb + u;
+    }
+    void update_by_solver(const bool sat) noexcept {
+      assert(init);
+      const id_t B = next();
+      if (sat) u = B; else l = B + 1;
     }
 
-    static constexpr id_t current_value(const DI di,
-                          const id_t l, const id_t c, const id_t u) noexcept {
-      switch (di) {
-      case DI::none : return c;
-      case DI::downwards : return u;
-      case DI::upwards : return l;
-      default : return 0;}
-    }
-    void update_c() noexcept { c = current_value(di, l, c, u); }
     static constexpr id_t trivial_lower_bound() noexcept {return 0;}
     static constexpr id_t trivial_upper_bound() noexcept {return Param::MaxV;}
+
     static id_t simple_lower_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0; else return 1;
+      // for general G: the number of connected components with at least
+      // one edge
     }
     static id_t simple_upper_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0;
       assert(G.n() >= 1);
-      return G.n() - 1; // can be improved for disconnected G
+      return std::min(G.n() - 1, G.m());
+      // for general G with k connected components: G.n() - k
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
       if (b.di == DI::none) {
-        if (b.update_by_inc) {
-          assert(b.cv() == 0);
-          out << "+" << b.inc;
-        }
-        else {
-          assert(b.inc == 0);
-          out << b.cv();
-        }
+        assert(not b.incu);
+        assert(b.u == Bounds::trivial_upper_bound());
+        if (b.init) return out << b.l;
+        assert(b.incl);
+        return out << "+" << b.l;
       }
-      else if (b.di == DI::downwards) {
+      else {
         out << b.di << " ";
-        if (b.update_by_inc) out << "+" << b.inc << " ";
-        out<< b.l << " " << b.c << " " << b.u;
+        if (b.init) return out << b.l << " " << b.u;
+        if (b.incl) out << "+";
+        out << b.l << " ";
+        if (b.incu) out << "+";
+        return out << b.u;
       }
-
-      return out;
     }
   };
 
@@ -664,12 +662,11 @@ namespace Bicliques2SAT {
     static_assert(std::is_same_v<id_t, graph_t::id_t>);
 
     explicit BC2SAT(const graph_t& G, Bounds b) noexcept :
-      G(G), edges(G.alledges()), bounds(b), enc_(G,bounds.cv()) {}
+      G(G), edges(G.alledges()), bounds(b), enc_(G,bounds.next()) {}
 
 
     const enc_t& enc() const noexcept { return enc_; }
     void update_B(const var_t newB) noexcept {
-      assert(newB < enc_.B());
       enc_.update_B(newB);
     }
 
@@ -1044,8 +1041,9 @@ namespace Bicliques2SAT {
           DWW{"sb-seed"} << sbi << "\n";
       }
       bounds.update_by_sb(optsbs);
-      if (bounds.update_by_inc) enc_.update_B(bounds.cv());
-      else if (optsbs > enc_.B()) throw Unsatisfiable(sbv, enc_.B());
+      assert(not bounds.inconsistent());
+      const auto B = bounds.next();
+      update_B(B);
 
       const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
       if (dc == DC::with) {
@@ -1053,7 +1051,7 @@ namespace Bicliques2SAT {
           DHW{"Statistics"} <<
           DWW{"V"} << enc_.V << "\n" <<
           DWW{"E"} << enc_.E << "\n" <<
-          DWW{"B"} << enc_.B() << "\n" <<
+          DWW{"B"} << B << "\n" <<
           DWW{" bc-variables"} << enc_.nb() << "\n" <<
           DWW{" edge-variables"} << enc_.ne() << "\n" <<
           DWW{"total-variables"} << enc_.n() << "\n" <<
@@ -1082,6 +1080,7 @@ namespace Bicliques2SAT {
 
     struct result_t {
       Bicliques::Bcc_frame bcc;
+      bool solution = false;
       id_t B;
       ResultType rt;
 
@@ -1134,8 +1133,8 @@ namespace Bicliques2SAT {
         const RandGen::vec_eseed_t& seeds) {
       const PT pt = std::get<PT>(ao);
       if (enc_.E == 0) {
-        result_t res(enc_.B(), pt, {});
-        res.B = 0; res.rt = ResultType::exact;
+        result_t res(0, pt, {});
+        res.rt = ResultType::exact;
         assert(is_bcc(res.bcc, G));
         return res;
       }
@@ -1149,15 +1148,20 @@ namespace Bicliques2SAT {
              << std::endl;
       }
 
-      result_t res(enc_.B(), pt, sbs);
+      result_t res(bounds.ub(), pt, sbs);
       bounds.update_by_sb(optsbs);
-      if (bounds.lb() > bounds.ub()) {
+      if (bounds.inconsistent()) {
         res.rt = ResultType::upper_unsat_sb;
         return res;
       }
-      if (const id_t nc = bounds.cv(); enc_.B() == 0 or nc < enc_.B()) {
-        enc_.update_B(nc);
-        res.B = nc;
+      if (bounds.closed()) {
+        res.rt = ResultType::exact;
+        res.B = bounds.ub();
+        return res;
+      }
+      {const auto nc = bounds.next();
+       update_B(nc);
+       res.B = nc;
       }
 
       const std::string filename_head = SystemCalls::system_filename(
@@ -1166,7 +1170,7 @@ namespace Bicliques2SAT {
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
 
-      for (bool found_bcc = false; ;) { // main solver-loop
+      for (;;) { // main solver-loop
 
         const auto inp = [this, &sbv, pt](std::FILE* const fp){
           using DimacsTools:: operator <<;
@@ -1185,22 +1189,18 @@ namespace Bicliques2SAT {
           return res;
         }
         else if (call_res.stats.sr == DimacsTools::SolverR::unknown) {
-          res.rt = found_bcc ?
-            ResultType::other_timeout : ResultType::upper_timeout;
+          res.rt = ResultType::other_timeout;
           return res;
         }
         res.minisat_stats.add(call_res, {result_t::float_t(res.B)});
         if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
-          if (not found_bcc) res.rt = ResultType::upper_unsat;
-          else {
-            ++res.B; res.rt = ResultType::exact;
-            assert(is_bcc(res.bcc, G));
-          }
+          ++res.B; res.rt = ResultType::exact;
+          assert(not res.solution or is_bcc(res.bcc, G));
           return res;
         }
         else {
           assert(call_res.stats.sr == DimacsTools::SolverR::sat);
-          found_bcc = true;
+          res.solution = true;
           res.bcc = enc_.extract_bcc(call_res.pa);
           const auto red = trim(res.bcc);
           if (log) {
@@ -1382,7 +1382,7 @@ namespace Bicliques2SAT {
       const graph_t G = conflictgraph(i);
       assert(G.n() == ccvec[ntcc[i]-1].size());
       const size_t upper_B = std::min(ntvar[i].size(), G.n()-1);
-      const Bounds B{DI::downwards, false, 0, 0, upper_B};
+      const Bounds B{DI::downwards, Bounds::choose_u{}, {upper_B, false}};
       BC2SAT solver(G, B);
       const auto res = solver.sat_solve(log, ao, sb_rounds, sec, seeds);
       if (res.rt != ResultType::exact) {
@@ -1394,7 +1394,8 @@ namespace Bicliques2SAT {
            << ", return-code \"" << res.rt << "\"";
         throw std::runtime_error(ss.str());
       }
-      return Bicliques::bcc2CNF(res.bcc, G.n());
+      if (not res.solution) return {};
+      else return Bicliques::bcc2CNF(res.bcc, G.n());
     }
 
     varlist_t first_nonpure(const size_t i, const size_t ns) const {
@@ -1422,20 +1423,39 @@ namespace Bicliques2SAT {
       for (size_t i = 0; i < numntcc; ++i) {
         seeds.back() = i;
         const DimacsClauseList Fi = solve_ntcc(i,log,ao,sb_rounds,sec,seeds);
-        const varlist_t V = first_nonpure(i, Fi.first.n);
-        {const size_t ni = V.size();
-         assert(ni == Fi.first.n);
-         res.V.insert(V.begin(), V.end());
-         n += ni;
+        if (Fi.first.c == 0) { // use old variables and clauses
+          const varlist_t V = first_nonpure(i, -1);
+          res.V.insert(V.begin(), V.end());
+          n += V.size();
+          assert(res.V.size() == n);
+          const size_t cc = ntcc[i];
+          const auto& clause_indices = ccvec[cc-1];
+          const size_t c = clause_indices.size();
+          for (size_t j = 0; j < c; ++j) {
+            const size_t index = clause_indices[j];
+            const auto& C0 = F.G().second[index];
+            DimacsTools::Clause C; C.reserve(C0.size());
+            for (const auto x : C0)
+              if (not occ[x.v].pure()) C.push_back(x);
+            res.F.second[index] = std::move(C);
+          }
         }
-        assert(res.V.size() == n);
-        const auto map = DimacsTools::list_as_map(V);
-        const size_t cc = ntcc[i];
-        const auto& clause_indices = ccvec[cc-1];
-        assert(clause_indices.size() == Fi.first.c);
-        for (size_t j = 0; j < Fi.first.c; ++j) {
-          res.F.second[clause_indices[j]] =
-            DimacsTools::rename(Fi.second[j], map);
+        else {
+          const varlist_t V = first_nonpure(i, Fi.first.n);
+          {const size_t ni = V.size();
+           assert(ni == Fi.first.n);
+           res.V.insert(V.begin(), V.end());
+           n += ni;
+          }
+          assert(res.V.size() == n);
+          const auto map = DimacsTools::list_as_map(V);
+          const size_t cc = ntcc[i];
+          const auto& clause_indices = ccvec[cc-1];
+          assert(clause_indices.size() == Fi.first.c);
+          for (size_t j = 0; j < Fi.first.c; ++j) {
+            res.F.second[clause_indices[j]] =
+              DimacsTools::rename(Fi.second[j], map);
+          }
         }
       }
       if (res.V.empty()) res.F.first.n = 0;

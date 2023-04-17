@@ -30,27 +30,7 @@ Symmetry-breaking is randomised, and thus for example (using "t" for
 
 Bicliques> echo -e "p cnf 2 3\n1 2 0\n1 -2 0\n-1 -2 0\n" | ./CNFBCC "" "" "" t "" ""
 
-yields one of the following (trimmed) realisations:
-
-p cnf 2 3
-1 2 0
-1 -2 0
--1 0
-or
-p cnf 2 3
-1 2 0
--1 0
-1 -2 0
-or
-p cnf 2 3
-1 2 0
--1 0
-1 -2 0
-or
-p cnf 2 3
-1 -2 0
-1 2 0
--1 0
+yields no output: input optimal (in general after removal of pure literals).
 
 Remarks:
 
@@ -59,7 +39,6 @@ on the solution-process.
 
 For example
 Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile ""
-
 p cnf 10 20
 1 0
 -1 -9 0
@@ -87,7 +66,6 @@ With "less logfile" one can see the solution-process.
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
 Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" ""
-
 p cnf 10 20
 1 0
 -1 -10 0
@@ -116,15 +94,16 @@ is downwards), either absolute or via "+" related to the lower-bound
 by symmetry-breaking:
 
 So
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" 10
-yield also the above result.
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" 11
+yield also the above result (when starting with 10, then no output
+is produced, since this is already optimal).
 
 For using "+k", we need to know how far off is symmetry-breaking:
 Bicliques> BRG "20*15,3" | ./CNF2cg | ./BCC2SAT "" "" -cs "" "" | grep "planted"
 c planted-edges                         8
 
 Thus
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +2
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +3
 yield also the above result
 
 
@@ -148,8 +127,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.1",
-        "9.4.2023",
+        "0.7.0",
+        "17.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -201,12 +180,17 @@ int main(const int argc, const char* const argv[]) {
 
   const alg2_options_t algopt =
     Environment::translate<alg2_options_t>()(argv[1], sep);
+  const DI di = std::get<DI>(algopt);
   const var_t sb_rounds = read_var_t(argv[2], default_sb_rounds);
   const auto sec = read_uint_t(argv[3], default_sec);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[4]);
   const auto log = read_log(argv[5], error);
-  const std::string bounds_str = argv[6];
-
+  const auto bounds0 = read_vecvalorinc(argv[6]);
+  if (bounds0.size() > 2) {
+    std::cerr << error <<
+      "Bounds-argument has " << bounds0.size() << " > 2 components.\n";
+    return int(Error::faulty_parameters);
+  }
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
@@ -221,18 +205,17 @@ int main(const int argc, const char* const argv[]) {
   const auto F = DimacsTools::read_strict_Dimacs(std::cin);
   const auto G = ConflictGraphs::conflictgraph(F);
   assert(G.n() == F.first.c);
-  const auto bounds0 = read_bounds(bounds_str, F.first.n, G.n(), G.m());
-  if (not bounds0) {
-    std::cerr << error <<
-      "Bounds-argument faulty.\n";
-    return int(Error::faulty_parameters);
-  }
-  BC2SAT T(G, bounds0.value());
+  const Bounds bounds = bounds0.empty() ?
+    Bounds{di, {0,false},
+           {std::min(F.first.n, Bounds::simple_upper_bound(G)), false}} :
+    extract_bounds(di, bounds0);
+  BC2SAT T(G, bounds);
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::upper_unsat_sb and
          res.rt != ResultType::upper_unsat and
          res.rt != ResultType::unknown);
   log.close();
-  std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
+  if (res.solution)
+    std::cout << Bicliques::bcc2CNF(res.bcc, F.first.c);
 
 }

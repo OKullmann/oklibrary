@@ -83,51 +83,41 @@ namespace BCC2SAT {
   }
 
 
-  std::pair<FloatingPoint::uint_t, bool>
-  read_uint_with_plus(const std::string& s) {
-    if (s.starts_with('+'))
-      return {FloatingPoint::touint(s.substr(1)), true};
-    else return {FloatingPoint::touint(s), false};
+  typedef Bicliques2SAT::value_or_increment_t valoror_t;
+  valoror_t read_valorinc(const std::string& s) {
+    return s.starts_with('+') ?
+      valoror_t{FloatingPoint::touint(s.substr(1)), true} :
+      valoror_t{FloatingPoint::touint(s), false};
   }
-
-  Bicliques2SAT::Bounds read_current(const std::string& s) {
-    using namespace Bicliques2SAT;
-    if (s.empty()) return Bounds(0, true, 0);
-    const auto [B, with_plus] = read_uint_with_plus(s);
-    if (with_plus) return Bounds(0, true, B);
-    else return Bounds(B, false, 0);
-  }
-
-  std::optional<Bicliques2SAT::Bounds> read_bounds(const std::string& s) {
-    // assuming for now DI::downwards XXX
-    using namespace Bicliques2SAT;
-    if (s.empty()) return Bounds{DI::downwards, true, 0, 0, 0};
+  typedef std::vector<valoror_t> vec_valoror_t;
+  vec_valoror_t read_vecvalorinc(const std::string& s) {
     const auto split = Environment::split(s, ',');
     const auto size = split.size();
-    assert(size != 0);
-    if (size >= 3) return {};
-    else if (size == 1) {
-      const auto [B, with_plus] = read_uint_with_plus(s);
-      if (with_plus) return Bounds{DI::downwards, true, B, 0, 0};
-      else return Bounds{DI::downwards, false, 0, 0, B};
-    }
-    else {
-      const auto l = read_uint_t(split[0], 0);
-      const auto [u,with_plus] = read_uint_with_plus(split[1]);
-      if (with_plus) return Bounds{DI::downwards, true, u, l, 0};
-      else return Bounds{DI::downwards, false, 0, l, u};
-    }
+    vec_valoror_t res; res.reserve(size);
+    for (const auto& s : split) res.push_back(read_valorinc(s));
+    return res;
   }
 
-  std::optional<Bicliques2SAT::Bounds> read_bounds(const std::string& s,
-      const var_t n, const var_t numver, const var_t numedg) {
-    // assuming for now DI::downwards XXX
+  typedef Bicliques2SAT::Bounds Bounds;
+  Bounds read_current(const std::string& s) {
     using namespace Bicliques2SAT;
-    if (s.empty()) {
-      const var_t B = std::min({n, numver-1, numedg});
-      return Bounds{DI::downwards, false, 0, 0, B};
+    const DI d = DI::none; const Bounds::choose_l cl;
+    if (s.empty()) return Bounds(d, cl, {0,true});
+    else return Bounds(d, cl, read_valorinc(s));
+  }
+
+  typedef Bicliques2SAT::DI DI;
+  Bounds extract_bounds(const DI d, const vec_valoror_t& L) noexcept {
+    const auto size = L.size();
+    assert(size <= 2);
+    if (size <= 1) {
+      const valoror_t& val = size == 0 ? valoror_t{0,true} : L[0];
+      return d == DI::upwards or d == DI::none ?
+        Bounds(d, Bounds::choose_l{}, val) :
+        Bounds(d, Bounds::choose_u{}, val);
     }
-    else return read_bounds(s);
+    else
+      return Bounds(d, L[0], L[1]);
   }
 
 

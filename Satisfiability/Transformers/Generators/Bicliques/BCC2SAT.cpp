@@ -54,7 +54,7 @@ sys	0m0.000s
 
 Via appending the sb-seed to the given seed-sequence (above it is empty)
 one can get the best sb-result in a single round:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
 ...
 c sb-rounds                             1
 c num_e-seeds                           1
@@ -111,27 +111,13 @@ or (via a single round) b
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
 
 If one uses an explicitly specified B which is lower than what symmetry-
-breaking obtained, UNSAT is given immediately:
+breaking obtained, the value will be updated to that value:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 165 "" -cs 1 12440
+c total-lit-occurrences                 54681495
+p cnf 257400 26902855
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 164 "" -cs 1 12440
-c "./BCC2SAT" "164" "" "-cs" "1" "12440"
-c ** Parameters **
-c B                                     164
-c sb-option                             basic-sb
-c pt-option                             cover
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
-c sb-rounds                             1
-c num_e-seeds                           1
-c  e-seeds                              12440
-c ** Symmetry Breaking **
-c planted-edges                         165
-c sb-stats                              1 : 165 165 165; 0
-c sb-seed                               0
-UNSAT
-B >= 165
-
-(with return-code 20).
+c total-lit-occurrences                 54681495
+p cnf 257400 26902855
 
 
 One can also consider partition-problems (instead of cover-problems, the
@@ -202,8 +188,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.1",
-        "11.4.2023",
+        "1.0.2",
+        "17.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
