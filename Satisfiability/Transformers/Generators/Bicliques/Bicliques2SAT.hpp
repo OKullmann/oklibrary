@@ -586,7 +586,7 @@ namespace Bicliques2SAT {
     }
 
     constexpr Bounds(DI d, const value_or_increment_t lower,
-                     const value_or_increment_t upper ) noexcept :
+                     const value_or_increment_t upper) noexcept :
     di(d), incl(lower.second), incu(upper.second),
     l(lower.first), u(upper.first), init(not incl and not incu) {}
 
@@ -595,8 +595,14 @@ namespace Bicliques2SAT {
 
     id_t next() const noexcept {
       if (not init) return 0;
-      if (di == DI::downwards) return u-1;
-      else if (di == DI::binary_search) return l + (u-l)/2;
+      if (di == DI::downwards) {
+        assert(u > 0);
+        return u-1;
+      }
+      else if (di == DI::binary_search) {
+        assert(l <= u);
+        return l + (u-l)/2;
+      }
       else return l;
     }
 
