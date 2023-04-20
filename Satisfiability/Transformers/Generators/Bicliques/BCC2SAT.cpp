@@ -261,10 +261,6 @@ int main(const int argc, const char* const argv[]) {
   commandline_output(formopt, comment, std::cout, argc, argv);
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, Bounds(B));
-  try { T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds); }
-  catch (const BC2SAT::Unsatisfiable& e) {
-    std::cerr << "UNSAT\nB >= " << e.incomp.size() << "\n";
-    return int(Error::found_unsat);
-  }
+  T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds);
 
 }

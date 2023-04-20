@@ -88,36 +88,11 @@ TODOS:
 0. Write application-tests
     - And/or some fuzzer.
 
-1. Options in case of UNSAT (that is, sb contradicts the given B).
-    - Perhaps one wants to create such an instance?
-      Then symmetry-breaking should be capped.
-      One needed a symmetry-breaking mode for that?
-      But that doesn't seem interesting (easily unsatisfiable).
-      Though for efficiency-reasons one could always just stop the
-      symmetry-breaking-computation once one reached the current B?
-      Such a capping makes sense for applications like CNFBCC, where
-      a valid upper bound is given.
-
-      Regarding capping, there are two dimensions: stopping the current
-      extension of the symmetry-breaking-assignment, and making no further
-      runs (one might want to do all runs for statistical purposes).
-      Actually these are not two independent dimensions: making no further
-      run is only given in case one has reached the upper bound.
-
-      So one further algo-options are needed, with three values:
-       - fully-run
-       - stop-extension-at-upper-bound, but make all runs
-       - fully-stop (set by CNFBCC and GSM).
-      Or should this be part of the bounds-object?
-      One could call an upper-bound "obligatory" or not, where in the
-      former case every run would stop when reaching the bound, otherweise
-      never.
-      So the algo-option would be
-       - +- perform-all-runs.
-
-      Setting the bound to "obligatory" on the command-line perhaps best
-      is done via an algo-option.
-      We have option-class UB, which currently is not used.
+1. Running symmetry-breaking even if optimum already reached
+    - By default we always run all rounds.
+    - But for better speed there should be an option to stop once the
+      upper bound has been reached.
+    - UB isnt' used yet, and could be used here.
 
 2. Special output for symmetry-breaking
   - Currently we run symmetry-breaking even if there is no output at all?

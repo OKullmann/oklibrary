@@ -991,15 +991,6 @@ namespace Bicliques2SAT {
     }
 
 
-    // Signalling unsatisfiability (necessarily here due to symmetry-breaking
-    // contradicting the given value of B):
-    struct Unsatisfiable {
-      const vei_t incomp;
-      const id_t B;
-      Unsatisfiable(const vei_t ip, const id_t B) : incomp(ip), B(B) {
-        assert(ip.size() > B);
-      }
-    };
     // Output a (single) SAT-translation (not using bounds, but
     // updating enc.B if it is zero, in case of symmetry-breaking):
     RandGen::dimacs_pars sat_translate(std::ostream& out,
