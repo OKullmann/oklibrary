@@ -563,12 +563,12 @@ namespace Bicliques2SAT {
 
   struct Bounds {
     typedef Graphs::AdjVecUInt graph_t;
-    typedef VarEncoding::id_t id_t;
+    typedef VarEncoding::id_t size_t;
 
     const DI di;
     const bool incl = false, incu = false;
   private :
-    id_t l = trivial_lower_bound(), u = trivial_upper_bound();
+    size_t l = trivial_lower_bound(), u = trivial_upper_bound();
     bool init;
   public :
 
@@ -590,10 +590,10 @@ namespace Bicliques2SAT {
     di(d), incl(lower.second), incu(upper.second),
     l(lower.first), u(upper.first), init(not incl and not incu) {}
 
-    id_t lb() const noexcept { return l; }
-    id_t ub() const noexcept { return u; }
+    size_t lb() const noexcept { return l; }
+    size_t ub() const noexcept { return u; }
 
-    id_t next() const noexcept {
+    size_t next() const noexcept {
       if (not init) return 0;
       if (di == DI::downwards) {
         assert(u > 0);
@@ -611,34 +611,34 @@ namespace Bicliques2SAT {
     constexpr bool closed() const noexcept { return l == u; }
     constexpr bool inconsistent() const noexcept { return l > u; }
 
-    void update_by_sb(const id_t sb) noexcept {
+    void update_by_sb(const size_t sb) noexcept {
       init = true;
       l = incl ? sb + l : std::max(l, sb);
       if (incu) u = sb + u;
     }
-    void update_if_sat(const id_t decrement = 0) noexcept {
+    void update_if_sat(const size_t decrement = 0) noexcept {
       assert(init);
-      const id_t B = next();
+      const size_t B = next();
       assert(decrement <= B);
       u = B - decrement;
     }
     // if B = next() was found unsatisfiable:
     void update_if_unsat() noexcept {
       assert(init);
-      const id_t B = next();
+      const size_t B = next();
       assert(B < B+1);
       l = B + 1;
     }
 
-    static constexpr id_t trivial_lower_bound() noexcept {return 0;}
-    static constexpr id_t trivial_upper_bound() noexcept {return Param::MaxV;}
+    static constexpr size_t trivial_lower_bound() noexcept {return 0;}
+    static constexpr size_t trivial_upper_bound() noexcept {return Param::MaxV;}
 
-    static id_t simple_lower_bound(const graph_t& G) noexcept {
+    static size_t simple_lower_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0; else return 1;
       // for general G: the number of connected components with at least
       // one edge
     }
-    static id_t simple_upper_bound(const graph_t& G) noexcept {
+    static size_t simple_upper_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0;
       assert(G.n() >= 1);
       return std::min(G.n() - 1, G.m());
