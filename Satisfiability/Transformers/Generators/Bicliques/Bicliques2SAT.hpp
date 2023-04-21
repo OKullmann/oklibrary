@@ -616,10 +616,18 @@ namespace Bicliques2SAT {
       l = incl ? sb + l : std::max(l, sb);
       if (incu) u = sb + u;
     }
-    void update_by_solver(const bool sat) noexcept {
+    void update_if_sat(const id_t decrement = 0) noexcept {
       assert(init);
       const id_t B = next();
-      if (sat) u = B; else l = B + 1;
+      assert(decrement <= B);
+      u = B - decrement;
+    }
+    // if B = next() was found unsatisfiable:
+    void update_if_unsat() noexcept {
+      assert(init);
+      const id_t B = next();
+      assert(B < B+1);
+      l = B + 1;
     }
 
     static constexpr id_t trivial_lower_bound() noexcept {return 0;}
@@ -1156,6 +1164,7 @@ namespace Bicliques2SAT {
         res.B = bounds.ub();
         return res;
       }
+      assert(bounds.open());
       {const auto nc = bounds.next();
        update_B(nc);
        res.B = nc;
