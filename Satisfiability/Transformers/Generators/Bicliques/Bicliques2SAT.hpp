@@ -611,10 +611,20 @@ namespace Bicliques2SAT {
     constexpr bool closed() const noexcept { return l == u; }
     constexpr bool inconsistent() const noexcept { return l > u; }
 
+    // If the increment-flags are set, then the current value of l resp. u
+    // means in increment on the symmetry-breaking-value:
     void update_by_sb(const size_t sb) noexcept {
       init = true;
-      l = incl ? sb + l : std::max(l, sb);
-      if (incu) u = sb + u;
+      if (incl) {
+        assert(sb + l > l);
+        l = sb + l;
+      }
+      else
+        l = std::max(l, sb);
+      if (incu) {
+        assert(sb + u > u);
+        u = sb + u;
+      }
     }
     void update_if_sat(const size_t decrement = 0) noexcept {
       assert(init);
@@ -631,7 +641,7 @@ namespace Bicliques2SAT {
     }
 
     static constexpr size_t trivial_lower_bound() noexcept {return 0;}
-    static constexpr size_t trivial_upper_bound() noexcept {return Param::MaxV;}
+    static constexpr size_t trivial_upper_bound() noexcept {return -1;}
 
     static size_t simple_lower_bound(const graph_t& G) noexcept {
       if (G.m() == 0) return 0; else return 1;
