@@ -501,6 +501,7 @@ namespace Bicliques2SAT {
     switch (d) {
     case DI::downwards : return out << "downwards";
     case DI::upwards : return out << "upwards";
+    case DI::binary_search : return out << "binsearch";
     case DI::none : return out << "stationary";
     default : return out << "DI::UNKNOWN";}
   }
