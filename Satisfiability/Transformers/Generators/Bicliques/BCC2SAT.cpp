@@ -116,6 +116,7 @@ Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 165 "" -cs 1 12440
 c total-lit-occurrences                 54681495
 p cnf 257400 26902855
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 164 "" -cs 1 12440
+c B                                     165
 c total-lit-occurrences                 54681495
 p cnf 257400 26902855
 
@@ -188,8 +189,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.2",
-        "17.4.2023",
+        "1.0.3",
+        "21.4.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

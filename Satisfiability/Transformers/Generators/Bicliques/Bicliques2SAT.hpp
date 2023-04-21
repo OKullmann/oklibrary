@@ -626,11 +626,10 @@ namespace Bicliques2SAT {
         u = sb + u;
       }
     }
-    void update_if_sat(const size_t decrement = 0) noexcept {
+    void update_if_sat(const size_t newu) noexcept {
       assert(init);
-      const size_t B = next();
-      assert(decrement <= B);
-      u = B - decrement;
+      assert(newu <= next());
+      u = newu;
     }
     // if B = next() was found unsatisfiable:
     void update_if_unsat() noexcept {
@@ -1171,13 +1170,8 @@ namespace Bicliques2SAT {
       }
       if (bounds.closed()) {
         res.rt = ResultType::exact;
-        res.B = bounds.ub();
+        res.B = bounds.lb();
         return res;
-      }
-      assert(bounds.open());
-      {const auto nc = bounds.next();
-       update_B(nc);
-       res.B = nc;
       }
 
       const std::string filename_head = SystemCalls::system_filename(
@@ -1186,7 +1180,12 @@ namespace Bicliques2SAT {
       const std::string solver_options = "-cpu-lim=" + std::to_string(sec)
         + solver_option(std::get<SO>(ao));
 
-      for (;;) { // main solver-loop
+      while (true) { // main solver-loop
+        assert(bounds.open());
+        {const auto nc = bounds.next();
+          update_B(nc);
+          res.B = nc; // so that in case of error the last B-value is available
+        }
 
         const auto inp = [this, &sbv, pt](std::FILE* const fp){
           using DimacsTools:: operator <<;
@@ -1209,11 +1208,9 @@ namespace Bicliques2SAT {
           return res;
         }
         res.minisat_stats.add(call_res, {result_t::float_t(res.B)});
-        if (call_res.stats.sr == DimacsTools::SolverR::unsat) {
-          ++res.B; res.rt = ResultType::exact;
-          assert(not res.solution or is_bcc(res.bcc, G));
-          return res;
-        }
+
+        if (call_res.stats.sr == DimacsTools::SolverR::unsat)
+          bounds.update_if_unsat();
         else {
           assert(call_res.stats.sr == DimacsTools::SolverR::sat);
           res.solution = true;
@@ -1223,16 +1220,15 @@ namespace Bicliques2SAT {
             *log << "  Literal-Reduction by trimming: " << red << "\n"
               "  Size obtained: " << res.bcc.L.size() << std::endl;
           }
-          assert(res.bcc.L.size() <= res.B);
-          res.B = std::min(res.B, res.bcc.L.size());
-          assert(res.B > 0);
-          assert(res.B >= optsbs);
-          if (res.B == optsbs) {
-            res.rt = ResultType::exact;
-            assert(is_bcc(res.bcc, G));
-            return res;
-          }
-          --res.B; update_B(res.B);
+          bounds.update_if_sat(res.bcc.L.size());
+        }
+
+        assert(not bounds.inconsistent());
+        if (bounds.closed()) {
+          res.rt = ResultType::exact;
+          res.B = bounds.lb();
+          assert(not res.solution or is_bcc(res.bcc, G));
+          return res;
         }
       }
     }
