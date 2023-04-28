@@ -39,6 +39,11 @@ TODOS:
 
 -1. Output statistics
   - A log-file argument.
+  - And a stats-file argument.
+  - Actually it makes sense to have two stats-file: one for the components
+    and one for the solver?
+  - Or the solver-output outputs additionally to B also the component-index
+    and V, E, n; that is better.
 
 0. Fuzzing
 
@@ -58,12 +63,21 @@ TODOS:
    Bicliques> argument1=nopre argument2=1000 ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
    running on server.
 
- - Needs to be automised.
+ - Running the three search-directions and making sure the numerical result
+   is the same.
+    - Perhaps GCGeq allows more arguments on the command-line, which are
+      files which should also be optimal realisations?
+    - Or one concatenates them all in the input? With the command-line
+      argument being their total number?
 
-  -Likely the name should be Fuzzer_GSM.
+ - Needs to be automatised.
+
+ - Likely the name should be Fuzzer_GSM.
 
 
 1. The option, that in case of no-improvement nothing is changed, is needed.
+    - This is now the default.
+    - It seems we don't need the option "replace in any case" ?
 
 2. Better code-handling of replacement in sliced CNFs.
 
@@ -84,6 +98,9 @@ TODOS:
 2. BCC2SAT.cpp:
 
 TODOS:
+
+-1. Test for bipartiteness, and in positive case use better representation
+    - As an option: +-test.
 
 0. Write application-tests
     - And/or some fuzzer.
@@ -326,8 +343,16 @@ TODOS:
 
 
 0. Upwards-search
+   - Should work now -- tests needed.
 
 1. UCP for BC2SAT
+
+ This item needs update -- the main (simple) option is
+   +- reduced boxes (or so)
+ which in placed boxes only uses the variables needed, and also uses for
+ the edge-availabilities only the available ones.
+ This by default uses the old encoding, but can be changed to rename
+ the variables.
 
 (a) The class gets bloated, but for a start it seems easiest to develop
     the functionality in this (richer) context.
@@ -360,6 +385,12 @@ TODOS:
   - At this time then the structure of BC2SAT needs to be improved.
 
 3. More efficient symmetry-breaking
+
+The following needs update : there is always the possibility to add
+"simple symmetry-breaking": take the first edge and pick from the
+remaining open boxes the first, falsifying the others (and also falsifying
+the second direction), and so on. See "extended symmetry-breaking" below.
+
    (not taking the symmetries of the graph into account, only
    "all completely open bicliques are alike").
 
@@ -432,7 +463,7 @@ TODOS:
 
      - no basic-sb
      - basic-sb (just adding the 3k unit-clauses)
-     - basic-sb-with-clean-up (this should be the default)
+     - basic-sb-with-clean-up (this should be the default) (see above "UCP")
 
      - no trivial-sb
      - trivial-sb (the default)
@@ -571,6 +602,12 @@ TODOS:
 
 2. Can we obtain the basic forms of random graphs from BRG?
    Or should they be provided here?
+
+---
+
+12. The generator for the TACAS-paper
+  - At this time check whether the key-handling of BRG is up-to-date
+    (LSRG likely contains the most up-to-date version).
 
 ---
 
