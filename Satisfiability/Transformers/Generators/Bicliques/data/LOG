@@ -20,12 +20,24 @@ c total-clauses                         2141120876
 c total-lit-occurrences                 4426339612
 
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb -cs "" ""
+c "./BCC2SAT" "128" "+sb" "-cs" "" ""
 c ** Parameters **
+c B                                     128
+c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             100
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         128
+c sb-stats                              100 : 122 125.04 128; 1.35527
+c sb-seed                               7
+c ** Statistics **
 c V                                     3964
 c E                                     157484
-c B                                     131
-c sb-option                             basic-sb
-c ** Statistics **
+c B                                     128
 c  bc-variables                         1014784
 c  edge-variables                       20157952
 c total-variables                       21172736
@@ -38,10 +50,11 @@ c   cover-lit-occurrences               20157952
 c  unit-clauses                         384
 c total-clauses                         2092091564
 c total-lit-occurrences                 4324973440
-c planted-edges                         128
-c sb-stats                              100 : 120 124.75 128; 1.57874
+p cnf 21172736 2092091564
 
-No better symmetry-breaking with 10000 trials.
+No better symmetry-breaking with 10000 trials:
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 128 +sb -cs 10000 ""
+c sb-stats                              10000 : 118 124.868 128; 1.44571
 
 
 SAT-solving on server:
@@ -52,19 +65,40 @@ real    7m40.211s
 user    7m22.261s
 sys     0m17.993s
 Bicliques> ls -l data/A_131_3964_1__128.cnf
-38384519194 Mar  4 15:32 data/A_131_3964_1__128.cnf
-Bicliques> head -15 data/A_131_3964_1__128.cnf
+38384519954data/A_131_3964_1__128.cnf
+Bicliques> Bicliques> head -32 data/A_131_3964_1__128.cnf
+c "./BCC2SAT" "128" "+sb" "" "" ""
 c ** Parameters **
+c B                                     128
+c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        with-cs
+c sb-rounds                             100
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         128
+c sb-stats                              100 : 122 125.04 128; 1.35527
+c sb-seed                               7
+c ** Statistics **
 c V                                     3964
 c E                                     157484
 c B                                     128
-c sb-option                             basic-sb
-c ** Symmetry Breaking **
-c planted-edges                         128
-c sb-stats                              100 : 120 124.75 128; 1.57874
-c num_e-seeds                           0
-c  e-seeds                              
+c  bc-variables                         1014784
+c  edge-variables                       20157952
+c total-variables                       21172736
+c  bc-clauses                           1970985984
+c   bc-lit-occurrences                  3941971968
+c  edge-clauses                         120947712
+c   edge-lit-occurrences                362843136
+c  cover-clauses                        157484
+c   cover-lit-occurrences               20157952
+c  unit-clauses                         384
+c total-clauses                         2092091564
+c total-lit-occurrences                 4324973440
 p cnf 21172736 2092091564
+-1 -3965 0
 
 Minisat:
 
@@ -72,6 +106,8 @@ Bicliques> minisat-2.2.0 data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
 Bicliques> minisat-2.2.0 -no-solve data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
+Bicliques> minisat-2.2.0 -no-pre data/A_131_3964_1__128.cnf
+INDETERMINATE
 
 Bicliques> minisat data/A_131_3964_1__128.cnf
 Segmentation fault (core dumped)
@@ -92,23 +128,26 @@ c reddiff_number_of_variables           21167448
 c reddiff_number_of_clauses             2092078318
 c reddiff_number_of_literal_occurrences 4324946737
 c number_of_2-clauses_after_reduction   13035
-c running_time(sec)                     493.6
+c running_time(sec)                     530.6
 c number_of_nodes                       2
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          1
 c number_of_2-reductions                0
 c number_of_pure_literals               0
-c number_of_autarkies                   598
+c number_of_autarkies                   630
 c number_of_missed_single_nodes         0
 c max_tree_depth                        1
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
-c number_of_1-autarkies                 5332
+c number_of_1-autarkies                 3396
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             data/A_131_3964_1__128.cnf
+
+Thus bcc=128.
+With the clean-up represenstation, minisat should also easily solve this.
 
 Without creating the cnf-file:
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | OKsolver2002 -B -MAXN=21172736 -MAXK=2092091564 -MAXL=4324973440 cin
@@ -124,20 +163,20 @@ c reddiff_number_of_variables           21167448
 c reddiff_number_of_clauses             2092078318
 c reddiff_number_of_literal_occurrences 4324946737
 c number_of_2-clauses_after_reduction   13035
-c running_time(sec)                     508.7
+c running_time(sec)                     528.3
 c number_of_nodes                       2
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          1
 c number_of_2-reductions                0
 c number_of_pure_literals               0
-c number_of_autarkies                   598
+c number_of_autarkies                   630
 c number_of_missed_single_nodes         0
 c max_tree_depth                        1
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
-c number_of_1-autarkies                 5332
+c number_of_1-autarkies                 3396
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             cin
@@ -146,49 +185,70 @@ Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | minisat
 INDETERMINATE
 
 
-
-
 Explicit UCP:
 
 Bicliques> time cat data/A_131_3964_1__128.cnf | UnitClausePropagation > data/A_131_3964_1__128_ucp.cnf
-real    44m18.388s
-user    38m9.313s
-sys     6m52.869s
+real    47m41.604s
+user    40m56.193s
+sys     7m29.899s
 max 347 GB
 Bicliques> ls -l data/A_131_3964_1__128_ucp.cnf
-245469 Mar  4 03:32 data/A_131_3964_1__128_ucp.cnf
-Bicliques> head -20 data/A_131_3964_1__128_ucp.cnf
+246665 data/A_131_3964_1__128_ucp.cnf
+Bicliques> head -40 data/A_131_3964_1__128_ucp.cnf
+c "./BCC2SAT" "128" "+sb" "" "" ""
 c ** Parameters **
-c V                                     3964
-c E                                     157484
 c B                                     128
 c sb-option                             basic-sb
-c ** Formatting **
+c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
 c clauses-option                        with-cs
+c sb-rounds                             100
+c num_e-seeds                           0
 c ** Symmetry Breaking **
 c planted-edges                         128
-c sb-stats                              100 : 120 124.75 128; 1.57874
-c num_e-seeds                           0
-c  e-seeds                              
+c sb-stats                              100 : 122 125.04 128; 1.35527
+c sb-seed                               7
+c ** Statistics **
+c V                                     3964
+c E                                     157484
+c B                                     128
+c  bc-variables                         1014784
+c  edge-variables                       20157952
+c total-variables                       21172736
+c  bc-clauses                           1970985984
+c   bc-lit-occurrences                  3941971968
+c  edge-clauses                         120947712
+c   edge-lit-occurrences                362843136
+c  cover-clauses                        157484
+c   cover-lit-occurrences               20157952
+c  unit-clauses                         384
+c total-clauses                         2092091564
+c total-lit-occurrences                 4324973440
 c Additional comments regarding the unit-clause propagation:
 c The original parameter were: n = 21172736, c = 2092091564.
 c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 2092091180.
 c Number of unit-clauses in input = 384.
 c UCP performed 21167448 assignments.
-p cnf 21172646 13246
+p cnf 21123393 13246
+-622361 -619436 0
+-622372 -619436 0
+-622373 -619436 0
+-622374 -619436 0
 
 Bicliques> minisat-2.2.0 data/A_131_3964_1__128_ucp.cnf
-|  Number of variables:      21051987                                         |
-|  Number of clauses:           13246                                         |
+Number of variables:      21123393
+Number of clauses:           13246
+Parse time:                   2.12 s
+Eliminated clauses:         161.20 Mb
+Simplification time:          3.12 s
 restarts              : 1
 conflicts             : 0              (0 /sec)
 decisions             : 1              (0.00 % random) (0 /sec)
 propagations          : 0              (0 /sec)
 conflict literals     : 0              (-nan % deleted)
 Memory used           : 2697.37 MB
-CPU time              : 4.9401 s
+CPU time              : 5.31096 s
 SATISFIABLE
 
 Using OKsolver for UCP:
@@ -205,7 +265,7 @@ c reddiff_number_of_variables           21167448
 c reddiff_number_of_clauses             2092078318
 c reddiff_number_of_literal_occurrences 4324946737
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     527.0
+c running_time(sec)                     529.0
 c number_of_nodes                       0
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -227,256 +287,171 @@ This is much faster, but unfortunately at the moment OKsolver doesn't output
 the result (and also there is a superfluous memory-blow-up at the finish).
 
 
-UPDATE (the above was wrong due to input not sorted):
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT "" "" "" "" "" | minisat-2.2.0 -no-pre /dev/stdin
-INDETERMINATE
-Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./BCC2SAT 131 "" -cs "" ""
-c ** Parameters **
-c V                                     3964
-c E                                     157484
-c B                                     131
-c sb-option                             basic-sb
-c pt-option                             cover
-c ** Statistics **
-c  bc-variables                         1038568
-c  edge-variables                       20630404
-c total-variables                       21668972
-c  bc-clauses                           2017180968
-c   bc-lit-occurrences                  4034361936
-c  edge-clauses                         123782424
-c   edge-lit-occurrences                371347272
-c  cover-clauses                        157484
-c   cover-lit-occurrences               20630404
-c  unit-clauses                         384
-c total-clauses                         2141121260
-c total-lit-occurrences                 4426339996
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
-c ** Symmetry Breaking **
-c planted-edges                         128
-c sb-stats                              100 : 120 124.75 128; 1.57874
-c num_e-seeds                           0
-
-So this instance is still UNDECIDED.
 
 
 2) A_160_1022_1
 
 Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 -sb -cs "" ""
+c "./BCC2SAT" "160" "-sb" "-cs" "" ""
 c ** Parameters **
-c V                                     1022
-c E                                     3328
 c B                                     160
+c sb-option                             no-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
 c ** Statistics **
+c V                                     1022
+c E                                     4420
+c B                                     160
 c  bc-variables                         327040
-c  edge-variables                       532480
-c total-variables                       859520
-c  bc-clauses                           166052480
-c   bc-lit-occurrences                  332104960
-c  edge-clauses                         3194880
-c   edge-lit-occurrences                9584640
-c  cover-clauses                        3328
-c   cover-lit-occurrences               532480
+c  edge-variables                       707200
+c total-variables                       1034240
+c  bc-clauses                           165703040
+c   bc-lit-occurrences                  331406080
+c  edge-clauses                         4243200
+c   edge-lit-occurrences                12729600
+c  cover-clauses                        4420
+c   cover-lit-occurrences               707200
 c  unit-clauses                         0
-c total-clauses                         169250688
-c total-lit-occurrences                 342222080
+c total-clauses                         169950660
+c total-lit-occurrences                 344842880
+p cnf 1034240 169950660
 
 Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 "" -cs "" ""
+c "./BCC2SAT" "160" "" "-cs" "" ""
 c ** Parameters **
-c V                                     1022
-c E                                     3328
 c B                                     160
 c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             100
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         157
+c sb-stats                              100 : 146 152.06 157; 2.5179
+c sb-seed                               44
 c ** Statistics **
+c V                                     1022
+c E                                     4420
+c B                                     160
 c  bc-variables                         327040
-c  edge-variables                       532480
-c total-variables                       859520
-c  bc-clauses                           166052480
-c   bc-lit-occurrences                  332104960
-c  edge-clauses                         3194880
-c   edge-lit-occurrences                9584640
-c  cover-clauses                        3328
-c   cover-lit-occurrences               532480
-c  unit-clauses                         384
-c total-clauses                         169251072
-c total-lit-occurrences                 342222464
-c ** Symmetry Breaking **
-c planted-edges                         128
-c sb-stats                              100 : 122 126.17 128; 1.37109
-c num_e-seeds                           0
-c  e-seeds                              
-p cnf 859520 169251072
+c  edge-variables                       707200
+c total-variables                       1034240
+c  bc-clauses                           165703040
+c   bc-lit-occurrences                  331406080
+c  edge-clauses                         4243200
+c   edge-lit-occurrences                12729600
+c  cover-clauses                        4420
+c   cover-lit-occurrences               707200
+c  unit-clauses                         471
+c total-clauses                         169951131
+c total-lit-occurrences                 344843351
+p cnf 1034240 169951131
 
-No better symmetry-breaking with 10000 trials.
+Bicliques> time cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 160 "" -cs 10000 ""
+c planted-edges                         160
+c sb-stats                              10000 : 142 152.595 160; 2.43682
+c sb-seed                               287
+real    1m12.769s
+user    1m12.763s
+sys     0m0.009s
 
-SAT-solving on server:
-
-Bicliques> time cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 128 "" "" "" "" > data/A_160_1022_1__128.cnf
-real    0m29.212s
-user    0m28.053s
-sys     0m1.162s
-Bicliques> ls -l data/A_160_1022_1__128.cnf
-2341343923 Mar  4 11:07 data/A_160_1022_1__128.cnf
-Bicliques> head -15 data/A_160_1022_1__128.cnf
-c ** Parameters **
-c V                                     1022
-c E                                     3328
-c B                                     128
-c sb-option                             basic-sb
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        with-cs
-c ** Symmetry Breaking **
-c planted-edges                         128
-c sb-stats                              100 : 122 126.17 128; 1.37109
-c num_e-seeds                           0
-c  e-seeds                              
-p cnf 687616 135401600
-
-Bicliques> minisat-2.2.0 data/A_160_1022_1__128.cnf
-|  Number of variables:        687616                                         |
-|  Number of clauses:       135401216                                         |
-|  Parse time:                  16.41 s                                       |
-|  Simplification time:        506.54 s                                       |
-restarts              : 1
-conflicts             : 0              (0 /sec)
-decisions             : 1              (0.00 % random) (0 /sec)
-propagations          : 687616         (1315 /sec)
-conflict literals     : 0              (-nan % deleted)
-Memory used           : 8357.03 MB
-CPU time              : 522.962 s
-
-So, as above, it's mostly just UCP (indeed here it's only UCP).
-
-Bicliques> OKsolver2002 data/A_160_1022_1__128.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         128
-c initial_number_of_variables           687616
-c initial_number_of_clauses             135401600
-c initial_number_of_literal_occurrences 273778048
-c number_of_initial_unit-eliminations   687616
-c reddiff_maximal_clause_length         128
-c reddiff_number_of_variables           687616
-c reddiff_number_of_clauses             135401600
-c reddiff_number_of_literal_occurrences 273778048
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     28.8
-c number_of_nodes                       0
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                0
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             data/A_160_1022_1__128.cnf
-
-Interesting that OKsolver2002 is indeed much faster than minisat here.
-Without creating the cnf-file:
-Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCC2SAT 128 "" "" "" "" | OKsolver2002 -B -MAXN=859520 -MAXK=169251072 -MAXL=342222464 cin
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         128
-c initial_number_of_variables           687616
-c initial_number_of_clauses             135401600
-c initial_number_of_literal_occurrences 273778048
-c number_of_initial_unit-eliminations   687616
-c reddiff_maximal_clause_length         128
-c reddiff_number_of_variables           687616
-c reddiff_number_of_clauses             135401600
-c reddiff_number_of_literal_occurrences 273778048
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     31.3
-c number_of_nodes                       0
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                0
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             cin
-
-Nice parallel running of creation and solving.
+Thus bcc=160.
 
 
-Running dedicated UCP:
+BCCbySAT version 0.9.1:
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT 160 down -bcl "" "" "" STATS LOG
+# "./BCCbySAT" "160" "down" "-bcl" "" "" "" "STATS" "LOG"
+# ** Parameters **
+# B                                     downwards 0 160
+# sb-option                             basic-sb
+# pt-option                             cover
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      without-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     STATS
+# log-output                            LOG
+# ** Results **
+# sb-stats                              100 : 146 152.06 157; 2.5179
+# result-type                           exact
+# bcc                                   = 160
+Bicliques> cat STATS
+  B sat        maxn           c ptime  stime elimc rts cfs cfsps  dec decpr decps          r1 r1ps cfl cflpd     mem       t
+159   0 1.02778e+06 1.68888e+08  23.6 702.01  0.49   2 142     0 4017     0     6 1.10499e+06 1523 492  4.65 11321.6 725.641
 
-Bicliques> time cat data/A_160_1022_1__128.cnf | UnitClausePropagation > data/A_160_1022_1__128_ucp.cnf
-real    2m4.173s
-user    1m53.972s
-sys     0m12.822s
-Bicliques> head -20 data/A_160_1022_1__128_ucp.cnf
-c ** Parameters **
-c V                                     1022
-c E                                     3328
-c B                                     128
-c sb-option                             basic-sb
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        with-cs
-c ** Symmetry Breaking **
-c planted-edges                         128
-c sb-stats                              100 : 122 126.17 128; 1.37109
-c num_e-seeds                           0
-c  e-seeds                              
-c Additional comments regarding the unit-clause propagation:
-c The original parameter were: n = 687616, c = 135401600.
-c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 135401216.
-c Number of unit-clauses in input = 384.
-c UCP determines satisfiability after processing 687616 assignments.
-p cnf 0 0
+Same, but with nopre:
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT 160 nopre -bcl "" "" "" STATS LOG
+Bicliques> cat STATS
+  B sat        maxn           c ptime stime elimc rts cfs cfsps   dec decpr decps          r1  r1ps cfl cflpd    mem       t
+159   0 1.02778e+06 1.68888e+08 17.84  3.78     0   2 113     5 12198     0   563 1.40484e+06 64897 317  6.76 6795.5 21.6472
 
+Now upwards:
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT "" nopre,up -bcl "" "" "" STATS LOG
+# "./BCCbySAT" "" "nopre,up" "-bcl" "" "" "" "STATS" "LOG"
+# ** Parameters **
+# B                                     upwards +0 18446744073709551615
+# sb-option                             basic-sb
+# pt-option                             cover
+# di-option                             upwards
+# so-option                             -no-pre
+# comments-option                       with-comments
+# bicliques-option                      without-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     STATS
+# log-output                            LOG
+# ** Results **
+# sb-stats                              100 : 146 152.06 157; 2.5179
+# result-type                           exact
+# bcc                                   = 160
+Bicliques> cat STATS
+  B sat        maxn           c ptime stime elimc rts cfs cfsps   dec decpr decps          r1  r1ps cfl cflpd     mem       t
+157   0 1.01485e+06 1.66764e+08 17.53     0     0   0   0     0     0   nan     0 1.00902e+06 57572   0   nan 6714.82 17.5262
+158   0 1.02131e+06 1.67826e+08 17.47  3.76     0   1   9     0  4499     0   212 1.07389e+06 50554  14     0 6761.62 21.2425
+159   0 1.02778e+06 1.68888e+08 17.58  3.77     0   2 113     5 12198     0   571 1.40484e+06 65729 317  6.76  6795.5 21.3731
+160   1 1.03424e+06 1.69951e+08 17.85  3.79     0   2 115     5 25028     0  1155 1.47559e+06 68082 663  1.04 6836.51 21.6739
 
-Extracting the solution:
+Same, but with upper bounds:
+Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT +0,160 nopre,up -bcl "" "" "" STATS LOG
+now without running B=160.
 
-Bicliques> cat data/A_160_1022_1 | ./CNF2cg | ./BCCbySAT 128 +sb > data/A_160_1022_1_opt
-Bicliques> less data/A_160_1022_1_opt
-Symmetry-breaking: 100 : 124 126.27 128; 1.18794
-Minisat-call for B=128: returned SAT
-  Literal-Reduction by trimming: 0
-  Size obtained: 128
-
-bcc=128
-exact 128 128
-10 100 103 269 272 279 285 939 | 34 101 102 271 273 280 284 943
-...
-
-
-UPDATE (above is wrong):
-
-Bicliques> time cat data/A_160_1022_1 | ./CNFBCC nopre "" "" "" logfile "" > data/A_160_1022_1_opt.cnf
-real    1m40.227s
-user    1m30.368s
-sys     0m9.850s
-Bicliques> head data/A_160_1022_1_opt.cnf
+Now with possibly producing a solution:
+Bicliques> time cat data/A_160_1022_1 | ./CNFBCC nopre "" "" "" logfile "" > A_160_1022_1_opt.cnf
+real    0m36.954s
+user    0m51.945s
+sys     0m4.787s
+No solution produced, since already optimal.
+Now with forced (new) solution:
+Bicliques> time cat data/A_160_1022_1 | ./CNFBCC nopre "" "" "" logfile 161 > A_160_1022_1_opt.cnf
+real    1m11.980s
+user    1m43.207s
+sys     0m8.333s
+> head A_160_1022_1_opt.cnf
 p cnf 160 1022
+-104 0
+-33 -100 0
+-28 0
+32 0
+10 0
+2 0
+96 0
+41 0
+25 0
+
 Bicliques> less logfile
-CPU time              : 18.536 s
+CPU time              : 21.3226 s
 SATISFIABLE
-CPU time              : 18.4533 s
+CPU time              : 21.3172 s
 UNSATISFIABLE
 
-So bcc=160 (no improvement).
 
 
 
@@ -485,12 +460,18 @@ So bcc=160 (no improvement).
 Measurements:
 
 Bicliques> cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 -sb -cs "" ""
+c "./BCC2SAT" "77" "-sb" "-cs" "" ""
 c ** Parameters **
+c B                                     77
+c sb-option                             no-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c ** Statistics **
 c V                                     1090
 c E                                     7026
 c B                                     77
-c sb-option                             no-sb
-c ** Statistics **
 c  bc-variables                         167860
 c  edge-variables                       541002
 c total-variables                       708862
@@ -503,16 +484,29 @@ c   cover-lit-occurrences               541002
 c  unit-clauses                         0
 c total-clauses                         93654734
 c total-lit-occurrences                 191082430
+p cnf 708862 93654734
 
 Symmetry-breaking:
 
 Bicliques> cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 "" -cs "" ""
+c "./BCC2SAT" "77" "" "-cs" "" ""
 c ** Parameters **
+c B                                     77
+c sb-option                             basic-sb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             100
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         77
+c sb-stats                              100 : 74 76.71 77; 0.518253
+c sb-seed                               1
+c ** Statistics **
 c V                                     1090
 c E                                     7026
 c B                                     77
-c sb-option                             basic-sb
-c ** Statistics **
 c  bc-variables                         167860
 c  edge-variables                       541002
 c total-variables                       708862
@@ -525,124 +519,22 @@ c   cover-lit-occurrences               541002
 c  unit-clauses                         231
 c total-clauses                         93654965
 c total-lit-occurrences                 191082661
-c ** Symmetry Breaking **
-c planted-edges                         77
-c sb-stats                              100 : 75 76.71 77; 0.518253
-c num_e-seeds                           0
+p cnf 708862 93654965
 
 So upper bound equals lower bound -- B=77 is optimal.
 
-Solving with OKsolver on server:
 
-Bicliques> time cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 "" "" "" "" > data/A_77_1090_1__77.cnf
-real    0m22.319s
-user    0m21.406s
-sys     0m0.919s
-Bicliques> ls -l data/A_77_1090_1__77.cnf
-1586053448 Mar  5 00:07 data/A_77_1090_1__77.cnf
-Bicliques> head -15 data/A_77_1090_1__77.cnf
-c ** Parameters **
-c V                                     1090
-c E                                     7026
-c B                                     77
-c sb-option                             basic-sb
-c ** Formatting **
-c comments-option                       with-comments
-c dimacs-parameter-option               with-parameters
-c clauses-option                        with-cs
-c ** Symmetry Breaking **
-c planted-edges                         77
-c sb-stats                              100 : 75 76.71 77; 0.518253
-c num_e-seeds                           0
-c  e-seeds                              
-p cnf 708862 93654965
-
-Bicliques> OKsolver2002 data/A_77_1090_1__77.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         77
-c initial_number_of_variables           708862
-c initial_number_of_clauses             93654965
-c initial_number_of_literal_occurrences 191082661
-c number_of_initial_unit-eliminations   708862
-c reddiff_maximal_clause_length         77
-c reddiff_number_of_variables           708862
-c reddiff_number_of_clauses             93654965
-c reddiff_number_of_literal_occurrences 191082661
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     19.6
-c number_of_nodes                       0
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                0
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             data/A_77_1090_1__77.cnf
-
-Without creating the cnf-file:
-Bicliques> cat data/A_77_1090_1 | ./CNF2cg | ./BCC2SAT 77 "" "" "" "" | OKsolver2002 -B -MAXN=708862 -MAXK=93654965 -MAXL=191082661 cin
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         77
-c initial_number_of_variables           708862
-c initial_number_of_clauses             93654965
-c initial_number_of_literal_occurrences 191082661
-c number_of_initial_unit-eliminations   708862
-c reddiff_maximal_clause_length         77
-c reddiff_number_of_variables           708862
-c reddiff_number_of_clauses             93654965
-c reddiff_number_of_literal_occurrences 191082661
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     20.8
-c number_of_nodes                       0
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                0
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             cin
-
-
-Bicliques> minisat-2.2.0 data/A_77_1090_1__77.cnf
-|  Number of variables:        708862                                         |
-|  Number of clauses:        93654734                                         |
-|  Parse time:                  11.80 s                                       |
-|  Simplification time:        337.22 s                                       |
-restarts              : 1
-conflicts             : 0              (0 /sec)
-decisions             : 1              (0.00 % random) (0 /sec)
-propagations          : 708862         (2031 /sec)
-conflict literals     : 0              (-nan % deleted)
-Memory used           : 6470.39 MB
-CPU time              : 349.027 s
-
-
-UPDATE (above is wrong):
-
-Bicliques> time cat data/A_77_1090_1 | ./CNFBCC nopre "" "" "" logfile "" > data/A_77_1090_1_opt.cnf
-real    0m28.343s
-user    0m25.393s
-sys     0m2.950s
+Bicliques> time cat data/A_77_1090_1 | ./CNFBCC nopre "" "" "" logfile 78 > A_77_1090_1_opt.cnf
+real    0m20.284s
+user    0m28.792s
+sys     0m2.259s
 Bicliques> head data/A_77_1090_1_opt.cnf
 p cnf 77 1090
-Bicliques> less logfile
-
-So bcc=77 (no improvement).
+55 0
+-45 0
+-45 0
+-45 0
+45 0
+45 0
+-45 0
+-49 0
