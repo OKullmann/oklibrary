@@ -8,9 +8,6 @@
 
 # Fuzzing GSM
 
-# REMARK: Currently after interrupt the files "SystemCalls_Popen_*"
-# of the last call are not deleted.
-
 # USAGE:
 
 # EXAMPLE:
@@ -24,7 +21,7 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.1.0"
+version="0.1.1"
 
 : ${command1:="./GSM_debug"}
 : ${argument1:=}
@@ -46,8 +43,13 @@ outfile=${fuzzdir}/Output_$$
 
 handler() {
   echo "Aborting ${program}, PID=$$: no errors observed."
+  children="$(pgrep -P $$)"
   pkill --signal SIGINT --parent $$
   rm -f ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+  for childid in ${children}; do
+    rm -f SystemCalls_Popen_err_*_${childid}
+    rm -f SystemCalls_Popen_out_*_${childid}
+  done
   exit 0
 }
 

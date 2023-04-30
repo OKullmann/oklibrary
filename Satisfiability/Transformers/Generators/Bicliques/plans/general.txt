@@ -71,7 +71,8 @@ TODOS:
     - DONE
       One concatenates them all in the input. With the command-line
       argument being their total number.
-    - After interruption, the files "SystemCalls_Popen_*" are not removed:
+    - DONE (just removing them in the fuzzer-script, via the pid-suffix)
+      After interruption, the files "SystemCalls_Popen_*" are not removed:
       one needs the option for the minisat-call to remove the files after
       interruption.
     - And these helper-files should be placed here into the directory
