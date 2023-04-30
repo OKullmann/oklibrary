@@ -1487,11 +1487,14 @@ namespace Bicliques2SAT {
 
   enum class GCGE {
     eq=0,
-    diff_O=1,
-    diff_sizes=2,
-    diff_comp=3,
-    diff_cg=4
+    diff_O=101,
+    diff_sizes=102,
+    diff_comp=103,
+    diff_cg=104,
+    greater_than_base=105,
+    diverging_values=106
   };
+  // Does not consider greater_than_base or diverging_values:
   GCGE gcg_equivalence(const GlobRepl& G1, const GlobRepl& G2,
                        std::ostream* const log) noexcept {
     assert(valid(G1.F));
@@ -1516,7 +1519,7 @@ namespace Bicliques2SAT {
       return GCGE::diff_O;
     }
     if (G1.sizes != G2.sizes) {
-      if (log) *log << "sizes of components differ" << std::endl;
+      if (log) *log << "sizes of connected components differ" << std::endl;
       return GCGE::diff_sizes;
     }
     assert(G1.numntcc == G2.numntcc);

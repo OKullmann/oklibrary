@@ -59,16 +59,23 @@ TODOS:
 
  - Bicliques> argument1="nopre" ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
    aborted after minisat-call run for 54h (on nt-component 0).
-
    Bicliques> argument1=nopre argument2=1000 ./Fuzzer "a200 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
-   running on server.
+   never finished. But
+   Bicliques> argument1=nopre argument2=1000 ./Fuzzer "a150 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
+   seems to create nice problems; however still hard problems occur.
+   Bicliques> argument1=nopre argument2=1000 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t
+
 
  - Running the three search-directions and making sure the numerical result
    is the same.
-    - Perhaps GCGeq allows more arguments on the command-line, which are
-      files which should also be optimal realisations?
-    - Or one concatenates them all in the input? With the command-line
-      argument being their total number?
+    - DONE
+      One concatenates them all in the input. With the command-line
+      argument being their total number.
+    - After interruption, the files "SystemCalls_Popen_*" are not removed:
+      one needs the option for the minisat-call to remove the files after
+      interruption.
+    - And these helper-files should be placed here into the directory
+      Fuzzing?
 
  - Needs to be automatised.
 
