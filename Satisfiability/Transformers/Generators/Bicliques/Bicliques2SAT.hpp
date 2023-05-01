@@ -138,13 +138,7 @@ License, or any later version. */
       - struct result_t (Bcc_frame, B, ResultType, init_B)
       - operator (ostream*, alg_options, rounds, sec, seeds)
         stores the Dimacs-files on disc, using the minisat_call, decrementing
-        B until unsatisfiability reached
-
-
-
-   - General helper functions
-    - erase_if_byswap(vec, pred) : faster than std::erase_if due to
-      not keeping the order.
+        B until unsatisfiability reached.
 
 
 See plans/general.txt.
@@ -181,6 +175,7 @@ See plans/general.txt.
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/ClauseSets.hpp>
 
+#include "Algorithms.hpp"
 #include "Graphs.hpp"
 #include "Bicliques.hpp"
 #include "DimacsTools.hpp"
@@ -519,17 +514,6 @@ namespace Bicliques2SAT {
   }
 
 
-  template <class T, class Alloc, class Pred>
-  constexpr typename std::vector<T,Alloc>::size_type erase_if_byswap
-      (std::vector<T,Alloc>& v, const Pred pred) noexcept {
-    const auto end = v.end();
-    const auto it = std::partition(v.begin(), end, std::not_fn(pred));
-    const auto r = std::distance(it, end);
-    v.erase(it, end);
-    return r;
-  }
-
-
   enum class ResultType {
     unknown = 0,       // default-value
 
@@ -709,7 +693,7 @@ namespace Bicliques2SAT {
       while (not avail.empty()) {
         const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
-        erase_if_byswap(avail,
+        Algorithms::erase_if_byswap(avail,
           [e,this](const id_t x){return
                                  Bicliques::bccomp(edges[e],edges[x], G);});
       }

@@ -14,8 +14,13 @@ License, or any later version. */
    - append_ranges(RAN1 r1, RAN2 r2) (copies r1, and appends to it)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3)
 
+   - erase_if_byswap(vec, pred) : possibly faster than std::erase_if due to
+     not keeping the order of vec.
+
 
 TODOS:
+
+0. Try to find out if erase_if_byswap is indeed faster.
 
 1. Once we switch to C++23, use std::vector::append_range
    in function append_ranges.
@@ -71,6 +76,18 @@ namespace Algorithms {
     for (const auto& x : r3) r1.push_back(x);
     assert(r1.size() == size);
     return r1;
+  }
+
+
+  // As std::erase_if, but not preserving the order:
+  template <class T, class Alloc, class Pred>
+  constexpr typename std::vector<T,Alloc>::size_type erase_if_byswap
+      (std::vector<T,Alloc>& v, const Pred pred) noexcept {
+    const auto end = v.end();
+    const auto it = std::partition(v.begin(), end, std::not_fn(pred));
+    const auto r = std::distance(it, end);
+    v.erase(it, end);
+    return r;
   }
 
 }

@@ -1,4 +1,4 @@
-// Oliver Kullmann, 26.3.2022 (Swansea)
+// Oliver Kullmann, 26.3.2023 (Swansea)
 /* Copyright 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "8.4.2023",
+        "0.1.1",
+        "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -93,6 +93,23 @@ int main(const int argc, const char* const argv[]) {
    assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{},{},{}}));
    assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{""},{""},{""}}));
    assert((append_ranges(vx_t{{}}, vs_t{"A"}, vs_t{"B"}) == vx_t{{""},{""},{""}}));
+  }
+
+  {typedef std::vector<int> v_t;
+   v_t v;
+   const auto tr = [](const auto&){return true;};
+   const auto fa = [](const auto&){return false;};
+   assert(erase_if_byswap(v, tr) == 0);
+   assert(v.empty());
+   v.assign({1,2,3});
+   assert(erase_if_byswap(v, fa) == 0);
+   assert(v.size() == 3);
+   assert(erase_if_byswap(v, tr) == 3);
+   assert(v.empty());
+   v.assign({1,2,3,4,5});
+   const auto t35 = [](const auto& x){return x==3 or x==5;};
+   assert(erase_if_byswap(v, t35) == 2);
+   assert(eqp(v, {1,2,4}));
   }
 
 }

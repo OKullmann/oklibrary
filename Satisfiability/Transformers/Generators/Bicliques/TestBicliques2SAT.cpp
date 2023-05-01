@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "17.4.2023",
+        "0.8.1",
+        "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -233,23 +233,6 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_basic_clauses<std::ostream&>(ss) == 32 + 96 + 16); // 144
    assert(eqp(trans.sat_translate(ss,
      {SB::none,{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
-  }
-
-  {typedef std::vector<int> v_t;
-   v_t v;
-   const auto tr = [](const auto&){return true;};
-   const auto fa = [](const auto&){return false;};
-   assert(erase_if_byswap(v, tr) == 0);
-   assert(v.empty());
-   v.assign({1,2,3});
-   assert(erase_if_byswap(v, fa) == 0);
-   assert(v.size() == 3);
-   assert(erase_if_byswap(v, tr) == 3);
-   assert(v.empty());
-   v.assign({1,2,3,4,5});
-   const auto t35 = [](const auto& x){return x==3 or x==5;};
-   assert(erase_if_byswap(v, t35) == 2);
-   assert(eqp(v, {1,2,4}));
   }
 
   {for (size_t n = 0; n < 6; ++n) {
