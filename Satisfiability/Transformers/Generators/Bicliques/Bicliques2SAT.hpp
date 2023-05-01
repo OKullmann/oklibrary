@@ -703,13 +703,14 @@ namespace Bicliques2SAT {
     typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
 
     struct symmbreak_res_t {
-      vei_t v;
+      vei_t v, vs; // vectors for primary and secondary symmetry-breaking
       stats_t s;
       id_t i = 0;
     };
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
-                                 RandGen::vec_eseed_t seeds) const {
+                                 RandGen::vec_eseed_t seeds,
+                                 const SS ssb) const {
       assert(rounds < id_t(-1));
       if (rounds == 0 or enc_.E == 0) return {};
       if (rounds == 1) {
@@ -1003,6 +1004,7 @@ namespace Bicliques2SAT {
       // this function is not called by sat_solve:
       assert(bounds.di == DI::none);
       const SB sb = std::get<SB>(ao);
+      const SS ss = std::get<SS>(ao);
       const PT pt = std::get<PT>(ao);
       if (pt == PT::partition1) throw "partition1 not implemented yet.\n";
       const DC dc = std::get<DC>(fo);
@@ -1014,7 +1016,7 @@ namespace Bicliques2SAT {
         out <<
           DHW{"Parameters"} <<
           DWW{"B"} << bounds << "\n" <<
-          DWW{"sb-option"} << sb << "\n" <<
+          DWW{"sb-options"} << sb << " " << ss << "\n" <<
           DWW{"pt-option"} << pt << "\n" <<
           DWW{"comments-option"} << dc << "\n" <<
           DWW{"dimacs-parameter-option"} << dp << "\n" <<
@@ -1030,8 +1032,8 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const auto [sbv, sbs, sbi] = sb == SB::none ?
-        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
+      const auto [sbv, sbsv, sbs, sbi] = sb == SB::none ?
+        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
       const auto optsbs = sbv.size();
       if (dc == DC::with and sb != SB::none) {
         out <<
@@ -1039,6 +1041,9 @@ namespace Bicliques2SAT {
           DWW{"planted-edges"} << optsbs << "\n" <<
           DWW{"sb-stats"} << sbs << "\n" <<
           DWW{"sb-seed"} << sbi << "\n";
+        if (ss == SS::with)
+          out <<
+            DWW{"restricted-edges"} << sbsv.size() << "\n";
       }
       bounds.update_by_sb(optsbs);
       assert(not bounds.inconsistent());
@@ -1140,12 +1145,13 @@ namespace Bicliques2SAT {
       }
 
       const SB sb = std::get<SB>(ao);
-      const auto [sbv, sbs, sbi] = sb == SB::none ?
-        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds);
+      const SS ss = std::get<SS>(ao);
+      const auto [sbv, sbsv, sbs, sbi] = sb == SB::none ?
+        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
       const auto optsbs = sbv.size();
       if (log) {
         *log << "Symmetry-breaking: index=" << sbi << ", stats= " << sbs
-             << std::endl;
+             << "; r-edges= " << sbsv.size() << std::endl;
       }
 
       result_t res(bounds.ub(), pt, sbs);
