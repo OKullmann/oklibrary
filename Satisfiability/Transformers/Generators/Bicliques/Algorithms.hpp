@@ -11,8 +11,8 @@ License, or any later version. */
 
    - empty_intersection(RAN r1, RAN r2) (r1, r2 must be sorted)
 
-   - append_ranges(RAN1 r1, RAN2 r2) (copies r1, and appends to it)
-   - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3)
+   - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
+   - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
 
    - erase_if_byswap(vec, pred) : possibly faster than std::erase_if due to
      not keeping the order of vec.
@@ -21,6 +21,7 @@ License, or any later version. */
 TODOS:
 
 0. Try to find out if erase_if_byswap is indeed faster.
+    - Perhaps remain to "erase_if_unstable".
 
 1. Once we switch to C++23, use std::vector::append_range
    in function append_ranges.
