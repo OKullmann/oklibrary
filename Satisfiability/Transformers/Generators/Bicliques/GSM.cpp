@@ -128,8 +128,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "21.4.2023",
+        "0.5.2",
+        "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",
@@ -147,6 +147,7 @@ namespace {
     "> " << proginfo.prg
          << " algo-options sb-rounds timeout seeds\n\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    "                : " << Environment::WRP<SS>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"
     "                : " << Environment::WRP<SO>{} << "\n"

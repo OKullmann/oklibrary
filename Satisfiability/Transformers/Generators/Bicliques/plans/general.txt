@@ -117,7 +117,8 @@ TODOS:
     - By default we always run all rounds.
     - But for better speed there should be an option to stop once the
       upper bound has been reached.
-    - UB isnt' used yet, and could be used here.
+    - DONE (used for some other sb)
+      UB isnt' used yet, and could be used here.
 
 2. Special output for symmetry-breaking
   - Currently we run symmetry-breaking even if there is no output at all?
@@ -168,7 +169,8 @@ TODOS:
        no solution is needed.
      - This replaces the BC-algo-option.
      - Perhaps NS ("no-solution"), with "-+ns" (default -ns).
-     - We also have UB currently?? Seems out-dated.
+     - DONE (removed)
+       We also have UB currently?? Seems out-dated.
      - Solution-output then is automatically null (error if not).
 
 
@@ -325,30 +327,6 @@ TODOS:
 6. Bicliques2SAT.hpp:
 
 TODOS:
-
--1. Finish class Bounds
-
-  1. di==DI::downwards: until the first unsatisfiable
-
-   - only u given:
-     c = u; l = 0;
-     for ub==UB::trust: c = u-1 ?
-       what if here u==l ?
-     perhaps bool found_unsatifiable, found_satisfiable ?
-
-  2. di==DI::upwards: until the first satisfiable
-
-   - nothing given:
-     l, u = trivial, c = l
-     better with G taken into account
-
-   - l given:
-     u = trivial, c = l
-     better with G taken into account
-
-  The lower bound needs to be updated via sb.
-  The upper bound doesn't need to be updated (but possible is updated).
-
 
 0. Upwards-search
    - Should work now -- tests needed.

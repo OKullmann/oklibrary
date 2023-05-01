@@ -149,8 +149,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "21.4.2023",
+        "0.9.2",
+        "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -171,6 +171,7 @@ namespace {
             " sb-rounds timeout seeds stats log\n\n"
     " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
+    "                : " << Environment::WRP<SS>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
     "                : " << Environment::WRP<DI>{} << "\n"
     "                : " << Environment::WRP<SO>{} << "\n"

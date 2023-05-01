@@ -59,14 +59,14 @@ License, or any later version. */
    SAT translation:
 
     - scoped enums (all registered with RegistrationPolicies):
-     - SB (symmetry-breaking forms)
+     - SB (primary symmetry-breaking forms)
+     - SS (secondary symmetry-breaking)
      - PT (problem-types)
      - DC (Dimacs-comments on/off)
      - DP (Dimacs-parameters on/off)
      - CS (clause-set-output on/off)
      - DI (search direction)
      - SO (solver options)
-     - UB (check or trust upper bound)
 
     - input and output control:
      - const char sep
@@ -373,7 +373,9 @@ namespace Bicliques2SAT {
   };
 
 
-  enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking
+  enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking by
+                                                 // edge-placement
+  enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
   enum class DP { with=0, without=1 }; // Dimacs-parameters
@@ -382,7 +384,6 @@ namespace Bicliques2SAT {
   enum class DI { downwards=0, upwards=1, binary_search=2,
                   none=3 }; // search direction
   enum class SO { none=0, nopre=1 }; // solver options
-  enum class UB { check=0, trust=1 }; // upper-bound: check or trust
 
   std::string solver_option(const SO so) {
     if (so == SO::nopre) return " -no-pre";
@@ -390,8 +391,8 @@ namespace Bicliques2SAT {
   }
 
   constexpr char sep = ',';
-  typedef std::tuple<SB,PT> alg_options_t;
-  typedef std::tuple<SB,PT,DI,SO,UB> alg2_options_t;
+  typedef std::tuple<SB,SS,PT> alg_options_t;
+  typedef std::tuple<SB,SS,PT,DI,SO> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
   typedef std::tuple<DC,BC> format2_options_t;
 
@@ -403,6 +404,12 @@ namespace Environment {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
     {"+sb", "++sb", "-sb"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::SS> {
+    static constexpr int size = int(Bicliques2SAT::SS::without)+1;
+    static constexpr std::array<const char*, size> string
+    {"+ssb", "-ssb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::PT> {
@@ -446,12 +453,6 @@ namespace Environment {
     static constexpr std::array<const char*, size> string
     {"defsolve", "nopre"};
   };
-  template <>
-  struct RegistrationPolicies<Bicliques2SAT::UB> {
-    static constexpr int size = int(Bicliques2SAT::UB::trust)+1;
-    static constexpr std::array<const char*, size> string
-    {"check", "trust"};
-  };
 }
 namespace Bicliques2SAT {
   std::ostream& operator <<(std::ostream& out, const SB s) {
@@ -460,6 +461,12 @@ namespace Bicliques2SAT {
     case SB::extended : return out << "extended-sb";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const SS s) {
+    switch (s) {
+    case SS::with : return out << "with-ssb";
+    case SS::without : return out << "without-ssb";
+    default : return out << "SS::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const PT s) {
     switch (s) {
@@ -505,12 +512,6 @@ namespace Bicliques2SAT {
     case SO::none : return out << "default-solver";
     case SO::nopre : return out << "-no-pre";
     default : return out << "SO::UNKNOWN";}
-  }
-  std::ostream& operator <<(std::ostream& out, const UB u) {
-    switch (u) {
-    case UB::check : return out << "check-ub";
-    case UB::trust : return out << "trust-ub";
-    default : return out << "UB::UNKNOWN";}
   }
 
 

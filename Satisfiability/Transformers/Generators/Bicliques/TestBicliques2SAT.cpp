@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
+        "0.8.2",
         "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -232,7 +232,7 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_edges_cov<std::ostream&>(ss) == 16);
    assert(trans.all_basic_clauses<std::ostream&>(ss) == 32 + 96 + 16); // 144
    assert(eqp(trans.sat_translate(ss,
-     {SB::none,{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
+     {SB::none,{},{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
   }
 
   {for (size_t n = 0; n < 6; ++n) {
@@ -302,7 +302,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},PT::partition2,{},{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == (n<=1 ? 0 : B));
        assert(res.rt == ResultType::exact);
@@ -318,7 +318,7 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},PT::partition2,{},{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == (n==0 ? 0 : B));
        assert(res.rt == ResultType::exact);
@@ -629,7 +629,7 @@ int main(const int argc, const char* const argv[]) {
     assert(s.freq_ldeg.num_values() == 4);
     assert(eqp(s.freq_ldeg.cmap(), {{0,6},{1,17},{2,1},{3,2}}));
    }
-   const auto R = GR.solve(nullptr, {{},{},{},SO::nopre,{}}, 100, 1, {});
+   const auto R = GR.solve(nullptr, {{},{},{},{},SO::nopre}, 100, 1, {});
    const DimacsTools::GslicedCNF F2(F.O(), R, F.other);
    const GlobRepl GR2(F2);
    assert(int(gcg_equivalence(GR, GR2, nullptr)) == 0);
