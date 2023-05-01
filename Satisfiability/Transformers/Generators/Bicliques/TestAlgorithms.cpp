@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "1.5.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -110,6 +110,21 @@ int main(const int argc, const char* const argv[]) {
    const auto t35 = [](const auto& x){return x==3 or x==5;};
    assert(erase_if_byswap(v, t35) == 2);
    assert(eqp(v, {1,2,4}));
+  }
+
+  {typedef std::vector<unsigned> v_t;
+   assert(eqp(complement_uint(v_t{}, 0), {}));
+   assert(eqp(complement_uint(v_t{}, 1), {0}));
+   assert(eqp(complement_uint(v_t{}, 2), {0,1}));
+   assert(eqp(complement_uint(v_t{2,3,4}, 2), {0,1}));
+   assert(eqp(complement_uint(v_t{0,1,2,3,4}, 2), {}));
+   assert(eqp(complement_uint(v_t{0,2,3,4}, 2), {1}));
+   assert(eqp(complement_uint(v_t{1,2,3,4}, 2), {0}));
+   assert(eqp(complement_uint(v_t{1,2,3,4}, 5), {0}));
+   assert(eqp(complement_uint(v_t{1,2,3,4}, 6), {0,5}));
+   assert(eqp(complement_uint(v_t{0,2,4}, 6), {1,3,5}));
+   assert(eqp(complement_uint(v_t{0,2,4,7,9}, 10), {1,3,5,6,8}));
+   assert(eqp(complement_uint(v_t{0,2,4,7,9}, 11), {1,3,5,6,8,10}));
   }
 
 }

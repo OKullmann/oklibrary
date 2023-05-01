@@ -11,6 +11,10 @@ License, or any later version. */
 
    - empty_intersection(RAN r1, RAN r2) (r1, r2 must be sorted)
 
+   - complement_uint(RAN r, UINT N) -> vector<UINT> :
+     returns the sorted vector of elements of {0, ..., N-1} not in r
+     (assumes r to be sorted)
+
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
 
@@ -26,11 +30,18 @@ TODOS:
 1. Once we switch to C++23, use std::vector::append_range
    in function append_ranges.
 
+2. Consolidate with
+    - General/Algorithms.hpp
+    - Structures/Sets/SetAlgorithms/BasicSetOperations.hpp
+    - Random/Algorithms.hpp
+
 */
 
 
 #ifndef ALGORITHMS_iWjSrlmVWS
 #define ALGORITHMS_iWjSrlmVWS
+
+#include <algorithm>
 
 namespace Algorithms {
 
@@ -57,6 +68,32 @@ namespace Algorithms {
       }
     }
     return true;
+  }
+
+
+  // The base-set is {0, ..., N-1}; r must be sorted (but otherwise is
+  // arbitrary, except for that its elements must be convertible to UINT):
+  template <class RANGE, typename UINT>
+  std::vector<UINT> complement_uint(const RANGE& r, const UINT N) {
+    if (N == 0) return {};
+    assert(std::ranges::is_sorted(r));
+    std::vector<UINT> res;
+    UINT x = 0;
+    const auto end = r.end();
+    for (auto it = r.begin(); it != end; ++it, ++x) {
+      const UINT y = UINT(*it);
+      if (y >= N) break;
+      assert(x <= y);
+      if (x < y) {
+        res.reserve(res.size() + (y-x));
+        do res.push_back(x++); while (x != y);
+      }
+    }
+    if (x < N) {
+      res.reserve(res.size() + (N-x));
+      do res.push_back(x++); while (x != N);
+    }
+    return res;
   }
 
 
