@@ -63,6 +63,31 @@ p cnf 10 20
 
 With "less logfile" one can see the solution-process.
 
+Using binary search, and a different seed:
+Bicliques> BRG "20*15,3" | ./CNFBCC binsearch "" "" 0 logfile ""
+p cnf 10 20
+8 0
+-8 9 0
+1 -9 0
+-1 3 -7 0
+2 -4 -8 0
+2 -5 7 9 0
+-2 3 -10 0
+5 0
+-3 -5 -6 7 0
+-2 -5 -7 0
+1 -4 -5 6 0
+-4 -5 6 -7 0
+4 0
+-3 -5 0
+1 3 6 0
+3 -6 0
+-4 -8 0
+-2 0
+-1 -2 -7 10 0
+-7 8 10 0
+
+
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
 Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" ""
@@ -86,6 +111,31 @@ p cnf 10 20
 -1 3 0
 -4 0
 -2 -4 -8 0
+1 -8 0
+
+We have here two conflicts between {4,-7,8} and {-2,-4,-8}; if want always
+at most one conflict, we ask for a partitioning:
+Bicliques> BRG "20*15,3" | ./CNFBCC binsearch,partition2 "" "" "" logfile ""
+p cnf 10 20
+1 -4 0
+-1 10 0
+2 7 -10 0
+-2 5 7 0
+4 8 0
+-7 8 0
+-4 5 7 8 0
+5 6 7 0
+-5 6 8 0
+-4 -6 7 0
+2 3 -6 9 0
+3 -6 7 9 0
+-3 -4 0
+-5 0
+2 5 9 0
+5 -9 0
+-1 3 0
+-4 7 0
+-2 -8 0
 1 -8 0
 
 

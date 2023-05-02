@@ -640,6 +640,10 @@ namespace Bicliques2SAT {
       // for general G with k connected components: G.n() - k
     }
 
+    void update_upper_bound(const graph_t& G) noexcept {
+      u = std::min(u, simple_upper_bound(G));
+    }
+
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
       if (b.di == DI::none) {
         assert(not b.incu);
@@ -703,10 +707,46 @@ namespace Bicliques2SAT {
     typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
 
     struct symmbreak_res_t {
-      vei_t v, vs; // vectors for primary and secondary symmetry-breaking
+      vei_t v; // vector for primary symmetry-breaking (placing edges)
+      vei_t vs; // secondary symmetry-breaking: the candidate edges to restrict
       stats_t s;
       id_t i = 0;
+      vei_t restrict_vs(const id_t B) const {
+        const id_t optsbs = v.size();
+        if (B <= optsbs or B <= optsbs+1) return {};
+        const id_t choose = B - 1 - optsbs;
+        assert(choose >= 1);
+        const id_t size = vs.size();
+        if (choose >= size) return vs;
+        return vei_t(vs.begin(), vs.begin()+choose);
+      }
     };
+    id_t max_B(const id_t optsbs) const noexcept {
+      Bounds b(bounds);
+      b.update_upper_bound(G);
+      b.update_by_sb(optsbs);
+      if (b.di == DI::none or b.di == DI::downwards) return b.next();
+      else {
+        const id_t u = b.ub();
+        return u==0 ? u : u-1;
+      }
+    }
+    void add_random_secondary_edges(symmbreak_res_t& sbres,
+                                    RandGen::vec_eseed_t seeds) const {
+      const auto optsbs = sbres.v.size();
+      const id_t B = max_B(optsbs);
+      if (B <= optsbs or B <= optsbs+1) return;
+      const auto choose = B - 1 - optsbs;
+      assert(choose >= 1);
+      auto copy = sbres.v; std::ranges::sort(copy);
+      const auto complement = Algorithms::complement_uint(copy, enc_.E);
+      seeds.push_back(0); seeds.push_back(0);
+      RandGen::RandGen_t g(seeds);
+      const auto choice_indices = RandGen::choose_kn(choose,
+                                                     complement.size(), g);
+      sbres.vs.reserve(choice_indices.size());
+      for (const auto i : choice_indices) sbres.vs.push_back(complement[i]);
+    }
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
                                  RandGen::vec_eseed_t seeds,
@@ -717,6 +757,7 @@ namespace Bicliques2SAT {
         symmbreak_res_t res;
         res.v = max_bcincomp(seeds);
         res.s += res.v.size();
+        if (ssb == SS::with) add_random_secondary_edges(res, seeds);
         return res;
       }
       seeds.push_back(0);
@@ -729,6 +770,7 @@ namespace Bicliques2SAT {
         res.s += s;
         if (s > res.v.size()) {res.i = i; res.v = std::move(nres);}
       }
+      if (ssb == SS::with) add_random_secondary_edges(res, seeds);
       return res;
     }
     void output(const vei_t& v, std::ostream& out) const {
@@ -1130,7 +1172,7 @@ namespace Bicliques2SAT {
     };
 
 
-    // Perform a complete optimisation, with SAT-solving, downwards:
+    // Perform a complete optimisation, with SAT-solving:
     result_t sat_solve(std::ostream* const log,
         const alg2_options_t ao,
         const id_t sb_rounds,

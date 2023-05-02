@@ -20,7 +20,7 @@ Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
 c "./BCC2SAT" "" "" "-cs" "" ""
 c ** Parameters **
 c B                                     +0
-c sb-option                             basic-sb
+c sb-options                            basic-sb with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
@@ -31,6 +31,7 @@ c ** Symmetry Breaking **
 c planted-edges                         156
 c sb-stats                              100 : 143 149.17 156; 2.80712
 c sb-seed                               35
+c restricted-edges                      0
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -63,6 +64,7 @@ c ** Symmetry Breaking **
 c planted-edges                         156
 c sb-stats                              1 : 156 156 156; 0
 c sb-seed                               0
+c restricted-edges                      0
 
 
 Explicitly specifying B=200, and 20000 symmetry-breaking-rounds:
@@ -70,7 +72,7 @@ Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
 c "./BCC2SAT" "200" "" "-cs" "20000" ""
 c ** Parameters **
 c B                                     200
-c sb-option                             basic-sb
+c sb-options                            basic-sb with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
@@ -81,6 +83,7 @@ c ** Symmetry Breaking **
 c planted-edges                         165
 c sb-stats                              20000 : 136 149.59 165; 3.2904
 c sb-seed                               12440
+c restricted-edges                      34
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -128,7 +131,7 @@ Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 partition2 -cs 20000 ""
 c "./BCC2SAT" "200" "partition2" "-cs" "20000" ""
 c ** Parameters **
 c B                                     200
-c sb-option                             basic-sb
+c sb-options                            basic-sb with-ssb
 c pt-option                             partition-quadratic
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
@@ -139,6 +142,7 @@ c ** Symmetry Breaking **
 c planted-edges                         165
 c sb-stats                              20000 : 136 149.59 165; 3.2904
 c sb-seed                               12440
+c restricted-edges                      34
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -189,7 +193,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.4",
+        "1.0.5",
         "1.5.2023",
         __FILE__,
         "Oliver Kullmann",

@@ -21,7 +21,7 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 # "./BCCbySAT" "5" "" "" "" "" "" "" ""
 # ** Parameters **
 # B                                     downwards 0 5
-# sb-option                             basic-sb
+# sb-options                            basic-sb with-ssb
 # pt-option                             cover
 # di-option                             downwards
 # so-option                             default-solver
@@ -40,6 +40,70 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
 2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
 1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
+
+Without specifying an upper bound, and moving upwards:
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT "" up "" "" "" "" ST ""
+# "./BCCbySAT" "" "up" "" "" "" "" "ST" ""
+# ** Parameters **
+# B                                     upwards +0 18446744073709551615
+# sb-options                            basic-sb with-ssb
+# pt-option                             cover
+# di-option                             upwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     ST
+# log-output                            null
+# ** Results **
+# sb-stats                              100 : 1 1 1; 0
+# result-type                           exact
+# bcc                                   = 4
+1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
+1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
+2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
+1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
+Bicliques> cat ST
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps    r1        r1ps   cfl cflpd mem        t
+1   0  152  736     0     0     0   0    0    nan    0   nan    nan   138         inf     0   nan  25        0
+2   0  304 1592     0     0  0.01   1   24   6778   58     0  16380   413      116634    64  8.57  25 0.003541
+3   0  456 2328     0     0  0.01  15 2460 214081 3590     0 312418 61756 5.37429e+06 16967 18.46  25 0.011491
+4   1  608 3064     0     0  0.01   4  427 188771 1062     0 469496 21953 9.70513e+06  8667  6.89  25 0.002262
+
+Using the simple upper bound V-1, and using a different seed:
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT +0,15 binsearch "" "" "" 0 ST ""
+# "./BCCbySAT" "+0,15" "binsearch" "" "" "" "0" "ST" ""
+# ** Parameters **
+# B                                     binsearch +0 15
+# sb-options                            basic-sb with-ssb
+# pt-option                             cover
+# di-option                             binsearch
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           1
+#  e-seeds                              0
+# statistics-output                     ST
+# log-output                            null
+# ** Results **
+# sb-stats                              100 : 1 1 1; 0
+# result-type                           exact
+# bcc                                   = 4
+1 3 5 9 10 12 13 15 | 2 4 6 7 8 11 14 16
+1 3 4 7 11 13 15 16 | 2 5 6 8 9 10 12 14
+1 2 4 6 7 9 10 15 | 3 5 8 11 12 13 14 16
+1 2 4 9 12 13 14 16 | 3 5 6 7 8 10 11 15
+Bicliques> cat ST
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
+8   1 1216 6008     0     0  0.01   2  118  22771 1637     0 315901   7748 1.49518e+06  4624  0.47  26 0.005182
+4   1  608 3064     0     0  0.01   5  511 184543 1219     0 440231  26071 9.41531e+06 10873  8.17  25 0.002769
+2   0  304 1592     0     0  0.01   1   33  17188   81     0  42188    467      243229    95 11.21  25  0.00192
+3   0  456 2328     0     0  0.01  31 6458 224384 8788     0 305340 177216  6.1574e+06 50432 19.38  25 0.028781
+
 
 One can investigate the symmetry-breaking as preprocessing:
 Bicliques> ./GraphGen grid 10 11 | ./BCC2SAT 0 "" -cs 3000000 ""
@@ -247,7 +311,8 @@ int main(const int argc, const char* const argv[]) {
     std::cout <<
       DHW{"Parameters"} <<
       DWW{"B"} << bounds << "\n" <<
-      DWW{"sb-option"} << std::get<SB>(algopt) << "\n" <<
+      DWW{"sb-options"} << std::get<SB>(algopt) << " " <<
+                           std::get<SS>(algopt) << "\n" <<
       DWW{"pt-option"} << std::get<PT>(algopt) << "\n" <<
       DWW{"di-option"} << di << "\n" <<
       DWW{"so-option"} << std::get<SO>(algopt) << "\n" <<
