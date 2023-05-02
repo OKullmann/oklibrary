@@ -209,6 +209,13 @@ Aborted (core dumped)
 1. Should be similar to BCCbySAT (above).
     - DONE logging should be handled in the same way.
 
+2. One can not use in general the given n as an upper-bound, when using
+   partition-mode.
+    - See Bug 1 below.
+    - One should check here whether the given CNF actually has at most one
+      conflict between clauses, in which case one can use n -- otherwise
+      we have only the simple general upper bounds (c-1).
+
 BUGS:
 
 -1. Inappropriate reaction yet when first run (for given B) is unsatisfiable.
