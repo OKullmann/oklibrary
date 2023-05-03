@@ -40,26 +40,26 @@ on the solution-process.
 For example
 Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile ""
 p cnf 10 20
-1 0
--1 -9 0
-7 9 0
--2 5 7 -9 0
+1 9 0
+-9 0
+2 7 9 0
+-2 5 7 0
 -1 4 0
-6 -7 8 0
--4 5 7 8 0
+4 6 -7 0
+-4 5 8 0
 -3 5 6 7 0
 -3 -5 6 8 0
 -4 -6 0
 2 3 0
 3 -6 0
--3 -4 -10 0
+1 -3 0
 -5 0
-2 5 0
--2 -3 5 0
--1 10 0
--4 7 0
--2 -4 -8 -9 0
-1 -8 0
+2 5 -10 0
+-3 5 10 0
+-1 0
+-4 0
+-2 -4 -8 0
+1 -4 -8 9 0
 
 With "less logfile" one can see the solution-process.
 
@@ -88,7 +88,6 @@ p cnf 10 20
 -7 8 10 0
 
 
-
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
 Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile ""
 p cnf 10 20
@@ -113,29 +112,29 @@ p cnf 10 20
 -2 -4 -8 -10 0
 1 -8 0
 
-We have here two conflicts between {4,-7,8} and {-2,-4,-8,-10}; if one want
+We have here two conflicts between {4,-7,8} and {-2,-4,-8,-10}; if one wants
 always at most one conflict, we ask for a partitioning:
 Bicliques> BRG "20*15,3" | ./CNFBCC binsearch,partition2 "" "" "" logfile ""
 p cnf 10 20
 1 -4 0
--1 10 0
-2 7 -10 0
--2 5 7 0
-4 8 0
--7 8 0
+-1 -10 0
+7 10 0
+-2 5 7 -10 0
+4 8 9 0
+-3 -7 8 0
 -4 5 7 8 0
-5 6 7 0
--5 6 8 0
+-3 5 6 7 0
+-3 -5 6 8 0
 -4 -6 7 0
-2 3 -6 9 0
-3 -6 7 9 0
--3 -4 0
+2 -6 9 0
+3 0
+-3 -9 0
 -5 0
-2 5 9 0
-5 -9 0
--1 3 0
+2 5 0
+-2 -3 5 0
+-1 9 0
 -4 7 0
--2 -8 0
+-2 -8 -10 0
 1 -8 0
 
 
@@ -199,7 +198,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.3",
+        "0.8.0",
         "3.5.2023",
         __FILE__,
         "Oliver Kullmann",

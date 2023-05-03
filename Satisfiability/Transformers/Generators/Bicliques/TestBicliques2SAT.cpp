@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.4",
-        "2.5.2023",
+        "0.8.5",
+        "3.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -214,15 +214,15 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges<std::ostream&>({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans.sat_translate(ss, {},
+   assert(eqp(trans.sat_translate(ss, {{},SS::without,{}},
      {DC::without, DP::without, CS::without}, 1, {}), {64, 272 + 2*3})); // 278
    assert(ss.str().empty());
    ss.str("");
-   assert(eqp(trans.sat_translate(ss,{},
+   assert(eqp(trans.sat_translate(ss,{{},SS::without,{}},
      {DC::without,DP::without,CS::without},11,{}), {96, 409})); // {B * 32, B * 128 + 16 + 3*#units}
 
    ss.str("");
-   assert(eqp(trans.sat_translate(ss, {},
+   assert(eqp(trans.sat_translate(ss, {{},SS::without,{}},
      {DC::without, DP::with, CS::without}, 6, {}), {96, 406}));
    assert(ss.str() == "p cnf 96 406\n");
    trans.update_B(1);
@@ -232,7 +232,7 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_edges_cov<std::ostream&>(ss) == 16);
    assert(trans.all_basic_clauses<std::ostream&>(ss) == 32 + 96 + 16); // 144
    assert(eqp(trans.sat_translate(ss,
-     {SB::none,{},{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
+     {SB::none,SS::without,{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
   }
 
   {for (size_t n = 0; n < 6; ++n) {
@@ -240,14 +240,24 @@ int main(const int argc, const char* const argv[]) {
      const size_t bcc = bcc_clique(n);
      for (size_t dist = 1; dist <= 4; ++dist) {
        const size_t B = bcc + dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-       std::stringstream out;
-       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
-       assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcc(res.bcc, G));
+       {BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
+        std::stringstream out;
+        const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                                         100, 1, {dist});
+        assert(res.B == bcc);
+        assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
+        assert(res.rt == ResultType::exact);
+        assert(res.init_B != res.B or res.bcc.empty());
+        assert(res.init_B == res.B or is_bcc(res.bcc, G));}
+       {BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
+        std::stringstream out;
+        const auto res = trans.sat_solve(nullptr, {},
+                                         100, 1, {dist});
+        assert(res.B == bcc);
+        assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
+        assert(res.rt == ResultType::exact);
+        assert(res.init_B != res.B or res.bcc.empty());
+        assert(res.init_B == res.B or is_bcc(res.bcc, G));}
      }
    }
    for (size_t n = 0; n < 6; ++n) {
@@ -257,7 +267,8 @@ int main(const int argc, const char* const argv[]) {
        const size_t B = bcc + dist;
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
-       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
+       const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                                        100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
        assert(res.rt == ResultType::exact);
@@ -272,7 +283,8 @@ int main(const int argc, const char* const argv[]) {
        const size_t B = bcc + dist;
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
-       const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
+       const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                                        100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == (n<=1 ? 0 : std::min({B,2*n-1,n*n-2})));
        assert(res.rt == ResultType::exact);
@@ -288,7 +300,8 @@ int main(const int argc, const char* const argv[]) {
          const size_t B = bcc + dist;
          BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
          std::stringstream out;
-         const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
+         const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                                          100, 1, {dist});
          assert(res.B == bcc);
          assert(res.init_B == (n*m <= 1 ? 0 : std::min(B,n*m-1)));
          assert(res.rt == ResultType::exact);
@@ -306,7 +319,8 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},SS::without,PT::partition2,{},{}},
+                         100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
        assert(res.rt == ResultType::exact);
@@ -323,7 +337,8 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},SS::without,PT::partition2,{},{}},
+                         100, 1, {dist});
        assert(res.B == bcp);
        assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
        assert(res.rt == ResultType::exact);
@@ -341,7 +356,8 @@ int main(const int argc, const char* const argv[]) {
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,true}});
        std::stringstream out;
        const auto res =
-         trans.sat_solve(nullptr, {}, 100, 1, {dist});
+         trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                         100, 1, {dist});
        assert(res.B == bcc);
        assert(res.init_B == (n<=1 ? 0 : std::min(B+res.sbs.max(),n*n-1)));
        assert(res.rt == ResultType::exact);
@@ -428,13 +444,15 @@ int main(const int argc, const char* const argv[]) {
     assert(os.str() ==
            "p cnf 10 2\n" "0\n" "4 -10 0\n");
    }
-   {const auto F = GR.solve_ntcc(0, nullptr, {}, 100, 1, {});
+   {const auto F = GR.solve_ntcc(0, nullptr, {{},SS::without,{},{},{}},
+                                 100, 1, {});
     assert(eqp(F, {}));
    }
-   {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
+   {const auto F = GR.solve_ntcc(1, nullptr, {{},SS::without,{},{},{}},
+                                 100, 1, {});
     assert(eqp(F, {}));
    }
-   {const auto F = GR.solve(nullptr, {}, 100, 1, {});
+   {const auto F = GR.solve(nullptr, {{},SS::without,{},{},{}}, 100, 1, {});
     assert(eqp(F, {{{7,5}, {{}, {Lit(-3)}, {Lit(3)}, {Lit(-7)}, {Lit(7)}}},
                    {Var(3),Var(7)}}));
    }
@@ -578,13 +596,15 @@ int main(const int argc, const char* const argv[]) {
      GR.E(os, it, 0);
      assert(os.str() ==
             "p cnf 6 3\n" "2 -4 0\n" "1 6 0\n" "-6 0\n");
-     {const auto F = GR.solve_ntcc(0, nullptr, {}, 100, 1, {});
+     {const auto F = GR.solve_ntcc(0, nullptr, {{},SS::without,{},{},{}},
+                                   100, 1, {});
       assert(eqp(F, {{1,3}, {{Lit(1)}, {Lit(-1)}, {Lit(1)}}}));
      }
-     {const auto F = GR.solve_ntcc(1, nullptr, {}, 100, 1, {});
+     {const auto F = GR.solve_ntcc(1, nullptr, {{},SS::without,{},{},{}},
+                                   100, 1, {});
       assert(eqp(F, {}));
      }
-     {const auto F = GR.solve(nullptr, {}, 100, 1, {});
+     {const auto F = GR.solve(nullptr, {{},SS::without,{},{},{}}, 100, 1, {});
       assert(eqp(F,{{{7,6},
                     {{Lit(3)}, {Lit(-3)}, {}, {Lit(3)}, {Lit(7)}, {Lit(-7)}}},
                     {Var(3),Var(7)}}));
@@ -636,7 +656,8 @@ int main(const int argc, const char* const argv[]) {
     assert(s.freq_ldeg.num_values() == 4);
     assert(eqp(s.freq_ldeg.cmap(), {{0,6},{1,17},{2,1},{3,2}}));
    }
-   const auto R = GR.solve(nullptr, {{},{},{},{},SO::nopre}, 100, 1, {});
+   const auto R = GR.solve(nullptr, {{},SS::without,{},{},SO::nopre},
+                           100, 1, {});
    const DimacsTools::GslicedCNF F2(F.O(), R, F.other);
    const GlobRepl GR2(F2);
    assert(int(gcg_equivalence(GR, GR2, nullptr)) == 0);
@@ -658,7 +679,7 @@ int main(const int argc, const char* const argv[]) {
           "3 -7 -8 -12 -15 20 0\n");
    const auto F = DimacsTools::read_strict_GslicedCNF(is);
    const GlobRepl GR(F);
-   const auto R = GR.solve(nullptr, {}, 100, 1, {});
+   const auto R = GR.solve(nullptr, {{},SS::without,{},{},{}}, 100, 1, {});
    const DimacsTools::GslicedCNF F2(F.O(), R, F.other);
    const GlobRepl GR2(F2);
    assert(int(gcg_equivalence(GR, GR2, nullptr)) == 0);

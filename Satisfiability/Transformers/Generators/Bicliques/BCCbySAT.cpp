@@ -17,7 +17,7 @@ License, or any later version. */
 
 EXAMPLES:
 
-Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" ST ""
 # "./BCCbySAT" "5" "" "" "" "" "" "" ""
 # ** Parameters **
 # B                                     downwards 0 5
@@ -30,16 +30,20 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 5 "" "" "" "" "" "" ""
 # solver-timeout(s)                     2147483647
 # sb-rounds                             100
 # num_e-seeds                           0
-# statistics-output                     null
+# statistics-output                     ST
 # log-output                            null
 # ** Results **
 # sb-stats                              100 : 1 1 1; 0
 # result-type                           exact
 # bcc                                   = 4
-1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
-1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
-2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
-1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
+1 3 4 7 8 9 13 15 | 2 5 6 10 11 12 14 16
+1 3 6 8 10 11 13 14 | 2 4 5 7 9 12 15 16
+1 2 7 8 10 11 15 16 | 3 4 5 6 9 12 13 14
+2 3 5 6 7 8 9 11 | 1 4 10 12 13 14 15 16
+Bicliques> cat ST
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
+4   1  608 3067     0     0  0.01   6  608  47463 1368     0 106792  32376  2.5274e+06 13102  7.53  25  0.01281
+3   0  456 2330     0     0  0.01  22 4076 245011 5514     0 331450 121658 7.31294e+06 31223 19.92  25 0.016636
 
 Without specifying an upper bound, and moving upwards:
 Bicliques> ./GraphGen clique 16 | ./BCCbySAT "" up "" "" "" "" ST ""
@@ -61,13 +65,26 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT "" up "" "" "" "" ST ""
 # sb-stats                              100 : 1 1 1; 0
 # result-type                           exact
 # bcc                                   = 4
+1 3 4 7 8 9 13 15 | 2 5 6 10 11 12 14 16
+1 3 6 8 10 11 13 14 | 2 4 5 7 9 12 15 16
+1 2 7 8 10 11 15 16 | 3 4 5 6 9 12 13 14
+2 3 5 6 7 8 9 11 | 1 4 10 12 13 14 15 16
+
+We note that the bounds shown are before adjustment.
+
+Bicliques> cat ST
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
+1   0  152  736     0     0     0   0    0      0    0   nan      0    138       77138     0   nan  25 0.001789
+2   0  304 1593     0     0  0.01   1   25  12893   55     0  28365    402      207323    64  9.86  25 0.001939
+3   0  456 2330     0     0  0.01  22 4076 202554 5514     0 274015 121658 6.04572e+06 31223 19.92  25 0.020123
+4   1  608 3067     0     0  0.01   6  608  94498 1368     0 212620  32376 5.03202e+06 13102  7.53  25 0.006434
+
+Using "-ssb" we get
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT "" up,-ssb "" "" "" "" ST ""
 1 2 8 10 11 13 14 15 | 3 4 5 6 7 9 12 16
 1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
 2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
 1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
-
-We note that the bounds shown are before adjustment.
-
 Bicliques> cat ST
 B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps    r1        r1ps   cfl cflpd mem        t
 1   0  152  736     0     0     0   0    0    nan    0   nan    nan   138         inf     0   nan  25        0
@@ -96,6 +113,17 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT +0,15 binsearch "" "" "" 0 ST ""
 # sb-stats                              100 : 1 1 1; 0
 # result-type                           exact
 # bcc                                   = 4
+2 3 4 7 9 11 13 15 | 1 5 6 8 10 12 14 16
+1 2 3 9 12 13 14 16 | 4 5 6 7 8 10 11 15
+1 3 4 6 8 9 11 14 | 2 5 7 10 12 13 15 16
+2 3 7 8 10 11 12 14 | 1 4 5 6 9 13 15 16
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
+8   1 1216 6015     0     0  0.01   2  114  19057 1795     0 300067   8441 1.41107e+06  5213  0.19  26 0.005982
+4   1  608 3067     0     0  0.01   5  510  96009 1177     0 221574  25407 4.78294e+06 10276  8.95  25 0.005312
+2   0  304 1593     0     0  0.01   1   14   7487   54     0  28877    162       86631    26 25.71  25  0.00187
+3   0  456 2330     0     0  0.01  19 3648 216923 5023     0 298686 102400 6.08908e+06 27258 22.08  25 0.016817
+
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT +0,15 binsearch,-ssb "" "" "" 0 ST ""
 1 3 5 9 10 12 13 15 | 2 4 6 7 8 11 14 16
 1 3 4 7 11 13 15 16 | 2 5 6 8 9 10 12 14
 1 2 4 6 7 9 10 15 | 3 5 8 11 12 13 14 16
@@ -115,10 +143,10 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT 0,1000 binsearch "" "" "" 0 ST ""
 # B                                     binsearch 0 1000
 Bicliques> cat ST
 B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
-8   1 1216 6008     0     0  0.01   2  118  22846 1637     0 316941   7748  1.5001e+06  4624  0.47  26 0.005165
-4   1  608 3064     0     0  0.01   5  511  98326 1219     0 234558  26071 5.01655e+06 10873  8.17  25 0.005197
-2   0  304 1592     0     0  0.01   1   33  16012   81     0  39301    467      226589    95 11.21  25 0.002061
-3   0  456 2328     0     0  0.01  31 6458 202147 8788     0 275081 177216 5.54719e+06 50432 19.38  25 0.031947
+8   1 1216 6015     0     0  0.01   2  114  21889 1795     0 344662   8441 1.62078e+06  5213  0.19  26 0.005208
+4   1  608 3067     0     0  0.01   5  510  84689 1177     0 195450  25407 4.21903e+06 10276  8.95  25 0.006022
+2   0  304 1593     0     0  0.01   1   14   7584   54     0  29252    162       87757    26 25.71  25 0.001846
+3   0  456 2330     0     0  0.01  19 3648 214361 5023     0 295158 102400 6.01716e+06 27258 22.08  25 0.017018
 
 
 One can investigate the symmetry-breaking as preprocessing:
@@ -165,19 +193,20 @@ sys	0m0.029s
 As the solution-statistics shows:
 Bicliques> cat ST
  B sat  maxn      c ptime stime elimc rts   cfs cfsps    dec decpr  decps          r1        r1ps    cfl cflpd mem        t
-54   0 22626 696583  0.06  0.26  0.02  66 19625 31010 113668     0 179608 4.49213e+06 7.09807e+06 545464 34.75  61 0.632866
+54   0 22626 696587  0.06  0.26  0.02  68 19772 31407 112721     0 179051 4.62649e+06 7.34892e+06 475498 31.84  61 0.629547
 
 no solution was produced (since not needed).
 In order to produce a solution:
 Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 56 "" "" "" 1 2128577 ST ""
 ...
-1,9 2,8 2,10 3,9 | 2,9
-2,2 | 2,3 3,2
-3,2 4,3 | 4,2
-9,5 10,4 10,6 | 10,5
-real	0m1.182s
-user	0m1.173s
-sys	0m0.038s
+5,5 | 4,5 5,4 5,6 6,5
+1,4 | 1,3 1,5 2,4
+4,1 5,2 6,1 | 5,1
+9,7 10,8 | 9,8 10,7
+
+real	0m1.211s
+user	0m1.192s
+sys	0m0.047s
 
 
 Even with sb=49 the unsat-result takes much longer.
@@ -207,7 +236,7 @@ Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ST ""
 No output here, since the automatic upper-bound V-1=5 is never tried:
 Bicliques> cat ST
 B sat maxn   c ptime stime elimc rts   cfs  cfsps   dec decpr  decps     r1        r1ps    cfl cflpd mem        t
-4   0  108 489     0     0     0  70 20225 269100 24368     0 324224 424705 5.65083e+06 195719 27.67  25 0.075158
+4   0  108 492     0     0     0  30 6401 230219 7681     0 276255 142368 5.12041e+06 56090  27.6  25 0.027804
 
 In order to overcome this, an additional isolated vertex can be added to the input-graph (which increases
 that bound, but otherwise has not much influence):
@@ -231,20 +260,21 @@ Bicliques> ./GraphGen clique 6 | cat - FILE | ./BCCbySAT 6 partition2 "" "" "" "
 # sb-stats                              100 : 1 1 1; 0
 # result-type                           exact
 # bcp                                   = 5
-1 6 | 2 4 5
-2 5 | 4
-2 4 6 | 3
-2 3 | 5
-3 6 | 1
+1 6 | 2 5
+2 5 6 | 3 4
+1 | 3 4 6
+3 | 4
+2 | 5
 Bicliques> cat ST
 B sat maxn   c ptime stime elimc rts   cfs  cfsps   dec decpr  decps     r1        r1ps    cfl cflpd mem        t
-5   1  145 710     0     0     0   2   107  63615   217     0 129013   2348 1.39596e+06   1526  2.43  25 0.001682
-4   0  116 541     0     0     0  62 14462 400909 20201     0 560003 248027  6.8757e+06 114775 23.25  25 0.036073
+5   1  145 714     0     0     0   1   18   7692   81     0  34615    553      236325   159  2.45  25  0.00234
+4   0  116 544     0     0     0  29 5393 288349 6584     0 352029 120946 6.46666e+06 44579    28  25 0.018703
+
 
 Remarks on logging:
 
 If a log-file is given (or /dev/stdout used), then the (complete) minisat-
-output is only shown with a completed run (which may have been aborted);
+output is only shown after a completed run (which may have been aborted);
 in order to see the progress of the current run, in the calling directory
 the file SystemCalls_Popen_out_* can be inspected.
 
@@ -267,7 +297,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.3",
+        "0.10.0",
         "3.5.2023",
         __FILE__,
         "Oliver Kullmann",

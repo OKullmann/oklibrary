@@ -650,7 +650,6 @@ namespace Bicliques2SAT {
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
       if (b.di == DI::none) {
         assert(not b.incu);
-        assert(b.u == Bounds::trivial_upper_bound());
         if (b.init) return out << b.l;
         assert(b.incl);
         return out << "+" << b.l;
@@ -711,17 +710,17 @@ namespace Bicliques2SAT {
 
     struct symmbreak_res_t {
       vei_t v; // vector for primary symmetry-breaking (placing edges)
-      vei_t vs; // secondary symmetry-breaking: the candidate edges to restrict
+      vei_t sv; // secondary symmetry-breaking: the candidate edges to restrict
       stats_t s;
       id_t i = 0;
-      vei_t restrict_vs(const id_t B) const {
+      vei_t restrict_sv(const id_t B) const {
         const id_t optsbs = v.size();
-        if (B <= optsbs or B <= optsbs+1) return {};
-        const id_t choose = B - 1 - optsbs;
+        if (B <= optsbs) return {};
+        const id_t choose = B - optsbs;
         assert(choose >= 1);
-        const id_t size = vs.size();
-        if (choose >= size) return vs;
-        return vei_t(vs.begin(), vs.begin()+choose);
+        const id_t size = sv.size();
+        if (choose >= size) return sv;
+        return vei_t(sv.begin(), sv.begin()+choose);
       }
     };
     id_t max_B(const id_t optsbs) const noexcept {
@@ -737,17 +736,18 @@ namespace Bicliques2SAT {
                                     RandGen::vec_eseed_t seeds) const {
       const auto optsbs = sbres.v.size();
       const id_t B = max_B(optsbs);
-      if (B <= optsbs or B <= optsbs+1) return;
-      const auto choose = B - 1 - optsbs;
+      if (B <= optsbs) return;
+      const auto choose = B - optsbs;
       assert(choose >= 1);
       auto copy = sbres.v; std::ranges::sort(copy);
       const auto complement = Algorithms::complement_uint(copy, enc_.E);
       seeds.push_back(0); seeds.push_back(0);
       RandGen::RandGen_t g(seeds);
+      assert(choose <= complement.size());
       const auto choice_indices = RandGen::choose_kn(choose,
                                                      complement.size(), g);
-      sbres.vs.reserve(choice_indices.size());
-      for (const auto i : choice_indices) sbres.vs.push_back(complement[i]);
+      sbres.sv.reserve(choice_indices.size());
+      for (const auto i : choice_indices) sbres.sv.push_back(complement[i]);
     }
     // Now repeat rounds-often, and return the first best, with statistics:
     symmbreak_res_t max_bcincomp(const id_t rounds,
@@ -947,18 +947,57 @@ namespace Bicliques2SAT {
       return count;
     }
 
-    id_t num_cover_cl(const vei_t& sb) const noexcept {
-      return num_basic_cl() + num_cl_sb(sb);
+    // For edge e forbidding the negative direction for biclique b,
+    // and forbidding it at all in bicliques > b:
+    ClauseList forbid_edge(const id_t e, const id_t b) const noexcept {
+      const auto B = enc_.B();
+      assert(e < enc_.E); assert(b < B);
+      const auto numcl = B - b;
+      ClauseList F; F.reserve(numcl);
+      const auto [v,w] = edges[e];
+      F.push_back({-Lit(enc_.left(w,b)), -Lit(enc_.right(v,b))});
+      for (id_t b2 = b+1; b2 < B; ++b2)
+        F.push_back({-Lit(enc_.edge(e,b2))});
+      assert(F.size() == numcl);
+      assert(RandGen::valid(F));
+      return F;
     }
-    id_t num_cover_lit(const vei_t& sb) const noexcept {
-      return num_basic_lit() + num_lit_sb(sb);
+    id_t num_cl_ssb(const vei_t& ssb) const noexcept {
+      const auto M = ssb.size();
+      return (M*(M+1))/2;
+    }
+    id_t num_lit_ssb(const vei_t& ssb) const noexcept {
+      return num_cl_ssb(ssb) + ssb.size();
     }
     template <class STREAM>
-    id_t all_cover_clauses(const vei_t& sb, STREAM out) const {
+    id_t all_ssbedges(const id_t sbs, const vei_t& ssb, STREAM out) const {
+      assert(sbs + ssb.size() <= enc_.B());
+      id_t count = 0;
+      for (id_t b = sbs; const id_t e : ssb) {
+        const auto F = forbid_edge(e, b);
+        using DimacsTools:: operator <<;
+        out << F;
+        count += F.size();
+        ++b;
+      }
+      assert(count == num_cl_ssb(ssb));
+      return count;
+    }
+
+    id_t num_cover_cl(const vei_t& sb, const vei_t& ssb) const noexcept {
+      return num_basic_cl() + num_cl_sb(sb) + num_cl_ssb(ssb);
+    }
+    id_t num_cover_lit(const vei_t& sb, const vei_t& ssb) const noexcept {
+      return num_basic_lit() + num_lit_sb(sb) + num_lit_ssb(ssb);
+    }
+    template <class STREAM>
+    id_t all_cover_clauses(const vei_t& sb, const vei_t& ssb,
+                           STREAM out) const {
       id_t sum = 0;
       sum += all_basic_clauses<STREAM>(out);
       sum += all_sbedges<STREAM>(sb, out);
-      assert(sum == num_cover_cl(sb));
+      sum += all_ssbedges<STREAM>(sb.size(), ssb, out);
+      assert(sum == num_cover_cl(sb, ssb));
       return sum;
     }
 
@@ -1010,32 +1049,35 @@ namespace Bicliques2SAT {
       return sum;
     }
 
-    id_t num_part2_cl(const vei_t& sb) const noexcept {
-      return num_basicpart2_cl() + num_cl_sb(sb);
+    id_t num_part2_cl(const vei_t& sb, const vei_t& ssb) const noexcept {
+      return num_basicpart2_cl() + num_cl_sb(sb) + num_cl_ssb(ssb);
     }
-    id_t num_part2_lit(const vei_t& sb) const noexcept {
-      return num_basicpart2_lit() + num_lit_sb(sb);
+    id_t num_part2_lit(const vei_t& sb, const vei_t& ssb) const noexcept {
+      return num_basicpart2_lit() + num_lit_sb(sb) + num_lit_ssb(ssb);
     }
     template <class STREAM>
-    id_t all_part2_clauses(const vei_t& sb, STREAM out) const {
+    id_t all_part2_clauses(const vei_t& sb, const vei_t& ssb,
+                           STREAM out) const {
       id_t sum = 0;
       sum += all_basicpart2_clauses<STREAM>(out);
       sum += all_sbedges<STREAM>(sb, out);
-      assert(sum == num_part2_cl(sb));
+      sum += all_ssbedges<STREAM>(sb.size(), ssb, out);
+      assert(sum == num_part2_cl(sb, ssb));
       return sum;
     }
 
-    RandGen::dimacs_pars all_dimacs(const vei_t& sb,
+    RandGen::dimacs_pars all_dimacs(const vei_t& sb, const vei_t& ssb,
                                     const PT pt) const noexcept {
       assert(pt == PT::cover or pt == PT::partition2);
       return {enc_.n(),
-          pt == PT::cover ? num_cover_cl(sb) : num_part2_cl(sb)};
+          pt == PT::cover ? num_cover_cl(sb, ssb) : num_part2_cl(sb, ssb)};
     }
     template <class STREAM>
-    void all_clauses(const vei_t& sb, const PT pt, STREAM out) {
+    void all_clauses(const vei_t& sb, const vei_t& ssb, const PT pt,
+                     STREAM out) {
       assert(pt == PT::cover or pt == PT::partition2);
-      if (pt == PT::cover) all_cover_clauses<STREAM>(sb, out);
-      else all_part2_clauses<STREAM>(sb, out);
+      if (pt == PT::cover) all_cover_clauses<STREAM>(sb, ssb, out);
+      else all_part2_clauses<STREAM>(sb, ssb, out);
     }
 
 
@@ -1076,25 +1118,25 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const auto [sbv, sbsv, sbs, sbi] = sb == SB::none ?
+      const auto sbr = sb == SB::none ?
         symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
-      const auto optsbs = sbv.size();
-      if (dc == DC::with and sb != SB::none) {
-        out <<
-          DHW{"Symmetry Breaking"} <<
-          DWW{"planted-edges"} << optsbs << "\n" <<
-          DWW{"sb-stats"} << sbs << "\n" <<
-          DWW{"sb-seed"} << sbi << "\n";
-        if (ss == SS::with)
-          out <<
-            DWW{"restricted-edges"} << sbsv.size() << "\n";
-      }
+      const auto optsbs = sbr.v.size();
       bounds.update_by_sb(optsbs);
       assert(not bounds.inconsistent());
       const auto B = bounds.next();
       update_B(B);
+      if (dc == DC::with and sb != SB::none) {
+        out <<
+          DHW{"Symmetry Breaking"} <<
+          DWW{"planted-edges"} << optsbs << "\n" <<
+          DWW{"sb-stats"} << sbr.s << "\n" <<
+          DWW{"sb-seed"} << sbr.i << "\n";
+        if (ss == SS::with)
+          out <<
+            DWW{"restricted-edges"} << sbr.sv.size() << "\n";
+      }
 
-      const RandGen::dimacs_pars res = all_dimacs(sbv, pt);
+      const RandGen::dimacs_pars res = all_dimacs(sbr.v, sbr.sv, pt);
       if (dc == DC::with) {
         out <<
           DHW{"Statistics"} <<
@@ -1115,14 +1157,18 @@ namespace Bicliques2SAT {
             DWW{" partition-clauses"} << num_cl_edgepart2() << "\n" <<
             DWW{"  partition-lit-occurrences"} << num_lit_edgepart2() << "\n";
         out <<
-          DWW{" unit-clauses"} << num_cl_sb(sbv) << "\n" <<
+          DWW{" positive unit-clauses"} << num_cl_sb(sbr.v) << "\n" <<
+          DWW{" negative unit-clauses"} <<
+            num_cl_ssb(sbr.sv)-sbr.sv.size() << "\n" <<
+          DWW{" negative binary-clauses"} << sbr.sv.size() << "\n" <<
           DWW{"total-clauses"} << res.c << "\n" <<
-          DWW{"total-lit-occurrences"} <<
-           (pt==PT::cover ? num_cover_lit(sbv) : num_part2_lit(sbv)) << "\n";
+          DWW{"total-lit-occurrences"} << (pt==PT::cover ?
+            num_cover_lit(sbr.v, sbr.sv) :
+            num_part2_lit(sbr.v, sbr.sv)) << "\n";
       }
 
       if (dp == DP::with) out << res;
-      if (cs == CS::with) all_clauses<std::ostream&>(sbv, pt, out);
+      if (cs == CS::with) all_clauses<std::ostream&>(sbr.v, sbr.sv, pt, out);
       return res;
     }
 
@@ -1190,16 +1236,16 @@ namespace Bicliques2SAT {
 
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
-      const auto [sbv, sbsv, sbs, sbi] = sb == SB::none ?
+      const auto sbr = sb == SB::none ?
         symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
-      const auto optsbs = sbv.size();
+      const auto optsbs = sbr.v.size();
       if (log) {
-        *log << "Symmetry-breaking: index=" << sbi << ", stats= " << sbs
-             << "; r-edges= " << sbsv.size() << std::endl;
+        *log << "Symmetry-breaking: index=" << sbr.i << ", stats= " << sbr.s
+             << "; r-edges= " << sbr.sv.size() << std::endl;
       }
 
       bounds.update_by_sb(optsbs);
-      result_t res(bounds.ub(), pt, sbs);
+      result_t res(bounds.ub(), pt, sbr.s);
       if (bounds.inconsistent()) {
         res.rt = ResultType::upper_unsat_sb;
         return res;
@@ -1219,14 +1265,15 @@ namespace Bicliques2SAT {
       while (true) { // main solver-loop
         assert(bounds.open());
         {const auto nc = bounds.next();
-          update_B(nc);
-          res.B = nc; // so that in case of error the last B-value is available
+         update_B(nc);
+         res.B = nc; // so that in case of error the last B-value is available
         }
 
-        const auto inp = [this, &sbv, pt](std::FILE* const fp){
+        const auto inp = [this, &sbr, pt](std::FILE* const fp){
           using DimacsTools:: operator <<;
-          fp << all_dimacs(sbv, pt);
-          all_clauses(sbv, pt, fp);
+          const auto sbsv = sbr.restrict_sv(enc_.B());
+          fp << all_dimacs(sbr.v, sbsv, pt);
+          all_clauses(sbr.v, sbsv, pt, fp);
         };
         const auto call_res = DimacsTools::minisat_call
           (inp, enc_.lf, solver_options);

@@ -45,13 +45,15 @@ c  edge-clauses                         711360
 c   edge-lit-occurrences                2134080
 c  cover-clauses                        760
 c   cover-lit-occurrences               118560
-c  unit-clauses                         468
+c  positive unit-clauses                468
+c  negative unit-clauses                0
+c  negative binary-clauses              0
 c total-clauses                         25435468
 c total-lit-occurrences                 51698868
 p cnf 243360 25435468
 real	0m0.082s
-user	0m0.083s
-sys	0m0.000s
+user	0m0.080s
+sys	0m0.004s
 
 The given B will be adjusted to a simple upper bound, if beyond that:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 1000 "" -cs "" ""
@@ -59,8 +61,14 @@ c "./BCC2SAT" "1000" "" "-cs" "" ""
 c ** Parameters **
 c B                                     399
 ...
-c total-lit-occurrences                 132229068
-p cnf 622440 65054188
+c restricted-edges                      243
+...
+c  positive unit-clauses                468
+c  negative unit-clauses                29403
+c  negative binary-clauses              243
+c total-clauses                         65083834
+c total-lit-occurrences                 132258957
+p cnf 622440 65083834
 
 
 Via appending the sb-seed to the given seed-sequence (above it is empty)
@@ -95,7 +103,7 @@ c ** Symmetry Breaking **
 c planted-edges                         165
 c sb-stats                              20000 : 136 149.59 165; 3.2904
 c sb-seed                               12440
-c restricted-edges                      34
+c restricted-edges                      35
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -109,13 +117,15 @@ c  edge-clauses                         912000
 c   edge-lit-occurrences                2736000
 c  cover-clauses                        760
 c   cover-lit-occurrences               152000
-c  unit-clauses                         495
-c total-clauses                         32609255
-c total-lit-occurrences                 66280495
-p cnf 312000 32609255
-real	0m13.533s
-user	0m13.534s
-sys	0m0.001s
+c  positive unit-clauses                495
+c  negative unit-clauses                595
+c  negative binary-clauses              35
+c total-clauses                         32609885
+c total-lit-occurrences                 66281160
+p cnf 312000 32609885
+real	0m13.265s
+user	0m13.262s
+sys	0m0.004s
 
 One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
@@ -163,7 +173,7 @@ c ** Symmetry Breaking **
 c planted-edges                         165
 c sb-stats                              20000 : 136 149.59 165; 3.2904
 c sb-seed                               12440
-c restricted-edges                      34
+c restricted-edges                      35
 c ** Statistics **
 c V                                     400
 c E                                     760
@@ -179,13 +189,15 @@ c  cover-clauses                        760
 c   cover-lit-occurrences               152000
 c  partition-clauses                    15124000
 c   partition-lit-occurrences           30248000
-c  unit-clauses                         495
-c total-clauses                         47733255
-c total-lit-occurrences                 96528495
-p cnf 312000 47733255
-real	0m13.473s
-user	0m13.457s
-sys	0m0.013s
+c  positive unit-clauses                495
+c  negative unit-clauses                595
+c  negative binary-clauses              35
+c total-clauses                         47733885
+c total-lit-occurrences                 96529160
+p cnf 312000 47733885
+real	0m13.074s
+user	0m13.069s
+sys	0m0.005s
 
 
 For example covering the K_4 can be done with 2 bicliques,
@@ -214,7 +226,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.6",
+        "1.1.0",
         "3.5.2023",
         __FILE__,
         "Oliver Kullmann",
