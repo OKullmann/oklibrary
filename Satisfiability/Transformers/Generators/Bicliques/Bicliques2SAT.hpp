@@ -553,6 +553,7 @@ namespace Bicliques2SAT {
 
     const DI di;
     const bool incl = false, incu = false;
+    const size_t generic_ub = trivial_upper_bound();
   private :
     size_t l = trivial_lower_bound(), u = trivial_upper_bound();
     bool init;
@@ -576,15 +577,21 @@ namespace Bicliques2SAT {
     di(d), incl(lower.second), incu(upper.second),
     l(lower.first), u(upper.first), init(not incl and not incu) {}
 
+    Bounds(const Bounds& other, const graph_t& G) noexcept :
+    di(other.di), incl(other.incl), incu(other.incu),
+    generic_ub(std::min(other.generic_ub, simple_upper_bound(G))),
+    l(other.l), u(incu ? other.u : std::min(other.u, generic_ub)),
+    init(other.init) {
+      if (not incl) l = std::min(l, generic_ub);
+    }
+
     size_t lb() const noexcept { return l; }
     size_t ub() const noexcept { return u; }
 
     size_t next() const noexcept {
       if (not init) return 0;
-      if (di == DI::downwards) {
-        assert(u > 0);
-        return u-1;
-      }
+      if (di == DI::downwards)
+        return u==0 ? 0 : u-1;
       else if (di == DI::binary_search) {
         assert(l <= u);
         return l + (u-l)/2;
@@ -598,18 +605,18 @@ namespace Bicliques2SAT {
     constexpr bool inconsistent() const noexcept { return l > u; }
 
     // If the increment-flags are set, then the current value of l resp. u
-    // means in increment on the symmetry-breaking-value:
+    // means an increment on the symmetry-breaking-value:
     void update_by_sb(const size_t sb) noexcept {
       init = true;
       if (incl) {
         assert(sb + l > l);
-        l = sb + l;
+        l = std::min(sb + l, generic_ub);
       }
       else
         l = std::max(l, sb);
       if (incu) {
         assert(sb + u > u);
-        u = sb + u;
+        u = std::min(sb + u, generic_ub);
       }
     }
     void update_if_sat(const size_t newu) noexcept {
@@ -638,10 +645,6 @@ namespace Bicliques2SAT {
       assert(G.n() >= 1);
       return std::min(G.n() - 1, G.m());
       // for general G with k connected components: G.n() - k
-    }
-
-    void update_upper_bound(const graph_t& G) noexcept {
-      u = std::min(u, simple_upper_bound(G));
     }
 
     friend std::ostream& operator <<(std::ostream& out, const Bounds& b) {
@@ -675,7 +678,7 @@ namespace Bicliques2SAT {
     static_assert(std::is_same_v<id_t, graph_t::id_t>);
 
     explicit BC2SAT(const graph_t& G, Bounds b) noexcept :
-      G(G), edges(G.alledges()), bounds(b), enc_(G,bounds.next()) {}
+      G(G), edges(G.alledges()), bounds(b,G), enc_(G,bounds.next()) {}
 
 
     const enc_t& enc() const noexcept { return enc_; }
@@ -723,7 +726,6 @@ namespace Bicliques2SAT {
     };
     id_t max_B(const id_t optsbs) const noexcept {
       Bounds b(bounds);
-      b.update_upper_bound(G);
       b.update_by_sb(optsbs);
       if (b.di == DI::none or b.di == DI::downwards) return b.next();
       else {
@@ -1038,12 +1040,12 @@ namespace Bicliques2SAT {
 
 
     // Output a (single) SAT-translation (not using bounds, but
-    // updating enc.B if it is zero, in case of symmetry-breaking):
+    // updating enc.B if it is zero, in case of symmetry-breaking
+    // this function is not called by sat_solve):
     RandGen::dimacs_pars sat_translate(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
         const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
-      // this function is not called by sat_solve:
       assert(bounds.di == DI::none);
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
@@ -1196,8 +1198,8 @@ namespace Bicliques2SAT {
              << "; r-edges= " << sbsv.size() << std::endl;
       }
 
-      result_t res(bounds.ub(), pt, sbs);
       bounds.update_by_sb(optsbs);
+      result_t res(bounds.ub(), pt, sbs);
       if (bounds.inconsistent()) {
         res.rt = ResultType::upper_unsat_sb;
         return res;

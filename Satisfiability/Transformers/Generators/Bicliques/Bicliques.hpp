@@ -208,6 +208,8 @@ namespace Bicliques {
     explicit Bcc_frame(const id_t n) : L(n) {}
     Bcc_frame(v_t L) noexcept : L(L) {}
 
+    bool empty() const noexcept { return L.empty(); }
+
     bool operator ==(const Bcc_frame& rhs) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const Bcc_frame& bcc) {
       for (const auto& bc : bcc.L) out << bc << "\n";

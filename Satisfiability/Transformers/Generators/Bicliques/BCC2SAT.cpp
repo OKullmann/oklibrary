@@ -53,6 +53,16 @@ real	0m0.082s
 user	0m0.083s
 sys	0m0.000s
 
+The given B will be adjusted to a simple upper bound, if beyond that:
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 1000 "" -cs "" ""
+c "./BCC2SAT" "1000" "" "-cs" "" ""
+c ** Parameters **
+c B                                     399
+...
+c total-lit-occurrences                 132229068
+p cnf 622440 65054188
+
+
 Via appending the sb-seed to the given seed-sequence (above it is empty)
 one can get the best sb-result in a single round:
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
@@ -65,6 +75,8 @@ c planted-edges                         156
 c sb-stats                              1 : 156 156 156; 0
 c sb-seed                               0
 c restricted-edges                      0
+...
+p cnf 243360 25435468
 
 
 Explicitly specifying B=200, and 20000 symmetry-breaking-rounds:
@@ -110,6 +122,15 @@ One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 
 Since for the above 200=165+35, one obtains the same result by
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 20000 ""
+c "./BCC2SAT" "+35" "" "-cs" "20000" ""
+c ** Parameters **
+c B                                     +35
+...
+c ** Statistics **
+c V                                     400
+c E                                     760
+c B                                     200
+
 or (via a single round) b
 Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
 
@@ -193,8 +214,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.5",
-        "1.5.2023",
+        "1.0.6",
+        "3.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

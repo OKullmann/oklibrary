@@ -65,6 +65,9 @@ Bicliques> ./GraphGen clique 16 | ./BCCbySAT "" up "" "" "" "" ST ""
 1 2 3 4 6 7 8 10 | 5 9 11 12 13 14 15 16
 2 4 7 9 10 11 14 16 | 1 3 5 6 8 12 13 15
 1 4 6 10 12 13 14 16 | 2 3 5 7 8 9 11 15
+
+We note that the bounds shown are before adjustment.
+
 Bicliques> cat ST
 B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps    r1        r1ps   cfl cflpd mem        t
 1   0  152  736     0     0     0   0    0    nan    0   nan    nan   138         inf     0   nan  25        0
@@ -104,14 +107,38 @@ B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1      
 2   0  304 1592     0     0  0.01   1   33  17188   81     0  42188    467      243229    95 11.21  25  0.00192
 3   0  456 2328     0     0  0.01  31 6458 224384 8788     0 305340 177216  6.1574e+06 50432 19.38  25 0.028781
 
+Upper and lower bound will be automatically adjusted to the bounds given by symmetry-breaking resp.
+the simple upper bound, and thus we get the same result by
+Bicliques> ./GraphGen clique 16 | ./BCCbySAT 0,1000 binsearch "" "" "" 0 ST ""
+# "./BCCbySAT" "0,1000" "binsearch" "" "" "" "0" "ST" ""
+# ** Parameters **
+# B                                     binsearch 0 1000
+Bicliques> cat ST
+B sat maxn    c ptime stime elimc rts  cfs  cfsps  dec decpr  decps     r1        r1ps   cfl cflpd mem        t
+8   1 1216 6008     0     0  0.01   2  118  22846 1637     0 316941   7748  1.5001e+06  4624  0.47  26 0.005165
+4   1  608 3064     0     0  0.01   5  511  98326 1219     0 234558  26071 5.01655e+06 10873  8.17  25 0.005197
+2   0  304 1592     0     0  0.01   1   33  16012   81     0  39301    467      226589    95 11.21  25 0.002061
+3   0  456 2328     0     0  0.01  31 6458 202147 8788     0 275081 177216 5.54719e+06 50432 19.38  25 0.031947
+
 
 One can investigate the symmetry-breaking as preprocessing:
-Bicliques> ./GraphGen grid 10 11 | ./BCC2SAT 0 "" -cs 3000000 ""
+Bicliques> time ./GraphGen grid 10 11 | ./BCC2SAT 0 "" -cs 3000000 ""
 c sb-stats                              3000000 : 33 41.0195 50; 1.7225
 c sb-seed                               2128577
+c restricted-edges                      0
+c ** Statistics **
+c V                                     110
+c E                                     199
+c B                                     50
+c total-lit-occurrences                 1359400
+p cnf 20950 645149
+real	3m3.991s
+user	3m3.879s
+sys	0m0.036s
+
 Then one can provide this sb-sequence:
-Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats ""
-# "./BCCbySAT" "55" "" "" "" "1" "2128577" "Stats" ""
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 ST ""
+# "./BCCbySAT" "55" "" "" "" "1" "2128577" "ST" ""
 # ** Parameters **
 # B                                     downwards 0 55
 # sb-option                             basic-sb
@@ -124,7 +151,7 @@ Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 55 "" "" "" 1 2128577 Stats "
 # sb-rounds                             1
 # num_e-seeds                           1
 #  e-seeds                              2128577
-# statistics-output                     Stats
+# statistics-output                     ST
 # log-output                            null
 # ** Results **
 # sb-stats                              1 : 50 50 50; 0
@@ -136,13 +163,13 @@ sys	0m0.029s
 
 
 As the solution-statistics shows:
-Bicliques> cat Stats
+Bicliques> cat ST
  B sat  maxn      c ptime stime elimc rts   cfs cfsps    dec decpr  decps          r1        r1ps    cfl cflpd mem        t
 54   0 22626 696583  0.06  0.26  0.02  66 19625 31010 113668     0 179608 4.49213e+06 7.09807e+06 545464 34.75  61 0.632866
 
 no solution was produced (since not needed).
 In order to produce a solution:
-Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 56 "" "" "" 1 2128577 Stats ""
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT 56 "" "" "" 1 2128577 ST ""
 ...
 1,9 2,8 2,10 3,9 | 2,9
 2,2 | 2,3 3,2
@@ -157,8 +184,8 @@ Even with sb=49 the unsat-result takes much longer.
 
 
 The above were biclique-cover-problems; now a partition-problem:
-Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" STATS ""
-# "./BCCbySAT" "6" "partition2" "" "" "" "" "STATS" ""
+Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ST ""
+# "./BCCbySAT" "6" "partition2" "" "" "" "" "ST" ""
 # ** Parameters **
 # B                                     downwards 0 6
 # sb-option                             basic-sb
@@ -170,7 +197,35 @@ Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" STATS ""
 # solver-timeout(s)                     2147483647
 # sb-rounds                             100
 # num_e-seeds                           0
-# statistics-output                     STATS
+# statistics-output                     ST
+# log-output                            null
+# ** Results **
+# sb-stats                              100 : 1 1 1; 0
+# result-type                           exact
+# bcp                                   = 5
+
+No output here, since the automatic upper-bound V-1=5 is never tried:
+Bicliques> cat ST
+B sat maxn   c ptime stime elimc rts   cfs  cfsps   dec decpr  decps     r1        r1ps    cfl cflpd mem        t
+4   0  108 489     0     0     0  70 20225 269100 24368     0 324224 424705 5.65083e+06 195719 27.67  25 0.075158
+
+In order to overcome this, an additional isolated vertex can be added to the input-graph (which increases
+that bound, but otherwise has not much influence):
+Bicliques> echo "new_vertex" > FILE
+Bicliques> ./GraphGen clique 6 | cat - FILE | ./BCCbySAT 6 partition2 "" "" "" "" ST ""
+# "./BCCbySAT" "6" "partition2" "" "" "" "" "ST" ""
+# ** Parameters **
+# B                                     downwards 0 6
+# sb-options                            basic-sb with-ssb
+# pt-option                             partition-quadratic
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# sb-rounds                             100
+# num_e-seeds                           0
+# statistics-output                     ST
 # log-output                            null
 # ** Results **
 # sb-stats                              100 : 1 1 1; 0
@@ -181,11 +236,10 @@ Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" STATS ""
 2 4 6 | 3
 2 3 | 5
 3 6 | 1
-Bicliques> cat STATS
+Bicliques> cat ST
 B sat maxn   c ptime stime elimc rts   cfs  cfsps   dec decpr  decps     r1        r1ps    cfl cflpd mem        t
-5   1  135 645     0     0     0   2   107  66708   217     0 135287   2346 1.46259e+06   1526  2.43  25 0.001604
-4   0  108 489     0     0     0  70 20225 320864 24368     0 386591 424705 6.73782e+06 195719 27.67  25 0.063033
-
+5   1  145 710     0     0     0   2   107  63615   217     0 129013   2348 1.39596e+06   1526  2.43  25 0.001682
+4   0  116 541     0     0     0  62 14462 400909 20201     0 560003 248027  6.8757e+06 114775 23.25  25 0.036073
 
 Remarks on logging:
 
@@ -213,8 +267,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
-        "1.5.2023",
+        "0.9.3",
+        "3.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",

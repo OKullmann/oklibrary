@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.3",
-        "1.5.2023",
+        "0.8.4",
+        "2.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -244,9 +244,10 @@ int main(const int argc, const char* const argv[]) {
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : B));
+       assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
        assert(res.rt == ResultType::exact);
-       assert(is_bcc(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcc(res.bcc, G));
      }
    }
    for (size_t n = 0; n < 6; ++n) {
@@ -258,9 +259,10 @@ int main(const int argc, const char* const argv[]) {
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
-       assert(res.init_B == (n==0 ? 0 : B));
+       assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
        assert(res.rt == ResultType::exact);
-       assert(is_bcc(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcc(res.bcc, G));
      }
    }
    for (size_t n = 0; n < 6; ++n) {
@@ -272,9 +274,10 @@ int main(const int argc, const char* const argv[]) {
        std::stringstream out;
        const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : B));
+       assert(res.init_B == (n<=1 ? 0 : std::min({B,2*n-1,n*n-2})));
        assert(res.rt == ResultType::exact);
-       assert(is_bcc(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcc(res.bcc, G));
      }
    }
    for (size_t n = 0; n < 6; ++n)
@@ -287,9 +290,10 @@ int main(const int argc, const char* const argv[]) {
          std::stringstream out;
          const auto res = trans.sat_solve(nullptr, {}, 100, 1, {dist});
          assert(res.B == bcc);
-         assert(res.init_B == (n*m <= 1 ? 0 : B));
+         assert(res.init_B == (n*m <= 1 ? 0 : std::min(B,n*m-1)));
          assert(res.rt == ResultType::exact);
-         assert(is_bcc(res.bcc, G));
+         assert(res.init_B != res.B or res.bcc.empty());
+         assert(res.init_B == res.B or is_bcc(res.bcc, G));
        }
      }
   }
@@ -304,9 +308,10 @@ int main(const int argc, const char* const argv[]) {
        const auto res =
          trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
-       assert(res.init_B == (n<=1 ? 0 : B));
+       assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
        assert(res.rt == ResultType::exact);
-       assert(is_bcp(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcp(res.bcc, G));
      }
     }
   }
@@ -320,9 +325,10 @@ int main(const int argc, const char* const argv[]) {
        const auto res =
          trans.sat_solve(nullptr, {{},{},PT::partition2,{},{}}, 100, 1, {dist});
        assert(res.B == bcp);
-       assert(res.init_B == (n==0 ? 0 : B));
+       assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
        assert(res.rt == ResultType::exact);
-       assert(is_bcp(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcp(res.bcc, G));
      }
     }
   }
@@ -330,16 +336,17 @@ int main(const int argc, const char* const argv[]) {
   {for (size_t n = 0; n < 6; ++n) {
      const auto G = BC2SAT::graph_t(grid(n,n));
      const size_t bcc = bcc_grid(n,n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcc + dist;
+     for (size_t dist = 0; dist <= 6; ++dist) {
+       const size_t B = dist;
        BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,true}});
        std::stringstream out;
        const auto res =
          trans.sat_solve(nullptr, {}, 100, 1, {dist});
        assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : B));
+       assert(res.init_B == (n<=1 ? 0 : std::min(B+res.sbs.max(),n*n-1)));
        assert(res.rt == ResultType::exact);
-       assert(is_bcc(res.bcc, G));
+       assert(res.init_B != res.B or res.bcc.empty());
+       assert(res.init_B == res.B or is_bcc(res.bcc, G));
      }
     }
   }

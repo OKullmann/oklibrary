@@ -90,31 +90,31 @@ p cnf 10 20
 
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
-Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" ""
+Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" logfile ""
 p cnf 10 20
 1 0
 -1 -10 0
-2 7 10 0
--2 5 7 0
+7 10 0
+-2 5 7 -10 0
 -1 3 4 0
 4 -7 8 0
 -4 5 8 0
 5 6 7 0
--5 6 8 0
+-5 6 8 -9 0
 -4 -6 0
-2 3 -6 9 0
-3 -6 7 9 0
+2 3 -6 0
+3 -6 7 -9 0
 -3 0
--5 0
-2 5 9 0
-5 -9 0
+-5 -9 0
+2 5 0
+-2 9 0
 -1 3 0
 -4 0
--2 -4 -8 0
+-2 -4 -8 -10 0
 1 -8 0
 
-We have here two conflicts between {4,-7,8} and {-2,-4,-8}; if want always
-at most one conflict, we ask for a partitioning:
+We have here two conflicts between {4,-7,8} and {-2,-4,-8,-10}; if one want
+always at most one conflict, we ask for a partitioning:
 Bicliques> BRG "20*15,3" | ./CNFBCC binsearch,partition2 "" "" "" logfile ""
 p cnf 10 20
 1 -4 0
@@ -143,10 +143,32 @@ With the last argument one can stipulate an upper-bound (search-movement
 is downwards), either absolute or via "+" related to the lower-bound
 by symmetry-breaking:
 
-So
+For example
 Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" 11
-yield also the above result (when starting with 10, then no output
-is produced, since this is already optimal).
+p cnf 10 20
+1 0
+-1 10 0
+2 7 -10 0
+-2 5 7 0
+-1 3 4 0
+4 -7 8 0
+-4 5 8 0
+5 6 7 0
+-5 6 8 9 0
+-4 -6 0
+2 3 -6 9 0
+3 -6 7 9 0
+-3 0
+-5 9 0
+2 5 9 0
+-9 0
+-1 3 0
+-4 0
+-2 -4 -8 0
+1 -8 0
+
+(when starting with 10, then no output is produced, since this is already
+optimal).
 
 For using "+k", we need to know how far off is symmetry-breaking:
 Bicliques> BRG "20*15,3" | ./CNF2cg | ./BCC2SAT "" "" -cs "" "" | grep "planted"
@@ -154,7 +176,7 @@ c planted-edges                         8
 
 Thus
 Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +3
-yield also the above result
+yield the same as using "11" above.
 
 
 See plans/general.txt.
@@ -177,8 +199,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.2",
-        "1.5.2023",
+        "0.7.3",
+        "3.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
