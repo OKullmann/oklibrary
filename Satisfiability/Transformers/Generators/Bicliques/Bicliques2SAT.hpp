@@ -692,11 +692,7 @@ namespace Bicliques2SAT {
     // until no edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
     vei_t max_bcincomp(const RandGen::vec_eseed_t& seeds) const {
-      RandGen::RandGen_t g(seeds);
-      vei_t avail; avail.reserve(enc_.E);
-      for (id_t i = 0; i < enc_.E; ++i) avail.push_back(i);
-      RandGen::shuffle(avail.begin(), avail.end(), g);
-      vei_t res;
+      vei_t avail = RandGen::random_permutation<vei_t>(enc_.E, seeds), res;
       while (not avail.empty()) {
         const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
