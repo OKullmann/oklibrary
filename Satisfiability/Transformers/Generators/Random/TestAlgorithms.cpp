@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.14",
-        "19.5.2019",
+        "0.3.0",
+        "4.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -66,6 +66,12 @@ int main(const int argc, const char* const argv[]) {
    g.seed(); gcopy.seed();
    assert(g == gcopy);
    assert(g == randgen_t(specseed));
+  }
+
+  {typedef std::vector<unsigned> v_t;
+   assert(random_permutation<v_t>(0, {}) == v_t{});
+   assert(random_permutation<v_t>(1, {}) == v_t{0});
+   assert((random_permutation<v_t>(10, {777}) == v_t{0,4,7,5,3,1,6,2,9,8}));
   }
 
   {RandGen_t g;

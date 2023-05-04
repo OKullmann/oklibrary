@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.3.2019 (Swansea)
-/* Copyright 2019, 2021 Oliver Kullmann
+/* Copyright 2019, 2021, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,7 @@ License, or any later version. */
 /* Algorithms based on random numbers
 
     - Algorithm shuffle for shuffling a sequence.
+      random_permutation for creating a random permutation of size N.
     - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1.
 
 TODOS:
@@ -102,6 +103,15 @@ namespace RandGen {
   template <class RAI>
   inline void shuffle(const RAI begin, const RAI end, RandGen_t&& g) noexcept {
     RandGen::shuffle(begin, end, g);
+  }
+
+  template <class VEC>
+  VEC random_permutation(const gen_uint_t N, const vec_eseed_t& seeds) {
+    VEC res; res.reserve(N);
+    for (gen_uint_t i = 0; i < N; ++i) res.push_back(i);
+    if (N <= 1) return res;
+    shuffle(res.begin(), res.end(), RandGen_t(seeds));
+    return res;
   }
 
 
