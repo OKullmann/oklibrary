@@ -686,13 +686,13 @@ namespace Bicliques2SAT {
     }
 
 
-    // Compute a (single) random maximal bc-incompatible sequence of edges
-    // (every pair is incompatible), given by their indices, by repeatedly
-    // chosing a random edge, and then removing all bc-compatible edges,
-    // until no edge is left:
+    // Compute a maximal bc-incompatible sequence of edges (every pair is
+    // incompatible), given by their indices, by repeatedly chosing the first
+    // edge available, and then removing all bc-compatible edges, until no
+    // edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
-    vei_t max_bcincomp(const RandGen::vec_eseed_t& seeds) const {
-      vei_t avail = RandGen::random_permutation<vei_t>(enc_.E, seeds), res;
+    vei_t max_bcincomp(vei_t avail) const {
+      vei_t res;
       while (not avail.empty()) {
         const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
@@ -753,7 +753,7 @@ namespace Bicliques2SAT {
       if (rounds == 0 or enc_.E == 0) return {};
       if (rounds == 1) {
         symmbreak_res_t res;
-        res.v = max_bcincomp(seeds);
+        res.v = max_bcincomp(RandGen::random_permutation<vei_t>(enc_.E,seeds));
         res.s += res.v.size();
         if (ssb == SS::with) add_random_secondary_edges(res, seeds);
         return res;
@@ -762,7 +762,8 @@ namespace Bicliques2SAT {
       symmbreak_res_t res;
       for (id_t i = 1; i <= rounds; ++i) {
         seeds.back() = i;
-        vei_t nres = max_bcincomp(seeds);
+        vei_t nres =
+          max_bcincomp(RandGen::random_permutation<vei_t>(enc_.E,seeds));
         const auto s = nres.size();
         assert(s >= 1);
         res.s += s;

@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.5",
-        "3.5.2023",
+        "0.8.6",
+        "4.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -174,7 +174,8 @@ int main(const int argc, const char* const argv[]) {
    RandGen::vec_eseed_t seeds(1);
    for (unsigned i = 1; i <= 100; ++i) {
      seeds[0] = i;
-     auto res = trans.max_bcincomp(seeds);
+     auto res = trans.max_bcincomp(
+       RandGen::random_permutation<BC2SAT::vei_t>(trans.enc().E, seeds));
      const auto s = res.size();
      assert(s==2 or s==3);
      if (s == 2) continue;
