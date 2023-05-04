@@ -29,6 +29,14 @@ Priorities:
      by storing and comparing.
    - We need to be able to turn off the comments etc. (that should be added
      also to BRG).
+   - For our applications we are especially interested in connected graphs.
+    - We could just consider general random graphs, and split them into
+      components, handling each component (and adding up the effort).
+    - Seems good enough here; perhaps the generator should then create
+      already the components?
+    - BCCbySAT should handle components (see below), however it would be
+      handy if the generator would already create the components (in a
+      directory) as an option.
 
 ---
 
@@ -213,25 +221,35 @@ TODOS:
     a solution or not.
 
 
-3. Provide a mode which starts with B as given by symmetry-breaking
-   (which is a sound lower bound), and then increases B as long as
-   unsat was found.
-    - This needs an extension of operator-() in BC2SAT.
-    - As a further option it should be possible, for activated symmetry-
-      breaking, to run internal UCP (without intermediate file-output).
-    - See "Upwards-search" in Bicliques2SAT.hpp.
-
-
-4. As an option, split into the connected components.
+3. As an option, split into the connected components.
     - Or should this be an independent program?
       We have CNFBCC and GSM?
+      But likely CNFBCC should split into the components as well.
+      So we need the option to handle components.
 
 BUGS:
 
 1.
-Bicliques> ./GraphGen_debug grid 8 8 | ./BCCbySAT_debug 25,+0 -sb "" "" ""
-BCCbySAT_debug: Bicliques2SAT.hpp:599: constexpr Bicliques2SAT::Bounds::Bounds(Bicliques2SAT::DI, bool, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t, Bicliques2SAT::Bounds::id_t): Assertion `valid()' failed.
+Bicliques> ./GraphGen_debug grid 8 8 | ./BCCbySAT_debug 25,+0 -sb "" "" "" "" "" ""
+# "./BCCbySAT_debug" "25,+0" "-sb" "" "" "" "" "" LOG
+# ** Parameters **
+# B                                     downwards 25 +0
+# sb-options                            no-sb with-ssb
+# pt-option                             cover
+# di-option                             downwards
+# so-option                             default-solver
+# comments-option                       with-comments
+# bicliques-option                      with-bicliques
+# solver-timeout(s)                     2147483647
+# statistics-output                     null
+# log-output                            null
+# ** Results **
+BCCbySAT_debug: Bicliques2SAT.hpp:618: void Bicliques2SAT::Bounds::update_by_sb(Bicliques2SAT::Bounds::size_t): Assertion `sb + u > u' failed.
 Aborted (core dumped)
+Bicliques> cat LOG
+Symmetry-breaking: index=0, stats= 0 : 18446744073709551615 0 0; 0; r-edges= 0
+
+When requiring "+0", then +sb should be required.
 
 ---
 
