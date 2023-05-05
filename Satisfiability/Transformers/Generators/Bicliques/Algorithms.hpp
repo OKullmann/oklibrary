@@ -14,6 +14,8 @@ License, or any later version. */
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
      returns the sorted vector of elements of {0, ..., N-1} not in r
      (assumes r to be sorted)
+   - complement_subsequence(RAN1 a, RAN2 b) -> vector<RAN2::value_type>
+     assumes a is a subsequence of b, and returns "b - a"
 
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
@@ -40,6 +42,8 @@ TODOS:
 
 #ifndef ALGORITHMS_iWjSrlmVWS
 #define ALGORITHMS_iWjSrlmVWS
+
+#include <cassert>
 
 #include <algorithm>
 
@@ -93,6 +97,32 @@ namespace Algorithms {
       res.reserve(res.size() + (N-x));
       do res.push_back(x++); while (x != N);
     }
+    return res;
+  }
+
+  // Copying the elements of b to the output (in the given order),
+  // skipping the elemnts of a (in the given order); for efficiency,
+  // assuming that the elements of a occur in b (in that order).
+  template <class RAN1, class RAN2>
+  std::vector<typename RAN2::value_type>
+    complement_subsequence(const RAN1& a, const RAN2& b) {
+    const auto bsize = b.size();
+    if (bsize == 0) return {};
+    const auto asize = a.size();
+    assert(asize <= bsize);
+    const auto size = bsize - asize;
+    std::vector<typename RAN2::value_type> res;
+    res.reserve(size);
+    auto itb = b.begin();
+    {const auto aend = a.end();
+     for (auto ita = a.begin(); ita != aend; ++ita, ++itb) {
+       const auto& x = *ita;
+       for (; x != *itb; ++itb) res.push_back(*itb);
+     }
+    }
+    const auto bend = b.end();
+    for (; itb != bend; ++itb) res.push_back(*itb);
+    assert(res.size() == size);
     return res;
   }
 

@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "1.5.2023",
+        "0.1.3",
+        "5.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -125,6 +125,18 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(complement_uint(v_t{0,2,4}, 6), {1,3,5}));
    assert(eqp(complement_uint(v_t{0,2,4,7,9}, 10), {1,3,5,6,8}));
    assert(eqp(complement_uint(v_t{0,2,4,7,9}, 11), {1,3,5,6,8,10}));
+  }
+
+  {typedef std::vector<int> va_t;
+   typedef std::vector<double> vb_t;
+   assert(complement_subsequence(va_t{}, vb_t{}) == vb_t{});
+   assert((complement_subsequence(va_t{}, vb_t{2,-1,0.5}) == vb_t{2,-1,0.5}));
+   assert((complement_subsequence(va_t{-1}, vb_t{2,-1,0.5}) == vb_t{2,0.5}));
+   assert((complement_subsequence(va_t{2}, vb_t{2,-1,0.5}) == vb_t{-1,0.5}));
+   assert((complement_subsequence(va_t{2,-1}, vb_t{2,-1,0.5}) == vb_t{0.5}));
+   assert((complement_subsequence(va_t{2,-1,4,3},
+                                  vb_t{2,-1,0.5,1.5,4,2.5,4,3,5.5}) ==
+           vb_t{0.5, 1.5, 2.5, 4, 5.5}));
   }
 
 }
