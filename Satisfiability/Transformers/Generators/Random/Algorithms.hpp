@@ -7,9 +7,14 @@ License, or any later version. */
 
 /* Algorithms based on random numbers
 
-    - Algorithm shuffle for shuffling a sequence.
-      random_permutation for creating a random permutation of size N.
-    - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1.
+    - shuffle for shuffling a sequence:
+        shuffle(RAI begin, RAI end, randgen_t&(&) g)
+        shuffle(RAI begin, RAI end, RandGen_t&(&) g)
+    - random_permutation for creating a random permutation of size N:
+        random_permutation(gen_uint_t N, const vec_eseed_t& seeds) -> VEC
+    - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1:
+        choose_kn(gen_uint_t k, gen_uint_t n, RandGen_t&(&) g, bool sorted)
+        -> vec_eseed_t
 
 TODOS:
 
@@ -20,9 +25,9 @@ TODOS:
     which to choose. Though this could be handled by just choosing
     the indices. DONE (NO)
   - So perhaps just starting with parameter n, which means {0, ..., n-1}. DONE
-  - The output is most naturally a vector; perhaps we just fix gen_uint_t
+  - DONE The output is most naturally a vector; perhaps we just fix gen_uint_t
     as the index-type (of n). The output is sorted.
-  - There is a choice of including versus including: choosing 3 from 1000
+  - DONE There is a choice of including versus including: choosing 3 from 1000
     the obvious choice is including, while choosing 997 from 1000 the
     obvious choice is excluding. The splitting point in this example is
     500 from 1000, where here the choice doesn't matter.
@@ -80,7 +85,8 @@ namespace RandGen {
 
   // As std::shuffle, but now fixing the algorithm and the random-generator:
   template <class RandomAccessIterator>
-  inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, randgen_t& g) noexcept {
+  inline void shuffle(const RandomAccessIterator begin,
+                      const RandomAccessIterator end, randgen_t& g) noexcept {
     for (auto i = (end - begin) - 1; i > 0; --i) {
       using std::swap;
       swap(begin[i], begin[UniformRange(g, gen_uint_t(i+1))()]);
@@ -90,11 +96,13 @@ namespace RandGen {
   inline void shuffle(const RAI begin, const RAI end, randgen_t&& g) noexcept {
     RandGen::shuffle(begin, end, g);
   }
+
   // Remark: If randgen_t would also be a template parameter, then just one
   // version would be sufficient, due to "perfect forwarding". Here however
   // we want to be sure that exactly type randgen_t is used.
   template <class RandomAccessIterator>
-  inline void shuffle(const RandomAccessIterator begin, const RandomAccessIterator end, RandGen_t& g) noexcept {
+  inline void shuffle(const RandomAccessIterator begin,
+                      const RandomAccessIterator end, RandGen_t& g) noexcept {
     for (auto i = (end - begin) - 1; i > 0; --i) {
       using std::swap;
       swap(begin[i], begin[UniformRange(g, gen_uint_t(i+1))()]);
@@ -118,7 +126,8 @@ namespace RandGen {
   /* Helper function, choosing k from {0,...,n-1} by inclusion,
      without sorting (so that for k = n a permutation of 0,...,n-1 is returned:
   */
-  inline vec_eseed_t choose_kn_inclusion(const gen_uint_t k, const gen_uint_t n, RandGen_t& g) {
+  vec_eseed_t choose_kn_inclusion(const gen_uint_t k,
+                                  const gen_uint_t n, RandGen_t& g) {
     vec_eseed_t res;
     if (k > n or k == 0) return res;
     res.reserve(k);
@@ -148,7 +157,8 @@ namespace RandGen {
   }
   // Now choosing inclusion or exclusion, depending on k; always sorted
   // in the latter case, in the former case only if parameter set:
-  inline vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n, RandGen_t& g, const bool sorted = false) {
+  vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
+                        RandGen_t& g, const bool sorted = false) {
     if (k > n or k == 0) return {};
     if (k > n/2) {
       vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
@@ -163,6 +173,10 @@ namespace RandGen {
       std::sort(res.begin(), res.end());
       return res;
     }
+  }
+  vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
+                        RandGen_t&& g, const bool sorted = false) {
+    return RandGen::choose_kn(k, n, g, sorted);
   }
 
 }
