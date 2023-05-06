@@ -373,8 +373,9 @@ namespace Bicliques2SAT {
   };
 
 
-  enum class SB { basic=0, extended=1, none=2 }; // symmetry-breaking by
-                                                 // edge-placement
+  enum class SB { basic=0,
+                  sorteda=1, sortedm=2, none=3 }; // symmetry-breaking by
+                                                  // edge-placement
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
@@ -403,7 +404,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::SB> {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
-    {"+sb", "++sb", "-sb"};
+    {"+sb", "+sba", "+sbm", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SS> {
@@ -458,7 +459,8 @@ namespace Bicliques2SAT {
   std::ostream& operator <<(std::ostream& out, const SB s) {
     switch (s) {
     case SB::basic : return out << "basic-sb";
-    case SB::extended : return out << "extended-sb";
+    case SB::sorteda : return out << "sorted-sb-addition";
+    case SB::sortedm : return out << "sorted-sb-multiplication";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
   }
@@ -702,8 +704,8 @@ namespace Bicliques2SAT {
       }
       return res;
     }
-    typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
 
+    typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
     struct symmbreak_res_t {
       vei_t v; // vector for primary symmetry-breaking (placing edges)
       vei_t sv; // secondary symmetry-breaking: the candidate edges to restrict
@@ -729,7 +731,7 @@ namespace Bicliques2SAT {
       }
     }
     void add_random_secondary_edges(symmbreak_res_t& sbres,
-                                    RandGen::vec_eseed_t seeds) const {
+                                    const RandGen::vec_eseed_t& seeds) const {
       const auto optsbs = sbres.v.size();
       const id_t B = max_B(optsbs);
       if (B <= optsbs) return;
@@ -737,11 +739,9 @@ namespace Bicliques2SAT {
       assert(choose >= 1);
       auto copy = sbres.v; std::ranges::sort(copy);
       const auto complement = Algorithms::complement_uint(copy, enc_.E);
-      seeds.push_back(0); seeds.push_back(0);
-      RandGen::RandGen_t g(seeds);
       assert(choose <= complement.size());
       const auto choice_indices = RandGen::choose_kn(choose,
-                                                     complement.size(), g);
+                              complement.size(), RandGen::RandGen_t(seeds));
       sbres.sv.reserve(choice_indices.size());
       for (const auto i : choice_indices) sbres.sv.push_back(complement[i]);
     }
@@ -769,7 +769,63 @@ namespace Bicliques2SAT {
         res.s += s;
         if (s > res.v.size()) {res.i = i; res.v = std::move(nres);}
       }
-      if (ssb == SS::with) add_random_secondary_edges(res, seeds);
+      if (ssb == SS::with) {
+        seeds.back() = res.i;
+        add_random_secondary_edges(res, seeds);
+      }
+      return res;
+    }
+    id_t adegree(const id_t e) const noexcept {
+      assert(e < enc_.E);
+      const auto [v,w] = edges[e];
+      return G.degree(v) + G.degree(w);
+    }
+    id_t mdegree(const id_t e) const noexcept {
+      assert(e < enc_.E);
+      const auto [v,w] = edges[e];
+      return G.degree(v) * G.degree(w);
+    }
+    vei_t sorted_order(const RandGen::vec_eseed_t& seeds, const SB sb) const {
+      const auto sorta =
+        [this](const id_t e1, const id_t e2) noexcept {
+        return adegree(e1) < adegree(e2);
+      };
+      const auto sortm =
+        [this](const id_t e1, const id_t e2) noexcept {
+        return mdegree(e1) < mdegree(e2);
+      };
+      vei_t res = RandGen::random_permutation<vei_t>(enc_. E,seeds);
+      if (sb == SB::sorteda) std::ranges::stable_sort(res, sorta);
+      else std::ranges::stable_sort(res, sortm);
+      return res;
+    }
+    symmbreak_res_t max_bcincomp_sort(const id_t rounds,
+                                      RandGen::vec_eseed_t seeds,
+                                      const SS ssb,
+                                      const SB sb) const {
+      assert(rounds < id_t(-1));
+      assert(sb == SB::sorteda or sb == SB::sortedm);
+      if (rounds == 0 or enc_.E == 0) return {};
+      if (rounds == 1) {
+        symmbreak_res_t res;
+        const vei_t order = sorted_order(seeds, sb);
+        res.v = max_bcincomp(order); // XXX
+        res.s += res.v.size();
+        if (ssb == SS::with) add_random_secondary_edges(res, seeds); // XXX
+        return res;
+      }
+      seeds.push_back(0);
+      symmbreak_res_t res;
+      for (id_t i = 1; i <= rounds; ++i) {
+        seeds.back() = i;
+        const vei_t order = sorted_order(seeds, sb);
+        vei_t nres = max_bcincomp(order); // XXX
+        const auto s = nres.size();
+        assert(s >= 1);
+        res.s += s;
+        if (s > res.v.size()) {res.i = i; res.v = std::move(nres);}
+      }
+      if (ssb == SS::with) add_random_secondary_edges(res, seeds); // XXX
       return res;
     }
     void output(const vei_t& v, std::ostream& out) const {

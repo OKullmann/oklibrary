@@ -128,8 +128,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.6.0",
-        "3.5.2023",
+        "0.6.1",
+        "6.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",
@@ -185,11 +185,6 @@ int main(const int argc, const char* const argv[]) {
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
-    return int(Error::bad_sb);
-  }
-  if (std::get<SB>(algopt) == SB::extended) {
-    std::cerr << error <<
-      "Extended symmetry-breaking not implemented yet.\n";
     return int(Error::bad_sb);
   }
 
