@@ -698,7 +698,7 @@ namespace Bicliques2SAT {
       while (not avail.empty()) {
         const id_t e = avail.back(); avail.pop_back();
         res.push_back(e);
-        Algorithms::erase_if_byswap(avail,
+        Algorithms::erase_if_unstable(avail,
           [e,this](const id_t x){return
                                  Bicliques::bccomp(edges[e],edges[x], G);});
       }

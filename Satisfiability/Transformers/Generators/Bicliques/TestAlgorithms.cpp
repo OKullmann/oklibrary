@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "5.5.2023",
+        "0.1.4",
+        "6.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -99,16 +99,16 @@ int main(const int argc, const char* const argv[]) {
    v_t v;
    const auto tr = [](const auto&){return true;};
    const auto fa = [](const auto&){return false;};
-   assert(erase_if_byswap(v, tr) == 0);
+   assert(erase_if_unstable(v, tr) == 0);
    assert(v.empty());
    v.assign({1,2,3});
-   assert(erase_if_byswap(v, fa) == 0);
+   assert(erase_if_unstable(v, fa) == 0);
    assert(v.size() == 3);
-   assert(erase_if_byswap(v, tr) == 3);
+   assert(erase_if_unstable(v, tr) == 3);
    assert(v.empty());
    v.assign({1,2,3,4,5});
    const auto t35 = [](const auto& x){return x==3 or x==5;};
-   assert(erase_if_byswap(v, t35) == 2);
+   assert(erase_if_unstable(v, t35) == 2);
    assert(eqp(v, {1,2,4}));
   }
 
