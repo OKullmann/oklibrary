@@ -618,6 +618,11 @@ namespace Graphs {
       }
     }
 
+    id_t degree(const id_t v) const noexcept {
+      assert(v < n_);
+      return A[v].size();
+    }
+
     bool adjacent(const id_t v, const id_t w) const noexcept {
       assert(v < n_ and w < n_);
       if (type_ == GT::dir)
