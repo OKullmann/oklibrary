@@ -4,6 +4,11 @@ Priorities:
 
 ---
 
+-3. We need targets for "full testing", and "light testing".
+    - These set macros used in the unit-tests.
+
+---
+
 -2. Random graph generator GRG
 
    - Arguments:
@@ -634,7 +639,7 @@ TODOS:
 1. Providing a creation-mode, which creates only half of the edges
     - Currently for undirected graphs, every edge is printed twice.
 
-2. Prove that bcp(crown(n)) = n.
+2. Prove that bcp(crown(n)) = n (except for n=1).
 
 3. What is bcp(grid(n,m)) ?
 

@@ -223,7 +223,7 @@ namespace Generators {
     return FloatingPoint::inv_fcbinomial_coeff(n);
   }
   size_t bcp_crown(const size_t n) noexcept {
-    return n;
+    return n == 1 ? 0 : n; // CONJECTURED
   }
   size_t numcc_crown(const size_t n) noexcept {
     switch (n) {
