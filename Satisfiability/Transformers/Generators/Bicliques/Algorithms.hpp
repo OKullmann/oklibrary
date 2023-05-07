@@ -21,13 +21,18 @@ License, or any later version. */
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
 
    - erase_if_unstable(vec, pred) : possibly faster than std::erase_if due to
-     not keeping the order of vec.
+     not keeping the order of vec
+
+   - finding greedily a maximal independent set in a graph, given by
+     a predicate:
+     - is_independent(VEC v, PRED p)
+     - greedy_max_independent_unstable(VEC v, PRED p)
+     - greedy_max_independent(VEC v, PRED p)
 
 
 TODOS:
 
 0. Try to find out if erase_if_unstable is indeed faster.
-    - Perhaps remain to "erase_if_unstable".
 
 1. Once we switch to C++23, use std::vector::append_range
    in function append_ranges.
@@ -147,15 +152,63 @@ namespace Algorithms {
   }
 
 
-  // As std::erase_if, but not preserving the order:
+  // As std::erase_if, but not preserving the order;
+  // if no element was erased, then the vector is unchanged:
   template <class T, class Alloc, class Pred>
-  constexpr typename std::vector<T,Alloc>::size_type erase_if_unstable
-      (std::vector<T,Alloc>& v, const Pred pred) noexcept {
-    const auto end = v.end();
-    const auto it = std::partition(v.begin(), end, std::not_fn(pred));
-    const auto r = std::distance(it, end);
-    v.erase(it, end);
+  constexpr typename std::vector<T,Alloc>::size_type
+  erase_if_unstable(std::vector<T,Alloc>& v, const Pred pred) noexcept {
+    const auto end = v.end(); auto itb = end;
+    for (auto ita = v.begin(); ita != itb; ++ita) {
+      while (itb != ita and pred(*(itb-1))) --itb;
+      if (itb == ita) break;
+      while (ita != itb and not pred(*ita)) ++ita;
+      if (ita == itb) break;
+      *ita = std::move(*--itb);
+      assert(ita != itb);
+    }
+    const auto r = std::distance(itb, end);
+    v.erase(itb, end);
     return r;
+  }
+
+
+  // p(i,j) stands for an edge-relation:
+  template <class VEC, class PRED>
+  bool is_independent(const VEC& v, const PRED p) noexcept {
+    const auto size = v.size();
+    if (size <= 1) return true;
+    const auto end = v.end(), endm1 = end-1;
+    for (auto i = v.begin(); i != endm1; ++i) {
+      const auto& x = *i;
+      for (auto j = i+1; j != end; ++j)
+        if (p(x, *j)) return false;
+    }
+    return true;
+  }
+
+  // Taking the elements from v in reverse order, using unstable removal:
+  template <class VEC, class PRED>
+  VEC greedy_max_independent_unstable(VEC v, const PRED p) noexcept {
+    VEC res;
+    while (not v.empty()) {
+      const auto e = v.back(); v.pop_back();
+      res.push_back(e);
+      erase_if_unstable(v, [&e,p](const auto& x){return p(e,x);});
+    }
+    assert(is_independent(res,p));
+    return res;
+  }
+  // Now also taking in reverse order, but using stable removal:
+  template <class VEC, class PRED>
+  VEC greedy_max_independent(VEC v, const PRED p) noexcept {
+    VEC res;
+    while (not v.empty()) {
+      const auto e = v.back(); v.pop_back();
+      res.push_back(e);
+      std::erase_if(v, [&e,p](const auto& x){return p(e,x);});
+    }
+    assert(is_independent(res,p));
+    return res;
   }
 
 }
