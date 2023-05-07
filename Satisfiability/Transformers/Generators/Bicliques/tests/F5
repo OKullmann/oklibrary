@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 7.5.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+set -o errexit
+set -o nounset
+
+program="F5"
+version="0.0.1"
+
+source tests/Fbasis
+
+argument1=nopre argument2=1000 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
+argument1=nopre,+sba argument2=100 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
+argument1=nopre,+sbm argument2=100 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
+
+
+wait
