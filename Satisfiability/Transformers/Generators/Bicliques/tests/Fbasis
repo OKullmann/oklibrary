@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 7.5.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Version 0.0.9
+
+handler() {
+  echo "Aborting ${program}, PID=$$."
+  children="$(pgrep -P $$)"
+  pkill --signal SIGUSR1 --parent $$
+  for childid in ${children}; do
+    rm -f Fuzzing/*_${childid}
+  done
+  kill -SIGINT $$
+}
+
+trap handler SIGINT
+
+echo "${program}, PID=$$"
