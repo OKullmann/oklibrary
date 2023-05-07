@@ -10,6 +10,8 @@
 
 # USAGE:
 
+# Return code 130 when interrupted by SIGINT or SIGUSR1.
+
 # EXAMPLE:
 
 # ./Fuzzer "a10 10" "10*2,4" "" t
@@ -21,7 +23,7 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.1.1"
+version="0.2.0"
 
 : ${command1:="./GSM_debug"}
 : ${argument1:=}
@@ -33,6 +35,9 @@ fuzzdir="Fuzzing"
 mkdir -p ${fuzzdir}
 
 echo "${program}, PID=$$, directory ${fuzzdir}:"
+echo "arguments= $*"
+echo "argument1= ${argument1}"
+echo "argument2= ${argument2}"
 
 genfile=${fuzzdir}/Generated_$$
 rep1file=${fuzzdir}/Replaced1_$$
@@ -40,24 +45,24 @@ rep2file=${fuzzdir}/Replaced2_$$
 rep3file=${fuzzdir}/Replaced3_$$
 outfile=${fuzzdir}/Output_$$
 
+counter=0
 
 handler() {
-  echo "Aborting ${program}, PID=$$: no errors observed."
+  echo "Aborting ${program}, PID=$$: no errors observed. ${counter} runs, wallclock = $SECONDS s."
   children="$(pgrep -P $$)"
-  pkill --signal SIGINT --parent $$
-  rm -f ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+  pkill --signal SIGKILL --parent $$ true
   for childid in ${children}; do
+    pkill --signal SIGKILL --parent ${childid} true
     rm -f SystemCalls_Popen_err_*_${childid}
     rm -f SystemCalls_Popen_out_*_${childid}
   done
-  exit 0
+  rm -f ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+  kill -SIGINT $$
 }
 
-trap handler SIGINT
+trap handler SIGINT SIGUSR1
 
-counter=0
 while [ 0 ]; do
-  ((++counter)); printf "\r%d" ${counter}
 
   ${generator} "$@" -${genfile}
 
@@ -69,5 +74,7 @@ while [ 0 ]; do
   cat ${genfile} ${rep1file} ${rep2file} ${rep3file} | ${command2} "+4" > ${outfile}
 
   rm ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+
+  ((++counter)); printf "\r%d" ${counter}
 
 done
