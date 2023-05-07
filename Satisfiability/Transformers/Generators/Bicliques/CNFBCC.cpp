@@ -40,10 +40,10 @@ on the solution-process.
 For example
 Bicliques> BRG "20*15,3" | ./CNFBCC "" "" "" "" logfile ""
 p cnf 10 20
-1 9 0
--9 0
-2 7 9 0
--2 5 7 0
+1 10 0
+-10 0
+2 7 10 0
+-2 5 7 -9 0
 -1 4 0
 4 6 -7 0
 -4 5 8 0
@@ -54,12 +54,12 @@ p cnf 10 20
 3 -6 0
 1 -3 0
 -5 0
-2 5 -10 0
--3 5 10 0
+5 9 0
+-3 5 -9 0
 -1 0
 -4 0
--2 -4 -8 0
-1 -4 -8 9 0
+-2 -4 -8 -9 0
+1 -4 -8 10 0
 
 With "less logfile" one can see the solution-process.
 
@@ -67,25 +67,25 @@ Using binary search, and a different seed:
 Bicliques> BRG "20*15,3" | ./CNFBCC binsearch "" "" 0 logfile ""
 p cnf 10 20
 8 0
--8 9 0
-1 -9 0
--1 3 -7 0
+-8 -9 0
+1 9 0
+-1 3 0
 2 -4 -8 0
-2 -5 7 9 0
--2 3 -10 0
-5 0
--3 -5 -6 7 0
--2 -5 -7 0
+1 2 -5 -9 -10 0
+-2 3 7 0
+3 5 0
+-3 -6 7 -10 0
+-2 -5 10 0
 1 -4 -5 6 0
--4 -5 6 -7 0
+-4 -5 6 10 0
 4 0
--3 -5 0
+-3 0
 1 3 6 0
 3 -6 0
 -4 -8 0
 -2 0
--1 -2 -7 10 0
--7 8 10 0
+-1 -2 -7 0
+-2 -7 8 0
 
 
 Passing the option "nopre" to minisat can for large sparse instances be helpful:
@@ -116,26 +116,27 @@ We have here two conflicts between {4,-7,8} and {-2,-4,-8,-10}; if one wants
 always at most one conflict, we ask for a partitioning:
 Bicliques> BRG "20*15,3" | ./CNFBCC binsearch,partition2 "" "" "" logfile ""
 p cnf 10 20
-1 -4 0
--1 -10 0
-7 10 0
--2 5 7 -10 0
-4 8 9 0
--3 -7 8 0
--4 5 7 8 0
--3 5 6 7 0
--3 -5 6 8 0
--4 -6 7 0
-2 -6 9 0
-3 0
--3 -9 0
+p cnf 10 20
+1 0
+-1 -7 0
+7 0
+-2 5 -7 9 0
+-1 4 0
+-7 -9 0
+-4 5 8 9 0
+5 6 9 0
+-5 6 8 0
+-4 -6 9 0
+2 3 -6 -10 0
+3 -6 9 -10 0
+-3 -4 0
 -5 0
-2 5 0
--2 -3 5 0
--1 9 0
--4 7 0
--2 -8 -10 0
-1 -8 0
+2 5 -10 0
+5 10 0
+-1 3 0
+-4 9 0
+-2 -4 -7 -8 9 0
+1 -8 9 0
 
 
 With the last argument one can stipulate an upper-bound (search-movement
@@ -198,8 +199,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
-        "6.5.2023",
+        "0.9.0",
+        "7.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -279,7 +280,6 @@ int main(const int argc, const char* const argv[]) {
   BC2SAT T(G, bounds);
   const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
   assert(res.rt != ResultType::upper_unsat_sb and
-         res.rt != ResultType::upper_unsat and
          res.rt != ResultType::unknown);
   log.close();
   if (res.solution)

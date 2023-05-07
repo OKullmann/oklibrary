@@ -154,6 +154,54 @@ c B                                     165
 c total-lit-occurrences                 54681495
 p cnf 257400 26902855
 
+Using a heuristics to find better symmetry-breaking:
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs "" ""
+c "./BCC2SAT" "200" "+sba" "-cs" "1000" ""
+c ** Parameters **
+c B                                     200
+c sb-options                            sorted-sb-addition with-ssb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             1000
+c num_e-seeds                           0
+c ** Symmetry Breaking **
+c planted-edges                         167
+c sb-stats                              1000 : 146 154.908 167; 3.12783
+c sb-seed                               380
+c restricted-edges                      33
+c ** Statistics **
+c V                                     400
+c E                                     760
+c B                                     200
+c  bc-variables                         160000
+c  edge-variables                       152000
+c total-variables                       312000
+c  bc-clauses                           31696000
+c   bc-lit-occurrences                  63392000
+c  edge-clauses                         912000
+c   edge-lit-occurrences                2736000
+c  cover-clauses                        760
+c   cover-lit-occurrences               152000
+c  positive unit-clauses                501
+c  negative unit-clauses                528
+c  negative binary-clauses              33
+c total-clauses                         32609822
+c total-lit-occurrences                 66281095
+p cnf 312000 32609822
+real	0m0.684s
+user	0m0.685s
+sys	0m0.001s
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 20000 ""
+c planted-edges                         169
+c sb-stats                              20000 : 142 154.994 169; 3.09836
+c sb-seed                               18802
+c restricted-edges                      31
+
+So we get somewhat better (the exact value of bcc here is 199).
+(Using 200000 rounds doesn't get better.)
+
 
 One can also consider partition-problems (instead of cover-problems, the
 default).
@@ -195,9 +243,9 @@ c  negative binary-clauses              35
 c total-clauses                         47733885
 c total-lit-occurrences                 96529160
 p cnf 312000 47733885
-real	0m13.074s
-user	0m13.069s
-sys	0m0.005s
+real	0m11.801s
+user	0m11.801s
+sys	0m0.000s
 
 
 For example covering the K_4 can be done with 2 bicliques,
@@ -226,8 +274,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.1.1",
-        "6.5.2023",
+        "1.2.0",
+        "7.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

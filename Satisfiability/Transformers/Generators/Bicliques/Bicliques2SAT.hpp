@@ -378,13 +378,13 @@ namespace Bicliques2SAT {
                                                   // edge-placement
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
+  enum class DI { downwards=0, upwards=1, binary_search=2,
+                  none=3 }; // search direction
+  enum class SO { none=0, nopre=1 }; // solver options
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
   enum class BC { with=0, without=1 }; // biclique-list
-  enum class DI { downwards=0, upwards=1, binary_search=2,
-                  none=3 }; // search direction
-  enum class SO { none=0, nopre=1 }; // solver options
 
   std::string solver_option(const SO so) {
     if (so == SO::nopre) return " -no-pre";
@@ -522,20 +522,16 @@ namespace Bicliques2SAT {
 
     // contradictions to given upper-bound:
     upper_unsat_sb = 1, // symmetry-breaking showed unsatisfiability
-    upper_unsat = 2,    // upper-bound-value of B is unsatisfiable (bu solving)
     // timeouts:
-    upper_timeout = 3,  // upper-bound-value of B yielded solver-timeout
-    other_timeout = 4, // non-upper-bound-value of B yielded solver-timeout
+    other_timeout = 2, // non-upper-bound-value of B yielded solver-timeout
 
-    aborted = 5,       // solver aborted computation
-    exact = 6,         // exact result obtained
+    aborted = 3,       // solver aborted computation
+    exact = 4,         // exact result obtained
   };
   std::ostream& operator <<(std::ostream& out, const ResultType r) {
     switch(r) {
     case ResultType::unknown : return out << "initialy-unknown";
     case ResultType::upper_unsat_sb : return out << "upper-bound-unsat-by-sb";
-    case ResultType::upper_unsat : return out << "upper-bound-unsat-by-solver";
-    case ResultType::upper_timeout : return out << "upper-bound-timeout";
     case ResultType::other_timeout : return out << "timeout";
     case ResultType::aborted : return out << "aborted";
     case ResultType::exact : return out << "exact";
@@ -693,16 +689,20 @@ namespace Bicliques2SAT {
     // edge available, and then removing all bc-compatible edges, until no
     // edge is left:
     typedef std::vector<id_t> vei_t; // vector of edge-indices
+    bool bccomp(const id_t i, const id_t j) const noexcept {
+      return Bicliques::bccomp(edges[i],edges[j], G);
+    }
+    bool is_bcincomp(const vei_t& v) const noexcept {
+      return Algorithms::is_independent(v, [this](id_t i, id_t j)
+                                        {return bccomp(i,j);});
+    }
+    vei_t max_bcincomp_unstable(vei_t avail) const {
+      return Algorithms::greedy_max_independent_unstable(std::move(avail),
+             [this](id_t i, id_t j) {return bccomp(i,j);});
+    }
     vei_t max_bcincomp(vei_t avail) const {
-      vei_t res;
-      while (not avail.empty()) {
-        const id_t e = avail.back(); avail.pop_back();
-        res.push_back(e);
-        Algorithms::erase_if_unstable(avail,
-          [e,this](const id_t x){return
-                                 Bicliques::bccomp(edges[e],edges[x], G);});
-      }
-      return res;
+      return Algorithms::greedy_max_independent(std::move(avail),
+             [this](id_t i, id_t j) {return bccomp(i,j);});
     }
 
     typedef GenStats::BasicStats<id_t, FloatingPoint::float80> stats_t;
@@ -745,15 +745,29 @@ namespace Bicliques2SAT {
       sbres.sv.reserve(choice_indices.size());
       for (const auto i : choice_indices) sbres.sv.push_back(complement[i]);
     }
+    void add_sorted_secondary_edges(symmbreak_res_t& sbres,
+                                    vei_t avail) const {
+      const auto optsbs = sbres.v.size();
+      const id_t B = max_B(optsbs);
+      if (B <= optsbs) return;
+      const auto choose = B - optsbs;
+      assert(choose >= 1);
+      std::ranges::reverse(avail);
+      sbres.sv = Algorithms::complement_subsequence(sbres.v, avail);
+      assert(choose <= sbres.sv.size());
+      sbres.sv.resize(choose);
+    }
+
     // Now repeat rounds-often, and return the first best, with statistics:
-    symmbreak_res_t max_bcincomp(const id_t rounds,
-                                 RandGen::vec_eseed_t seeds,
-                                 const SS ssb) const {
+    symmbreak_res_t max_bcincomp_unstable(const id_t rounds,
+                                          RandGen::vec_eseed_t seeds,
+                                          const SS ssb) const {
       assert(rounds < id_t(-1));
       if (rounds == 0 or enc_.E == 0) return {};
       if (rounds == 1) {
         symmbreak_res_t res;
-        res.v = max_bcincomp(RandGen::random_permutation<vei_t>(enc_.E,seeds));
+        res.v = max_bcincomp_unstable(
+          RandGen::random_permutation<vei_t>(enc_.E,seeds));
         res.s += res.v.size();
         if (ssb == SS::with) add_random_secondary_edges(res, seeds);
         return res;
@@ -762,8 +776,8 @@ namespace Bicliques2SAT {
       symmbreak_res_t res;
       for (id_t i = 1; i <= rounds; ++i) {
         seeds.back() = i;
-        vei_t nres =
-          max_bcincomp(RandGen::random_permutation<vei_t>(enc_.E,seeds));
+        vei_t nres = max_bcincomp_unstable(
+          RandGen::random_permutation<vei_t>(enc_.E,seeds));
         const auto s = nres.size();
         assert(s >= 1);
         res.s += s;
@@ -775,6 +789,7 @@ namespace Bicliques2SAT {
       }
       return res;
     }
+
     id_t adegree(const id_t e) const noexcept {
       assert(e < enc_.E);
       const auto [v,w] = edges[e];
@@ -788,11 +803,11 @@ namespace Bicliques2SAT {
     vei_t sorted_order(const RandGen::vec_eseed_t& seeds, const SB sb) const {
       const auto sorta =
         [this](const id_t e1, const id_t e2) noexcept {
-        return adegree(e1) < adegree(e2);
+        return adegree(e1) > adegree(e2);
       };
       const auto sortm =
         [this](const id_t e1, const id_t e2) noexcept {
-        return mdegree(e1) < mdegree(e2);
+        return mdegree(e1) > mdegree(e2);
       };
       vei_t res = RandGen::random_permutation<vei_t>(enc_. E,seeds);
       if (sb == SB::sorteda) std::ranges::stable_sort(res, sorta);
@@ -809,9 +824,9 @@ namespace Bicliques2SAT {
       if (rounds == 1) {
         symmbreak_res_t res;
         const vei_t order = sorted_order(seeds, sb);
-        res.v = max_bcincomp(order); // XXX
+        res.v = max_bcincomp(order);
         res.s += res.v.size();
-        if (ssb == SS::with) add_random_secondary_edges(res, seeds); // XXX
+        if (ssb == SS::with) add_sorted_secondary_edges(res, order);
         return res;
       }
       seeds.push_back(0);
@@ -819,13 +834,16 @@ namespace Bicliques2SAT {
       for (id_t i = 1; i <= rounds; ++i) {
         seeds.back() = i;
         const vei_t order = sorted_order(seeds, sb);
-        vei_t nres = max_bcincomp(order); // XXX
+        vei_t nres = max_bcincomp(order);
         const auto s = nres.size();
         assert(s >= 1);
         res.s += s;
-        if (s > res.v.size()) {res.i = i; res.v = std::move(nres);}
+        if (s > res.v.size()) {
+          res.i = i;
+          res.v = std::move(nres);
+          if (ssb == SS::with) add_sorted_secondary_edges(res, order);
+        }
       }
-      if (ssb == SS::with) add_random_secondary_edges(res, seeds); // XXX
       return res;
     }
     void output(const vei_t& v, std::ostream& out) const {
@@ -1171,8 +1189,9 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const auto sbr = sb == SB::none ?
-        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
+      const auto sbr = sb == SB::none ? symmbreak_res_t{} :
+      (sb == SB::basic ? max_bcincomp_unstable(sb_rounds, seeds, ss) :
+       max_bcincomp_sort(sb_rounds, seeds, ss, sb));
       const auto optsbs = sbr.v.size();
       bounds.update_by_sb(optsbs);
       assert(not bounds.inconsistent());
@@ -1253,13 +1272,11 @@ namespace Bicliques2SAT {
           *out << DWW{"sb-stats"} << sbs << "\n"
                << DWW{"result-type"} << rt << "\n";
           *out << DWW{pt == PT::cover ? "bcc" : "bcp"};
-          if (rt == ResultType::upper_timeout or
-              rt == ResultType::aborted)
+          if (rt == ResultType::aborted)
             *out << "?";
           else if (rt == ResultType::exact)
             *out << "= " << B;
-          else if (rt == ResultType::upper_unsat_sb or
-                   rt == ResultType::upper_unsat)
+          else if (rt == ResultType::upper_unsat_sb)
             *out << "> " << B;
           else {
             assert(rt == ResultType::other_timeout);
@@ -1289,8 +1306,9 @@ namespace Bicliques2SAT {
 
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
-      const auto sbr = sb == SB::none ?
-        symmbreak_res_t{} : max_bcincomp(sb_rounds, seeds, ss);
+      const auto sbr = sb == SB::none ? symmbreak_res_t{} :
+      (sb == SB::basic ? max_bcincomp_unstable(sb_rounds, seeds, ss) :
+       max_bcincomp_sort(sb_rounds, seeds, ss, sb));
       const auto optsbs = sbr.v.size();
       if (log) {
         *log << "Symmetry-breaking: index=" << sbr.i << ", stats= " << sbr.s

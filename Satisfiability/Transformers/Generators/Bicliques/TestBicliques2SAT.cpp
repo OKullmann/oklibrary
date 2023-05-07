@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.6",
-        "4.5.2023",
+        "0.9.0",
+        "7.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -137,7 +137,7 @@ int main(const int argc, const char* const argv[]) {
   {AdjMapStr G(GT::und);
    G.add_clique(std::vector{"a", "b", "c", "d"});
    G.add_clique(std::vector{"e", "f", "g", "h"});
-   AdjVecUInt Ga(G);
+   AdjVecUInt Ga(G); // two disjoint cliques of size 4
 
    {BC2SAT trans(Ga, {DI::none, Bounds::choose_l{}, {2,false}});
     assert(trans.enc().V == 8);
@@ -155,7 +155,11 @@ int main(const int argc, const char* const argv[]) {
         assert(Bicliques::bccomp(trans.edges[i],trans.edges[j],Ga) == ((i<6 and j<6) or (i>=6 and j>=6)));
    }
 
+   // Adding the biclique between {a,b} and {e,f}:
    assert(eqp(G.add_clique(std::vector{"a","b","e","f"}), {0,4}));
+   // So we have vertices 0, ..., 7, with:
+   //  - cliques {0,1,2,3} and {4,5,6,7}
+   //  - bliclique ({0,1}, {4,5}).
    Ga = AdjVecUInt(G);
    assert(Ga.n() == 8);
    assert(Ga.m() == 16);
@@ -164,8 +168,13 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.enc().nb() == 32); // B * 2 * 8
    assert(eqp(trans.edges[0], {0,1}));
    assert(eqp(trans.edges[3], {0,4}));
+   assert(eqp(trans.edges[4], {0,5}));
    assert(eqp(trans.edges[5], {1,2}));
+   assert(eqp(trans.edges[8], {1,5}));
    assert(eqp(trans.edges[9], {2,3}));
+   assert(eqp(trans.edges[10], {4,5}));
+   assert(eqp(trans.edges[11], {4,6}));
+   assert(eqp(trans.edges[15], {6,7}));
    assert(Bicliques::bccomp(trans.edges[3],trans.edges[5],Ga));
    assert(Bicliques::bccomp(trans.edges[5],trans.edges[3],Ga));
    assert(not Bicliques::bccomp(trans.edges[3],trans.edges[9],Ga));
@@ -174,7 +183,7 @@ int main(const int argc, const char* const argv[]) {
    RandGen::vec_eseed_t seeds(1);
    for (unsigned i = 1; i <= 100; ++i) {
      seeds[0] = i;
-     auto res = trans.max_bcincomp(
+     auto res = trans.max_bcincomp_unstable(
        RandGen::random_permutation<BC2SAT::vei_t>(trans.enc().E, seeds));
      const auto s = res.size();
      assert(s==2 or s==3);
@@ -182,8 +191,8 @@ int main(const int argc, const char* const argv[]) {
      std::ranges::sort(res);
      assert(std::ranges::includes(res, BC2SAT::vei_t{9,15}));
    }
-   assert(trans.max_bcincomp(10,{}, SS::without).v.size() == 2);
-   assert(trans.max_bcincomp(11,{}, SS::without).v.size() == 3);
+   assert(trans.max_bcincomp_unstable(10,{}, SS::without).v.size() == 2);
+   assert(trans.max_bcincomp_unstable(11,{}, SS::without).v.size() == 3);
 
    std::stringstream ss;
    ss << trans.nonedge_for_bc(0,1,0);
@@ -236,135 +245,71 @@ int main(const int argc, const char* const argv[]) {
      {SB::none,SS::without,{}}, {DC::without, DP::with, CS::without}, 0, {}), {96, 400}));
   }
 
-  {for (size_t n = 0; n < 6; ++n) {
-     const auto G = BC2SAT::graph_t(clique(n));
-     const size_t bcc = bcc_clique(n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcc + dist;
-       {BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-        std::stringstream out;
-        const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                                         100, 1, {dist});
-        assert(res.B == bcc);
-        assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
-        assert(res.rt == ResultType::exact);
-        assert(res.init_B != res.B or res.bcc.empty());
-        assert(res.init_B == res.B or is_bcc(res.bcc, G));}
-       {BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-        std::stringstream out;
-        const auto res = trans.sat_solve(nullptr, {},
-                                         100, 1, {dist});
-        assert(res.B == bcc);
-        assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
-        assert(res.rt == ResultType::exact);
-        assert(res.init_B != res.B or res.bcc.empty());
-        assert(res.init_B == res.B or is_bcc(res.bcc, G));}
-     }
-   }
-   for (size_t n = 0; n < 6; ++n) {
-     const auto G = BC2SAT::graph_t(biclique(n,n));
-     const size_t bcc = bcc_biclique(n,n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcc + dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-       std::stringstream out;
-       const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                                        100, 1, {dist});
-       assert(res.B == bcc);
-       assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcc(res.bcc, G));
-     }
-   }
-   for (size_t n = 0; n < 6; ++n) {
-     const auto G = BC2SAT::graph_t(crown(n));
-     const size_t bcc = bcc_crown(n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcc + dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-       std::stringstream out;
-       const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                                        100, 1, {dist});
-       assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : std::min({B,2*n-1,n*n-2})));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcc(res.bcc, G));
-     }
-   }
-   for (size_t n = 0; n < 6; ++n)
-     for (size_t m = 0; m < 6; ++m) {
-       const auto G = BC2SAT::graph_t(grid(n,m));
-       const size_t bcc = bcc_grid(n,m);
-       for (size_t dist = 1; dist <= 4; ++dist) {
-         const size_t B = bcc + dist;
-         BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-         std::stringstream out;
-         const auto res = trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                                          100, 1, {dist});
-         assert(res.B == bcc);
-         assert(res.init_B == (n*m <= 1 ? 0 : std::min(B,n*m-1)));
-         assert(res.rt == ResultType::exact);
-         assert(res.init_B != res.B or res.bcc.empty());
-         assert(res.init_B == res.B or is_bcc(res.bcc, G));
-       }
-     }
-  }
+  const auto test_downwards = [](const BC2SAT::graph_t& G, const size_t bcc,
+                                 PT pt = PT::cover) {
+    //for full test level use "<=" :
+    for (int sb0 = 0; sb0 < int(SB::none); ++sb0) {
+      const SB sb = SB(sb0);
+      for (int ss0 = 0; ss0 <= int(SS::without); ++ ss0) {
+        const SS ss = SS(ss0);
+        for (size_t dist = 1; dist <= 4; ++dist) {
+          const size_t B = bcc + dist;
+/*
+// for debugging
+std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
+          << " " << dist << " " << B << "\n";
+*/
+          BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
+          const auto res = trans.sat_solve(nullptr, {sb,ss,pt,{},{}},
+                                           100, 1, {dist});
+          if (res.rt != ResultType::exact) {
+            assert(res.rt == ResultType::other_timeout);
+            assert(sb == SB::none);
+            continue;
+          }
+          assert(res.rt == ResultType::exact);
+          assert(res.B == bcc);
+          assert(res.init_B == std::min(B, Bounds::simple_upper_bound(G)));
+          assert(res.init_B != res.B or res.bcc.empty());
+          assert(res.init_B == res.B or is_bcc(res.bcc, G));
+        }
+      }
+    }
+  };
 
-  {for (size_t n = 0; n < 6; ++n) {
-     const auto G = BC2SAT::graph_t(clique(n));
-     const size_t bcp = bcp_clique(n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcp + dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-       std::stringstream out;
-       const auto res =
-         trans.sat_solve(nullptr, {{},SS::without,PT::partition2,{},{}},
-                         100, 1, {dist});
-       assert(res.B == bcp);
-       assert(res.init_B == (n<=1 ? 0 : std::min(B,n-1)));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcp(res.bcc, G));
-     }
-    }
-  }
-  {for (size_t n = 0; n < 6; ++n) {
-     const auto G = BC2SAT::graph_t(biclique(n,n));
-     const size_t bcp = bcp_biclique(n,n);
-     for (size_t dist = 1; dist <= 4; ++dist) {
-       const size_t B = bcp + dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
-       std::stringstream out;
-       const auto res =
-         trans.sat_solve(nullptr, {{},SS::without,PT::partition2,{},{}},
-                         100, 1, {dist});
-       assert(res.B == bcp);
-       assert(res.init_B == (n==0 ? 0 : std::min(B,2*n-1)));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcp(res.bcc, G));
-     }
-    }
+  constexpr size_t default_n = 5; // for full test level use 6
+  {for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(clique(n)), bcc_clique(n));
+   for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(biclique(n,n)), bcc_biclique(n,n));
+   for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(crown(n)), bcc_crown(n));
+   for (size_t n = 0; n < default_n; ++n)
+     for (size_t m = 0; m < default_n; ++m)
+       test_downwards(BC2SAT::graph_t(grid(n,m)), bcc_grid(n,m));
+
+   for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(clique(n)), bcp_clique(n), PT::partition2);
+   for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(biclique(n,n)), bcp_biclique(n,n),
+                    PT::partition2);
+   for (size_t n = 0; n < default_n; ++n)
+     test_downwards(BC2SAT::graph_t(crown(n)), bcp_crown(n), PT::partition2);
   }
 
   {for (size_t n = 0; n < 6; ++n) {
      const auto G = BC2SAT::graph_t(grid(n,n));
      const size_t bcc = bcc_grid(n,n);
-     for (size_t dist = 0; dist <= 6; ++dist) {
-       const size_t B = dist;
-       BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,true}});
-       std::stringstream out;
-       const auto res =
-         trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                         100, 1, {dist});
-       assert(res.B == bcc);
-       assert(res.init_B == (n<=1 ? 0 : std::min(B+res.sbs.max(),n*n-1)));
-       assert(res.rt == ResultType::exact);
-       assert(res.init_B != res.B or res.bcc.empty());
-       assert(res.init_B == res.B or is_bcc(res.bcc, G));
-     }
+     BC2SAT trans(G, {DI::upwards, Bounds::choose_l{}, {0,true}});
+     std::stringstream out;
+     const auto res =
+       trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
+                       31, 1, {});
+     assert(res.rt == ResultType::exact);
+     assert(res.init_B == (n==0 ? 0 : n*n-1));
+     assert(res.init_B != res.B or res.bcc.empty());
+     assert(res.init_B == res.B or is_bcc(res.bcc, G));
+     assert(res.B == bcc);
     }
   }
 
