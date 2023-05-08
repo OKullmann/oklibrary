@@ -654,6 +654,14 @@ TODOS:
 
 ---
 
+13. Graphs.hpp
+
+  - Graphs should have names (a string-member).
+    The ==-test should ignore them.
+
+---
+
+
 In general:
 
  - good support for statistics
