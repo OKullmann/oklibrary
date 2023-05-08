@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "2.4.2023",
+        "0.3.6",
+        "8.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -556,6 +556,12 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(A[3], {0,1,4}));
    assert(eqp(A[4], {0,2,3,0,2,3}));
    assert(eqp(A[5], {}));
+  }
+
+  {for (const GT t : {GT::dir, GT::und})
+     for (const bool with_loops : {false, true})
+       for (AdjVecUInt::id_t n = 0; n <= 6; ++n)
+         assert(is_complete(make_complete_AdjVecUInt(t,with_loops,n)));
   }
 
 }

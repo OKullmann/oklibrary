@@ -60,7 +60,7 @@ License, or any later version. */
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
 
-    - the out-adjacency-list A is realised as a vector of vectors is uints
+    - the out-adjacency-list A is realised as a vector of vectors of uints
     - the vertices are exactly the natural numbers 0, ..., n()-1
     - const-access to A via graph()
 
@@ -114,10 +114,16 @@ License, or any later version. */
         via names).
 
     - free-standing helper-functions:
+
      - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
        (just reading an AdjMapStr and converting to AdjVecUInt)
+     - make_complete_AdjVecUInt(GT, bool, id_t) ->AdjVecUInt
+
      - has_loops(AdjVecUInt) -> bool
+     - is_complete(AdjVecUInt) -> bool
+
      - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
+
      - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
        FreqStats<size_t, float80>)
 
@@ -672,6 +678,18 @@ namespace Graphs {
     G.insert(in);
     return AdjVecUInt(G);
   }
+  AdjVecUInt make_complete_AdjVecUInt(const GT t, const bool with_loops,
+                                      const AdjVecUInt::id_t n) {
+    AdjVecUInt res(t, n);
+    if (n == 0) return res;
+    AdjVecUInt::adjlist_t A(n);
+    using id_t = AdjVecUInt::id_t;
+    for (id_t i = 0; i < n; ++i)
+      for (id_t j = 0; j < n; ++j)
+        if (with_loops or j != i) A[i].push_back(j);
+    res.set(A);
+    return res;
+  }
 
 
   bool has_loops(const AdjVecUInt& G) noexcept {
@@ -679,6 +697,22 @@ namespace Graphs {
     for (id_t i = 0; i < G.n(); ++i)
       if (G.adjacent(i,i)) return true;
     return false;
+  }
+  // If at least one loop is present, then all loops must be present
+  // for completeness, otherwise none:
+  bool is_complete(const AdjVecUInt& G) noexcept {
+    using id_t = AdjVecUInt::id_t;
+    const id_t n = G.n();
+    if (n == 0) return true;
+    const id_t m = G.m();
+    if (G.type() == GT::dir) {
+      if (has_loops(G)) return m == n*n;
+      else return m == n*(n-1);
+    }
+    else {
+      if (has_loops(G)) return m == (n*(n+1))/2;
+      else return m == (n*(n-1))/2;
+    }
   }
 
 
