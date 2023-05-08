@@ -200,7 +200,55 @@ c sb-seed                               18802
 c restricted-edges                      31
 
 So we get somewhat better (the exact value of bcc here is 199).
-(Using 200000 rounds doesn't get better.)
+> Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 2000000 0
+c "./BCC2SAT" "200" "+sba" "-cs" "2000000" "0"
+c ** Parameters **
+c B                                     200
+c sb-options                            sorted-sb-addition with-ssb
+c pt-option                             cover
+c comments-option                       with-comments
+c dimacs-parameter-option               with-parameters
+c clauses-option                        without-cs
+c sb-rounds                             2000000
+c num_e-seeds                           1
+c  e-seeds                              0
+c ** Symmetry Breaking **
+c planted-edges                         169
+c sb-stats                              2000000 : 139 154.985 169; 3.10572
+c sb-seed                               57579
+c restricted-edges                      31
+real    29m11.791s
+user    29m11.683s
+sys     0m0.005s
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 20000000 1
+c ** Symmetry Breaking **
+c planted-edges                         174
+c sb-stats                              20000000 : 138 154.988 174; 3.1085
+c sb-seed                               7347840
+c restricted-edges                      26
+
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sb -cs 2000000 0
+c ** Symmetry Breaking **
+c planted-edges                         165
+c sb-stats                              2000000 : 134 149.582 165; 3.298
+c sb-seed                               99863
+c restricted-edges                      35
+real    26m25.051s
+user    26m24.931s
+sys     0m0.015s
+
+Solving the SAT-case via minisat:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 199 +sba "" 1 1,7347840 | minisat-2.2.0 -no-pre
+|       100 |   40948  4080941  8394595 |  1496345      100     37 | 86.810 % |
+|  11362814 |   40948  4080941  8394595 | 17833704 11362814    317 | 86.810 % |
+===============================================================================
+INDETERMINATE
+
+OKsolver:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 199 +sba "" 1 1,7347840 > Grid2020.cnf
+545539654 May  8 13:55 Grid2020.cnf
+Bicliques> OKsolver2002 Grid2020.cnf &
+looked hopeless after 5h.
 
 
 One can also consider partition-problems (instead of cover-problems, the
