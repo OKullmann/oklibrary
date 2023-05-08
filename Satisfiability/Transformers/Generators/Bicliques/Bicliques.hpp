@@ -100,6 +100,7 @@ namespace Bicliques {
   typedef AdjVecUInt::id_t id_t;
   typedef AdjVecUInt::list_t list_t;
   typedef AdjVecUInt::edge_t edge_t;
+  typedef AdjVecUInt::vecedges_t vecedges_t;
 
 
   struct bc_frame {
@@ -399,6 +400,32 @@ namespace Bicliques {
     return
       (G.adjacent(c,a) and G.adjacent(d,b)) or
       (G.adjacent(c,b) and G.adjacent(d,a));
+  }
+
+  // The vertices are the edges of G in E (via their indices), with an
+  // edge between them iff bccomp holds:
+  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G, const vecedges_t& E) {
+    assert(not has_loops(G));
+    const id_t n = E.size();
+    AdjVecUInt res(Graphs::GT::und, n);
+    if (n <= 1) return res;;
+    AdjVecUInt::adjlist_t A(n);
+    for (id_t i = 0; i < n-1; ++i) {
+      auto& row = A[i];
+      const edge_t& e1 = E[i];
+      for (id_t j = i+1; j < n; ++j) {
+        const edge_t& e2 = E[j];
+        if (bccomp(e1, e2, G)) {
+          row.push_back(j);
+          A[j].push_back(i);
+        }
+      }
+    }
+    res.set(A);
+    return res;
+  }
+  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G) {
+    return bccomp_graph_bydef(G, G.alledges());
   }
 
 }

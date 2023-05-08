@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,18 +12,21 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Bicliques.hpp"
+#include "Graphs.hpp"
+#include "Generators.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "21.3.2022",
+        "0.3.0",
+        "8.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
         "GPL v3"};
 
   using namespace Bicliques;
+  using namespace Generators;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -180,4 +183,34 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(B, {{{{1,2},{4}},{{1},{3}},{{2},{3}},{{0},{1}}}}));
   }
 
+  {using graph_t = Graphs::AdjVecUInt;
+   const auto G = graph_t(grid(2,2));
+   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph_bydef(G, G.alledges()) == graph_t(clique(4)));
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   const auto G = graph_t(grid(2,3));
+   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
+   const auto m = G.m();
+   assert(m == 7);
+   assert(bccomp_graph_bydef(G).n() == m);
+   assert(bccomp_graph_bydef(G).m() == (m*(m-1))/2 - (2+2+3));
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   const auto G = graph_t(clique(4));
+   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph_bydef(G, G.alledges()) == graph_t(clique(6)));
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   for (Bicliques::id_t n = 0; n <= 10; ++n) // ERROR GCC 10.3: ambiguity for id_t
+     assert(is_complete(bccomp_graph_bydef(graph_t(clique(n)))));
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   for (Bicliques::id_t n = 0; n <= 10; ++n) // ERROR GCC 10.3: ambiguity for id_t
+     assert(is_complete(bccomp_graph_bydef(graph_t(biclique(n,n)))));
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   for (Bicliques::id_t n = 0; n <= 2; ++n) // ERROR GCC 10.3: ambiguity for id_t
+     assert(bccomp_graph_bydef(graph_t(crown(n))).m() == 0);
+  }
 }
