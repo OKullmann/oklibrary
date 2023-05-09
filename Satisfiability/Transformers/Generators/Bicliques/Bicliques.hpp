@@ -58,6 +58,8 @@ License, or any later version. */
    - bcc2CNF(Bcc_frame) -> DimacsClauseList (elements sorted)
    - CNF2bcc(DT::DimacsClauseList) -> Bcc_frame (sides sorted)
 
+   Processing bicliques:
+
    - sort(bc_frame&)
    - sort(Bcc_frame&)
 
@@ -66,6 +68,8 @@ License, or any later version. */
 
    - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
      biclique)
+   - bccomp_graph_bydef(AdjVecUInt G, vecedges_t E) -> AdjVecUInt
+     bccomp_graph_bydef(AdjVecUInt G) -> AdjVecUInt
 
 
 TODOS:
@@ -393,7 +397,8 @@ namespace Bicliques {
 
   // Whether edges e1, e2 can be in the same biclique
   // ("biclique-compatibility"):
-  inline bool bccomp(const edge_t e1, const edge_t e2, const AdjVecUInt& G) noexcept {
+  inline bool bccomp(const edge_t e1, const edge_t e2,
+                     const AdjVecUInt& G) noexcept {
     const auto [a,b] = e1;
     const auto [c,d] = e2;
     if (c==a or c==b or d==a or d==b) return true;
