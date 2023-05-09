@@ -127,6 +127,10 @@ License, or any later version. */
      - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
        FreqStats<size_t, float80>)
 
+    - independent sets:
+
+     - is_independent
+
 
 TODOS:
 
@@ -151,6 +155,8 @@ TODOS:
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/Statistics.hpp>
+
+#include "Algorithms.hpp"
 
 namespace Graphs {
 
@@ -739,6 +745,21 @@ namespace Graphs {
   degree_statistics_t degree_statistics(const AdjVecUInt& G) {
     return {G.graph(), [](auto){return true;},
         [](const auto& L){return L.size();}};
+  }
+
+
+  // See Algorithms::is_independent for the implicit version (with an
+  // adjacency-predicate; there loops are ignored, here taken into account):
+  template <class RAN>
+  bool is_independent(const RAN& r, const AdjVecUInt& G) noexcept {
+    assert(G.type() == GT::und);
+    assert(std::ranges::is_sorted(r));
+    using id_t = AdjVecUInt::id_t;
+    for (const id_t v : r) {
+      assert(v < G.n());
+      if (not Algorithms::empty_intersection(r, G.neighbours(v))) return false;
+    }
+    return true;
   }
 
 }

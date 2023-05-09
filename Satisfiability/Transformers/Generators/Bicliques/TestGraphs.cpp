@@ -8,18 +8,20 @@ License, or any later version. */
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <ranges>
 
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
+#include "Generators.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "8.5.2023",
+        "0.3.7",
+        "9.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -562,6 +564,39 @@ int main(const int argc, const char* const argv[]) {
      for (const bool with_loops : {false, true})
        for (AdjVecUInt::id_t n = 0; n <= 6; ++n)
          assert(is_complete(make_complete_AdjVecUInt(t,with_loops,n)));
+  }
+
+  {for (unsigned n = 0; n < 6; ++n)
+     assert(is_independent(std::ranges::iota_view(0u, n),
+                           AdjVecUInt(GT::und, n)));
+  }
+  {for (unsigned n = 0; n < 6; ++n) {
+     const auto G = make_complete_AdjVecUInt(GT::und, false, n);
+     assert(is_independent(std::ranges::iota_view(0u, 0u), G));
+     for (unsigned i = 0; i < n; ++i)
+       assert(is_independent(std::ranges::iota_view(i, i+1), G));
+     if (n == 0) continue;
+     for (unsigned i = 0; i < n-1; ++i)
+       assert(not is_independent(std::ranges::iota_view(i, i+2), G));
+   }
+  }
+  {for (unsigned n = 0; n < 6; ++n) {
+     const auto G = make_complete_AdjVecUInt(GT::und, true, n);
+     assert(is_independent(std::ranges::iota_view(0u, 0u), G));
+     for (unsigned i = 0; i < n; ++i)
+       assert(not is_independent(std::ranges::iota_view(i, i+1), G));
+     if (n == 0) continue;
+     for (unsigned i = 0; i < n-1; ++i)
+       assert(not is_independent(std::ranges::iota_view(i, i+2), G));
+   }
+  }
+  {for (unsigned n = 0; n < 6; ++n) {
+     const auto G = AdjVecUInt(Generators::biclique(n,n));
+     assert(is_independent(std::ranges::iota_view(0u, n), G));
+     assert(is_independent(std::ranges::iota_view(n, 2*n), G));
+     if (n == 0) continue;
+     assert(not is_independent(std::ranges::iota_view(n-1, n+1), G));
+   }
   }
 
 }
