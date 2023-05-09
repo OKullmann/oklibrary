@@ -9,7 +9,7 @@ License, or any later version. */
 
   General algorithms (tools)
 
-   - empty_intersection(RAN r1, RAN r2) (r1, r2 must be sorted)
+   - empty_intersection(RAN1 r1, RAN2 r2) (r1, r2 must be sorted)
 
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
      returns the sorted vector of elements of {0, ..., N-1} not in r
@@ -55,8 +55,8 @@ TODOS:
 namespace Algorithms {
 
   // For sorted ranges decide whether their intersection is empty:
-  template <class RAN>
-  inline bool empty_intersection(const RAN& r1, const RAN& r2) noexcept {
+  template <class RAN1, class RAN2>
+  inline bool empty_intersection(const RAN1& r1, const RAN2& r2) noexcept {
     if (r1.empty() or r2.empty()) return true;
     const auto e1 = r1.end(); const auto e2 = r2.end();
     auto i1 = r1.begin(); auto i2 = r2.begin();
@@ -172,7 +172,8 @@ namespace Algorithms {
   }
 
 
-  // p(i,j) stands for an edge-relation:
+  // p(i,j) stands for an edge-relation; see Graphs::is_independent for the
+  // graph-version; here we ignore loops:
   template <class VEC, class PRED>
   bool is_independent(const VEC& v, const PRED p) noexcept {
     const auto size = v.size();
