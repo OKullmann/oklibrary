@@ -63,6 +63,7 @@ License, or any later version. */
     - the out-adjacency-list A is realised as a vector of vectors of uints
     - the vertices are exactly the natural numbers 0, ..., n()-1
     - const-access to A via graph()
+    - type and n is constant from construction
 
     - typedefs:
      - id_t (uint64_t)
@@ -85,6 +86,7 @@ License, or any later version. */
      - n() -> size_t (number of vertices)
      - m() -> size_t (number of edges)
      - loops() -> size_t
+     - vertex_range : range over vertices
 
     - name-handling:
      - with_names() -> bool : whether names are active
@@ -107,6 +109,8 @@ License, or any later version. */
      - all nonedges(bool withloops) -> vecedges_t
 
     - operators:
+     - assignment assumes n and type from other is the same;
+       only move-assignment
      - ==
      - << :
       - comment-line (started with "# ") with n, m, type
@@ -129,7 +133,9 @@ License, or any later version. */
 
     - independent sets:
 
-     - is_independent
+     - is_independent(RAN r, AdjVecUInt) -> bool
+       is_independent_sort(RAN r, AdjVecUInt) -> bool
+     - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
 
 
 TODOS:
@@ -149,12 +155,14 @@ TODOS:
 #include <istream>
 #include <ranges>
 #include <algorithm>
+#include <iterator>
 
 #include <cassert>
 #include <cstdint>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/Statistics.hpp>
+#include <Transformers/Generators/Random/Distributions.hpp>
 
 #include "Algorithms.hpp"
 
@@ -434,6 +442,20 @@ namespace Graphs {
 
     typedef id_t size_t;
 
+  private :
+
+    const GT type_;
+    const size_t n_ = 0;
+    size_t m_ = 0;
+    adjlist_t A;
+    // invariants for A: A.size() = n_, all A[i] are sorted
+
+    bool names_ = true;
+    namesvec_t namesvec;
+    namesmap_t namesmap;
+
+  public :
+
     explicit AdjVecUInt(const GT t) noexcept : type_(t) {}
     AdjVecUInt(const GT t, const size_t n) noexcept
       : type_(t), n_(n), A(n), names_(false) {}
@@ -458,9 +480,26 @@ namespace Graphs {
       assert(namesmap.size() == n_);
     }
 
+    AdjVecUInt(const AdjVecUInt& other) = default;
+
+    AdjVecUInt& operator =(AdjVecUInt&& rhs) noexcept {
+      assert(rhs.type_ == type_);
+      assert(rhs.n_ == n_);
+      m_ = rhs.m_;
+      A = std::move(rhs.A);
+      names_ = rhs.names_;
+      namesvec = std::move(rhs.namesvec);
+      namesmap = std::move(rhs.namesmap);
+      return *this;
+    }
+
     GT type() const noexcept { return type_; }
     bool with_names() const noexcept { return names_; }
     size_t n() const noexcept { return n_; }
+
+    typedef std::ranges::iota_view<id_t, id_t> iota_view;
+    const iota_view vertex_range{0, n_};
+
     size_t m() const noexcept { return m_; }
     size_t loops() const noexcept {
       size_t count = 0;
@@ -666,16 +705,6 @@ namespace Graphs {
       return out;
     }
 
-  private :
-
-    GT type_;
-    size_t n_ = 0, m_ = 0;
-    adjlist_t A;
-    // invariants for A: A.size() = n_, all A[i] are sorted
-
-    bool names_ = true;
-    namesvec_t namesvec;
-    namesmap_t namesmap;
   };
 
 
@@ -760,6 +789,65 @@ namespace Graphs {
       if (not Algorithms::empty_intersection(r, G.neighbours(v))) return false;
     }
     return true;
+  }
+  template <class RAN>
+  bool is_independent_sort(RAN r, const AdjVecUInt& G) noexcept {
+    std::ranges::sort(r);
+    return is_independent(r,G);
+  }
+
+  AdjVecUInt::list_t
+  maximal_independent_greedy_simplest(const AdjVecUInt& G,
+                                      const RandGen::vec_eseed_t& seeds) {
+    assert(G.type() == GT::und);
+    AdjVecUInt::list_t res;
+
+    using id_t = AdjVecUInt::id_t;
+    struct comp {
+      const AdjVecUInt& G;
+      comp(const AdjVecUInt& G) noexcept : G(G) {}
+      bool operator()(const id_t v, const id_t w) const noexcept {
+        return G.degree(v) < G.degree(w);
+      }
+    };
+    typedef std::multiset<id_t, comp> set_t;
+    typedef set_t::const_iterator iterator;
+    typedef std::vector<iterator> vec_t;
+
+    vec_t avail; avail.reserve(G.n());
+    set_t sorted(G);
+    const iterator end = sorted.cend();
+    for (const id_t v : G.vertex_range) {
+      const iterator it = sorted.insert(v);
+      avail.push_back(it);
+    }
+
+    RandGen::RandGen_t g(seeds);
+    while (not sorted.empty()) {
+      const iterator begin = sorted.cbegin();
+      const id_t degree = G.degree(*begin);
+      vec_t choices; choices.push_back(begin);
+      for (auto it = std::next(begin); it != end
+             and G.degree(*it) == degree; ++it)
+        choices.push_back(it);
+      const id_t n = choices.size();
+      const iterator choice = n==1 ? choices[0] :
+        choices[RandGen::UniformRange(g, n)()];
+      const id_t element = *choice;
+      assert(avail[element] == choice);
+      res.push_back(element);
+      sorted.erase(choice);
+      avail[element] = end;
+      for (const id_t v : G.neighbours(element)) {
+        iterator& it = avail[v];
+        if (it != end) {
+          sorted.erase(it);
+          it = end;
+        }
+      }
+    }
+    assert(is_independent_sort(res, G));
+    return res;
   }
 
 }

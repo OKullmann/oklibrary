@@ -13,6 +13,7 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "Graphs.hpp"
 #include "Generators.hpp"
@@ -20,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
-        "9.5.2023",
+        "0.3.8",
+        "10.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -596,6 +597,37 @@ int main(const int argc, const char* const argv[]) {
      assert(is_independent(std::ranges::iota_view(n, 2*n), G));
      if (n == 0) continue;
      assert(not is_independent(std::ranges::iota_view(n-1, n+1), G));
+   }
+  }
+
+  {for (unsigned n = 0; n < 6; ++n) {
+     const AdjVecUInt G(GT::und, n);
+     auto res = maximal_independent_greedy_simplest(G, {});
+     std::ranges::sort(res);
+     assert(std::ranges::equal(res, G.vertex_range));
+   }
+  }
+  {const  AdjVecUInt G(Generators::clique(10));
+   GenStats::FreqStats<unsigned, FloatingPoint::float80> S;
+   for (unsigned i = 0; i < 1000; ++i) {
+     const auto res = maximal_independent_greedy_simplest(G, {i});
+     assert(res.size() == 1);
+     S += res[0];
+   }
+   assert(eqp(S.cmap(),
+              {{0,91},{1,99},{2,106},{3,98},{4,101},{5,114},
+               {6,116},{7,103},{8,86},{9,86}}));
+  }
+  {for (unsigned n = 0; n < 11; ++n) {
+     const AdjVecUInt G(Generators::grid(n,1));
+     auto res = maximal_independent_greedy_simplest(G, {});
+     assert(res.size() == (n+1)/2);
+   }
+  }
+  {for (unsigned n = 0; n < 11; ++n) {
+     const AdjVecUInt G(Generators::biclique(n,n));
+     auto res = maximal_independent_greedy_simplest(G, {});
+     assert(res.size() == n);
    }
   }
 
