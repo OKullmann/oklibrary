@@ -78,8 +78,8 @@ License, or any later version. */
       - insertion:
        - insert(RANGE)
        - insert(RANGE, FILTER)
-       - insert(RANGE, FILTER, TRNAFORM)
-       - +=(input_t
+       - insert(RANGE, FILTER, TRANSFORM)
+       - +=(input_t)
       - reports:
        - num_inputs(), num_values(), cmap()
        - min(), max()  -> input_t
