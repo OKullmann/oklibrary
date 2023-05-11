@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "8.5.2023",
+        "0.3.1",
+        "11.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -185,12 +185,12 @@ int main(const int argc, const char* const argv[]) {
 
   {using graph_t = Graphs::AdjVecUInt;
    const auto G = graph_t(grid(2,2));
-   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
-   assert(bccomp_graph_bydef(G, G.alledges()) == graph_t(clique(4)));
+   assert(bccomp_graph_bydef(G, {}, false) == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph_bydef(G, G.alledges(), false) == graph_t(clique(4)));
   }
   {using graph_t = Graphs::AdjVecUInt;
    const auto G = graph_t(grid(2,3));
-   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph_bydef(G, {}, false) == graph_t(Graphs::GT::und, 0));
    const auto m = G.m();
    assert(m == 7);
    assert(bccomp_graph_bydef(G).n() == m);
@@ -198,8 +198,8 @@ int main(const int argc, const char* const argv[]) {
   }
   {using graph_t = Graphs::AdjVecUInt;
    const auto G = graph_t(clique(4));
-   assert(bccomp_graph_bydef(G, {}) == graph_t(Graphs::GT::und, 0));
-   assert(bccomp_graph_bydef(G, G.alledges()) == graph_t(clique(6)));
+   assert(bccomp_graph_bydef(G, {}, false) == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph_bydef(G, G.alledges(), false) == graph_t(clique(6)));
   }
   {using graph_t = Graphs::AdjVecUInt;
    for (Bicliques::id_t n = 0; n <= 10; ++n) // ERROR GCC 10.3: ambiguity for id_t
@@ -212,5 +212,14 @@ int main(const int argc, const char* const argv[]) {
   {using graph_t = Graphs::AdjVecUInt;
    for (Bicliques::id_t n = 0; n <= 2; ++n) // ERROR GCC 10.3: ambiguity for id_t
      assert(bccomp_graph_bydef(graph_t(crown(n))).m() == 0);
+  }
+  {std::istringstream in("A B C\nB E\n");
+   const auto G = make_AdjMapStr(in, Graphs::GT::und);
+   const auto Gc = bccomp_graph_bydef(Graphs::AdjVecUInt(G), true);
+   assert(Gc.n() == 3);
+   assert(Gc.with_names());
+   assert(eqp(Gc.allnames(), {"A-B", "A-C", "B-E"}));
+   assert(eqp(Gc.allindices(), {{"A-B",0},{"A-C",1},{"B-E",2}}));
+   assert(eqp(Gc.graph(), {{1,2},{0},{0}}));
   }
 }

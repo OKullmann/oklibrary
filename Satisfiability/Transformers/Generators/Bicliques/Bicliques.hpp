@@ -409,7 +409,8 @@ namespace Bicliques {
 
   // The vertices are the edges of G in E (via their indices), with an
   // edge between them iff bccomp holds:
-  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G, const vecedges_t& E) {
+  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G, const vecedges_t& E,
+                                const bool names) {
     assert(not has_loops(G));
     const id_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
@@ -427,10 +428,19 @@ namespace Bicliques {
       }
     }
     res.set(A);
+    if (names) {
+      res.set_names();
+      for (id_t i = 0; i < E.size(); ++i) {
+        const auto& [v, w] = E[i];
+        res.set_name(i, G.with_names() ? G.name(v) + "-" + G.name(w) :
+                        std::to_string(v) + "-" + std::to_string(w));
+      }
+    }
     return res;
   }
-  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G) {
-    return bccomp_graph_bydef(G, G.alledges());
+  AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G,
+                                const bool names = false) {
+    return bccomp_graph_bydef(G, G.alledges(), names);
   }
 
 }
