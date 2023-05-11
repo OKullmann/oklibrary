@@ -76,11 +76,11 @@ License, or any later version. */
      - vecedges_t (vector of edge_t)
 
     - constructors:
-     - AdjVecUInt(GT) : empty graph
+     - AdjVecUInt(GT) : empty graph (explicit)
      - AdjVecUInt(GT, size_t n) : n isolated vertices
      - AdjVecUInt(GT, adjlist_t)
      - AdjVecUInt(AdjMapStr) : indexing in the given order, with storing
-       the names
+       the names (explicit)
 
     - statistics:
      - type() -> GT
@@ -120,19 +120,22 @@ License, or any later version. */
       - all adjacency-lists (either via indices, or, whith names activated,
         via names).
 
-    - free-standing helper-functions:
 
-     - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
-       (just reading an AdjMapStr and converting to AdjVecUInt)
-     - make_complete_AdjVecUInt(GT, bool, id_t) ->AdjVecUInt
+   - Free-standing helper-functions:
 
-     - has_loops(AdjVecUInt) -> bool
-     - is_complete(AdjVecUInt) -> bool
+    - make_AdjMapStr(std::istream, GT) -> AdjMapStr
+    - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
+      (just reading an AdjMapStr and converting to AdjVecUInt)
 
-     - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
+    - make_complete_AdjVecUInt(GT, bool, id_t) ->AdjVecUInt
 
-     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
-       FreqStats<size_t, float80>)
+    - has_loops(AdjVecUInt) -> bool
+    - is_complete(AdjVecUInt) -> bool
+
+    - add_biclique(underlying-adjacency-list, GT, two-ranges-of-vertices)
+
+    - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
+      FreqStats<size_t, float80>)
 
     - independent sets:
 
@@ -738,10 +741,13 @@ namespace Graphs {
   };
 
 
-  AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t) {
+  AdjMapStr make_AdjMapStr(std::istream& in, const GT t) {
     AdjMapStr G(t);
     G.insert(in);
-    return AdjVecUInt(G);
+    return G;
+  }
+  AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t) {
+    return AdjVecUInt(make_AdjMapStr(in, t));
   }
   AdjVecUInt make_complete_AdjVecUInt(const GT t, const bool with_loops,
                                       const AdjVecUInt::id_t n) {
