@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
-        "10.5.2023",
+        "0.3.9",
+        "11.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -515,9 +515,15 @@ int main(const int argc, const char* const argv[]) {
    assert(G2.index("e") == 4);
    assert(G2.index("f") == 5);
    assert(G2.index("") == 6);
-   assert(eqp(G2.allindices(), {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
+   assert(eqp(G2.allindices(),
+              {{"a",0},{"b",1},{"c",2},{"d",3},{"e",4},{"f",5}}));
+   G2.set_name(2, "XXX");
+   assert(eqp(G2.allnames(), {"a","b","XXX","d","e","f"}));
+   assert(eqp(G2.allindices(),
+              {{"XXX",2},{"a",0},{"b",1},{"d",3},{"e",4},{"f",5}}));
    assert(eqp(G2.alledges(), {{0,1},{0,2},{0,3},{1,3},{1,4}}));
-   assert(eqp(G2.allnonedges(), {{0,4},{0,5},{1,2},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}}));
+   assert(eqp(G2.allnonedges(),
+              {{0,4},{0,5},{1,2},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}}));
    assert(eqp(G2.allnonedges(true), {{0,0},{0,4},{0,5},{1,1},{1,2},{1,5},{2,2},{2,3},{2,4},{2,5},{3,3},{3,4},{3,5},{4,4},{4,5},{5,5}}));
    for (const auto e : G2.alledges()) {
      assert(G2.adjacent(e.first, e.second));
@@ -561,10 +567,28 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(A[5], {}));
   }
 
+  {const auto G0 = AdjVecUInt(Generators::grid(5,6));
+   AdjVecUInt G1{G0.type(), G0.graph()};
+   assert(G1 == G0);
+   assert(G0.with_names());
+   assert(G0.name(0) == "1,1");
+   assert(not G1.with_names());
+   G1.set_names();
+   assert(G1.with_names());
+   assert(G1.allnames().size() == 30);
+   assert(G1.allindices().empty());
+   G1.set_name(0, "XXX");
+   assert(G1.name(0) == "XXX");
+   assert(eqp(G1.allindices(), {{"XXX",0}}));
+  }
+
   {for (const GT t : {GT::dir, GT::und})
      for (const bool with_loops : {false, true})
-       for (AdjVecUInt::id_t n = 0; n <= 6; ++n)
-         assert(is_complete(make_complete_AdjVecUInt(t,with_loops,n)));
+       for (AdjVecUInt::id_t n = 0; n <= 6; ++n) {
+         const auto G = make_complete_AdjVecUInt(t,with_loops,n);
+         assert(is_complete(G));
+         assert(AdjVecUInt(G.type(), G.graph()) == G);
+       }
   }
 
   {for (unsigned n = 0; n < 6; ++n)

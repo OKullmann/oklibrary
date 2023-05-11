@@ -78,6 +78,7 @@ License, or any later version. */
     - constructors:
      - AdjVecUInt(GT) : empty graph
      - AdjVecUInt(GT, size_t n) : n isolated vertices
+     - AdjVecUInt(GT, adjlist_t)
      - AdjVecUInt(AdjMapStr) : indexing in the given order, with storing
        the names
 
@@ -91,8 +92,10 @@ License, or any later version. */
     - name-handling:
      - with_names() -> bool : whether names are active
      - unset_names() : deactivate names
-     - set_names() : activate names
+     - set_names() : activate names; if the names-vector was empty before,
+       resizes it to n()
      - name(id_t) -> string
+     - set_name(id, string) : sets the name of id resp. changes it
      - allnames() -> const namesvec_t&
      - index(string) -> id_t
      - allindices() -> const namesmap_t&
@@ -111,7 +114,7 @@ License, or any later version. */
     - operators:
      - assignment assumes n and type from other is the same;
        only move-assignment
-     - ==
+     - == : ignores name-handling
      - << :
       - comment-line (started with "# ") with n, m, type
       - all adjacency-lists (either via indices, or, whith names activated,
@@ -459,6 +462,9 @@ namespace Graphs {
     explicit AdjVecUInt(const GT t) noexcept : type_(t) {}
     AdjVecUInt(const GT t, const size_t n) noexcept
       : type_(t), n_(n), A(n), names_(false) {}
+    AdjVecUInt(const GT t, adjlist_t A0) : type_(t), n_(A0.size()),
+      A(std::move(A0)), names_(false) {
+      assert(valid(A)); m_ = num_edges(); }
     explicit AdjVecUInt(const AdjMapStr& G) noexcept
       : type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
       typedef namesmap_t::const_iterator iterator;
@@ -508,15 +514,22 @@ namespace Graphs {
     }
 
     void unset_names() noexcept { names_ = false; }
-    void set_names() noexcept { names_ = true; }
+    void set_names() noexcept {
+      assert(namesvec.empty() or namesvec.size() == n_);
+      names_ = true;
+      if (namesvec.empty()) namesvec.resize(n_);
+    }
 
     bool valid(const adjlist_t& B) noexcept {
       if (B.size() != n_) return false;
       for (size_t i = 0; i < n_; ++i) {
         const auto& L = B[i];
         if (not std::is_sorted(L.begin(), L.end())) return false;
+        if (std::adjacent_find(L.begin(), L.end()) != L.end())
+          return false;
         if (std::any_of(L.begin(), L.end(),
-                        [this](const id_t v){return v >= n_;})) return false;
+                        [this](const id_t v){return v >= n_;}))
+          return false;
       }
       if (type_ == GT::und)
         for (size_t i = 0; i < n_; ++i)
@@ -526,18 +539,24 @@ namespace Graphs {
           }
       return true;
     }
+  private :
+    size_t num_edges() const noexcept {
+      size_t res = 0;
+      for (const auto& v : A) res += v.size();
+      if (type_ == GT::und) {
+        const size_t num_loops = loops();
+        assert(num_loops <= res); res -= num_loops;
+        assert(res % 2 == 0); res /= 2;
+        res += num_loops;
+      }
+      return res;
+    }
+  public :
     void set(adjlist_t B) noexcept {
       assert(valid(B));
       A = std::move(B);
       assert(B.empty());
-      m_ = 0;
-      for (const auto& v : A) m_ += v.size();
-      if (type_ == GT::und) {
-        const size_t l = loops();
-        assert(l <= m_); m_ -= l;
-        assert(m_ % 2 == 0); m_ /= 2;
-        m_ += l;
-      }
+      m_ = num_edges();
     }
 
     const list_t& neighbours(const id_t x) const noexcept {
@@ -550,8 +569,19 @@ namespace Graphs {
 
     const std::string& name(const id_t x) const noexcept {
       assert(x < n_);
-      assert(names_);
       return namesvec[x];
+    }
+    void set_name(const id_t x, std::string s) noexcept {
+      assert(not s.empty());
+      assert(x < n_);
+      auto& sold = namesvec[x];
+      if (not sold.empty()) {
+        const auto f = namesmap.find(sold);
+        assert(f != namesmap.end() and f->second == x);
+        namesmap.erase(f);
+      }
+      sold = std::move(s);
+      namesmap[sold] = x;
     }
     const namesvec_t& allnames() const noexcept {
       return namesvec;
