@@ -4,12 +4,21 @@ Priorities:
 
 ---
 
+-4. Program MaxIndependentGreedy:
+
+    - Using maximal_independent_greedy_simplest(G, seeds),
+      outputting first the statistics, and then the solution found.
+
+---
+
 -3. We need targets for "full testing", and "light testing".
     - These set macros used in the unit-tests.
 
 ---
 
 -2. Random graph generator GRG
+
+UPDATE: Easiest is to just extend GraphGen.
 
    - Arguments:
          type  offset  V  P/E
