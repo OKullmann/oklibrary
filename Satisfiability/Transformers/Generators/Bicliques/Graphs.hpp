@@ -99,6 +99,7 @@ License, or any later version. */
      - allnames() -> const namesvec_t&
      - index(string) -> id_t
      - allindices() -> const namesmap_t&
+     - output(ostream, list_t)
 
     - providing whole adjacency-list:
      - valid(adjlist_t) -> bool
@@ -436,6 +437,9 @@ namespace Graphs {
   };
 
 
+  // ********************************************************************
+
+
   // Adjacency-vector, with unsigned integers as vertex-ids, and underlying
   // names:
   struct AdjVecUInt {
@@ -725,6 +729,16 @@ namespace Graphs {
         and A == rhs.A;
     }
 
+    void output(std::ostream& out, const list_t& L) const {
+      if (names_) {
+        if (L.empty()) return;
+        auto it = L.begin(); const auto end = L.end();
+        out << name(*it); ++it;
+        for (; it != end; ++it) out << " " << name(*it);
+      }
+      else Environment::out_line(out, L);
+    }
+
     friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
       out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
       for (id_t v = 0; v < G.n_; ++v) {
@@ -739,6 +753,9 @@ namespace Graphs {
     }
 
   };
+
+
+  // ********************************************************************
 
 
   AdjMapStr make_AdjMapStr(std::istream& in, const GT t) {
