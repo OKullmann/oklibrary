@@ -27,7 +27,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.1.0",
         "12.5.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -70,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const format2_options_t formopt =
-    Environment::translate<format2_options_t>()(argv[2], sep);
+    Environment::translate<format2_options_t>()(argv[1], sep);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[2]);
 
   const bool with_comments = std::get<DC>(formopt) == DC::with;
@@ -78,23 +78,29 @@ int main(const int argc, const char* const argv[]) {
   if (with_comments) {
     commandline_output(std::make_tuple(DC::with), comment, std::cout,
                        argc, argv);
-    // XXX
+    std::cout << comment << "comments-result " << with_comments
+              << " " << with_result << "\n"
+              << comment << "num_e-seeds " << seeds.size() << "\n";
+    if (not seeds.empty())
+      std::cout << comment << "e-seeds " << RandGen::ESW{seeds} << std::endl;
   }
 
   const auto G = make_AdjVecUInt(std::cin, GT::und);
 
   if (with_comments) {
-    // XXX
+    std::cout << comment << "V " << G.n() << "\n"
+              << comment << "E " << G.m() << std::endl;
   }
 
   const auto I = maximal_independent_greedy_simplest(G, seeds);
 
   if (with_comments) {
-    // XXX
+    std::cout << comment << "result-size " << I.size() << "\n";
   }
 
   if (with_result) {
-    // XXX
+    G.output(std::cout, I);
+    std::cout << std::endl;
   }
 
 }
