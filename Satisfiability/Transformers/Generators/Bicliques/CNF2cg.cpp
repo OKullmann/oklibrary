@@ -27,7 +27,6 @@ The header says "4 vertices, 1 edges, undirected".
 TODOS:
 
 1. Write application tests.
-2. DONE Use more efficient "conflictgraph(F)".
 
 */
 
