@@ -322,8 +322,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.0",
-        "7.5.2023",
+        "1.2.1",
+        "12.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -370,7 +370,7 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << error <<
       "Exactly five arguments (B, algo-opt, form-opt, rounds, seeds)"
       " needed, but " << argc-1 << " provided.\n";
-    return int(Error::missing_parameters);
+    return int(Error::faulty_parameters);
   }
 
   const Bounds B = read_current(argv[1]);
