@@ -37,17 +37,7 @@ Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph ""
 3 2
 
 
-
-
-TODOS:
-
-0. As with other similar programs:
-    - Provide basic statistics (V, E).
-    - Provide turning off output.
-    - We also need a program for computing statistics for graphs.
-
-1. Once available, use the more efficient computation bccomp_graph.
-
+See plans/general.txt.
 */
 
 #include <iostream>

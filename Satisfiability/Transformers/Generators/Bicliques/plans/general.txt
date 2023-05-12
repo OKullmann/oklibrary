@@ -2,6 +2,15 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
+-5. Graph2BCcompGraph.cpp
+
+   - As with other similar programs:
+    - Provide basic statistics (V, E).
+    - Provide turning off output.
+    - We also need a program for computing statistics for graphs.
+
+   - Once available, use the more efficient computation bccomp_graph.
+
 ---
 
 -4. Program MaxIndependentGreedy:
