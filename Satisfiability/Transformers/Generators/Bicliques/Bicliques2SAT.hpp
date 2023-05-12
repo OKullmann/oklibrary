@@ -384,7 +384,7 @@ namespace Bicliques2SAT {
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
   enum class DP { with=0, without=1 }; // Dimacs-parameters
   enum class CS { with=0, without=1 }; // clause-set
-  enum class BC { with=0, without=1 }; // biclique-list
+  enum class BC { with=0, without=1 }; // biclique-list (or other results)
 
   std::string solver_option(const SO so) {
     if (so == SO::nopre) return " -no-pre";
@@ -440,7 +440,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::BC> {
     static constexpr int size = int(Bicliques2SAT::BC::without)+1;
     static constexpr std::array<const char*, size> string
-    {"+bcl", "-bcl"};
+    {"+sol", "-sol"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DI> {
@@ -497,8 +497,8 @@ namespace Bicliques2SAT {
   }
   std::ostream& operator <<(std::ostream& out, const BC b) {
     switch (b) {
-    case BC::with : return out << "with-bicliques";
-    case BC::without : return out << "without-bicliques";
+    case BC::with : return out << "with-solution";
+    case BC::without : return out << "without-solution";
     default : return out << "BC::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const DI d) {
