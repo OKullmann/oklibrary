@@ -893,6 +893,15 @@ namespace Graphs {
         if (it != end) {
           sorted.erase(it);
           it = end;
+          for (const id_t w : G.neighbours(v)) {
+            iterator& itw = avail[w];
+            if (itw != end) {
+              const id_t d = itw-> d;
+              assert(d >= 1);
+              sorted.erase(itw);
+              itw = sorted.emplace(w, d-1);
+            }
+          }
         }
       }
     }

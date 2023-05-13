@@ -12,6 +12,48 @@ License, or any later version. */
 
 EXAMPLES:
 
+For a biclique with two equal sides, the maximum independent sets are
+exactly the two sides, and the simple greedy approach finds them:
+Bicliques> ./GraphGen biclique 6 6 | ./MaxIndependentGreedy_debug "" 0
+# "./MaxIndependentGreedy_debug" "" "0"
+# comments-result 1 1
+# num_e-seeds 1
+# e-seeds 0
+# V 12
+# E 36
+# result-size 6
+l5 l6 l3 l1 l4 l2
+Bicliques> ./GraphGen biclique 6 6 | ./MaxIndependentGreedy_debug -com 4
+r4 r5 r2 r1 r6 r3
+
+For the biclique-compatability-graphs of grids, it seems this simple
+lower bound for bcc is easily exact when just using a relatively
+small number of runs:
+
+Bicliques> time ./GraphGen grid 100 100 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol 18
+# "./MaxIndependentGreedy" "-sol" "18"
+# comments-result 1 0
+# num_e-seeds 1
+# e-seeds 18
+# V 19800
+# E 78406
+# result-size 4999
+real	0m2.920s
+user	0m2.934s
+sys	0m0.021s
+Bicliques> time ./GraphGen grid 200 200 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol 18
+# "./MaxIndependentGreedy" "-sol" "18"
+# comments-result 1 0
+# num_e-seeds 1
+# e-seeds 18
+# V 79600
+# E 316806
+# result-size 19999
+real	0m31.440s
+user	0m31.551s
+sys	0m0.041s
+
+
 */
 
 #include <iostream>
@@ -27,8 +69,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "12.5.2023",
+        "0.2.0",
+        "13.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentGreedy.cpp",

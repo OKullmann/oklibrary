@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
+        "0.4.0",
         "13.5.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -661,15 +661,9 @@ int main(const int argc, const char* const argv[]) {
      assert(I.size() == 3);
      for (unsigned i = 0; i < 3; ++i) ++freq_stats[i][I[i]];
    }
-   assert(freq_stats[0][0] != 0);
-   assert(freq_stats[0][4] != 0);
-   for (unsigned i = 1; i < 4; ++i) assert(freq_stats[0][i] == 0);
-   assert(freq_stats[0][1] == 0);
-   assert(freq_stats[0][3] == 0);
-   assert(freq_stats[1][0] != 0);
-   //assert(freq_stats[1][2] != 0); ERROR
-   assert(freq_stats[0][4] != 0);
-   Environment::out_lines(std::cerr, freq_stats);
+   assert(eqp(freq_stats[0], {495,0,0,0,505}));
+   assert(eqp(freq_stats[1], {263,0,484,0,253}));
+   assert(eqp(freq_stats[2], {242,0,516,0,242}));
   }
 
 }
