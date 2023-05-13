@@ -856,37 +856,34 @@ namespace Graphs {
     AdjVecUInt::list_t res;
 
     using id_t = AdjVecUInt::id_t;
-    struct comp {
-      const AdjVecUInt& G;
-      comp(const AdjVecUInt& G) noexcept : G(G) {}
-      bool operator()(const id_t v, const id_t w) const noexcept {
-        return G.degree(v) < G.degree(w);
-      }
+    struct P {
+      id_t v, d;
+      bool operator <(const P& o) const noexcept { return d < o.d; }
     };
-    typedef std::multiset<id_t, comp> set_t;
+    typedef std::multiset<P> set_t;
     typedef set_t::const_iterator iterator;
     typedef std::vector<iterator> vec_t;
 
     vec_t avail; avail.reserve(G.n());
-    set_t sorted(G);
+    set_t sorted;
     const iterator end = sorted.cend();
     for (const id_t v : G.vertex_range) {
-      const iterator it = sorted.insert(v);
+      const iterator it = sorted.emplace(v,G.degree(v));
       avail.push_back(it);
     }
 
     RandGen::RandGen_t g(seeds);
     while (not sorted.empty()) {
       const iterator begin = sorted.cbegin();
-      const id_t degree = G.degree(*begin);
+      const id_t degree = begin->d;
       vec_t choices; choices.push_back(begin);
       for (auto it = std::next(begin); it != end
-             and G.degree(*it) == degree; ++it)
+             and it->d == degree; ++it)
         choices.push_back(it);
       const id_t n = choices.size();
       const iterator choice = n==1 ? choices[0] :
         choices[RandGen::UniformRange(g, n)()];
-      const id_t element = *choice;
+      const id_t element = choice->v;
       assert(avail[element] == choice);
       res.push_back(element);
       sorted.erase(choice);
