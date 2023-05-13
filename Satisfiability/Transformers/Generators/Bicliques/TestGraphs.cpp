@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
-        "11.5.2023",
+        "0.3.10",
+        "13.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -653,6 +653,23 @@ int main(const int argc, const char* const argv[]) {
      auto res = maximal_independent_greedy_simplest(G, {});
      assert(res.size() == n);
    }
+  }
+  {const AdjVecUInt G(Generators::grid(5,1));
+   std::vector<std::vector<unsigned>> freq_stats(3, std::vector<unsigned>(5));
+   for (unsigned T = 0; T < 1000; ++T) {
+     const auto I = maximal_independent_greedy_simplest(G, {T});
+     assert(I.size() == 3);
+     for (unsigned i = 0; i < 3; ++i) ++freq_stats[i][I[i]];
+   }
+   assert(freq_stats[0][0] != 0);
+   assert(freq_stats[0][4] != 0);
+   for (unsigned i = 1; i < 4; ++i) assert(freq_stats[0][i] == 0);
+   assert(freq_stats[0][1] == 0);
+   assert(freq_stats[0][3] == 0);
+   assert(freq_stats[1][0] != 0);
+   //assert(freq_stats[1][2] != 0); ERROR
+   assert(freq_stats[0][4] != 0);
+   Environment::out_lines(std::cerr, freq_stats);
   }
 
 }
