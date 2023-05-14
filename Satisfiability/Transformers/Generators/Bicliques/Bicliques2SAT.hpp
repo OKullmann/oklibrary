@@ -848,6 +848,15 @@ namespace Bicliques2SAT {
       return res;
     }
 
+    symmbreak_res_t max_bcincomp(const id_t rounds,
+                                 const RandGen::vec_eseed_t& seeds,
+                                 const SB sb,
+                                 const SS ss) const {
+      return sb == SB::none ? symmbreak_res_t{} :
+      (sb == SB::basic ? max_bcincomp_unstable(rounds, seeds, ss) :
+       max_bcincomp_sort(rounds, seeds, ss, sb));
+    }
+
 
     typedef RandGen::Var Var;
     typedef RandGen::Lit Lit;
@@ -1183,9 +1192,7 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const symmbreak_res_t sbr = sb == SB::none ? symmbreak_res_t{} :
-      (sb == SB::basic ? max_bcincomp_unstable(sb_rounds, seeds, ss) :
-       max_bcincomp_sort(sb_rounds, seeds, ss, sb));
+      const symmbreak_res_t sbr = max_bcincomp(sb_rounds, seeds, sb, ss);
       const auto optsbs = sbr.v.size();
       bounds.update_by_sb(optsbs);
       assert(not bounds.inconsistent());
@@ -1300,9 +1307,7 @@ namespace Bicliques2SAT {
 
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
-      const auto sbr = sb == SB::none ? symmbreak_res_t{} :
-      (sb == SB::basic ? max_bcincomp_unstable(sb_rounds, seeds, ss) :
-       max_bcincomp_sort(sb_rounds, seeds, ss, sb));
+      const symmbreak_res_t sbr =  max_bcincomp(sb_rounds, seeds, sb, ss);
       const auto optsbs = sbr.v.size();
       if (log) {
         *log << "Symmetry-breaking: index=" << sbr.i << ", stats= " << sbr.s
