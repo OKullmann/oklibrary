@@ -155,7 +155,7 @@ c total-lit-occurrences                 54681495
 p cnf 257400 26902855
 
 Using a heuristics to find better symmetry-breaking:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs "" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 1000 ""
 c "./BCC2SAT" "200" "+sba" "-cs" "1000" ""
 c ** Parameters **
 c B                                     200
