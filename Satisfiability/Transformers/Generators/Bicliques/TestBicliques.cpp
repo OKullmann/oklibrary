@@ -202,15 +202,15 @@ int main(const int argc, const char* const argv[]) {
    assert(bccomp_graph_bydef(G, G.alledges(), "") == graph_t(clique(6)));
   }
   {using graph_t = Graphs::AdjVecUInt;
-   for (Bicliques::id_t n = 0; n <= 10; ++n) // ERROR GCC 10.3: ambiguity for id_t
+   for (idv_t n = 0; n <= 10; ++n)
      assert(is_complete(bccomp_graph_bydef(graph_t(clique(n)))));
   }
   {using graph_t = Graphs::AdjVecUInt;
-   for (Bicliques::id_t n = 0; n <= 10; ++n) // ERROR GCC 10.3: ambiguity for id_t
+   for (idv_t n = 0; n <= 10; ++n)
      assert(is_complete(bccomp_graph_bydef(graph_t(biclique(n,n)))));
   }
   {using graph_t = Graphs::AdjVecUInt;
-   for (Bicliques::id_t n = 0; n <= 2; ++n) // ERROR GCC 10.3: ambiguity for id_t
+   for (idv_t n = 0; n <= 2; ++n)
      assert(bccomp_graph_bydef(graph_t(crown(n))).m() == 0);
   }
   {std::istringstream in("A B C\nB E\n");

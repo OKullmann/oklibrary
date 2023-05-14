@@ -14,7 +14,8 @@ License, or any later version. */
    - from Graphs:
     - AdjVecUInt (the graph type)
     - fromAdjVec:
-     - id_t, list_t, edge_t
+     - idv_t = id_t
+     - list_t, edge_t
 
 
    Single bicliques:
@@ -30,9 +31,9 @@ License, or any later version. */
     - valid1/2(bc_frame), valid(bc_frame)
 
    - disjoint(bc_frame) (whether the two sides are disjoint)
-   - is_star(id_t, list_t, AdjVecUInt)
+   - is_star(idv_t, list_t, AdjVecUInt)
    - is_bc(bc_frame, AdjVecUInt)
-   - covers(bc_frame, id_t, id_t)
+   - covers(bc_frame, idv_t, idv_t)
 
 
    Lists of bicliques:
@@ -43,7 +44,7 @@ License, or any later version. */
    - valid2(Bcc_frame), valid(Bcc_frame, AdjVecUInt)
    - disjoint(Bcc_frame) (whether all bicliques are disjoint)
    - is_bc(Bcc_frame, AdjVecUInt)
-   - covers(Bcc_frame, id_t, id_t)
+   - covers(Bcc_frame, idv_t, idv_t)
    - is_cover(Bcc_frame, AdjVecUInt)
    - is_partition(Bcc_frame, AdjVecUInt)
    - is_bcc(Bcc_frame, AdjVecUInt)
@@ -102,7 +103,7 @@ namespace Bicliques {
   namespace DT = DimacsTools;
 
   typedef Graphs::AdjVecUInt AdjVecUInt;
-  typedef AdjVecUInt::id_t id_t;
+  typedef AdjVecUInt::id_t idv_t;
   typedef AdjVecUInt::list_t list_t;
   typedef AdjVecUInt::edge_t edge_t;
   typedef AdjVecUInt::vecedges_t vecedges_t;
@@ -118,21 +119,21 @@ namespace Bicliques {
     friend std::ostream& operator <<(std::ostream& out, const bc_frame& bc) {
       if (bc.l.empty()) out << " |";
       else {
-        for (const id_t v : bc.l) out << v << " ";
+        for (const idv_t v : bc.l) out << v << " ";
         out << "|";
       }
       if (bc.r.empty()) out << " ";
-      else for (const id_t v : bc.r) out << " " << v;
+      else for (const idv_t v : bc.r) out << " " << v;
       return out;
     }
     void output(std::ostream& out, const AdjVecUInt& G) const {
       if (l.empty()) out << " |";
       else {
-        for (const id_t v : l) out << G.name(v) << " ";
+        for (const idv_t v : l) out << G.name(v) << " ";
         out << "|";
       }
       if (r.empty()) out << " ";
-      else for (const id_t v : r) out << " " << G.name(v);
+      else for (const idv_t v : r) out << " " << G.name(v);
     }
   };
   static_assert(std::is_aggregate_v<bc_frame>);
@@ -141,7 +142,7 @@ namespace Bicliques {
   // Valid vertices:
   inline bool valid0(const list_t& L, const AdjVecUInt& G) noexcept {
     const auto n = G.n();
-    return std::all_of(L.begin(), L.end(), [&n](const id_t v){return v < n;});
+    return std::all_of(L.begin(), L.end(), [&n](const idv_t v){return v < n;});
   }
   // Sorted:
   inline bool valid1(const list_t& L) noexcept {
@@ -179,7 +180,7 @@ namespace Bicliques {
     return Algorithms::empty_intersection(b.l, b.r);
   }
 
-  inline bool is_star(const id_t v, const list_t& L, const AdjVecUInt& G) noexcept {
+  inline bool is_star(const idv_t v, const list_t& L, const AdjVecUInt& G) noexcept {
     assert(v < G.n());
     assert(valid(L, G));
     return std::ranges::includes(G.neighbours(v), L);
@@ -188,16 +189,16 @@ namespace Bicliques {
     assert(valid(b, G));
     assert(G.type() == Graphs::GT::und);
     if (b.l.size() <= b.r.size()) {
-      const auto test = [&b, &G](const id_t v){return is_star(v, b.r, G);};
+      const auto test = [&b, &G](const idv_t v){return is_star(v, b.r, G);};
       return std::all_of(b.l.begin(), b.l.end(), test);
     }
     else {
-      const auto test = [&b, &G](const id_t v){return is_star(v, b.l, G);};
+      const auto test = [&b, &G](const idv_t v){return is_star(v, b.l, G);};
       return std::all_of(b.r.begin(), b.r.end(), test);
     }
   }
   // Is {v,w} covered (v left or v right):
-  inline bool covers(const bc_frame& b, const id_t v, const id_t w) noexcept {
+  inline bool covers(const bc_frame& b, const idv_t v, const idv_t w) noexcept {
     const auto lb = b.l.begin(); const auto le = b.l.end();
     const auto rb = b.r.begin(); const auto re = b.r.end();
     return
@@ -211,7 +212,7 @@ namespace Bicliques {
     v_t L;
 
     Bcc_frame() noexcept = default;
-    explicit Bcc_frame(const id_t n) : L(n) {}
+    explicit Bcc_frame(const idv_t n) : L(n) {}
     Bcc_frame(v_t L) noexcept : L(L) {}
 
     bool empty() const noexcept { return L.empty(); }
@@ -241,7 +242,7 @@ namespace Bicliques {
     return std::all_of(B.L.begin(), B.L.end(),
                        [&G](const bc_frame& b){return is_bc(b, G);});
   }
-  inline bool covers(const Bcc_frame& B, const id_t v, const id_t w) noexcept {
+  inline bool covers(const Bcc_frame& B, const idv_t v, const idv_t w) noexcept {
     return std::any_of(B.L.begin(), B.L.end(),
                        [v,w](const bc_frame& b){return covers(b,v,w);});
   }
@@ -255,7 +256,7 @@ namespace Bicliques {
     assert(valid(B, G));
     const auto E = G.alledges();
     for (const auto [v,w] : E) {
-      id_t count = 0;
+      idv_t count = 0;
       for (const auto& b : B.L)
         if (covers(b, v, w)) {
           ++count;
@@ -279,18 +280,18 @@ namespace Bicliques {
 
 
   // The number of literal occurrences:
-  id_t numocc(const Bcc_frame& B) noexcept {
-    id_t res = 0;
+  idv_t numocc(const Bcc_frame& B) noexcept {
+    idv_t res = 0;
     for (const bc_frame& b : B.L) { res += b.l.size(); res += b.r.size(); }
     return res;
   }
 
   // The number of clauses, i.e., the maximal-vertex + 1 in B:
-  id_t numcl(const Bcc_frame& B) noexcept {
-    id_t res = 0;
+  idv_t numcl(const Bcc_frame& B) noexcept {
+    idv_t res = 0;
     for (const bc_frame& b : B.L) {
-      for (const id_t v : b.l) res = std::max(v+1, res);
-      for (const id_t v : b.r) res = std::max(v+1, res);
+      for (const idv_t v : b.l) res = std::max(v+1, res);
+      for (const idv_t v : b.r) res = std::max(v+1, res);
     }
     return res;
   }
@@ -298,13 +299,13 @@ namespace Bicliques {
 
   // c is the minimum number of clauses to be used (clauses not mentioned
   // in B are then empty):
-  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const id_t c) {
+  DT::DimacsClauseList bcc2CNF(const Bcc_frame& B, const idv_t c) {
     assert(c >= numcl(B));
     const DT::dimacs_pars dp{B.L.size(), c};
     DT::ClauseList F(dp.c);
     for (DT::var_t v = 0; v < dp.n; ++v) {
-      for (const id_t i : B.L[v].l) F[i].push_back(DT::Lit{v+1,1});
-      for (const id_t i : B.L[v].r) F[i].push_back(DT::Lit{v+1,-1});
+      for (const idv_t i : B.L[v].l) F[i].push_back(DT::Lit{v+1,1});
+      for (const idv_t i : B.L[v].r) F[i].push_back(DT::Lit{v+1,-1});
     }
     return {dp, F};
   }
@@ -312,7 +313,7 @@ namespace Bicliques {
     const auto n = F.first.n;
     assert(F.first.c == F.second.size());
     Bcc_frame B(n);
-    for (id_t i = 0; i < F.first.c; ++i)
+    for (idv_t i = 0; i < F.first.c; ++i)
       for (const DT::Lit x : F.second[i]) {
         const auto v = x.v.v;
         assert(1 <= v and v <= n);
@@ -331,7 +332,7 @@ namespace Bicliques {
   }
 
   // Returns the number of eliminated bicliques (since no edge in them):
-  id_t triv_trim(Bcc_frame& B) noexcept {
+  idv_t triv_trim(Bcc_frame& B) noexcept {
     const auto old_size = B.L.size();
     std::erase_if(B.L, [](const auto& b){return b.no_edge();});
     return old_size - B.L.size();
@@ -348,44 +349,44 @@ namespace Bicliques {
 
     Returns the number of reduced literal-occurrences.
   */
-  id_t trim(Bcc_frame& B) {
+  idv_t trim(Bcc_frame& B) {
     assert(valid2(B));
-    const id_t orig = numocc(B);
+    const idv_t orig = numocc(B);
     triv_trim(B);
     using edge_t = Graphs::AdjVecUInt::edge_t;
-    const auto e = [](id_t v, id_t w){
+    const auto e = [](idv_t v, idv_t w){
       if (v<=w) return edge_t{v,w}; else return edge_t{w,v};
     };
-    std::map<edge_t, id_t> M;
+    std::map<edge_t, idv_t> M;
     for (const auto& b : B.L)
       for (const auto v : b.l)
         for (const auto w : b.r)
           ++M[e(v,w)];
 
     for (bc_frame& b : B.L) {
-      {std::vector<id_t> reml;
-       for (const id_t v : b.l) {
-         const auto t = [&e,&M,&v](id_t w){return M[e(v,w)] >= 2;};
+      {std::vector<idv_t> reml;
+       for (const idv_t v : b.l) {
+         const auto t = [&e,&M,&v](idv_t w){return M[e(v,w)] >= 2;};
          if (std::all_of(b.r.begin(), b.r.end(), t)) {
            reml.push_back(v);
            for (const auto w : b.r) --M[e(v,w)];
          }
        }
        assert(reml.size() <= b.l.size());
-       std::vector<id_t> diff; diff.reserve(b.l.size() - reml.size());
+       std::vector<idv_t> diff; diff.reserve(b.l.size() - reml.size());
        std::ranges::set_difference(b.l, reml, std::back_inserter(diff));
        b.l = std::move(diff);
       }
-      {std::vector<id_t> remr;
-       for (const id_t w : b.r) {
-         const auto t = [&e,&M,&w](id_t v){return M[e(v,w)] >= 2;};
+      {std::vector<idv_t> remr;
+       for (const idv_t w : b.r) {
+         const auto t = [&e,&M,&w](idv_t v){return M[e(v,w)] >= 2;};
          if (std::all_of(b.l.begin(), b.l.end(), t)) {
            remr.push_back(w);
            for (const auto v : b.l) --M[e(v,w)];
          }
        }
        assert(remr.size() <= b.r.size());
-       std::vector<id_t> diff; diff.reserve(b.r.size() - remr.size());
+       std::vector<idv_t> diff; diff.reserve(b.r.size() - remr.size());
        std::ranges::set_difference(b.r, remr, std::back_inserter(diff));
        b.r = std::move(diff);
       }
@@ -413,14 +414,14 @@ namespace Bicliques {
   AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G, const vecedges_t& E,
                                 const std::string& sep) {
     assert(not has_loops(G));
-    const id_t n = E.size();
+    const idv_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
     if (n <= 1) return res;;
     AdjVecUInt::adjlist_t A(n);
-    for (id_t i = 0; i < n-1; ++i) {
+    for (idv_t i = 0; i < n-1; ++i) {
       auto& row = A[i];
       const edge_t& e1 = E[i];
-      for (id_t j = i+1; j < n; ++j) {
+      for (idv_t j = i+1; j < n; ++j) {
         const edge_t& e2 = E[j];
         if (bccomp(e1, e2, G)) {
           row.push_back(j);
@@ -431,7 +432,7 @@ namespace Bicliques {
     res.set(A);
     if (not sep.empty()) {
       res.set_names();
-      for (id_t i = 0; i < E.size(); ++i) {
+      for (idv_t i = 0; i < E.size(); ++i) {
         const auto& [v, w] = E[i];
         res.set_name(i, G.with_names() ? G.name(v) + sep + G.name(w) :
                         std::to_string(v) + sep + std::to_string(w));

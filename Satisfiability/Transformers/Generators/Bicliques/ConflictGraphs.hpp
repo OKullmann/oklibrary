@@ -74,6 +74,7 @@ License, or any later version. */
 #include <array>
 #include <stack>
 #include <map>
+#include <type_traits>
 
 #include <cassert>
 
@@ -98,6 +99,7 @@ namespace ConflictGraphs {
   typedef DimacsTools::varlist_t varlist_t;
 
   typedef var_t size_t;
+  static_assert(std::is_same_v<size_t, std::uint64_t>);
   typedef std::vector<size_t> indexlist_t;
 
 
@@ -365,12 +367,12 @@ namespace ConflictGraphs {
     for (var_t v = 0; v < c; ++v) {
       if (res.cv[v] != 0) continue;
       res.cv[v] = ++res.numcc;
-      std::stack<id_t> S;
+      std::stack<size_t> S;
       for (const Lit x : F.second[v])
         for (const var_t w : O.conflicts(x))
           if (res.cv[w] == 0) S.push(w);
       while (not S.empty()) {
-        const id_t v = S.top(); S.pop();
+        const size_t v = S.top(); S.pop();
         if (res.cv[v] != 0) continue;
         res.cv[v] = res.numcc;
         for (const Lit x : F.second[v])
