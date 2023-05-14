@@ -374,8 +374,8 @@ namespace Bicliques2SAT {
 
 
   enum class SB { basic=0,
-                  sorteda=1, sortedm=2, none=3 }; // symmetry-breaking by
-                                                  // edge-placement
+                  sorteda=1, sortedm=2, sortedi=3,
+                  none=4 }; // symmetry-breaking by edge-placement
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DI { downwards=0, upwards=1, binary_search=2,
@@ -404,7 +404,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::SB> {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
-    {"+sb", "+sba", "+sbm", "-sb"};
+    {"+sb", "+sba", "+sbm", "+sbi", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SS> {
@@ -461,6 +461,7 @@ namespace Bicliques2SAT {
     case SB::basic : return out << "basic-sb";
     case SB::sorteda : return out << "sorted-sb-addition";
     case SB::sortedm : return out << "sorted-sb-multiplication";
+    case SB::sortedi : return out << "greedy-sb";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
   }
@@ -802,6 +803,7 @@ namespace Bicliques2SAT {
       return G.degree(v) * G.degree(w);
     }
     vei_t sorted_order(const RandGen::vec_eseed_t& seeds, const SB sb) const {
+      assert(sb == SB::sorteda or sb == SB::sortedm);
       const auto sorta =
         [this](const id_t e1, const id_t e2) noexcept {
         return adegree(e1) > adegree(e2);
@@ -852,9 +854,13 @@ namespace Bicliques2SAT {
                                  const RandGen::vec_eseed_t& seeds,
                                  const SB sb,
                                  const SS ss) const {
-      return sb == SB::none ? symmbreak_res_t{} :
-      (sb == SB::basic ? max_bcincomp_unstable(rounds, seeds, ss) :
-       max_bcincomp_sort(rounds, seeds, ss, sb));
+      switch (sb) {
+      case SB::none : return {};
+      case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
+      case SB::sorteda : [[fallthrough]];
+      case SB::sortedm : return max_bcincomp_sort(rounds, seeds, ss, sb);
+      case SB::sortedi : return {};
+      default : assert(false); return {};}
     }
 
 
