@@ -847,13 +847,6 @@ namespace Bicliques2SAT {
       }
       return res;
     }
-    void output(const vei_t& v, std::ostream& out) const {
-      for (const id_t x : v) {
-        assert(x < enc_.E);
-        const auto [a,b] = edges[x];
-        out << "(" << G.name(a) << "," << G.name(b) << ")";
-      }
-    }
 
 
     typedef RandGen::Var Var;
