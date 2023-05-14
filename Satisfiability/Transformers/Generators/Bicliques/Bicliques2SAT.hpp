@@ -701,7 +701,7 @@ namespace Bicliques2SAT {
       return Algorithms::greedy_max_independent_unstable(std::move(avail),
              [this](id_t i, id_t j) {return bccomp(i,j);});
     }
-    vei_t max_bcincomp(vei_t avail) const {
+    vei_t max_bcincomp_stable(vei_t avail) const {
       return Algorithms::greedy_max_independent(std::move(avail),
              [this](id_t i, id_t j) {return bccomp(i,j);});
     }
@@ -825,7 +825,7 @@ namespace Bicliques2SAT {
       if (rounds == 1) {
         symmbreak_res_t res;
         const vei_t order = sorted_order(seeds, sb);
-        res.v = max_bcincomp(order);
+        res.v = max_bcincomp_stable(order);
         res.s += res.v.size();
         if (ssb == SS::with) add_sorted_secondary_edges(res, order);
         return res;
@@ -835,7 +835,7 @@ namespace Bicliques2SAT {
       for (id_t i = 1; i <= rounds; ++i) {
         seeds.back() = i;
         const vei_t order = sorted_order(seeds, sb);
-        vei_t nres = max_bcincomp(order);
+        vei_t nres = max_bcincomp_stable(order);
         const auto s = nres.size();
         assert(s >= 1);
         res.s += s;
@@ -1154,7 +1154,7 @@ namespace Bicliques2SAT {
 
 
     // Output a (single) SAT-translation (not using bounds, but
-    // updating enc.B if it is zero, in case of symmetry-breaking
+    // updating enc.B if it is zero, in case of symmetry-breaking;
     // this function is not called by sat_solve):
     RandGen::dimacs_pars sat_translate(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
@@ -1190,7 +1190,7 @@ namespace Bicliques2SAT {
         out.flush();
       }
 
-      const auto sbr = sb == SB::none ? symmbreak_res_t{} :
+      const symmbreak_res_t sbr = sb == SB::none ? symmbreak_res_t{} :
       (sb == SB::basic ? max_bcincomp_unstable(sb_rounds, seeds, ss) :
        max_bcincomp_sort(sb_rounds, seeds, ss, sb));
       const auto optsbs = sbr.v.size();
