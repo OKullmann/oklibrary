@@ -43,6 +43,19 @@ Bicliques> time ./GraphGen grid 100 100 | ./Graph2BCcompGraph | ./MaxIndependent
 real	0m2.920s
 user	0m2.934s
 sys	0m0.021s
+Bicliques> time ./GraphGen grid 100 100 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol "" 1000
+# "./MaxIndependentGreedy" "-sol" "" "1000"
+# comments-result 1 0
+# num_e-seeds 0
+# T 1000
+#  V 19800
+#  E 78406
+#  result-sizes 1000 : 4950 4977.59 4999; 14.6813
+#  seed 18
+real	0m9.795s
+user	0m9.811s
+sys	0m0.020s
+
 Bicliques> time ./GraphGen grid 200 200 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol 18 ""
 # "./MaxIndependentGreedy" "-sol" "18"
 # comments-result 1 0
@@ -55,6 +68,19 @@ Bicliques> time ./GraphGen grid 200 200 | ./Graph2BCcompGraph | ./MaxIndependent
 real	0m31.440s
 user	0m31.551s
 sys	0m0.041s
+Bicliques> time ./GraphGen grid 200 200 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol 18 1000
+# "./MaxIndependentGreedy" "-sol" "18" "1000"
+# comments-result 1 0
+# num_e-seeds 1
+# e-seeds 18
+# T 1000
+#  V 79600
+#  E 316806
+#  result-sizes 1000 : 19900 19956.3 19999; 29.832
+#  seed 4
+real	1m3.254s
+user	1m3.359s
+sys	0m0.036s
 
 Bicliques> time ./GraphGen grid 300 300 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol "" 1000
 # "./MaxIndependentGreedy" "-sol" "" "1000"
@@ -86,7 +112,7 @@ sys	0m0.121s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "14.5.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -96,6 +122,7 @@ namespace {
   using namespace Bicliques2SAT;
   using namespace BCC2SAT;
   using namespace Graphs;
+  typedef AdjVecUInt::id_t idv_t;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   const std::string comment = "# ";
@@ -117,20 +144,20 @@ namespace {
     return true;
   }
 
-  typedef GenStats::BasicStats<FloatingPoint::float80, FloatingPoint::float80> stats_t;
-  std::tuple<AdjVecUInt::list_t, stats_t, id_t>
+  typedef GenStats::BasicStats<idv_t, FloatingPoint::float80> stats_t;
+  std::tuple<AdjVecUInt::list_t, stats_t, idv_t>
   perform_trials(const AdjVecUInt& G,
                  RandGen::vec_eseed_t seeds,
-                 const id_t T) {
+                 const idv_t T) {
     assert(T != 0);
     if (T == 1)
       return {maximal_independent_greedy_simplest(G, seeds), {}, {}};
     else {
       AdjVecUInt::list_t res;
       stats_t S;
-      id_t opti = 0;
+      idv_t opti = 0;
       seeds.push_back(opti);
-      for (id_t i = 0; i < T; ++i) {
+      for (idv_t i = 0; i < T; ++i) {
         seeds.back() = i;
         AdjVecUInt::list_t I = maximal_independent_greedy_simplest(G, seeds);
         S += I.size();
@@ -162,7 +189,7 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<format2_options_t>()(argv[1], sep);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[2]);
   const std::string Tstring = argv[3];
-  const id_t T = Tstring.empty() ? 1 : FloatingPoint::toUInt(argv[3]);
+  const idv_t T = Tstring.empty() ? 1 : FloatingPoint::toUInt(argv[3]);
 
   const bool with_comments = std::get<DC>(formopt) == DC::with;
   const bool with_result = std::get<BC>(formopt) == BC::with;

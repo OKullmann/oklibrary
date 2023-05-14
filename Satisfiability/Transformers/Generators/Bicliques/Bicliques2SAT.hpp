@@ -673,6 +673,7 @@ namespace Bicliques2SAT {
     typedef VarEncoding enc_t;
     typedef VarEncoding::id_t id_t;
     static_assert(std::is_same_v<id_t, graph_t::id_t>);
+    static_assert(std::is_same_v<id_t, std::uint64_t>);
 
     explicit BC2SAT(const graph_t& G, Bounds b) noexcept :
       G(G), edges(G.alledges()), bounds(b,G), enc_(G,bounds.next()) {}
