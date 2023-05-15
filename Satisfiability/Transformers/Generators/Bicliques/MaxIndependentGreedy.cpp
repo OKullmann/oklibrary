@@ -94,6 +94,21 @@ Bicliques> time ./GraphGen grid 300 300 | ./Graph2BCcompGraph | ./MaxIndependent
 real	3m57.414s
 user	3m57.635s
 sys	0m0.121s
+Just measuring the time for the construction of the graph:
+Bicliques> time ./GraphGen grid 300 300 | ./Graph2BCcompGraph | ./MaxIndependentGreedy -sol "" 0
+real	2m23.794s
+user	2m24.037s
+sys	0m0.118s
+(very slow currently).
+
+
+Remark:
+
+As one can see above, the seed 18 worked the same under very different
+circumstances: if for a series of experiments one wants to make (practically)
+sure that different pseudo-random sequences are created, then easiest to
+create one fixed timestamp T, store it (for reproducyibility), and use
+key-sequences "T,i" for this series.
 
 */
 
