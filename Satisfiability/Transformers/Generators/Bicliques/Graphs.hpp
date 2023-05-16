@@ -143,6 +143,9 @@ License, or any later version. */
      - is_independent(RAN r, AdjVecUInt) -> bool
        is_independent_sort(RAN r, AdjVecUInt) -> bool
      - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
+     - typedef stats_vertexsets_t for statistics of vertex-set-sizes
+     - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
+       tuple<list_t, stats_vertexsets_t, size_t>
 
 
 TODOS:
@@ -914,6 +917,36 @@ namespace Graphs {
     }
     assert(is_independent_sort(res, G));
     return res;
+  }
+
+  // Perform T computations of maximal_independent_greedy_simplest and
+  // additionally return statistics and seed of first best set:
+  typedef GenStats::BasicStats<AdjVecUInt::size_t,
+                               FloatingPoint::float80> stats_vertexsets_t;
+  std::tuple<AdjVecUInt::list_t, stats_vertexsets_t, AdjVecUInt::size_t>
+  perform_trials(const AdjVecUInt& G,
+                 RandGen::vec_eseed_t seeds,
+                 const AdjVecUInt::size_t T) {
+    assert(T != 0);
+    if (T == 1)
+      return {maximal_independent_greedy_simplest(G, seeds), {}, {}};
+    else {
+      AdjVecUInt::list_t res;
+      stats_vertexsets_t S;
+      using size_t = AdjVecUInt::size_t;
+      size_t opti = 0;
+      seeds.push_back(opti);
+      for (size_t i = 0; i < T; ++i) {
+        seeds.back() = i;
+        AdjVecUInt::list_t I = maximal_independent_greedy_simplest(G, seeds);
+        S += I.size();
+        if (I.size() > res.size()) {
+          res = std::move(I);
+          opti = i;
+        }
+      }
+      return {res,S,opti};
+    }
   }
 
 }

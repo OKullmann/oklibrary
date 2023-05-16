@@ -121,14 +121,14 @@ key-sequences "T,i" for this series.
 #include <Numerics/Statistics.hpp>
 
 #include "Graphs.hpp"
-
+#include "Bicliques2SAT.hpp"
 #include "BCC2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "14.5.2023",
+        "0.3.2",
+        "17.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentGreedy.cpp",
@@ -137,7 +137,6 @@ namespace {
   using namespace Bicliques2SAT;
   using namespace BCC2SAT;
   using namespace Graphs;
-  typedef AdjVecUInt::id_t idv_t;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   const std::string comment = "# ";
@@ -159,32 +158,6 @@ namespace {
     return true;
   }
 
-  typedef GenStats::BasicStats<idv_t, FloatingPoint::float80> stats_t;
-  std::tuple<AdjVecUInt::list_t, stats_t, idv_t>
-  perform_trials(const AdjVecUInt& G,
-                 RandGen::vec_eseed_t seeds,
-                 const idv_t T) {
-    assert(T != 0);
-    if (T == 1)
-      return {maximal_independent_greedy_simplest(G, seeds), {}, {}};
-    else {
-      AdjVecUInt::list_t res;
-      stats_t S;
-      idv_t opti = 0;
-      seeds.push_back(opti);
-      for (idv_t i = 0; i < T; ++i) {
-        seeds.back() = i;
-        AdjVecUInt::list_t I = maximal_independent_greedy_simplest(G, seeds);
-        S += I.size();
-        if (I.size() > res.size()) {
-          res = std::move(I);
-          opti = i;
-        }
-      }
-      return {res,S,opti};
-    }
-  }
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -194,7 +167,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != 4) {
     std::cerr << error <<
-      "Exactly two arguments (form-opt, seeds, T)"
+      "Exactly three arguments (form-opt, seeds, T)"
       " needed, but " << argc-1 << " provided.\n";
     return int(argc > 4 ? Error::too_many_parameters :
                           Error::missing_parameters);
@@ -204,7 +177,8 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<format2_options_t>()(argv[1], sep);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[2]);
   const std::string Tstring = argv[3];
-  const idv_t T = Tstring.empty() ? 1 : FloatingPoint::toUInt(argv[3]);
+  const AdjVecUInt::id_t T = Tstring.empty() ? 1 :
+                                               FloatingPoint::toUInt(argv[3]);
 
   const bool with_comments = std::get<DC>(formopt) == DC::with;
   const bool with_result = std::get<BC>(formopt) == BC::with;
