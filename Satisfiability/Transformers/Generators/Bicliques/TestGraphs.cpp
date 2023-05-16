@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "13.5.2023",
+        "0.4.1",
+        "16.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -207,9 +207,9 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 5);
    assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{}}}));
-   using edv_t = AdjMapStr::edv_t;
-   assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
-   assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
+   using edvec_t = AdjMapStr::edvec_t;
+   assert(G.remove_edges(edvec_t{{"a","d"}}) == 0);
+   assert(G.remove_edges(edvec_t{{"a","b"},{"b","c"}}) == 2);
    assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{"a"}},{"c",{}}}));
    typedef std::vector<std::string> vvt;
    assert(eqp(G.add_biclique(vvt{"a","b"}, vvt{"a","c"}), {0,1}));
@@ -243,11 +243,11 @@ int main(const int argc, const char* const argv[]) {
    assert(G.n() == 3);
    assert(G.m() == 4);
    assert(eqp(G.graph(), {{"a",{"a","b","c"}},{"b",{"a","c"}},{"c",{"a","b"}}}));
-   using edv_t = AdjMapStr::edv_t;
-   assert(G.remove_edges(edv_t{{"a","d"}}) == 0);
-   assert(G.remove_edges(edv_t{{"a","b"},{"b","c"}}) == 2);
+   using edvec_t = AdjMapStr::edvec_t;
+   assert(G.remove_edges(edvec_t{{"a","d"}}) == 0);
+   assert(G.remove_edges(edvec_t{{"a","b"},{"b","c"}}) == 2);
    assert(eqp(G.graph(), {{"a",{"a","c"}},{"b",{}},{"c",{"a"}}}));
-   typedef AdjMapStr::idv_t vvt;
+   typedef AdjMapStr::idvec_t vvt;
    assert(eqp(G.add_biclique(vvt{"a","b"}, vvt{"a","c"}), {0,2}));
    assert(eqp(G.add_biclique(vvt{}, vvt{"a","c"}), {0,0}));
    assert(eqp(G.add_biclique(vvt{"c","d"}, vvt{"c","d"}), {1,3}));
@@ -261,7 +261,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {AdjMapStr G(GT::dir);
-   typedef AdjMapStr::idv_t vvt;
+   typedef AdjMapStr::idvec_t vvt;
    assert(eqp(G.insert("a", vvt{"b"}), {2,1}));
    assert(G.n() == 2);
    assert(G.m() == 1);
@@ -332,7 +332,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {AdjMapStr G(GT::und);
-   typedef AdjMapStr::idv_t vvt;
+   typedef AdjMapStr::idvec_t vvt;
    assert(eqp(G.insert("a", vvt{"b"}), {2,1}));
    assert(G.n() == 2);
    assert(G.m() == 1);
@@ -403,7 +403,7 @@ int main(const int argc, const char* const argv[]) {
      "d\n"
                                    ));
    out.str("");
-   G.insert("d", AdjMapStr::idv_t{"c", "e"});
+   G.insert("d", AdjMapStr::idvec_t{"c", "e"});
    out << G;
    assert(out.str() == std::string("# 4 5 0\n"
      "a a c d\n"
