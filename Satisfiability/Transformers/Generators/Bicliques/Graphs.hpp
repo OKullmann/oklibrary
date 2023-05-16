@@ -830,6 +830,9 @@ namespace Graphs {
   }
 
 
+  // ********************************************************************
+
+
   // See Algorithms::is_independent for the implicit version (with an
   // adjacency-predicate; there loops are ignored, here taken into account):
   template <class RAN>
@@ -849,6 +852,10 @@ namespace Graphs {
     return is_independent(r,G);
   }
 
+  // Computing a maximal independent set of G by iteratively randomly
+  // choosing a vertex of lowest degree (updated after selecting a
+  // choice-vertex and removal of it and its neighbours, where only the
+  // effect of these neighbours need to be taken into account):
   AdjVecUInt::list_t
   maximal_independent_greedy_simplest(const AdjVecUInt& G,
                                       const RandGen::vec_eseed_t& seeds) {
