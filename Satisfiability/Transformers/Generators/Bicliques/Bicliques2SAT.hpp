@@ -747,6 +747,7 @@ namespace Bicliques2SAT {
       sbres.sv.reserve(choice_indices.size());
       for (const auto i : choice_indices) sbres.sv.push_back(complement[i]);
     }
+    // Add elements to sbres from the end of avail:
     void add_sorted_secondary_edges(symmbreak_res_t& sbres,
                                     vei_t avail) const {
       const auto optsbs = sbres.v.size();
@@ -812,7 +813,7 @@ namespace Bicliques2SAT {
         [this](const id_t e1, const id_t e2) noexcept {
         return mdegree(e1) > mdegree(e2);
       };
-      vei_t res = RandGen::random_permutation<vei_t>(enc_. E,seeds);
+      vei_t res = RandGen::random_permutation<vei_t>(enc_.E, seeds);
       if (sb == SB::sorteda) std::ranges::stable_sort(res, sorta);
       else std::ranges::stable_sort(res, sortm);
       return res;
@@ -850,6 +851,38 @@ namespace Bicliques2SAT {
       return res;
     }
 
+    vei_t greedy_order(const graph_t& BG,
+                       const RandGen::vec_eseed_t& seeds) const {
+      assert(BG.n() == enc_.E);
+      const auto sort =
+        [&BG](const id_t v, const id_t w) noexcept {
+        return BG.degree(v) > BG.degree(w);
+      };
+      vei_t res = RandGen::random_permutation<vei_t>(enc_.E, seeds);
+      std::ranges::stable_sort(res, sort);
+      return res;
+    }
+    symmbreak_res_t max_bcincomp_greedy(const id_t rounds,
+                                        const RandGen::vec_eseed_t& seeds,
+                                        const SS ssb) const {
+      assert(rounds < id_t(-1));
+      if (rounds == 0 or enc_.E == 0) return {};
+      const graph_t BG = Bicliques::bccomp_graph_bydef(G, edges, "");
+      if (rounds == 1) {
+        symmbreak_res_t res;
+        res.v = std::get<0>(Graphs::perform_trials(BG, seeds, 1));
+        res.s += res.v.size();
+        std::ranges::sort(res.v);
+        if (ssb == SS::with)
+          add_sorted_secondary_edges(res, greedy_order(BG, seeds));
+        return res;
+      }
+      symmbreak_res_t res;
+      auto [vec,stats,index] = Graphs::perform_trials(BG, seeds, rounds);
+      res.v = std::move(vec); res.s = std::move(stats); res.i = index;
+      return res;
+    }
+
     symmbreak_res_t max_bcincomp(const id_t rounds,
                                  const RandGen::vec_eseed_t& seeds,
                                  const SB sb,
@@ -859,7 +892,7 @@ namespace Bicliques2SAT {
       case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
       case SB::sorteda : [[fallthrough]];
       case SB::sortedm : return max_bcincomp_sort(rounds, seeds, ss, sb);
-      case SB::sortedi : return {};
+      case SB::sortedi : return max_bcincomp_greedy(rounds, seeds, ss);;
       default : assert(false); return {};}
     }
 

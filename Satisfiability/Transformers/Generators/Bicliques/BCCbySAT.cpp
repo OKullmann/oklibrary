@@ -211,6 +211,25 @@ sys	0m0.033s
 
 Even with sb=49 the unsat-result takes much longer.
 
+Much better sb is achieved by +sbi:
+Bicliques> time ./GraphGen grid 10 11 | ./BCCbySAT "" up,+sbi "" "" "" "" ST ""
+...
+7,7 8,6 8,8 9,7 | 8,7
+7,5 8,6 | 7,6 8,5
+6,8 7,7 7,9 8,8 | 7,8
+6,6 7,7 | 6,7 7,6
+real	0m0.934s
+user	0m0.920s
+sys	0m0.046s
+Bicliques> cat ST
+ B sat  maxn      c ptime stime elimc rts cfs cfsps dec decpr decps    r1   r1ps  cfl cflpd mem        t
+54   0 22626 696583  0.07  0.26  0.01   1   5    15   5     0    15 22396  68218    7     0  60   0.3283
+55   1 23045 709479  0.07  0.26  0.01   2 164   483 633     0  1865 35099 103432 5610  3.86  64 0.339343
+
+Remark: even with 10^6 rounds sb=54 for +sbi could not be improved, and
+thus this seems all what +sbi can achieve here (while for "grid n n" it seems
+to easily yield the bcc-value).
+
 
 The above were biclique-cover-problems; now a partition-problem:
 Bicliques> ./GraphGen clique 6 | ./BCCbySAT 6 partition2 "" "" "" "" ST ""
@@ -297,8 +316,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
-        "12.5.2023",
+        "0.11.0",
+        "24.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",

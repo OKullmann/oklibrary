@@ -173,7 +173,7 @@ Since we have only one non-trivial component (with 270 clauses; plus
 80 trivial components), we just solve the whole thing:
 
 Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT 137 +sb -bcl "" "" "" ST ""
-# "./BCCbySAT" "137" "+sb" "-bcl" "" "" "" "ST" ""
+# "./BCCbySAT" "137" "+sb" "-sol" "" "" "" "ST" ""
 # ** Parameters **
 # B                                     downwards 0 137
 # sb-options                            basic-sb with-ssb
@@ -214,7 +214,7 @@ Bicliques> cat ST
  92   1 119600 1.14914e+07  1.07 10.84  0.14   4  425    36   5648     0   474      270325  22687  6502  1.13  705 11.9152
  90   0 117000 1.12416e+07  1.02  10.8  0.11  31 6759   569  16951     0  1428 1.32751e+06 111808 69935 26.76  691 11.8731
 Fastest with +sb is binsearch:
-Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT 137 +sb,binsearch -bcl "" "" "" ST ""
+Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT 137 +sb,binsearch -sol "" "" "" ST ""
 real	1m9.880s
 user	1m9.616s
 sys	0m1.355s
@@ -227,7 +227,7 @@ Bicliques> cat ST
  90   0 117000 1.12416e+07  1.03 10.61  0.11  31 6759   577 16951     0  1448 1.32751e+06 113402 69935 26.76 691 11.7062
 
 As usual here, using "-no-pre" is much faster:
-Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT 137 +sb,nopre -bcl "" "" "" ST ""
+Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT 137 +sb,nopre -sol "" "" "" ST ""
 Bicliques> cat ST
   B sat   maxn           c ptime stime elimc rts  cfs cfsps    dec decpr  decps          r1        r1ps   cfl cflpd mem        t
 136   1 176800 1.69871e+07  1.08  0.26     0   2  135    99 345579     0 253593      592066      434470 15383  0.03 727  1.36273
@@ -240,8 +240,8 @@ Bicliques> cat ST
  91   1 118300 1.13665e+07  0.77  0.16     0   3  207   220  12353     0  13125      352184      374191  2193  1.31 522 0.941187
  90   0 117000 1.12416e+07  0.76  0.14     0  28 5073  5114  20820     0  20989 1.96552e+06 1.98151e+06 57048 21.61 519  0.99193
 
-Fastest +sba with up:
-Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT +0 +sba,nopre,up -bcl "" "" "" ST ""
+Faster +sba with up:
+Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT +0 +sba,nopre,up -sol "" "" "" ST ""
  ** Results **
 # sb-stats                              100 : 90 90 90; 0
 # result-type                           exact
@@ -253,6 +253,19 @@ Bicliques> cat ST
  B sat   maxn           c ptime stime elimc rts cfs cfsps dec decpr decps     r1   r1ps cfl cflpd mem        t
 90   0 117000 1.12416e+07  0.74     0     0   0   0     0   0   nan     0 116111 157467   0   nan 507 0.737368
 91   1 118300 1.13665e+07  0.75  0.15     0   1   6     7 767     0   852 123622 137278  10  9.09 513 0.900526
+
+Fastest with +sbi:
+Bicliques> time cat Test.qdimacs | ./QCNF2gCNF | ./CNF2cg | ./BCCbySAT +0 +sbi,nopre,up -sol "" "" "" ST ""
+# ** Results **
+# sb-stats                              100 : 90 90.88 91; 0.326599
+# result-type                           exact
+# bcc                                   = 91
+real	0m2.522s
+user	0m2.491s
+sys	0m0.246s
+Bicliques> cat ST
+ B sat   maxn           c ptime stime elimc rts cfs cfsps dec decpr decps     r1   r1ps cfl cflpd mem        t
+91   1 118300 1.13665e+07  0.72  0.15     0   1   0     0  57     0    65 118300 135903   0   nan 511 0.870472
 
 
 See plans/general.txt.
@@ -273,8 +286,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.7.0",
-        "7.5.2023",
+        "0.8.0",
+        "24.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",

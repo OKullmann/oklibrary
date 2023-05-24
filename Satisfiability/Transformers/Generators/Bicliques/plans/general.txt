@@ -151,6 +151,9 @@ TODOS:
 
 TODOS:
 
+-3. Make +sbi the default.
+    - Then we definitely need the efficient construction of the bccomp-graph.
+
 -2. Ignore isolated vertices
     - To not disturb the reconstruction of solutions, just add unit-clauses
       to set them false for every biclique-box.
@@ -180,7 +183,8 @@ TODOS:
      - only-sb-comments
      - no-comments .
 
-3. Option for greedy symmetry-breaking;
+3. DONE
+   Option for greedy symmetry-breaking;
    see Bicliques2SAT.hpp below.
 
 4. Write an application which converts a solution to a biclique-cover

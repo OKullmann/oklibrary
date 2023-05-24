@@ -10,12 +10,13 @@ set -o errexit
 set -o nounset
 
 program="F3"
-version="0.0.1"
+version="0.0.2"
 
 source tests/Fbasis
 
 ./Fuzzer "a40 e40 a40 40" "100*4,6" "" t &
 argument1="+sba" ./Fuzzer "a40 e40 a40 40" "100*4,6" "" t &
 argument1="+sbm" ./Fuzzer "a40 e40 a40 40" "100*4,6" "" t &
+argument1="+sbi" ./Fuzzer "a40 e40 a40 40" "100*4,6" "" t &
 
 wait

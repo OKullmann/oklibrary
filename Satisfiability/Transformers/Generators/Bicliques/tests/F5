@@ -10,13 +10,14 @@ set -o errexit
 set -o nounset
 
 program="F5"
-version="0.0.1"
+version="0.0.2"
 
 source tests/Fbasis
 
 argument1=nopre argument2=1000 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
 argument1=nopre,+sba argument2=100 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
 argument1=nopre,+sbm argument2=100 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
+argument1=nopre,+sbi argument2=100 ./Fuzzer "a140 e100 a100 100" "100*4,4;50*2,4;100*3,2,1/3;100*4,10,1/4" "" t &
 
 
 wait

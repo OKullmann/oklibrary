@@ -858,7 +858,8 @@ namespace Graphs {
   // Computing a maximal independent set of G by iteratively randomly
   // choosing a vertex of lowest degree (updated after selecting a
   // choice-vertex and removal of it and its neighbours, where only the
-  // effect of these neighbours need to be taken into account):
+  // effect of these neighbours need to be taken into account), in the
+  // order as found:
   AdjVecUInt::list_t
   maximal_independent_greedy_simplest(const AdjVecUInt& G,
                                       const RandGen::vec_eseed_t& seeds) {

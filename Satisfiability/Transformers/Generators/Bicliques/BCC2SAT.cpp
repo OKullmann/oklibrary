@@ -86,6 +86,17 @@ c restricted-edges                      0
 ...
 p cnf 243360 25435468
 
+Symmetry-breaking via maximal independent sets in the biclique-compatbility
+graph is much more efficient:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" +sbi -cs "" ""
+...
+c ** Symmetry Breaking **
+c planted-edges                         199
+c sb-stats                              100 : 190 195.87 199; 2.41901
+c sb-seed                               11
+c restricted-edges                      0
+...
+p cnf 310440 32446317
 
 Explicitly specifying B=200, and 20000 symmetry-breaking-rounds:
 Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
@@ -250,6 +261,50 @@ Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 199 +sba "" 1 1,7347840 > Grid2020.
 Bicliques> OKsolver2002 Grid2020.cnf &
 looked hopeless after 5h.
 
+However with +sbi it's an easy problem (since achieving optimal sb):
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" +sbi +cs "" "" | minisat-2.2.0 -no-pre
+|  Number of variables:        310440                                         |
+|  Number of clauses:        32445720                                         |
+|  Parse time:                   2.20 s                                       |
+|  Simplification time:          0.42 s                                       |
+restarts              : 1
+conflicts             : 4              (2 /sec)
+decisions             : 16             (0.00 % random) (6 /sec)
+propagations          : 312360         (119086 /sec)
+conflict literals     : 55             (0.00 % deleted)
+Memory used           : 1260.00 MB
+CPU time              : 2.62298 s
+SATISFIABLE
+real	0m8.281s
+user	0m8.462s
+sys	0m0.543s
+OKsolver:
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 199 +sbi "" "" "" > Grid2020.cnf
+545536819 Grid2020.cnf
+Bicliques> OKsolver2002 Grid2020.cnf &
+Bicliques> s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         199
+c initial_number_of_variables           310440
+c initial_number_of_clauses             32446317
+c initial_number_of_literal_occurrences 65949197
+c number_of_initial_unit-eliminations   308098
+c reddiff_maximal_clause_length         195
+c reddiff_number_of_variables           308098
+c reddiff_number_of_clauses             32440147
+c reddiff_number_of_literal_occurrences 65936279
+c number_of_2-clauses_after_reduction   5690
+c running_time(sec)                     5.7
+c number_of_nodes                       1
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                90
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+...
+
 
 One can also consider partition-problems (instead of cover-problems, the
 default).
@@ -322,8 +377,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.2.1",
-        "12.5.2023",
+        "1.3.0",
+        "24.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
