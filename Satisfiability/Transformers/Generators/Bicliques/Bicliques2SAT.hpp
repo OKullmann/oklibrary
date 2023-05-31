@@ -85,7 +85,23 @@ License, or any later version. */
         function output(vei_t, std::ostream) outputs the list of edges (with
         their names in G) as a list of items "(v,w)" (without separation)
       - stats_t (basic statistics for a sequence of float80)
-      - symmbreak_res_t (pair of vei_t and stats_t)
+
+      - symmbreak_res_t:
+       - data members v, sv : vector of edge-indices (vei_t)
+                      s : stats_t (statistics on symmetry-breaking)
+                      i : id_t (index of first best solution)
+         v contains the placed edges, sv the restricted edges (as many
+         as possibly needed);
+         "restriced" means: disable the reverse direction for the first
+         open biclique-box, and disable the remaining open biclique-boxes
+         altogether (this restriction makes this first open box then
+         non-open).
+       - restrict_sv(id_t B) -> vei_t
+
+      - max_B(id_t optsbs) -> id_t
+      - add_random_secondary_edges(symmbreak_rest_t&, seeds)
+      - add_sorted_secondary_edges(symmbreak_rest_t&, vei_t available)
+
       - imported Var, Lit, Clause, ClauseList from RandGen
      - public constants G, edges (all edges of G)
      - access-functions to data:
@@ -95,9 +111,16 @@ License, or any later version. */
        stores G, saves all-edges in edges, creates enc_t-object from G, B
 
      - symmetry-breaking:
-      - max_bcincomp(RandGen) -> vei_t : compute greedily a maximal sequence
-        of bc-incompatible edges (using a random generator)
-      - max_bcincomp(id_t rounds, RandGen) -> symmbreak_res_t
+
+      - max_bcincomp_unstable(RandGen) -> symmbreak_res_t :
+        simplest random computation (using minimal additional memory)
+      - max_bcincomp_sort -> symmbreak_res_t
+        improved version, using presorting
+      - max_bcincomp_greedy : now computing the bc-compatibility-graph,
+        and using the simple greedy heuristics
+
+        Calling appropriately one of these three functions:
+      - max_bcincomp(rounds, seeds, SB, SS) -> symmbreak_res_t
         (repeat rounds-often, and return best result with statistics)
 
      - clause-translations:

@@ -13,13 +13,6 @@ Priorities:
 
 ---
 
--4. Program MaxIndependentGreedy:
-
-    - Using maximal_independent_greedy_simplest(G, seeds),
-      outputting first the statistics, and then the solution found.
-
----
-
 -3. We need targets for "full testing", and "light testing".
     - These set macros used in the unit-tests.
 
@@ -407,13 +400,13 @@ TODOS:
 
 1. UCP for BC2SAT
 
- This item needs update -- the main (simple) option is
+ This item needs UPDATE -- the main (simple) option is
    +- reduced boxes (or so)
  which in placed boxes only uses the variables needed, and also uses for
  the edge-availabilities only the available ones.
  This by default uses the old encoding, but can be changed to rename
  the variables.
- Optionally one can state the unit-clauses nevertheless, to make it easier
+ The unit-clauses are stated nevertheless, to make it easier
  to recover from a solution the biclique-cover.
 
 (a) The class gets bloated, but for a start it seems easiest to develop
@@ -448,62 +441,14 @@ TODOS:
 
 3. More efficient symmetry-breaking
 
-The following needs update : there is always the possibility to add
-"simple symmetry-breaking": take the first edge and pick from the
-remaining open boxes the first, falsifying the others (and also falsifying
-the second direction), and so on. See "extended symmetry-breaking" below.
-
-   (not taking the symmetries of the graph into account, only
-   "all completely open bicliques are alike").
-
-  - Likely this should go into a dedicated file.
-  - A more intelligent algorithm is needed.
-  - And also a greedy version, choosing from the available edges one with
-    minimum sum (or product) of degrees of end-points.
-
-    More precisely, one considers the resulting sizes of the possible
-    sides, and minimises their sum resp. product (oder tau?).
-
-    This can be easily achieved by just sorting, after the initial random
-    permutation, the edges according to this criterion (just using std::sort)
-    -- only this additional step is needed, then by always choosing the first
-    remaining edge we get greediness (since the population of other bicliques
-    does not matter here).
-
-    Actually the best heuristics should be to sort the edges according to the
-    number of compatible edges (the fewer the better).
-
-The general strategy should be: choose the most restricted edge first,
-for primary and for secondary symmetry-breaking.
-
-    A refined version updates this according to the edges already placed.
-  - One should also return the result in general (for quick reproduction):
-    just the complete seed plus what has been achieved (so that with a single
-    round one can recompute the sb-assignment, and one can stop as soon as
-    in that single run one filled all available bicliques).
-
-  - DONE
-    Extended symmetry-breaking: if a maximal sb-assignment left k >= 2
-    bicliques unoccupied (which we assume are the k last ones), use the
-    following "potential placements":
-     for the first k-1 unplaced edges, forbid the final k-1, k-2, ..., 1
-     bicliques (this means "conditionally occupying" bicliques
-     B-k+1, B-k+2, ..., B-1).
-     And also conditionally choose the canonical order (smaller vertex first),
-     that means for the conditionally occupied biclique a further binary
-     clause forbidding the wrong order.
-  - DONE
-    This creates negative unit-clauses (k(k-1)/2).
-  - DONE
-    In this way all bicliques are at least conditionally occupied, and all
-    internal symmetries are broken.
-  - No further basic statistics are needed.
-  - The same greedy mechanism (presorting the edges) from above works here
-    (no further action needed).
-  - This "extension" can always be applied, for example also to the empty
-    sb-assignment.
-    So perhaps better speaking of "trivial" or "uninformed" symmetry-breaking
-    fo this scheme.
+  - We need more control over the secondary symmetry-breaking, for example
+    just a random order (independent of primary symmetry-breaking), so that
+    we can experiment with different schemes.
+  - The main scheme for primary symmetry-breaking now uses the
+    bccomp-graph and computes in some way a large independent set.
+  - One option should compute a maximum independent set.
+  - Another option does not explicitly store the bccomp-graph (in case it
+    is very large).
 
   - If we have a maximal sb-assignment, then every non-placed edge has at least
     one occupied biclique to go, so if there is at least one open biclique
@@ -519,32 +464,6 @@ for primary and for secondary symmetry-breaking.
     which takes an sb-assignment as input.
   - One could then also always run "special UCP, for B = sb, seeing whether
     a decision can be reached here.
-
-  - A more intelligent version runs the full process with extension and UCP,
-    and judges the outcome (for example minimising the sum of the volumes of
-    the potential bicliques).
-
-  - The options are (five independent groups):
-
-     - no basic-sb
-     - basic-sb (just adding the 3k unit-clauses)
-     - basic-sb-with-clean-up (this should be the default) (see above "UCP")
-
-     - no trivial-sb
-     - trivial-sb (the default)
-
-     - no-test-B=sb
-     - test-B=sb (for the best order found)
-     - test-B=sb-every-order
-
-     - place unit-clauses last (default)
-     - place unit-clauses first
-
-     - random order
-     - sorting by number of compatible edges (static)
-     - sorting by number of compatible edges (dynamic)
-
-  -
 
 
 4. GCC compiler error CERR

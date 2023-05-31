@@ -7,8 +7,8 @@ License, or any later version. */
 
 /*
   Computing a maximal independent set of a graph by the simplest greedy
-  algorithm
-
+  algorithm (taking the next vertex with smallest degree, and updating
+  the other other degrees).
 
 EXAMPLES:
 
@@ -101,6 +101,18 @@ user	2m24.037s
 sys	0m0.118s
 (very slow currently).
 
+The use of seeds is exactly the same as with BCC2SAT when using "+sbi":
+Bicliques> time ./GraphGen grid 300 300 | ./BCC2SAT "" +sbi -cs 1000 ""
+...
+c planted-edges                         44999
+c sb-stats                              1000 : 44851 44929.1 44999; 47.382
+c sb-seed                               18
+...
+p cnf 16172640600 364524191596797
+real	3m35.095s
+user	3m35.087s
+sys	0m0.036s
+
 
 Remark:
 
@@ -127,8 +139,8 @@ key-sequences "T,i" for this series.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "17.5.2023",
+        "0.4.0",
+        "31.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentGreedy.cpp",
@@ -151,7 +163,7 @@ namespace {
     " seeds          : " << "sequence, can contain \"t\" or \"r\"\n"
     " T              : " << "number of trials, natural number >= 0, default 1"
                          << "\n\n"
-    " reads a graph from standard input, and prints a maximal vertex-set to standard output:\n\n"
+    " reads a graph from standard input, and prints a maximal independent set to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - T can be an arbitrary 80-bit floating-point (rounding is applied).\n\n"
 ;
