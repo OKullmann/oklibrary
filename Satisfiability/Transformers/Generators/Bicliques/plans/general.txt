@@ -142,6 +142,19 @@ TODOS:
 
 2. BCC2SAT.cpp:
 
+BUG:
+
+The current form of "secondary symmetry-breaking" should be wrong:
+One can not *forbid* the covering of an edge (when not partitioning),
+only *not demanding* it.
+
+The fuzzing needs to include a comparison with the pure ssb-form, that is,
+using "-sb,+ssb".
+For now this is done in a simple manner.
+
+The problem is that currently apparently "-sb" implies "-ssb" ?
+But "+ssb" makes sense on its own.
+
 TODOS:
 
 -3. Make +sbi the default.

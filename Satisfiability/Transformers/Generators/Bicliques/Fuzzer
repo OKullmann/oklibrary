@@ -23,7 +23,7 @@ set -o errexit
 set -o nounset
 
 program="Fuzzer"
-version="0.2.0"
+version="0.2.1"
 
 : ${command1:="./GSM_debug"}
 : ${argument1:=}
@@ -43,6 +43,9 @@ genfile=${fuzzdir}/Generated_$$
 rep1file=${fuzzdir}/Replaced1_$$
 rep2file=${fuzzdir}/Replaced2_$$
 rep3file=${fuzzdir}/Replaced3_$$
+rep4file=${fuzzdir}/Replaced4_$$
+rep5file=${fuzzdir}/Replaced5_$$
+rep6file=${fuzzdir}/Replaced6_$$
 outfile=${fuzzdir}/Output_$$
 
 counter=0
@@ -56,7 +59,7 @@ handler() {
     rm -f SystemCalls_Popen_err_*_${childid}
     rm -f SystemCalls_Popen_out_*_${childid}
   done
-  rm -f ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+  rm -f ${genfile} ${rep1file} ${rep2file} ${rep3file} ${rep4file} ${rep5file} ${rep6file} ${outfile}
   kill -SIGINT $$
 }
 
@@ -69,11 +72,14 @@ while [ 0 ]; do
   cat ${genfile} | ${command1} "down,${argument1}" "${argument2}" "" "" > ${rep1file} &
   cat ${genfile} | ${command1} "up,${argument1}" "${argument2}" "" "" > ${rep2file} &
   cat ${genfile} | ${command1} "binsearch,${argument1}" "${argument2}" "" "" > ${rep3file} &
+  cat ${genfile} | ${command1} "down,-ssb,${argument1}" "${argument2}" "" "" > ${rep4file} &
+  cat ${genfile} | ${command1} "up,-ssb,${argument1}" "${argument2}" "" "" > ${rep5file} &
+  cat ${genfile} | ${command1} "binsearch,-ssb,${argument1}" "${argument2}" "" "" > ${rep6file} &
   wait
 
-  cat ${genfile} ${rep1file} ${rep2file} ${rep3file} | ${command2} "+4" > ${outfile}
+  cat ${genfile} ${rep1file} ${rep2file} ${rep3file} ${rep4file} ${rep5file} ${rep6file} | ${command2} "+7" > ${outfile}
 
-  rm ${genfile} ${rep1file} ${rep2file} ${rep3file} ${outfile}
+  rm ${genfile} ${rep1file} ${rep2file} ${rep3file} ${rep4file} ${rep5file} ${rep6file} ${outfile}
 
   ((++counter)); printf "\r%d" ${counter}
 
