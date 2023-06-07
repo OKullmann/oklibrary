@@ -2,6 +2,16 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
+-6. RunKnownGraphs.cpp
+
+   - Reads the parameters of GrephGen plus the relevant parameters
+     of BCCbySAT, plus "SAT/UNSAT", and runs the solving process
+     either with the bcc-value or -1, checking whether the result
+     is correct, and returning statistics.
+   - Can also run T trials, and then computes summary-statistics.
+
+---
+
 -5. Graph2BCcompGraph.cpp
 
    - As with other similar programs:
@@ -201,6 +211,10 @@ TODOS:
 3. BCCbySAT.cpp:
 
 TODOS:
+
+-1. Reading the "# bcc=" line
+  - When the comments contain this bcc-specification, check whether the
+    final result matches this.
 
 0. Systematic treatment of file-output
   - Three possibilities: stats, log, solution.
