@@ -286,8 +286,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "24.5.2023",
+        "0.8.1",
+        "14.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GSM.cpp",
@@ -312,7 +312,7 @@ namespace {
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
     " timeout        : " << "in s, default is " << default_sec << "\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
-    " reads a cnf from standard input, and attempts to compute an optimal representation:\n\n"
+    " reads a qcnf from standard input, and attempts to compute an optimal representation:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - Default-values for the options are the first possibilities given.\n"
     "  - The representation is exact (for the conflict-*graph*) iff considering bcp.\n\n"
