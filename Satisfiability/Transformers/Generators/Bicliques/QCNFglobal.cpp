@@ -30,12 +30,26 @@ int skipCommentLines(const std::vector<std::string> v) {
     return -1;
 }
 
+std::string readFileReturnFirstLineMatrix(const std::string& filename) {
+    std::ifstream source;
+    source.open(filename);
+    std::string line;
+    while (std::getline(source, line)) {
+        if (line[0] == 'p') {
+            break;
+        }
+    }
+    std::string firstLine = std::getline(source, line);
+    return firstLine;
+}
+
 int main(int argc,  char **argv) {
     std::string filename(argv[1]);
-    std::vector<std::string> lines = readFileToVector(filename);
+    // std::vector<std::string> lines = readFileToVector(filename);
     // displayVector(lines);
-    int problemLine = skipCommentLines(lines);
-    if (lines[problemLine + 1][0] == 'a') {
+    // int problemLine = skipCommentLines(lines);
+    std::string firstLine = readFileReturnFirstLineMatrix(filename)
+    if (firstLine[0] == 'a') {
         return 0;
     }
     
