@@ -39,7 +39,8 @@ std::string readFileReturnFirstLineMatrix(const std::string& filename) {
             break;
         }
     }
-    std::string firstLine = std::getline(source, line);
+    std::string firstLine;
+    std::getline(source, firstLine);
     return firstLine;
 }
 
@@ -48,7 +49,7 @@ int main(int argc,  char **argv) {
     // std::vector<std::string> lines = readFileToVector(filename);
     // displayVector(lines);
     // int problemLine = skipCommentLines(lines);
-    std::string firstLine = readFileReturnFirstLineMatrix(filename)
+    std::string firstLine = readFileReturnFirstLineMatrix(filename);
     if (firstLine[0] == 'a') {
         return 0;
     }
