@@ -52,6 +52,12 @@ p cnf 6 3
 1 6 0
 -6 0
 
+The meaning of the parameters X_Y_Z in A_-files:
+
+ - X is the number of (occurring) variables (and also the maximum index)
+ - Y is the number of clauses
+ - Z is the running number (for given X, Y).
+
 */
 
 #include <iostream>
