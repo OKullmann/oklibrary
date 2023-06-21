@@ -1,33 +1,3 @@
-# Good guide for bash scripting
-https://devhints.io/bash
-
-# Compile
-g++ -o QCNFglobal QCNFglobal.cpp
-
-# Basic example
-./QCNFglobal data/Example_00.qcnf
-
-# Comment lines skipped
-./QCNFglobal data/Example_03.qcnf
-
-# Wrong example
-./QCNFglobal data/Example_04.qcnf
-
-# Finds, sorts, and lists all files by extension in order.
-find . -type f | sed 's/.*\.//' | sort | uniq -c
-
-# Finds all files recursively ending with .qdimacs
-find -L ./qdimacs -name "*.qdimacs"
-
-# How to run bash file, example:
-bash QCNFglobal.sh
-Please enter the directory of files
-./data
-Please enter type of files to process
-.qcnf
-Total input files: 8
-Input files with global variables: 7
-
 # Big example
 niyo@cs-kullmann-server:~/repos/oklibrary/Satisfiability/Transformers/Generators/Bicliques> bash ./QCNFglobal.sh
 Please enter the directory of files
