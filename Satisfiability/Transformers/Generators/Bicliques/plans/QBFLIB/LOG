@@ -1,7 +1,7 @@
 Bicliques> date
 Wed 21 Jun 04:40:53 BST 2023
 
-Bicliques> time ./QCNFcount /data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+Bicliques> time ./DirQCNFcount /data/benchmarks/QBF/QBFLIB/NEW/qdimacs
 27928 14379
 real    4m58.395s
 user    2m55.166s
