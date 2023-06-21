@@ -17,6 +17,10 @@ Priorities:
    - As with other similar programs:
     - Provide basic statistics (V, E).
     - Provide turning off output.
+    - THese are format-options (as with BCC2SAT):
+     +-com
+     +-trans
+
     - We also need a program for computing statistics for graphs.
 
    - Once available, use the more efficient computation bccomp_graph.

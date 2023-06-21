@@ -13,18 +13,18 @@ License, or any later version. */
 
 EXAMPLES:
 
-Just obtaining statistics (by "-cs"):
+Just obtaining statistics (by "-trans"):
 
 Obtaining B from symmetry-breaking:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs "" ""
-c "./BCC2SAT" "" "" "-cs" "" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT "" "" -trans "" ""
+c "./BCC2SAT" "" "" "-trans" "" ""
 c ** Parameters **
 c B                                     +0
 c sb-options                            basic-sb with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
+c clauses-option                        without-translation
 c sb-rounds                             100
 c num_e-seeds                           0
 c ** Symmetry Breaking **
@@ -56,8 +56,8 @@ user	0m0.080s
 sys	0m0.004s
 
 The given B will be adjusted to a simple upper bound, if beyond that:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 1000 "" -cs "" ""
-c "./BCC2SAT" "1000" "" "-cs" "" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 1000 "" -trans "" ""
+c "./BCC2SAT" "1000" "" "-trans" "" ""
 c ** Parameters **
 c B                                     399
 ...
@@ -73,7 +73,7 @@ p cnf 622440 65083834
 
 Via appending the sb-seed to the given seed-sequence (above it is empty)
 one can get the best sb-result in a single round:
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" "" -cs 1 35
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" "" -trans 1 35
 ...
 c sb-rounds                             1
 c num_e-seeds                           1
@@ -88,7 +88,7 @@ p cnf 243360 25435468
 
 Symmetry-breaking via maximal independent sets in the biclique-compatbility
 graph is much more efficient:
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" +sbi -cs "" ""
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT "" +sbi -trans "" ""
 ...
 c ** Symmetry Breaking **
 c planted-edges                         199
@@ -99,15 +99,15 @@ c restricted-edges                      0
 p cnf 310440 32446317
 
 Explicitly specifying B=200, and 20000 symmetry-breaking-rounds:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -cs 20000 ""
-c "./BCC2SAT" "200" "" "-cs" "20000" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 "" -trans 20000 ""
+c "./BCC2SAT" "200" "" "-trans" "20000" ""
 c ** Parameters **
 c B                                     200
 c sb-options                            basic-sb with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
+c clauses-option                        without-translation
 c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
@@ -142,8 +142,8 @@ One sees that symmetry-breaking with 20000 attempts obtained a maximum of
 165 planted edges.
 
 Since for the above 200=165+35, one obtains the same result by
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 20000 ""
-c "./BCC2SAT" "+35" "" "-cs" "20000" ""
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -trans 20000 ""
+c "./BCC2SAT" "+35" "" "-trans" "20000" ""
 c ** Parameters **
 c B                                     +35
 ...
@@ -153,28 +153,28 @@ c E                                     760
 c B                                     200
 
 or (via a single round) b
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -cs 1 12440
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT +35 "" -trans 1 12440
 
 If one uses an explicitly specified B which is lower than what symmetry-
 breaking obtained, the value will be updated to that value:
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 165 "" -cs 1 12440
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 165 "" -trans 1 12440
 c total-lit-occurrences                 54681495
 p cnf 257400 26902855
-Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 164 "" -cs 1 12440
+Bicliques> ./GraphGen grid 20 20 | ./BCC2SAT 164 "" -trans 1 12440
 c B                                     165
 c total-lit-occurrences                 54681495
 p cnf 257400 26902855
 
 Using a heuristics to find better symmetry-breaking:
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 1000 ""
-c "./BCC2SAT" "200" "+sba" "-cs" "1000" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -trans 1000 ""
+c "./BCC2SAT" "200" "+sba" "-trans" "1000" ""
 c ** Parameters **
 c B                                     200
 c sb-options                            sorted-sb-addition with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
+c clauses-option                        without-translation
 c sb-rounds                             1000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
@@ -204,22 +204,22 @@ p cnf 312000 32609822
 real	0m0.684s
 user	0m0.685s
 sys	0m0.001s
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 20000 ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -trans 20000 ""
 c planted-edges                         169
 c sb-stats                              20000 : 142 154.994 169; 3.09836
 c sb-seed                               18802
 c restricted-edges                      31
 
 So we get somewhat better (the exact value of bcc here is 199).
-> Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 2000000 0
-c "./BCC2SAT" "200" "+sba" "-cs" "2000000" "0"
+> Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -trans 2000000 0
+c "./BCC2SAT" "200" "+sba" "-trans" "2000000" "0"
 c ** Parameters **
 c B                                     200
 c sb-options                            sorted-sb-addition with-ssb
 c pt-option                             cover
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
+c clauses-option                        without-translation
 c sb-rounds                             2000000
 c num_e-seeds                           1
 c  e-seeds                              0
@@ -231,14 +231,14 @@ c restricted-edges                      31
 real    29m11.791s
 user    29m11.683s
 sys     0m0.005s
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -cs 20000000 1
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sba -trans 20000000 1
 c ** Symmetry Breaking **
 c planted-edges                         174
 c sb-stats                              20000000 : 138 154.988 174; 3.1085
 c sb-seed                               7347840
 c restricted-edges                      26
 
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sb -cs 2000000 0
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 +sb -trans 2000000 0
 c ** Symmetry Breaking **
 c planted-edges                         165
 c sb-stats                              2000000 : 134 149.582 165; 3.298
@@ -309,15 +309,15 @@ c max_tree_depth                        0
 One can also consider partition-problems (instead of cover-problems, the
 default).
 The above for partitioning (using the quadratically many prime-clauses):
-Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 partition2 -cs 20000 ""
-c "./BCC2SAT" "200" "partition2" "-cs" "20000" ""
+Bicliques> time ./GraphGen grid 20 20 | ./BCC2SAT 200 partition2 -trans 20000 ""
+c "./BCC2SAT" "200" "partition2" "-trans" "20000" ""
 c ** Parameters **
 c B                                     200
 c sb-options                            basic-sb with-ssb
 c pt-option                             partition-quadratic
 c comments-option                       with-comments
 c dimacs-parameter-option               with-parameters
-c clauses-option                        without-cs
+c clauses-option                        without-translation
 c sb-rounds                             20000
 c num_e-seeds                           0
 c ** Symmetry Breaking **
@@ -377,8 +377,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.0",
-        "24.5.2023",
+        "1.3.1",
+        "21.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

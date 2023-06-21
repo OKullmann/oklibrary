@@ -457,7 +457,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::CS> {
     static constexpr int size = int(Bicliques2SAT::CS::without)+1;
     static constexpr std::array<const char*, size> string
-    {"+cs", "-cs"};
+    {"+trans", "-trans"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::BC> {
@@ -515,8 +515,8 @@ namespace Bicliques2SAT {
   }
   std::ostream& operator <<(std::ostream& out, const CS s) {
     switch (s) {
-    case CS::with : return out << "with-cs";
-    case CS::without : return out << "without-cs";
+    case CS::with : return out << "with-translation";
+    case CS::without : return out << "without-translation";
     default : return out << "CS::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const BC b) {
