@@ -2,6 +2,25 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
+-7. DirQBF2BCC
+
+This is a bash-script, creating the directory QBF2BCC:
+
+ 1. The argument is A.zip.
+ 2. If QBF2BCC exists, then exit with error.
+ 3. Run "unzip -q -d QBF2BCC A.zip".
+ 4. Delete all files in QBF2BCC not of the form *.qdimacs.gz.
+ 4. Run through all F.qdimacs.gz-files in QBF2BCC:
+     - Run "gunzip F.qdimacs.gz", replacing F.qdimacs.gz.
+     - Run Disassemble on F.qdimacs appropriately (details needed).
+       Remove the directory produced if not containing proper benchmarks.
+     - Remove F.qdimacs.
+
+Documentation of DirQBF2BCC mentions the command
+wget https://www.qbflib.org/DOWNLOADS/qdimacs.zip .
+
+---
+
 -6. RunKnownGraphs.cpp
 
    - Reads the parameters of GrephGen plus the relevant parameters
