@@ -6,7 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Extracting the g-part from a strict QCNF
+  Extracting the g-part from a strict QCNF, outputting the the obtained CNF,
+  or just the global variables.
 
   Call a "global" variable a universal variable on which every existential
   variable depends (there might be no such global variables).
@@ -44,6 +45,14 @@ p cnf 10 5
 -2 -3 8 10 0
 -9 -10 0
 
+If we just want to get the count of global variables:
+Bicliques> QBRG "a10 e10 a10 e10 a10 10" "5*6,10" "u,o" 1 | ./QCNF2gCNF -trans
+10
+
+And if we just want to get the list of global variables:
+Bicliques> QBRG "a10 e10 a10 e10 a10 10" "5*6,10" "u,o" 1 | ./QCNF2gCNF -trans -dp
+1 2 3 4 5 6 7 8 9 10
+
 
 See plans/general.txt.
 
@@ -55,18 +64,20 @@ See plans/general.txt.
 #include <ProgramOptions/Environment.hpp>
 
 #include "DimacsTools.hpp"
+#include "Bicliques2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "15.4.2022",
+        "0.1.1",
+        "21.6.2022",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QCNF2aCNF.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QCNF2gCNF.cpp",
         "GPL v3"};
 
   using namespace DimacsTools;
+  using namespace Bicliques2SAT;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
@@ -74,10 +85,26 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << "\n\n"
-    " reads a strict QDimacs-file from standard input, and prints the extracted global-part to standard output.\n"
+    "> " << proginfo.prg << " [+-trans] [+-count]\n\n"
+    " with/without clauses  : " << Environment::WRP<CS>{} << "\n"
+    " in case of no clauses : " << Environment::WRP<DP>{} << "\n\n"
+    " reads a strict QDimacs-file from standard input, and prints the extracted global-part to standard output:\n\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n"
+    "  - Default-values for the options are the first possibilities given.\n"
+    "  - If -trans is chosen, then\n"
+    "   - with +count (i.e,, +dp) the number of global variables is output,\n"
+    "   - otherwise the global variables themselves.\n\n"
 ;
     return true;
+  }
+
+  std::optional<CS> read_trans(const int argc, const char* const argv[]) noexcept {
+    if (argc == 1) return CS{};
+    else return Environment::read<CS>(argv[1]);
+  }
+  std::optional<DP> read_count(const int argc, const char* const argv[]) noexcept {
+    if (argc <= 2) return DP{};
+    else return Environment::read<DP>(argv[2]);
   }
 
 }
@@ -87,5 +114,36 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  extract_gpart_strictqcnf(std::cin, std::cout);
+  if (argc > 3) {
+    std::cerr << error <<
+      "At most two arguments allowed, but " << argc-1 << " provided.\n";
+    return 1;
+  }
+
+  const std::optional<CS> trans = read_trans(argc, argv);
+  if (not trans) {
+    assert(argc == 2);
+    std::cerr << error <<
+      "First argument \""<< argv[1] << "\" invalid.\n";
+    return 1;
+  }
+  const std::optional<DP> count = read_count(argc, argv);
+  if (not count) {
+    assert(argc == 3);
+    std::cerr << error <<
+      "Second argument \""<< argv[2] << "\" invalid.\n";
+    return 1;
+  }
+
+  if (trans.value() == CS::with)
+    extract_gpart_strictqcnf(std::cin, std::cout);
+  else {
+    read_strict_dimacs_pars(std::cin);
+    const auto GV = read_strict_gline(std::cin);
+    if (count.value() == DP::with)
+      std::cout << GV.size();
+    else
+      Environment::out_line(std::cout, GV);
+    std::cout << "\n";
+  }
 }
