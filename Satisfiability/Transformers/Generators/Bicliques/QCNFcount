@@ -8,45 +8,31 @@
 
 # Counting qcnf-files in a directory, and how many of them have global variables
 
+# USAGE:
+
+# Bicliques> ./QCNFcount data
+# 3 3
+# (3 total .qcnf-files, of which 3 have global variables).
+
+
 set -o errexit
 set -o nounset
 
 program="QCNFcount"
-version="0.1.0"
+version="0.1.1"
+
+directory="$1"
+: ${filetype:=".qcnf"}
 
 
-echo "Please enter the directory of files"
-read directory
+total=0
+count=0
 
-echo "Please enter type of files to process"
-read filetype
-
-echo "Please enter the maximum number of files to process:"
-read maxfiles
-
-FILES=$(find -L $directory -name "*$filetype")
-totalFiles=$(echo "$FILES" | wc -l)
-echo "Total input files: $totalFiles"
-globalVariables=0
-filesCounter=0
-
-for path in $FILES
-do
-	# echo "Processing $path"
-    verdict=$(./QCNFglobal $path)
-    (( filesCounter++ ))
-    if [[ -z $verdict ]]
-        then 
-            # echo "Global variable!"
-            (( globalVariables++ ))
-        # else 
-            # echo "Oh not a global variable!"
-    fi
-
-    if [[ $filesCounter -eq $maxfiles ]]
-        then
-            break
-        fi
+shopt -s globstar
+for path in **/*${filetype}; do
+    ((++total))
+    result=$(cat ${path} | ./QCNF2gCNF -trans +dp)
+    if ((result != 0)); then ((++count)); fi
 done
 
-echo "Input files with global variables: $globalVariables"
+echo "${total} ${count}"
