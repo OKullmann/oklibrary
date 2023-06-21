@@ -19,10 +19,10 @@ set -o errexit
 set -o nounset
 
 program="QCNFcount"
-version="0.1.2"
+version="0.1.3"
 
 directory="$1"
-: ${filetype:=".qcnf"}
+: ${filetype:=".qdimacs"}
 
 
 total=0
