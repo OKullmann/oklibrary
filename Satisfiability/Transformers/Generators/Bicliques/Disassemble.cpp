@@ -14,15 +14,16 @@ License, or any later version. */
 EXAMPLES:
 
 Bicliques> cat data/Example_00.qcnf
+# added information on connected components
 p cnf 7 6
 a 3 5 7 0
 e 1 2 4 6 0
-3 2 -4 0
--3 5 1 6 0
--2 -4 0
--5 -6 0
-7 2 4 6 0
--7 -2 -4 -6 0
+3 2 -4 0        # C1
+-3 5 1 6 0      # C1
+-2 -4 0         # trivial (E0)
+-5 -6 0         # C1
+7 2 4 6 0       # C2
+-7 -2 -4 -6 0   # C2
 Bicliques> ./Disassemble_debug data/Example_00.qcnf ""
 Bicliques> ls -l Example_00/
 19 A_1_2_1
@@ -30,9 +31,13 @@ Bicliques> ls -l Example_00/
 18 E0
 29 E_1_2_1
 28 E_2_3_1
+
+The trivial components:
 Bicliques> cat Example_00/E0
 p cnf 6 1
 -2 -4 0
+
+C2:
 Bicliques> cat Example_00/A_1_2_1
 p cnf 1 2
 1 0
@@ -41,6 +46,8 @@ Bicliques> cat Example_00/E_1_2_1
 p cnf 6 2
 2 4 6 0
 -2 -4 -6 0
+
+C1:
 Bicliques> cat Example_00/A_2_3_1
 p cnf 2 3
 1 0
