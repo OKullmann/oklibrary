@@ -581,7 +581,18 @@ TODOS:
 
 ---
 
-8. We need, besides Disassemble.cpp, als Reassemble.cpp.
+8. Disassemble.cpp
+
+1. Improve specification:
+    - Are pure global variables eliminated?
+    - What is the order of the components?
+    - What is the order of literals in the clauses?
+
+2. We need a "global-only" mode:
+    - Only the A_-files, without the "A_".
+    - Excluding cnf's with 1 variable.
+
+3. We need, besides Disassemble.cpp, als Reassemble.cpp.
 
 ---
 
