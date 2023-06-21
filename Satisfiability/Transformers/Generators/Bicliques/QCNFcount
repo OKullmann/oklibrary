@@ -8,6 +8,12 @@
 
 # Counting qcnf-files in a directory, and how many of them have global variables
 
+set -o errexit
+set -o nounset
+
+program="QCNFcount"
+version="0.1.0"
+
 
 echo "Please enter the directory of files"
 read directory
