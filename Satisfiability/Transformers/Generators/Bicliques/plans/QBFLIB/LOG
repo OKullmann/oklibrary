@@ -1,8 +1,37 @@
-Bicliques> date
-Wed 21 Jun 04:40:53 BST 2023
+15.6.2023 OK:
 
-Bicliques> time ./DirQCNFcount /data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+> wget https://www.qbflib.org/DOWNLOADS/qdimacs.zip
+> md5sum qdimacs.zip
+50695c56e2fc2b3545ff8edf60c0b7e7 qdimacs.zip
+> unzip -q qdimacs.zip
+> rm -r __MACOSX
+
+Inside of the created directory qdimacs one has .qdimacs.gz-files.
+
+Before expansion:
+> du -sh *
+12G     qdimacs
+9.4G    qdimacs.zip
+
+> gunzip -r qdimacs/
+gzip: qdimacs/Letombe/renHorn/renHorn_400CNF1640_2aQBF_7.qdimacs already exists; do you wish to overwrite (y or n)? n
+        not overwritten
+> rm qdimacs/Letombe/renHorn/renHorn_400CNF1640_2aQBF_7.qdimacs.gz
+(diff showed that this file gunzipped is the same as the already existing file).
+
+QBFLIB> du -sh *
+44M     dqbf-master
+5.8M    dqbf-master.tar.bz2
+35G     qdimacs
+9.4G    qdimacs.zip
+
+---
+
+Bicliques> date
+Wed 21 Jun 18:30:03 BST 2023
+
+Bicliques> time ./DirQCNFcount /data/benchmarks/QBF/QBFLIB/qdimacs
 27928 14379
-real    4m58.395s
-user    2m55.166s
-sys     3m7.559s
+real    4m47.002s
+user    2m57.632s
+sys     2m55.981s
