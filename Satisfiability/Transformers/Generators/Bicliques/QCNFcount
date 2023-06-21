@@ -19,7 +19,7 @@ set -o errexit
 set -o nounset
 
 program="QCNFcount"
-version="0.1.1"
+version="0.1.2"
 
 directory="$1"
 : ${filetype:=".qcnf"}
@@ -29,7 +29,7 @@ total=0
 count=0
 
 shopt -s globstar
-for path in **/*${filetype}; do
+for path in ${directory}/**/*${filetype}; do
     ((++total))
     result=$(cat ${path} | ./QCNF2gCNF -trans +dp)
     if ((result != 0)); then ((++count)); fi
