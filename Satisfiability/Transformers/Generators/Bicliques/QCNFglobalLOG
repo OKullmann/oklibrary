@@ -1,0 +1,70 @@
+# Good guide for bash scripting
+https://help.ubuntu.com/community/Beginners/BashScripting
+https://devhints.io/bash
+
+# Compile
+g++ -o QCNFglobal QCNFglobal.cpp
+
+# Basic example
+./QCNFglobal data/Example_00.qcnf
+
+# Comment lines skipped
+./QCNFglobal data/Example_03.qcnf
+
+# Wrong example
+./QCNFglobal data/Example_04.qcnf
+
+# Finds, sorts, and lists all files by extension in order.
+find . -type f | sed 's/.*\.//' | sort | uniq -c
+
+# Finds all files recursively ending with .qdimacs
+find -L ./qdimacs -name "*.qdimacs"
+
+# How to run bash file, example:
+bash QCNFglobal.sh
+Please enter the directory of files
+./data
+Please enter type of files to process
+.qcnf
+Total input files: 8
+Input files with global variables: 7
+
+# Big example
+niyo@cs-kullmann-server:~/repos/oklibrary/Satisfiability/Transformers/Generators/Bicliques> bash ./QCNFglobal.sh
+Please enter the directory of files
+/data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+Please enter type of files to process
+.qdimacs
+Total input files: 27928
+Input files with global variables: 14379
+
+# Time and limit
+niyo@cs-kullmann-server:~/repos/oklibrary/Satisfiability/Transformers/Generators/Bicliques> time bash ./QCNFglobal.sh
+Please enter the directory of files
+/data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+Please enter type of files to process
+.qdimacs
+Please enter the maximum number of files to process:
+5000
+Total input files: 27928
+Input files with global variables: 3308
+
+real	0m53.079s
+user	0m7.983s
+sys	0m3.674s
+
+# all files
+
+niyo@cs-kullmann-server:~/repos/oklibrary/Satisfiability/Transformers/Generators/Bicliques> time bash ./QCNFglobal.sh
+Please enter the directory of files
+/data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+Please enter type of files to process
+.qdimacs
+Please enter the maximum number of files to process:
+27930
+Total input files: 27928
+Input files with global variables: 14379
+
+real	4m0.600s
+user	0m44.364s
+sys	0m28.830s
