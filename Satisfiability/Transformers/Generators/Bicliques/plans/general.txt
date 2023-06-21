@@ -583,16 +583,32 @@ TODOS:
 
 8. Disassemble.cpp
 
-1. Improve specification:
+1. DONE Improve specification:
     - Are pure global variables eliminated?
+      Only global literals occurring in trivial (single-clause)
+      components are eliminated.
+      The global variables in nontrivial components are exactly the ones from
+      the original clauses, but renamed (in the order as they occur in the
+      a-line).
     - What is the order of the components?
+      Lexicographical order (using the given order of clauses).
     - What is the order of literals in the clauses?
+      Standard order (not the original one).
 
 2. We need a "global-only" mode:
+    - A new option "+-full" is needed.
     - Only the A_-files, without the "A_".
     - Excluding cnf's with 1 variable.
+      Perhaps this should be an option?
 
-3. We need, besides Disassemble.cpp, als Reassemble.cpp.
+3. Should we add a file ".stats" ?
+    - With statistics on the number of components etc.?
+    - Seems useful.
+    - For the global-only-mode, is it possible to run simply through all files?
+     - A simple command-line loop "for F in *; do echo $F; done" ignores
+       .stats.
+
+4. We need, besides Disassemble.cpp, als Reassemble.cpp.
 
 ---
 

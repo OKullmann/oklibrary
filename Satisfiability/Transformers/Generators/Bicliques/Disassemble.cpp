@@ -8,8 +8,22 @@ License, or any later version. */
 /*
   For input-QCNF F, disassemble F into the global-part and the other-part
 
-  The order of the clauses is maintained, and the other-variables are also
-  maintained.
+   - The order of the clauses is maintained, and the other-variables are also
+     maintained (no renaming).
+   - The clauses are maintained (so that the original QCNF can be
+     reconstructed) except of the following:
+     - The trivial components, that is, of size 1 (having exaclty one clause),
+       are collected in E0, and here (pure) global literals are removed.
+     - The order of literals is the standard-order (-1,1,-2,2,...).
+     - For the global parts of a connected components, the global variables
+       are renamed to 1, 2, ..., according to the order they occur in the
+       a-line.
+   - Components are collected into A_n_c_i and corresponding E_n_c_i files,
+     where n is the number of global variables in the component, c the
+     number of clauses, and i the running index.
+   - For fixed n_c, lexicographical order is used (using the given order of
+     clauses). So i=1 contains the component with the very first relevant
+     clause and so on (recall that components are clause-disjoint).
 
 EXAMPLES:
 
@@ -59,11 +73,65 @@ p cnf 6 3
 1 6 0
 -6 0
 
+
 The meaning of the parameters X_Y_Z in A_-files:
 
  - X is the number of (occurring) variables (and also the maximum index)
  - Y is the number of clauses
  - Z is the running number (for given X, Y).
+
+
+Another example:
+Bicliques> cat data/Example_03.qcnf
+p cnf 20 8
+a 4 2 17 13 9 15 0
+e 1 3 5 20 19 0
+a 6 7 8 0
+e 11 10 14 12 16 17 18 0
+4 0                        # E0
+-3 -1 -20 19 4 6 0         # E0
+9 17 -11 10 0              # C1
+2 12 9 0                   # C2
+-2 9 20 0                  # C2
+2 9 15 0                   # C2
+-17 13 7 0                 # C1
+-13 -11 5 3 1 6 7 0        # C1
+Bicliques> ./Disassemble_debug data/Example_03.qcnf DIR
+Bicliques> ls -l DIR/
+28 A_3_3_1
+31 A_3_3_2
+30 E0
+21 E_3_3_1
+21 E_3_3_2
+
+E0:
+p cnf 20 2
+0
+-1 -3 6 19 -20 0
+
+C1:
+> cat A_3_3_1 
+p cnf 3 3
+1 3 0
+2 -3 0
+-2 0
+> cat E_3_3_1 
+p cnf 20 3
+10 -11 0
+7 0
+1 3 5 6 7 -11 0
+
+C2:
+> cat A_3_3_2
+p cnf 3 3
+1 2 0
+-1 2 0
+1 2 3 0
+> cat E_3_3_2
+p cnf 20 3
+12 0
+20 0
+0
 
 */
 
