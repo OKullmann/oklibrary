@@ -72,7 +72,7 @@ License, or any later version. */
     Formatted output:
     - out_tokens(ostream&, tokens_t) : quoting each string, with separating
         spaces
-    - out_line(ostream&, RAN R, sep, width)
+    - out_line(ostream&, RAN R, sep=" ", width=0)
     - out_lines(ostream&, RAN R, sep1, sep2, width)
     - print1d(ostream&, tuple<T1, ...>, width_vector, seps)
     - printsize(ostream&, X x): number of characters printed with x

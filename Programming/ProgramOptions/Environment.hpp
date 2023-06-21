@@ -53,8 +53,7 @@ License, or any later version. */
      for a sequence of policy-values (for different policies), with
      liberal interpretation:
 
-    - function-template read(string) (converting strings to Policy-values
-      using std::optional)
+    - read<Policy>(string) -> std::optional<Policy>
     - function-template translate(string, char), converting strings to
       tuples of policy-values (always succeeding, using default values).
 
