@@ -1,13 +1,8 @@
-niyo@cs-kullmann-server:~/repos/oklibrary/Satisfiability/Transformers/Generators/Bicliques> time bash ./QCNFglobal.sh
-Please enter the directory of files
-/data/benchmarks/QBF/QBFLIB/NEW/qdimacs
-Please enter type of files to process
-.qdimacs
-Please enter the maximum number of files to process:
-27930
-Total input files: 27928
-Input files with global variables: 14379
+Bicliques> date
+Wed 21 Jun 04:40:53 BST 2023
 
-real	4m0.600s
-user	0m44.364s
-sys	0m28.830s
+Bicliques> time ./QCNFcount /data/benchmarks/QBF/QBFLIB/NEW/qdimacs
+27928 14379
+real    4m58.395s
+user    2m55.166s
+sys     3m7.559s
