@@ -63,14 +63,14 @@ namespace Generators {
   typedef AdjMapStr::size_t size_t;
 
 
-  enum class Types { clique=0, biclique=1, crown=2, grid=3 };
+  enum class Types { clique=0, biclique=1, cycle=2, crown=3, grid=4 };
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Generators::Types> {
     static constexpr int size = int(Generators::Types::grid)+1;
     static constexpr std::array<const char*, size> string
-    {"clique", "biclique", "crown", "grid"};
+    {"clique", "biclique", "cycle", "crown", "grid"};
   };
 }
 namespace Generators {
@@ -78,6 +78,7 @@ namespace Generators {
     switch (t) {
     case Types::clique : return out << "clique";
     case Types::biclique : return out << "biclique";
+    case Types::cycle : return out << "cycle";
     case Types::crown : return out << "crown";
     case Types::grid : return out << "grid";
     default : return out << "Types::UNKNOWN";
@@ -168,6 +169,31 @@ namespace Generators {
     for (size_t i = 0; i < m; ++i) V2.push_back("r" + std::to_string(i+1));
     [[maybe_unused]] const auto res = G.add_biclique(V1, V2);
     assert(res.first == n+m and res.second == n*m);
+    return G;
+  }
+
+
+  size_t bcc_cycle(const size_t n) noexcept {
+    assert(n >= 3);
+    return n == 4 ? 1 : (n+1) / 2;
+  }
+  size_t bcp_cycle(const size_t n) noexcept {
+    return bcc_cycle(n);
+  }
+  size_t numcc_cycle(const size_t) noexcept {
+    return 1;
+  }
+  AdjMapStr cycle(const size_t n) {
+    assert(n >= 3);
+    AdjMapStr G(Graphs::GT::und);
+    G.comments.push_back("cycle(" + std::to_string(n) + ")");
+    G.comments.push_back("bcc=" + std::to_string(bcc_cycle(n)));
+    for (size_t i = 0; i < n; ++i) {
+      const std::string v = std::to_string(i),
+        w = std::to_string(i==n-1 ? 0 : i+1);
+      G.insert(v,w);
+    }
+    assert(G.n() == n and G.m() == n);
     return G;
   }
 
@@ -271,6 +297,13 @@ namespace Generators {
       const size_t N{FloatingPoint::toUInt(argv[2])};
       const size_t M{FloatingPoint::toUInt(argv[3])};
       return biclique(N,M);
+    }
+    case Types::cycle : {
+      if (argc < 3)
+        throw std::invalid_argument("Generators::create:cycle: argc=" +
+                                    std::to_string(argc));
+      const size_t N{FloatingPoint::toUInt(argv[2])};
+      return cycle(N);
     }
     case Types::crown : {
       if (argc < 3)
