@@ -12,7 +12,7 @@ License, or any later version. */
      maintained (no renaming).
    - The clauses are maintained (so that the original QCNF can be
      reconstructed) except of the following:
-     - The trivial components, that is, of size 1 (having exaclty one clause),
+     - The trivial components, that is, of size 1 (having exactly one clause),
        are collected in E0, and here (pure) global literals are removed.
      - The order of literals is the standard-order (-1,1,-2,2,...).
      - For the global parts of a connected components, the global variables
