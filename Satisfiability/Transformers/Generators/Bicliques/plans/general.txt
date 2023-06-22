@@ -2,7 +2,7 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
--7. DirQBF2BCC
+-8. DirQBF2BCC
 
 This is a bash-script, creating the directory QBF2BCC:
 
@@ -18,6 +18,15 @@ This is a bash-script, creating the directory QBF2BCC:
 
 Documentation of DirQBF2BCC mentions the command
 wget https://www.qbflib.org/DOWNLOADS/qdimacs.zip .
+
+---
+
+-7. DirExpPrep
+
+This is a bash-script, transforming the directory QBF2BCC:
+
+ 1. For each ordinary file X, a directory X is created containing file "i",
+    which has the old content.
 
 ---
 
