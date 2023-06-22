@@ -4,17 +4,6 @@ Priorities:
 
 -8. DirQBF2BCC
 
-BUG REPORT:
-Where ?
-  In file DirQBF2BCC we can see example:
-  # Bicliques> ./QCNFcount data
-  # 3 3
-  # (3 total .qcnf-files, of which 3 have global variables).
-[1] Problem: Filename in the example is wrong.
-  Solution: Since we renamed the file, filename probably needs to be updated.
-[2] Problem: This example probably also does not give the output [3 3], because we don't have .qdimacs files in directory data.
-  Solution: create some examples with .qdimacs extension/type.
-
 This is a bash-script, creating the directory QBF2BCC:
 
  1. The argument is A.zip.
@@ -29,6 +18,22 @@ This is a bash-script, creating the directory QBF2BCC:
 
 Documentation of DirQBF2BCC mentions the command
 wget https://www.qbflib.org/DOWNLOADS/qdimacs.zip .
+
+
+BUG:
+
+1. Wrong example
+
+# Bicliques> ./QCNFcount data
+# 3 3
+# (3 total .qcnf-files, of which 3 have global variables).
+
+[1] Problem: Filename in the example is wrong.
+  Solution: Since we renamed the file, filename probably needs to be updated.
+[2] Problem: This example probably also does not give the output [3 3],
+  because we don't have .qdimacs files in directory data.
+  Solution: create some examples with .qdimacs extension/type.
+
 
 ---
 
