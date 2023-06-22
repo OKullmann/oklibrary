@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "12.5.2023",
+        "0.3.3",
+        "22.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -202,12 +202,26 @@ int main(const int argc, const char* const argv[]) {
    assert(bccomp_graph_bydef(G, G.alledges(), "") == graph_t(clique(6)));
   }
   {using graph_t = Graphs::AdjVecUInt;
-   for (idv_t n = 0; n <= 10; ++n)
-     assert(is_complete(bccomp_graph_bydef(graph_t(clique(n)))));
+   for (idv_t n = 0; n <= 10; ++n) {
+     const auto BG = bccomp_graph_bydef(graph_t(clique(n)));
+     assert(is_complete(BG));
+     const idv_t m = (n*(n-1))/2;
+     assert(BG == graph_t(clique(m)));
+   }
   }
   {using graph_t = Graphs::AdjVecUInt;
-   for (idv_t n = 0; n <= 10; ++n)
-     assert(is_complete(bccomp_graph_bydef(graph_t(biclique(n,n)))));
+   for (idv_t n = 0; n <= 10; ++n) {
+     const auto BG = bccomp_graph_bydef(graph_t(biclique(n,n)));
+     assert(is_complete(BG));
+     const idv_t m = n*n;
+     assert(BG == graph_t(clique(m)));
+   }
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   for (idv_t n = 2; n <= 10; ++n) {
+     const auto BG = bccomp_graph_bydef(graph_t(grid(n,1)));
+     assert(BG == graph_t(grid(n-1,1)));
+   }
   }
   {using graph_t = Graphs::AdjVecUInt;
    for (idv_t n = 0; n <= 2; ++n)
