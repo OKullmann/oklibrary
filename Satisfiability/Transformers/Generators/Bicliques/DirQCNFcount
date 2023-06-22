@@ -10,9 +10,9 @@
 
 # USAGE:
 
-# Bicliques> ./QCNFcount data
-# 3 3
-# (3 total .qcnf-files, of which 3 have global variables).
+# Bicliques> filetype=".qcnf" ./DirQCNFcount data
+# 4 4
+# (4 total .qcnf-files, of which 4 have global variables).
 
 
 set -o errexit
