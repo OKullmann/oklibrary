@@ -23,14 +23,14 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.4"
+version="0.1.5"
 
 archive="$1"
 
 : ${directory:="QBF2BCC"}
 : ${filetype:="*.qdimacs.gz"}
 : ${logfile:="LOG"}
-: ${disprog:="~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"}
+: ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 
 patterna="*.zip"
 if ! [[ $1 == $patterna ]]; then
