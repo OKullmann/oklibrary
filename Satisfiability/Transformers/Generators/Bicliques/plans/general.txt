@@ -14,6 +14,8 @@ This is a bash-script, creating the directory QBF2BCC:
      - DONE Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
      - DONE First run Disassemble on F.qdimacs in old mode.
      - DONE Remove F.qdimacs.
+     - Remove "__MACOSX".
+     - See the problems in QBFLIB/LOG.
      - Later run Disassemble in "global-only mode" (see below).
        Remove the directory produced if not containing proper benchmarks.
 
