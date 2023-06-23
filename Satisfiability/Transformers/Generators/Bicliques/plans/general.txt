@@ -6,12 +6,12 @@ Priorities:
 
 This is a bash-script, creating the directory QBF2BCC:
 
- 1. The argument is A.zip.
- 2. If QBF2BCC exists, then exit with error.
- 3. Run "unzip -q -d QBF2BCC A.zip".
- 4. Delete all files in QBF2BCC not of the form *.qdimacs.gz.
+ 1. DONE The argument is A.zip.
+ 2. DONE If QBF2BCC exists, then exit with error.
+ 3. DONE Run "unzip -q -d QBF2BCC A.zip".
+ 4. DONE Delete all files in QBF2BCC not of the form *.qdimacs.gz.
  4. Run through all F.qdimacs.gz-files in QBF2BCC:
-     - Run "gunzip F.qdimacs.gz", replacing F.qdimacs.gz.
+     - Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
      - Run Disassemble on F.qdimacs appropriately (details needed).
        Remove the directory produced if not containing proper benchmarks.
      - Remove F.qdimacs.
