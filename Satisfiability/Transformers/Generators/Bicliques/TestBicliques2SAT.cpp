@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "7.5.2023",
+        "0.9.1",
+        "23.5.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -282,6 +282,8 @@ std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
      test_downwards(BC2SAT::graph_t(clique(n)), bcc_clique(n));
    for (size_t n = 0; n < default_n; ++n)
      test_downwards(BC2SAT::graph_t(biclique(n,n)), bcc_biclique(n,n));
+   for (size_t n = 3; n < default_n + 1; ++n)
+     test_downwards(BC2SAT::graph_t(cycle(n)), bcc_cycle(n));
    for (size_t n = 0; n < default_n; ++n)
      test_downwards(BC2SAT::graph_t(crown(n)), bcc_crown(n));
    for (size_t n = 0; n < default_n; ++n)
@@ -292,6 +294,9 @@ std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
      test_downwards(BC2SAT::graph_t(clique(n)), bcp_clique(n), PT::partition2);
    for (size_t n = 0; n < default_n; ++n)
      test_downwards(BC2SAT::graph_t(biclique(n,n)), bcp_biclique(n,n),
+                    PT::partition2);
+   for (size_t n = 3; n < default_n + 1; ++n)
+     test_downwards(BC2SAT::graph_t(cycle(n)), bcp_cycle(n),
                     PT::partition2);
    for (size_t n = 0; n < default_n; ++n)
      test_downwards(BC2SAT::graph_t(crown(n)), bcp_crown(n), PT::partition2);

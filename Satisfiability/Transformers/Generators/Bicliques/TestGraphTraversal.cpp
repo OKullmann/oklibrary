@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "17.3.2023",
+        "0.1.3",
+        "23.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphTraversal.cpp",
@@ -95,7 +95,9 @@ int main(const int argc, const char* const argv[]) {
      }
   }
   {for (size_t n = 0; n <= 10; ++n) {
-     const CCbyIndices res = cc_by_dfs(GR::AdjVecUInt(Generators::crown(n)));
+     const GR::AdjVecUInt G(Generators::crown(n));
+     assert(is_connected(G) == (n == 0 or n >= 3));
+     const CCbyIndices res = cc_by_dfs(G);
      assert(valid(res));
      assert(res.canonical());
      assert(res.numcc == Generators::numcc_crown(n));
@@ -108,6 +110,7 @@ int main(const int argc, const char* const argv[]) {
    is.str("a b c\nd c\ne f\nf g\n");
    G0.insert(is);
    GR::AdjVecUInt G(G0);
+   assert(not is_connected(G));
    const CCbyIndices CC = cc_by_dfs(G);
    assert(valid(CC));
    assert(CC.canonical());

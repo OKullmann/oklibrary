@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.2.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,12 +14,14 @@ License, or any later version. */
 
 #include "Generators.hpp"
 #include "ConflictGraphs.hpp"
+#include "Graphs.hpp"
+#include "GraphTraversal.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "7.3.2022",
+        "0.2.1",
+        "23.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGenerators.cpp",
@@ -73,6 +75,23 @@ int main(const int argc, const char* const argv[]) {
       assert(G.n() == n+m);
       assert(G.m() == n * m);
       assert(bcc_biclique(n,m) == std::min(n*m, 1u));
+      const Graphs::AdjVecUInt GU(G);
+      if (n == 0 or m == 0) {
+        assert(GU.regular(0));
+        assert(GU.regular());
+        assert(GraphTraversal::is_connected(GU) == (n+m <= 1));
+        assert(not GraphTraversal::is_cyclegraph(GU));
+      }
+      else {
+        assert(GraphTraversal::is_connected(GU));
+        assert(GraphTraversal::is_cyclegraph(GU) == (n==2 and m==2));
+        if (n != m)
+          assert(not GU.regular());
+        else {
+          assert(GU.regular(n));
+          assert(GU.regular());
+        }
+      }
     }
   }
 
@@ -106,6 +125,14 @@ int main(const int argc, const char* const argv[]) {
      assert(ConflictGraphs::conflictgraph_bydef(F) == G);
      assert(ConflictGraphs::conflictgraph(F) == G);
    }
+  }
+
+  for (size_t n = 3; n <= 10; ++n) {
+    const auto G = cycle(n);
+    assert(G.n() == n);
+    assert(G.m() == n);
+    const Graphs::AdjVecUInt GU(G);
+    assert(GraphTraversal::is_cyclegraph(GU));
   }
 
 }

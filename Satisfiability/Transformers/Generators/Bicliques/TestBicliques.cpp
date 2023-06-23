@@ -14,12 +14,13 @@ License, or any later version. */
 #include "Bicliques.hpp"
 #include "Graphs.hpp"
 #include "Generators.hpp"
+#include "GraphTraversal.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "22.6.2023",
+        "0.3.4",
+        "23.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -221,6 +222,14 @@ int main(const int argc, const char* const argv[]) {
    for (idv_t n = 2; n <= 10; ++n) {
      const auto BG = bccomp_graph_bydef(graph_t(grid(n,1)));
      assert(BG == graph_t(grid(n-1,1)));
+   }
+  }
+  {using graph_t = Graphs::AdjVecUInt;
+   for (idv_t n = 3; n <= 10; ++n) {
+     const auto BG = bccomp_graph_bydef(graph_t(cycle(n)));
+     assert(BG.n() == n);
+     if (n <= 4) assert(is_complete(BG));
+     else assert(GraphTraversal::is_cyclegraph(BG));
    }
   }
   {using graph_t = Graphs::AdjVecUInt;

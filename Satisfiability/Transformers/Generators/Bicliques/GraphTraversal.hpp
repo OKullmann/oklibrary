@@ -27,7 +27,10 @@ License, or any later version. */
   - struct StatsCC : statistics
    - constructor from CCbyIndices
 
-  - cc_by_dfs(AdjVecUInt) -> CCbyIndices.
+  - cc_by_dfs(AdjVecUInt) -> CCbyIndices
+  - is_connected(AdjVecUInt) -> bool
+
+  - is_cyclegraph(AdjVecUInt) -> bool.
 
 */
 
@@ -179,6 +182,34 @@ namespace GraphTraversal {
     assert(valid(res));
     assert(res.canonical());
     return res;
+  }
+  bool is_connected(const GR::AdjVecUInt& G) noexcept {
+    assert(G.type() == GR::GT::und);
+    const size_t n = G.n(), m = G.m();
+    if (n <= 1) return true;
+    if (m < n-1) return false;
+    if (n <= 3) return true;
+    std::vector<bool> visited(n);
+    visited[0] = true;
+    using id_t = GR::AdjVecUInt::id_t;
+    std::stack<id_t> S;
+    for (const id_t v : G.neighbours(0)) S.push(v);
+    while (not S.empty()) {
+      const id_t v = S.top(); S.pop();
+      if (visited[v]) continue;
+      visited[v] = true;
+      for (const id_t w : G.neighbours(v)) if (not visited[w]) S.push(w);
+    }
+    if (std::ranges::find(visited, false) != visited.end()) return false;
+    return true;
+  }
+
+  bool is_cyclegraph(const GR::AdjVecUInt& G) noexcept {
+    assert(G.type() == GR::GT::und);
+    if (G.n() <= 2) return false;
+    if (G.n() != G.m()) return false;
+    if (not G.regular(2)) return false;
+    return is_connected(G);
   }
 
 }

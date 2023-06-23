@@ -106,11 +106,14 @@ License, or any later version. */
      - set(adjlist_t)
 
     - graph access:
+     - degree(id_t) -> id_t
+     - regular(id_t) -> bool
+       regular() -> bool
      - adjacent(id_t, id_t) -> bool
      - neighbours(id) -> const list_t&
      - graph() -> const adjlist_t&
      - alledges() -> vecedges_t
-     - all nonedges(bool withloops) -> vecedges_t
+     - allnonedges(bool withloops) -> vecedges_t
 
     - operators:
      - assignment assumes n and type from other is the same;
@@ -712,6 +715,14 @@ namespace Graphs {
     id_t degree(const id_t v) const noexcept {
       assert(v < n_);
       return A[v].size();
+    }
+    bool regular(const id_t d) const noexcept {
+      return std::all_of(A.begin(), A.end(),
+                         [d](const auto& v)noexcept{return v.size()==d;});
+    }
+    bool regular() const noexcept {
+      if (n_ <= 2) return true;
+      else return regular(degree(0));
     }
 
     bool adjacent(const id_t v, const id_t w) const noexcept {
