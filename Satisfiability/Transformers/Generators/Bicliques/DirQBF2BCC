@@ -23,7 +23,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.3"
+version="0.1.4"
 
 archive="$1"
 
@@ -62,9 +62,12 @@ echo "remove:" $[ ${time3} - ${time2} ] "s"
 
 for file in ${directory}/**/${filetype}; do
 
-  gunzip ${file}.qdimacs.gz
-  ${disprog} ${file}.qdimacs
-  rm ${file}.qdimacs
+  gunzip ${file}
+  base="$(dirname ${file})"
+  name="$(basename ${file} .gz)"
+  fullname="${base}/${name}"
+  ${disprog} ${fullname}
+  rm ${fullname}
 
 done
 
