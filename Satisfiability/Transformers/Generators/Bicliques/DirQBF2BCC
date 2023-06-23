@@ -23,7 +23,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.5"
+version="0.1.6"
 
 archive="$1"
 
@@ -66,7 +66,7 @@ for file in ${directory}/**/${filetype}; do
   base="$(dirname ${file})"
   name="$(basename ${file} .gz)"
   fullname="${base}/${name}"
-  ${disprog} ${fullname}
+  ${disprog} ${fullname} ""
   rm ${fullname}
 
 done
