@@ -10,7 +10,7 @@
 
 # USAGE:
 
-# ./DirQBF2BCC qdimacs.zip
+# DirQBF2BCC qdimacs.zip
 
 
 # TODOS:
@@ -23,7 +23,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.0"
+version="0.1.1"
 
 archive="$1"
 
@@ -44,7 +44,7 @@ fi
 
 
 time1="$(date +%s)"
-unzip -q -d QBF2BCC A.zip
+unzip -q -d QBF2BCC ${archive}
 time2="$(date +%s)"
 echo "unzip:" $[ ${time2} - ${time1} ] "s"
 
