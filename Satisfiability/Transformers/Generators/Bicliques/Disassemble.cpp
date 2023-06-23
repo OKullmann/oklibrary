@@ -26,6 +26,7 @@ License, or any later version. */
      clause and so on (recall that components are clause-disjoint).
 BUG#1: In Example_03.qcnf the component 17 is present in a and e which is not
        possible as these component should be disjoint.
+Solution: The component 17 is removed from the e part as its already exists in a.
 
 EXAMPLES:
 
@@ -89,7 +90,7 @@ p cnf 20 8
 a 4 2 17 13 9 15 0
 e 1 3 5 20 19 0
 a 6 7 8 0
-e 11 10 14 12 16 17 18 0
+e 11 10 14 12 16 18 0
 4 0                        # E0
 -3 -1 -20 19 4 6 0         # E0
 9 17 -11 10 0              # C1
