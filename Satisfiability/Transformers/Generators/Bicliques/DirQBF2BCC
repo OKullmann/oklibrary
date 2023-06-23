@@ -21,7 +21,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.0.4"
+version="0.0.5"
 
 archive="$1"
 
@@ -45,7 +45,7 @@ unzip -q -d QBF2BCC A.zip
 time2="$(date +%s)"
 echo "unzip:" $[ ${time2} - ${time1} ] "s"
 
-shopt -s globstar dotglob
+shopt -s globstar # not removing files starting with "."
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
   if ! [[ ${file} == ${filetype} ]]; then
