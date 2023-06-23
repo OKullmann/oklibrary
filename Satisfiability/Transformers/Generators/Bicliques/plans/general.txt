@@ -18,6 +18,8 @@ This is a bash-script, creating the directory QBF2BCC:
      - The archive qdimacs contains a .git-directory, which should also be
        removed.
      - See the problems in QBFLIB/LOG.
+       We need a filename-purifier.
+
      - Later run Disassemble in "global-only mode" (see below).
        Remove the directory produced if not containing proper benchmarks.
 
