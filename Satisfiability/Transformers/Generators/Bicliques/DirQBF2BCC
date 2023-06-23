@@ -17,11 +17,24 @@ set -o errexit
 set -o nounset
 
 program="DirQBF2BCC"
-version="0.0.1"
+errorm="ERROR[${program}]:"
+version="0.0.2"
 
 archive="$1"
 
-: ${directory:="QBF2BCC"
-: ${filetype:=".qdimacs"}
+: ${directory:="QBF2BCC"}
 
-# NEXT TODO testing for .zip and directory
+
+patterna="*.zip"
+if ! [[ $1 == $patterna ]]; then
+  echo $errorm "Argument \"$1\" not a .zip-file."
+  exit 1
+fi
+
+if [[ -e $directory ]]; then
+  echo $errorm "Directory \"${directory}\" already exists."
+  exit 1
+fi
+
+
+# NEXT TODO unzip
