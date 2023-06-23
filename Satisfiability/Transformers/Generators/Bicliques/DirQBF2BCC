@@ -18,7 +18,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.0.2"
+version="0.0.3"
 
 archive="$1"
 
@@ -37,4 +37,9 @@ if [[ -e $directory ]]; then
 fi
 
 
-# NEXT TODO unzip
+time1="$(date +%s)"
+unzip -q -d QBF2BCC A.zip
+time2="$(date +%s)"
+echo $[ ${time2} - ${time1} ] "s"
+
+# NEXT TODO: delete all other files
