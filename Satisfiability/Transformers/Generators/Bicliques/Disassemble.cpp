@@ -24,6 +24,8 @@ License, or any later version. */
    - For fixed n_c, lexicographical order is used (using the given order of
      clauses). So i=1 contains the component with the very first relevant
      clause and so on (recall that components are clause-disjoint).
+BUG#1: In Example_03.qcnf the component 17 is present in a and e which is not
+       possible as these component should be disjoint.
 
 EXAMPLES:
 
