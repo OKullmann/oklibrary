@@ -10,10 +10,12 @@
 
 # USAGE:
 
-# 
+# ./DirQBF2BCC qdimacs.zip
+
 
 # TODOS:
 # 1. Should we remove the nested directory in QBF2BCC ?
+# 2. Update the call of disprog to "global-only mode".
 
 
 set -o errexit
@@ -21,12 +23,13 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.0.5"
+version="0.1.0"
 
 archive="$1"
 
 : ${directory:="QBF2BCC"}
 : ${filetype:="*.qdimacs.gz"}
+: ${disprog:="~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"}
 
 patterna="*.zip"
 if ! [[ $1 == $patterna ]]; then
@@ -56,7 +59,13 @@ done
 time3="$(date +%s)"
 echo "remove:" $[ ${time3} - ${time2} ] "s"
 
-# NEXT TODO: process all remaining files
+for file in ${directory}/**/${filetype}; do
+
+  gunzip ${F}.qdimacs.gz
+  ${disprog} ${F}.qdimacs
+  rm ${F}.qdimacs
+
+done
 
 timefinal="$(date +%s)"
 echo "total:" $[ ${timefinal} - ${time3} ] "s"

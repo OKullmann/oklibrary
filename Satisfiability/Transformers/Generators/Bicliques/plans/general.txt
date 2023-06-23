@@ -11,10 +11,11 @@ This is a bash-script, creating the directory QBF2BCC:
  3. DONE Run "unzip -q -d QBF2BCC A.zip".
  4. DONE Delete all files in QBF2BCC not of the form *.qdimacs.gz.
  4. Run through all F.qdimacs.gz-files in QBF2BCC:
-     - Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
-     - Run Disassemble on F.qdimacs appropriately (details needed).
+     - DONE Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
+     - DONE First run Disassemble on F.qdimacs in old mode.
+     - DONE Remove F.qdimacs.
+     - Later run Disassemble in "global-only mode" (see below).
        Remove the directory produced if not containing proper benchmarks.
-     - Remove F.qdimacs.
 
 Documentation of DirQBF2BCC mentions the command
 wget https://www.qbflib.org/DOWNLOADS/qdimacs.zip .
