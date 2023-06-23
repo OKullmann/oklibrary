@@ -12,18 +12,21 @@
 
 # 
 
+# TODOS:
+# 1. Should we remove the nested directory in QBF2BCC ?
+
 
 set -o errexit
 set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.0.3"
+version="0.0.4"
 
 archive="$1"
 
 : ${directory:="QBF2BCC"}
-
+: ${filetype:="*.qdimacs.gz"}
 
 patterna="*.zip"
 if ! [[ $1 == $patterna ]]; then
@@ -40,6 +43,20 @@ fi
 time1="$(date +%s)"
 unzip -q -d QBF2BCC A.zip
 time2="$(date +%s)"
-echo $[ ${time2} - ${time1} ] "s"
+echo "unzip:" $[ ${time2} - ${time1} ] "s"
 
-# NEXT TODO: delete all other files
+shopt -s globstar dotglob
+for file in ${directory}/**/*; do
+  if ! [[ -f ${file} ]]; then continue; fi
+  if ! [[ ${file} == ${filetype} ]]; then
+    echo "rm ${file}"
+    rm ${file}
+  fi
+done
+time3="$(date +%s)"
+echo "remove:" $[ ${time3} - ${time2} ] "s"
+
+# NEXT TODO: process all remaining files
+
+timefinal="$(date +%s)"
+echo "total:" $[ ${timefinal} - ${time3} ] "s"
