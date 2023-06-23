@@ -27,14 +27,6 @@ License, or any later version. */
 
 BUGS
 
-1. Mistake in Example
-
-   In data/Example_03.qcnf the component 17 is present in a and e which is not
-   possible as these component should be disjoint.
-
-   Solution: The component 17 is removed from the e part as its already
-   exists in a.
-
 EXAMPLES:
 
 Bicliques> cat data/Example_00.qcnf
