@@ -151,7 +151,7 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "24.6.2023",
         __FILE__,
         "Oliver Kullmann",

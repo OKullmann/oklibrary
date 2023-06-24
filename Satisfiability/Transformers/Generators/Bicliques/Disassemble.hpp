@@ -80,14 +80,18 @@ namespace Disassemble {
                                           const std::string& es) {
     DimacsTools::GslicedCNF res;
     try { res = DimacsTools::read_strict_GslicedCNF(S); }
-    catch (std::invalid_argument& e) {
-      std::cerr << es << "Invalid-argument thrown when reading input:\n  "
+    catch (const std::invalid_argument& e) {
+      std::cerr << es << "Invalid-argument thrown when reading input:\n   "
                 << e.what() << "\n";
       std::exit(int(Error::syntax_error));
     }
-    catch (std::exception& e) {
-      std::cerr << es << "Exception thrown when reading input:\n  "
+    catch (const std::exception& e) {
+      std::cerr << es << "Standard-xception thrown when reading input:\n   "
                 << e.what() << "\n";
+      std::exit(int(Error::reading_error));
+    }
+    catch (...) {
+      std::cerr << es << "Exception thrown when reading input.\n";
       std::exit(int(Error::reading_error));
     }
     return res;
