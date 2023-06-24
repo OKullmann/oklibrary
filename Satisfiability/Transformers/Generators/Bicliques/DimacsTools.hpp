@@ -427,7 +427,7 @@ namespace DimacsTools {
 
   // Skipping lines which start with "c", after which must come a line
   // starting with "p cnf ":
-  dimacs_pars read_strict_dimacs_pars(std::istream& in) noexcept {
+  dimacs_pars read_strict_dimacs_pars(std::istream& in) {
     std::string line;
     do {
       std::getline(in, line); assert(in and not line.empty());
@@ -438,21 +438,21 @@ namespace DimacsTools {
     return {n,c};
   }
 
-  Lit read_strict_literal(std::istream& in) noexcept {
+  Lit read_strict_literal(std::istream& in) {
     std::string s;
     in >> s;
     assert(in); assert(not s.empty());
     if (s.starts_with('-')) return {std::stoull(s.substr(1)), -1};
     else return {std::stoull(s), +1};
   }
-  Clause read_strict_clause(std::istream& in) noexcept {
+  Clause read_strict_clause(std::istream& in) {
     assert(in);
     Clause res;
     for (Lit x; (x = read_strict_literal(in)).v != Var{0}; res.push_back(x));
     [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
     return res;
   }
-  DimacsClauseList read_strict_Dimacs(std::istream& in) noexcept {
+  DimacsClauseList read_strict_Dimacs(std::istream& in) {
     assert(in);
     DimacsClauseList res;
     res.first = read_strict_dimacs_pars(in); assert(in);
@@ -462,7 +462,7 @@ namespace DimacsTools {
     return res;
   }
 
-  Var read_strict_variable(std::istream& in) noexcept {
+  Var read_strict_variable(std::istream& in) {
     std::string s;
     in >> s;
     assert(in); assert(not s.empty()); assert(not s.starts_with('-'));
@@ -472,7 +472,7 @@ namespace DimacsTools {
   typedef std::vector<Var> varlist_t;
   VarSet var(const varlist_t& v) { return VarSet(v.begin(), v.end()); }
 
-  varlist_t read_strict_aline(std::istream& in) noexcept {
+  varlist_t read_strict_aline(std::istream& in) {
     assert(in);
     {std::string s; in >> s; assert(s == "a");}
     varlist_t res;
@@ -481,7 +481,7 @@ namespace DimacsTools {
     assert(in);
     return res;
   }
-  void skip_strict_eline(std::istream& in) noexcept {
+  void skip_strict_eline(std::istream& in) {
     assert(in);
     {std::string s; in >> s; assert(s == "e");}
     std::string dummy; std::getline(in, dummy, '\n');
