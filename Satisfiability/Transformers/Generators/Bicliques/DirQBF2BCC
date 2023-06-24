@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.8"
+version="0.3.0"
 
 archive="$1"
 
@@ -127,9 +127,11 @@ for file in ${directory}/**/${filetype}; do
 done
 echo
 time4="$(date +%s)"
-echo "processing:" $[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
+echo -n "process:"
+echo " "$[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
 echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 
+echo >> ${log_general}
 echo "total:" $[ ${time4} - ${time1} ] "s" | tee -a ${log_general}
