@@ -151,8 +151,8 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "20.3.2023",
+        "0.1.1",
+        "24.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -192,15 +192,18 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string filename = argv[1], dirname = argv[2];
+  const std::string show_params = "filename=\"" + filename + "\", dirname=\""
+    + dirname + "\"\n  ";
+  const std::string ferror = error + show_params;
   std::ifstream input(filename);
   if (not input) {
-    std::cerr << error << "Can not open input-file \"" << filename
+    std::cerr << ferror << "Can not open input-file \"" << filename
               << "\" for reading.\n";
     return int(Error::input_file_error);
   }
   const std::filesystem::path dir(extract_dir_path(filename, dirname));
   if (not std::filesystem::create_directory(dir)) {
-    std::cerr << error << "Can not create output-directory " << dir
+    std::cerr << ferror << "Can not create output-directory " << dir
               << ".\n";
     return int(Error::output_directory_error);
   }
@@ -211,7 +214,7 @@ int main(const int argc, const char* const argv[]) {
   {const std::filesystem::path E0path(E0(dir));
    std::ofstream E0file(E0path);
    if (not E0file) {
-     std::cerr << error << "Can not create output-file " << E0path
+     std::cerr << ferror << "Can not create output-file " << E0path
                << ".\n";
      return int(Error::output_E0_error);
    }
@@ -225,7 +228,7 @@ int main(const int argc, const char* const argv[]) {
        {const std::filesystem::path Epath(E(dir, dp, i));
         std::ofstream Efile(Epath);
         if (not Efile) {
-          std::cerr << error << "Can not create output-file " << Epath
+          std::cerr << ferror << "Can not create output-file " << Epath
                     << ".\n";
           return int(Error::output_E_error);
         }
@@ -234,7 +237,7 @@ int main(const int argc, const char* const argv[]) {
        {const std::filesystem::path Apath(A(dir, dp, i));
         std::ofstream Afile(Apath);
         if (not Afile) {
-          std::cerr << error << "Can not create output-file " << Apath
+          std::cerr << ferror << "Can not create output-file " << Apath
                     << ".\n";
           return int(Error::output_A_error);
         }
