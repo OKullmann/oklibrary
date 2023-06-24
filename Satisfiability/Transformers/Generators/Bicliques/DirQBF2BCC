@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.5"
+version="0.2.6"
 
 archive="$1"
 
@@ -63,17 +63,19 @@ echo $[ ${time2} - ${time1} ] "s" | tee -a ${log_general}
 echo -n "remove: " | tee -a ${log_general}
 echo "rm ${directory}/__MACOSX" > ${log_remove}
 rm -r ${directory}/__MACOSX
+
 cd ${directory}
 subdir="$(ls)"
 mv ${subdir}/* .
 cd ${subdir}
-echo "git:" >> ${log_general}
-git log >> ${log_general}
-echo >> ${log_general}
+echo "git:" >> ../../${log_general}
+git log | head -3 >> ../../${log_general}
+echo >> ../../${log_general}
 find -path './.*' -delete
 cd ..
 rmdir ${subdir}
 cd ..
+
 echo "removed level \"${subdir}\" and hidden content" >> ${log_remove}
 shopt -s globstar dotglob
 count_removed=0
