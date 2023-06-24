@@ -304,3 +304,31 @@ QBFLIB/qdimacs> git log
 commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf (HEAD -> master, origin/master)
 Author: Luca Pulina <lpulina@uniss.it>
 Date:   Wed Oct 27 16:25:12 2021 +0200
+
+---
+
+Logging:
+
+QBFLIB> cat LOG
+Sat 24 Jun 18:09:54 BST 2023
+DirQBF2BCC 0.2.7
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+unzip: 70 s
+git:
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
+
+remove: 1 s
+#removed: 220
+process "*.qdimacs.gz": 2483 s
+#qdimacs: 27927
+total: 2554 s
+
+real    42m34.635s
+user    31m43.012s
+sys     11m20.677s
