@@ -258,18 +258,40 @@ Amendola-Ricca-Truszczynski/wgrowing/
 
 24.6.2023
 
-First attempt at complete processing (with "full Disassemble") with repository-id
-00280afd473e1a50d3c8ebbfafe004e6a2a67907
+QBFLIB> time DirQBF2BCC qdimacs.zip
+unzip: 70 s
+remove: 1 s
+process "*.qdimacs.gz": ERROR[Disassemble]: filename="QBF2BCC/Narizzano/RobotsD2/robots_1_5_2_100.1.qdimacs", dirname=""
+  Invalid-argument thrown when reading input:
+   stoull
+
+real    26m15.823s
+user    20m34.117s
+sys     6m12.650s
+
+> head robots_1_5_2_100.1.qdimacs
+shows that this file is some kind of binary data.
+The other files of this kind seem fine.
+
+So it seems needed to filter out files which have no p-line at all, as a very first clean-up.
+As a quick check, filtering out files whose first character is not "c" or "p".
+
+Git id
+08954555587bbdbf808af071e7b8d5369c69c562
 
 QBFLIB> time DirQBF2BCC qdimacs.zip
-unzip: 69 s
+unzip: 70 s
 remove: 2 s
-process "*.qdimacs.gz": terminate called after throwing an instance of 'std::invalid_argument'
-  what():  stoull
-/home/oliver/bin/DirQBF2BCC: line 78: 43462 Aborted                 (core dumped) ${disprog} ${fullname} ""
+process "*.qdimacs.gz": 2560 s
+total: 2632 s
+real    43m51.538s
+user    31m39.743s
+sys     12m33.446s
 
-real    25m44.180s
-user    20m7.902s
-sys     5m45.953s
-
-So we also need to sanitise the qdimacs-files.
+/QBFLIB> du -hs *
+44M     dqbf-master
+5.8M    dqbf-master.tar.bz2
+12K     LOG_remove
+36G     QBF2BCC
+35G     qdimacs
+9.4G    qdimacs.zip
