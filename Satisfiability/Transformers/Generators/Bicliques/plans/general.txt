@@ -14,8 +14,8 @@ This is a bash-script, creating the directory QBF2BCC:
      - DONE Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
      - DONE First run Disassemble on F.qdimacs in old mode.
      - DONE Remove F.qdimacs.
-     - Remove "__MACOSX".
-     - The archive qdimacs contains a .git-directory, which should also be
+     - DONE Remove "__MACOSX".
+     - DONE The archive qdimacs contains a .git-directory, which should also be
        removed.
 
      - Write C++-program "DirSanitise":
@@ -626,6 +626,8 @@ TODOS:
 ---
 
 8. Disassemble.cpp
+
+0. There should be a verbose mode, printing out the director created.
 
 1. We need a "global-only" mode:
     - A new option "+-full" is needed.
