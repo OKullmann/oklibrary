@@ -24,7 +24,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.10"
+version="0.2.0"
 
 archive="$1"
 
@@ -88,6 +88,4 @@ done
 time4="$(date +%s)"
 echo $[ ${time4} - ${time3} ] "s"
 
-
-timefinal="$(date +%s)"
-echo "total:" $[ ${timefinal} - ${time4} ] "s"
+echo "total:" $[ ${time4} - ${time1} ] "s"
