@@ -24,9 +24,41 @@ This is a bash-script, creating the directory QBF2BCC:
       - ignoring everything "hidden" (starting with ".")
       - Compare
         https://stackoverflow.com/questions/44810685/how-to-sanitize-a-string-in-bash
+        This treatment seems too simple (producing clashes).
+      - We want identifiers only, that is, only digits, letters, and "_"
+        (where we can allow starting with a digit).
+        Easiest just to keep all allowed characters, and replace the other
+        characters by their ascii-codes (fixed 3-digit width).
+
+        Possibly if there are leading or trailing digits (from the original
+        string), then separate by underscore.
+        Perhaps too complicated.
+
+        One could also use a more "speaking" translation, using acronyms
+        for at least the most typical characters?
+        So well, the numbering is perhaps more systematic.
+
+        We do not treat "." special (so extensions are ignored, that is,
+        "." is translated into 046.
+
+        Or one uses hex-code? Then we had only two characters; that's better.
+
+        This translation is just a function string->string;
+        in ProgramOptions/Strings, named "string2identifier".
+
+        Should std::isalnum be used (so that the current locale gets
+        involved)? Better not -- we do not want such a dependency.
+
+        So our own isalnum(char c) just uses:
+         48 - 57 for digits
+         65 - 90 for uppercase letters
+         97 - 122 for lowercase letters.
+        The code of _ is 95.
+
+        The char needs first to be transformed into unsigned char.
       - This should be applied after removal (before processing).
 
-      - Disassemble currently does not properly handle paths.
+      - DONE Disassemble currently does not properly handle paths.
 
      - Write C++-program DimacsSyntaxAnalyse for analysing qdimacs-files
        We also need a qdimacs-sanitisation-program.
@@ -632,23 +664,35 @@ TODOS:
 
 8. Disassemble.cpp
 
-0. There should be a verbose mode, printing out the director created.
+0. There should be a verbose mode, printing out the directory created.
+    - Just the name, nothing else.
 
 1. We need a "global-only" mode:
     - A new option "+-full" is needed.
+      Or should one emphasise the concentration, for example
+      "-+global-only" ? (as "-+go")
     - Only the A_-files, without the "A_".
-    - Pure global variables are eliminated.
+    - Pure global variables are eliminated (different from now).
     - Only keeping components with > M variables (by default M=0).
     - If no file is created, then not creating the directory at all?
 
 2. Should we add a file ".stats" ?
     - With statistics on the number of components etc.?
     - Seems useful.
+    - Better .stats should be a directory, with files:
+     - ntcc : nontrivial connected components (the number of files in the
+       directory then is 2*ntcc+1)
+     - nbcc : non-biclique cc's (where the number of (given) variables is
+       at least 2 --- only these are interesting for solving)
+     - ms : map of sizes, that is, for each occurring size of a cc the
+       number of occurrences (per line)
+     - mv : for each occurring number of (given) variables of a cc the
+       number of occurrences (per line)
     - For the global-only-mode, is it possible to run simply through all files?
      - A simple command-line loop "for F in *; do echo $F; done" ignores
        .stats.
 
-3. We need, besides Disassemble.cpp, als Reassemble.cpp.
+3. We need, besides Disassemble.cpp, also Reassemble.cpp.
 
 ---
 
