@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.7"
+version="0.2.8"
 
 archive="$1"
 
@@ -42,6 +42,7 @@ echo "directory=\"${directory}\"" >> ${log_general}
 echo "filetyp=\"${filetype}\"" >> ${log_general}
 echo "disassembler=\"${disprog}\"" >> ${log_general}
 ls -l ${archive} >> ${log_general}
+echo >> ${log_general}
 
 patterna="*.zip"
 if ! [[ $1 == $patterna ]]; then
@@ -91,9 +92,13 @@ time3="$(date +%s)"
 echo $[ ${time3} - ${time2} ] "s"
 echo "remove:" $[ ${time3} - ${time2} ] "s" >> ${log_general}
 echo "#removed: ${count_removed}" | tee -a ${log_general}
+echo >> ${log_general}
 
-echo -n "process \"${filetype}\": " | tee -a ${log_general}
+echo -n "processing \"${filetype}\"" | tee -a ${log_general}
+echo
 count_qdimacs=0
+count_empty=0
+count_nd=0
 for file in ${directory}/**/${filetype}; do
 
   gunzip ${file}
@@ -103,12 +108,14 @@ for file in ${directory}/**/${filetype}; do
   if ! [ -s $fullname ]; then
     echo "empty: rm ${fullname}" >> ${log_remove}
     rm ${fullname}
+    ((++count_empty))
   else
     read -n1 char < $fullname
     patternfirst="cp"
     if ! [[ $patternfirst =~ $char ]]; then
       echo "not DIMACS: rm ${fullname}" >> ${log_remove}
       rm ${fullname}
+      ((++count_nd))
     else # only this part of the program is special for bcc-processing
       ${disprog} ${fullname} ""
       rm ${fullname}
@@ -120,7 +127,9 @@ for file in ${directory}/**/${filetype}; do
 done
 echo
 time4="$(date +%s)"
-echo $[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
+echo "processing:" $[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
 echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
+echo "#empty: ${count_empty}" | tee -a ${log_general}
+echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 
 echo "total:" $[ ${time4} - ${time1} ] "s" | tee -a ${log_general}
