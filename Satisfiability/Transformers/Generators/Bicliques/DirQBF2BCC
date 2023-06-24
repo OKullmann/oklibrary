@@ -15,7 +15,7 @@
 
 # TODOS:
 # 1. DONE Should we remove the nested directory in QBF2BCC ?
-     Yes, otherwise we have to handle this unknown name.
+#    Yes, otherwise we have to handle this unknown name.
 # 2. Update the call of disprog to "global-only mode".
 
 
