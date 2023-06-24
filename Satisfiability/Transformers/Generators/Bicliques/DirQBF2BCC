@@ -14,6 +14,7 @@
 
 
 # TODOS:
+# 0. DONE Delete all .-files/directories.
 # 1. DONE Should we remove the nested directory in QBF2BCC ?
 #    Yes, otherwise we have to handle this unknown name.
 # 2. Update the call of disprog to "global-only mode".
@@ -24,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.0"
+version="0.2.1"
 
 archive="$1"
 
@@ -63,7 +64,7 @@ cd ..
 rmdir ${subdir}
 cd ..
 echo "removed level \"${subdir}\" and hidden content" >> ${log_remove}
-shopt -s globstar # not removing files starting with "."
+shopt -s globstar dotglob
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
   if ! [[ ${file} == ${filetype} ]]; then
