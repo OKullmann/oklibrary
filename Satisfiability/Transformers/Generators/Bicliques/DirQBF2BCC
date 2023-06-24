@@ -14,7 +14,8 @@
 
 
 # TODOS:
-# 1. Should we remove the nested directory in QBF2BCC ?
+# 1. DONE Should we remove the nested directory in QBF2BCC ?
+     Yes, otherwise we have to handle this unknown name.
 # 2. Update the call of disprog to "global-only mode".
 
 
@@ -23,7 +24,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.8"
+version="0.1.9"
 
 archive="$1"
 
@@ -51,6 +52,16 @@ time2="$(date +%s)"
 echo $[ ${time2} - ${time1} ] "s"
 
 echo -n "remove: "
+echo "rm ${directory}/__MACOSX" > ${log_remove}
+rm ${directory}/__MACOSX
+cd ${directory}
+subdir="$(ls)"
+mv ${subdir}/* .
+rmdir ${subdir}
+cd ..
+echo "removed level \"${subdir}" >> ${log_remove}
+echo "rm ${directory}/.git" >> ${log_remove}
+rm ${directory}/.git
 shopt -s globstar # not removing files starting with "."
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
