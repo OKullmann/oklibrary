@@ -24,7 +24,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.9"
+version="0.1.10"
 
 archive="$1"
 
@@ -53,15 +53,16 @@ echo $[ ${time2} - ${time1} ] "s"
 
 echo -n "remove: "
 echo "rm ${directory}/__MACOSX" > ${log_remove}
-rm ${directory}/__MACOSX
+rm -r ${directory}/__MACOSX
 cd ${directory}
 subdir="$(ls)"
 mv ${subdir}/* .
+cd ${subdir}
+find -path './.*' -delete
+cd ..
 rmdir ${subdir}
 cd ..
-echo "removed level \"${subdir}" >> ${log_remove}
-echo "rm ${directory}/.git" >> ${log_remove}
-rm ${directory}/.git
+echo "removed level \"${subdir}\" and hidden content" >> ${log_remove}
 shopt -s globstar # not removing files starting with "."
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
