@@ -84,16 +84,15 @@ for file in ${directory}/**/${filetype}; do
   fullname="${base}/${name}"
   if ! [ -s $fullname ]; then
     echo "empty: rm ${fullname}" >> ${log_remove}
-    rm ${fullname}
   else
     read -n1 char < $fullname
     patternfirst="cp"
     if ! [[ $patternfirst =~ $char ]]; then
       echo "not DIMACS: rm ${fullname}" >> ${log_remove}
-      rm ${fullname}
     fi
+  else
+    ${disprog} ${fullname} ""
   fi
-  ${disprog} ${fullname} ""
   rm ${fullname}
 
 done
