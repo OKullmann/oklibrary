@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.6"
+version="0.2.7"
 
 archive="$1"
 
@@ -60,7 +60,7 @@ unzip -q -d QBF2BCC ${archive}
 time2="$(date +%s)"
 echo $[ ${time2} - ${time1} ] "s" | tee -a ${log_general}
 
-echo -n "remove: " | tee -a ${log_general}
+echo -n "remove: "
 echo "rm ${directory}/__MACOSX" > ${log_remove}
 rm -r ${directory}/__MACOSX
 
@@ -88,7 +88,8 @@ for file in ${directory}/**/*; do
   fi
 done
 time3="$(date +%s)"
-echo $[ ${time3} - ${time2} ] "s" | tee -a ${log_general}
+echo $[ ${time3} - ${time2} ] "s"
+echo "remove:" $[ ${time3} - ${time2} ] "s" >> ${log_general}
 echo "#removed: ${count_removed}" | tee -a ${log_general}
 
 echo -n "process \"${filetype}\": " | tee -a ${log_general}
@@ -111,7 +112,7 @@ for file in ${directory}/**/${filetype}; do
     else # only this part of the program is special for bcc-processing
       ${disprog} ${fullname} ""
       rm ${fullname}
-      (++count_qdimacs)
+      ((++count_qdimacs))
       printf "\r%d" ${count_qdimacs}
     fi
   fi
