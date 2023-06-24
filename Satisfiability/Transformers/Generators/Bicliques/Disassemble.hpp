@@ -27,8 +27,12 @@ namespace Disassemble {
 
   std::filesystem::path extract_dir_path(const std::string& filename,
                                          const std::string& dirname) {
-    if (dirname.empty())
-      return std::filesystem::path(filename).stem();
+    if (dirname.empty()) {
+      const std::filesystem::path p(filename);
+      std::filesystem::path res = p.parent_path();
+      res /= p.stem();
+      return res;
+    }
     else
       return dirname;
   }

@@ -151,7 +151,7 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "24.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -170,7 +170,7 @@ namespace {
     "> " << proginfo.prg
          << " filename dirname\n\n"
     " filename       : " << "the input-QCNF\n"
-    " dirname        : " << "the output-directory; default is the stripped input-name\n\n"
+    " dirname        : " << "the output-directory; default is the stem of the input-path\n\n"
     " reads a qcnf from filename, and computes its parts:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n\n"
 ;
