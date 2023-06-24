@@ -295,3 +295,12 @@ sys     12m33.446s
 36G     QBF2BCC
 35G     qdimacs
 9.4G    qdimacs.zip
+
+---
+
+The identification of QBFLIB:
+
+QBFLIB/qdimacs> git log
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf (HEAD -> master, origin/master)
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
