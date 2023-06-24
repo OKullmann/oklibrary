@@ -25,14 +25,23 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.4"
+version="0.2.5"
 
 archive="$1"
 
 : ${directory:="QBF2BCC"}
 : ${filetype:="*.qdimacs.gz"}
+: ${log_general:="LOG"}
 : ${log_remove:="LOG_remove"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
+
+date > ${log_general}
+echo "${program} ${version}" >> ${log_general}
+echo "archive=\"${archive}\"" >> ${log_general}
+echo "directory=\"${directory}\"" >> ${log_general}
+echo "filetyp=\"${filetype}\"" >> ${log_general}
+echo "disassembler=\"${disprog}\"" >> ${log_general}
+ls -l ${archive} >> ${log_general}
 
 patterna="*.zip"
 if ! [[ $1 == $patterna ]]; then
@@ -45,37 +54,43 @@ if [[ -e $directory ]]; then
   exit 1
 fi
 
-
-echo -n "unzip: "
+echo -n "unzip: " | tee -a ${log_general}
 time1="$(date +%s)"
 unzip -q -d QBF2BCC ${archive}
 time2="$(date +%s)"
-echo $[ ${time2} - ${time1} ] "s"
+echo $[ ${time2} - ${time1} ] "s" | tee -a ${log_general}
 
-echo -n "remove: "
+echo -n "remove: " | tee -a ${log_general}
 echo "rm ${directory}/__MACOSX" > ${log_remove}
 rm -r ${directory}/__MACOSX
 cd ${directory}
 subdir="$(ls)"
 mv ${subdir}/* .
 cd ${subdir}
+echo "git:" >> ${log_general}
+git log >> ${log_general}
+echo >> ${log_general}
 find -path './.*' -delete
 cd ..
 rmdir ${subdir}
 cd ..
 echo "removed level \"${subdir}\" and hidden content" >> ${log_remove}
 shopt -s globstar dotglob
+count_removed=0
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
   if ! [[ ${file} == ${filetype} ]]; then
     echo "rm ${file}" >> ${log_remove}
     rm ${file}
+    ((++count_removed))
   fi
 done
 time3="$(date +%s)"
-echo $[ ${time3} - ${time2} ] "s"
+echo $[ ${time3} - ${time2} ] "s" | tee -a ${log_general}
+echo "#removed: ${count_removed}" | tee -a ${log_general}
 
-echo -n "process \"${filetype}\": "
+echo -n "process \"${filetype}\": " | tee -a ${log_general}
+count_qdimacs=0
 for file in ${directory}/**/${filetype}; do
 
   gunzip ${file}
@@ -94,11 +109,15 @@ for file in ${directory}/**/${filetype}; do
     else # only this part of the program is special for bcc-processing
       ${disprog} ${fullname} ""
       rm ${fullname}
+      (++count_qdimacs)
+      printf "\r%d" ${count_qdimacs}
     fi
   fi
 
 done
+echo
 time4="$(date +%s)"
-echo $[ ${time4} - ${time3} ] "s"
+echo $[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
+echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 
-echo "total:" $[ ${time4} - ${time1} ] "s"
+echo "total:" $[ ${time4} - ${time1} ] "s" | tee -a ${log_general}
