@@ -23,7 +23,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.7"
+version="0.1.8"
 
 archive="$1"
 
@@ -44,11 +44,13 @@ if [[ -e $directory ]]; then
 fi
 
 
+echo -n "unzip: "
 time1="$(date +%s)"
 unzip -q -d QBF2BCC ${archive}
 time2="$(date +%s)"
-echo "unzip:" $[ ${time2} - ${time1} ] "s"
+echo $[ ${time2} - ${time1} ] "s"
 
+echo -n "remove: "
 shopt -s globstar # not removing files starting with "."
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
@@ -58,8 +60,9 @@ for file in ${directory}/**/*; do
   fi
 done
 time3="$(date +%s)"
-echo "remove:" $[ ${time3} - ${time2} ] "s"
+echo $[ ${time3} - ${time2} ] "s"
 
+echo -n "process \"${filetype}\": "
 for file in ${directory}/**/${filetype}; do
 
   gunzip ${file}
@@ -70,6 +73,9 @@ for file in ${directory}/**/${filetype}; do
   rm ${fullname}
 
 done
+time4="$(date +%s)"
+echo $[ ${time4} - ${time3} ] "s"
+
 
 timefinal="$(date +%s)"
-echo "total:" $[ ${timefinal} - ${time3} ] "s"
+echo "total:" $[ ${timefinal} - ${time4} ] "s"
