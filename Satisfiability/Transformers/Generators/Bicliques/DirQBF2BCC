@@ -23,13 +23,13 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.1.6"
+version="0.1.7"
 
 archive="$1"
 
 : ${directory:="QBF2BCC"}
 : ${filetype:="*.qdimacs.gz"}
-: ${logfile:="LOG"}
+: ${log_remove:="LOG_remove"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 
 patterna="*.zip"
@@ -53,7 +53,7 @@ shopt -s globstar # not removing files starting with "."
 for file in ${directory}/**/*; do
   if ! [[ -f ${file} ]]; then continue; fi
   if ! [[ ${file} == ${filetype} ]]; then
-    echo "rm ${file}" >> ${logfile}
+    echo "rm ${file}" >> ${log_remove}
     rm ${file}
   fi
 done
