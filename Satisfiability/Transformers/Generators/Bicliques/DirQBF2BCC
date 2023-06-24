@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.2.3"
+version="0.2.4"
 
 archive="$1"
 
@@ -91,10 +91,10 @@ for file in ${directory}/**/${filetype}; do
     if ! [[ $patternfirst =~ $char ]]; then
       echo "not DIMACS: rm ${fullname}" >> ${log_remove}
       rm ${fullname}
+    else # only this part of the program is special for bcc-processing
+      ${disprog} ${fullname} ""
+      rm ${fullname}
     fi
-  else # only this part of the program is special for bcc-processing
-    ${disprog} ${fullname} ""
-    rm ${fullname}
   fi
 
 done
