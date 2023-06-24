@@ -151,7 +151,7 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "24.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -208,7 +208,7 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::output_directory_error);
   }
 
-  const auto F = DimacsTools::read_strict_GslicedCNF(input);
+  const auto F = read_GslicedCNF(input, ferror);
   const GlobRepl GR(F);
 
   {const std::filesystem::path E0path(E0(dir));

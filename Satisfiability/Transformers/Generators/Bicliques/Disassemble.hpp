@@ -16,8 +16,16 @@ License, or any later version. */
 
 #include <filesystem>
 #include <sstream>
+#include <fstream>
+#include <string>
+#include <exception>
+#include <stdexcept>
+#include <iostream>
+
+#include <cstdlib>
 
 #include "Bicliques2SAT.hpp"
+#include "DimacsTools.hpp"
 
 namespace Disassemble {
 
@@ -59,11 +67,31 @@ namespace Disassemble {
   enum class Error {
     missing_parameters = 1,
     input_file_error = 2,
-    output_directory_error = 3,
-    output_E0_error = 4,
-    output_E_error = 5,
-    output_A_error = 6
+    syntax_error = 3,
+    reading_error = 4,
+    output_directory_error = 5,
+    output_E0_error = 6,
+    output_E_error = 7,
+    output_A_error = 8
   };
+
+
+  DimacsTools::GslicedCNF read_GslicedCNF(std::ifstream& S,
+                                          const std::string& es) {
+    DimacsTools::GslicedCNF res;
+    try { res = DimacsTools::read_strict_GslicedCNF(S); }
+    catch (std::invalid_argument& e) {
+      std::cerr << es << "Invalid-argument thrown when reading input:\n  "
+                << e.what() << "\n";
+      std::exit(int(Error::syntax_error));
+    }
+    catch (std::exception& e) {
+      std::cerr << es << "Exception thrown when reading input:\n  "
+                << e.what() << "\n";
+      std::exit(int(Error::reading_error));
+    }
+    return res;
+  }
 
 }
 
