@@ -17,8 +17,16 @@ This is a bash-script, creating the directory QBF2BCC:
      - Remove "__MACOSX".
      - The archive qdimacs contains a .git-directory, which should also be
        removed.
+
+     - Write C++-program "DirSanitise":
+      - removing symbolic links
+      - sanitising all filenames (including directory-names)
+      - Compare
+        https://stackoverflow.com/questions/44810685/how-to-sanitize-a-string-in-bash
+
+      - Disassemble currently does not properly handle paths.
+
      - See the problems in QBFLIB/LOG.
-       We need a filename-purifier.
 
      - Later run Disassemble in "global-only mode" (see below).
        Remove the directory produced if not containing proper benchmarks.
