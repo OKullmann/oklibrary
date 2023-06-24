@@ -254,3 +254,22 @@ ERROR[Disassemble]: Can not create output-directory "ctrl.e#1.a#3.E#128.A#48.c#.
 Seems we have bad filenames which first need correction.
 These files are all in subdirectory
 Amendola-Ricca-Truszczynski/wgrowing/
+
+
+24.6.2023
+
+First attempt at complete processing (with "full Disassemble") with repository-id
+00280afd473e1a50d3c8ebbfafe004e6a2a67907
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+unzip: 69 s
+remove: 2 s
+process "*.qdimacs.gz": terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoull
+/home/oliver/bin/DirQBF2BCC: line 78: 43462 Aborted                 (core dumped) ${disprog} ${fullname} ""
+
+real    25m44.180s
+user    20m7.902s
+sys     5m45.953s
+
+So we also need to sanitise the qdimacs-files.
