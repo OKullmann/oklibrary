@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.3.4"
+version="0.3.5"
 
 archive="$1"
 
@@ -101,6 +101,7 @@ count_qdimacs=0
 count_empty=0
 count_nd=0
 count_rename=0
+count_withglobal=0
 rm -f ${log_rename}
 
 for file in ${directory}/**/${filetype}; do
@@ -129,6 +130,10 @@ for file in ${directory}/**/${filetype}; do
         echo "${fullname} -> ${newname}" >> ${log_rename}
         ((++count_rename))
       fi
+      ntcc="$(cat ${newname}/.stats/ntcc)"
+      if [ ${ntcc} -ne 0 ]; then
+        ((++count_withglobal))
+      fi
       # this again is general:
       rm ${fullname}
       ((++count_qdimacs))
@@ -145,6 +150,7 @@ echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 echo "#rename: ${count_rename}" | tee -a ${log_general}
+echo "#with-global: ${count_withglobal}" | tee -a ${log_general}
 
 echo >> ${log_general}
 echo "total:" $[ ${time4} - ${time1} ] "s" | tee -a ${log_general}
