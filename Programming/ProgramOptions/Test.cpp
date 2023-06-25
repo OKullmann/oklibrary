@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.19",
+        "0.2.20",
         "25.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -482,10 +482,13 @@ int main(const int argc, const char* const argv[]) {
    assert(isalnum('Z'));
    assert(not isalnum(' '));
    assert(not isalnum('_'));
-   assert(isialnum('_'));
    assert(char2hex(' ') == "20");
    assert(char2hex('<') == "3C");
-   assert(str2ident("") == "");
-   assert(str2ident(" ab#~*XY78+") == "20ab237E2AXY782B");
+   assert(iscorechar('_'));
+   assert(iscorechar('-'));
+   assert(corechar2str('.') == "2E");
+   assert(iscorename("08_-Ax"));
+   assert(str2corename("") == "");
+   assert(str2corename(" ab#~*X-Y78+") == "20ab237E2AX-Y782B");
   }
 }

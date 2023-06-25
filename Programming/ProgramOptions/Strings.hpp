@@ -51,12 +51,14 @@ License, or any later version. */
 
     Sanitising strings:
     - isalnum(char) -> bool (not using locale)
-    - isialnum(char) -> bool (includes underscore; "i" like "identifier")
     - char2hex(char) -> string
-    - ialnum2string(char) -> string (if isialnum(char), then return char,
+
+    - iscorechar(char) -> bool (includes underscore and hyphen))
+    - corechar2str(char) -> string (if iscorechar(char), then return char,
         otherwise return char2hex(char))
-    - str2ident(string) -> string (translates an arbitrary string into one
-        containing only letters, digits, and underscores)
+    - iscorename(string) -> bool (true iff all characters are core)
+    - str2corename(string) -> string (translates an arbitrary string into one
+        containing only letters, digits, underscores and hyphens)
 
     File access:
     - get_content(std::istream), get_content(std:filesystem::path)
@@ -344,21 +346,27 @@ namespace Environment {
     return (48 <= u and u <= 57) or (65 <= u and u <= 90) or
       (97 <= u and u <= 122);
   }
-  constexpr bool isialnum(const char c) noexcept {
-    return isalnum(c) or c == '_';
-  }
   std::string char2hex(const char c) noexcept {
     std::ostringstream s;
     s << std::uppercase << std::hex << +c;
     return s.str();
   }
-  std::string ialnum2string(const char c) noexcept {
-    if (isialnum(c)) return {c};
+
+  // A "core character" is alpha-numeric or '_' or '-':
+  constexpr bool iscorechar(const char c) noexcept {
+    return isalnum(c) or c == '_' or c == '-';
+  }
+  std::string corechar2str(const char c) noexcept {
+    if (iscorechar(c)) return {c};
     else return char2hex(c);
   }
-  std::string str2ident(const std::string& s) {
+
+  bool iscorename(const std::string& s) {
+    return std::ranges::all_of(s, iscorechar);
+  }
+  std::string str2corename(const std::string& s) {
     std::string res;
-    for (const char c : s) res += ialnum2string(c);
+    for (const char c : s) res += corechar2str(c);
     return res;
   }
 
