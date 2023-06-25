@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.3.1"
+version="0.3.2"
 
 archive="$1"
 
@@ -121,7 +121,9 @@ for file in ${directory}/**/${filetype}; do
     else # only this part of the program is special for bcc-processing
       newname="$(${disprog} ${fullname} ++)"
       rm ${fullname}
-      if ! [ ${fullname} = ${newname} ]; then
+      redname="${name%.*}"
+      fullredname="${base}/${redname}"
+      if ! [ ${fullredname} = ${newname} ]; then
         echo "${fullname} -> ${newname}" >> ${log_rename}
         ((++count_rename))
       fi
