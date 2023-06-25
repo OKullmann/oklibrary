@@ -342,15 +342,15 @@ sys     11m14.217s
 
 Now with sanitising the filenames (which become directory-names):
 
-Sun 25 Jun 08:12:04 BST 2023
-DirQBF2BCC 0.3.2
+Sun 25 Jun 14:27:19 BST 2023
+DirQBF2BCC 0.3.5
 archive="qdimacs.zip"
 directory="QBF2BCC"
 filetyp="*.qdimacs.gz"
 disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
 -rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
 
-unzip: 69 s
+unzip: 70 s
 git:
 commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
 Author: Luca Pulina <lpulina@uniss.it>
@@ -359,23 +359,24 @@ Date:   Wed Oct 27 16:25:12 2021 +0200
 remove: 2 s
 #removed: 220
 
-processing "*.qdimacs.gz" 2450 s
+processing "*.qdimacs.gz" 2568 s
 #qdimacs: 27927
 #empty: 0
 #not-DIMACS: 1
 #rename: 14681
+#with-global: 14298
 
-total: 2521 s
+total: 2640 s
 
-real    42m0.815s
-user    31m0.558s
-sys     11m40.489s
+real    43m59.827s
+user    32m14.583s
+sys     12m13.134s
 
 QBFLIB> ls -l
 total 9808424
          54 dqbf-master
     6060316 dqbf-master.tar.bz2
-        549 LOG
+        569 LOG
       10822 LOG_remove
     2118433 LOG_rename
        1100 QBF2BCC
@@ -391,3 +392,9 @@ QBFLIB> du -hs *
 36G     QBF2BCC
 35G     qdimacs
 9.4G    qdimacs.zip
+
+
+The number 14298 for "with-global" (more precisely, "with-global-non-pure")
+is higher than what DirQCNFcount above obtained (14379), and thus
+there are instances with pure global variables (this needs to be
+checked).
