@@ -10,13 +10,15 @@ This is a bash-script, creating the directory QBF2BCC:
  2. DONE If QBF2BCC exists, then exit with error.
  3. DONE Run "unzip -q -d QBF2BCC A.zip".
  4. DONE Delete all files in QBF2BCC not of the form *.qdimacs.gz.
- 4. Run through all F.qdimacs.gz-files in QBF2BCC:
-     - DONE Run "gunzip --force F.qdimacs.gz", replacing F.qdimacs.gz.
-     - DONE First run Disassemble on F.qdimacs in old mode.
-     - DONE Remove F.qdimacs.
-     - DONE Remove "__MACOSX".
-     - DONE The archive qdimacs contains a .git-directory, which should also be
-       removed.
+ 5. Collected statistiscs on runtime and memory-usage of Disassemble:
+     - max-memory observed is 71.2% (server), with time ~ 6 min
+       (instance 23001)
+     - An application is needed, where one can stream-in vectors of numbers
+       (fixed dimension), and at the end it computes our standard-statistics.
+ 6. Run through all F.qdimacs.gz-files in QBF2BCC:
+     - First we collect statistics on the "full" disassembly, but then possibly
+       a pre-screening would be useful, for files with no global variables
+       at all?
 
      - Write C++-program "DirSanitise":
       - removing symbolic links
@@ -25,8 +27,6 @@ This is a bash-script, creating the directory QBF2BCC:
       - Uses Environment::str2corename to rename the directory-names.
       - Logging the changed names (per directory).
       - This should be applied after removal (before processing).
-
-      - DONE Disassemble currently does not properly handle paths.
 
      - Write C++-program DimacsSyntaxAnalyse for analysing qdimacs-files
        We also need a qdimacs-sanitisation-program.

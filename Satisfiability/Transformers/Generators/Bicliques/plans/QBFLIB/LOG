@@ -371,6 +371,17 @@ real    42m0.815s
 user    31m0.558s
 sys     11m40.489s
 
+QBFLIB> ls -l
+total 9808424
+         54 dqbf-master
+    6060316 dqbf-master.tar.bz2
+        549 LOG
+      10822 LOG_remove
+    2118433 LOG_rename
+       1100 QBF2BCC
+       1144 qdimacs
+10035622919 dimacs.zip
+
 QBFLIB> du -hs *
 44M     dqbf-master
 5.8M    dqbf-master.tar.bz2
