@@ -40,13 +40,19 @@ e 1 2 4 6 0
 -5 -6 0         # C1
 7 2 4 6 0       # C2
 -7 -2 -4 -6 0   # C2
-Bicliques> ./Disassemble_debug data/Example_00.qcnf ""
-Bicliques> ls -l data/Example_00
+Bicliques> ./Disassemble_debug data/Example_00.qcnf "+"
+data/Example_00
+BBicliques> ls -la data/Example_00
 19 A_1_2_1
 26 A_2_3_1
 18 E0
 29 E_1_2_1
 28 E_2_3_1
+4096 .stats
+
+We have 2 nontrivial components (and thus 2*2+1=5 cnf-files):
+> cat data/Example_00/.stats/ntcc
+2
 
 The trivial components:
 Bicliques> cat Example_00/E0
@@ -103,12 +109,15 @@ e 11 10 14 12 16 18 0
 -17 13 7 0                 # C1
 -13 -11 5 3 1 6 7 0        # C1
 Bicliques> ./Disassemble_debug data/Example_03.qcnf DIR
-Bicliques> ls -l DIR/
+Bicliques> ls -la DIR/
 28 A_3_3_1
 31 A_3_3_2
 30 E0
 40 E_3_3_1
 23 E_3_3_2
+4096 .stats
+> cat DIR/.stats/ntcc
+2
 
 E0:
 p cnf 20 2
@@ -116,12 +125,12 @@ p cnf 20 2
 -1 -3 6 19 -20 0
 
 C1:
-> cat A_3_3_1 
+> cat A_3_3_1
 p cnf 3 3
 1 3 0
 2 -3 0
 -2 0
-> cat E_3_3_1 
+> cat E_3_3_1
 p cnf 20 3
 10 -11 0
 7 0
@@ -139,6 +148,19 @@ p cnf 20 3
 20 0
 0
 
+
+An example without global variables:
+Bicliques> cat data/Example_04.qcnf
+p cnf 4 2
+e 1 3 0
+a 2 4 0
+-1 -2 0
+3 4 0
+> ./Disassemble_debug data/Example_04.qcnf DIR
+> cat DIR/.stats/ntcc
+0
+
+
 */
 
 #include <iostream>
@@ -155,7 +177,7 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "25.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -214,6 +236,12 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::output_directory_error);
   }
   if (with_output) std::cout << dir.string() << std::endl;
+  const std::filesystem::path statsdir = statsdir_path(dir);
+  if (not std::filesystem::create_directory(statsdir)) {
+    std::cerr << ferror << "Can not create statistics-directory " << statsdir
+              << ".\n";
+    return int(Error::output_directory_error);
+  }
 
   const auto F = read_GslicedCNF(input, ferror);
   const GlobRepl GR(F);
@@ -228,6 +256,7 @@ int main(const int argc, const char* const argv[]) {
    GR.E0(E0file);
   }
 
+  write_item(GR.numntcc, "ntcc", statsdir, ferror);
   {const auto begin = GR.ntcc_map.begin(), end = GR.ntcc_map.end();
    for (auto it = begin; it != end; ++it) {
      const auto& [dp, list] = *it;

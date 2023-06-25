@@ -47,9 +47,14 @@ namespace Disassemble {
     const std::filesystem::path p(filename);
     std::filesystem::path res = p.parent_path();
     if (dirname == "+") res /= p.stem();
-    else res /=
-      std::filesystem::path(Environment::str2corename(p.stem().string()));
+    else res /= Environment::str2corename(p.stem().string());
     return {res, with_output};
+  }
+  const std::string statsdirname = ".stats";
+  std::filesystem::path statsdir_path(const std::filesystem::path& dir) {
+    std::filesystem::path res(dir);
+    res /= statsdirname;
+    return res;
   }
 
   std::filesystem::path E0(const std::filesystem::path& dir) {
@@ -79,7 +84,8 @@ namespace Disassemble {
     output_directory_error = 5,
     output_E0_error = 6,
     output_E_error = 7,
-    output_A_error = 8
+    output_A_error = 8,
+    output_stats_error = 9
   };
 
 
@@ -102,6 +108,24 @@ namespace Disassemble {
       std::exit(int(Error::reading_error));
     }
     return res;
+  }
+
+  template <class X>
+  void write_item(const X& x,
+                  const std::string& filename,
+                  const std::filesystem::path& dir,
+                  const std::string& es) {
+    const auto path = dir / filename;
+    std::ofstream file(path);
+    if (not file) {
+      std::cerr << es << "Can not create statistics-file " << path << ".\n";
+      std::exit(int(Error::output_stats_error));
+    }
+    file << x << "\n";
+    if (not file) {
+      std::cerr << es << "Can not write to statistics-file " << path << ".\n";
+      std::exit(int(Error::output_stats_error));
+    }
   }
 
 }

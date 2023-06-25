@@ -649,7 +649,8 @@ TODOS:
     - With statistics on the number of components etc.?
     - Seems useful.
     - Better .stats should be a directory, with files:
-     - ntcc : nontrivial connected components (the number of files in the
+     - DONE
+       ntcc : nontrivial connected components (the number of files in the
        directory then is 2*ntcc+1)
      - nbcc : non-biclique cc's (where the number of (given) variables is
        at least 2 --- only these are interesting for solving)
