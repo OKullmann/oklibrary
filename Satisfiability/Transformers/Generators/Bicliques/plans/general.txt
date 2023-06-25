@@ -25,7 +25,8 @@ This is a bash-script, creating the directory QBF2BCC:
       - Compare
         https://stackoverflow.com/questions/44810685/how-to-sanitize-a-string-in-bash
         This treatment seems too simple (producing clashes).
-      - We want identifiers only, that is, only digits, letters, and "_"
+      - DONE (available as Environment::str2ident in Strings.hpp)
+        We want identifiers only, that is, only digits, letters, and "_"
         (where we can allow starting with a digit).
         Easiest just to keep all allowed characters, and replace the other
         characters by their ascii-codes (fixed 3-digit width).

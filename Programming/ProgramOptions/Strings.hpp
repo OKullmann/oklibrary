@@ -16,6 +16,7 @@ License, or any later version. */
     Filename handling:
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
+    - see str2ident(filename) below
 
     General string facilities:
     - replace(string, char, char), remove(string, char)
@@ -26,7 +27,7 @@ License, or any later version. */
     - typedef tokens_t = vector<string>
       out_tokens(std::ostream, tokens_t) : with quotes, separated by spaces
 
-      Exact splitting (splitting-symbols are just (single) characters):
+    Exact splitting (splitting-symbols are just (single) characters):
     - split(string, char), split(istream, char),
       split(istream, char, char& final_character),
       split_cutoff(istream, char, char cutoff-character)
@@ -39,7 +40,7 @@ License, or any later version. */
       (removing all content from lines from cut-off-characters on)
 
     Handling of spaces:
-    - isspace(char)
+    - isspace(char) (using locale)
     - onlyspaces(string), starts_with_space(string), ends_with_space(string)
     - remove_spaces (modifying or not),
       remove_trailing_spaces, remove_leading_spaces,
@@ -47,6 +48,15 @@ License, or any later version. */
     - transform_spaces(string, char), transform_spaces(string&, char)
       replaces whitespace-characters, contracting adjacent ones and
       eliminating leading and trailing ones
+
+    Sanitising strings:
+    - isalnum(char) -> bool (not using locale)
+    - isialnum(char) -> bool (includes underscore; "i" like "identifier")
+    - char2hex(char) -> string
+    - ialnum2string(char) -> string (if isialnum(char), then return char,
+        otherwise return char2hex(char))
+    - str2ident(string) -> string (translates an arbitrary string into one
+        containing only letters, digits, and underscores)
 
     File access:
     - get_content(std::istream), get_content(std:filesystem::path)
@@ -209,6 +219,7 @@ namespace Environment {
     return res;
   }
 
+  // Using the current locale:
   inline bool isspace(const char c) noexcept {
     const std::locale loc;
     return std::isspace(c,loc);
@@ -323,6 +334,31 @@ namespace Environment {
       if (pos == std::string::npos) break;
       res.append(1, '\n'); i = pos+2;
     }
+    return res;
+  }
+
+
+  // Not using the current locale:
+  constexpr bool isalnum(const char c) noexcept {
+    const unsigned char u(c);
+    return (48 <= u and u <= 57) or (65 <= u and u <= 90) or
+      (97 <= u and u <= 122);
+  }
+  constexpr bool isialnum(const char c) noexcept {
+    return isalnum(c) or c == '_';
+  }
+  std::string char2hex(const char c) noexcept {
+    std::ostringstream s;
+    s << std::uppercase << std::hex << +c;
+    return s.str();
+  }
+  std::string ialnum2string(const char c) noexcept {
+    if (isialnum(c)) return {c};
+    else return char2hex(c);
+  }
+  std::string str2ident(const std::string& s) {
+    std::string res;
+    for (const char c : s) res += ialnum2string(c);
     return res;
   }
 
