@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.3.2"
+version="0.3.3"
 
 archive="$1"
 
@@ -118,15 +118,17 @@ for file in ${directory}/**/${filetype}; do
       echo "not DIMACS: rm ${fullname}" >> ${log_remove}
       rm ${fullname}
       ((++count_nd))
-    else # only this part of the program is special for bcc-processing
+    else
+      # only this part of the program is special for bcc-processing:
       newname="$(${disprog} ${fullname} ++)"
-      rm ${fullname}
       redname="${name%.*}"
       fullredname="${base}/${redname}"
       if ! [ ${fullredname} = ${newname} ]; then
         echo "${fullname} -> ${newname}" >> ${log_rename}
         ((++count_rename))
       fi
+      # this again is general:
+      rm ${fullname}
       ((++count_qdimacs))
       printf "\r%d" ${count_qdimacs}
     fi
