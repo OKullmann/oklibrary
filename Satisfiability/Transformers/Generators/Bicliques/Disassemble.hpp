@@ -21,8 +21,11 @@ License, or any later version. */
 #include <exception>
 #include <stdexcept>
 #include <iostream>
+#include <utility>
 
 #include <cstdlib>
+
+#include <ProgramOptions/Strings.hpp>
 
 #include "Bicliques2SAT.hpp"
 #include "DimacsTools.hpp"
@@ -33,16 +36,20 @@ namespace Disassemble {
   typedef Bicliques2SAT::GlobRepl::dimacs_pars dimacs_pars;
 
 
-  std::filesystem::path extract_dir_path(const std::string& filename,
-                                         const std::string& dirname) {
-    if (dirname.empty()) {
-      const std::filesystem::path p(filename);
-      std::filesystem::path res = p.parent_path();
-      res /= p.stem();
-      return res;
-    }
-    else
-      return dirname;
+  bool special_dirname(const std::string& dirname) noexcept {
+    return dirname.empty() or dirname == "+" or dirname == "++";
+  }
+  std::pair<std::filesystem::path, bool>
+  extract_dir_path(const std::string& filename,
+                   const std::string& dirname) {
+    if (not special_dirname(dirname)) return {dirname, false};
+    const bool with_output = not dirname.empty();
+    const std::filesystem::path p(filename);
+    std::filesystem::path res = p.parent_path();
+    if (dirname == "+") res /= p.stem();
+    else res /=
+      std::filesystem::path(Environment::str2corename(p.stem().string()));
+    return {res, with_output};
   }
 
   std::filesystem::path E0(const std::filesystem::path& dir) {

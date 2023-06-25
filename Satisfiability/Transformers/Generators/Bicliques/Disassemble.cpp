@@ -41,7 +41,7 @@ e 1 2 4 6 0
 7 2 4 6 0       # C2
 -7 -2 -4 -6 0   # C2
 Bicliques> ./Disassemble_debug data/Example_00.qcnf ""
-Bicliques> ls -l Example_00/
+Bicliques> ls -l data/Example_00
 19 A_1_2_1
 26 A_2_3_1
 18 E0
@@ -74,6 +74,10 @@ p cnf 6 3
 2 -4 0
 1 6 0
 -6 0
+
+Remarks: With second argumet "+" the created directory is shown,
+and with "++" its name is sanitised (then only containing alpha-numerical
+characters, underscores and hyphens).
 
 
 The meaning of the parameters X_Y_Z in A_-files:
@@ -151,8 +155,8 @@ p cnf 20 3
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "24.6.2023",
+        "0.2.0",
+        "25.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -170,9 +174,11 @@ namespace {
     "> " << proginfo.prg
          << " filename dirname\n\n"
     " filename       : " << "the input-QCNF\n"
-    " dirname        : " << "the output-directory; default is the stem of the input-path\n\n"
-    " reads a qcnf from filename, and computes its parts:\n\n"
-    "  - Arguments \"\" (the empty string) yield the default-values.\n\n"
+    " dirname        : " << "the output-directory:\n"
+    "                  - \"\" uses the stem of the input-path\n"
+    "                  - \"+\" additionally outputs the new name\n"
+    "                  - \"++\" also sanitises the name (the stem)\n\n"
+    " reads a qcnf from filename, computes its parts, and stores under dirname.\n\n"
 ;
     return true;
   }
@@ -201,12 +207,13 @@ int main(const int argc, const char* const argv[]) {
               << "\" for reading.\n";
     return int(Error::input_file_error);
   }
-  const std::filesystem::path dir(extract_dir_path(filename, dirname));
+  const auto [dir, with_output] = extract_dir_path(filename, dirname);
   if (not std::filesystem::create_directory(dir)) {
     std::cerr << ferror << "Can not create output-directory " << dir
               << ".\n";
     return int(Error::output_directory_error);
   }
+  if (with_output) std::cout << dir.string() << std::endl;
 
   const auto F = read_GslicedCNF(input, ferror);
   const GlobRepl GR(F);
