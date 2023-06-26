@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.3.5"
+version="0.4.0"
 
 archive="$1"
 
@@ -35,6 +35,7 @@ archive="$1"
 : ${log_remove:="LOG_remove"}
 : ${log_rename:="LOG_rename"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
+: ${dir_extension:=".B"}
 
 date > ${log_general}
 echo "${program} ${version}" >> ${log_general}
@@ -123,9 +124,9 @@ for file in ${directory}/**/${filetype}; do
       ((++count_nd))
     else
       # only this part of the program is special for bcc-processing:
-      newname="$(${disprog} ${fullname} ++)"
+      newname="$(${disprog} ${fullname} ||${dir_extension})"
       redname="${name%.*}"
-      fullredname="${base}/${redname}"
+      fullredname="${base}/${redname}${dir_extension}"
       if ! [ ${fullredname} = ${newname} ]; then
         echo "${fullname} -> ${newname}" >> ${log_rename}
         ((++count_rename))
