@@ -342,15 +342,15 @@ sys     11m14.217s
 
 Now with sanitising the filenames (which become directory-names):
 
-Sun 25 Jun 14:27:19 BST 2023
-DirQBF2BCC 0.3.5
+Mon 26 Jun 12:24:31 BST 2023
+DirQBF2BCC 0.4.1
 archive="qdimacs.zip"
 directory="QBF2BCC"
 filetyp="*.qdimacs.gz"
 disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
 -rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
 
-unzip: 70 s
+unzip: 69 s
 git:
 commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
 Author: Luca Pulina <lpulina@uniss.it>
@@ -359,26 +359,27 @@ Date:   Wed Oct 27 16:25:12 2021 +0200
 remove: 2 s
 #removed: 220
 
-processing "*.qdimacs.gz" 2568 s
+processing "*.qdimacs.gz" 2565 s
 #qdimacs: 27927
 #empty: 0
 #not-DIMACS: 1
 #rename: 14681
 #with-global: 14298
 
-total: 2640 s
+total: 2636 s
 
-real    43m59.827s
-user    32m14.583s
-sys     12m13.134s
+real    43m55.966s
+user    32m31.284s
+sys     11m54.751s
+
 
 QBFLIB> ls -l
-total 9808424
+total 9808452
          54 dqbf-master
     6060316 dqbf-master.tar.bz2
         569 LOG
       10822 LOG_remove
-    2118433 LOG_rename
+    2147795 LOG_rename
        1100 QBF2BCC
        1144 qdimacs
 10035622919 dimacs.zip
