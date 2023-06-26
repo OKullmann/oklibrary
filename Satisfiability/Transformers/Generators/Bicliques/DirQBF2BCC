@@ -125,10 +125,10 @@ for file in ${directory}/**/${filetype}; do
       ((++count_nd))
     else
       # only this part of the program is special for bcc-processing:
-      newname="$(${disprog} ${fullname} ${second_argument@Q})"
+      newname="$(${disprog} ${fullname} ${second_argument})"
       redname="${name%.*}"
       fullredname="${base}/${redname}${dir_extension}"
-      if ! [ ${fullredname} = ${newname} ]; then
+      if ! [ ${fullredname@Q} = ${newname@Q} ]; then
         echo "${fullname} -> ${newname}" >> ${log_rename}
         ((++count_rename))
       fi
