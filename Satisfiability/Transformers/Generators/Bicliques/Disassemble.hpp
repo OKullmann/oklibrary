@@ -36,19 +36,30 @@ namespace Disassemble {
   typedef Bicliques2SAT::GlobRepl::dimacs_pars dimacs_pars;
 
 
+  constexpr char special = '|';
   bool special_dirname(const std::string& dirname) noexcept {
-    return dirname.empty() or dirname == "+" or dirname == "++";
+    return dirname.empty() or dirname[0] == special;
+  }
+  bool doublespecial(const std::string& dirname) noexcept {
+    assert(not dirname.empty() and dirname[0] == special);
+    return dirname.size() >= 2 and dirname[1] == special;
   }
   std::pair<std::filesystem::path, bool>
   extract_dir_path(const std::string& filename,
                    const std::string& dirname) {
     if (not special_dirname(dirname)) return {dirname, false};
-    const bool with_output = not dirname.empty();
-    const std::filesystem::path p(filename);
-    std::filesystem::path res = p.parent_path();
-    if (dirname == "+") res /= p.stem();
-    else res /= Environment::str2corename(p.stem().string());
-    return {res, with_output};
+    const std::filesystem::path path(filename), stem = path.stem(),
+      root = path.parent_path();
+    if (dirname.empty()) return {root / stem, false};
+    const bool sanitising = doublespecial(dirname);
+    const std::string addition = dirname.substr(sanitising ? 2 : 1);
+    std::filesystem::path res = root;
+    if (sanitising)
+      res /= Environment::str2corename(stem.string());
+    else
+      res /= stem;
+    res += addition;
+    return {res, true};
   }
   const std::string statsdirname = ".stats";
   std::filesystem::path statsdir_path(const std::filesystem::path& dir) {

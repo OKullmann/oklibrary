@@ -40,7 +40,8 @@ e 1 2 4 6 0
 -5 -6 0         # C1
 7 2 4 6 0       # C2
 -7 -2 -4 -6 0   # C2
-Bicliques> ./Disassemble_debug data/Example_00.qcnf "+"
+Showing the automatically created directory:
+Bicliques> ./Disassemble_debug data/Example_00.qcnf "|"
 data/Example_00
 BBicliques> ls -la data/Example_00
 19 A_1_2_1
@@ -81,9 +82,13 @@ p cnf 6 3
 1 6 0
 -6 0
 
-Remarks: With second argumet "+" the created directory is shown,
-and with "++" its name is sanitised (then only containing alpha-numerical
+Remarks: With second argument "|" the created directory is shown,
+and with "||" its name is sanitised (then only containing alpha-numerical
 characters, underscores and hyphens).
+A suffix-string is appended to the name.
+For example from filename="T&.A.qdimacs" we get via "||.XYZ":
+  T262EA.XYZ
+(26 is hex for "&", 2E is hex for ".").
 
 
 The meaning of the parameters X_Y_Z in A_-files:
@@ -177,8 +182,8 @@ a 2 4 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "25.6.2023",
+        "0.2.2",
+        "26.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -198,9 +203,10 @@ namespace {
     " filename       : " << "the input-QCNF\n"
     " dirname        : " << "the output-directory:\n"
     "                  - \"\" uses the stem of the input-path\n"
-    "                  - \"+\" additionally outputs the new name\n"
-    "                  - \"++\" also sanitises the name (the stem)\n\n"
-    " reads a qcnf from filename, computes its parts, and stores under dirname.\n\n"
+    "                  - \"|SUFF\" additionally outputs the new name\n"
+    "                  - \"||SUFF\" also sanitises the name\n"
+    "                  - in both cases the string SUFF is appended to the name\n\n"
+    " reads a qcnf from filename, computes its parts, and stores them under dirname.\n\n"
 ;
     return true;
   }
