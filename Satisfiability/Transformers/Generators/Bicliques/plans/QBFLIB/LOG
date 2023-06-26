@@ -399,3 +399,19 @@ The number 14298 for "with-global" (more precisely, "with-global-non-pure")
 is higher than what DirQCNFcount above obtained (14379), and thus
 there are instances with pure global variables (this needs to be
 checked).
+
+
+26.6.2023
+
+First approach to statistics:
+
+QBFLIB> time DirStatistics QBF2BCC
+27927
+real    0m0.036s
+user    0m0.016s
+sys     0m0.020s
+QBFLIB> time ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirStatistics_debug QBF2BCC/
+27927
+real    0m0.048s
+user    0m0.040s
+sys     0m0.008s
