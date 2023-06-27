@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "1.4.2023",
+        "0.3.3",
+        "28.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -280,6 +280,13 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(eqp(FS += 10, {1,1}));
    assert(eqp(FS.cmap(), {{0,2},{1,2},{2,1},{10,1}}));
+   {fst FS2;
+    assert(eqp(FS2.add(0,2), {2,1}));
+    assert(eqp(FS2.add(1,2), {2,1}));
+    assert(eqp(FS2.add(2,1), {1,1}));
+    assert(eqp(FS2.add(10,1), {1,1}));
+    assert(FS2 == FS);
+   }
    {const auto ex = FS.extract1();
     assert(ex.median == 1);
    }

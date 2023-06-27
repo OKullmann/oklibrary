@@ -80,6 +80,7 @@ License, or any later version. */
        - insert(RANGE, FILTER)
        - insert(RANGE, FILTER, TRANSFORM)
        - +=(input_t)
+       - add(input_t x, count_t m) ( +=(x) is equivalent to add(x,1))
       - reports:
        - num_inputs(), num_values(), cmap()
        - min(), max()  -> input_t
@@ -757,6 +758,12 @@ namespace GenStats {
       const count_t old = cm.size();
       ++cm[x];
       return {1, cm.size() - old};
+    }
+    pcount_t add(const input_t x, count_t m) noexcept {
+      num_in += m;
+      const count_t old = cm.size();
+      cm[x] += m;
+      return {m, cm.size() - old};
     }
 
     count_t num_inputs() const noexcept { return num_in; }
