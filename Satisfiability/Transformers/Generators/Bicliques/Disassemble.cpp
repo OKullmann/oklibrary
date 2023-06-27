@@ -262,7 +262,7 @@ int main(const int argc, const char* const argv[]) {
    GR.E0(E0file);
   }
 
-  write_item(GR.numntcc, "ntcc", statsdir, ferror);
+  write_item(GR.numntcc, ntccfile, statsdir, ferror);
   {const auto begin = GR.ntcc_map.begin(), end = GR.ntcc_map.end();
    for (auto it = begin; it != end; ++it) {
      const auto& [dp, list] = *it;
