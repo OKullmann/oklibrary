@@ -7,27 +7,31 @@ License, or any later version. */
 
 /* String helper functions
 
-   String helper functions:
+    String helper functions:
 
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
     - hash(string) (simple function for using in id's etc.)
 
     Filename handling:
+
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
     - see str2ident(filename) below
 
     General string facilities:
+
     - replace(string, char, char), remove(string, char)
     - cutoff(string, char)
 
     Splitting strings:
+
     - typedef size_t
     - typedef tokens_t = vector<string>
       out_tokens(std::ostream, tokens_t) : with quotes, separated by spaces
 
     Exact splitting (splitting-symbols are just (single) characters):
+
     - split(string, char), split(istream, char),
       split(istream, char, char& final_character),
       split_cutoff(istream, char, char cutoff-character)
@@ -40,6 +44,7 @@ License, or any later version. */
       (removing all content from lines from cut-off-characters on)
 
     Handling of spaces:
+
     - isspace(char) (using locale)
     - onlyspaces(string), starts_with_space(string), ends_with_space(string)
     - remove_spaces (modifying or not),
@@ -52,6 +57,7 @@ License, or any later version. */
     - remove_final_eol(string) -> string
 
     Sanitising strings:
+
     - isalnum(char) -> bool (not using locale)
     - char2hex(char) -> string
 
@@ -63,6 +69,7 @@ License, or any later version. */
         containing only letters, digits, underscores and hyphens)
 
     File access:
+
     - get_content(std::istream), get_content(std:filesystem::path)
        both -> string
        both have optional argument bool with_final_eol
@@ -71,6 +78,7 @@ License, or any later version. */
        both -> tokens_t
 
     Alphanumerical sorting of strings:
+
     - class CDstr ("component digit string") for the "digit-components" of a
       string, which either are all-digit or none-digit
     - class DecompStr contains the decomposition of a string into these
@@ -78,6 +86,7 @@ License, or any later version. */
     - comparator-class AlphaNum for alphanumerical comparison of strings.
 
     Indexing strings:
+
     - tyepdefs index_vec_t, index_map_t, indstr_t
       for indexing strings
     - valid(indstr_t) checks whether an indexing is correct
@@ -85,12 +94,18 @@ License, or any later version. */
       -> indstr_t.
 
     Formatted output:
+
     - out_tokens(ostream&, tokens_t) : quoting each string, with separating
         spaces
+
+      Output of sequences (ranges):
     - out_line(ostream&, RAN R, sep=" ", width=0)
     - out_lines(ostream&, RAN R, sep1, sep2, width)
+
+      Output of vectors and matrices:
     - print1d(ostream&, tuple<T1, ...>, width_vector, seps)
-    - printsize(ostream&, X x): number of characters printed with x
+    - printsize(const ostream& S, X x) -> size_type:
+        number of characters of x on s
     - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix.
 
 
