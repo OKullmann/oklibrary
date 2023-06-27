@@ -11,6 +11,8 @@ License, or any later version. */
 #include <set>
 #include <sstream>
 #include <vector>
+#include <utility>
+#include <map>
 
 #include <Numerics/NumInOut.hpp>
 
@@ -20,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.21",
+        "0.2.22",
         "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -425,6 +427,14 @@ int main(const int argc, const char* const argv[]) {
    assert(ss.str() == "xy 8xy 8");
   }
 
+  {std::ostringstream ss;
+   out_pair(ss, std::make_pair(123, "XYZ"));
+   assert(ss.str() == "123 XYZ");
+   ss.str("");
+   out_pair(ss, std::make_pair(123, "XYZ"), ",", 5);
+   assert(ss.str() == "  123,  XYZ");
+  }
+
   {std::vector<tokens_t> V;
    std::ostringstream ss;
    out_lines(ss, V);
@@ -440,6 +450,22 @@ int main(const int argc, const char* const argv[]) {
    V = {{"", "xy"}, {"ab", "", "z"}};
    out_lines(ss, V, "999", "77");
    assert(ss.str() == "77xy999ab7777z999"); assert(not ss.bad());
+  }
+
+  {std::map<int, std::string> M;
+   std::ostringstream ss;
+   out_pairs(ss, M);
+   assert(ss.str().empty());
+   M[1] = "xyz";
+   out_pairs(ss, M);
+   assert(ss.str() == "1 xyz\n");
+   ss.str("");
+   M[55] = "ABC";
+   out_pairs(ss, M);
+   assert(ss.str() == "1 xyz\n55 ABC\n");
+   ss.str("");
+   out_pairs(ss, M, ";", ",", 5);
+   assert(ss.str() == "    1,  xyz;   55,  ABC;");
   }
 
   {std::stringstream ss;

@@ -99,11 +99,17 @@ License, or any later version. */
         spaces
 
       Output of sequences (ranges):
-    - out_line(ostream&, RAN R, sep=" ", width=0)
-    - out_lines(ostream&, RAN R, sep1, sep2, width)
+    - out_line(ostream&, RAN R, sep=" ", width=0) (for example std::vector)
+    - out_pair(ostream&, PAIR P, sep=" ", width=0) (for example std::pair)
+    - print1d(ostream&, std::tuple<T1, ...>, width_vector, seps)
+
+      Output of double-nested sequences:
+    - out_lines(ostream&, RAN R, sep1, sep2, width) (calls out_line)
+        (for example std::vector<std::vectors>)
+    - out_pairs(ostream&, RAN R, sep1, sep2, width) (calls out_pair)
+        (for example std::map)
 
       Output of vectors and matrices:
-    - print1d(ostream&, tuple<T1, ...>, width_vector, seps)
     - printsize(const ostream& S, X x) -> size_type:
         number of characters of x on s
     - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix.
@@ -602,6 +608,19 @@ namespace Environment {
       }
     }
   }
+  template <class PAIR>
+  void out_pair(std::ostream& out, const PAIR& P,
+                const std::string& sep = " ",
+                const std::streamsize w = 0) {
+    if (w == 0)
+      out << P.first << sep << P.second;
+    else {
+      out.width(w);
+      out << P.first << sep;
+      out.width(w);
+      out << P.second;
+    }
+  }
   // Output a nested range:
   template <class RAN>
   void out_lines(std::ostream& out, const RAN& R,
@@ -611,6 +630,17 @@ namespace Environment {
     const auto end = R.end();
     for (auto it = R.begin(); it != end; ++it) {
       out_line(out, *it, sep2, w);
+      out << sep1;
+    }
+  }
+  template <class RAN>
+  void out_pairs(std::ostream& out, const RAN& R,
+                 const std::string& sep1 = "\n",
+                 const std::string& sep2 = " ",
+                 const std::streamsize w = 0) {
+    const auto end = R.end();
+    for (auto it = R.begin(); it != end; ++it) {
+      out_pair(out, *it, sep2, w);
       out << sep1;
     }
   }
