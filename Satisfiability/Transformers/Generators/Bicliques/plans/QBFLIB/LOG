@@ -432,3 +432,38 @@ the same as above "#with-global: 14298".
 
 The total number of components is
 27927 * 39.1525 ~ 1093412.
+
+
+27.6.2023
+
+QBFLIB> cat LOG
+Tue 27 Jun 11:37:07 BST 2023
+DirQBF2BCC 0.4.2
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 70 s
+git:
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
+
+remove: 1 s
+#removed: 220
+
+processing "*.qdimacs.gz" 2667 s
+#qdimacs: 27927
+#empty: 0
+#not-DIMACS: 1
+#rename: 14681
+#with-global: 14298
+#with-nonbc: 10968
+
+total: 2738 s
+
+real    45m37.445s
+user    33m9.994s
+sys     13m1.457s
