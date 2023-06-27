@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.0.9",
         "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -55,7 +55,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string dirname = argv[1];
-  ntcc_stats N;
+  nbtcc_stats N;
   for_each_leaf(dirname, N);
-  std::cout << N.S << "\n";
+  std::cout << "Non-trivial components:\n" << N.Snt << "\n";
+  std::cout << "Non-biclique components:\n" << N.Snb << "\n";
 }
