@@ -72,7 +72,7 @@ namespace DirStatistics {
     fstats_t S;
     void operator ()(const std::filesystem::path& p) noexcept {
       const auto f = p / DA::statsdirname / DA::ntccfile;
-      S += FP::to_UInt(Environment::get_content(f, false));
+      S += FP::to_UInt(Environment::get_content(f));
     }
   };
 

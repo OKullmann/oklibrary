@@ -133,7 +133,7 @@ namespace Disassemble {
       std::cerr << es << "Can not create statistics-file " << path << ".\n";
       std::exit(int(Error::output_stats_error));
     }
-    file << x << "\n";
+    file << x;
     if (not file) {
       std::cerr << es << "Can not write to statistics-file " << path << ".\n";
       std::exit(int(Error::output_stats_error));

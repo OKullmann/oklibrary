@@ -182,7 +182,7 @@ a 2 4 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "26.6.2023",
         __FILE__,
         "Oliver Kullmann",
