@@ -49,6 +49,8 @@ License, or any later version. */
       replaces whitespace-characters, contracting adjacent ones and
       eliminating leading and trailing ones
 
+    - remove_final_eol(string) -> string
+
     Sanitising strings:
     - isalnum(char) -> bool (not using locale)
     - char2hex(char) -> string
@@ -63,6 +65,7 @@ License, or any later version. */
     File access:
     - get_content(std::istream), get_content(std:filesystem::path)
        both -> string
+       both have optional argument bool with_final_eol
     - string_or_cin(string) -> pair<string, bool>
     - get_lines(std::istream), get_lines(std:filesystem::path)
        both -> tokens_t
@@ -371,19 +374,24 @@ namespace Environment {
   }
 
 
-  std::string get_content(const std::istream& in) {
+  std::string remove_final_eol(std::string s) {
+    if (s.empty() or s.back() != '\n') return s;
+    s.pop_back();
+    return s;
+  }
+  std::string get_content(const std::istream& in,
+                          const bool with_eol = true) {
     assert(in);
     std::ostringstream s; s << in.rdbuf();
     assert(not s.bad());
     if (in.bad())
       throw std::runtime_error("ERROR[Environment::get_content(in)]: "
         "Reading-error");
-    return s.str();
+    if (with_eol) return s.str();
+    else return remove_final_eol(s.str());
   }
-  tokens_t get_lines(const std::istream& in) {
-    return split(get_content(in), '\n');
-  }
-  std::string get_content(const std::filesystem::path& p) {
+  std::string get_content(const std::filesystem::path& p,
+                          const bool with_eol = true) {
     std::ifstream content(p);
     if (not content)
       throw std::runtime_error("ERROR[Environment::get_content(p)]: "
@@ -392,7 +400,12 @@ namespace Environment {
     if (s.bad() or content.bad())
       throw std::runtime_error("ERROR[Environment::get_content(p)]: "
         "Reading-error with file\n  " + p.string());
-    return s.str();
+    if (with_eol) return s.str();
+    else return remove_final_eol(s.str());
+  }
+
+  tokens_t get_lines(const std::istream& in) {
+    return split(get_content(in), '\n');
   }
   tokens_t get_lines(const std::filesystem::path& p) {
     return split(get_content(p), '\n');

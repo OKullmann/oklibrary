@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.20",
-        "25.6.2023",
+        "0.2.21",
+        "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -490,5 +490,11 @@ int main(const int argc, const char* const argv[]) {
    assert(iscorename("08_-Ax"));
    assert(str2corename("") == "");
    assert(str2corename(" ab#~*X-Y78+") == "20ab237E2AX-Y782B");
+  }
+
+  {assert(remove_final_eol("") == "");
+   assert(remove_final_eol("xyz") == "xyz");
+   assert(remove_final_eol("\n") == "");
+   assert(remove_final_eol("xyz\n\n") == "xyz\n");
   }
 }
