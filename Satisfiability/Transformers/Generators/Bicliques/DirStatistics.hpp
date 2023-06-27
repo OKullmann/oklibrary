@@ -20,10 +20,16 @@ License, or any later version. */
 #include <cassert>
 
 #include <Numerics/NumTypes.hpp>
+#include <Numerics/NumInOut.hpp>
+#include <Numerics/Statistics.hpp>
+#include <ProgramOptions/Strings.hpp>
+
+#include "Disassemble.hpp"
 
 namespace DirStatistics {
 
   namespace FP = FloatingPoint;
+  namespace DA = Disassemble;
 
   enum class Error {
     missing_parameters = 1,
@@ -54,10 +60,20 @@ namespace DirStatistics {
     }
   }
 
+  typedef FP::UInt_t count_t;
+  typedef FP::float80 float_t;
+  typedef GenStats::FreqStats<count_t, float_t> fstats_t;
+
   struct nlvs {
-    typedef FP::UInt_t count_t;
     count_t n = 0;
     void operator ()(const std::filesystem::path&) noexcept { ++n; }
+  };
+  struct ntcc_stats {
+    fstats_t S;
+    void operator ()(const std::filesystem::path& p) noexcept {
+      const auto f = p / DA::statsdirname / DA::ntccfile;
+      S += FP::to_UInt(Environment::get_content(f));
+    }
   };
 
 }

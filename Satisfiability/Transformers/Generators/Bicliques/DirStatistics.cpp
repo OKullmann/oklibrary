@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "26.6.2023",
+        "0.0.7",
+        "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirStatistics.cpp",
@@ -55,7 +55,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string dirname = argv[1];
-  nlvs N;
+  ntcc_stats N;
   for_each_leaf(dirname, N);
-  std::cout << N.n << "\n";
+  std::cout << N.S << "\n";
 }
