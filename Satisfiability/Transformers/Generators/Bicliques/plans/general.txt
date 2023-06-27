@@ -651,15 +651,18 @@ TODOS:
      - DONE
        nbcc : non-biclique cc's (where the number of (given) variables is
        at least 2 --- only these are interesting for solving)
-     - ms : map of sizes, that is, for each occurring size of a cc the
+     - DONE (as file "cm")
+       ms : map of sizes, that is, for each occurring size of a cc the
        number of occurrences (per line)
-     - mv : for each occurring number of (given) variables of a cc the
+     - DONE (as file "nm")
+       mv : for each occurring number of (given) variables of a cc the
        number of occurrences (per line)
     - For the global-only-mode, is it possible to run simply through all files?
      - A simple command-line loop "for F in *; do echo $F; done" ignores
        .stats.
 
 3. We need, besides Disassemble.cpp, also Reassemble.cpp.
+2114214
 
 ---
 

@@ -60,6 +60,16 @@ Only one of them has more than one variable:
 
 Remark: the files ntcc and nbcc have no final eol, to simplify parsing.
 
+Summary information on the number of components with a given number
+of variables:
+Bicliques> cat data/Example_00/.stats/nm
+1 1
+2 1
+And with a given number of clauses (i.e., the size/vertex-number):
+Bicliques> cat data/Example_00/.stats/cm
+2 1
+3 1
+
 The trivial components:
 Bicliques> cat Example_00/E0
 p cnf 6 1
@@ -178,6 +188,7 @@ a 2 4 0
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <map>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -189,7 +200,7 @@ a 2 4 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.3.0",
         "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -271,6 +282,7 @@ int main(const int argc, const char* const argv[]) {
 
   write_item(GR.numntcc, ntccfile, statsdir, ferror);
   size_t nbcc = 0;
+  std::map<size_t, size_t> n_map, c_map;
   {const auto begin = GR.ntcc_map.begin(), end = GR.ntcc_map.end();
    for (auto it = begin; it != end; ++it) {
      const auto& [dp, list] = *it;
@@ -293,10 +305,13 @@ int main(const int argc, const char* const argv[]) {
         }
         const auto [n,c] = GR.A(Afile, it, i);
         if (n >= 2) ++nbcc;
+        ++n_map[n]; ++c_map[c];
        }
      }
    }
   }
   write_item(nbcc, nbccfile, statsdir, ferror);
+  write_map(n_map, nmapfile, statsdir, ferror);
+  write_map(c_map, cmapfile, statsdir, ferror);
 
 }

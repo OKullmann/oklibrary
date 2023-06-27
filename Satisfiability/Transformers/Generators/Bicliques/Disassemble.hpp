@@ -65,6 +65,8 @@ namespace Disassemble {
   const std::string statsdirname = ".stats";
   const std::string ntccfile = "ntcc";
   const std::string nbccfile = "nbcc";
+  const std::string nmapfile = "nm";
+  const std::string cmapfile = "cm";
 
   std::filesystem::path statsdir_path(const std::filesystem::path& dir) {
     std::filesystem::path res(dir);
@@ -137,6 +139,23 @@ namespace Disassemble {
       std::exit(int(Error::output_stats_error));
     }
     file << x;
+    if (not file) {
+      std::cerr << es << "Can not write to statistics-file " << path << ".\n";
+      std::exit(int(Error::output_stats_error));
+    }
+  }
+  template <class M>
+  void write_map(const M& m,
+                  const std::string& filename,
+                  const std::filesystem::path& dir,
+                  const std::string& es) {
+    const auto path = dir / filename;
+    std::ofstream file(path);
+    if (not file) {
+      std::cerr << es << "Can not create statistics-file " << path << ".\n";
+      std::exit(int(Error::output_stats_error));
+    }
+    Environment::out_pairs(file, m);
     if (not file) {
       std::cerr << es << "Can not write to statistics-file " << path << ".\n";
       std::exit(int(Error::output_stats_error));
