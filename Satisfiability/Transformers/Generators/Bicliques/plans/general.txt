@@ -632,10 +632,6 @@ TODOS:
 
 8. Disassemble.cpp
 
-0. DONE
-   There should be a verbose mode, printing out the directory created.
-    - Just the name, nothing else.
-
 1. We need a "global-only" mode:
     - A new option "+-full" is needed.
       Or should one emphasise the concentration, for example
@@ -652,7 +648,8 @@ TODOS:
      - DONE
        ntcc : nontrivial connected components (the number of files in the
        directory then is 2*ntcc+1)
-     - nbcc : non-biclique cc's (where the number of (given) variables is
+     - DONE
+       nbcc : non-biclique cc's (where the number of (given) variables is
        at least 2 --- only these are interesting for solving)
      - ms : map of sizes, that is, for each occurring size of a cc the
        number of occurrences (per line)

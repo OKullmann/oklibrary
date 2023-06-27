@@ -54,6 +54,11 @@ BBicliques> ls -la data/Example_00
 We have 2 nontrivial components (and thus 2*2+1=5 cnf-files):
 > cat data/Example_00/.stats/ntcc
 2
+Only one of them has more than one variable:
+> cat data/Example_00/.stats/nbcc
+1
+
+Remark: the files ntcc and nbcc have no final eol, to simplify parsing.
 
 The trivial components:
 Bicliques> cat Example_00/E0
@@ -123,6 +128,8 @@ Bicliques> ls -la DIR/
 4096 .stats
 > cat DIR/.stats/ntcc
 2
+> cat DIR/.stats/nbcc
+2
 
 E0:
 p cnf 20 2
@@ -182,8 +189,8 @@ a 2 4 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "26.6.2023",
+        "0.2.4",
+        "27.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -263,6 +270,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   write_item(GR.numntcc, ntccfile, statsdir, ferror);
+  size_t nbcc = 0;
   {const auto begin = GR.ntcc_map.begin(), end = GR.ntcc_map.end();
    for (auto it = begin; it != end; ++it) {
      const auto& [dp, list] = *it;
@@ -283,10 +291,12 @@ int main(const int argc, const char* const argv[]) {
                     << ".\n";
           return int(Error::output_A_error);
         }
-        GR.A(Afile, it, i);
+        const auto [n,c] = GR.A(Afile, it, i);
+        if (n >= 2) ++nbcc;
        }
      }
    }
   }
+  write_item(nbcc, nbccfile, statsdir, ferror);
 
 }

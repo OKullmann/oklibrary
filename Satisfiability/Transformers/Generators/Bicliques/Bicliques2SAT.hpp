@@ -1572,20 +1572,20 @@ namespace Bicliques2SAT {
         out << F.O().second[i];
     }
     // The global-part at it, index i, variables renamed to 1, ... :
-    void A(std::ostream& out, const map_it& it, const size_t i) const {
-      const auto [P, L] = *it;
+    dimacs_pars A(std::ostream& out, const map_it& it, const size_t i) const {
+      const auto& [P, L] = *it;
       assert(i < L.size());
-      const auto [n,c] = P;
-      assert(n >= 1); assert(c >= 2);
-      out << dimacs_pars{n,c};
+      assert(P.n >= 1); assert(P.c >= 2);
+      out << P;
       const size_t cci = L[i];
       const size_t cc = ntcc[cci];
       const auto& clause_indices = ccvec[cc-1];
-      assert(clause_indices.size() == c);
+      assert(clause_indices.size() == P.c);
       const auto& V = ntvar[cci];
       const auto m = DimacsTools::list2map(V);
       for (const size_t i : clause_indices)
         out << DimacsTools::rename(F.G().second[i], m);
+      return P;
     }
 
     typedef Graphs::AdjVecUInt graph_t;

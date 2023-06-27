@@ -61,8 +61,11 @@ namespace Disassemble {
     res += addition;
     return {res, true};
   }
+
   const std::string statsdirname = ".stats";
   const std::string ntccfile = "ntcc";
+  const std::string nbccfile = "nbcc";
+
   std::filesystem::path statsdir_path(const std::filesystem::path& dir) {
     std::filesystem::path res(dir);
     res /= statsdirname;
