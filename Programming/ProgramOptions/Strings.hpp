@@ -70,12 +70,18 @@ License, or any later version. */
 
     File access:
 
+    - nextchar_eof(std::istream) -> bool (whether eof has been effectively
+       reached)
+    - absorb_spaces(std::istream)
+
     - get_content(std::istream), get_content(std:filesystem::path)
        both -> string
        both have optional argument bool with_final_eol
     - string_or_cin(string) -> pair<string, bool>
     - get_lines(std::istream), get_lines(std:filesystem::path)
        both -> tokens_t
+    - get_items<X,k>(istream/path) -> pair<vector of k-array of X, bool>
+       (the boolean is true iff all k-arrays could properly be filled)
 
     Alphanumerical sorting of strings:
 
@@ -435,6 +441,45 @@ namespace Environment {
   std::pair<std::string,bool> cin_or_string(std::string s) {
     if (s=="cin") return {get_content(std::cin),true};
     else return {s,false};
+  }
+
+  // Returns true iff we are already at the end or the next char is eof,
+  // or the stream is in a bad state:
+  bool nextchar_eof(std::istream& in) {
+    return in.peek() == std::ifstream::traits_type::eof();
+  }
+  // Absorb space-characters as long as possible:
+  void absorb_spaces(std::istream& in) {
+    while (isspace(in.peek())) in.get();
+  }
+
+  // Returns a vector of std::array<X,k> and a boolean which is true iff
+  // an array was partially but not completely filled (the remaining
+  // items are default-constructed); consumes all of the stream:
+  template <typename X, std::size_t k>
+  std::pair<std::vector<std::array<X, k>>, bool> get_items(std::istream& in) {
+    typedef std::array<X, k> line_t;
+    std::vector<line_t> res;
+    bool reached_end = false;
+    while (not reached_end and not nextchar_eof(in)) {
+      line_t l{};
+      for (std::size_t i = 0;
+           i < k and not (reached_end = nextchar_eof(in)); ++i) {
+        X x;
+        in >> x; absorb_spaces(in);
+        l[i] = std::move(x);
+      }
+      res.push_back(std::move(l));
+    }
+    return {res, not reached_end};
+  }
+  template <typename X, std::size_t k>
+  auto get_items(const std::filesystem::path& p) {
+    std::ifstream in;
+    if (not in)
+      throw std::runtime_error("ERROR[Environment::get_items(p)]: "
+        "Can't open file\n  " + p.string());
+    return get_items<X,k>(in);
   }
 
 

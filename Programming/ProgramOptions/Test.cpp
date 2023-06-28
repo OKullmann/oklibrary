@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.2.22",
-        "27.6.2023",
+        "0.3.0",
+        "28.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -336,6 +336,103 @@ int main(const int argc, const char* const argv[]) {
    assert(get_content(ss) == "");
    ss.str("");
    assert(get_lines(ss).empty());
+  }
+
+  {std::istringstream ss;
+   assert(ss.good());
+   assert(nextchar_eof(ss));
+   assert(ss);
+   assert(not ss.good());
+   assert(not ss.bad());
+   assert(not ss.fail());
+   assert(ss.str().empty());
+   assert(nextchar_eof(ss));
+   assert(not ss);
+   assert(not ss.good());
+   assert(not ss.bad());
+   assert(ss.fail());
+   assert(ss.str().empty());
+  }
+  {std::istringstream ss("\n");
+   assert(ss.good());
+   assert(not nextchar_eof(ss));
+   assert(ss);
+   assert(ss.good());
+   assert(not ss.bad());
+   assert(ss.str() == "\n");
+   assert(ss.get() == '\n');
+   assert(ss.good());
+   assert(nextchar_eof(ss));
+   assert(ss);
+   assert(not ss.good());
+   assert(not ss.bad());
+   assert(not ss.fail());
+   assert(ss.str() == "\n");
+  }
+
+  {std::istringstream ss;
+   absorb_spaces(ss);
+   assert(not ss.bad());
+   assert(not ss.fail());
+  }
+  {std::istringstream ss(" \t\n  \n");
+   absorb_spaces(ss);
+   assert(not ss.bad());
+   assert(not ss.fail());
+   assert(nextchar_eof(ss));
+  }
+  {std::istringstream ss(" \t\n  \nXY");
+   absorb_spaces(ss);
+   assert(not ss.bad());
+   assert(not ss.fail());
+   assert(not nextchar_eof(ss));
+   assert(ss.peek() == 'X');
+  }
+
+  {std::istringstream ss;
+   {const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(not ss.fail());
+   assert(f);
+   assert(eqp(res, {}));}
+   {ss.str("77"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(ss.fail());
+   assert(not f);
+   assert(eqp(res, {{77,0,0}}));}
+   {ss.str("77 88"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(not f);
+   assert(eqp(res, {{77,88,0}}));}
+   {ss.str("77 88 99"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(f);
+   assert(eqp(res, {{77,88,99}}));}
+   {ss.str("77\n\n88\n\n 99\n\n 100"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(not f);
+   assert(eqp(res, {{77,88,99},{100,0,0}}));}
+   {ss.str("77\n\n88\n\n 99\n\n 100  110"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(not f);
+   assert(eqp(res, {{77,88,99},{100,110,0}}));}
+   {ss.str("77\n\n88\n\n 99\n\n 100  110 120\n"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(ss.fail());
+   assert(f);
+   assert(eqp(res, {{77,88,99},{100,110,120}}));}
+   {ss.str("77\n\n88\n\n 99\n\n 100  110\n120"); ss.clear();
+   const auto [res,f] = get_items<int, 3>(ss);
+   assert(not ss.bad());
+   assert(ss.fail());
+   assert(f);
+   assert(eqp(res, {{77,88,99},{100,110,120}}));}
   }
 
   {std::string s;
