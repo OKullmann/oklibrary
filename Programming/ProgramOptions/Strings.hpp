@@ -475,7 +475,7 @@ namespace Environment {
   }
   template <typename X, std::size_t k>
   auto get_items(const std::filesystem::path& p) {
-    std::ifstream in;
+    std::ifstream in(p);
     if (not in)
       throw std::runtime_error("ERROR[Environment::get_items(p)]: "
         "Can't open file\n  " + p.string());
