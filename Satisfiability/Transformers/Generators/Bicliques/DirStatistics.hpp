@@ -68,12 +68,22 @@ namespace DirStatistics {
     count_t n = 0;
     void operator ()(const std::filesystem::path&) noexcept { ++n; }
   };
-  struct nbtcc_stats {
-    fstats_t Snt, Snb;
+  struct components_stats {
+    fstats_t Snt, Snb, Mn, Mc;
     void operator ()(const std::filesystem::path& p) noexcept {
       const auto f = p / DA::statsdirname;
       Snt += FP::to_UInt(Environment::get_content(f / DA::ntccfile));
       Snb += FP::to_UInt(Environment::get_content(f / DA::nbccfile));
+      {const auto [L,all_filled] =
+         Environment::get_items<count_t,2>(f / DA::nmapfile);
+       assert(all_filled);
+       for (const auto [n,count] : L) Mn.add(n, count);
+      }
+      {const auto [L,all_filled] =
+         Environment::get_items<count_t,2>(f / DA::cmapfile);
+       assert(all_filled);
+       for (const auto [c,count] : L) Mc.add(c, count);
+      }
     }
   };
 

@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "27.6.2023",
+        "0.1.0",
+        "28.6.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirStatistics.cpp",
@@ -55,8 +55,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string dirname = argv[1];
-  nbtcc_stats N;
-  for_each_leaf(dirname, N);
-  std::cout << "Non-trivial components:\n" << N.Snt << "\n";
-  std::cout << "Non-biclique components:\n" << N.Snb << "\n";
+  components_stats S;
+  for_each_leaf(dirname, S);
+  std::cout << "Non-trivial components:\n" << S.Snt << "\n";
+  std::cout << "Non-biclique components:\n" << S.Snb << "\n";
+  std::cout << "n-values:\n" << S.Mn << "\n";
+  std::cout << "c-values:\n" << S.Mc << "\n";
 }
