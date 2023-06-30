@@ -633,17 +633,23 @@ TODOS:
 8. Disassemble.cpp
 
 1. We need a "global-only" mode:
-    - A new option "+-full" is needed.
+    - DONE (we have an automatically inferred A-only-mode)
+      A new option "+-full" is needed.
       Or should one emphasise the concentration, for example
       "-+global-only" ? (as "-+go")
-    - Only the A_-files, without the "A_".
-    - Pure global variables are eliminated (different from now).
-    - Only keeping components with > M variables (by default M=0).
-    - If no file is created, then not creating the directory at all?
+    - DONE (seems better (and simpler) to keep the A_)
+      Only the A_-files, without the "A_".
+    - DONE (not done -- it's part of the purification)
+      Pure global variables are eliminated (different from now).
+    - DONE Only keeping components with > M variables (by default M=0).
+    - DONE If no file is created, then not creating the directory at all?
+    - When in A-only-mode:
+       - abort after reading the a-variables, and there are <= lower-bound;
+       - do not store the E-parts (just keepting them empty).
 
-2. Should we add a file ".stats" ?
-    - With statistics on the number of components etc.?
-    - Seems useful.
+2. DONE Should we add a file ".stats" ?
+    - DONE
+      With statistics on the number of components etc.?
     - Better .stats should be a directory, with files:
      - DONE
        ntcc : nontrivial connected components (the number of files in the

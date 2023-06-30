@@ -26,6 +26,7 @@ License, or any later version. */
 #include <cstdlib>
 
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "Bicliques2SAT.hpp"
 #include "DimacsTools.hpp"
@@ -61,6 +62,16 @@ namespace Disassemble {
     res += addition;
     return {res, true};
   }
+
+  std::pair<bool, size_t> extract_restriction(const int argc,
+                                              const char* const argv[]) {
+    if (argc == 3) return {false, 0};
+    assert(argc == 4);
+    const std::string s = argv[3];
+    if (s.empty()) return {true, 0};
+    return {true,FloatingPoint::toUInt(s)};
+  }
+
 
   const std::string statsdirname = ".stats";
   const std::string ntccfile = "ntcc";
@@ -98,11 +109,13 @@ namespace Disassemble {
     input_file_error = 2,
     syntax_error = 3,
     reading_error = 4,
-    output_directory_error = 5,
-    output_E0_error = 6,
-    output_E_error = 7,
-    output_A_error = 8,
-    output_stats_error = 9
+    output_directory_exists = 5,
+    output_directory_creation = 6,
+    output_statsdir_creation = 7,
+    output_E0_error = 8,
+    output_E_error = 9,
+    output_A_error = 10,
+    output_stats_error = 11
   };
 
 
