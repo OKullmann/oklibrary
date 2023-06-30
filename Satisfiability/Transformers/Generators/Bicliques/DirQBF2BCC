@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.4.2"
+version="0.4.3"
 
 archive="$1"
 
@@ -36,6 +36,8 @@ archive="$1"
 : ${log_rename:="LOG_rename"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 : ${dir_extension:=".B"}
+: ${third_argument:="0"}
+
 second_argument="||${dir_extension}"
 
 date > ${log_general}
@@ -105,6 +107,7 @@ count_nd=0
 count_rename=0
 count_withglobal=0
 count_withnonbc=0
+count_deleted=0
 rm -f ${log_rename}
 
 for file in ${directory}/**/${filetype}; do
@@ -126,20 +129,24 @@ for file in ${directory}/**/${filetype}; do
       ((++count_nd))
     else
       # only this part of the program is special for bcc-processing:
-      newname="$(${disprog} ${fullname} ${second_argument})"
-      redname="${name%.*}"
-      fullredname="${base}/${redname}${dir_extension}"
-      if ! [ ${fullredname@Q} = ${newname@Q} ]; then
-        echo "${fullname} -> ${newname}" >> ${log_rename}
-        ((++count_rename))
-      fi
-      ntcc="$(cat ${newname}/.stats/ntcc)"
-      if [ ${ntcc} -ne 0 ]; then
-        ((++count_withglobal))
-      fi
-      nbcc="$(cat ${newname}/.stats/nbcc)"
-      if [ ${nbcc} -ne 0 ]; then
-        ((++count_withnonbc))
+      newname="$(${disprog} ${fullname} ${second_argument} ${third_argument})"
+      if [ -z "${newname}" ]; then
+        ((++count_deleted))
+      else
+        redname="${name%.*}"
+        fullredname="${base}/${redname}${dir_extension}"
+        if ! [ ${fullredname@Q} = ${newname@Q} ]; then
+          echo "${fullname} -> ${newname}" >> ${log_rename}
+          ((++count_rename))
+        fi
+        ntcc="$(cat ${newname}/.stats/ntcc)"
+        if [ ${ntcc} -ne 0 ]; then
+          ((++count_withglobal))
+        fi
+        nbcc="$(cat ${newname}/.stats/nbcc)"
+        if [ ${nbcc} -ne 0 ]; then
+          ((++count_withnonbc))
+        fi
       fi
       # this again is general:
       rm ${fullname}
@@ -157,6 +164,7 @@ echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 echo "#rename: ${count_rename}" | tee -a ${log_general}
+echo "#deleted: ${count_deleted}" | tee -a ${log_general}
 echo "#with-global: ${count_withglobal}" | tee -a ${log_general}
 echo "#with-nonbc: ${count_withnonbc}" | tee -a ${log_general}
 
