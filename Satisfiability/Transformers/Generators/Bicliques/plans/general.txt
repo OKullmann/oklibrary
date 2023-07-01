@@ -2,6 +2,42 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
+-9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
+
+ 1. Taking a filename for a QCNF as argument.
+ 2. Storing it in a list of lines.
+ 3. First checking the initial c-lines and the p-line.
+ 4. Output statistics on them, and abort if there is an error.
+ 5. Are there comments after the p-line?
+     - One needs to see how many such files are there, and manually
+       inspect them.
+ 6. Analyse the a-line and e-lines:
+     - all on one line (finishing with "0\n")?
+     - always alternating?
+     - correct variables?
+     - disjoint?
+ 7. Output statistics on ae-lines:
+     - especially on global variables.
+    Abborting if incorrect or nondisjoint variables.
+ 8. Reading the clauses:
+     - all on one line ?
+     - correct literals ?
+     - tautological clauses ?
+     - repeated literals ?
+     - universal clauses (only containing a-variables) ?
+       even empty clauses?
+ 9. Determining pure global variables.
+ 10. Output statistics on clauses and global variables.
+ 11. Optionally replace original file with sanitised version,
+     pure global variables eliminated.
+
+ We also need a dimacs-sanitisation-program.
+ Later create a version, which doesn't store the input, and
+ reacts immediately.
+
+
+---
+
 -8. DirQBF2BCC
 
 This is a bash-script, creating the directory QBF2BCC:
@@ -28,12 +64,10 @@ This is a bash-script, creating the directory QBF2BCC:
       - Logging the changed names (per directory).
       - This should be applied after removal (before processing).
 
-     - Write C++-program DimacsSyntaxAnalyse for analysing qdimacs-files
-       We also need a qdimacs-sanitisation-program.
-
      - DONE See the problems in QBFLIB/LOG.
 
-     - Later run Disassemble in "global-only mode" (see below).
+     - DONE
+       Later run Disassemble in "global-only mode" (see below).
        Remove the directory produced if not containing proper benchmarks.
 
 Documentation of DirQBF2BCC mentions the command
