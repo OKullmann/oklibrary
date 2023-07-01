@@ -16,6 +16,8 @@ EXAMPLES:
 #include <iostream>
 #include <fstream>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "QDimacsSyntax.hpp"
@@ -23,7 +25,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.3",
         "1.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -81,5 +83,21 @@ int main(const int argc, const char* const argv[]) {
     for (const auto& L : F) sum += L.size();
     std::cout << "num-chars " << sum << "\n";
   }
+
+  const auto [first_nonc, c_error] = analyse_comments(F);
+  if (c_error) {
+    if (level >= 1)
+      std::cout << "\nc-line " << first_nonc << ":\n  \""
+                << F[first_nonc] << "\"\n";
+    syntax_error();
+  }
+  if (first_nonc == num_lines) {
+    if (level >= 1)
+      std::cout << "\nall lines are comments\n";
+    syntax_error();
+  }
+  assert(first_nonc < num_lines);
+  if (level >= 2)
+    std::cout << "num-comments " << first_nonc << "\n";
 
 }

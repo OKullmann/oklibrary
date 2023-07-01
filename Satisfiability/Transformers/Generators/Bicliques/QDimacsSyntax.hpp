@@ -13,6 +13,10 @@ License, or any later version. */
 #ifndef QDIMACSSYNTAX_s4ZN5nxQ7J
 #define QDIMACSSYNTAX_s4ZN5nxQ7J
 
+#include <utility>
+
+#include <cstdlib>
+
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumTypes.hpp>
 
@@ -29,6 +33,21 @@ namespace QDimacsSyntax {
   };
 
   const std::string is_incorrect = "ERROR";
+  void syntax_error() noexcept {
+    std::cout << is_incorrect << std::endl;
+    std::exit(0);
+  }
+
+  // Line with first non-c-line, returns true iff c-lines have syntax-error:
+  std::pair<count_t, bool> analyse_comments(const tokens_t& F) noexcept {
+    count_t first_nonc = 0;
+    for (; first_nonc < F.size(); ++first_nonc) {
+      const auto& L = F[first_nonc];
+      if (not L.starts_with("c")) break;
+      if (not L.starts_with("c ")) return {first_nonc, true};
+    }
+  return {first_nonc, false};
+  }
 
 }
 
