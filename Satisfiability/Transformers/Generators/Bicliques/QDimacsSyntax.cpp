@@ -23,7 +23,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "1.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -39,8 +39,12 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " filenam\n\n"
+         << " filename verbosity\n\n"
     " filename       : " << "the input-QCNF\n"
+    " verbosity      : " << "natural number >= 0:\n"
+    "                  - 0 : only \"" << is_incorrect << "\" or nothing\n"
+    "                  - 1 : error descriptions\n"
+    "                  - 2 : statistics\n\n"
     " reads a qcnf from filename, and analyses its syntax.\n\n"
 ;
     return true;
@@ -53,9 +57,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 2) {
+  if (argc != 3) {
     std::cerr << error <<
-      "Exactly one arguments (filename)"
+      "Exactly two arguments (filename, verbosity)"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -63,9 +67,19 @@ int main(const int argc, const char* const argv[]) {
   const std::string filename = argv[1];
   std::ifstream input(filename);
   if (not input) {
-    std::cerr << ferror << "Can not open input-file \"" << filename
+    std::cerr << error << "Can not open input-file \"" << filename
               << "\" for reading.\n";
     return int(Error::input_file_error);
+  }
+  const level_t level = FloatingPoint::touint(argv[2]);
+
+  const tokens_t F = Environment::get_lines(input);
+  const count_t num_lines = F.size();
+  if (level >= 2) {
+    std::cout << "num-lines " << num_lines << "\n";
+    count_t sum = 0;
+    for (const auto& L : F) sum += L.size();
+    std::cout << "num-chars " << sum << "\n";
   }
 
 }

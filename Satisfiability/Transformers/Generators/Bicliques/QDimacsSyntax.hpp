@@ -13,12 +13,22 @@ License, or any later version. */
 #ifndef QDIMACSSYNTAX_s4ZN5nxQ7J
 #define QDIMACSSYNTAX_s4ZN5nxQ7J
 
+#include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumTypes.hpp>
+
 namespace QDimacsSyntax {
+
+  typedef Environment::tokens_t tokens_t;
+  typedef FloatingPoint::uint_t level_t;
+  typedef FloatingPoint::UInt_t count_t;
+  typedef FloatingPoint::float80 float_t;
 
   enum class Error {
     missing_parameters = 1,
     input_file_error = 2,
   };
+
+  const std::string is_incorrect = "ERROR";
 
 }
 
