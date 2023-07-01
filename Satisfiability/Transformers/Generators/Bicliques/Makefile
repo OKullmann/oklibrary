@@ -78,6 +78,9 @@ DirStatistics_debug : DirStatistics.cpp DirStatistics.hpp
 Graph2Matrix : Graph2Matrix.cpp Graphs.hpp
 Graph2Matrix_debug : Graph2Matrix.cpp Graphs.hpp
 
+QDimacsSyntax : QDimacsSyntax.cpp QDimacsSyntax.hpp
+QDimacsSyntax_debug : QDimacsSyntax.cpp QDimacsSyntax.hpp
+
 # -------------------------
 
 TestGraphs_debug : TestGraphs.cpp Graphs.hpp
