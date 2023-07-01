@@ -53,9 +53,16 @@ License, or any later version. */
      - edges from a to all members of the range B: insertr(a, B)
      - from an istream: insert(istream), with every line like insert(a,B)
 
+     - add_clique(RAN V)
+     - add_biclique(RAN V1, RAN V2)
+     - add_path(RAN V)
+
     - edge-removal (returning the number of edges removed):
      - remove_edges(edvec_t E)
      - for a range E: remove_edges(E)
+
+    - operator == (compares all data: type, m_, M, plus comments)
+    - operator <<(ostream&) (just outputs the map, one map-entry per line).
 
 
    - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
@@ -141,6 +148,8 @@ License, or any later version. */
     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
       FreqStats<size_t, float80>)
 
+    - output_matrix(AdjVecUInt, ostream)
+
     - independent sets:
 
      - is_independent(RAN r, AdjVecUInt) -> bool
@@ -189,6 +198,8 @@ namespace Graphs {
   static_assert(valid(GT::und));
   static_assert(valid(GT::dir));
 
+
+  // ********************************************************************
 
   // Adjacency-map, with strings as vertex-ids:
   struct AdjMapStr {
@@ -437,7 +448,7 @@ namespace Graphs {
   private :
 
     const GT type_;
-    size_t m_ = 0;
+    size_t m_ = 0; // number of edges
     map_t M; // contains the (out-) neighbours of all vertices
 
   };
@@ -841,6 +852,34 @@ namespace Graphs {
   degree_statistics_t degree_statistics(const AdjVecUInt& G) {
     return {G.graph(), [](auto){return true;},
         [](const auto& L){return L.size();}};
+  }
+
+
+  void output_matrix(const AdjVecUInt& G, std::ostream& out) {
+    using id_t = AdjVecUInt::id_t;
+    const id_t n = G.n();
+    out << n << " " << n << "\n\n";
+    if (n == 0) return;
+    for (id_t i = 0; i < n; ++i) {
+      const auto& Ns = G.neighbours(i);
+      if (Ns.empty()) {
+        out << "0";
+        for (id_t j = 1; j < n; ++j) out << " 0";
+      }
+      else {
+        auto it = Ns.begin();
+        const auto end = Ns.end();
+        if (*it == 0) { out << "1"; ++it; }
+        else out << "0";
+        for (id_t j = 1; j < n; ++j) {
+          out << " ";
+          if (j == i) out << "0";
+          else if (it != end and *it == j) { out << "1"; ++it; }
+          else out << "0";
+        }
+      }
+      out << "\n";
+    }
   }
 
 

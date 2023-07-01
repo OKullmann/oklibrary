@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -74,6 +74,9 @@ MaxIndependentGreedy_debug : MaxIndependentGreedy.cpp Graphs.hpp Bicliques2SAT.h
 
 DirStatistics : DirStatistics.cpp DirStatistics.hpp
 DirStatistics_debug : DirStatistics.cpp DirStatistics.hpp
+
+Graph2Matrix : Graph2Matrix.cpp Graphs.hpp
+Graph2Matrix_debug : Graph2Matrix.cpp Graphs.hpp
 
 # -------------------------
 

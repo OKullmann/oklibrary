@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "16.5.2023",
+        "0.4.2",
+        "1.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -664,6 +664,55 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(freq_stats[0], {495,0,0,0,505}));
    assert(eqp(freq_stats[1], {263,0,484,0,253}));
    assert(eqp(freq_stats[2], {242,0,516,0,242}));
+  }
+
+  {const AdjVecUInt G(Generators::clique(0));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "0 0\n\n");
+  }
+  {const AdjVecUInt G(Generators::clique(1));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "1 1\n\n0\n");
+  }
+  {const AdjVecUInt G(Generators::clique(2));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "2 2\n\n0 1\n1 0\n");
+  }
+  {const AdjVecUInt G(Generators::clique(3));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "3 3\n\n0 1 1\n1 0 1\n1 1 0\n");
+  }
+  {const AdjVecUInt G(GT::und, 2);
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "2 2\n\n0 0\n0 0\n");
+  }
+  {const AdjVecUInt G(GT::und, 3);
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "3 3\n\n0 0 0\n0 0 0\n0 0 0\n");
+  }
+  {const AdjVecUInt G(Generators::grid(1,3));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "3 3\n\n0 1 0\n1 0 1\n0 1 0\n");
+  }
+  {const AdjVecUInt G(Generators::cycle(3));
+   std::ostringstream os;
+   output_matrix(G, os);
+   assert(os.good());
+   assert(os.str() == "3 3\n\n0 1 1\n1 0 1\n1 1 0\n");
   }
 
 }
