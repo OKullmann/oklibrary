@@ -25,8 +25,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.3",
-        "1.7.2023",
+        "0.0.4",
+        "2.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -99,5 +99,25 @@ int main(const int argc, const char* const argv[]) {
   assert(first_nonc < num_lines);
   if (level >= 2)
     std::cout << "num-comments " << first_nonc << "\n";
+
+  const auto [dp, dp_error] = analyse_parline(F[first_nonc]);
+  if (dp_error) {
+    if (level >= 1)
+      std::cout << "\ndp-line " << first_nonc << ":\n  \""
+                << F[first_nonc] << "\"\n";
+    syntax_error();
+  }
+  if (level >= 2)
+    std::cout << "pars " << dp.n << " " << dp.c << "\n";
+  if (dp.n == 0) {
+    if (level >= 1)
+      std::cout << "\nn=0\n";
+    syntax_error();
+  }
+  if (dp.c == 0) {
+    if (level >= 1)
+      std::cout << "\nc=0\n";
+    syntax_error();
+  }
 
 }

@@ -8,17 +8,29 @@ License, or any later version. */
 /*
   Tools for analysing qdimacs
 
+TODOSL
+
+1. Function snn2UInt_t (strict natnum to UInt_t)
+    - Assume is_strict_natnum.
+    - So the only problems can be that the number is too big; just return a
+      pair of UInt_t and bool.
+
 */
 
 #ifndef QDIMACSSYNTAX_s4ZN5nxQ7J
 #define QDIMACSSYNTAX_s4ZN5nxQ7J
 
 #include <utility>
+#include <algorithm>
+#include <exception>
 
 #include <cstdlib>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumTypes.hpp>
+#include <Numerics/NumInOut.hpp>
+
+#include "DimacsTools.hpp"
 
 namespace QDimacsSyntax {
 
@@ -47,6 +59,29 @@ namespace QDimacsSyntax {
       if (not L.starts_with("c ")) return {first_nonc, true};
     }
   return {first_nonc, false};
+  }
+
+  bool is_strict_natnum(const std::string& s) noexcept {
+    if (s.empty()) return false;
+    if (s[0] == '0') return s == "0";
+    return std::ranges::all_of(s, [](const char c)noexcept{
+                                  return '0' <= c and c <= '9';});
+  }
+
+  // True iff an error occurred:
+  std::pair<DimacsTools::dimacs_pars, bool>
+  analyse_parline(const std::string& L) noexcept {
+    const auto S = Environment::split(L, ' ');
+    if (S.size() != 4 or S[0] != "p" or S[1] != "cnf" or
+        not is_strict_natnum(S[2]) or not is_strict_natnum(S[3])
+        or L.back() == ' ') return {{}, true};
+    count_t n, c;
+    try {
+      n = FloatingPoint::to_UInt(S[2]);
+      c = FloatingPoint::to_UInt(S[3]);
+    }
+    catch(const std::exception&) { return {{}, true}; }
+    return {{n,c}, false};
   }
 
 }
