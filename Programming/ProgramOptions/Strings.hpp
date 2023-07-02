@@ -28,7 +28,6 @@ License, or any later version. */
 
     - typedef size_t
     - typedef tokens_t = vector<string>
-      out_tokens(std::ostream, tokens_t) : with quotes, separated by spaces
 
     Exact splitting (splitting-symbols are just (single) characters):
 
