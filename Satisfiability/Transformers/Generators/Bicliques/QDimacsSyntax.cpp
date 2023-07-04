@@ -25,8 +25,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "2.7.2023",
+        "0.0.6",
+        "4.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -137,7 +137,17 @@ int main(const int argc, const char* const argv[]) {
   assert(end_ae <= num_lines);
   if (num_lines - end_ae != dp.c) {
     if (level >= 1)
-      std::cout << "\nremaining-lines " << num_lines - end_ae << "\n";
+      std::cout << "\nremaining-lines " << num_lines - end_ae << " != c = "
+                << dp.c << "\n";
     syntax_error();
   }
+
+  for (count_t i = first_ae; i < end_ae; ++i)
+    if (not F[i].ends_with(" 0")) {
+      if (level >= 1)
+        std::cout << "\na-e-line " << i << " not finishing with \" 0\":\n"
+          "  \"" << F[i] << "\"\n";
+      syntax_error();
+    }
+  const auto [gV, oV] = readae(F, first_ae, end_ae);
 }

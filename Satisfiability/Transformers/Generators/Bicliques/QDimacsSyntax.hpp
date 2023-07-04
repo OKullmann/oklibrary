@@ -92,6 +92,15 @@ namespace QDimacsSyntax {
     return i;
   }
 
+  // Global variables and other-variables:
+  std::array<std::set<count_t>, 2> readae(const tokens_t& F,
+                                          const count_t begin,
+                                          const count_t end) {
+    assert(begin < end and end < F.size());
+    std::array<std::set<count_t>, 2> res;
+    
+  }
+
 }
 
 #endif
