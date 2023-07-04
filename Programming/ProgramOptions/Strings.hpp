@@ -127,6 +127,10 @@ TODOS:
       Possibly the functionality is (by now) quite entangled with
       "Environment"?
 
+2. More efficient versions of get_lines
+    - Especially memory-wise get_lines uses (at least) double the
+      needed space.
+
 */
 
 #ifndef STRINGS_fi927Z4OV3
@@ -405,6 +409,7 @@ namespace Environment {
     s.pop_back();
     return s;
   }
+  // Removal of final eol only for small files:
   std::string get_content(const std::istream& in,
                           const bool with_eol = true) {
     assert(in);
@@ -415,6 +420,17 @@ namespace Environment {
         "Reading-error");
     if (with_eol) return s.str();
     else return remove_final_eol(s.str());
+  }
+  // Returns false iff there is no final eol:
+  std::pair<std::string,bool> get_content_check(const std::istream& in) {
+    assert(in);
+    std::ostringstream s; s << in.rdbuf();
+    assert(not s.bad());
+    if (in.bad())
+      throw std::runtime_error("ERROR[Environment::get_content_check(in)]: "
+        "Reading-error");
+    const bool check = not s.str().empty() and s.str().back() == '\n';
+    return {s.str(), check};
   }
   std::string get_content(const std::filesystem::path& p,
                           const bool with_eol = true) {
@@ -432,6 +448,10 @@ namespace Environment {
 
   tokens_t get_lines(const std::istream& in) {
     return split(get_content(in), '\n');
+  }
+  std::pair<tokens_t, bool> get_lines_check(const std::istream& in) {
+    auto [C, check] = get_content_check(in);
+    return {split(std::move(C), '\n'), check};
   }
   tokens_t get_lines(const std::filesystem::path& p) {
     return split(get_content(p), '\n');
