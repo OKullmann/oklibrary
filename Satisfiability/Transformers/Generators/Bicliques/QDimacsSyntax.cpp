@@ -75,7 +75,12 @@ int main(const int argc, const char* const argv[]) {
   }
   const level_t level = FloatingPoint::touint(argv[2]);
 
-  const tokens_t F = Environment::get_lines(input);
+  const auto [F, final_eol] = Environment::get_lines_check(input);
+  if (not final_eol) {
+    if (level >= 1)
+      std::cout << "\nno final eol\n";
+    syntax_error();
+  }
   const count_t num_lines = F.size();
   if (level >= 2) {
     std::cout << "num-lines " << num_lines << "\n";
@@ -120,4 +125,19 @@ int main(const int argc, const char* const argv[]) {
     syntax_error();
   }
 
+  const count_t first_ae = first_nonc + 1;
+  if (first_ae == num_lines or not begins_ae(F[first_ae])) {
+    if (level >= 1)
+      std::cout << "\nno a-/e-line at line " << first_ae << "\n";
+    syntax_error();
+  }
+  const count_t end_ae = first_nonae(F, first_ae+1);
+  if (level >= 2)
+    std::cout << "num_ae " << end_ae - first_ae << "\n";
+  assert(end_ae <= num_lines);
+  if (num_lines - end_ae != dp.c) {
+    if (level >= 1)
+      std::cout << "\nremaining-lines " << num_lines - end_ae << "\n";
+    syntax_error();
+  }
 }

@@ -84,6 +84,14 @@ namespace QDimacsSyntax {
     return {{n,c}, false};
   }
 
+  bool begins_ae(const std::string& s) noexcept {
+    return s.starts_with("a ") or s.starts_with("e ");
+  }
+  count_t first_nonae(const tokens_t& F, count_t i) noexcept {
+    while (i < F.size() and begins_ae(F[i])) ++i;
+    return i;
+  }
+
 }
 
 #endif
