@@ -2,6 +2,25 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
+-10. BCCbyIP
+
+This is a bash-script, which reads from standard input a graph,
+and outputs the biclique-cover number by nonnegrank, an alternative solver.
+The alternative solver is based on IP, integer programming.
+
+ 1. Input format must be specified as -format=adjacency|matrix
+ 2. Have a copy of nonnegrank in bicliques directory.
+     - is that allowed ?
+      - is there any problems with copyright ?
+     - where should I provide the documentation on installing nonnegrank ?
+      - extend their readme file ?
+ 3. Run the bash-script through all our generated graph-classes for testing.
+     - check whether their solver computes the correct result.
+     - if no discrepancy detected, report on the range of parameters checked.
+     - do we need additional bash-script file to automate the testing ?
+
+---
+
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
  1. Taking a filename for a QCNF as argument.
