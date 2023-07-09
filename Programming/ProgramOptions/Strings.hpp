@@ -37,7 +37,8 @@ License, or any later version. */
         all -> tokens_t
     - split2(string, char1, char2) -> vector<tokens_t>
 
-      Splitting on (strings of) space-symbols:
+    Splitting on (strings of) space-symbols:
+
     - split2_spaces(string_view, char) -> vector<tokens_t>
     - split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
       (removing all content from lines from cut-off-characters on)
