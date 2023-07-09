@@ -608,8 +608,9 @@ namespace RandGen {
 
   // Append a sorted random clause with k literals over the variables from n
   // to the given clause C, with sign-distribution given by p; ignoring
-  // the possibility of clashes or duplications w.r.t. the given clauses in C:
-  inline void rand_clause(RandGen_t& g, Clause& C, const VarInterval n, const gen_uint_t k, const SignDist p) {
+  // the possibility of clashes or duplications w.r.t. the given literals in C:
+  inline void rand_clause(RandGen_t& g, Clause& C, const VarInterval n,
+                          const gen_uint_t k, const SignDist p) {
     if (k == 0) return;
     assert(k <= n.size());
     const auto varvec = choose_kn(k, n.size(), g, true);

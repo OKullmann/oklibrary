@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.3.2019 (Swansea)
-/* Copyright 2019, 2021 Oliver Kullmann
+/* Copyright 2019, 2021, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,7 +48,7 @@ TODOS:
 1. Class UniformRange should likely have a similar setup to Bernoulli,
    concerning its members.
     - So that the rejection-propability can be obtained statically.
-    - And the number of rejection can be obtained.
+    - And the number of rejections can be obtained.
 
 */
 
@@ -68,7 +68,8 @@ TODOS:
 
 namespace RandGen {
 
-  // Returns true/false with probability 1/2, using exactly one call of g:
+  // Returns true/false with probability 1/2, using exactly one call of g
+  // (true iff g() < 2^63):
   inline bool bernoulli(randgen_t& g) noexcept { return lessP263(g()); }
   inline bool bernoulli(RandGen_t& g) noexcept { return lessP263(g()); }
   // Convenience wrapper:
