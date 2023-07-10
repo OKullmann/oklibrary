@@ -84,23 +84,23 @@ format="$1"
 input=$(</dev/stdin)
 matrix=""
 
-echo "Input format: ${format}"
+# echo "Input format: ${format}"
 
 if [[ $format == matrix ]]; then
   matrix=$input
 else
   if [[ $format == adjacency ]]; then
-    echo "Executing Graph2Matrix..."
+#     echo "Executing Graph2Matrix..."
     matrix="$(echo "$input" | $graphtomatrixprog)"
   fi
 fi
 
 # echo "input: $input"
 # echo "$matrix"
-echo "Saving matrix in a temporary file..."
+# echo "Saving matrix in a temporary file..."
 echo "$matrix" > temp.mat
 
-echo "Executing nonnegrank..."
+# echo "Executing nonnegrank..."
 echo "$($ipprog temp.mat rc)"
 
 # remove temp mat file
