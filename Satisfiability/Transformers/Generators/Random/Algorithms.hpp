@@ -131,15 +131,15 @@ namespace RandGen {
   */
   vec_eseed_t choose_kn_inclusion(const gen_uint_t k,
                                   const gen_uint_t n, RandGen_t& g) {
-    vec_eseed_t res;
-    if (k > n or k == 0) return res;
-    res.reserve(k);
+    if (k > n or k == 0) return {};
     using U = UniformRange<RandGen_t>;
-    if (k == 1) { res.push_back(U(g, n)()); return res; }
+    if (k == 1) return {(U(g, n)())};
     if (k == 2) {
       const gen_uint_t a = U(g, n)(), b = U(g, n-1)();
       return {a, b==a ? n-1 : b};
     }
+    vec_eseed_t res;
+    res.reserve(k);
     std::map<gen_uint_t, gen_uint_t> M;
     {const auto first = U(g, n)();
      res.push_back(first);
