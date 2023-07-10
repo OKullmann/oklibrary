@@ -20,6 +20,9 @@ TODOS:
 
 1. Implement "choose k from n": choose_kn(k, n, g)
 
+UPDATE the following (transfer to documentation)
+Plus implement special case k=3.
+
   - Just giving n, this means "from 1,...,n". DONE (CHANGED)
   - Alternatively a vector v (length at least k) is given, from
     which to choose. Though this could be handled by just choosing
