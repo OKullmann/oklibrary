@@ -72,3 +72,71 @@ seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf
 real	0m5.978s
 user	0m5.973s
 sys	0m0.004s
+
+Sorting:
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 16:50:29
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 2, T = 1
+# Main seed: 1689001215070629598
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(159182558,393251240,0,0)" 0.5393805423124702382 0.88988775764746663125 0.13149055478789643501 0.073304079314874022345 0.34414858622712581982 0.71847351087256943912 0.70691689601896082429 0.83504049326885824506 0.25816033006122072926 0.83436384544782536546 0.62643550736221199091 0.8591560404284744461 0.42559623895492996768 0.59320997630346879311 0.42938178085576779425 0.80292792921127171212 0.95574012995177209863 0.70118025698091195416 0.8399167241808073686 0.98897994092514286327
+
+real	0m6.951s
+user	0m6.951s
+sys	0m0.001s
+
+
+
+Now the case k=1:
+
+Random> time ./TimingChoose 100000000 10 1 1
+# Timestamp: 10.07.2023 16:42:24_+0200 1689000144778143405
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp
+# program name:       TimingChoose
+#  version:           0.1.2
+#  last change:       11.5.2019
+#  git-id:            1f3ffaf89cf05b36bf1f90894d432cf1a7e9f8e7
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 11:54:03
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 1, T = 1
+# Main seed: 1689000144778120791
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(3608497751,393250990,0,0)" 0.86265142762258231691 0.45985857997853198895 0.41909058214214159734 0.65934340120336003125 0.58277671585713864408 0.51422428812239489974 0.15138210723160433774 0.32494287942281869402 0.43971967877396050817 0.69386657348171552179 0.10645514360052604659 0.099212281823012711411 0.83627019150880943233 0.94274487783496321728 0.37543793191032516949 0.35656549558990923712 0.96251322753015649387 0.44448968312737876626 0.15081273073593928563 0.26979356857770127507
+
+real	0m4.276s
+user	0m4.272s
+sys	0m0.004s
+
+Random> time ./TimingChoose 100000000 10 1 1 ""
+# Timestamp: 10.07.2023 16:58:53_+0200 1689001133988698995
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp
+# program name:       TimingChoose
+#  version:           0.1.3
+#  last change:       10.7.2023
+#  git-id:            ed2f6b218c04919df80ae287ecf0f52765c15ad3
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 16:50:29
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 1, T = 1
+# Main seed: 1689001133988674514
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(681606098,393251221,0,0)" 0.85950838957819175102 0.79637555894803123722 0.93809321013071698031 0.62387401312233377917 0.59657423605307893934 0.50645450701397330852 0.65656066168403466387 0.78145560462114968601 0.50115937849883024265 0.65168412839873809174 0.6599371073211873441 0.89861202771877613361 0.41297661957334273758 0.52505767605999135658 0.44407307985095743292 0.34908565399861159309 0.80439232460843239879 0.2472267252407642462 0.023512679515699951202 0.032145378153838465704
+[3]+  Done                    gitk
+
+real	0m4.702s
+user	0m4.685s
+sys	0m0.005s
