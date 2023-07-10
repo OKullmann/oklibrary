@@ -8,6 +8,7 @@ License, or any later version. */
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -17,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "4.5.2023",
+        "0.3.1",
+        "10.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
@@ -88,6 +89,26 @@ int main(const int argc, const char* const argv[]) {
   {RandGen_t g({0});
    // Sequence of UniformRange<RandGen_t> for n=10,...,1: 3,1,6,3,1,1,2,1,0,0
    assert((choose_kn_inclusion(10,10,g) == vec_eseed_t{3,1,6,9,8,5,2,4,0,7}));
+   typedef std::vector<gen_uint_t> v_t;
+   {v_t count(2);
+    for (gen_uint_t i = 0; i < 1000; ++i) {
+      const auto perm = choose_kn_inclusion(2,2,g);
+      if (perm == v_t{0,1}) ++ count[0]; else ++count[1];
+    }
+    assert((count == v_t{503,497}));
+    //std::cerr << count[0] << " " << count[1] << "\n";
+   }
+   {v_t count(20); gen_uint_t less = 0;
+    for (gen_uint_t i = 0; i < 10000; ++i) {
+      const auto ch = choose_kn_inclusion(2,20,g);
+      assert(ch.size() == 2);
+      assert(ch[0] != ch[1]);
+      less += ch[0] < ch[1];
+      ++count[ch[0]]; ++count[ch[1]];
+    }
+    assert(less == 5010);
+    assert((count == v_t{1030,1006,996,963,955,1036,1012,986,1047,968,969,1041,994,1001,1008,1020,988,1026,939,1015}));
+   }
   }
   {RandGen_t g({0});
    assert((choose_kn(5,10,g) == vec_eseed_t{3,1,6,9,8}));
