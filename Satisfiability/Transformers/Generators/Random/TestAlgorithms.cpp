@@ -114,8 +114,46 @@ int main(const int argc, const char* const argv[]) {
       assert(ch.size() == 1);
       ++count[ch[0]];
     }
-    //for (auto x : count) std::cerr << " " << x; std::cerr << "\n";
     assert((count == v_t{560,531,509,507,570,528,523,544,516,519,492,531,563,534,529,504,499,532,509}));
+   }
+   {const auto copy(g);
+    {const auto result = choose_kn_inclusion(1,1,g);
+     assert(result.size() == 1);
+     assert(result == v_t{0});
+     assert(g == copy);
+    }
+   }
+  }
+  {RandGen_t g({0});
+   assert((choose_kn(10,10,g) == vec_eseed_t{0,1,2,3,4,5,6,7,8,9}));
+   choose_kn_inclusion(10,10,g);
+   for (gen_uint_t i = 0; i < 1000; ++i) choose_kn_inclusion(2,2,g);
+   typedef std::vector<gen_uint_t> v_t;
+   {v_t count(20); gen_uint_t less = 0;
+    for (gen_uint_t i = 0; i < 10000; ++i) {
+      const auto ch = choose_kn(2,20,g);
+      assert(ch.size() == 2);
+      assert(ch[0] != ch[1]);
+      less += ch[0] < ch[1];
+      ++count[ch[0]]; ++count[ch[1]];
+    }
+    assert(less == 5010);
+    assert((count == v_t{1030,1006,996,963,955,1036,1012,986,1047,968,969,1041,994,1001,1008,1020,988,1026,939,1015}));
+   }
+   {v_t count(19);
+    for (gen_uint_t i = 0; i < 10000; ++i) {
+      const auto ch = choose_kn(1,19,g);
+      assert(ch.size() == 1);
+      ++count[ch[0]];
+    }
+    assert((count == v_t{560,531,509,507,570,528,523,544,516,519,492,531,563,534,529,504,499,532,509}));
+   }
+   {const auto copy(g);
+    {const auto result = choose_kn(1,1,g);
+     assert(result.size() == 1);
+     assert(result == v_t{0});
+     assert(g == copy);
+    }
    }
   }
   {RandGen_t g({0});
@@ -132,7 +170,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen_t g1, g2;
-   for (gen_uint_t N = 2; N <= 6; ++N) {
+   for (gen_uint_t N = 2; N <= 100; ++N) {
      UniformRange U(g1, N);
      for (gen_uint_t i = 0; i < 1000; ++i)
        assert(choose_kn(1, N, g2).front() == U());
