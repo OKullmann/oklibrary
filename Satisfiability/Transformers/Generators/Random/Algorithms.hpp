@@ -137,8 +137,8 @@ namespace RandGen {
     using U = UniformRange<RandGen_t>;
     if (k == 1) return n == 1 ? vec_eseed_t{0} : vec_eseed_t{U(g, n)()};
     if (k == 2) {
-      const gen_uint_t a = U(g, n)(), b = U(g, n-1)();
-      return {a, b==a ? n-1 : b};
+      const gen_uint_t a = U(g, n)(), b0 = U(g, n-1)(), b = b0==a ? n-1 : b0;
+      return {a, b};
     }
     vec_eseed_t res;
     res.reserve(k);
@@ -167,24 +167,28 @@ namespace RandGen {
   // Now choosing inclusion or exclusion, depending on k; always sorted
   // in the latter case, in the former case only if parameter set;
   // so different from the inclusion-form, here "sorted=false" only
-  // means "unspecified order":
+  // means roughly "unspecified order" ("don't spend time on sorting"):
   vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
                         RandGen_t& g, const bool sorted = false) {
     if (k > n or k == 0) return {};
     if (k == 1) return choose_kn_inclusion(1, n, g);
-    if (k > n/2) {
+    if (k > n/2) { // the exclusion-case
       vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
       if (k == n) return res;
       for (const auto i : choose_kn_inclusion(n-k, n, g)) res[i] = n;
       res.erase(std::remove(res.begin(), res.end(), n), res.end());
       return res;
     }
-    else if (not sorted) return choose_kn_inclusion(k, n, g);
-    else {
-      auto res = choose_kn_inclusion(k, n, g);
-      std::sort(res.begin(), res.end());
-      return res;
+    if (k == 2) {
+      using U = UniformRange<RandGen_t>;
+      const gen_uint_t a = U(g, n)(), b0 = U(g, n-1)();
+      return b0 == a ? vec_eseed_t{a, n-1} :
+        (sorted and b0 < a ? vec_eseed_t{b0, a} : vec_eseed_t{a, b0});
     }
+    if (not sorted) return choose_kn_inclusion(k, n, g);
+    auto res = choose_kn_inclusion(k, n, g);
+    std::ranges::sort(res);
+    return res;
   }
   vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
                         RandGen_t&& g, const bool sorted = false) {

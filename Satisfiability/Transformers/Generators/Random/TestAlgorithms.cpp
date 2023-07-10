@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "10.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -154,6 +154,21 @@ int main(const int argc, const char* const argv[]) {
      assert(result == v_t{0});
      assert(g == copy);
     }
+   }
+  }
+  {RandGen_t g({0});
+   assert((choose_kn(10,10,g) == vec_eseed_t{0,1,2,3,4,5,6,7,8,9}));
+   choose_kn_inclusion(10,10,g);
+   for (gen_uint_t i = 0; i < 1000; ++i) choose_kn_inclusion(2,2,g);
+   typedef std::vector<gen_uint_t> v_t;
+   {v_t count(20);
+    for (gen_uint_t i = 0; i < 10000; ++i) {
+      const auto ch = choose_kn(2,20,g,true);
+      assert(ch.size() == 2);
+      assert(ch[0] < ch[1]);
+      ++count[ch[0]]; ++count[ch[1]];
+    }
+    assert((count == v_t{1030,1006,996,963,955,1036,1012,986,1047,968,969,1041,994,1001,1008,1020,988,1026,939,1015}));
    }
   }
   {RandGen_t g({0});
