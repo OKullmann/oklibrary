@@ -133,6 +133,10 @@ namespace RandGen {
     res.reserve(k);
     using U = UniformRange<RandGen_t>;
     if (k == 1) { res.push_back(U(g, n)()); return res; }
+    if (k == 2) {
+      const gen_uint_t a = U(g, n)(), b = U(g, n-1)();
+      return {a, b==a ? n-1 : b};
+    }
     std::map<gen_uint_t, gen_uint_t> M;
     {const auto first = U(g, n)();
      res.push_back(first);
