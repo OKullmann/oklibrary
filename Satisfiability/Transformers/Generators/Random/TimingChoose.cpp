@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.4.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -56,8 +56,8 @@ seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "11.5.2019",
+        "0.1.3",
+        "10.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp",
@@ -96,6 +96,7 @@ int main(const int argc0, const char* const argv[]) {
   const gen_uint_t K = (argc <= index) ? K_default : FloatingPoint::toUInt(argv[index++]);
   assert(K >= 1 and  K <= M);
   const gen_uint_t T = (argc <= index) ? T_default : FloatingPoint::toUInt(argv[index++]);
+  const bool sorted = (argc <= index) ? false : true; index++;
   index.deactivate();
 
   const auto seed_main = profiling ? seed_default : Environment::CurrentTime::timestamp();
@@ -115,12 +116,12 @@ int main(const int argc0, const char* const argv[]) {
     std::cout << "\"" << SW{seeds} << "\"";
 
     std::vector<CountRuns> rM; rM.reserve(M);
-    const auto first = choose_kn(K, M, g);
+    const auto first = choose_kn(K, M, g, sorted);
     for (const auto i : first) found[i] = true;
     for (gen_uint_t k = 0; k < M; ++k) rM.emplace_back(CountRuns(found[k]));
 
     for (gen_uint_t j = 1; j < N; ++j) {
-      const auto x = choose_kn(K, M, g);
+      const auto x = choose_kn(K, M, g, sorted);
       for (auto& x : found) x = false; // std::copy XXX
       for (const auto i : x) found[i] = true;
       for (gen_uint_t k = 0; k < M; ++k) rM[k](found[k]);
