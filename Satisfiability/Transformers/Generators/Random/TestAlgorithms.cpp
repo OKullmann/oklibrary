@@ -96,7 +96,6 @@ int main(const int argc, const char* const argv[]) {
       if (perm == v_t{0,1}) ++ count[0]; else ++count[1];
     }
     assert((count == v_t{503,497}));
-    //std::cerr << count[0] << " " << count[1] << "\n";
    }
    {v_t count(20); gen_uint_t less = 0;
     for (gen_uint_t i = 0; i < 10000; ++i) {
@@ -108,6 +107,15 @@ int main(const int argc, const char* const argv[]) {
     }
     assert(less == 5010);
     assert((count == v_t{1030,1006,996,963,955,1036,1012,986,1047,968,969,1041,994,1001,1008,1020,988,1026,939,1015}));
+   }
+   {v_t count(19);
+    for (gen_uint_t i = 0; i < 10000; ++i) {
+      const auto ch = choose_kn_inclusion(1,19,g);
+      assert(ch.size() == 1);
+      ++count[ch[0]];
+    }
+    //for (auto x : count) std::cerr << " " << x; std::cerr << "\n";
+    assert((count == v_t{560,531,509,507,570,528,523,544,516,519,492,531,563,534,529,504,499,532,509}));
    }
   }
   {RandGen_t g({0});
