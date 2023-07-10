@@ -47,3 +47,28 @@ seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf
 real	0m7.056s
 user	0m7.047s
 sys	0m0.000s
+
+
+After not using the res-variable for k=2:
+Random> time ./TimingChoose 100000000 10 2 1
+# Timestamp: 10.07.2023 11:55:18_+0200 1688982918699101900
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp
+# program name:       TimingChoose
+#  version:           0.1.2
+#  last change:       11.5.2019
+#  git-id:            1f3ffaf89cf05b36bf1f90894d432cf1a7e9f8e7
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 11:54:03
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 2, T = 1
+# Main seed: 1688982918699078797
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(348312717,393246980,0,0)" 0.3156196769266079139 0.41173830989967927547 0.99202128737073679259 0.66466797755320100236 0.36440679722987133623 0.23792857396024674304 0.17533791932214226829 0.11883264698615529443 0.51520788118521120241 0.24828488813710168873 0.6388909499552454255 0.58985664165137073281 0.6230728521036940695 0.99207229572544534891 0.48909434127627418791 0.51361771000780055804 0.12757117404679639848 0.16846243943092972983 0.68455891936790183117 0.316238096992675111
+
+real	0m5.978s
+user	0m5.973s
+sys	0m0.004s
