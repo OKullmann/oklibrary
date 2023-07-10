@@ -73,6 +73,30 @@ real	0m5.978s
 user	0m5.973s
 sys	0m0.004s
 
+After improving the sorted case:
+Random> time ./TimingChoose 100000000 10 2 1
+# Timestamp: 10.07.2023 20:10:12_+0200 1689012612158824507
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp
+# program name:       TimingChoose
+#  version:           0.1.3
+#  last change:       10.7.2023
+#  git-id:            175b99d3df773e3f4d13a13a43f3b38ff11188f3
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 19:59:39
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 2, T = 1
+# Main seed: 1689012612158806283
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(2699122955,393253893,0,0)" 0.25595656430283079068 0.28888403702314358149 0.6076016107914244848 0.44195405350615496158 0.74574877057360441793 0.38965131909424852716 0.41621805816625145845 0.97755275030743147614 0.16720210597342288277 0.4489173254533244577 0.43612699635504797424 0.19598015081980209933 0.61918905132682369936 0.6411682292942328816 0.64533678567474804397 0.5755851362522447452 0.7622709334534800695 0.91739546711282790321 0.66937932769365546536 0.70246559798386600155
+
+real	0m6.318s
+user	0m6.317s
+sys	0m0.001s
+
 Sorting:
 Random> time ./TimingChoose 100000000 10 2 1 ""
 # Timestamp: 10.07.2023 17:50:15_+0200 1689004215783468867
@@ -97,9 +121,37 @@ real	0m6.898s
 user	0m6.898s
 sys	0m0.000s
 
+The improved version:
+
+Random> time ./TimingChoose 100000000 10 2 1 ""
+# Timestamp: 10.07.2023 20:10:43_+0200 1689012643413233740
+# Producing program: https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TimingChoose.cpp
+# program name:       TimingChoose
+#  version:           0.1.3
+#  last change:       10.7.2023
+#  git-id:            175b99d3df773e3f4d13a13a43f3b38ff11188f3
+# machine name:       csltok2
+#  bogomips:          5799.77
+# compiler version:   g++ 10.3.0
+#  compilation date:  Jul_10_2023 19:59:39
+#  used options:      --std=c++20 -pedantic -Ofast -DNDEBUG -march=native -fwhole-program -static -fno-math-errno -fno-trapping-math -fno-rounding-math -fno-signaling-nans -fno-unsafe-math-optimizations -fno-finite-math-only -fno-associative-math -fno-reciprocal-math -fsigned-zeros
+#  NDEBUG:            1
+#  OPTIMIZE:          1
+# N = 100000000, M = 10, K = 2, T = 1
+# Main seed: 1689012643413210386
+seeds pf0 pr0 pf1 pr1 pf2 pr2 pf3 pr3 pf4 pr4 pf5 pr5 pf6 pr6 pf7 pr7 pf8 pr8 pf9 pr9
+"(3888755986,393253900,0,0)" 0.3204663504726918086 0.56538358159595106321 0.56562950055265176025 0.95157758066894042949 0.128071734083713586 0.2657892637934813631 0.40512677817977807578 0.097777597724089202364 0.43055048782575273313 0.42078267068646073277 0.41435716503542658284 0.59153221724196068931 0.99581112529843695673 0.60949899077684996363 0.059294954658565100196 0.46126425334647517084 0.43509662753595796308 0.82998756711962554518 0.76684826696627737916 0.68599709535770344931
+
+real	0m6.263s
+user	0m6.258s
+sys	0m0.004s
+
+So the main case (sorted) has been improved, while the unsorted case for the
+generic function has been impaired (which is less important).
 
 
-Now the case k=1:
+
+The case k=1:
 
 Random> time ./TimingChoose 100000000 10 1 1
 # Timestamp: 10.07.2023 16:42:24_+0200 1689000144778143405
