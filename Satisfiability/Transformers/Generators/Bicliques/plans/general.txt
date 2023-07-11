@@ -23,16 +23,16 @@ The alternative solver is based on IP, integer programming.
 
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
- 1. Taking a filename for a QCNF as argument.
- 2. Storing it in a list of lines.
- 3. First checking the initial c-lines and the p-line.
- 4. Output statistics on them, and abort if there is an error.
+ 1. DONE Taking a filename for a QCNF as argument.
+ 2. DONE Storing it in a list of lines.
+ 3. DONE First checking the initial c-lines and the p-line.
+ 4. DONE Output statistics on them, and abort if there is an error.
  5. Are there comments after the p-line?
      - One needs to see how many such files are there, and manually
        inspect them.
  6. Analyse the a-line and e-lines:
-     - all on one line (finishing with "0\n")?
-     - always alternating?
+     - DONE all on one line, finishing with "0\n"?
+     - DONE always alternating?
      - correct variables?
      - disjoint?
  7. Output statistics on ae-lines:

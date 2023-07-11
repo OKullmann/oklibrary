@@ -25,8 +25,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "4.7.2023",
+        "0.0.7",
+        "11.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -131,7 +131,11 @@ int main(const int argc, const char* const argv[]) {
       std::cout << "\nno a-/e-line at line " << first_ae << "\n";
     syntax_error();
   }
+  const bool first_a = F[first_ae][0] == 'a';
+  if (level >= 2)
+    std::cout << "first_a " << std::boolalpha << first_a << "\n";
   const count_t end_ae = first_nonae(F, first_ae+1);
+  assert(end_ae > first_ae);
   if (level >= 2)
     std::cout << "num_ae " << end_ae - first_ae << "\n";
   assert(end_ae <= num_lines);
@@ -142,12 +146,31 @@ int main(const int argc, const char* const argv[]) {
     syntax_error();
   }
 
-  for (count_t i = first_ae; i < end_ae; ++i)
-    if (not F[i].ends_with(" 0")) {
-      if (level >= 1)
-        std::cout << "\na-e-line " << i << " not finishing with \" 0\":\n"
-          "  \"" << F[i] << "\"\n";
-      syntax_error();
-    }
-  const auto [gV, oV] = readae(F, first_ae, end_ae);
+  {char firstc = 0;
+   for (count_t i = first_ae; i < end_ae; ++i) {
+     const std::string& line = F[i];
+     if (firstc == line[0]) {
+       if (level >= 1)
+         std::cout << "\na-e-line " << i - first_ae <<
+           " same quantifier as previous line:\n"
+           "  \"" << line << "\"\n";
+       syntax_error();
+     }
+     firstc = line[0];
+     if (not line.ends_with(" 0")) {
+       if (level >= 1)
+         std::cout << "\na-e-line " << i - first_ae <<
+           " not finishing with \" 0\":\n"
+           "  \"" << line << "\"\n";
+       syntax_error();
+     }
+   }
+  }
+  const auto [vars, wrongaeline] = readae(F, first_ae, end_ae, level);
+  if (wrongaeline != end_ae) {
+    if (level >= 1)
+      std::cout << "problem with a-e-line " << wrongaeline - first_ae << "\n";
+    syntax_error();
+  }
+
 }

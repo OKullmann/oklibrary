@@ -91,14 +91,29 @@ namespace QDimacsSyntax {
     while (i < F.size() and begins_ae(F[i])) ++i;
     return i;
   }
+  // Returns empty set iff error was found:
+  std::set<count_t> analyse_numbers_ae(const std::string& s,
+                                       const count_t level) noexcept {
+    std::set<count_t> res;
+    // split and test all numbers;
+    // output to cout and empty set in case of error XXX
+    return res;
+  }
 
-  // Global variables and other-variables:
-  std::array<std::set<count_t>, 2> readae(const tokens_t& F,
-                                          const count_t begin,
-                                          const count_t end) {
+  // The variables of the a-e-lines (second coordinate != end iff error found):
+  std::pair<std::vector<std::set<count_t>>, count_t>
+  readae(const tokens_t& F,
+         const count_t begin, const count_t end,
+         const count_t level) {
     assert(begin < end and end < F.size());
-    std::array<std::set<count_t>, 2> res;
-    
+    std::vector<std::set<count_t>> res(end - begin);
+    count_t i = begin;
+    for (; i < end; ++i) {
+      res[i-begin] = analyse_numbers_ae(F[i], level);
+      if (res[i-begin].empty()) return {res, i};
+      // check for disjointness XXX
+    }
+    return {res, i};
   }
 
 }
