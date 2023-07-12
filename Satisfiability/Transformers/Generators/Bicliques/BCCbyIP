@@ -63,7 +63,7 @@ set -o nounset
 
 program="BCCbyIP"
 errorm="ERROR[${program}]:"
-version="0.0.1"
+version="0.1.0"
 
 if [[ $# != 1 ]]; then
   echo -e "ERROR[${program}]: Exactly one parameter is needed:
