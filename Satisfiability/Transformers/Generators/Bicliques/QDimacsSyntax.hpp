@@ -31,6 +31,7 @@ TODOSL
 #include <Numerics/NumInOut.hpp>
 
 #include "DimacsTools.hpp"
+#include "Algorithms.hpp"
 
 namespace QDimacsSyntax {
 
@@ -156,7 +157,15 @@ namespace QDimacsSyntax {
       const count_t i0 = i - begin;
       res[i0] = analyse_numbers_ae(F[i], n, level, additional_spaces);
       if (res[i0].empty()) break;
-      // check for disjointness XXX
+      for (count_t j0 = 0; j0 < i0; ++j0) {
+        if (not Algorithms::empty_intersection(res[i0], res[j0])) {
+          if (level >= 1) {
+            std::cout << "\na/e-line " << j0 << " intersects with line "
+                      << i0 << "\n";
+          }
+          return {res, i};
+        }
+      }
     }
     if (level >= 2)
       std::cout << "add-spaces-ae " << additional_spaces << "\n";

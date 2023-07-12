@@ -25,7 +25,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.0.9",
         "12.7.2023",
         __FILE__,
         "Oliver Kullmann",

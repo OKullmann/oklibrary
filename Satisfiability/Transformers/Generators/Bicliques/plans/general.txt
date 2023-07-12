@@ -34,7 +34,8 @@ The alternative solver is based on IP, integer programming.
      - DONE all on one line, finishing with "0\n"?
      - DONE always alternating?
      - DONE correct variables?
-     - disjoint?
+     - DONE disjoint?
+     - unspecified variables?
  7. Output statistics on ae-lines:
      - especially on global variables.
     Abborting if incorrect or nondisjoint variables.
@@ -46,6 +47,7 @@ The alternative solver is based on IP, integer programming.
      - universal clauses (only containing a-variables) ?
        even empty clauses?
  9. Determining pure global variables.
+     - Indeed, easiest to determine all pure variables.
  10. Output statistics on clauses and global variables.
  11. Optionally replace original file with sanitised version,
      pure global variables eliminated.
