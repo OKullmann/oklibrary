@@ -93,26 +93,73 @@ namespace QDimacsSyntax {
   }
   // Returns empty set iff error was found:
   std::set<count_t> analyse_numbers_ae(const std::string& s,
-                                       const count_t level) noexcept {
+                                       const count_t n,
+                                       const count_t level,
+                                       count_t& spaces) noexcept {
+    assert(s.starts_with("a ") or s.starts_with("e "));
+    assert(s.ends_with(" 0"));
+    const auto size = s.size();
+    if (size <= 4) {
+      if (level >= 1)
+        std::cout << "\nempty a/e-line\n";
+      return {};
+    }
+    if (s[size-3] == ' ') ++spaces;
+    const auto split = Environment::split(s.substr(2, size-4), ' ');
     std::set<count_t> res;
-    // split and test all numbers;
-    // output to cout and empty set in case of error XXX
+    for (count_t i = 0; i < split.size(); ++i) {
+      const std::string& entry = split[i];
+      if (entry.empty()) {++spaces; continue;}
+      if (not is_strict_natnum(entry)) {
+        if (level >= 1)
+          std::cout << "\nwrong entry \"" << entry << "\"\n";
+        return {};
+      }
+      const count_t x = FloatingPoint::to_UInt(entry);
+      if (x == 0) {
+        if (level >= 1)
+          std::cout << "\nwrong entry 0\n";
+        return {};
+      }
+      if (x > n) {
+        if (level >= 1)
+          std::cout << "\nwrong entry " << x << " > max-n = " << n << "\n";
+        return {};
+      }
+      if (res.contains(x)) {
+        if (level >= 1)
+          std::cout << "\nrepeated entry " << x << "\n";
+        return {};
+      }
+      res.insert(x);
+    }
+    if (res.empty()) {
+      if (level >= 1) {
+        std::cout << "\na/e-line only contains spaces\n";
+      }
+      return {};
+    }
     return res;
   }
 
   // The variables of the a-e-lines (second coordinate != end iff error found):
   std::pair<std::vector<std::set<count_t>>, count_t>
   readae(const tokens_t& F,
+         const count_t n,
          const count_t begin, const count_t end,
          const count_t level) {
     assert(begin < end and end < F.size());
     std::vector<std::set<count_t>> res(end - begin);
     count_t i = begin;
+    count_t additional_spaces = 0;
     for (; i < end; ++i) {
-      res[i-begin] = analyse_numbers_ae(F[i], level);
-      if (res[i-begin].empty()) return {res, i};
+      const count_t i0 = i - begin;
+      res[i0] = analyse_numbers_ae(F[i], n, level, additional_spaces);
+      if (res[i0].empty()) break;
       // check for disjointness XXX
     }
+    if (level >= 2)
+      std::cout << "add-spaces-ae " << additional_spaces << "\n";
     return {res, i};
   }
 

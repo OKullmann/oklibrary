@@ -25,8 +25,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
-        "11.7.2023",
+        "0.0.8",
+        "12.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -166,7 +166,7 @@ int main(const int argc, const char* const argv[]) {
      }
    }
   }
-  const auto [vars, wrongaeline] = readae(F, first_ae, end_ae, level);
+  const auto [vars, wrongaeline] = readae(F, dp.n, first_ae, end_ae, level);
   if (wrongaeline != end_ae) {
     if (level >= 1)
       std::cout << "problem with a-e-line " << wrongaeline - first_ae << "\n";
