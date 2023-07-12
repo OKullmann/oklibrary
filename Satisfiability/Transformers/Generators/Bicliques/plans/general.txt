@@ -33,7 +33,7 @@ The alternative solver is based on IP, integer programming.
  6. Analyse the a-line and e-lines:
      - DONE all on one line, finishing with "0\n"?
      - DONE always alternating?
-     - correct variables?
+     - DONE correct variables?
      - disjoint?
  7. Output statistics on ae-lines:
      - especially on global variables.
