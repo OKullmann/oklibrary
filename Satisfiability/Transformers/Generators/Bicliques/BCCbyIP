@@ -6,6 +6,17 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
+
+# TODOS:
+
+# 1. Update output.
+#    - The following output makes no sense (the only output should be
+#      the result).
+#    - It is also not was is output.
+
+# 2. Specify installation of the other tools
+
+
 # EXAMPLES:
 # Bicliques> ./GraphGen clique 3 | ./Graph2Matrix | ./BCCbyIP matrix
 # Bicliques> ./GraphGen clique 3 | ./BCCbyIP adjacency
@@ -97,4 +108,3 @@ echo "$matrix" > temp.mat
 echo "$($ipprog temp.mat rc)"
 
 rm temp.mat
-
