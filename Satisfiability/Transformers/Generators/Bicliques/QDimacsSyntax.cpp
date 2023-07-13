@@ -26,7 +26,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.10",
+        "0.1.0",
         "13.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -138,7 +138,7 @@ int main(const int argc, const char* const argv[]) {
   const count_t end_ae = first_nonae(F, first_ae+1);
   assert(end_ae > first_ae);
   if (level >= 2)
-    std::cout << "num_ae " << end_ae - first_ae << "\n";
+    std::cout << "num-ae " << end_ae - first_ae << "\n";
   assert(end_ae <= num_lines);
   if (num_lines - end_ae != dp.c) {
     if (level >= 1)
@@ -181,5 +181,16 @@ int main(const int argc, const char* const argv[]) {
      syntax_error();
    }
   }
+  assert(not vars.empty());
+  if (level >= 2) {
+    std::cout << "quant_blocks " << vars[0].size();
+    for (count_t i = 1; i < vars.size(); ++i)
+      std::cout << " " << vars[i].size();
+    std::cout << "\n";
+  }
+  const count_t num_glob = first_a ? vars[0].size() : 0;
+  if (level >= 2)
+    std::cout << "num-glob " << num_glob << "\n";
+  std::cout.flush();
 
 }
