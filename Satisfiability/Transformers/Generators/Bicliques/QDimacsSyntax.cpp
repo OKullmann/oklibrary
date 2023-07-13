@@ -21,12 +21,13 @@ EXAMPLES:
 #include <ProgramOptions/Environment.hpp>
 
 #include "QDimacsSyntax.hpp"
+#include "Algorithms.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "12.7.2023",
+        "0.0.10",
+        "13.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -171,6 +172,14 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "problem with a-e-line " << wrongaeline - first_ae << "\n";
     syntax_error();
+  }
+  {const count_t sum_ae = Algorithms::sum_sizes(vars);
+   if (sum_ae != dp.n) {
+     if (level >= 1)
+       std::cout << "\nn=" << dp.n << ", but a-e-lines only contain " <<
+         sum_ae << " elements\n";
+     syntax_error();
+   }
   }
 
 }

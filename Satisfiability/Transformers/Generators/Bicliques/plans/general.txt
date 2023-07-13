@@ -35,7 +35,7 @@ The alternative solver is based on IP, integer programming.
      - DONE always alternating?
      - DONE correct variables?
      - DONE disjoint?
-     - unspecified variables?
+     - DONE unspecified variables?
  7. Output statistics on ae-lines:
      - especially on global variables.
     Abborting if incorrect or nondisjoint variables.
