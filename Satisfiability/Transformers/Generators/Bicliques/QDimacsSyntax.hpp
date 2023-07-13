@@ -106,7 +106,8 @@ namespace QDimacsSyntax {
       return {};
     }
     if (s[size-3] == ' ') ++spaces;
-    const auto split = Environment::split(s.substr(2, size-4), ' ');
+    const auto split =
+      Environment::split(std::string_view(s).substr(2, size-4), ' ');
     std::set<count_t> res;
     for (count_t i = 0; i < split.size(); ++i) {
       const std::string& entry = split[i];
