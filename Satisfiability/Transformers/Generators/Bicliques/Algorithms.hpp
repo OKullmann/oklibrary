@@ -9,6 +9,8 @@ License, or any later version. */
 
   General algorithms (tools)
 
+   Set operations:
+
    - empty_intersection(RAN1 r1, RAN2 r2) (r1, r2 must be sorted)
 
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
@@ -17,11 +19,17 @@ License, or any later version. */
    - complement_subsequence(RAN1 a, RAN2 b) -> vector<RAN2::value_type>
      assumes a is a subsequence of b, and returns "b - a"
 
+   Sequence operations:
+
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
 
    - erase_if_unstable(vec, pred) : possibly faster than std::erase_if due to
      not keeping the order of vec
+
+   - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
+
+   Graph algorithms:
 
    - finding greedily a maximal independent set in a graph, given by
      a predicate:
@@ -48,9 +56,12 @@ TODOS:
 #ifndef ALGORITHMS_iWjSrlmVWS
 #define ALGORITHMS_iWjSrlmVWS
 
+#include <numeric>
+#include <vector>
+
 #include <cassert>
 
-#include <algorithm>
+#include <Numerics/NumTypes.hpp>
 
 namespace Algorithms {
 
@@ -169,6 +180,16 @@ namespace Algorithms {
     const auto r = std::distance(itb, end);
     v.erase(itb, end);
     return r;
+  }
+
+
+  template <class RANGE>
+  FloatingPoint::UInt_t sum_sizes(const RANGE& r) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    const auto op = [](const ui acc, const auto& x) noexcept -> ui {
+      return acc + std::size(x);
+    };
+    return std::accumulate(r.begin(), r.end(), ui(0), op);
   }
 
 

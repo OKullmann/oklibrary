@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "7.5.2023",
+        "0.2.1",
+        "13.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -170,6 +170,14 @@ int main(const int argc, const char* const argv[]) {
    assert((complement_subsequence(va_t{2,-1,4,3},
                                   vb_t{2,-1,0.5,1.5,4,2.5,4,3,5.5}) ==
            vb_t{0.5, 1.5, 2.5, 4, 5.5}));
+  }
+
+  {using vt = std::vector<std::vector<int>>;
+   assert(sum_sizes(vt{}) == 0);
+   assert(sum_sizes(vt{{},{1,2},{5,6,7}}) == 5);
+  }
+  {using vt = std::array<int [5], 2>;
+   assert(sum_sizes(vt{}) == 10);
   }
 
   {const auto pred = [](const unsigned i, const unsigned j){return i==j;};
