@@ -184,12 +184,14 @@ namespace Algorithms {
 
 
   template <class RANGE>
-  FloatingPoint::UInt_t sum_sizes(const RANGE& r) noexcept {
+  constexpr FloatingPoint::UInt_t sum_sizes(const RANGE& r) noexcept {
     using ui = FloatingPoint::UInt_t;
-    const auto op = [](const ui acc, const auto& x) noexcept -> ui {
-      return acc + std::size(x);
+    using std::size;
+    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
+      return acc + size(x);
     };
-    return std::accumulate(r.begin(), r.end(), ui(0), op);
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(0), op);
   }
 
 
