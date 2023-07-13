@@ -18,12 +18,7 @@
 
 
 # EXAMPLES:
-# Bicliques> ./GraphGen clique 3 | ./Graph2Matrix | ./BCCbyIP matrix
-# Bicliques> ./GraphGen clique 3 | ./BCCbyIP adjacency
-# Input format: adjacency
-# Executing Graph2Matrix...
-# Saving matrix in a temporary file...
-# Executing nonnegrank...
+# Bicliques> ./GraphGen clique 3 | ./BCCbyIP
 # Read 3x3 matrix with 6 nonzeros and 0 fooling pairs.
 # Computing <rectangle covering> bound using maximal rectangles.
 #   Enumerating maximal rectangles. Computed 6 rectangles (time: 0s)
@@ -76,32 +71,12 @@ program="BCCbyIP"
 errorm="ERROR[${program}]:"
 version="0.1.0"
 
-if [[ $# != 1 ]]; then
-  echo -e "ERROR[${program}]: Exactly one parameter is needed:
-  The format can be passed as adjacency or matrix"
-  exit 1
-fi
-
-if ! [[ $1 == adjacency || $1 == matrix ]]; then
-  echo $errorm "Argument \"$1\" not correct."
-  exit 1
-fi
-
-format="$1"
-
 : ${graphtomatrixprog:=./Graph2Matrix}
 : ${ipprog:=~/nonnegrank/build/src/nonnegrank}
 
 input=$(</dev/stdin)
-matrix=""
 
-if [[ $format == matrix ]]; then
-  matrix=$input
-else
-  if [[ $format == adjacency ]]; then
-    matrix="$(echo "$input" | $graphtomatrixprog)"
-  fi
-fi
+matrix="$(echo "$input" | $graphtomatrixprog)"
 
 echo "$matrix" > temp.mat
 
