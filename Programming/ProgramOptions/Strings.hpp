@@ -222,7 +222,7 @@ namespace Environment {
   }
 
   inline tokens_t split(const std::string_view s, const char sep) {
-    std::istringstream ss(s.data());
+    std::istringstream ss(std::string(s.data(), s.size()));
     tokens_t res;
     std::string item;
     while (std::getline(ss, item, sep)) res.push_back(item);

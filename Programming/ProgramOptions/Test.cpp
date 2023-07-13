@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.3.0",
-        "28.6.2023",
+        "0.3.1",
+        "13.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -112,6 +112,11 @@ int main(const int argc, const char* const argv[]) {
    s.clear(); s.str("\n\na b\ncc"); c = 0;
    assert((split(s, '\n', c) == tokens_t{"", "", "a b", "cc"}));
    assert(c == 'c');
+  }
+  {const std::string s = "1 2 3 4 5";
+   const std::string_view v(s);
+   const auto S = split(v.substr(2,4), ' ');
+   assert((S == tokens_t{"2", "3"}));
   }
 
   {assert(eqp(split2("", ',',','), {}));
