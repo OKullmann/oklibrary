@@ -6,10 +6,53 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  For input-QCNF F, analyse F
+  For input-QCNF F, analyse F, and return output "ERROR" when not in
+  "strict q-dimacs syntax:
+   - First >= 0 lines starting with "c ".
+   - A line is always completed by "\n" (EOL).
+   - A "strict natural numbers" is defined as follows:
+     - only digits, at least one
+     - no leading zero
+     - >= 1
+     - < 2^64.
+   - Then one line "p cnf n c" (no additional spaces), where n, c are
+     strict natural numbers, and n < 2^64-1.
+   - Then at least one a-e-line:
+    - starting with "a " or "e "
+    - finishing with " 0"
+    - inbetween strict natural numbers (at least one) <= n, separated
+      by at least one space (which always means " ", no other space-symbols;
+      leading spaces possible)
+    - no repetitions inside a line
+    - no common elements between different lines
+    - for maxn_ae the maximum number listed we have maxn_ae = n.
+  - Then exactly c lines containing the clauses:
+    - ending with " 0"
+    - otherwise only literals (at least one), separated by at least one space,
+      (possibly leading spaces), which are strict natural numbers, possibly
+      prefixed with "-"
+    - the underlying variables must occur in the a-e-lines
+    - no repeated or clashing literals
+    - at least one existential literal.
+  - The "global variable" are the outermost a-variables, if the first
+    block is universal, otherwise there are no global variables.
+  - Every global variable must occur positively and negatively in the clauses.
+
+
+BUGS:
+
+1. No error if not all possible variables occur in a-e-lines:
+    - output n, max_ae, #ae
+    - it must hold max_ae = n (but not #ae = n).
+
+2. Checking that the variables of a clause are mentioned in the a-e-lines:
+    - A second bit-vector is needed, which specifies the variables from
+      the a-e-lines.
 
 
 EXAMPLES:
+
+
 
 */
 
