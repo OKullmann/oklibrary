@@ -722,8 +722,3 @@ Looking through the error-types:
  - empty ae/line (seems always the first ae-line)
  - comment-line just "c" (seems always the first line)
  - empty first clause-line
-
-One could as an initial clean-up:
- - remove a leading line just consisting of "c"
- - remove (completely) empty lines
-

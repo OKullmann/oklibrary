@@ -23,6 +23,21 @@ The alternative solver is based on IP, integer programming.
 
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
+ -1. Tolerance-levels:
+     - 0: strict as now
+     - 1: allows
+       - an initial "c"-line
+       - arbitrary spaces after n in the dp-line
+       - one empty line after the dp-line
+       - one empty line after the ae-lines, and c can then (if there
+         is such line) differ by one from the count of clauses
+       - only max_ae = n
+     - 2: additionally allows
+       - repeated and clashing literals
+       - max_ae <= n.
+
+     All these deviations from level 0 are reported.
+
  0. Instead of just outputting "ERROR", add an error-number:
      - Without a space, in the form "ERROR001" (fixed width), so that
        no parsing is needed.
