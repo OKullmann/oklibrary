@@ -17,7 +17,7 @@
 # 0. DONE Delete all .-files/directories.
 # 1. DONE Should we remove the nested directory in QBF2BCC ?
 #    Yes, otherwise we have to handle this unknown name.
-# 2. Update the call of disprog to "global-only mode".
+# 2. DONE Update the call of disprog to "global-only mode".
 
 
 set -o errexit
