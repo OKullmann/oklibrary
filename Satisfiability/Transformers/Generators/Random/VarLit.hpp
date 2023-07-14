@@ -108,9 +108,9 @@ namespace RandGen {
      - The literal is singular iff v is.
      - Default construction yields the positive singular literal.
      - Construction from a variable yields the positive literal.
-     - The construction from a boolean and a variable has the boolean first,
-       in order to minimise the danger coming from the implicit conversions
-       of integral types to bool.
+     - The construction from a boolean and a variable has the boolean first
+       (with true meaning positive), in order to minimise the danger coming
+       from the implicit conversions of integral types to bool.
      - The other constructor which allow to specify the sign (explicitly)
        has the sign in the second argument, as an integer s, with "positive"
        meaning "s > 0". So s = 0 means "negative".
@@ -130,7 +130,7 @@ namespace RandGen {
   */
   struct Lit {
     Var v;
-    bool s;
+    bool s; // true means positive
 
     constexpr Lit() noexcept : v(0), s(true) {};
     constexpr Lit(const Var v) noexcept : v(v), s(true) {}
