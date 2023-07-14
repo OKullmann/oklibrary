@@ -23,6 +23,11 @@ The alternative solver is based on IP, integer programming.
 
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
+ 0. Instead of just outputting "ERROR", add an error-number:
+     - Without a space, in the form "ERROR001" (fixed width), so that
+       no parsing is needed.
+     - The script DirQBF2BCC should list the error-numbers (in sorted order),
+       and how often they occurred.
  1. DONE Taking a filename for a QCNF as argument.
  2. DONE Storing it in a list of lines.
  3. DONE First checking the initial c-lines and the p-line.
@@ -52,7 +57,8 @@ The alternative solver is based on IP, integer programming.
      - NOT DONE
        Indeed, easiest to determine all pure variables.
  10. DONE Output statistics on clauses and global variables.
- 11. Output statistics on variable degrees.
+ 11. Output statistics on variable degrees:
+     - this should only consider the variables mentioned in the a-e-lines.
  12. Optionally replace original file with sanitised version,
      pure global variables eliminated.
 
