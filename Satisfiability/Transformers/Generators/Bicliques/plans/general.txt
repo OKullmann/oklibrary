@@ -31,10 +31,9 @@ The alternative solver is based on IP, integer programming.
        - one empty line after the dp-line
        - one empty line after the ae-lines, and c can then (if there
          is such line) differ by one from the count of clauses
-       - only max_ae = n
+       - only max_ae <= n
      - 2: additionally allows
-       - repeated and clashing literals
-       - max_ae <= n.
+       - repeated and clashing literals.
 
      All these deviations from level 0 are reported.
 

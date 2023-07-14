@@ -184,6 +184,7 @@ namespace QDimacsSyntax {
     }
     return res;
   }
+  // Whether block 0 <= i < vars.size() is universal:
   std::vector<bool>
   is_universal_block(const std::vector<std::set<count_t>>& vars,
                      const bool first_a) {
@@ -194,6 +195,16 @@ namespace QDimacsSyntax {
     for (count_t i = 1; i < size; ++i) res[i] = not res[i-1];
     return res;
   }
+  // Whether variable v is in the ae-blocks:
+  std::vector<bool>
+  is_ae_var(const std::vector<std::set<count_t>>& vars,
+                   const count_t n) {
+    std::vector<bool> res(n+1);
+    for (const auto& S : vars)
+      for (const auto v : S) res[v] = true;
+    return res;
+  }
+  // Whether variable v is universal:
   std::vector<bool>
   is_universal_var(const std::vector<std::set<count_t>>& vars,
                    const std::vector<bool>& unib,
@@ -211,6 +222,7 @@ namespace QDimacsSyntax {
   typedef std::vector<count_t> degvec_t;
   count_t analyse_clause(const std::string& s, degvec_t& pos, degvec_t& neg,
                          const count_t n, const count_t level,
+                         const std::vector<bool>& aev,
                          const std::vector<bool>& univ,
                          count_t& spaces) {
     if (not s.ends_with(" 0")) {
@@ -249,6 +261,11 @@ namespace QDimacsSyntax {
       if (v.v > n) {
         if (level >= 1)
           std::cout << "\nwrong variable " << v << " > max-n = " << n << "\n";
+        return 0;
+      }
+      if (not aev[v.v]) {
+        if (level >= 1)
+          std::cout << "\nnon-ae-variable " << v << "\n";
         return 0;
       }
       const Lit x(start==0, v);

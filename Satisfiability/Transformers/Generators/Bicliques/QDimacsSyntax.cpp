@@ -25,7 +25,7 @@ License, or any later version. */
       leading spaces possible)
     - no repetitions inside a line
     - no common elements between different lines
-    - for maxn_ae the maximum number listed we have maxn_ae = n.
+    - for max_ae the maximum number listed we have max_ae = n.
   - Then exactly c lines containing the clauses:
     - ending with " 0"
     - otherwise only literals (at least one), separated by at least one space,
@@ -34,16 +34,18 @@ License, or any later version. */
     - the underlying variables must occur in the a-e-lines
     - no repeated or clashing literals
     - at least one existential literal.
+  - Every universal variable must occur positively and negatively in the
+    clauses.
   - The "global variable" are the outermost a-variables, if the first
     block is universal, otherwise there are no global variables.
-  - Every global variable must occur positively and negatively in the clauses.
 
 
 BUGS:
 
 1. DONE Output max_ae and num_ae.
 
-2. Checking that the variables of a clause are mentioned in the a-e-lines:
+2. DONE
+   Checking that the variables of a clause are mentioned in the a-e-lines:
     - A second bit-vector is needed, which specifies the variables from
       the a-e-lines.
 
@@ -68,8 +70,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "14.7.2023",
+        "0.1.4",
+        "15.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -221,16 +223,15 @@ int main(const int argc, const char* const argv[]) {
   assert(max_ae <= dp.n);
   if (level >= 2)
     std::cout << "max_ae " << max_ae << "\n";
+  if (max_ae != dp.n) {
+    if (level >= 1)
+      std::cout << "\nmax-ae=" << max_ae << " < n=" << dp.n << "\n";
+    syntax_error();
+  }
   const count_t num_ae = Algorithms::sum_sizes(vars);
   assert(num_ae <= max_ae);
   if (level >= 2)
     std::cout << "num_ae " << num_ae << "\n";
-  if (num_ae != dp.n) {
-    if (level >= 1)
-      std::cout << "\nn=" << dp.n << ", but a-e-lines only contain " <<
-        num_ae << " elements\n";
-    syntax_error();
-  }
   if (level >= 2) {
     std::cout << "ae_blocks " << vars[0].size();
     for (count_t i = 1; i < vars.size(); ++i)
@@ -241,15 +242,18 @@ int main(const int argc, const char* const argv[]) {
   if (level >= 2)
     std::cout << "num-glob " << num_glob << "\n";
   std::cout.flush();
-  const std::vector<bool> univ_block = is_universal_block(vars, first_a);
-  const std::vector<bool> univ_var = is_universal_var(vars, univ_block, dp.n);
+  const std::vector<bool>
+    univ_block = is_universal_block(vars, first_a),
+    ae_var = is_ae_var(vars, dp.n),
+    univ_var = is_universal_var(vars, univ_block, dp.n);
 
   using stats_t = GenStats::BasicStats<count_t, FloatingPoint::float80>;
   degvec_t posd(dp.n+1), negd(dp.n+1);
   {stats_t Scl;
    count_t additional_spaces = 0;
    for (count_t i = end_ae; i < num_lines; ++i) {
-     const count_t L = analyse_clause(F[i], posd, negd, dp.n, level, univ_var,
+     const count_t L = analyse_clause(F[i], posd, negd, dp.n, level,
+                                      ae_var, univ_var,
                                       additional_spaces);
      if (L == 0) {
        if (level >= 1)
