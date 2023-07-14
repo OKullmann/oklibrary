@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.4.4"
+version="0.5.0"
 
 archive="$1"
 
@@ -33,6 +33,8 @@ archive="$1"
 : ${filetype:="*.qdimacs.gz"}
 : ${log_general:="LOG"}
 : ${log_remove:="LOG_remove"}
+: ${synprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax}
+: ${log_syntax:="LOG_syntax"}
 : ${log_rename:="LOG_rename"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 : ${dir_extension:=".B"}
@@ -104,10 +106,12 @@ echo
 count_qdimacs=0
 count_empty=0
 count_nd=0
+count_syntax=0
 count_rename=0
 count_withglobal=0
 count_withnonbc=0
 count_deleted=0
+rm -f ${log_syntax}
 rm -f ${log_rename}
 
 for file in ${directory}/**/${filetype}; do
@@ -128,6 +132,14 @@ for file in ${directory}/**/${filetype}; do
       rm ${fullname}
       ((++count_nd))
     else
+      syntax_report="$(${synprog} ${fullname} 1)"
+      if ! [ -z "${syntax_report}" ]; then
+        echo "${fullname}" >> ${log_syntax}
+        echo "${syntax_report}" >> ${log_syntax}
+        ((++count_syntax))
+        continue
+      fi
+
       # only this part of the program is special for bcc-processing:
       newname="$(${disprog} ${fullname} ${second_argument} ${third_argument})"
       if [ -z "${newname}" ]; then
@@ -163,6 +175,7 @@ echo " "$[ ${time4} - ${time3} ] "s" | tee -a ${log_general}
 echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
+echo "#syntax-errors: ${count_syntax}" | tee -a ${log_general}
 echo "#rename: ${count_rename}" | tee -a ${log_general}
 echo "#deleted: ${count_deleted}" | tee -a ${log_general}
 echo "#with-global: ${count_withglobal}" | tee -a ${log_general}
