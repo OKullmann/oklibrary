@@ -42,14 +42,6 @@ License, or any later version. */
 
 BUGS:
 
-1. DONE Output max_ae and num_ae.
-
-2. DONE
-   Checking that the variables of a clause are mentioned in the a-e-lines:
-    - A second bit-vector is needed, which specifies the variables from
-      the a-e-lines.
-
-
 EXAMPLES:
 
 
@@ -70,7 +62,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "15.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -124,7 +116,7 @@ int main(const int argc, const char* const argv[]) {
   if (not final_eol) {
     if (level >= 1)
       std::cout << "\nno final eol\n";
-    syntax_error();
+    syntax_error(1);
   }
   const count_t num_lines = F.size();
   if (level >= 2) {
@@ -139,12 +131,12 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "\nc-line " << first_nonc << ":\n  \""
                 << F[first_nonc] << "\"\n";
-    syntax_error();
+    syntax_error(2);
   }
   if (first_nonc == num_lines) {
     if (level >= 1)
       std::cout << "\nall lines are comments\n";
-    syntax_error();
+    syntax_error(3);
   }
   assert(first_nonc < num_lines);
   if (level >= 2)
@@ -155,26 +147,26 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "\ndp-line " << first_nonc << ":\n  \""
                 << F[first_nonc] << "\"\n";
-    syntax_error();
+    syntax_error(4);
   }
   if (level >= 2)
     std::cout << "pars " << dp.n << " " << dp.c << "\n";
   if (dp.n == 0) {
     if (level >= 1)
       std::cout << "\nn=0\n";
-    syntax_error();
+    syntax_error(5);
   }
   if (dp.c == 0) {
     if (level >= 1)
       std::cout << "\nc=0\n";
-    syntax_error();
+    syntax_error(6);
   }
 
   const count_t first_ae = first_nonc + 1;
   if (first_ae == num_lines or not begins_ae(F[first_ae])) {
     if (level >= 1)
       std::cout << "\nno a-/e-line at line " << first_ae << "\n";
-    syntax_error();
+    syntax_error(7);
   }
   const bool first_a = F[first_ae][0] == 'a';
   if (level >= 2)
@@ -188,7 +180,7 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "\nremaining-lines " << num_lines - end_ae << " != c = "
                 << dp.c << "\n";
-    syntax_error();
+    syntax_error(8);
   }
 
   {char firstc = 0;
@@ -199,7 +191,7 @@ int main(const int argc, const char* const argv[]) {
          std::cout << "\na-e-line " << i - first_ae <<
            " same quantifier as previous line:\n"
            "  \"" << line << "\"\n";
-       syntax_error();
+       syntax_error(9);
      }
      firstc = line[0];
      if (not line.ends_with(" 0")) {
@@ -207,7 +199,7 @@ int main(const int argc, const char* const argv[]) {
          std::cout << "\na-e-line " << i - first_ae <<
            " not finishing with \" 0\":\n"
            "  \"" << line << "\"\n";
-       syntax_error();
+       syntax_error(10);
      }
    }
   }
@@ -217,7 +209,7 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "problem with a-e-line " << wrongaeline - first_ae
                 << " (line " << wrongaeline << ")\n";
-    syntax_error();
+    syntax_error(11);
   }
   const count_t max_ae = max_ae_index(vars);
   assert(max_ae <= dp.n);
@@ -226,7 +218,7 @@ int main(const int argc, const char* const argv[]) {
   if (max_ae != dp.n) {
     if (level >= 1)
       std::cout << "\nmax-ae=" << max_ae << " < n=" << dp.n << "\n";
-    syntax_error();
+    syntax_error(12);
   }
   const count_t num_ae = Algorithms::sum_sizes(vars);
   assert(num_ae <= max_ae);
@@ -259,7 +251,7 @@ int main(const int argc, const char* const argv[]) {
        if (level >= 1)
          std::cout << "problem with clause " << i - end_ae
                    << " (line " << i << ")\n";
-       syntax_error();
+       syntax_error(13);
      }
      Scl += L;
    }
@@ -277,7 +269,7 @@ int main(const int argc, const char* const argv[]) {
     if (level >= 1)
       std::cout << "\nformal-or-pure-global-vars " << num_form_g + num_pure_g
                 << "\n";
-    syntax_error();
+    syntax_error(14);
   }
 
   if (level >= 2) {

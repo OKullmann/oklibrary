@@ -47,8 +47,8 @@ namespace QDimacsSyntax {
   };
 
   const std::string is_incorrect = "ERROR";
-  void syntax_error() noexcept {
-    std::cout << is_incorrect << std::endl;
+  void syntax_error(const int code) noexcept {
+    std::cout << is_incorrect << code << std::endl;
     std::exit(0);
   }
 
