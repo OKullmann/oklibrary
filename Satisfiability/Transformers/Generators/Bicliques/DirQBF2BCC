@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.5.0"
+version="0.5.1"
 
 archive="$1"
 
@@ -134,8 +134,8 @@ for file in ${directory}/**/${filetype}; do
     else
       syntax_report="$(${synprog} ${fullname} 1)"
       if ! [ -z "${syntax_report}" ]; then
-        echo "${fullname}" >> ${log_syntax}
-        echo "${syntax_report}" >> ${log_syntax}
+        echo -n "${fullname}" >> ${log_syntax}
+        echo -e "${syntax_report}\n" >> ${log_syntax}
         ((++count_syntax))
         continue
       fi
