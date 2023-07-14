@@ -75,7 +75,10 @@ The alternative solver is based on IP, integer programming.
  11. Output statistics on variable degrees:
      - this should only consider the variables mentioned in the a-e-lines.
  12. Optionally replace original file with sanitised version,
-     pure global variables eliminated.
+     pure global variables eliminated:
+     - Should this assume a certain tolerance-level?
+       Or should this be done without checking?
+     - Should this replace the original file?
 
  We also need a dimacs-sanitisation-program.
  Later create a version, which doesn't store the input, and

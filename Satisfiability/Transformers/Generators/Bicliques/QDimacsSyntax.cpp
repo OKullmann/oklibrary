@@ -41,9 +41,7 @@ License, or any later version. */
 
 BUGS:
 
-1. No error if not all possible variables occur in a-e-lines:
-    - output n, max_ae, #ae
-    - it must hold max_ae = n (but not #ae = n).
+1. Output max_ae and #ae.
 
 2. Checking that the variables of a clause are mentioned in the a-e-lines:
     - A second bit-vector is needed, which specifies the variables from
