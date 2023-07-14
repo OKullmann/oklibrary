@@ -176,6 +176,14 @@ namespace QDimacsSyntax {
     return {res, i};
   }
 
+  count_t max_ae_index(const std::vector<std::set<count_t>>& vars) noexcept {
+    count_t res = 0;
+    for (const auto& S : vars) {
+      assert(not S.empty());
+      res = std::max(res, *S.crbegin());
+    }
+    return res;
+  }
   std::vector<bool>
   is_universal_block(const std::vector<std::set<count_t>>& vars,
                      const bool first_a) {

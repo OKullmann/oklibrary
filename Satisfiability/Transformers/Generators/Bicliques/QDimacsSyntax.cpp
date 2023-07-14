@@ -41,7 +41,7 @@ License, or any later version. */
 
 BUGS:
 
-1. Output max_ae and num_ae.
+1. DONE Output max_ae and num_ae.
 
 2. Checking that the variables of a clause are mentioned in the a-e-lines:
     - A second bit-vector is needed, which specifies the variables from
@@ -68,7 +68,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "14.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -180,7 +180,7 @@ int main(const int argc, const char* const argv[]) {
   const count_t end_ae = first_nonae(F, first_ae+1);
   assert(end_ae > first_ae);
   if (level >= 2)
-    std::cout << "num-ae " << end_ae - first_ae << "\n";
+    std::cout << "num-ae-blocks " << end_ae - first_ae << "\n";
   assert(end_ae <= num_lines);
   if (num_lines - end_ae != dp.c) {
     if (level >= 1)
@@ -210,22 +210,29 @@ int main(const int argc, const char* const argv[]) {
    }
   }
   const auto [vars, wrongaeline] = readae(F, dp.n, first_ae, end_ae, level);
+  assert(not vars.empty());
   if (wrongaeline != end_ae) {
     if (level >= 1)
       std::cout << "problem with a-e-line " << wrongaeline - first_ae
                 << " (line " << wrongaeline << ")\n";
     syntax_error();
   }
+  const count_t max_ae = max_ae_index(vars);
+  assert(max_ae <= dp.n);
+  if (level >= 2)
+    std::cout << "max_ae " << max_ae << "\n";
   const count_t num_ae = Algorithms::sum_sizes(vars);
+  assert(num_ae <= max_ae);
+  if (level >= 2)
+    std::cout << "num_ae " << num_ae << "\n";
   if (num_ae != dp.n) {
     if (level >= 1)
       std::cout << "\nn=" << dp.n << ", but a-e-lines only contain " <<
         num_ae << " elements\n";
     syntax_error();
   }
-  assert(not vars.empty());
   if (level >= 2) {
-    std::cout << "quant_blocks " << vars[0].size();
+    std::cout << "ae_blocks " << vars[0].size();
     for (count_t i = 1; i < vars.size(); ++i)
       std::cout << " " << vars[i].size();
     std::cout << "\n";
