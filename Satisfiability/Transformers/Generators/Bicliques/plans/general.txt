@@ -36,20 +36,24 @@ The alternative solver is based on IP, integer programming.
      - DONE correct variables?
      - DONE disjoint?
      - DONE unspecified variables?
- 7. Output statistics on ae-lines:
+ 7. DONE
+    Output statistics on ae-lines:
      - especially on global variables.
     Abborting if incorrect or nondisjoint variables.
  8. Reading the clauses:
-     - all on one line ?
-     - correct literals ?
-     - tautological clauses ?
-     - repeated literals ?
-     - universal clauses (only containing a-variables) ?
+     - DONE all on one line ?
+     - DONE correct literals ?
+     - DONE tautological clauses ?
+     - DONE repeated literals ?
+     - DONE universal clauses (only containing a-variables) ?
        even empty clauses?
- 9. Determining pure global variables.
-     - Indeed, easiest to determine all pure variables.
- 10. Output statistics on clauses and global variables.
- 11. Optionally replace original file with sanitised version,
+ 9. DONE
+    Determining pure global variables.
+     - NOT DONE
+       Indeed, easiest to determine all pure variables.
+ 10. DONE Output statistics on clauses and global variables.
+ 11. Output statistics on variable degrees.
+ 12. Optionally replace original file with sanitised version,
      pure global variables eliminated.
 
  We also need a dimacs-sanitisation-program.

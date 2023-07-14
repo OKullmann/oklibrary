@@ -19,6 +19,7 @@ EXAMPLES:
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "QDimacsSyntax.hpp"
 #include "Algorithms.hpp"
@@ -26,8 +27,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "13.7.2023",
+        "0.1.1",
+        "14.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -170,7 +171,8 @@ int main(const int argc, const char* const argv[]) {
   const auto [vars, wrongaeline] = readae(F, dp.n, first_ae, end_ae, level);
   if (wrongaeline != end_ae) {
     if (level >= 1)
-      std::cout << "problem with a-e-line " << wrongaeline - first_ae << "\n";
+      std::cout << "problem with a-e-line " << wrongaeline - first_ae
+                << " (line " << wrongaeline << ")\n";
     syntax_error();
   }
   {const count_t sum_ae = Algorithms::sum_sizes(vars);
@@ -192,5 +194,43 @@ int main(const int argc, const char* const argv[]) {
   if (level >= 2)
     std::cout << "num-glob " << num_glob << "\n";
   std::cout.flush();
+  const std::vector<bool> univ_block = is_universal_block(vars, first_a);
+  const std::vector<bool> univ_var = is_universal_var(vars, univ_block, dp.n);
+
+  using stats_t = GenStats::BasicStats<count_t, FloatingPoint::float80>;
+  degvec_t posd(dp.n+1), negd(dp.n+1);
+  {stats_t Scl;
+   count_t additional_spaces = 0;
+   for (count_t i = end_ae; i < num_lines; ++i) {
+     const count_t L = analyse_clause(F[i], posd, negd, dp.n, level, univ_var,
+                                      additional_spaces);
+     if (L == 0) {
+       if (level >= 1)
+         std::cout << "problem with clause " << i - end_ae
+                   << " (line " << i << ")\n";
+       syntax_error();
+     }
+     Scl += L;
+   }
+   if (level >= 2)
+     std::cout << "add-spaces-clauses " << additional_spaces << "\n"
+               << "clause-lengths " << Scl << "\n";
+  }
+
+  const auto [num_form_g, num_pure_g] =
+    num_pure_global_vars(first_a, vars[0], posd, negd);
+  if (level >= 2)
+    std::cout << "formal-global-vars " << num_form_g << "\n"
+              << "pure-global-vars " << num_pure_g << "\n";
+  if (num_form_g + num_pure_g != 0) {
+    if (level >= 1)
+      std::cout << "\nformal-or-pure-global-vars " << num_form_g + num_pure_g
+                << "\n";
+    syntax_error();
+  }
+
+  if (level >= 2) {
+    // statistics on degrees XXX
+  }
 
 }

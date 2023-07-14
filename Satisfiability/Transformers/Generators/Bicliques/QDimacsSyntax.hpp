@@ -23,6 +23,7 @@ TODOSL
 #include <utility>
 #include <algorithm>
 #include <exception>
+#include <vector>
 
 #include <cstdlib>
 
@@ -62,7 +63,7 @@ namespace QDimacsSyntax {
   return {first_nonc, false};
   }
 
-  bool is_strict_natnum(const std::string& s) noexcept {
+  bool is_strict_natnum(const std::string_view s) noexcept {
     if (s.empty()) return false;
     if (s[0] == '0') return s == "0";
     return std::ranges::all_of(s, [](const char c)noexcept{
@@ -82,6 +83,7 @@ namespace QDimacsSyntax {
       c = FloatingPoint::to_UInt(S[3]);
     }
     catch(const std::exception&) { return {{}, true}; }
+    if (n == RandGen::max_var) return {{}, true};
     return {{n,c}, false};
   }
 
@@ -92,7 +94,8 @@ namespace QDimacsSyntax {
     while (i < F.size() and begins_ae(F[i])) ++i;
     return i;
   }
-  // Returns empty set iff error was found:
+  // Returns empty set iff error was found, otherwise the variables in
+  // ae-line s:
   std::set<count_t> analyse_numbers_ae(const std::string& s,
                                        const count_t n,
                                        const count_t level,
@@ -171,6 +174,120 @@ namespace QDimacsSyntax {
     if (level >= 2)
       std::cout << "add-spaces-ae " << additional_spaces << "\n";
     return {res, i};
+  }
+
+  std::vector<bool>
+  is_universal_block(const std::vector<std::set<count_t>>& vars,
+                     const bool first_a) {
+    const auto size = vars.size();
+    assert(size != 0);
+    std::vector<bool> res(size);
+    res[0] = first_a;
+    for (count_t i = 1; i < size; ++i) res[i] = not res[i-1];
+    return res;
+  }
+  std::vector<bool>
+  is_universal_var(const std::vector<std::set<count_t>>& vars,
+                   const std::vector<bool>& unib,
+                   const count_t n) {
+    assert(vars.size() == unib.size());
+    std::vector<bool> res(n+1);
+    for (count_t i = 0; i < vars.size(); ++i) {
+      const bool is_uni = unib[i];
+      for (const auto v : vars[i]) res[v] = is_uni;
+    }
+    return res;
+  }
+
+  // Returns size of clause, and 0 iff error:
+  typedef std::vector<count_t> degvec_t;
+  count_t analyse_clause(const std::string& s, degvec_t& pos, degvec_t& neg,
+                         const count_t n, const count_t level,
+                         const std::vector<bool>& univ,
+                         count_t& spaces) {
+    if (not s.ends_with(" 0")) {
+      if (level >= 1)
+          std::cout << "\nclause not ending with \" 0\"\n";
+        return 0;
+    }
+    const auto size = s.size();
+    if (size == 2) {
+      if (level >= 1)
+          std::cout << "\nempty clause\n";
+      return 0;
+    }
+    if (s[size-3] == ' ') ++spaces;
+    const auto split =
+      Environment::split(std::string_view(s).substr(0, size-2), ' ');
+    using Lit = DimacsTools::Lit;
+    using Var = DimacsTools::Var;
+    std::set<Lit> C;
+    for (count_t i = 0; i < split.size(); ++i) {
+      const std::string_view entry(split[i]);
+      if (entry.empty()) {++spaces; continue;}
+      const count_t start = entry[0] == '-';
+      const std::string_view num = entry.substr(start);
+      if (not is_strict_natnum(num)) {
+        if (level >= 1)
+          std::cout << "\nwrong variable \"" << num << "\"\n";
+        return 0;
+      }
+      const Var v(FloatingPoint::to_UInt(std::string(num)));
+      if (v.v == 0) {
+        if (level >= 1)
+          std::cout << "\nwrong variable 0\n";
+        return 0;
+      }
+      if (v.v > n) {
+        if (level >= 1)
+          std::cout << "\nwrong variable " << v << " > max-n = " << n << "\n";
+        return 0;
+      }
+      const Lit x(start==0, v);
+      if (C.contains(x)) {
+        if (level >= 1)
+          std::cout << "\nrepeated literal " << x << "\n";
+        return 0;
+      }
+      if (C.contains(-x)) {
+        if (level >= 1)
+          std::cout << "\ncomplementary literal " << x << "\n";
+        return 0;
+      }
+      C.insert(x);
+      if (x.s) ++pos[v.v]; else ++neg[v.v];
+    }
+
+    if (C.empty()) {
+      if (level >= 1) {
+        std::cout << "\nclause only contains spaces\n";
+      }
+      return 0;
+    }
+    if (std::ranges::all_of(C, [&univ](const Lit x)noexcept{
+                              return univ[x.v.v];})) {
+      if (level >= 1) {
+        std::cout << "\nclause only contains universal variables\n";
+      }
+      return 0;
+    }
+    return C.size();
+  }
+
+  // Formal and pure (non-formal) global variables:
+  std::pair<count_t, count_t>
+  num_pure_global_vars(const bool first_a,
+                       const std::set<count_t>& G,
+                       const degvec_t& pos,
+                       const degvec_t& neg) noexcept {
+    std::pair<count_t, count_t> res{};
+    if (not first_a) return res;
+    for (const count_t v : G) {
+      const bool zpos = pos[v] == 0, zneg = neg[v] == 0;
+      if (zpos) { res.first += zneg; res.second += not zneg; }
+      else res.second += zneg;
+    }
+    return res;
   }
 
 }
