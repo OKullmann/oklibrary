@@ -41,7 +41,7 @@ License, or any later version. */
 
 BUGS:
 
-1. Output max_ae and #ae.
+1. Output max_ae and num_ae.
 
 2. Checking that the variables of a clause are mentioned in the a-e-lines:
     - A second bit-vector is needed, which specifies the variables from
@@ -68,7 +68,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "14.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -216,13 +216,12 @@ int main(const int argc, const char* const argv[]) {
                 << " (line " << wrongaeline << ")\n";
     syntax_error();
   }
-  {const count_t sum_ae = Algorithms::sum_sizes(vars);
-   if (sum_ae != dp.n) {
-     if (level >= 1)
-       std::cout << "\nn=" << dp.n << ", but a-e-lines only contain " <<
-         sum_ae << " elements\n";
-     syntax_error();
-   }
+  const count_t num_ae = Algorithms::sum_sizes(vars);
+  if (num_ae != dp.n) {
+    if (level >= 1)
+      std::cout << "\nn=" << dp.n << ", but a-e-lines only contain " <<
+        num_ae << " elements\n";
+    syntax_error();
   }
   assert(not vars.empty());
   if (level >= 2) {
