@@ -669,3 +669,61 @@ L2 1390 : 1 84.0201 49901; 1477.57 2
 real    0m0.256s
 user    0m0.099s
 sys     0m0.153s
+
+
+14.7.2023
+
+With syntax-checking (and not processing invalid files); first version
+considers any variable not specified in a-e-lines an error:
+
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    36m58.207s
+user    25m34.231s
+sys     11m45.654s
+
+QBFLIB> cat LOG
+Fri 14 Jul 09:42:12 BST 2023
+DirQBF2BCC 0.5.0
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 108 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 2108 s
+#qdimacs: 12058
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 15869
+#rename: 524
+#deleted: 9211
+#with-global: 2847
+#with-nonbc: 2847
+
+total: 2218 s
+
+Looking through the error-types:
+
+ - most "but a-e-lines only contain" (some 1 <= v <= n does not occur in
+   any ae-line)
+ - some spacing problem in dp-line:
+    - one additional space between n and c
+    - trailing spaces
+ - some "formal-or-pure-global-vars"
+ - some have c off by one (the real number is c+1)
+ - clashing literals in clauses
+ - repeated literals in clauses
+ - empty ae/line (seems always the first ae-line)
+ - comment-line just "c" (seems always the first line)
+ - empty first clause-line
+
+One could as an initial clean-up:
+ - remove a leading line just consisting of "c"
+ - remove (completely) empty lines
+
