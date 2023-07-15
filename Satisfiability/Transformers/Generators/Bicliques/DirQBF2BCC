@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.5.1"
+version="0.5.2"
 
 archive="$1"
 
@@ -111,6 +111,7 @@ count_rename=0
 count_withglobal=0
 count_withnonbc=0
 count_deleted=0
+declare -A errorcodes
 rm -f ${log_syntax}
 rm -f ${log_rename}
 
@@ -137,6 +138,8 @@ for file in ${directory}/**/${filetype}; do
         echo -n "${fullname}" >> ${log_syntax}
         echo -e "${syntax_report}\n" >> ${log_syntax}
         ((++count_syntax))
+        code="$(cat ${syntax_report} | tail -n 1)"
+        errorcodes[$code]=""
         continue
       fi
 
@@ -176,6 +179,7 @@ echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 echo "#syntax-errors: ${count_syntax}" | tee -a ${log_general}
+echo ${!errorcodes[@]} | tee -a ${log_general}
 echo "#rename: ${count_rename}" | tee -a ${log_general}
 echo "#deleted: ${count_deleted}" | tee -a ${log_general}
 echo "#with-global: ${count_withglobal}" | tee -a ${log_general}
