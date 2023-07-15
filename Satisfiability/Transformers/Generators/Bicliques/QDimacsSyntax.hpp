@@ -101,13 +101,13 @@ namespace QDimacsSyntax {
   // ae-line s:
   std::set<count_t> analyse_numbers_ae(const std::string& s,
                                        const count_t n,
-                                       const count_t level,
+                                       const level_t verbosity,
                                        count_t& spaces) noexcept {
     assert(s.starts_with("a ") or s.starts_with("e "));
     assert(s.ends_with(" 0"));
     const auto size = s.size();
     if (size <= 4) {
-      if (level >= 1)
+      if (verbosity >= 1)
         std::cout << "\nempty a/e-line\n";
       return {};
     }
@@ -119,30 +119,30 @@ namespace QDimacsSyntax {
       const std::string& entry = split[i];
       if (entry.empty()) {++spaces; continue;}
       if (not is_strict_natnum(entry)) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong entry \"" << entry << "\"\n";
         return {};
       }
       const count_t x = FloatingPoint::to_UInt(entry);
       if (x == 0) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong entry 0\n";
         return {};
       }
       if (x > n) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong entry " << x << " > max-n = " << n << "\n";
         return {};
       }
       if (res.contains(x)) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nrepeated entry " << x << "\n";
         return {};
       }
       res.insert(x);
     }
     if (res.empty()) {
-      if (level >= 1) {
+      if (verbosity >= 1) {
         std::cout << "\na/e-line only contains spaces\n";
       }
       return {};
@@ -155,18 +155,18 @@ namespace QDimacsSyntax {
   readae(const tokens_t& F,
          const count_t n,
          const count_t begin, const count_t end,
-         const count_t level) {
+         const level_t verbosity) {
     assert(begin < end and end < F.size());
     std::vector<std::set<count_t>> res(end - begin);
     count_t i = begin;
     count_t additional_spaces = 0;
     for (; i < end; ++i) {
       const count_t i0 = i - begin;
-      res[i0] = analyse_numbers_ae(F[i], n, level, additional_spaces);
+      res[i0] = analyse_numbers_ae(F[i], n, verbosity, additional_spaces);
       if (res[i0].empty()) break;
       for (count_t j0 = 0; j0 < i0; ++j0) {
         if (not Algorithms::empty_intersection(res[i0], res[j0])) {
-          if (level >= 1) {
+          if (verbosity >= 1) {
             std::cout << "\na/e-line " << j0 << " intersects with line "
                       << i0 << "\n";
           }
@@ -174,7 +174,7 @@ namespace QDimacsSyntax {
         }
       }
     }
-    if (level >= 2)
+    if (verbosity >= 2)
       std::cout << "add-spaces-ae " << additional_spaces << "\n";
     return {res, i};
   }
@@ -224,18 +224,18 @@ namespace QDimacsSyntax {
   // Returns size of clause, and 0 iff error:
   typedef std::vector<count_t> degvec_t;
   count_t analyse_clause(const std::string& s, degvec_t& pos, degvec_t& neg,
-                         const count_t n, const count_t level,
+                         const count_t n, const level_t verbosity,
                          const std::vector<bool>& aev,
                          const std::vector<bool>& univ,
                          count_t& spaces) {
     if (not s.ends_with(" 0")) {
-      if (level >= 1)
+      if (verbosity >= 1)
           std::cout << "\nclause not ending with \" 0\"\n";
         return 0;
     }
     const auto size = s.size();
     if (size == 2) {
-      if (level >= 1)
+      if (verbosity >= 1)
           std::cout << "\nempty clause\n";
       return 0;
     }
@@ -251,34 +251,34 @@ namespace QDimacsSyntax {
       const count_t start = entry[0] == '-';
       const std::string_view num = entry.substr(start);
       if (not is_strict_natnum(num)) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong variable \"" << num << "\"\n";
         return 0;
       }
       const Var v(FloatingPoint::to_UInt(std::string(num)));
       if (v.v == 0) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong variable 0\n";
         return 0;
       }
       if (v.v > n) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nwrong variable " << v << " > max-n = " << n << "\n";
         return 0;
       }
       if (not aev[v.v]) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nnon-ae-variable " << v << "\n";
         return 0;
       }
       const Lit x(start==0, v);
       if (C.contains(x)) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\nrepeated literal " << x << "\n";
         return 0;
       }
       if (C.contains(-x)) {
-        if (level >= 1)
+        if (verbosity >= 1)
           std::cout << "\ncomplementary literal " << x << "\n";
         return 0;
       }
@@ -287,14 +287,14 @@ namespace QDimacsSyntax {
     }
 
     if (C.empty()) {
-      if (level >= 1) {
+      if (verbosity >= 1) {
         std::cout << "\nclause only contains spaces\n";
       }
       return 0;
     }
     if (std::ranges::all_of(C, [&univ](const Lit x)noexcept{
                               return univ[x.v.v];})) {
-      if (level >= 1) {
+      if (verbosity >= 1) {
         std::cout << "\nclause only contains universal variables\n";
       }
       return 0;
