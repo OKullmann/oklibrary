@@ -121,16 +121,23 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "verbosity-tolerance " << verbosity << " " << tolerance << "\n";
   }
 
-  const auto [F, final_eol] = Environment::get_lines_check(input);
+  const auto [Feol, empty_trailing_lines] = get_lines(input);
+  const auto& [F, final_eol] = Feol;
+  const count_t num_lines = F.size();
+  if (verbosity >= 2) {
+    std::cout << "num-lines " << num_lines << "\n"
+              << "num-chars " << Algorithms::sum_sizes(F) << "\n"
+              << "trailing-empty-lines " << empty_trailing_lines << "\n";
+  }
   if (not final_eol) {
     if (verbosity >= 1)
       std::cout << "\nno final eol\n";
     syntax_error(1);
   }
-  const count_t num_lines = F.size();
-  if (verbosity >= 2) {
-    std::cout << "num-lines " << num_lines << "\n";
-    std::cout << "num-chars " << Algorithms::sum_sizes(F) << "\n";
+  if (tolerance == 0 and empty_trailing_lines != 0) {
+    if (verbosity >= 1)
+      std::cout << "\ntrailing empty lines\n";
+    syntax_error(15);
   }
 
   const auto [first_nonc, c_error] = analyse_comments(F, tolerance);
@@ -183,11 +190,24 @@ int main(const int argc, const char* const argv[]) {
   if (verbosity >= 2)
     std::cout << "num-ae-blocks " << end_ae - first_ae << "\n";
   assert(end_ae <= num_lines);
-  if (num_lines - end_ae != dp.c) {
-    if (verbosity >= 1)
-      std::cout << "\nremaining-lines " << num_lines - end_ae << " != c = "
-                << dp.c << "\n";
-    syntax_error(8);
+  const count_t remaining_lines = num_lines - end_ae;
+  assert(end_ae > first_ae);
+  if (verbosity >= 2)
+    std::cout << "remaining-lines " << remaining_lines << "\n";
+  if (remaining_lines != dp.c) {
+    if (tolerance == 0 ) {
+      if (verbosity >= 1)
+        std::cout << "\nremaining-lines " << remaining_lines << " != c = "
+                  << dp.c << "\n";
+      syntax_error(8);
+    }
+    else if (remaining_lines + empty_trailing_lines != dp.c) {
+      if (verbosity >= 1)
+        std::cout << "\nremaining-lines " << remaining_lines << " != c = "
+                  << dp.c << " and != c-empty-lines = "
+                  << dp.c - empty_trailing_lines << "\n";
+      syntax_error(8);
+    }
   }
 
   {char firstc = 0;

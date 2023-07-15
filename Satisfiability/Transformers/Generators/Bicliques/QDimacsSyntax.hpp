@@ -54,6 +54,20 @@ namespace QDimacsSyntax {
     std::exit(0);
   }
 
+  std::pair<std::pair<Environment::tokens_t, bool>, count_t>
+  get_lines(std::ifstream& input) {
+    assert(input.good());
+    std::pair<std::pair<Environment::tokens_t, bool>, count_t>
+      res{Environment::get_lines_check(input), 0};
+    if (not res.first.second) return res;
+    for (auto it = res.first.first.rbegin();
+         it != res.first.first.rend(); ++it)
+      if (it->empty()) ++res.second;
+      else break;
+    res.first.first.resize(res.first.first.size() - res.second);
+    return res;
+  }
+
   // Line with first non-c-line, returns true iff c-lines have syntax-error:
   std::pair<count_t, bool> analyse_comments(const tokens_t& F,
                                             const level_t tolerance) noexcept {
