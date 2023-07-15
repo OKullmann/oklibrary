@@ -722,3 +722,48 @@ Looking through the error-types:
  - empty ae/line (seems always the first ae-line)
  - comment-line just "c" (seems always the first line)
  - empty first clause-line
+
+15.7.2023
+
+Corrected and adapted syntax-checking:
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    39m7.502s
+user    28m20.005s
+sys     11m18.739s
+
+Sat 15 Jul 03:35:46 BST 2023
+DirQBF2BCC 0.5.5
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 69 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 2276 s
+#qdimacs: 15440
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 12487
+ERROR011 ERROR013 ERROR012 ERROR014 ERROR004 ERROR002 ERROR008
+#rename: 772
+#deleted: 11799
+#with-global: 3641
+#with-nonbc: 3641
+
+total: 2347 s
+
+12487+15440=27927
+
+ERROR002                defect c-line
+ERROR004                defect p-line
+ERROR008                c != # remaining lines
+ERROR011                defect ae-line
+ERROR012                max_ae != n
+ERROR013                defect clause
+ERROR014                formal or pure global variables

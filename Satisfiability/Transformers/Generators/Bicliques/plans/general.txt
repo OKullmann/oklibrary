@@ -26,12 +26,12 @@ The alternative solver is based on IP, integer programming.
  -1. Tolerance-levels:
      - 0: strict as now
      - 1: allows
-       - an initial "c"-line
+       - comment-check: just "c"
        - arbitrary spaces after n in the dp-line
-       - one empty line after the dp-line
-       - one empty line after the ae-lines, and c can then (if there
-         is such line) differ by one from the count of clauses
-       - only max_ae <= n
+       - further spaces after 0 in clause-lines
+       - max_ae <= n
+       - final empty lines (if there are such line then c can count them or
+         not)
      - 2: additionally allows
        - repeated and clashing literals:
          - the output of analyse_clause needs to be adapted, showing
@@ -42,7 +42,7 @@ The alternative solver is based on IP, integer programming.
      All these deviations from level 0 are reported by appropriate counts
      resp. booleans.
 
- 0. Instead of just outputting "ERROR", add an error-number:
+ 0. DONE Instead of just outputting "ERROR", add an error-number:
      - DONE (just numbered as they occur in the code)
        Without a space, in the form "ERROR001" (fixed width), so that
        no parsing is needed.
@@ -56,27 +56,24 @@ The alternative solver is based on IP, integer programming.
  5. Are there comments after the p-line?
      - One needs to see how many such files are there, and manually
        inspect them.
- 6. Analyse the a-line and e-lines:
+ 6. DONE Analyse the a-line and e-lines:
      - DONE all on one line, finishing with "0\n"?
      - DONE always alternating?
      - DONE correct variables?
      - DONE disjoint?
      - DONE unspecified variables?
- 7. DONE
-    Output statistics on ae-lines:
+ 7. DONE Output statistics on ae-lines:
      - especially on global variables.
     Abborting if incorrect or nondisjoint variables.
- 8. Reading the clauses:
+ 8. DONE Reading the clauses:
      - DONE all on one line ?
      - DONE correct literals ?
      - DONE tautological clauses ?
      - DONE repeated literals ?
      - DONE universal clauses (only containing a-variables) ?
        even empty clauses?
- 9. DONE
-    Determining pure global variables.
-     - NOT DONE
-       Indeed, easiest to determine all pure variables.
+ 9. Determining pure global variables.
+     - Indeed, easiest to determine all pure universal variables.
  10. DONE Output statistics on clauses and global variables.
  11. Output statistics on variable degrees:
      - this should only consider the variables mentioned in the a-e-lines.
