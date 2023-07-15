@@ -33,9 +33,14 @@ The alternative solver is based on IP, integer programming.
          is such line) differ by one from the count of clauses
        - only max_ae <= n
      - 2: additionally allows
-       - repeated and clashing literals.
+       - repeated and clashing literals:
+         - the output of analyse_clause needs to be adapted, showing
+           the tautology: just a pair with second component a boolean (true
+           iff tautology)
+       - pure or formal universal variables.
 
-     All these deviations from level 0 are reported.
+     All these deviations from level 0 are reported by appropriate counts
+     resp. booleans.
 
  0. Instead of just outputting "ERROR", add an error-number:
      - DONE (just numbered as they occur in the code)
@@ -76,10 +81,14 @@ The alternative solver is based on IP, integer programming.
  11. Output statistics on variable degrees:
      - this should only consider the variables mentioned in the a-e-lines.
  12. Optionally replace original file with sanitised version,
-     pure global variables eliminated:
+     which achieves tolerance-level 0:
      - Should this assume a certain tolerance-level?
-       Or should this be done without checking?
+       Or should this be done without checking (assuming a previous run)?
+       Since output goes to file, we just additionally output -- if an error
+       occurs (according to the tolerance-level), then we get an interrupt.
      - Should this replace the original file?
+       An additional optional parameter: output iff existing, replacement
+       iff empty, otherwise using the filename.
 
  We also need a dimacs-sanitisation-program.
  Later create a version, which doesn't store the input, and
