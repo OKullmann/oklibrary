@@ -62,7 +62,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "15.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -121,9 +121,7 @@ int main(const int argc, const char* const argv[]) {
   const count_t num_lines = F.size();
   if (level >= 2) {
     std::cout << "num-lines " << num_lines << "\n";
-    count_t sum = 0;
-    for (const auto& L : F) sum += L.size();
-    std::cout << "num-chars " << sum << "\n";
+    std::cout << "num-chars " << Algorithms::sum_sizes(F) << "\n";
   }
 
   const auto [first_nonc, c_error] = analyse_comments(F);

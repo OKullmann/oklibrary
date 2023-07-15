@@ -62,9 +62,10 @@ namespace QDimacsSyntax {
       if (not L.starts_with("c")) break;
       if (not L.starts_with("c ")) return {first_nonc, true};
     }
-  return {first_nonc, false};
+    return {first_nonc, false};
   }
 
+  // Allows s=="0":
   bool is_strict_natnum(const std::string_view s) noexcept {
     if (s.empty()) return false;
     if (s[0] == '0') return s == "0";
