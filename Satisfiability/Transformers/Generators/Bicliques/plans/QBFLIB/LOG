@@ -767,3 +767,119 @@ ERROR011                defect ae-line
 ERROR012                max_ae != n
 ERROR013                defect clause
 ERROR014                formal or pure global variables
+
+
+Now with tolerating comments and max-ae <= n:
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    51m3.764s
+user    39m11.407s
+sys     12m23.743s
+QBFLIB> cat LOG
+Sat 15 Jul 13:02:48 BST 2023
+DirQBF2BCC 0.5.6
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 69 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 2993 s
+#qdimacs: 19200
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 8727
+ERROR011 ERROR013 ERROR014 ERROR004 ERROR008
+#rename: 780
+#deleted: 15048
+#with-global: 4152
+#with-nonbc: 4152
+
+total: 3064 s
+
+Additionally tolerating trailing empty lines:
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    55m5.542s
+user    42m32.136s
+sys     13m13.661s
+
+QBFLIB> cat LOG
+Sat 15 Jul 18:21:20 BST 2023
+DirQBF2BCC 0.5.7
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 69 s
+
+remove: 1 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3235 s
+#qdimacs: 21614
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 6313
+ERROR011 ERROR013 ERROR014 ERROR004
+#rename: 2335
+#deleted: 15907
+#with-global: 5707
+#with-nonbc: 5707
+
+total: 3305 s
+
+
+15.7.2023:
+
+Real problems:
+
+1)
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d10_s.qdimacs
+a/e-line 0 intersects with line 1
+problem with a-e-line 1 (line 31)
+ERROR011
+
+Bicliques> ./QDimacsSyntax_debug s3271_d10_s.qdimacs
+ERROR[QDimacsSyntax_debug]: Exactly three arguments (filename, verbosity, tolerance) needed, but 1 provided.
+Bicliques> ./QDimacsSyntax_debug s3271_d10_s.qdimacs 2 1
+filename "s3271_d10_s.qdimacs"
+verbosity-tolerance 2 1
+num-lines 167192
+num-chars 4016166
+trailing-empty-lines 0
+num-comments 29
+pars 222921 167159
+first_a false
+num-ae-blocks 3
+remaining-lines 167159
+
+a/e-line 0 intersects with line 1
+problem with a-e-line 1 (line 31)
+ERROR011
+
+Same problems also with other benchmarks from this family.
+(One needed also an element of the intersection.)
+The only solution here would be if these variables actually don't occur.
+
+We can ignore this for now, since no global variables.
+
+
+2)
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d10_u.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+A few other benchmarks like that from this family.
+
+Perhaps such variables are automatically existential?
+
+We can ignore this for now, since there are no global variables.
