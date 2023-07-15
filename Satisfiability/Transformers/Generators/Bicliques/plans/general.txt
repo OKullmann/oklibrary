@@ -38,7 +38,8 @@ The alternative solver is based on IP, integer programming.
          - the output of analyse_clause needs to be adapted, showing
            the tautology: just a pair with second component a boolean (true
            iff tautology)
-       - pure or formal universal variables.
+       - pure or formal universal variables
+       - empty first ae-line (this influences global variables).
 
      All these deviations from level 0 are reported by appropriate counts
      resp. booleans.
@@ -87,6 +88,8 @@ The alternative solver is based on IP, integer programming.
      - Should this replace the original file?
        An additional optional parameter: output iff existing, replacement
        iff empty, otherwise using the filename.
+ 13. For non-empty intersection: give one common element, and determine size
+     of the intersection.
 
  We also need a dimacs-sanitisation-program.
  Later create a version, which doesn't store the input, and
