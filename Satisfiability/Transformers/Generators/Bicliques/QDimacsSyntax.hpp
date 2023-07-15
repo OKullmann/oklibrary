@@ -47,8 +47,10 @@ namespace QDimacsSyntax {
   };
 
   const std::string is_incorrect = "ERROR";
+  constexpr std::streamsize width_code = 3;
   void syntax_error(const int code) noexcept {
-    std::cout << is_incorrect << code << std::endl;
+    std::cout << is_incorrect << std::setfill('0') <<
+      std::setw(width_code) << code << std::endl;
     std::exit(0);
   }
 
