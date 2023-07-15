@@ -26,10 +26,10 @@ The alternative solver is based on IP, integer programming.
  -1. Tolerance-levels:
      - 0: strict as now
      - 1: allows
-       - comment-check: just "c"
+       - DONE comment-check: just "c"
        - arbitrary spaces after n in the dp-line
        - further spaces after 0 in clause-lines
-       - max_ae <= n
+       - DONE max_ae <= n
        - final empty lines (if there are such line then c can count them or
          not)
      - 2: additionally allows

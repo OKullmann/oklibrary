@@ -133,7 +133,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "num-chars " << Algorithms::sum_sizes(F) << "\n";
   }
 
-  const auto [first_nonc, c_error] = analyse_comments(F);
+  const auto [first_nonc, c_error] = analyse_comments(F, tolerance);
   if (c_error) {
     if (verbosity >= 1)
       std::cout << "\nc-line " << first_nonc << ":\n  \""
@@ -222,9 +222,9 @@ int main(const int argc, const char* const argv[]) {
   assert(max_ae <= dp.n);
   if (verbosity >= 2)
     std::cout << "max_ae " << max_ae << "\n";
-  if (max_ae != dp.n) {
+  if (tolerance == 0 and max_ae != dp.n) {
     if (verbosity >= 1)
-      std::cout << "\nmax-ae=" << max_ae << " < n=" << dp.n << "\n";
+      std::cout << "\nmax-ae=" << max_ae << " # n=" << dp.n << "\n";
     syntax_error(12);
   }
   const count_t num_ae = Algorithms::sum_sizes(vars);

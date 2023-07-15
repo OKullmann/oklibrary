@@ -55,12 +55,14 @@ namespace QDimacsSyntax {
   }
 
   // Line with first non-c-line, returns true iff c-lines have syntax-error:
-  std::pair<count_t, bool> analyse_comments(const tokens_t& F) noexcept {
+  std::pair<count_t, bool> analyse_comments(const tokens_t& F,
+                                            const level_t tolerance) noexcept {
     count_t first_nonc = 0;
     for (; first_nonc < F.size(); ++first_nonc) {
       const auto& L = F[first_nonc];
       if (not L.starts_with("c")) break;
-      if (not L.starts_with("c ")) return {first_nonc, true};
+      if (tolerance == 0 and (L.size() == 1 or L[1] != ' '))
+        return {first_nonc, true};
     }
     return {first_nonc, false};
   }
