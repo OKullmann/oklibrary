@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.5.4"
+version="0.5.5"
 
 archive="$1"
 
@@ -138,6 +138,7 @@ for file in ${directory}/**/${filetype}; do
         echo -n "${fullname}" >> ${log_syntax}
         echo -e "${syntax_report}\n" >> ${log_syntax}
         ((++count_syntax))
+        syntax_report=$(echo $syntax_report)
         code="${syntax_report##* }"
         errorcodes[$code]=""
         continue
