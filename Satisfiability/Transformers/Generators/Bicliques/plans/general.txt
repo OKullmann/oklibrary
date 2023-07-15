@@ -38,9 +38,11 @@ The alternative solver is based on IP, integer programming.
      All these deviations from level 0 are reported.
 
  0. Instead of just outputting "ERROR", add an error-number:
-     - Without a space, in the form "ERROR001" (fixed width), so that
+     - DONE (just numbered as they occur in the code)
+       Without a space, in the form "ERROR001" (fixed width), so that
        no parsing is needed.
-     - The script DirQBF2BCC should list the error-numbers (in sorted order),
+     - DONE
+       The script DirQBF2BCC should list the error-numbers (in sorted order),
        and how often they occurred.
  1. DONE Taking a filename for a QCNF as argument.
  2. DONE Storing it in a list of lines.
