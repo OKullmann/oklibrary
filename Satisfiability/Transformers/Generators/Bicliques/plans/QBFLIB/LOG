@@ -883,3 +883,80 @@ A few other benchmarks like that from this family.
 Perhaps such variables are automatically existential?
 
 We can ignore this for now, since there are no global variables.
+
+
+16.7.2023
+
+Now ignoring spaces in p-line:
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    54m41.469s
+user    42m29.234s
+sys     12m43.052s
+
+QBFLIB> cat LOG
+Sun 16 Jul 12:24:45 BST 2023
+DirQBF2BCC 0.5.8
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 70 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3209 s
+#qdimacs: 21837
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 6090
+ERROR011 ERROR013 ERROR014
+#rename: 2335
+#deleted: 16130
+#with-global: 5707
+#with-nonbc: 5707
+
+total: 3281 s
+
+
+Tolerating trailing spaces in clauses:
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    58m18.161s
+user    45m34.642s
+sys     13m0.077s
+
+Sun 16 Jul 14:39:46 BST 2023
+DirQBF2BCC 0.5.9
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 69 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3427 s
+#qdimacs: 25840
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 2087
+ERROR011 ERROR013 ERROR014
+#rename: 6214
+#deleted: 16254
+#with-global: 9586
+#with-nonbc: 9586
+
+total: 3498 s
+
+
+16.7.2023
+
+Now tolerance-level 2; first ignoring repeated literals in clauses:
+Same as above : it seems that all repeated literals are then
+also complementary literals in a later clause.
