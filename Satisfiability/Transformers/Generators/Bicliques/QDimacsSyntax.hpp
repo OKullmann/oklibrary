@@ -91,19 +91,39 @@ namespace QDimacsSyntax {
 
   // True iff an error occurred:
   std::pair<DimacsTools::dimacs_pars, bool>
-  analyse_parline(const std::string& L) noexcept {
+  analyse_parline(const std::string& L, const level_t tolerance) noexcept {
     const auto S = Environment::split(L, ' ');
-    if (S.size() != 4 or S[0] != "p" or S[1] != "cnf" or
-        not is_strict_natnum(S[2]) or not is_strict_natnum(S[3])
-        or L.back() == ' ') return {{}, true};
-    count_t n, c;
-    try {
-      n = FloatingPoint::to_UInt(S[2]);
-      c = FloatingPoint::to_UInt(S[3]);
+    if (tolerance == 0) {
+      if (S.size() != 4 or S[0] != "p" or S[1] != "cnf" or
+          not is_strict_natnum(S[2]) or not is_strict_natnum(S[3])
+          or L.back() == ' ') return {{}, true};
+      count_t n, c;
+      try {
+        n = FloatingPoint::to_UInt(S[2]);
+        c = FloatingPoint::to_UInt(S[3]);
+      }
+      catch(const std::exception&) { return {{}, true}; }
+      if (n == RandGen::max_var) return {{}, true};
+      return {{n,c}, false};
     }
-    catch(const std::exception&) { return {{}, true}; }
-    if (n == RandGen::max_var) return {{}, true};
-    return {{n,c}, false};
+    else {
+      if (S.size() < 4 or S[0] != "p" or S[1] != "cnf" or
+          not is_strict_natnum(S[2])) return {{}, true};
+      count_t cindex = 3;
+      while (cindex < S.size() and S[cindex].empty()) ++cindex;
+      if (cindex == S.size() or not is_strict_natnum(S[cindex]))
+        return {{}, true};
+      count_t n, c;
+      try {
+        n = FloatingPoint::to_UInt(S[2]);
+        c = FloatingPoint::to_UInt(S[cindex]);
+      }
+      catch(const std::exception&) { return {{}, true}; }
+      if (n == RandGen::max_var) return {{}, true};
+      ++cindex; while (cindex < S.size() and S[cindex].empty()) ++cindex;
+      if (cindex != S.size()) return {{}, true};
+      return {{n,c}, false};
+    }
   }
 
   bool begins_ae(const std::string& s) noexcept {

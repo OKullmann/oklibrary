@@ -27,7 +27,7 @@ The alternative solver is based on IP, integer programming.
      - 0: strict as now
      - 1: allows
        - DONE comment-check: just "c"
-       - arbitrary spaces after n in the dp-line
+       - DONE arbitrary spaces after n in the dp-line
        - further spaces after 0 in clause-lines
        - DONE max_ae <= n
        - DONE

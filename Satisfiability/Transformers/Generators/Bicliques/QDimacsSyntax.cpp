@@ -62,8 +62,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "15.7.2023",
+        "0.2.4",
+        "16.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -156,7 +156,7 @@ int main(const int argc, const char* const argv[]) {
   if (verbosity >= 2)
     std::cout << "num-comments " << first_nonc << "\n";
 
-  const auto [dp, dp_error] = analyse_parline(F[first_nonc]);
+  const auto [dp, dp_error] = analyse_parline(F[first_nonc], tolerance);
   if (dp_error) {
     if (verbosity >= 1)
       std::cout << "\ndp-line " << first_nonc << ":\n  \""
