@@ -273,7 +273,7 @@ int main(const int argc, const char* const argv[]) {
    for (count_t i = end_ae; i < num_lines; ++i) {
      const count_t L = analyse_clause(F[i], posd, negd, dp.n, verbosity,
                                       ae_var, univ_var,
-                                      additional_spaces);
+                                      additional_spaces, tolerance);
      if (L == 0) {
        if (verbosity >= 1)
          std::cout << "problem with clause " << i - end_ae

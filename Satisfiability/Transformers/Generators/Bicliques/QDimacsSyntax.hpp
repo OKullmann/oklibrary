@@ -257,27 +257,43 @@ namespace QDimacsSyntax {
     return res;
   }
 
+  // The string_view-data is nullptr iff no " 0" was found:
+  std::pair<std::string_view, std::string::size_type>
+  literal_part(const std::string& s) noexcept {
+    const auto end = s.rfind(" 0");
+    if (end == std::string::npos) return {};
+    if (s.find_first_not_of(' ', end+2) != std::string::npos) return {};
+    return {{s.begin(), s.begin() + end}, s.size() - end - 2};
+  }
   // Returns size of clause, and 0 iff error:
   typedef std::vector<count_t> degvec_t;
-  count_t analyse_clause(const std::string& s, degvec_t& pos, degvec_t& neg,
+  count_t analyse_clause(const std::string& s0, degvec_t& pos, degvec_t& neg,
                          const count_t n, const level_t verbosity,
                          const std::vector<bool>& aev,
                          const std::vector<bool>& univ,
-                         count_t& spaces) {
-    if (not s.ends_with(" 0")) {
+                         count_t& spaces,
+                         const level_t tolerance) {
+    const auto [s, trailing_spaces] = literal_part(s0);
+    if (s.data() == nullptr) {
       if (verbosity >= 1)
-          std::cout << "\nclause not ending with \" 0\"\n";
-        return 0;
-    }
-    const auto size = s.size();
-    if (size == 2) {
-      if (verbosity >= 1)
-          std::cout << "\nempty clause\n";
+        std::cout << "\nclause not containing final \" 0\"\n";
       return 0;
     }
-    if (s[size-3] == ' ') ++spaces;
-    const auto split =
-      Environment::split(std::string_view(s).substr(0, size-2), ' ');
+    spaces += trailing_spaces;
+    if (tolerance == 0 and trailing_spaces != 0) {
+      if (verbosity >= 1)
+        std::cout << "\nclause containing trailing spaces\n";
+      return 0;
+    }
+
+    const auto size = s.size();
+    if (size == 0) {
+      if (verbosity >= 1)
+        std::cout << "\nempty clause\n";
+      return 0;
+    }
+    if (s[size-1] == ' ') ++spaces;
+    const auto split = Environment::split(s, ' ');
     using Lit = DimacsTools::Lit;
     using Var = DimacsTools::Var;
     std::set<Lit> C;
