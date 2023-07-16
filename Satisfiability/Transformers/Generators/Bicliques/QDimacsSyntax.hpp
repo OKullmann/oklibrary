@@ -272,7 +272,8 @@ namespace QDimacsSyntax {
                          const std::vector<bool>& aev,
                          const std::vector<bool>& univ,
                          count_t& spaces,
-                         const level_t tolerance) {
+                         const level_t tolerance,
+                         count_t& repetitions) {
     const auto [s, trailing_spaces] = literal_part(s0);
     if (s.data() == nullptr) {
       if (verbosity >= 1)
@@ -325,11 +326,14 @@ namespace QDimacsSyntax {
       }
       const Lit x(start==0, v);
       if (C.contains(x)) {
-        if (verbosity >= 1)
-          std::cout << "\nrepeated literal " << x << "\n";
-        return 0;
+        if (tolerance == 0) {
+          if (verbosity >= 1)
+            std::cout << "\nrepeated literal " << x << "\n";
+          return 0;
+        }
+        else ++repetitions;
       }
-      if (C.contains(-x)) {
+      else if (C.contains(-x)) {
         if (verbosity >= 1)
           std::cout << "\ncomplementary literal " << x << "\n";
         return 0;

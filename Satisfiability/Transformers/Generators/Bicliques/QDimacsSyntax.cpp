@@ -62,7 +62,7 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.3.0",
         "16.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -269,11 +269,12 @@ int main(const int argc, const char* const argv[]) {
   using stats_t = GenStats::BasicStats<count_t, FloatingPoint::float80>;
   degvec_t posd(dp.n+1), negd(dp.n+1);
   {stats_t Scl;
-   count_t additional_spaces = 0;
+   count_t additional_spaces = 0, repetitions = 0;
    for (count_t i = end_ae; i < num_lines; ++i) {
      const count_t L = analyse_clause(F[i], posd, negd, dp.n, verbosity,
                                       ae_var, univ_var,
-                                      additional_spaces, tolerance);
+                                      additional_spaces, tolerance,
+                                      repetitions);
      if (L == 0) {
        if (verbosity >= 1)
          std::cout << "problem with clause " << i - end_ae
@@ -284,6 +285,7 @@ int main(const int argc, const char* const argv[]) {
    }
    if (verbosity >= 2)
      std::cout << "add-spaces-clauses " << additional_spaces << "\n"
+               << "repeated-literals " << repetitions << "\n"
                << "clause-lengths " << Scl << "\n";
   }
 
