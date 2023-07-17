@@ -256,6 +256,50 @@ namespace QDimacsSyntax {
     }
     return res;
   }
+  // Input the clause-string without final " 0", extracting literals
+  // as they appear, second component false iff syntax-error with
+  // the literals:
+  std::pair<DimacsTools::Clause, bool>
+  extract_literals(const std::string_view s,
+                   const count_t n,
+                   const level_t verbosity,
+                   count_t& spaces) {
+    const auto size = s.size();
+    if (size == 0) {
+      if (verbosity >= 1)
+        std::cout << "\nempty clause\n";
+      return {};
+    }
+    if (s[size-1] == ' ') ++spaces;
+    const auto split = Environment::split(s, ' ');
+    using Var = DimacsTools::Var;
+    std::pair<DimacsTools::Clause, bool> res{};
+    for (count_t i = 0; i < split.size(); ++i) {
+      const std::string_view entry(split[i]);
+      if (entry.empty()) {++spaces; continue;}
+      const count_t start = entry[0] == '-';
+      const std::string_view num = entry.substr(start);
+      if (not is_strict_natnum(num)) {
+        if (verbosity >= 1)
+          std::cout << "\nwrong variable \"" << num << "\"\n";
+        return {};
+      }
+      const Var v(FloatingPoint::to_UInt(std::string(num)));
+      if (v.v == 0) {
+        if (verbosity >= 1)
+          std::cout << "\nwrong variable 0\n";
+        return {};
+      }
+      if (v.v > n) {
+        if (verbosity >= 1)
+          std::cout << "\nwrong variable " << v << " > max-n = " << n << "\n";
+        return {};
+      }
+      res.first.emplace_back(start==0, v);
+    }
+    res.second = true;
+    return res;
+  }
 
   // The string_view-data is nullptr iff no " 0" was found:
   std::pair<std::string_view, std::string::size_type>
@@ -265,97 +309,77 @@ namespace QDimacsSyntax {
     if (s.find_first_not_of(' ', end+2) != std::string::npos) return {};
     return {{s.begin(), s.begin() + end}, s.size() - end - 2};
   }
-  // Returns size of clause, and 0 iff error:
+  // Returns size of clause, and false iff error:
   typedef std::vector<count_t> degvec_t;
-  count_t analyse_clause(const std::string& s0, degvec_t& pos, degvec_t& neg,
-                         const count_t n, const level_t verbosity,
-                         const std::vector<bool>& aev,
-                         const std::vector<bool>& univ,
-                         count_t& spaces,
-                         const level_t tolerance,
-                         count_t& repetitions) {
+  std::pair<count_t, bool>
+  analyse_clause(const std::string& s0, degvec_t& pos, degvec_t& neg,
+                 const count_t n, const level_t verbosity,
+                 const std::vector<bool>& aev,
+                 const std::vector<bool>& univ,
+                 count_t& spaces,
+                 const level_t tolerance,
+                 count_t& repetitions) {
     const auto [s, trailing_spaces] = literal_part(s0);
     if (s.data() == nullptr) {
       if (verbosity >= 1)
         std::cout << "\nclause not containing final \" 0\"\n";
-      return 0;
+      return {};
     }
     spaces += trailing_spaces;
     if (tolerance == 0 and trailing_spaces != 0) {
       if (verbosity >= 1)
         std::cout << "\nclause containing trailing spaces\n";
-      return 0;
+      return {};
     }
 
-    const auto size = s.size();
+    auto [C, correct_literals] = extract_literals(s, n, verbosity, spaces);
+    if (not correct_literals) return {};
+    const auto size = C.size();
     if (size == 0) {
       if (verbosity >= 1)
         std::cout << "\nempty clause\n";
-      return 0;
+      return {};
     }
-    if (s[size-1] == ' ') ++spaces;
-    const auto split = Environment::split(s, ' ');
-    using Lit = DimacsTools::Lit;
-    using Var = DimacsTools::Var;
-    std::set<Lit> C;
-    for (count_t i = 0; i < split.size(); ++i) {
-      const std::string_view entry(split[i]);
-      if (entry.empty()) {++spaces; continue;}
-      const count_t start = entry[0] == '-';
-      const std::string_view num = entry.substr(start);
-      if (not is_strict_natnum(num)) {
-        if (verbosity >= 1)
-          std::cout << "\nwrong variable \"" << num << "\"\n";
-        return 0;
-      }
-      const Var v(FloatingPoint::to_UInt(std::string(num)));
-      if (v.v == 0) {
-        if (verbosity >= 1)
-          std::cout << "\nwrong variable 0\n";
-        return 0;
-      }
-      if (v.v > n) {
-        if (verbosity >= 1)
-          std::cout << "\nwrong variable " << v << " > max-n = " << n << "\n";
-        return 0;
-      }
+    using DimacsTools::Lit; using DimacsTools::Var;
+    for (const Lit x : C) {
+      const Var v = x.v;
       if (not aev[v.v]) {
         if (verbosity >= 1)
           std::cout << "\nnon-ae-variable " << v << "\n";
-        return 0;
+        return {};
       }
-      const Lit x(start==0, v);
-      if (C.contains(x)) {
-        if (tolerance == 0) {
-          if (verbosity >= 1)
-            std::cout << "\nrepeated literal " << x << "\n";
-          return 0;
-        }
-        else ++repetitions;
-      }
-      else if (C.contains(-x)) {
+    }
+    std::ranges::sort(C);
+    {const auto complementary = std::ranges::adjacent_find(C,
+       [](const Lit x, const Lit y) noexcept { return x == -y; });
+     if (complementary != C.end()) {
+       if (tolerance <= 1) {
+         if (verbosity >= 1)
+           std::cout << "\ncomplementary literal " << *complementary << "\n";
+         return {};
+       }
+       else return {{}, true};
+     }
+    }
+    C.erase(std::unique(C.begin(), C.end()), C.end());
+    const auto nsize = C.size();
+    if (nsize != size) {
+      if (tolerance <= 1) {
         if (verbosity >= 1)
-          std::cout << "\ncomplementary literal " << x << "\n";
-        return 0;
+          std::cout << "\n" << size - nsize << " repeated literals\n";
+        return {};
       }
-      C.insert(x);
-      if (x.s) ++pos[v.v]; else ++neg[v.v];
+      else repetitions += size - nsize;
     }
-
-    if (C.empty()) {
-      if (verbosity >= 1) {
-        std::cout << "\nclause only contains spaces\n";
-      }
-      return 0;
-    }
-    if (std::ranges::all_of(C, [&univ](const Lit x)noexcept{
+    if (std::ranges::all_of(C, [&univ](const Lit x) noexcept {
                               return univ[x.v.v];})) {
       if (verbosity >= 1) {
         std::cout << "\nclause only contains universal variables\n";
       }
-      return 0;
+      return {};
     }
-    return C.size();
+    for (const Lit x : C) if (x.s) ++pos[x.v.v]; else ++neg[x.v.v];
+    return {C.size(), true};
   }
 
   // Formal and pure (non-formal) global variables:

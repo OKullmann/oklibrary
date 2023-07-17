@@ -62,8 +62,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "16.7.2023",
+        "0.3.1",
+        "17.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -268,24 +268,27 @@ int main(const int argc, const char* const argv[]) {
 
   using stats_t = GenStats::BasicStats<count_t, FloatingPoint::float80>;
   degvec_t posd(dp.n+1), negd(dp.n+1);
+  count_t tautologies = 0;
   {stats_t Scl;
    count_t additional_spaces = 0, repetitions = 0;
    for (count_t i = end_ae; i < num_lines; ++i) {
-     const count_t L = analyse_clause(F[i], posd, negd, dp.n, verbosity,
-                                      ae_var, univ_var,
-                                      additional_spaces, tolerance,
-                                      repetitions);
-     if (L == 0) {
+     const auto [L, correct] = analyse_clause(F[i], posd, negd, dp.n,
+                                              verbosity,
+                                              ae_var, univ_var,
+                                              additional_spaces, tolerance,
+                                              repetitions);
+     if (not correct) {
        if (verbosity >= 1)
          std::cout << "problem with clause " << i - end_ae
                    << " (line " << i << ")\n";
        syntax_error(13);
      }
-     Scl += L;
+     if (L == 0) ++tautologies; else Scl += L;
    }
    if (verbosity >= 2)
      std::cout << "add-spaces-clauses " << additional_spaces << "\n"
                << "repeated-literals " << repetitions << "\n"
+               << "tautologies " << tautologies << "\n"
                << "clause-lengths " << Scl << "\n";
   }
 
