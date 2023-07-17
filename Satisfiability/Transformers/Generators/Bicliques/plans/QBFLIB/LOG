@@ -960,3 +960,38 @@ total: 3498 s
 Now tolerance-level 2; first ignoring repeated literals in clauses:
 Same as above : it seems that all repeated literals are then
 also complementary literals in a later clause.
+
+17.7.2023
+
+Ignoring tautological clauses:
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    59m0.408s
+user    45m54.355s
+sys     13m47.612s
+
+QBFLIB> cat LOG
+Mon 17 Jul 08:17:35 BST 2023
+DirQBF2BCC 0.6.1
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 69 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3469 s
+#qdimacs: 26213
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 1714
+ERROR011 ERROR013 ERROR014
+#rename: 6214
+#deleted: 16627
+#with-global: 9586
+#with-nonbc: 9586
+
+total: 3540 s
