@@ -34,15 +34,63 @@ License, or any later version. */
     - the underlying variables must occur in the a-e-lines
     - no repeated or clashing literals
     - at least one existential literal.
-  - Every universal variable must occur positively and negatively in the
-    clauses.
   - The "global variable" are the outermost a-variables, if the first
     block is universal, otherwise there are no global variables.
+  - Every global variable must occur positively and negatively in the
+    clauses.
+
+  The above is tolerance-level 0.
+  Level 1 allows:
+       - comment-check: just "c"
+       - arbitrary spaces after n in the dp-line
+       - further spaces after 0 in clause-lines
+       - max_ae <= n
+       - final empty lines (if there are such line then c can count them or
+         not)
+  Level 2 additionally allows:
+       - repeated literals
+       - clashing literals, that is tautological clauses (these are
+         removed).
 
 
 BUGS:
 
 EXAMPLES:
+
+For the QCNF
+
+p cnf 5 3
+a 1 4 0
+e 2 5 0
+a 3 0
+5 5 4 1 -4 0
+2 3 4 5 1 3 0
+-1 -3  -4 -5 0
+
+we get
+
+Bicliques> echo -en "c kk\nc jk\nc \np cnf 5 3\na 1 4 0\ne 2 5 0\na 3  0\n5 5 4 1 -4 0\n2 3 4 5 1 3 0\n-1 -3  -4 -5 0\n\n" | ./QDimacsSyntax_debug /dev/stdin 2 2
+filename "/dev/stdin"
+verbosity-tolerance 2 2
+num-lines 10
+num-chars 78
+trailing-empty-lines 1
+num-comments 3
+pars 5 3
+first_a true
+num-ae-blocks 3
+remaining-lines 3
+add-spaces-ae 1
+max_ae 5
+num_ae 5
+ae_blocks 2 2 1
+num-glob 2
+add-spaces-clauses 1
+repeated-literals 1
+tautologies 1
+clause-lengths 2 : 4 4.5 5; 0.707107
+formal-global-vars 0
+pure-global-vars 0
 
 
 
