@@ -214,8 +214,18 @@ namespace QDimacsSyntax {
       for (count_t j0 = 0; j0 < i0; ++j0) {
         if (not Algorithms::empty_intersection(vars[i0], vars[j0])) {
           if (verbosity >= 1) {
+            const auto intersection =
+              Algorithms::intersection(vars[i0], vars[j0]);
+            assert(not intersection.empty());
             std::cout << "\na/e-line " << j0 << " intersects with line "
-                      << i0 << "\n";
+                      << i0 << " in " << intersection.size() << " elements";
+            if (verbosity >= 2) {
+              std::cout << ":\n";
+              Environment::out_line(std::cout, intersection);
+            }
+            else
+              std::cout << "; first: " << intersection.front();
+            std::cout <<  "\n";
           }
           return res;
         }

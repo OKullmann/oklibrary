@@ -24,7 +24,7 @@ The alternative solver is based on IP, integer programming.
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
  -1. Tolerance-levels:
-     - 3: additionally allows
+     - DONE 3: additionally allows
        - DONE pure or formal global variables
        - DONE empty first ae-line (this influences global variables).
 
@@ -78,7 +78,8 @@ The alternative solver is based on IP, integer programming.
        Perhaps better something explicit, like "REP".
      - If there are no global variables, then just write the empty-file (this
        must be tested and counted in DirQBF2BCC).
- 13. For non-empty intersection: give one common element, and determine size
+ 13. DONE (verbosity >= 2: all commong elements output)
+     For non-empty intersection: give one common element, and determine size
      of the intersection.
 
  We also need a dimacs-sanitisation-program.
