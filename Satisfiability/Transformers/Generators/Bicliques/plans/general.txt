@@ -25,7 +25,7 @@ The alternative solver is based on IP, integer programming.
 
  -1. Tolerance-levels:
      - 3: additionally allows
-       - pure or formal global variables
+       - DONE pure or formal global variables
        - DONE empty first ae-line (this influences global variables).
 
      All these deviations from level 0 are reported by appropriate counts
@@ -75,6 +75,9 @@ The alternative solver is based on IP, integer programming.
      - Should this replace the original file?
        An additional optional parameter: output iff existing, replacement
        iff empty, otherwise using the filename.
+       Perhaps better something explicit, like "REP".
+     - If there are no global variables, then just write the empty-file (this
+       must be tested and counted in DirQBF2BCC).
  13. For non-empty intersection: give one common element, and determine size
      of the intersection.
 

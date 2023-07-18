@@ -110,8 +110,8 @@ pure-global-vars 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "17.7.2023",
+        "0.3.3",
+        "18.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -349,7 +349,7 @@ int main(const int argc, const char* const argv[]) {
   if (verbosity >= 2)
     std::cout << "formal-global-vars " << num_form_g << "\n"
               << "pure-global-vars " << num_pure_g << "\n";
-  if (num_form_g + num_pure_g != 0) {
+  if (tolerance <= 2 and num_form_g + num_pure_g != 0) {
     if (verbosity >= 1)
       std::cout << "\nformal-or-pure-global-vars " << num_form_g + num_pure_g
                 << "\n";
