@@ -11,7 +11,9 @@ License, or any later version. */
 
    Set operations:
 
-   - empty_intersection(RAN1 r1, RAN2 r2) (r1, r2 must be sorted)
+     for sorted ranges r1, r2:
+   - empty_intersection(RAN1 r1, RAN2 r2)
+   - intersection(RAN1 r1, RAN2 r2) -> std::vector<RAN1::value_type>
 
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
      returns the sorted vector of elements of {0, ..., N-1} not in r
@@ -58,6 +60,8 @@ TODOS:
 
 #include <numeric>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 #include <cassert>
 
@@ -88,6 +92,16 @@ namespace Algorithms {
       }
     }
     return true;
+  }
+  // Compute the intersection as a std::vector, using value_type from first
+  // range:
+  template <class RAN1, class RAN2>
+  std::vector<typename RAN1::value_type>
+  intersection(const RAN1& r1, const RAN2& r2) {
+    assert(std::ranges::is_sorted(r1) and std::ranges::is_sorted(r2));
+    std::vector<typename RAN1::value_type> res;
+    std::ranges::set_intersection(r1, r2, std::back_inserter(res));
+    return res;
   }
 
 

@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "13.7.2023",
+        "0.2.2",
+        "18.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -64,6 +64,14 @@ int main(const int argc, const char* const argv[]) {
      for (unsigned j = 0; j < N2; ++j) v2.push_back(val2_dist());
      assert(empty_int(v1, v2) == empty_intersection(v1, v2));
    }
+  }
+
+  {typedef std::vector<int> v_t;
+   assert(intersection(v_t{}, v_t{}) == v_t{});
+   assert(intersection(v_t{1,2,3}, v_t{2,4,5}) == v_t{2});
+   typedef std::vector<double> v2_t;
+   assert((intersection(v2_t{-5.5,-3,1,2,2.1,3}, v_t{-5,-3,2,4,5})
+           == v2_t{-3,2}));
   }
 
   {typedef std::vector<int> vi_t;
