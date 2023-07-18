@@ -838,7 +838,7 @@ total: 3305 s
 
 15.7.2023:
 
-Real problems:
+Serious problems:
 
 1)
 
@@ -867,7 +867,8 @@ ERROR011
 
 Same problems also with other benchmarks from this family.
 (One needed also an element of the intersection.)
-The only solution here would be if these variables actually don't occur.
+The only solution here would be if these variables actually don't occur
+(but at for the above they occur).
 
 We can ignore this for now, since no global variables.
 
@@ -995,3 +996,14 @@ ERROR011 ERROR013 ERROR014
 #with-nonbc: 9586
 
 total: 3540 s
+
+
+18.7.2023
+
+Now with tolerating initial empty ae-lines:
+the same as above: apparently all the files with empty initial ae-line
+have other problems.
+
+Another serious problem in e.g. QBF2BCC/Rintanen/Logn/lognBWLARGEA0.qdimacs :
+There are lines just consisting of "0".
+Again, this example does not have global variables.
