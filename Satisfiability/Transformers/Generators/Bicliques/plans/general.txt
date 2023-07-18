@@ -717,6 +717,10 @@ TODOS:
 
 8. Disassemble.cpp
 
+0. Why is so much memory used (say 70% of server-capacity) on certain
+   instances?
+    - The conflict-graph is not stored explicitly.
+
 1. We need a "global-only" mode:
     - DONE (we have an automatically inferred A-only-mode)
       A new option "+-full" is needed.
