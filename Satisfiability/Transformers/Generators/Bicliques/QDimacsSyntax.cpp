@@ -110,7 +110,7 @@ pure-global-vars 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "17.7.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -224,22 +224,19 @@ int main(const int argc, const char* const argv[]) {
     syntax_error(6);
   }
 
-  const count_t first_ae = first_nonc + 1;
-  if (first_ae == num_lines or not begins_ae(F[first_ae])) {
+  const count_t first_ae0 = first_nonc + 1;
+  if (first_ae0 == num_lines or not begins_ae(F[first_ae0])) {
     if (verbosity >= 1)
-      std::cout << "\nno a-/e-line at line " << first_ae << "\n";
+      std::cout << "\nno a-/e-line at line " << first_ae0 << "\n";
     syntax_error(7);
   }
-  const bool first_a = F[first_ae][0] == 'a';
+  const count_t end_ae = first_nonae(F, first_ae0+1);
+  assert(end_ae > first_ae0);
   if (verbosity >= 2)
-    std::cout << "first_a " << std::boolalpha << first_a << "\n";
-  const count_t end_ae = first_nonae(F, first_ae+1);
-  assert(end_ae > first_ae);
-  if (verbosity >= 2)
-    std::cout << "num-ae-blocks " << end_ae - first_ae << "\n";
+    std::cout << "num-ae-blocks " << end_ae - first_ae0 << "\n";
   assert(end_ae <= num_lines);
   const count_t remaining_lines = num_lines - end_ae;
-  assert(end_ae > first_ae);
+  assert(end_ae > first_ae0);
   if (verbosity >= 2)
     std::cout << "remaining-lines " << remaining_lines << "\n";
   if (remaining_lines != dp.c) {
@@ -259,11 +256,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {char firstc = 0;
-   for (count_t i = first_ae; i < end_ae; ++i) {
+   for (count_t i = first_ae0; i < end_ae; ++i) {
      const std::string& line = F[i];
      if (firstc == line[0]) {
        if (verbosity >= 1)
-         std::cout << "\na-e-line " << i - first_ae <<
+         std::cout << "\na-e-line " << i - first_ae0 <<
            " same quantifier as previous line:\n"
            "  \"" << line << "\"\n";
        syntax_error(9);
@@ -271,15 +268,22 @@ int main(const int argc, const char* const argv[]) {
      firstc = line[0];
      if (not line.ends_with(" 0")) {
        if (verbosity >= 1)
-         std::cout << "\na-e-line " << i - first_ae <<
+         std::cout << "\na-e-line " << i - first_ae0 <<
            " not finishing with \" 0\":\n"
            "  \"" << line << "\"\n";
        syntax_error(10);
      }
    }
   }
-  const auto [vars, wrongaeline] = readae(F, dp.n, first_ae, end_ae, verbosity);
+  const auto [vars, wrongaeline, inc] =
+    readae(F, dp.n, first_ae0, end_ae, verbosity, tolerance);
+  if (verbosity >= 2)
+    std::cout << "initial-ae-lines " << inc << "\n";
+  const count_t first_ae = first_ae0 + inc;
   assert(not vars.empty());
+  const bool first_a = F[first_ae][0] == 'a';
+  if (verbosity >= 2)
+    std::cout << "first_a " << std::boolalpha << first_a << "\n";
   if (wrongaeline != end_ae) {
     if (verbosity >= 1)
       std::cout << "problem with a-e-line " << wrongaeline - first_ae

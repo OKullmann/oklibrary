@@ -24,6 +24,7 @@ TODOSL
 #include <algorithm>
 #include <exception>
 #include <vector>
+#include <tuple>
 
 #include <cstdlib>
 
@@ -186,33 +187,43 @@ namespace QDimacsSyntax {
     return res;
   }
 
+  bool empty_ae_line(const std::string& s) noexcept {
+    assert(s.size() >= 2);
+    const std::string_view v(s.begin()+1, s.end()-1);
+    return v.find_first_not_of(' ') == std::string::npos;
+  }
+
   // The variables of the a-e-lines (second coordinate != end iff error found):
-  std::pair<std::vector<std::set<count_t>>, count_t>
+  std::tuple<std::vector<std::set<count_t>>, count_t, count_t>
   readae(const tokens_t& F,
          const count_t n,
-         const count_t begin, const count_t end,
-         const level_t verbosity) {
-    assert(begin < end and end < F.size());
-    std::vector<std::set<count_t>> res(end - begin);
-    count_t i = begin;
+         const count_t begin0, const count_t end,
+         const level_t verbosity,
+         const level_t tolerance) {
+    assert(begin0 < end and end < F.size());
+    const count_t begin =
+      tolerance >= 3 and empty_ae_line(F[begin0]) ? begin0+1 : begin0;
+    std::tuple<std::vector<std::set<count_t>>, count_t, count_t>
+      res(end - begin, begin, begin - begin0);
+    auto& [vars, index, increment] = res; // increment is to be ignored
     count_t additional_spaces = 0;
-    for (; i < end; ++i) {
-      const count_t i0 = i - begin;
-      res[i0] = analyse_numbers_ae(F[i], n, verbosity, additional_spaces);
-      if (res[i0].empty()) break;
+    for (; index < end; ++index) {
+      const count_t i0 = index - begin;
+      vars[i0] = analyse_numbers_ae(F[index], n, verbosity, additional_spaces);
+      if (vars[i0].empty()) break;
       for (count_t j0 = 0; j0 < i0; ++j0) {
-        if (not Algorithms::empty_intersection(res[i0], res[j0])) {
+        if (not Algorithms::empty_intersection(vars[i0], vars[j0])) {
           if (verbosity >= 1) {
             std::cout << "\na/e-line " << j0 << " intersects with line "
                       << i0 << "\n";
           }
-          return {res, i};
+          return res;
         }
       }
     }
     if (verbosity >= 2)
       std::cout << "add-spaces-ae " << additional_spaces << "\n";
-    return {res, i};
+    return res;
   }
 
   count_t max_ae_index(const std::vector<std::set<count_t>>& vars) noexcept {

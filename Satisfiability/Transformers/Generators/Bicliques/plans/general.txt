@@ -26,7 +26,7 @@ The alternative solver is based on IP, integer programming.
  -1. Tolerance-levels:
      - 3: additionally allows
        - pure or formal global variables
-       - empty first ae-line (this influences global variables).
+       - DONE empty first ae-line (this influences global variables).
 
      All these deviations from level 0 are reported by appropriate counts
      resp. booleans.
