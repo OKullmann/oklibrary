@@ -75,9 +75,12 @@ The alternative solver is based on IP, integer programming.
      - Should this replace the original file?
        An additional optional parameter: output iff existing, replacement
        iff empty, otherwise using the filename.
-       Perhaps better something explicit, like "REP".
+       Perhaps better something explicit, like "REP"; and rejecting empty
+       strings?
      - If there are no global variables, then just write the empty-file (this
        must be tested and counted in DirQBF2BCC).
+     - For now not outputting original comments, and not outputting our
+       additional comments, leaving this to future extensions.
  13. DONE (verbosity >= 2: all commong elements output)
      For non-empty intersection: give one common element, and determine size
      of the intersection.
@@ -93,6 +96,8 @@ The alternative solver is based on IP, integer programming.
 
 This is a bash-script, creating the directory QBF2BCC:
 
+ 0. Logging-information on the two programs used (syntax-analysis,
+    disassembly).
  1. DONE The argument is A.zip.
  2. DONE If QBF2BCC exists, then exit with error.
  3. DONE Run "unzip -q -d QBF2BCC A.zip".
