@@ -1007,3 +1007,105 @@ have other problems.
 Another serious problem in e.g. QBF2BCC/Rintanen/Logn/lognBWLARGEA0.qdimacs :
 There are lines just consisting of "0".
 Again, this example does not have global variables.
+
+
+19.7.2023:
+
+Finally with tolerating pure/formal global variables:
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    59m43.904s
+user    46m0.157s
+sys     14m38.584s
+
+/QBFLIB> cat LOG
+Tue 18 Jul 04:57:30 BST 2023
+DirQBF2BCC 0.6.4
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 70 s
+git:
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3512 s
+#qdimacs: 27888
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 39
+ERROR011 ERROR013
+#rename: 6606
+#deleted: 16920
+#with-global: 10968
+#with-nonbc: 10968
+
+total: 3584 s
+
+See LOG_syntax for these remaining 39 erroneous files
+(check:
+QBFLIB> find QBF2BCC -name "*.qdimacs" | wc -l
+39
+).
+
+ 1. "clause only contains universal variables"
+
+    Exactly the 10 instances in QBF2BCC/Kronegger-Pfandler-Pichler/bomb
+
+have this problem, and these problems are all trivial, e.g.
+
+QBFLIB> grep "p cnf" QBF2BCC/Kronegger-Pfandler-Pichler/bomb/*
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-10.pddl_planlen=0.qdimacs:p cnf 80 80
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-1.pddl_planlen=0.qdimacs:p cnf 44 44
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-5.pddl_planlen=0.qdimacs:p cnf 60 60
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-10.pddl_planlen=0.qdimacs:p cnf 120 120
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-1.pddl_planlen=0.qdimacs:p cnf 84 84
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-20.pddl_planlen=0.qdimacs:p cnf 160 160
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-5.pddl_planlen=0.qdimacs:p cnf 100 100
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-10.pddl_planlen=0.qdimacs:p cnf 60 60
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-1.pddl_planlen=0.qdimacs:p cnf 24 24
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-5.pddl_planlen=0.qdimacs:p cnf 40 40
+
+(just unit-clauses in them).
+
+ 2. "a/e-line 0 intersects with line 1 in 9 elements"
+
+    Exactly the 21 instances in QBF2BCC/Mneimneh-Sakallah/s3271
+
+have this problem.
+These problems seem all have an outermost existential variable block, and thus
+are not relevant to us anyway.
+
+ 3. "non-ae-variable"
+
+    Exactly the 6 instances in QBF2BCC/Mneimneh-Sakallah/s641
+
+have this problem, and again they all seem not to contain global variables, and
+thus are not relevant to us.
+
+ 4. "clause not containing final " 0"
+    (these instances all contain lines just consisting of "0")
+
+    Exactly the 2 instances in QBF2BCC/Rintanen/Logn
+
+have this problem, and again no global variables.
+
+Remark: Group 3 might use the rule
+  "variables not mentioned in ae-blocks are existential",
+while Group 4 might use the "0"-lines just for editorial purposes.
+
+Summary:
+
+So from the relevant 27927 qdimacs-files we remove 39 files due to syntax-errors
+(and irrelevant anyway), yielding 27888 remaining files.
+From them currently 16920 are deleted due to not containing components with at
+least 2 variables (this might change after replacement of the 27888 files with
+their purified (sanitised) forms), and there remain 10968 relevant instances
+(currently).

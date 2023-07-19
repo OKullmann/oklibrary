@@ -1,0 +1,195 @@
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-10.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 70 (line 78)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-1.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 34 (line 42)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p10-5.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 50 (line 58)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-10.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 100 (line 108)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-1.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 64 (line 72)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-20.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 140 (line 148)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p20-5.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 80 (line 88)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-10.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 55 (line 63)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-1.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 19 (line 27)
+ERROR013
+
+QBF2BCC/Kronegger-Pfandler-Pichler/bomb/p5-5.pddl_planlen=0.qdimacs
+clause only contains universal variables
+problem with clause 35 (line 43)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d10_s.qdimacs
+a/e-line 0 intersects with line 1 in 9 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d11_s.qdimacs
+a/e-line 0 intersects with line 1 in 10 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d12_s.qdimacs
+a/e-line 0 intersects with line 1 in 11 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d13_s.qdimacs
+a/e-line 0 intersects with line 1 in 12 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d14_s.qdimacs
+a/e-line 0 intersects with line 1 in 13 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d15_s.qdimacs
+a/e-line 0 intersects with line 1 in 14 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d16_s.qdimacs
+a/e-line 0 intersects with line 1 in 15 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d17_s.qdimacs
+a/e-line 0 intersects with line 1 in 16 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d18_u.qdimacs
+a/e-line 0 intersects with line 1 in 17 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d19_u.qdimacs
+a/e-line 0 intersects with line 1 in 18 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d20_u.qdimacs
+a/e-line 0 intersects with line 1 in 19 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d21_u.qdimacs
+a/e-line 0 intersects with line 1 in 20 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d22_u.qdimacs
+a/e-line 0 intersects with line 1 in 21 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d2_s.qdimacs
+a/e-line 0 intersects with line 1 in 1 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d3_s.qdimacs
+a/e-line 0 intersects with line 1 in 2 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d4_s.qdimacs
+a/e-line 0 intersects with line 1 in 3 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d5_s.qdimacs
+a/e-line 0 intersects with line 1 in 4 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d6_s.qdimacs
+a/e-line 0 intersects with line 1 in 5 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d7_s.qdimacs
+a/e-line 0 intersects with line 1 in 6 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d8_s.qdimacs
+a/e-line 0 intersects with line 1 in 7 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s3271/s3271_d9_s.qdimacs
+a/e-line 0 intersects with line 1 in 8 elements; first: 3313
+problem with a-e-line 1 (line 31)
+ERROR011
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d10_u.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d11_u.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d3_s.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d5_s.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d8_u.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Mneimneh-Sakallah/s641/s641_d9_u.qdimacs
+non-ae-variable 74
+problem with clause 911 (line 944)
+ERROR013
+
+QBF2BCC/Rintanen/Logn/lognBWLARGEA0.qdimacs
+clause not containing final " 0"
+problem with clause 1634 (line 1637)
+ERROR013
+
+QBF2BCC/Rintanen/Logn/lognBWLARGEB0.qdimacs
+clause not containing final " 0"
+problem with clause 3130 (line 3133)
+ERROR013
+
