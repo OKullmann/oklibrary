@@ -1109,3 +1109,43 @@ From them currently 16920 are deleted due to not containing components with at
 least 2 variables (this might change after replacement of the 27888 files with
 their purified (sanitised) forms), and there remain 10968 relevant instances
 (currently).
+
+
+19.7.2023:
+
+Running with removal of incorrect files:
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    58m57.542s
+user    46m3.897s
+sys     13m28.105s
+
+QBFLIB> cat LOG
+Wed 19 Jul 04:11:49 BST 2023
+DirQBF2BCC 0.6.5
+archive="qdimacs.zip"
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+
+unzip: 70 s
+git:
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
+
+remove: 1 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3467 s
+#qdimacs: 27888
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 39
+ERROR011 ERROR013
+#rename: 6606
+#deleted: 16920
+#with-global: 10968
+#with-nonbc: 10968
+
+total: 3538 s
