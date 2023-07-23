@@ -200,8 +200,8 @@ a 2 4 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "30.6.2023",
+        "0.3.2",
+        "23.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Disassemble.cpp",
@@ -228,7 +228,7 @@ namespace {
     "                  - only A-files are output\n"
     "                  - and only those A_n-files with n > lowerbound\n\n"
     " reads a qcnf from filename, computes its parts, and stores them under dirname:\n\n"
-    "  - in case of |(|) and given lowerbound, if there are no A-files, then\n"
+    "  - in case of \"|[|]\" and given lowerbound, if there are no A-files, then\n"
     "    dirname is not created, and the empty string is output.\n\n"
 ;
     return true;
