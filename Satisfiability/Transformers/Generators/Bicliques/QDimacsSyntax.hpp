@@ -45,7 +45,10 @@ namespace QDimacsSyntax {
   enum class Error {
     missing_parameters = 1,
     input_file_error = 2,
+    replacement_file_error = 3,
   };
+
+  const std::string grepstr = "GREP";
 
   const std::string is_incorrect = "ERROR";
   constexpr std::streamsize width_code = 3;

@@ -110,8 +110,8 @@ pure-global-vars 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "18.7.2023",
+        "0.4.0",
+        "23.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -126,7 +126,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " filename verbosity tolerance\n\n"
+         << " filename verbosity tolerance [" << grepstr << "]\n\n"
     " filename       : " << "the input-QCNF\n"
     " verbosity      : " << "natural number >= 0:\n"
     "                  - 0 : only \"" << is_incorrect << "\" or nothing\n"
@@ -135,7 +135,13 @@ namespace {
     " tolerance      : " << "natural number >= 0:\n"
     "                  - 0 : zero tolerance\n"
     "                  - 1 : space and max-ae allowances\n"
-    "                  - 2 : repeated and clashing literals and pure variables\n\n"
+    "                  - 2 : repeated and clashing literals and pure variables\n"
+    " " << grepstr << "           : "
+         << "replace original file with purified version:\n"
+    "                  - currently only label \"" << grepstr << "\" allowed\n"
+    "                  - tautological clauses are eliminated\n"
+    "                  - pure/formal global variables are eliminated\n"
+    "                  - if no global variables left, then the empty file is created\n\n"
     " reads a qcnf from filename, and analyses its syntax.\n\n"
 ;
     return true;
@@ -148,11 +154,17 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 4) {
+  if (argc != 4 and argc != 5) {
     std::cerr << error <<
-      "Exactly three arguments (filename, verbosity, tolerance)"
-      " needed, but " << argc-1 << " provided.\n";
+      "Exactly three or four arguments (filename, verbosity, tolerance, ["
+              << grepstr << "]) needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
+  }
+  const bool replacement = argc == 5;
+  if (replacement and grepstr != argv[4]) {
+    std::cerr << error <<
+      "Currently the fourth argument can only be \"" << grepstr << "\".\n";
+    return int(Error::replacement_file_error);
   }
 
   const std::string filename = argv[1];
@@ -166,7 +178,8 @@ int main(const int argc, const char* const argv[]) {
   const level_t tolerance = FloatingPoint::touint(argv[3]);
   if (verbosity >= 2) {
     std::cout << "filename \"" << filename << "\"\n";
-    std::cout << "verbosity-tolerance " << verbosity << " " << tolerance << "\n";
+    std::cout << "verbosity-tolerance-replacement " << verbosity << " "
+              << tolerance << " " << std::boolalpha << replacement << "\n";
   }
 
   const auto [Feol, empty_trailing_lines] = get_lines(input);
