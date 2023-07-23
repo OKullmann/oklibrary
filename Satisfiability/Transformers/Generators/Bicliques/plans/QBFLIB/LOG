@@ -1149,3 +1149,50 @@ ERROR011 ERROR013
 #with-nonbc: 10968
 
 total: 3538 s
+
+
+23.7.2023:
+
+Improved logging:
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    58m36.986s
+user    45m49.322s
+sys     13m25.484s
+
+QBFLIB> cat LOG
+Sun 23 Jul 03:36:10 BST 2023
+DirQBF2BCC 0.6.6
+archive="qdimacs.zip"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+syntax-program="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax"
+ version:           0.3.3
+  tolerance 3
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+ version:           0.3.2
+  2nd-arg "||.B"
+  3rd-arg "1"
+
+unzip: 69 s
+git:
+commit 0a15e04fecb079282dbe472f5f1cbf17606a42bf
+Author: Luca Pulina <lpulina@uniss.it>
+Date:   Wed Oct 27 16:25:12 2021 +0200
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 3446 s
+#files: 27928
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 39
+ERROR011 ERROR013
+#qdimacs: 27888
+#rename: 6606
+#deleted: 16920
+#with-global: 10968
+#with-nonbc: 10968
+
+total: 3517 s
