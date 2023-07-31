@@ -23,7 +23,17 @@ The alternative solver is based on IP, integer programming.
 
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
- -1. Tolerance-levels:
+ -2. DONE
+     Output dimacs-parametes after clean-up, in case of output of
+     purified form:
+     - DONE (recomputing only when replacing)
+       when storing the new clauses, then new-c and new-n are
+       computed
+     - DONE (not checked, due to possible empty lines)
+       check: new c = old c - tautologies.
+
+ -1. DONE
+     Tolerance-levels:
      - DONE 3: additionally allows
        - DONE pure or formal global variables
        - DONE empty first ae-line (this influences global variables).
@@ -68,7 +78,8 @@ The alternative solver is based on IP, integer programming.
      - this should only consider the variables mentioned in the a-e-lines.
  12. Optionally replace original file with sanitised version,
      which achieves tolerance-level 0:
-     - Should this assume a certain tolerance-level?
+     - DONE
+       Should this assume a certain tolerance-level?
        Or should this be done without checking (assuming a previous run)?
        Since output goes to file, we just additionally output -- if an error
        occurs (according to the tolerance-level), then we get an interrupt.

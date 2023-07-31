@@ -110,8 +110,8 @@ pure-global-vars 0
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "23.7.2023",
+        "0.4.1",
+        "31.7.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax.cpp",
@@ -183,6 +183,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto [Feol, empty_trailing_lines] = get_lines(input);
+  input.close();
   const auto& [F, final_eol] = Feol;
   const count_t num_lines = F.size();
   if (verbosity >= 2) {
@@ -262,7 +263,7 @@ int main(const int argc, const char* const argv[]) {
     else if (remaining_lines + empty_trailing_lines != dp.c) {
       if (verbosity >= 1)
         std::cout << "\nremaining-lines " << remaining_lines << " != c = "
-                  << dp.c << " and != c-empty-lines = "
+                  << dp.c << " and != c - empty-lines = "
                   << dp.c - empty_trailing_lines << "\n";
       syntax_error(8);
     }
@@ -334,6 +335,7 @@ int main(const int argc, const char* const argv[]) {
   using stats_t = GenStats::BasicStats<count_t, FloatingPoint::float80>;
   degvec_t posd(dp.n+1), negd(dp.n+1);
   count_t tautologies = 0;
+  DimacsTools::ClauseList rF; // empty if not replacement
   {stats_t Scl;
    count_t additional_spaces = 0, repetitions = 0;
    for (count_t i = end_ae; i < num_lines; ++i) {
@@ -341,7 +343,8 @@ int main(const int argc, const char* const argv[]) {
                                               verbosity,
                                               ae_var, univ_var,
                                               additional_spaces, tolerance,
-                                              repetitions);
+                                              repetitions,
+                                              replacement, rF);
      if (not correct) {
        if (verbosity >= 1)
          std::cout << "problem with clause " << i - end_ae
@@ -350,6 +353,7 @@ int main(const int argc, const char* const argv[]) {
      }
      if (L == 0) ++tautologies; else Scl += L;
    }
+   assert(replacement or rF.empty());
    if (verbosity >= 2)
      std::cout << "add-spaces-clauses " << additional_spaces << "\n"
                << "repeated-literals " << repetitions << "\n"
@@ -357,11 +361,14 @@ int main(const int argc, const char* const argv[]) {
                << "clause-lengths " << Scl << "\n";
   }
 
-  const auto [num_form_g, num_pure_g] =
+  const auto [num_form_g, num_pure_g, rem_g] =
     num_pure_global_vars(first_a, vars[0], posd, negd);
+  assert(rem_g.size() == num_form_g + num_pure_g);
+  const count_t fin_num_glob = num_glob - num_form_g - num_pure_g;
   if (verbosity >= 2)
     std::cout << "formal-global-vars " << num_form_g << "\n"
-              << "pure-global-vars " << num_pure_g << "\n";
+              << "pure-global-vars " << num_pure_g << "\n"
+              << "final-global-vars " << fin_num_glob << "\n";
   if (tolerance <= 2 and num_form_g + num_pure_g != 0) {
     if (verbosity >= 1)
       std::cout << "\nformal-or-pure-global-vars " << num_form_g + num_pure_g
@@ -371,6 +378,45 @@ int main(const int argc, const char* const argv[]) {
 
   if (verbosity >= 2) {
     // statistics on degrees XXX
+  }
+
+  if (replacement) {
+    if (filename == "/dev/stdin") {
+      std::cerr << error << "Can not replace /dev/stdin.\n";
+      return int(Error::replacement_output_error);
+    }
+    std::ofstream output(filename, std::ios::out | std::ios::trunc);
+    if (not output) {
+      std::cerr << error << "Can not open output-file \"" << filename
+              << "\" for truncated writing.\n";
+      return int(Error::replacement_output_error);
+    }
+    if (fin_num_glob == 0) {
+      if (verbosity >= 2)
+        std::cout << "emptied input-file\n";
+      return 0;
+    }
+    const count_t c = rF.size();
+    assert(c != 0);
+    const count_t n = update_max_ae(max_ae, rem_g, ae_var);
+    assert(n != 0);
+    if (verbosity >= 2)
+        std::cout << "new-pars " << n << " " << c << std::endl;
+
+    output << "p cnf " << n << " " << c << "\n";
+    assert(univ_block.size() >= 2);
+    assert(univ_block.size() == vars.size());
+    for (count_t i = 0; i < univ_block.size(); ++i) {
+      if (univ_block[i]) output << "a "; else output << "e ";
+      assert(not vars[i].empty());
+      Environment::out_line(output, vars[i]);
+      output << " 0\n";
+    }
+    for (const auto& C : rF) {
+      for (const auto& x : C)
+        if (not rem_g.contains(var(x).v)) output << x << " ";
+      output << "0\n";
+    }
   }
 
 }

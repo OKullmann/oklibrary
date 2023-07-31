@@ -46,6 +46,7 @@ namespace QDimacsSyntax {
     missing_parameters = 1,
     input_file_error = 2,
     replacement_file_error = 3,
+    replacement_output_error = 4,
   };
 
   const std::string grepstr = "GREP";
@@ -280,7 +281,8 @@ namespace QDimacsSyntax {
     }
     return res;
   }
-  // Input the clause-string without final " 0", extracting literals
+
+  // Input is the clause-string s without final " 0", extracting literals
   // as they appear, second component false iff syntax-error with
   // the literals:
   std::pair<DimacsTools::Clause, bool>
@@ -342,7 +344,9 @@ namespace QDimacsSyntax {
                  const std::vector<bool>& univ,
                  count_t& spaces,
                  const level_t tolerance,
-                 count_t& repetitions) {
+                 count_t& repetitions,
+                 const bool replace,
+                 DimacsTools::ClauseList& F) {
     const auto [s, trailing_spaces] = literal_part(s0);
     if (s.data() == nullptr) {
       if (verbosity >= 1)
@@ -402,23 +406,42 @@ namespace QDimacsSyntax {
       }
       return {};
     }
+    if (nsize == 0) return {0, true};
     for (const Lit x : C) if (x.s) ++pos[x.v.v]; else ++neg[x.v.v];
-    return {C.size(), true};
+    if (replace) F.push_back(std::move(C));
+    return {nsize, true};
   }
 
-  // Formal and pure (non-formal) global variables:
-  std::pair<count_t, count_t>
+  // Formal and pure (non-formal) global variables, and global variables to
+  // be removed:
+  std::tuple<count_t, count_t, std::set<count_t>>
   num_pure_global_vars(const bool first_a,
                        const std::set<count_t>& G,
-                       const degvec_t& pos,
-                       const degvec_t& neg) noexcept {
-    std::pair<count_t, count_t> res{};
+                       const degvec_t& pos, const degvec_t& neg) {
+    std::tuple<count_t, count_t, std::set<count_t>> res{};
     if (not first_a) return res;
     for (const count_t v : G) {
+      assert(v < pos.size()); assert(v < neg.size());
       const bool zpos = pos[v] == 0, zneg = neg[v] == 0;
-      if (zpos) { res.first += zneg; res.second += not zneg; }
-      else res.second += zneg;
+      if (zpos or zneg) {
+        std::get<2>(res).insert(v);
+        if (zpos) { std::get<0>(res) += zneg; std::get<1>(res) += not zneg; }
+        else ++std::get<1>(res);
+      }
     }
+    return res;
+  }
+
+  count_t update_max_ae(const size_t old_max_ae,
+                        const std::set<count_t>& rem_g,
+                        const std::vector<bool>& is_ae) noexcept {
+    assert(old_max_ae != 0);
+    assert(old_max_ae < is_ae.size() and is_ae[old_max_ae]);
+    count_t res = old_max_ae;
+    if (not rem_g.contains(res)) return res;
+    --res;
+    while (rem_g.contains(res) or not is_ae[res]) --res;
+    assert(res != 0);
     return res;
   }
 
