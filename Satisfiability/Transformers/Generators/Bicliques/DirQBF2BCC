@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.6.6"
+version="0.7.0"
 
 archive="$1"
 
@@ -115,6 +115,7 @@ count_qdimacs=0
 count_empty=0
 count_nd=0
 count_syntax=0
+count_empty_syntax=0
 count_rename=0
 count_withglobal=0
 count_withnonbc=0
@@ -150,6 +151,11 @@ for file in ${directory}/**/${filetype}; do
         syntax_report=$(echo $syntax_report)
         code="${syntax_report##* }"
         errorcodes[$code]=""
+        rm ${fullname}
+        continue
+      fi
+      if ! [ -s $fullname ]; then
+        ((++count_empty_syntax))
         rm ${fullname}
         continue
       fi
@@ -191,6 +197,7 @@ echo "#empty: ${count_empty}" | tee -a ${log_general}
 echo "#not-DIMACS: ${count_nd}" | tee -a ${log_general}
 echo "#syntax-errors: ${count_syntax}" | tee -a ${log_general}
 echo ${!errorcodes[@]} | tee -a ${log_general}
+echo "#empty-after-syntax: ${count_empty_syntax}" | tee -a ${log_general}
 echo "#qdimacs: ${count_qdimacs}" | tee -a ${log_general}
 echo "#rename: ${count_rename}" | tee -a ${log_general}
 echo "#deleted: ${count_deleted}" | tee -a ${log_general}

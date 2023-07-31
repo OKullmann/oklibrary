@@ -88,7 +88,8 @@ The alternative solver is based on IP, integer programming.
        iff empty, otherwise using the filename.
        Perhaps better something explicit, like "REP"; and rejecting empty
        strings?
-     - If there are no global variables, then just write the empty-file (this
+     - DONE
+       If there are no global variables, then just write the empty-file (this
        must be tested and counted in DirQBF2BCC).
      - For now not outputting original comments, and not outputting our
        additional comments, leaving this to future extensions.
