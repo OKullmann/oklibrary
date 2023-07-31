@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.7.0"
+version="0.7.1"
 
 archive="$1"
 
@@ -35,6 +35,7 @@ archive="$1"
 : ${log_remove:="LOG_remove"}
 : ${synprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax}
 : ${tolerance:="3"}
+: ${replace:="GREP"}
 : ${log_syntax:="LOG_syntax"}
 : ${log_rename:="LOG_rename"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
@@ -143,7 +144,7 @@ for file in ${directory}/**/${filetype}; do
       rm ${fullname}
       ((++count_nd))
     else
-      syntax_report="$(${synprog} ${fullname} 1 ${tolerance})"
+      syntax_report="$(${synprog} ${fullname} 1 ${tolerance} ${replace})"
       if ! [ -z "${syntax_report}" ]; then
         echo -n "${fullname}" >> ${log_syntax}
         echo -e "${syntax_report}\n" >> ${log_syntax}
