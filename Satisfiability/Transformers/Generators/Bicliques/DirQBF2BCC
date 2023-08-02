@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.7.1"
+version="0.7.2"
 
 archive="$1"
 
@@ -41,6 +41,7 @@ archive="$1"
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 : ${dir_extension:=".B"}
 : ${third_argument:="1"}
+: ${log_rmdir:="LOG_rmdir"}
 
 second_argument="||${dir_extension}"
 
@@ -164,7 +165,7 @@ for file in ${directory}/**/${filetype}; do
       # only this part of the program is special for bcc-processing:
       newname="$(${disprog} ${fullname} ${second_argument} ${third_argument})"
       if [ -z "${newname}" ]; then
-        ((++count_deleted)) # no components of size > ${third_argument}
+        ((++count_deleted)) # no components with n-value > ${third_argument}
       else
         redname="${name%.*}"
         fullredname="${base}/${redname}${dir_extension}"
@@ -189,6 +190,9 @@ for file in ${directory}/**/${filetype}; do
   fi
 
 done
+
+find ${directory} -type d -empty -delete -print > ${log_rmdir}
+
 echo
 time4="$(date +%s)"
 echo -n "process:"
@@ -204,6 +208,8 @@ echo "#rename: ${count_rename}" | tee -a ${log_general}
 echo "#deleted: ${count_deleted}" | tee -a ${log_general}
 echo "#with-global: ${count_withglobal}" | tee -a ${log_general}
 echo "#with-nonbc: ${count_withnonbc}" | tee -a ${log_general}
+echo -n "#rec-rmdir: " | tee -a ${log_general}
+cat ${log_rmdir} | wc -l | tee -a ${log_general}
 
 echo >> ${log_general}
 echo "total:" $[ ${time4} - ${time1} ] "s" | tee -a ${log_general}
