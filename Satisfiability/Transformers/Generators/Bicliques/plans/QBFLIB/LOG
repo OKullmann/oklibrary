@@ -1268,3 +1268,164 @@ L2 1401 : 1 82.8936 49900; 1471.69 2
 real    0m0.300s
 user    0m0.083s
 sys     0m0.212s
+
+
+31.7.2023
+
+QBF2BCC> rmdir Amendola-Ricca-Truszczynski/*
+QBF2BCC> rmdir Amendola-Ricca-Truszczynski
+
+QBF2BCC> rmdir Ansotegui/*
+QBF2BCC> rmdir Ansotegui
+
+QBF2BCC> rmdir Ayari/DFlipFlop/
+QBF2BCC> rmdir Ayari/SzymanskiP/
+QBF2BCC> rmdir Ayari/VonNeumann/
+
+QBF2BCC> rmdir Biere/*
+QBF2BCC> rmdir Biere
+
+QBF2BCC> rmdir Cashmore-Fox-Giunchiglia/*
+QBF2BCC> rmdir Cashmore-Fox-Giunchiglia
+
+QBF2BCC> rmdir Castellini/*
+QBF2BCC> rmdir Castellini
+
+QBF2BCC> rmdir Chen/Q_2_2_3/
+QBF2BCC> rmdir Chen/Q_3_3_3/
+
+QBF2BCC> rmdir Diptarama-Jordan-Shinohara/*
+QBF2BCC> rmdir Diptarama-Jordan-Shinohara
+
+QBF2BCC> rmdir Egly-Seidl-Tompits-Woltran-Zolda/*
+QBF2BCC> rmdir Egly-Seidl-Tompits-Woltran-Zolda
+
+QBF2BCC> rmdir Gent-Rowley/*
+QBF2BCC> rmdir Gent-Rowley
+
+QBF2BCC> rmdir Herbstritt/*
+QBF2BCC> rmdir Herbstritt
+
+QBF2BCC> rmdir Katz/*
+QBF2BCC> rmdir Katz
+
+QBF2BCC> rmdir Klieber/*
+QBF2BCC> rmdir Klieber
+
+QBF2BCC> rmdir Kronegger-Pfandler-Pichler/*
+QBF2BCC> rmdir Kronegger-Pfandler-Pichler
+
+QBF2BCC> rmdir Letombe/Abduction/
+
+QBF2BCC> rmdir Ling/*
+QBF2BCC> rmdir Ling
+
+QBF2BCC> rmdir Mangassarian-Veneris/*
+QBF2BCC> rmdir Mangassarian-Veneris
+
+QBF2BCC> rmdir MayerEichberger-Saffidine/*
+QBF2BCC> rmdir MayerEichberger-Saffidine
+
+QBF2BCC> rmdir Messinger/*
+QBF2BCC> rmdir Messinger
+
+QBF2BCC> rmdir Miller-Marin/*
+QBF2BCC> rmdir Miller-Marin
+
+QBF2BCC> rmdir Mneimneh-Sakallah/*
+QBF2BCC> rmdir Mneimneh-Sakallah
+
+QBF2BCC> rmdir NuSMV_diam/*
+QBF2BCC> rmdir NuSMV_diam
+
+QBF2BCC> rmdir Palacios/*
+QBF2BCC> rmdir Palacios
+
+QBF2BCC> rmdir Pan/*
+rmdir: failed to remove 'Pan/Qshifter': Directory not empty
+
+QBF2BCC> rmdir Peitl/*
+QBF2BCC> rmdir Peitl
+
+QBF2BCC> rmdir Preusser/*
+QBF2BCC> rmdir Preusser
+
+QBF2BCC> rmdir qbfeval12/*
+QBF2BCC> rmdir qbfeval12
+
+QBF2BCC> rmdir Rabe/*
+rmdir: failed to remove 'Rabe/sketch': Directory not empty
+
+QBF2BCC> rmdir Rintanen/*
+QBF2BCC> rmdir Rintanen
+
+QBF2BCC> rmdir Sauer-Reimer/*
+QBF2BCC> rmdir Sauer-Reimer
+
+QBF2BCC> rmdir Scholl-Becker/*
+QBF2BCC> rmdir Scholl-Becker
+
+QBF2BCC> rmdir Seidl/*
+rmdir: failed to remove 'Seidl/ASP_Program_Inclusion': Directory not empty
+
+19 directories remain:
+
+QBF2BCC> ls
+Akshay-Chakraborty-John-Shah-Rabe  Faber-Leone-Maratea-Ricca  Lee-Jiang             Narizzano  Tacchella
+Ayari                              Jordan-Kaiser              Letombe               Pan        Tentrup
+Basler                             Kontchakov                 Letz                  Rabe       Wintersteiger
+Chen                               Lahiri-Seshia              Miller-Scholl-Becker  Seidl
+
+Akshay-Chakraborty-John-Shah-Rabe contains nearly only instances with n=2 (i.e., A_2_*).
+
+
+2.8.2023
+
+Now automatically deleting recursively empty directories:
+
+QBFLIB> time DirQBF2BCC qdimacs.zip
+real    50m27.196s
+user    38m27.474s
+sys     12m41.768s
+
+QBFLIB> cat LOG
+Wed  2 Aug 01:26:06 BST 2023
+DirQBF2BCC 0.7.2
+archive="qdimacs.zip"
+-rw-r--r-- 1 oliver users 10035622919 Oct 29  2021 qdimacs.zip
+directory="QBF2BCC"
+filetyp="*.qdimacs.gz"
+syntax-program="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/QDimacsSyntax"
+ version:           0.4.1
+  tolerance 3
+disassembler="/home/oliver/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble"
+ version:           0.3.2
+  2nd-arg "||.B"
+  3rd-arg "1"
+
+unzip: 70 s
+
+remove: 2 s
+#removed: 220
+
+processing "*.qdimacs.gz" 2955 s
+#files: 27928
+#empty: 0
+#not-DIMACS: 1
+#syntax-errors: 39
+ERROR011 ERROR013
+#empty-after-syntax: 13590
+#qdimacs: 14298
+#rename: 6604
+#deleted: 3332
+#with-global: 10966
+#with-nonbc: 10966
+#rec-rmdir: 309
+
+total: 3027 s
+
+ls QBF2BCC/
+Akshay-Chakraborty-John-Shah-Rabe  Faber-Leone-Maratea-Ricca  Lee-Jiang             Narizzano  Tacchella
+Ayari                              Jordan-Kaiser              Letombe               Pan        Tentrup
+Basler                             Kontchakov                 Letz                  Rabe       Wintersteiger
+Chen                               Lahiri-Seshia              Miller-Scholl-Becker  Seidl
