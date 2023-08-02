@@ -25,7 +25,7 @@ set -o nounset
 
 program="DirQBF2BCC"
 errorm="ERROR[${program}]:"
-version="0.7.2"
+version="0.7.3"
 
 archive="$1"
 
@@ -40,7 +40,7 @@ archive="$1"
 : ${log_rename:="LOG_rename"}
 : ${disprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Disassemble}
 : ${dir_extension:=".B"}
-: ${third_argument:="1"}
+: ${third_argument:="2"}
 : ${log_rmdir:="LOG_rmdir"}
 
 second_argument="||${dir_extension}"
