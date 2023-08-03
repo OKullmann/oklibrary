@@ -2,15 +2,35 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 4, >= 2
 
+# At
+# https://www.funwithpuzzles.com/2015/08/queen-sudoku.html
+# we have a "Queen Sudoku", which is a standard 9x9 Sudoku,
+# with "one queen" (the symbol 9, using normal Sudoku-symbols).
+# At https://www.youtube.com/watch?v=tLxH3ADwUEE we have a guy
+# solving such a Queen Sudoku online.
+
 
 # gcMols:
 
+# For N <= 9 very easy:
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.000             4           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.000             9           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.000            28           1           0      0  0
+#  5    count dom bin    maxdom  asc   1         2       0.000           202           2           7      1  0
+#  6    count dom bin    maxdom  asc   1         0       0.000           524          10          19      2  0
+#  7    count dom bin    maxdom  asc   1         4       0.002          8732         140         287      6  0
+#  8    count dom bin    maxdom  asc   1         0       0.015         53433         881        1761      8  0
+#  9    count dom bin    maxdom  asc   1         0       0.149        465700        6862       13723     11  0
+
+
 # Best seems dom+bin+maxdom+desc; for N=10 asc in fact is somewhat better
 # (second runtime under high load):
-# MOLS> ./gcMols 10 data/SpecsCollection/SudokuQueen "" count dom bin maxdom asc 1 1
+# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 1 ""
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #   10    count dom bin    maxdom  asc    1               0      2.467      6517122      103032      206063     18
-# MOLS> ./gcMols 10 data/SpecsCollection/SudokuQueen "" count dom bin maxdom desc 1 1
+# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom desc 1 1 ""
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #   10    count dom bin    maxdom desc    1               0      5.560      7172755      118026      236051     17
 # But for N=11 desc is quite a bit better:
