@@ -69,8 +69,12 @@ License, or any later version. */
 
    - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
      biclique)
+
    - bccomp_graph_bydef(AdjVecUInt G, vecedges_t E) -> AdjVecUInt
      bccomp_graph_bydef(AdjVecUInt G) -> AdjVecUInt
+   a more efficient computation:
+   - bccomp_graph_0(AdjVecUInt G, vecedges_t E) -> AdjVecUInt
+     bccomp_graph_0(AdjVecUInt G) -> AdjVecUInt
 
 
 TODOS:
@@ -413,6 +417,7 @@ namespace Bicliques {
   // edge between them iff bccomp holds:
   AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G, const vecedges_t& E,
                                 const std::string& sep) {
+    assert(G.type() == Graphs::GT::und);
     assert(not has_loops(G));
     const idv_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
@@ -443,6 +448,70 @@ namespace Bicliques {
   AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G,
                                 const std::string& sep = "") {
     return bccomp_graph_bydef(G, G.alledges(), sep);
+  }
+
+  AdjVecUInt bccomp_graph_0(const AdjVecUInt& G, const vecedges_t& E,
+                            const std::string& sep) {
+    assert(G.type() == Graphs::GT::und);
+    assert(not has_loops(G));
+    const idv_t n = E.size();
+    AdjVecUInt res(Graphs::GT::und, n);
+    if (n <= 1) return res;
+    AdjVecUInt::adjlist_t A(n);
+    const auto M = Graphs::edge_map(E);
+    for (idv_t ei = 0; ei < n; ++ei) {
+      auto& row = A[ei];
+      const auto [v,w] = E[ei];
+      const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+      assert(not Nv.empty() and not Nw.empty());
+      if (Nv.size() == 1 and Nw.size() == 1) continue;
+      if (Nv.size() != 1) { // w is not the only neighbour of v
+        for (idv_t j = 0; j < Nv.size(); ++j) {
+          const idv_t w2 = Nv[j];
+          if (w2 == w) continue;
+          // edge (v, w2) is a neighbour of edge (v,w), with index j0+j :
+          const idv_t ej = Graphs::edge_index(M, {v, w2});
+          row.push_back(ej);
+        }
+      }
+      if (Nw.size() != 1) { // v is not the only neighbour of w
+        for (idv_t j = 0; j < Nw.size(); ++j) {
+          const idv_t v2 = Nw[j];
+          if (v2 == v) continue;
+          // edge (v2, w) is a neighbour of edge (v,w), with index j0+j :
+          const idv_t ej = Graphs::edge_index(M, {v2, w});;
+          row.push_back(ej);
+        }
+      }
+      if (Nv.size() == 1 or Nw.size() == 1) continue;
+      for (const idv_t v2 : Nw) {
+        if (v2 == v) continue;
+        for (idv_t w2 : Nv) {
+          if (w2 == w) continue;
+          if (not G.adjacent(v2,w2)) continue;
+          const idv_t ej = Graphs::edge_index(M, {v2, w2});
+          row.push_back(ej);
+        }
+      }
+    }
+    for (auto& row : A) {
+      std::ranges::sort(row);
+      row.erase(std::unique(row.begin(), row.end()), row.end());
+    }
+    res.set(A);
+    if (not sep.empty()) {
+      res.set_names();
+      for (idv_t i = 0; i < E.size(); ++i) {
+        const auto& [v, w] = E[i];
+        res.set_name(i, G.with_names() ? G.name(v) + sep + G.name(w) :
+                        std::to_string(v) + sep + std::to_string(w));
+      }
+    }
+    return res;
+  }
+  AdjVecUInt bccomp_graph_0(const AdjVecUInt& G,
+                            const std::string& sep = "") {
+    return bccomp_graph_0(G, G.alledges(), sep);
   }
 
 }
