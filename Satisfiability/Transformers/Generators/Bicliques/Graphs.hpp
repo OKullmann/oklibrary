@@ -79,7 +79,7 @@ License, or any later version. */
      - namesvec_t (vector os string)
      - namesmap_t (map string -> id_t)
      - size_t = id_t
-     - edge_t (pair of id_t)
+     - edge_t (std::pair of id_t)
      - vecedges_t (vector of edge_t)
 
     - constructors:
@@ -148,12 +148,18 @@ License, or any later version. */
     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
       FreqStats<size_t, float80>)
 
+    - edge_map(vecedges_t) -> edge_map_t (= std::map<edge_t, id_t>)
+      (mapping edges to their indices)
+    - edge_map(AdjVecUInt) -> edge_map_t
+      (using alledges())
+
     - output_matrix(AdjVecUInt, ostream)
 
     - independent sets:
 
      - is_independent(RAN r, AdjVecUInt) -> bool
        is_independent_sort(RAN r, AdjVecUInt) -> bool
+
      - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
      - typedef stats_vertexsets_t for statistics of vertex-set-sizes
      - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
@@ -852,6 +858,26 @@ namespace Graphs {
   degree_statistics_t degree_statistics(const AdjVecUInt& G) {
     return {G.graph(), [](auto){return true;},
         [](const auto& L){return L.size();}};
+  }
+
+
+  typedef std::map<AdjVecUInt::edge_t, AdjVecUInt::id_t> edge_map_t;
+  edge_map_t edge_map(const AdjVecUInt::vecedges_t& E) {
+    edge_map_t res;
+    for (AdjVecUInt::id_t i = 0; i < E.size(); ++i)
+      res.insert({E[i], i});
+    return res;
+  }
+  edge_map_t edge_map(const AdjVecUInt& G) {
+    return edge_map(G.alledges());
+  }
+  AdjVecUInt::id_t edge_index(const edge_map_t& M,
+                              const AdjVecUInt::edge_t e) noexcept {
+    const AdjVecUInt::edge_t e2 = e.first <= e.second ? e :
+      AdjVecUInt::edge_t{e.second, e.first};
+    const auto find = M.find(e2);
+    assert(find != M.end());
+    return find -> second;
   }
 
 
