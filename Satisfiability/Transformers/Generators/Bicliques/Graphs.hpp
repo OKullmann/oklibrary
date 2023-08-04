@@ -106,7 +106,8 @@ License, or any later version. */
      - allnames() -> const namesvec_t&
      - index(string) -> id_t
      - allindices() -> const namesmap_t&
-     - output(ostream, list_t)
+     - output(ostream, list_t) (list of vertices)
+     - output(ostream) (as <<, but without parameter-line)
 
     - providing whole adjacency-list:
      - valid(adjlist_t) -> bool
@@ -770,17 +771,20 @@ namespace Graphs {
       }
       else Environment::out_line(out, L);
     }
-
-    friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
-      out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
-      for (id_t v = 0; v < G.n_; ++v) {
-        if (G.names_) out << G.namesvec[v]; else out << v;
-        for (const id_t w : G.A[v]) {
+    void output(std::ostream& out) const {
+      for (id_t v = 0; v < n_; ++v) {
+        if (names_) out << namesvec[v]; else out << v;
+        for (const id_t w : A[v]) {
           out << " ";
-          if (G.names_) out << G.namesvec[w]; else out << w;
+          if (names_) out << namesvec[w]; else out << w;
         }
         out << "\n";
       }
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
+      out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
+      G.output(out);
       return out;
     }
 
