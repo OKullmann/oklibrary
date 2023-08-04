@@ -34,7 +34,7 @@ License, or any later version. */
    Graph algorithms:
 
    - finding greedily a maximal independent set in a graph, given by
-     a predicate:
+     a predicate (using the order of v):
      - is_independent(VEC v, PRED p)
      - greedy_max_independent_unstable(VEC v, PRED p)
      - greedy_max_independent(VEC v, PRED p)
