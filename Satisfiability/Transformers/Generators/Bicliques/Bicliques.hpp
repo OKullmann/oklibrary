@@ -72,6 +72,8 @@ License, or any later version. */
 
    - bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> AdjVecUInt
      bccomp_graph_bydef(AdjVecUInt) -> AdjVecUInt
+   - num_edges_bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> idv_t
+     num_edges_bccomp_graph_bydef(AdjVecUInt) -> idv_t
    a more efficient computation:
    - neighbours_bccomp_graph_0(AdjVecUInt, edge_map_t, edge_t) -> list_t
    - bccomp_graph_0(AdjVecUInt, vecedges_t) -> AdjVecUInt
