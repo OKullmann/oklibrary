@@ -152,6 +152,7 @@ License, or any later version. */
       (mapping edges to their indices)
     - edge_map(AdjVecUInt) -> edge_map_t
       (using alledges())
+    - edge_index(edge_map_t, edge_t) -> id_t
 
     - output_matrix(AdjVecUInt, ostream)
 
