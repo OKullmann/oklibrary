@@ -1770,3 +1770,18 @@ Symmetry-breaking:
 
 Bicliques> cat A_52521_720110_1 | ./CNF2cg | ./BCC2SAT 52521 +sb -trans 100 ""
 aborted after > 37h.
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./BCC2SAT 52521 +sb -trans 1 ""
+c ** Symmetry Breaking **
+c planted-edges                         51689
+c sb-stats                              1 : 51689 51689 51689; 0
+c sb-seed                               0
+c restricted-edges                      832
+c ** Statistics **
+c V                                     720110
+c E                                     4930280
+c B                                     52521
+real    148m2.909s
+user    148m3.843s
+sys     0m1.024s
+
+So one round takes somewhat over 2h.
