@@ -422,7 +422,7 @@ namespace Bicliques {
     assert(not has_loops(G));
     const idv_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
-    if (n <= 1) return res;;
+    if (n <= 1) return res;
     AdjVecUInt::adjlist_t A(n);
     for (idv_t i = 0; i < n-1; ++i) {
       auto& row = A[i];
@@ -449,6 +449,24 @@ namespace Bicliques {
   AdjVecUInt bccomp_graph_bydef(const AdjVecUInt& G,
                                 const std::string& sep = "") {
     return bccomp_graph_bydef(G, G.alledges(), sep);
+  }
+  // Just computing the number of edges:
+  idv_t num_edges_bccomp_graph_bydef(const AdjVecUInt& G,
+                                     const vecedges_t& E) noexcept {
+    assert(G.type() == Graphs::GT::und);
+    assert(not has_loops(G));
+    const idv_t n = E.size();
+    if (n <= 1) return 0;
+    idv_t res = 0;
+    for (idv_t i = 0; i < n-1; ++i) {
+      const edge_t& ei = E[i];
+      for (idv_t j = i+1; j < n; ++j)
+        res += bccomp(ei, E[j], G);
+    }
+    return res;
+  }
+  idv_t num_edges_bccomp_graph_bydef(const AdjVecUInt& G) {
+    return num_edges_bccomp_graph_bydef(G, G.alledges());
   }
 
   // The sorted list of neighbours in bccomp-graph:
