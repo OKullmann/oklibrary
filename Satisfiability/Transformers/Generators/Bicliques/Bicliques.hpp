@@ -465,36 +465,17 @@ namespace Bicliques {
       const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
       assert(not Nv.empty() and not Nw.empty());
       if (Nv.size() == 1 and Nw.size() == 1) continue;
-      if (Nv.size() != 1) { // w is not the only neighbour of v
-        for (idv_t j = 0; j < Nv.size(); ++j) {
-          const idv_t w2 = Nv[j];
-          if (w2 == w) continue;
-          // edge (v, w2) is a neighbour of edge (v,w), with index j0+j :
-          const idv_t ej = Graphs::edge_index(M, {v, w2});
-          row.push_back(ej);
-        }
-      }
-      if (Nw.size() != 1) { // v is not the only neighbour of w
-        for (idv_t j = 0; j < Nw.size(); ++j) {
-          const idv_t v2 = Nw[j];
-          if (v2 == v) continue;
-          // edge (v2, w) is a neighbour of edge (v,w), with index j0+j :
-          const idv_t ej = Graphs::edge_index(M, {v2, w});;
-          row.push_back(ej);
-        }
-      }
+      for (const idv_t w2 : Nv)
+        if (w2 != w) row.push_back(Graphs::edge_index(M, {v, w2}));
+      for (const idv_t v2 : Nw)
+        if (v2 != v) row.push_back(Graphs::edge_index(M, {v2, w}));
       if (Nv.size() == 1 or Nw.size() == 1) continue;
       for (const idv_t v2 : Nw) {
         if (v2 == v) continue;
-        for (idv_t w2 : Nv) {
-          if (w2 == w) continue;
-          if (not G.adjacent(v2,w2)) continue;
-          const idv_t ej = Graphs::edge_index(M, {v2, w2});
-          row.push_back(ej);
-        }
+        for (idv_t w2 : Nv)
+          if (w2 != w and w2 != v2 and G.adjacent(v2,w2))
+            row.push_back(Graphs::edge_index(M, {v2, w2}));
       }
-    }
-    for (auto& row : A) {
       std::ranges::sort(row);
       row.erase(std::unique(row.begin(), row.end()), row.end());
     }
