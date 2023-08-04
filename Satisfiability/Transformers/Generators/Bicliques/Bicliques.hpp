@@ -13,7 +13,7 @@ License, or any later version. */
 
    - from Graphs:
     - AdjVecUInt (the graph type)
-    - fromAdjVec:
+    - from AdjVecUInt:
      - idv_t = id_t
      - list_t, edge_t
 
@@ -70,11 +70,12 @@ License, or any later version. */
    - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
      biclique)
 
-   - bccomp_graph_bydef(AdjVecUInt G, vecedges_t E) -> AdjVecUInt
-     bccomp_graph_bydef(AdjVecUInt G) -> AdjVecUInt
+   - bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> AdjVecUInt
+     bccomp_graph_bydef(AdjVecUInt) -> AdjVecUInt
    a more efficient computation:
-   - bccomp_graph_0(AdjVecUInt G, vecedges_t E) -> AdjVecUInt
-     bccomp_graph_0(AdjVecUInt G) -> AdjVecUInt
+   - neighbours_bccomp_graph_0(AdjVecUInt, edge_map_t, edge_t) -> list_t
+   - bccomp_graph_0(AdjVecUInt, vecedges_t) -> AdjVecUInt
+     bccomp_graph_0(AdjVecUInt) -> AdjVecUInt
 
 
 TODOS:
@@ -450,6 +451,31 @@ namespace Bicliques {
     return bccomp_graph_bydef(G, G.alledges(), sep);
   }
 
+  // The sorted list of neighbours in bccomp-graph:
+  list_t neighbours_bccomp_graph_0(const AdjVecUInt& G,
+                                   const Graphs::edge_map_t& M,
+                                   const edge_t e) {
+    list_t row;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    if (Nv.size() == 1 and Nw.size() == 1) return {};
+    for (const idv_t w2 : Nv)
+      if (w2 != w) row.push_back(Graphs::edge_index(M, {v, w2}));
+    for (const idv_t v2 : Nw)
+      if (v2 != v) row.push_back(Graphs::edge_index(M, {v2, w}));
+    if (Nv.size() == 1 or Nw.size() == 1) return row;
+    for (const idv_t v2 : Nw) {
+      if (v2 == v) continue;
+      for (idv_t w2 : Nv)
+        if (w2 != w and w2 != v2 and G.adjacent(v2,w2))
+          row.push_back(Graphs::edge_index(M, {v2, w2}));
+    }
+    std::ranges::sort(row);
+    row.erase(std::unique(row.begin(), row.end()), row.end());
+    return row;
+  }
+
   AdjVecUInt bccomp_graph_0(const AdjVecUInt& G, const vecedges_t& E,
                             const std::string& sep) {
     assert(G.type() == Graphs::GT::und);
@@ -457,32 +483,15 @@ namespace Bicliques {
     const idv_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
     if (n <= 1) return res;
-    AdjVecUInt::adjlist_t A(n);
-    const auto M = Graphs::edge_map(E);
-    for (idv_t ei = 0; ei < n; ++ei) {
-      auto& row = A[ei];
-      const auto [v,w] = E[ei];
-      const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
-      assert(not Nv.empty() and not Nw.empty());
-      if (Nv.size() == 1 and Nw.size() == 1) continue;
-      for (const idv_t w2 : Nv)
-        if (w2 != w) row.push_back(Graphs::edge_index(M, {v, w2}));
-      for (const idv_t v2 : Nw)
-        if (v2 != v) row.push_back(Graphs::edge_index(M, {v2, w}));
-      if (Nv.size() == 1 or Nw.size() == 1) continue;
-      for (const idv_t v2 : Nw) {
-        if (v2 == v) continue;
-        for (idv_t w2 : Nv)
-          if (w2 != w and w2 != v2 and G.adjacent(v2,w2))
-            row.push_back(Graphs::edge_index(M, {v2, w2}));
-      }
-      std::ranges::sort(row);
-      row.erase(std::unique(row.begin(), row.end()), row.end());
+    {const auto M = Graphs::edge_map(E);
+     AdjVecUInt::adjlist_t A(n);
+     for (idv_t ei = 0; ei < n; ++ei)
+       A[ei] = neighbours_bccomp_graph_0(G, M, E[ei]);
+     res.set(A);
     }
-    res.set(A);
     if (not sep.empty()) {
       res.set_names();
-      for (idv_t i = 0; i < E.size(); ++i) {
+      for (idv_t i = 0; i < n; ++i) {
         const auto& [v, w] = E[i];
         res.set_name(i, G.with_names() ? G.name(v) + sep + G.name(w) :
                         std::to_string(v) + sep + std::to_string(w));
