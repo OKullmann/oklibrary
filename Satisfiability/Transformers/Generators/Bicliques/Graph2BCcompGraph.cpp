@@ -10,31 +10,49 @@ License, or any later version. */
 
 EXAMPLES:
 
-Using the default-separator "-":
+Using the separator "-":
 
-Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph
+Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph "" -
+# "./Graph2BCcompGraph" "" "-"
+# input 5 4
 # 4 3 1
 1,1-2,1 2,1-3,1
 2,1-3,1 1,1-2,1 3,1-4,1
 3,1-4,1 2,1-3,1 4,1-5,1
 4,1-5,1 3,1-4,1
 
-Using a provided separator:
+Using a provided separator, and without comments:
 
-Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph "X"
+Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -com X
 # 4 3 1
 1,1X2,1 2,1X3,1
 2,1X3,1 1,1X2,1 3,1X4,1
 3,1X4,1 2,1X3,1 4,1X5,1
 4,1X5,1 3,1X4,1
 
-Turning off the vertex-naming:
-Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph ""
-# 4 3 1
+Turning off the vertex-naming, and without parameters:
+Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -dp ""
+# "./Graph2BCcompGraph" "-dp" ""
+# input 5 4
 0 1
 1 0 2
 2 1 3
 3 2
+
+Just computing the parameters:
+Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -trans ""
+# "./Graph2BCcompGraph" "-trans" ""
+# input 5 4
+# 4 3
+
+Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
+# "./Graph2BCcompGraph" "-trans" ""
+# input 3964 157484
+# 157484 2362378400
+
+real	3m34.845s
+user	3m34.855s
+sys	0m0.014s
 
 
 See plans/general.txt.
@@ -45,39 +63,41 @@ See plans/general.txt.
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
+#include "Bicliques2SAT.hpp"
 #include "Bicliques.hpp"
+
+#include "BCC2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "12.5.2023",
+        "0.2.0",
+        "4.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
         "GPL v3"};
 
-  using namespace Graphs;
-  using namespace Bicliques;
+  using namespace Bicliques2SAT;
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  const std::string default_sep = "-";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [sep=\"" << default_sep << "]\"\n\n"
+    "> " << proginfo.prg
+         << " format-options separator\n\n"
+    " format-options : " << Environment::WRP<DC>{} << "\n"
+    "                : " << Environment::WRP<DP>{} << "\n"
+    "                : " << Environment::WRP<CS>{} << "\n"
+    " separator      : a string (possibly empty)\n\n"
     " reads a graph from standard input, and prints the biclique-compatibility graph to standard output:\n\n"
-    "  - Arguments \"\" (the empty string) turns off the vertex-naming.\n"
+    "  - Arguments \"\" (the empty string) yield the default-values.\n"
+    "  - The empty string as separator turns off the vertex-naming.\n"
 
 ;
     return true;
-  }
-
-  std::string read_sep(const int argc, const char* const argv[]) noexcept {
-    if (argc == 1) return default_sep;
-    else return argv[1];
   }
 
 }
@@ -87,14 +107,35 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc > 2) {
+  if (argc != 3) {
     std::cerr << error <<
-      "At most one argument allowed, but " << argc-1 << " provided.\n";
+      "Exactly two arguments (form-opt, sep)"
+      " needed, but " << argc-1 << " provided.\n";
     return 1;
   }
 
-  const std::string sep = read_sep(argc, argv);
+  const auto formopt =
+    Environment::translate<format_options_t>()(argv[1], ',');
+  const auto [comments, parameters, translation] = formopt;
+  const std::string sep = argv[2];
 
-  std::cout << bccomp_graph_bydef(make_AdjVecUInt(std::cin, GT::und), sep);
+  const auto G = make_AdjVecUInt(std::cin, Graphs::GT::und);
+  BCC2SAT::commandline_output(formopt, "# ", std::cout, argc, argv);
+  if (comments == DC::with) {
+    std::cout << "# input " << G.n() << " " << G.m() << std::endl;
+  }
+  if (translation == CS::with) {
+    if (parameters == DP::with)
+      std::cout << Bicliques::bccomp_graph_bydef(G, sep);
+    else {
+      const auto BG = Bicliques::bccomp_graph_bydef(G, sep);
+      BG.output(std::cout);
+    }
+  }
+  else {
+    if (parameters == DP::with)
+      std::cout << "# " << G.m() << " "
+                << Bicliques::num_edges_bccomp_graph_bydef(G) << "\n";
+  }
 
 }
