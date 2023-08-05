@@ -2,20 +2,6 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
--9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
-
- 11. Output statistics on variable degrees:
-     - this should only consider the variables mentioned in the a-e-lines.
- 12. Optionally replace original file with sanitised version,
-     which achieves tolerance-level 0:
-
- We also need a dimacs-sanitisation-program.
- Later create a version, which doesn't store the input, and
- reacts immediately.
-
-
----
-
 -8. DirQBF2BCC
 
 This is a bash-script, creating the directory QBF2BCC:
@@ -777,6 +763,21 @@ TODOS:
 
   - Graphs should have names (a string-member).
     The ==-test should ignore them.
+
+---
+
+
+14. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
+
+ 11. Output statistics on variable degrees:
+     - this should only consider the variables mentioned in the a-e-lines.
+ 12. Optionally replace original file with sanitised version,
+     which achieves tolerance-level 0:
+
+ We also need a dimacs-sanitisation-program.
+ Later create a version, which doesn't store the input, and
+ reacts immediately.
+
 
 ---
 
