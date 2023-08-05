@@ -2,25 +2,6 @@ Oliver Kullmann, 23.3.2023 (Swansea)
 
 Priorities:
 
--10. BCCbyIP
-
-This is a bash-script, which reads from standard input a graph,
-and outputs the biclique-cover number by nonnegrank, an alternative solver.
-The alternative solver is based on IP, integer programming.
-
- 0. The excessive verbosity must be removed
- 1. Input format must be specified as -format=adjacency|matrix
-
-    There is no need for that -- only one format.
- 2. Run the bash-script through all our generated graph-classes for testing.
-     - Check whether their solver computes the correct result.
-     - If no discrepancy detected, report on the range of parameters checked.
-     - Do we need additional bash-script file to automate the testing ?
- 3. Have a copy of nonnegrank in bicliques directory.
-     - What is "nonnegrank" ? What is a "copy"?
-     - Obviously a link is needed.
----
-
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
  -2. DONE
@@ -206,12 +187,15 @@ This bccomp-graph is dense, with an average degree 30000 (around 20%
 of the number of vertices).
 
       With bccomp_graph_0:
-Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" | head > STORE2
+Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE2
 real    15m8.082s
 user    14m28.845s
 sys     0m38.977s
-Bicliques> diff STORE STORE2
-shows equality.
+      With bccomp_graph_1:
+real    14m49.697s
+user    14m14.595s
+sys     0m35.117s
+      So possibly a bit faster.
 
 DONE Just computing the degrees, using bccomp_graph_1, is faster
 (the main overhead seems the computation of edge-indices).
