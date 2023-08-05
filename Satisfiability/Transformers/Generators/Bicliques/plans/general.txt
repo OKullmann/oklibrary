@@ -4,79 +4,10 @@ Priorities:
 
 -9. C++-program QDimacsSyntaxAnalyse for analysing qdimacs-files
 
- -2. DONE
-     Output dimacs-parametes after clean-up, in case of output of
-     purified form:
-     - DONE (recomputing only when replacing)
-       when storing the new clauses, then new-c and new-n are
-       computed
-     - DONE (not checked, due to possible empty lines)
-       check: new c = old c - tautologies.
-
- -1. DONE
-     Tolerance-levels:
-     - DONE 3: additionally allows
-       - DONE pure or formal global variables
-       - DONE empty first ae-line (this influences global variables).
-
-     All these deviations from level 0 are reported by appropriate counts
-     resp. booleans.
-
- 0. DONE Instead of just outputting "ERROR", add an error-number:
-     - DONE (just numbered as they occur in the code)
-       Without a space, in the form "ERROR001" (fixed width), so that
-       no parsing is needed.
-     - DONE
-       The script DirQBF2BCC should list the error-numbers (in sorted order),
-       and how often they occurred.
- 1. DONE Taking a filename for a QCNF as argument.
- 2. DONE Storing it in a list of lines.
- 3. DONE First checking the initial c-lines and the p-line.
- 4. DONE Output statistics on them, and abort if there is an error.
- 5. Are there comments after the p-line?
-     - One needs to see how many such files are there, and manually
-       inspect them.
- 6. DONE Analyse the a-line and e-lines:
-     - DONE all on one line, finishing with "0\n"?
-     - DONE always alternating?
-     - DONE correct variables?
-     - DONE disjoint?
-     - DONE unspecified variables?
- 7. DONE Output statistics on ae-lines:
-     - especially on global variables.
-    Abborting if incorrect or nondisjoint variables.
- 8. DONE Reading the clauses:
-     - DONE all on one line ?
-     - DONE correct literals ?
-     - DONE tautological clauses ?
-     - DONE repeated literals ?
-     - DONE universal clauses (only containing a-variables) ?
-       even empty clauses?
- 9. Determining pure global variables.
-     - Indeed, easiest to determine all pure universal variables.
- 10. DONE Output statistics on clauses and global variables.
  11. Output statistics on variable degrees:
      - this should only consider the variables mentioned in the a-e-lines.
  12. Optionally replace original file with sanitised version,
      which achieves tolerance-level 0:
-     - DONE
-       Should this assume a certain tolerance-level?
-       Or should this be done without checking (assuming a previous run)?
-       Since output goes to file, we just additionally output -- if an error
-       occurs (according to the tolerance-level), then we get an interrupt.
-     - Should this replace the original file?
-       An additional optional parameter: output iff existing, replacement
-       iff empty, otherwise using the filename.
-       Perhaps better something explicit, like "REP"; and rejecting empty
-       strings?
-     - DONE
-       If there are no global variables, then just write the empty-file (this
-       must be tested and counted in DirQBF2BCC).
-     - For now not outputting original comments, and not outputting our
-       additional comments, leaving this to future extensions.
- 13. DONE (verbosity >= 2: all commong elements output)
-     For non-empty intersection: give one common element, and determine size
-     of the intersection.
 
  We also need a dimacs-sanitisation-program.
  Later create a version, which doesn't store the input, and

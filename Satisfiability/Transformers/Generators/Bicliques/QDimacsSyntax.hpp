@@ -8,7 +8,7 @@ License, or any later version. */
 /*
   Tools for analysing qdimacs
 
-TODOSL
+TODOS:
 
 1. Function snn2UInt_t (strict natnum to UInt_t)
     - Assume is_strict_natnum.

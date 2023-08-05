@@ -7,9 +7,13 @@ License, or any later version. */
 
 /*
   For input-QCNF F, analyse F, and return output "ERROR" when not in
-  "strict q-dimacs syntax:
+  "strict q-dimacs syntax"
+
    - First >= 0 lines starting with "c ".
    - A line is always completed by "\n" (EOL).
+   - Remark: For all tolerance-levels the comment-lines must be one block,
+     before the p-line.
+
    - A "strict natural numbers" is defined as follows:
      - only digits, at least one
      - no leading zero
@@ -17,6 +21,7 @@ License, or any later version. */
      - < 2^64.
    - Then one line "p cnf n c" (no additional spaces), where n, c are
      strict natural numbers, and n < 2^64-1.
+
    - Then at least one a-e-line:
     - starting with "a " or "e "
     - finishing with " 0"
@@ -25,7 +30,9 @@ License, or any later version. */
       leading spaces possible)
     - no repetitions inside a line
     - no common elements between different lines
+    - no two a-lines or two e-lines in sequence
     - for max_ae the maximum number listed we have max_ae = n.
+
   - Then exactly c lines containing the clauses:
     - ending with " 0"
     - otherwise only literals (at least one), separated by at least one space,
@@ -34,23 +41,56 @@ License, or any later version. */
     - the underlying variables must occur in the a-e-lines
     - no repeated or clashing literals
     - at least one existential literal.
+
   - The "global variable" are the outermost a-variables, if the first
     block is universal, otherwise there are no global variables.
   - Every global variable must occur positively and negatively in the
     clauses.
+    Remark: currently formality or pureness of other universal or
+    existential variables is ignored.
 
   The above is tolerance-level 0.
+
   Level 1 allows:
-       - comment-check: just "c"
+       - comment-check: just leading "c" (rest of line arbitrary)
        - arbitrary spaces after n in the dp-line
        - further spaces after 0 in clause-lines
        - max_ae <= n
        - final empty lines (if there are such line then c can count them or
          not)
+
   Level 2 additionally allows:
        - repeated literals
        - clashing literals, that is tautological clauses (these are
-         removed).
+         removed)
+
+  Level 3 additionally allows:
+       - pure or formal global variables
+       - empty first ae-line (this influences global variables).
+
+
+  If the checks are passed, and a fourth parameter "GREP" (this very
+  string, meaning "global replacement") is given, then the input-file
+  is replaced by the purified form, which is just the empty file in case
+  there are no global variables left (formal and pure global variables
+  are eliminted).
+  The purified form fulfills Level 0.
+
+With verbosity=1 only error-codes are reported, e.g. for the above file
+
+Bicliques> echo -en "c kk\nc jk\nc \np cnf 5  3\na  1  4 0\ne  2  5 0\na 3  0\n5  5  4 1 -4 0\n 2   3 4 5 1 3 0\n-1  -3  -4 -5 0\n\n" | ./QDimacsSyntax_debug /dev/stdin 1 1
+
+complementary literal -4
+problem with clause 0 (line 7)
+ERROR013
+
+These codes can by looked up in the source-code below by searching for
+e.g. "error(13)".
+
+
+Remarks:
+The input is stored as is, as a vector of strings.
+In case of replacement also the resulting CNF is stored.
 
 
 BUGS:
@@ -59,40 +99,59 @@ EXAMPLES:
 
 For the QCNF
 
-p cnf 5 3
-a 1 4 0
-e 2 5 0
-a 3 0
-5 5 4 1 -4 0
-2 3 4 5 1 3 0
--1 -3  -4 -5 0
+Bicliques> echo -en "c kk\nc jk\nc \np cnf 5  3\na  1  4 0\ne  2  5 0\na 3  0\n5  5  4 1 -4 0\n 2   3 4 5 1 3 0\n-1  -3  -4 -5 0\n\n" > Test.qdimacs
+Bicliques> cat Test.qdimacs
+c kk
+c jk
+c
+p cnf 5  3
+a  1  4 0
+e  2  5 0
+a 3  0
+5  5  4 1 -4 0
+ 2   3 4 5 1 3 0
+-1  -3  -4 -5 0
 
-we get
 
-Bicliques> echo -en "c kk\nc jk\nc \np cnf 5 3\na 1 4 0\ne 2 5 0\na 3  0\n5 5 4 1 -4 0\n2 3 4 5 1 3 0\n-1 -3  -4 -5 0\n\n" | ./QDimacsSyntax_debug /dev/stdin 2 2
-filename "/dev/stdin"
-verbosity-tolerance 2 2
+we get the report and replaced form, using verbosity-level 2, that is,
+full reporting, and tolerance-level 2 (level 1 not passed, since the first
+clause is tautological):
+
+Bicliques> ./QDimacsSyntax_debug Test.qdimacs 2 2 GREP
+filename "Test.qdimacs"
+verbosity-tolerance-replacement 2 2 true
 num-lines 10
-num-chars 78
+num-chars 89
 trailing-empty-lines 1
 num-comments 3
 pars 5 3
-first_a true
 num-ae-blocks 3
 remaining-lines 3
-add-spaces-ae 1
+add-spaces-ae 5
+initial-ae-lines 0
+first_a true
 max_ae 5
 num_ae 5
 ae_blocks 2 2 1
 num-glob 2
-add-spaces-clauses 1
+add-spaces-clauses 7
 repeated-literals 1
 tautologies 1
 clause-lengths 2 : 4 4.5 5; 0.707107
 formal-global-vars 0
 pure-global-vars 0
+final-global-vars 2
+new-pars 5 2
 
+Bicliques> cat Test.qdimacs
+p cnf 5 2
+a 1 4 0
+e 2 5 0
+a 3 0
+1 2 3 4 5 0
+-1 -3 -4 -5 0
 
+Comments are removed, and all lines are sorted.
 
 */
 
@@ -374,10 +433,6 @@ int main(const int argc, const char* const argv[]) {
       std::cout << "\nformal-or-pure-global-vars " << num_form_g + num_pure_g
                 << "\n";
     syntax_error(14);
-  }
-
-  if (verbosity >= 2) {
-    // statistics on degrees XXX
   }
 
   if (replacement) {
