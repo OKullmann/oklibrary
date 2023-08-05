@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "18.7.2023",
+        "0.2.3",
+        "5.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -72,6 +72,44 @@ int main(const int argc, const char* const argv[]) {
    typedef std::vector<double> v2_t;
    assert((intersection(v2_t{-5.5,-3,1,2,2.1,3}, v_t{-5,-3,2,4,5})
            == v2_t{-3,2}));
+  }
+
+  {typedef std::vector<int> v_t;
+   assert(eqp(split(v_t{},v_t{}), {}));
+   assert(eqp(split(v_t{0},v_t{}), {{{0},{},{}}}));
+   assert(eqp(split(v_t{},v_t{0}), {{{},{0},{}}}));
+   assert(eqp(split(v_t{0},v_t{0}), {{{},{},{0}}}));
+   assert(eqp(split(v_t{0,0},v_t{0}), {{{0},{},{0}}}));
+   assert(eqp(split(v_t{0,0},v_t{0,0}), {{{},{},{0,0}}}));
+   assert(eqp(split(v_t{0,0,0},v_t{0,0}), {{{0},{},{0,0}}}));
+   assert(eqp(split(v_t{0,0},v_t{0,0,0}), {{{},{0},{0,0}}}));
+   assert(eqp(split(v_t{0,0,1,1,2,3,4,4,4},v_t{0,0,0,2,2,4}),
+              {{{1,1,3,4,4},{0,2},{0,0,2,4}}}));
+   assert(eqp(split(v_t{1,2,3},v_t{2,4,5}),
+              {{{1,3},{4,5},{2}}}));
+   typedef std::vector<double> v2_t;
+   typedef std::array<v2_t, 3> a2_t;
+   assert((split(v2_t{-5.5,-3,1,2,2.1,3},v_t{-5,-3,2,4,5}) ==
+           a2_t{{{-5.5,1,2.1,3},{-5,4,5},{-3,2}}}));
+  }
+  {using uint_t = RandGen::gen_uint_t;
+   typedef std::vector<uint_t> v_t;
+   for (const uint_t R : v_t{2,5,10,30,50,100}) {
+     auto U = RandGen::UniformRangeS(R,RandGen::transform({R}));
+     const uint_t s0 = 13, s1 = 17;
+     for (unsigned T = 0; T < 1000; ++T) {
+       v_t v0(s0), v1(s1);
+       for (auto& x : v0) x = U();
+       std::ranges::sort(v0);
+       for (auto& x : v1) x = U();
+       std::ranges::sort(v1);
+       const auto res = split(v0, v1);
+       assert(sum_sizes(res) + res[2].size() == v0.size() + v1.size());
+       assert(res[2] == intersection(v0, v1));
+       assert(std::ranges::is_sorted(res[0]));
+       assert(std::ranges::is_sorted(res[1]));
+     }
+   }
   }
 
   {typedef std::vector<int> vi_t;

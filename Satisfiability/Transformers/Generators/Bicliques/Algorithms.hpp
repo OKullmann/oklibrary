@@ -12,8 +12,12 @@ License, or any later version. */
    Set operations:
 
      for sorted ranges r1, r2:
-   - empty_intersection(RAN1 r1, RAN2 r2)
+   - empty_intersection(RAN1 r1, RAN2 r2) (uses < and ==)
    - intersection(RAN1 r1, RAN2 r2) -> std::vector<RAN1::value_type>
+     (uses only <)
+   - split(RAN1 r0, RAN2 r1) -> std::array<std::vector<RAN1::value_type>, 3>
+     splits the sorted sequence r1, r2 into res[0,1,2], with res[2] the
+     intersection (uses < and ==)
 
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
      returns the sorted vector of elements of {0, ..., N-1} not in r
@@ -62,6 +66,7 @@ TODOS:
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <array>
 
 #include <cassert>
 
@@ -94,7 +99,8 @@ namespace Algorithms {
     return true;
   }
   // Compute the intersection as a std::vector, using value_type from first
-  // range:
+  // range; uses std::set_intersection, and thus for multiple elements
+  // occurring in r1 or r2, uses the minimum-count:
   template <class RAN1, class RAN2>
   std::vector<typename RAN1::value_type>
   intersection(const RAN1& r1, const RAN2& r2) {
@@ -102,6 +108,58 @@ namespace Algorithms {
     std::vector<typename RAN1::value_type> res;
     std::ranges::set_intersection(r1, r2, std::back_inserter(res));
     return res;
+  }
+  // Splits the sorted sequences into their unique parts and their
+  // intersection; repeated elements are treated individually (the mininum
+  // of the occurrence-number is used for the intersection, the overhang
+  // goes to the respective unique part; so
+  // r0.size()+r1.size() == res[0].size()+res[1].size()+2*res[2].size();
+  // and so res[2] == intersection(r0,r1)):
+  template <class RAN0, class RAN1>
+  std::array<std::vector<typename RAN0::value_type>, 3>
+  split(const RAN0& r0, const RAN1& r1) {
+    assert(std::ranges::is_sorted(r0) and std::ranges::is_sorted(r1));
+    typedef typename RAN0::value_type val_t;
+    std::array<std::vector<val_t>, 3> res;
+    auto i0 = r0.begin(); auto i1 = r1.begin();
+    const auto e0 = r0.end(); const auto e1 = r1.end();
+    for (;;) {
+      if (i1 == e1) {
+        while (i0 != e0) res[0].push_back(*i0++);
+        return res;
+      }
+      skipped :
+      if (i0 == e0) {
+        while (i1 != e1) res[1].push_back(*i1++);
+        return res;
+      }
+      const auto v1 = *i1;
+      while (*i0 < v1) {
+        res[0].push_back(*i0++);
+        if (i0 == e0) {
+          while (i1 != e1) res[1].push_back(*i1++);
+          return res;
+        }
+      }
+      const auto v0 = *i0;
+      if (v0 == v1) {res[2].push_back(v1); ++i0; ++i1;}
+      else {
+        res[1].push_back(v1); ++i1;
+        if (i1 == e1) {
+          while (i0 != e0) res[0].push_back(*i0++);
+          return res;
+        }
+        while (*i1 < v0) {
+          res[1].push_back(*i1++);
+          if (i1 == e1) {
+            while (i0 != e0) res[0].push_back(*i0++);
+            return res;
+          }
+        }
+        if (*i1 == v0) {res[2].push_back(v0); ++i0; ++i1;}
+        else {res[0].push_back(v0); ++i0; goto skipped;}
+      }
+    }
   }
 
 
