@@ -44,7 +44,15 @@ License, or any later version. */
     - helper class CoreStats<IN> for sum, sum-of-squares, min and max
     - class BasicStats<IN, OUT>: complete class for one quantity (see below
       for k quantities)
-    - typedef StdStats for BasicStats with float80
+      - member-functions N(), min(), max(), sum_sq(),
+        amean(), var_population(), var_unbiased(), sd_population()m
+        sd_corrected()
+        simple_output(ostream)
+        extract() -> BStatsR<OUT>
+      - member-operators +=(IN), +=(BasicStats)
+      - operators +(BasicStats, BasicStats) -> BasicStats,
+        == (default), <<
+    - typedef StdStats for BasicStats with 2xfloat80
 
 
     - FourStats<IN, OUT, RAN> : the four basic statistics for a range,
