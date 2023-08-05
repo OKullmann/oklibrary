@@ -487,7 +487,7 @@ namespace Bicliques {
     if (Nv.size() == 1 or Nw.size() == 1) return row;
     for (const idv_t v2 : Nw) {
       if (v2 == v) continue;
-      for (idv_t w2 : Nv)
+      for (const idv_t w2 : Nv)
         if (w2 != w and w2 != v2 and G.adjacent(v2,w2))
           row.push_back(Graphs::edge_index(M, {v2, w2}));
     }
@@ -495,9 +495,53 @@ namespace Bicliques {
     row.erase(std::unique(row.begin(), row.end()), row.end());
     return row;
   }
+  list_t neighbours_bccomp_graph_1(const AdjVecUInt& G,
+                                   const Graphs::edge_map_t& M,
+                                   const edge_t e) {
+    list_t row;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    if (Nv.size() == 1 and Nw.size() == 1) return {};
+    for (const idv_t w2 : Nv)
+      if (w2 != w) row.push_back(Graphs::edge_index(M, {v, w2}));
+    for (const idv_t v2 : Nw)
+      if (v2 != v) row.push_back(Graphs::edge_index(M, {v2, w}));
+    if (Nv.size() == 1 or Nw.size() == 1) return row;
+    const auto split = Algorithms::split(Nw, Nv);
+    for (const idv_t v2 : split[0]) {
+      if (v2 == v) continue;
+      for (const idv_t w2 : split[1])
+        if (w2 != w and G.adjacent(v2,w2))
+          row.push_back(Graphs::edge_index(M, {v2, w2}));
+      for (const idv_t w3 : split[2])
+        if (G.adjacent(v2,w3))
+          row.push_back(Graphs::edge_index(M, {v2, w3}));
+    }
+    for (const idv_t w2 : split[1]) {
+      if (w2 == w) continue;
+      for (const idv_t w3 : split[2])
+        if (G.adjacent(w2,w3))
+          row.push_back(Graphs::edge_index(M, {w2, w3}));
+    }
+    const auto isize = split[2].size();
+    if (isize >= 2) {
+      for (idv_t i = 0; i < isize - 1; ++i) {
+        const idv_t a = split[2][i];
+        for (idv_t j = i+1; j < isize; ++j) {
+          const idv_t b = split[2][j];
+          if (G.adjacent(a,b))
+            row.push_back(Graphs::edge_index(M, {a, b}));
+        }
+      }
+    }
+    std::ranges::sort(row);
+    return row;
+  }
 
-  AdjVecUInt bccomp_graph_0(const AdjVecUInt& G, const vecedges_t& E,
-                            const std::string& sep) {
+  template <unsigned version>
+  AdjVecUInt bccomp_graph(const AdjVecUInt& G, const vecedges_t& E,
+                          const std::string& sep) {
     assert(G.type() == Graphs::GT::und);
     assert(not has_loops(G));
     const idv_t n = E.size();
@@ -506,7 +550,10 @@ namespace Bicliques {
     {const auto M = Graphs::edge_map(E);
      AdjVecUInt::adjlist_t A(n);
      for (idv_t ei = 0; ei < n; ++ei)
-       A[ei] = neighbours_bccomp_graph_0(G, M, E[ei]);
+       if constexpr (version == 0)
+         A[ei] = neighbours_bccomp_graph_0(G, M, E[ei]);
+       else
+         A[ei] = neighbours_bccomp_graph_1(G, M, E[ei]);
      res.set(A);
     }
     if (not sep.empty()) {
@@ -519,9 +566,10 @@ namespace Bicliques {
     }
     return res;
   }
-  AdjVecUInt bccomp_graph_0(const AdjVecUInt& G,
-                            const std::string& sep = "") {
-    return bccomp_graph_0(G, G.alledges(), sep);
+  template <unsigned version>
+  AdjVecUInt bccomp_graph(const AdjVecUInt& G,
+                          const std::string& sep = "") {
+    return bccomp_graph<version>(G, G.alledges(), sep);
   }
 
 }

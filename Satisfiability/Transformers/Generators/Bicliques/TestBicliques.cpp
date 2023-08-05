@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "4.8.2023",
+        "0.3.7",
+        "5.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques.cpp",
@@ -188,20 +188,24 @@ int main(const int argc, const char* const argv[]) {
    const auto G = graph_t(grid(2,2));
    assert(bccomp_graph_bydef(G, {}, "") == graph_t(Graphs::GT::und, 0));
    assert(num_edges_bccomp_graph_bydef(G, {}) == 0);
-   assert(bccomp_graph_0(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<0>(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<1>(G, {}, "") == graph_t(Graphs::GT::und, 0));
    assert(bccomp_graph_bydef(G, G.alledges(), "") == graph_t(clique(4)));
    assert(num_edges_bccomp_graph_bydef(G, G.alledges()) == 6);
-   assert(bccomp_graph_0(G, G.alledges(), "") == graph_t(clique(4)));
+   assert(bccomp_graph<0>(G, G.alledges(), "") == graph_t(clique(4)));
+   assert(bccomp_graph<1>(G, G.alledges(), "") == graph_t(clique(4)));
   }
   {using graph_t = Graphs::AdjVecUInt;
    const auto G = graph_t(grid(2,3));
    assert(bccomp_graph_bydef(G, {}, "") == graph_t(Graphs::GT::und, 0));
    assert(num_edges_bccomp_graph_bydef(G, {}) == 0);
-   assert(bccomp_graph_0(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<0>(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<1>(G, {}, "") == graph_t(Graphs::GT::und, 0));
    const auto m = G.m();
    assert(m == 7);
    const auto BG = bccomp_graph_bydef(G);
-   assert(BG == bccomp_graph_0(G));
+   assert(BG == bccomp_graph<0>(G));
+   assert(BG == bccomp_graph<1>(G));
    assert(BG.n() == m);
    assert(BG.m() == (m*(m-1))/2 - (2+2+3));
    assert(num_edges_bccomp_graph_bydef(G) == (m*(m-1))/2 - (2+2+3));
@@ -209,17 +213,20 @@ int main(const int argc, const char* const argv[]) {
   {using graph_t = Graphs::AdjVecUInt;
    const auto G = graph_t(clique(4));
    assert(bccomp_graph_bydef(G, {}, "") == graph_t(Graphs::GT::und, 0));
-   assert(bccomp_graph_0(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<0>(G, {}, "") == graph_t(Graphs::GT::und, 0));
+   assert(bccomp_graph<1>(G, {}, "") == graph_t(Graphs::GT::und, 0));
    const auto BG = bccomp_graph_bydef(G, G.alledges(), "");
    assert(BG == graph_t(clique(6)));
-   assert(BG == bccomp_graph_0(G, G.alledges(), ""));
+   assert(BG == bccomp_graph<0>(G, G.alledges(), ""));
+   assert(BG == bccomp_graph<1>(G, G.alledges(), ""));
    assert(BG.m() == num_edges_bccomp_graph_bydef(G));
   }
   {using graph_t = Graphs::AdjVecUInt;
    for (idv_t n = 0; n <= 10; ++n) {
      const auto G = graph_t(clique(n));
      const auto BG = bccomp_graph_bydef(G);
-     assert(BG == bccomp_graph_0(G));
+     assert(BG == bccomp_graph<0>(G));
+     assert(BG == bccomp_graph<1>(G));
      assert(is_complete(BG));
      const idv_t m = (n*(n-1))/2;
      assert(BG == graph_t(clique(m)));
@@ -230,7 +237,8 @@ int main(const int argc, const char* const argv[]) {
    for (idv_t n = 0; n <= 10; ++n) {
      const auto G = graph_t(biclique(n,n));
      const auto BG = bccomp_graph_bydef(G);
-     assert(BG == bccomp_graph_0(G));
+     assert(BG == bccomp_graph<0>(G));
+     assert(BG == bccomp_graph<1>(G));
      assert(is_complete(BG));
      const idv_t m = n*n;
      assert(BG == graph_t(clique(m)));
@@ -241,7 +249,8 @@ int main(const int argc, const char* const argv[]) {
    for (idv_t n = 2; n <= 10; ++n) {
      const auto G = graph_t(grid(n,1));
      const auto BG = bccomp_graph_bydef(G);
-     assert(BG == bccomp_graph_0(G));
+     assert(BG == bccomp_graph<0>(G));
+     assert(BG == bccomp_graph<1>(G));
      assert(BG == graph_t(grid(n-1,1)));
      assert(BG.m() == num_edges_bccomp_graph_bydef(G));
    }
@@ -250,7 +259,8 @@ int main(const int argc, const char* const argv[]) {
    for (idv_t n = 3; n <= 10; ++n) {
      const auto G = graph_t(cycle(n));
      const auto BG = bccomp_graph_bydef(G);
-     assert(BG == bccomp_graph_0(G));
+     assert(BG == bccomp_graph<0>(G));
+     assert(BG == bccomp_graph<1>(G));
      assert(BG.n() == n);
      if (n <= 4) assert(is_complete(BG));
      else assert(GraphTraversal::is_cyclegraph(BG));
@@ -261,7 +271,8 @@ int main(const int argc, const char* const argv[]) {
    for (idv_t n = 0; n <= 2; ++n) {
      const auto G = graph_t(crown(n));
      const auto BG = bccomp_graph_bydef(G);
-     assert(BG == bccomp_graph_0(G));
+     assert(BG == bccomp_graph<0>(G));
+     assert(BG == bccomp_graph<1>(G));
      assert(BG.m() == 0);
      assert(BG.m() == num_edges_bccomp_graph_bydef(G));
    }
@@ -270,7 +281,12 @@ int main(const int argc, const char* const argv[]) {
    const Graphs::AdjVecUInt G(make_AdjMapStr(in, Graphs::GT::und));
    const auto Gc = bccomp_graph_bydef(G, "-");
    assert(Gc.m() == num_edges_bccomp_graph_bydef(G));
-   {const auto Gc2 = bccomp_graph_0(G, "-");
+   {const auto Gc2 = bccomp_graph<0>(G, "-");
+    assert(Gc == Gc2);
+    assert(Gc.with_names() == Gc2.with_names());
+    assert(Gc.allnames() == Gc2.allnames());
+   }
+   {const auto Gc2 = bccomp_graph<1>(G, "-");
     assert(Gc == Gc2);
     assert(Gc.with_names() == Gc2.with_names());
     assert(Gc.allnames() == Gc2.allnames());
