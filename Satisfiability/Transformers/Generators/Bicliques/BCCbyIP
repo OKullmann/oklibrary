@@ -6,6 +6,12 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
+/*
+  Computing the biclique-cover number for bipartite graphs by
+  the program nonnegrank, which computes approximations to the
+  nonnegative rank of matrices, see
+    https://en.wikipedia.org/wiki/Nonnegative_rank_(linear_algebra)
+
 
 # TODOS:
 
