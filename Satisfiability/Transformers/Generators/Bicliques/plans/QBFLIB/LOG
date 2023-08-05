@@ -1792,3 +1792,16 @@ Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 720110 4930280
 XXX
+
+New computation (with degree-statistics; should be faster):
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
+# "./Graph2BCcompGraph" "-trans" ""
+# input 720110 4930280
+# 4930280 : 15 370.453 30098; 1988.56
+# 4930280 913219090
+
+real    1m43.758s
+user    1m45.404s
+sys     0m0.974s
+
+So here the bc-comp-graph is sparse (and the new computation thus much faster).
