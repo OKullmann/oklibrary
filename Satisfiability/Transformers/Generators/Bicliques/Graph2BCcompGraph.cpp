@@ -39,19 +39,22 @@ Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -dp ""
 2 1 3
 3 2
 
-Just computing the parameters:
+Just computing the parameters (and degree-statistics):
+
 Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 5 4
+# 4 : 1 1.5 2; 0.57735
 # 4 3
 
 Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 3964 157484
+# 157484 : 3 30001.5 83233; 27098.4
 # 157484 2362378400
 
-real	3m34.845s
-user	3m34.855s
+real	1m51.622s
+user	1m51.635s
 sys	0m0.014s
 
 
@@ -71,8 +74,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "4.8.2023",
+        "0.2.1",
+        "5.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
@@ -121,9 +124,8 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = make_AdjVecUInt(std::cin, Graphs::GT::und);
   BCC2SAT::commandline_output(formopt, "# ", std::cout, argc, argv);
-  if (comments == DC::with) {
+  if (comments == DC::with)
     std::cout << "# input " << G.n() << " " << G.m() << std::endl;
-  }
   if (translation == CS::with) {
     if (parameters == DP::with)
       std::cout << Bicliques::bccomp_graph_bydef(G, sep);
@@ -133,9 +135,11 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else {
+    const auto [stats, E] = Bicliques::bccom_degree_stats_1(G);
+    if (comments == DC::with)
+      std::cout << "# " << stats << "\n";
     if (parameters == DP::with)
-      std::cout << "# " << G.m() << " "
-                << Bicliques::num_edges_bccomp_graph_bydef(G) << "\n";
+      std::cout << "# " << G.m() << " " << E << "\n";
   }
 
 }

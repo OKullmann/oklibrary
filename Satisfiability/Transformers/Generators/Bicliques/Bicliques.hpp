@@ -100,6 +100,8 @@ TODOS:
 
 #include <cassert>
 
+#include <Numerics/Statistics.hpp>
+
 #include "Graphs.hpp"
 #include "DimacsTools.hpp"
 #include "ConflictGraphs.hpp"
@@ -572,6 +574,49 @@ namespace Bicliques {
     return bccomp_graph<version>(G, G.alledges(), sep);
   }
 
+  idv_t degree_bccomp_graph_1(const AdjVecUInt& G,
+                              const edge_t e) {
+    idv_t res = 0;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    res += (Nv.size() - 1) + (Nw.size() - 1);
+    if (Nv.size() == 1 or Nw.size() == 1) return res;
+    const auto split = Algorithms::split(Nw, Nv);
+    for (const idv_t v2 : split[0]) {
+      if (v2 == v) continue;
+      for (const idv_t w2 : split[1])
+        res += w2 != w and G.adjacent(v2,w2);
+      for (const idv_t w3 : split[2])
+        res += G.adjacent(v2,w3);
+    }
+    for (const idv_t w2 : split[1]) {
+      if (w2 == w) continue;
+      for (const idv_t w3 : split[2])
+        res += G.adjacent(w2,w3);
+    }
+    const auto isize = split[2].size();
+    if (isize >= 2) {
+      for (idv_t i = 0; i < isize - 1; ++i) {
+        const idv_t a = split[2][i];
+        for (idv_t j = i+1; j < isize; ++j)
+          res += G.adjacent(a, split[2][j]);
+      }
+    }
+    return res;
+  }
+  typedef GenStats::StdStats bccom_degree_stats_t;
+  std::pair<bccom_degree_stats_t, idv_t>
+  bccom_degree_stats_1(const AdjVecUInt& G) noexcept {
+    std::pair<bccom_degree_stats_t, idv_t> res;
+    for (const edge_t& e : G.alledges())
+      res.first += degree_bccomp_graph_1(G,e);
+    assert(FloatingPoint::isUInt(res.first.sum()));
+    res.second = res.first.sum();
+    assert(res.second % 2 == 0);
+    res.second /= 2;
+    return res;
+  }
 }
 
 #endif
