@@ -1785,3 +1785,10 @@ user    148m3.843s
 sys     0m1.024s
 
 So one round takes somewhat over 2h.
+
+
+Determining the size of the bc-comp-graph:
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
+# "./Graph2BCcompGraph" "-trans" ""
+# input 720110 4930280
+XXX
