@@ -7,14 +7,15 @@ Priorities:
 This is a bash-script, creating the directory QBF2BCC:
 
  -1. Final steps to obtain the corpus QBF2BCC:
-     - Remove the files which do not pass syntax-check (tolerance 3).
-     - Replace the remaining files with their purified forms, which
+     - DONE Remove the files which do not pass syntax-check (tolerance 3).
+     - DONE Replace the remaining files with their purified forms, which
        are empty iff not containing global variables (one needs to
        check for that, and remove then these empty files).
-     - Continue with "newname=$(${disprog} ... " (as now).
+     - DONE Continue with "newname=$(${disprog} ... " (as now).
 
  0. Logging-information on the two programs used (syntax-analysis,
     disassembly).
+
  1. DONE The argument is A.zip.
  2. DONE If QBF2BCC exists, then exit with error.
  3. DONE Run "unzip -q -d QBF2BCC A.zip".
