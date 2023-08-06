@@ -871,8 +871,10 @@ namespace Graphs {
   // Assumes E is sorted:
   inline AdjVecUInt::id_t edge_index(const AdjVecUInt::vecedges_t& E,
                                      const AdjVecUInt::edge_t e) noexcept {
+    //assert(std::ranges::is_sorted(E)); too expensive in general
     return std::ranges::lower_bound(E, sort_edge(e)) - E.begin();
   }
+  // Also assumes the elements of e are sorted:
   AdjVecUInt::list_t  edge_index(const AdjVecUInt::vecedges_t& E,
                                  const AdjVecUInt::vecedges_t& ev) noexcept {
     //assert(std::ranges::is_sorted(E)); too expensive in general
@@ -882,9 +884,10 @@ namespace Graphs {
     const auto begin = E.begin(), end = E.end();
     auto it = begin;
     for (const auto& e : ev) {
-      it = std::lower_bound(it, end, sort_edge(e));
+      assert(e == sort_edge(e));
+      it = std::lower_bound(it, end, e);
       assert(it != end);
-      assert(*it == sort_edge(e));
+      assert(*it == e);
       res.push_back(it - begin);
       ++it;
     }
