@@ -111,7 +111,7 @@ License, or any later version. */
 
     - providing whole adjacency-list:
      - valid(adjlist_t) -> bool
-     - set(adjlist_t)
+     - set(adjlist_t B) (typically called with std::move(B))
 
     - graph access:
      - degree(id_t) -> id_t

@@ -427,19 +427,20 @@ namespace Bicliques {
     const idv_t n = E.size();
     AdjVecUInt res(Graphs::GT::und, n);
     if (n <= 1) return res;
-    AdjVecUInt::adjlist_t A(n);
-    for (idv_t i = 0; i < n-1; ++i) {
-      auto& row = A[i];
-      const edge_t& e1 = E[i];
-      for (idv_t j = i+1; j < n; ++j) {
-        const edge_t& e2 = E[j];
-        if (bccomp(e1, e2, G)) {
-          row.push_back(j);
-          A[j].push_back(i);
-        }
-      }
+    {AdjVecUInt::adjlist_t A(n);
+     for (idv_t i = 0; i < n-1; ++i) {
+       auto& row = A[i];
+       const edge_t& e1 = E[i];
+       for (idv_t j = i+1; j < n; ++j) {
+         const edge_t& e2 = E[j];
+         if (bccomp(e1, e2, G)) {
+           row.push_back(j);
+           A[j].push_back(i);
+         }
+       }
+     }
+     res.set(std::move(A));
     }
-    res.set(A);
     if (not sep.empty()) {
       res.set_names();
       for (idv_t i = 0; i < E.size(); ++i) {
@@ -557,7 +558,7 @@ namespace Bicliques {
          A[ei] = neighbours_bccomp_graph_0(G, E, E[ei]);
        else
          A[ei] = neighbours_bccomp_graph_1(G, E, E[ei]);
-     res.set(A);
+     res.set(std::move(A));
     }
     if (not sep.empty()) {
       res.set_names();
