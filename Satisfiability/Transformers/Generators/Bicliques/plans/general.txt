@@ -94,7 +94,7 @@ This is a bash-script, transforming the directory QBF2BCC:
       more efficient:
 
       With current computation, on server:
-Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" | head > STORE
+Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE
 real    6m4.354s
 user    5m26.904s
 sys     0m37.498s
@@ -106,14 +106,13 @@ of the number of vertices).
 
       With bccomp_graph_0:
 Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE2
-real    15m8.082s
-user    14m28.845s
-sys     0m38.977s
+real    13m0.471s
+user    12m25.338s
+sys     0m35.157s
       With bccomp_graph_1:
-real    14m49.697s
-user    14m14.595s
-sys     0m35.117s
-      So possibly a bit faster.
+real    13m3.447s
+user    12m27.915s
+sys     0m35.370s
 
 DONE Just computing the degrees, using bccomp_graph_1, is faster
 (the main overhead seems the computation of edge-indices).
