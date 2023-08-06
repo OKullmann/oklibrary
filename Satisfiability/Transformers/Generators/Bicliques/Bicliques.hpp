@@ -500,31 +500,33 @@ namespace Bicliques {
   list_t neighbours_bccomp_graph_1(const AdjVecUInt& G,
                                    const AdjVecUInt::vecedges_t& E,
                                    const edge_t e) {
-    list_t row;
+    AdjVecUInt::vecedges_t row;
     const auto [v,w] = e;
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
     assert(not Nv.empty() and not Nw.empty());
     if (Nv.size() == 1 and Nw.size() == 1) return {};
+    using Graphs::sort_edge;
     for (const idv_t w2 : Nv)
-      if (w2 != w) row.push_back(Graphs::edge_index(E, {v, w2}));
+      if (w2 != w) row.push_back(sort_edge({v, w2}));
     for (const idv_t v2 : Nw)
-      if (v2 != v) row.push_back(Graphs::edge_index(E, {v2, w}));
-    if (Nv.size() == 1 or Nw.size() == 1) return row;
+      if (v2 != v) row.push_back(sort_edge({v2, w}));
+    if (Nv.size() == 1 or Nw.size() == 1)
+      return Graphs::edge_index(E,row);
     const auto split = Algorithms::split(Nw, Nv);
     for (const idv_t v2 : split[0]) {
       if (v2 == v) continue;
       for (const idv_t w2 : split[1])
         if (w2 != w and G.adjacent(v2,w2))
-          row.push_back(Graphs::edge_index(E, {v2, w2}));
+          row.push_back(sort_edge({v2, w2}));
       for (const idv_t w3 : split[2])
         if (G.adjacent(v2,w3))
-          row.push_back(Graphs::edge_index(E, {v2, w3}));
+          row.push_back(sort_edge({v2, w3}));
     }
     for (const idv_t w2 : split[1]) {
       if (w2 == w) continue;
       for (const idv_t w3 : split[2])
         if (G.adjacent(w2,w3))
-          row.push_back(Graphs::edge_index(E, {w2, w3}));
+          row.push_back(sort_edge({w2, w3}));
     }
     const auto isize = split[2].size();
     if (isize >= 2) {
@@ -533,12 +535,12 @@ namespace Bicliques {
         for (idv_t j = i+1; j < isize; ++j) {
           const idv_t b = split[2][j];
           if (G.adjacent(a,b))
-            row.push_back(Graphs::edge_index(E, {a, b}));
+            row.push_back(sort_edge({a, b}));
         }
       }
     }
     std::ranges::sort(row);
-    return row;
+    return Graphs::edge_index(E,row);
   }
 
   template <unsigned version>

@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "1.7.2023",
+        "0.4.3",
+        "6.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -713,6 +713,15 @@ int main(const int argc, const char* const argv[]) {
    output_matrix(G, os);
    assert(os.good());
    assert(os.str() == "3 3\n\n0 1 1\n1 0 1\n1 1 0\n");
+  }
+
+  {using v_t = AdjVecUInt::vecedges_t;
+   using r_t = AdjVecUInt::list_t;
+   assert(edge_index(v_t{}, v_t{}) == r_t{});
+   assert(edge_index(v_t{{}}, v_t{}) == r_t{});
+   assert(edge_index(v_t{{}}, v_t{{}}) == r_t{0});
+   assert((edge_index(v_t{{},{0,1},{0,2},{1,3}}, v_t{{},{0,2}}) == r_t{0,2}));
+   assert((edge_index(v_t{{},{0,1},{0,2},{1,3}}, v_t{{},{0,1},{0,2},{1,3}}) == r_t{0,1,2,3}));
   }
 
 }

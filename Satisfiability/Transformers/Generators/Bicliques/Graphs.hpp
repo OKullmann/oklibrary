@@ -149,11 +149,9 @@ License, or any later version. */
     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
       FreqStats<size_t, float80>)
 
-    - edge_map(vecedges_t) -> edge_map_t (= std::map<edge_t, id_t>)
-      (mapping edges to their indices)
-    - edge_map(AdjVecUInt) -> edge_map_t
-      (using alledges())
-    - edge_index(edge_map_t, edge_t) -> id_t
+    - sort_edge(edge_t) -> edge_t
+    - edge_index(vecedges_t, edge_t) -> id_t
+    - edge_index(vecedges_t, vecedges_t) -> list_t
 
     - output_matrix(AdjVecUInt, ostream)
 
@@ -870,9 +868,27 @@ namespace Graphs {
     return  e.first <= e.second ? e :
       AdjVecUInt::edge_t{e.second, e.first};
   }
+  // Assumes E is sorted:
   inline AdjVecUInt::id_t edge_index(const AdjVecUInt::vecedges_t& E,
                                      const AdjVecUInt::edge_t e) noexcept {
     return std::ranges::lower_bound(E, sort_edge(e)) - E.begin();
+  }
+  AdjVecUInt::list_t  edge_index(const AdjVecUInt::vecedges_t& E,
+                                 const AdjVecUInt::vecedges_t& ev) noexcept {
+    //assert(std::ranges::is_sorted(E)); too expensive in general
+    assert(std::ranges::is_sorted(ev));
+    assert(std::ranges::adjacent_find(ev) == ev.end());
+    AdjVecUInt::list_t res; res.reserve(ev.size());
+    const auto begin = E.begin(), end = E.end();
+    auto it = begin;
+    for (const auto& e : ev) {
+      it = std::lower_bound(it, end, sort_edge(e));
+      assert(it != end);
+      assert(*it == sort_edge(e));
+      res.push_back(it - begin);
+      ++it;
+    }
+    return res;
   }
 
 
