@@ -110,9 +110,9 @@ real    13m0.471s
 user    12m25.338s
 sys     0m35.157s
       With bccomp_graph_1:
-real    9m58.612s
-user    9m42.236s
-sys     0m16.410s
+real    9m14.379s
+user    9m0.994s
+sys     0m13.425s
 
 DONE Just computing the degrees, using bccomp_graph_1, is faster
 (the main overhead seems the computation of edge-indices).
