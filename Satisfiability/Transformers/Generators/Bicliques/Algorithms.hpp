@@ -46,6 +46,14 @@ License, or any later version. */
 
 TODOS:
 
+-1. empty_intersection is slow for larger ranges
+    - The ladder-approach should be basically similar to the function
+      split.
+    - However there we need to run through all elements, since all elements
+      are treated.
+    - But for the intersection we can (should) use std::lower_bound to jump
+      from ladder spoke to ladder spoke.
+
 0. Try to find out if erase_if_unstable is indeed faster.
 
 1. Once we switch to C++23, use std::vector::append_range
