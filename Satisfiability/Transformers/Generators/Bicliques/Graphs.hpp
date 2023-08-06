@@ -866,23 +866,13 @@ namespace Graphs {
   }
 
 
-  typedef std::map<AdjVecUInt::edge_t, AdjVecUInt::id_t> edge_map_t;
-  edge_map_t edge_map(const AdjVecUInt::vecedges_t& E) {
-    edge_map_t res;
-    for (AdjVecUInt::id_t i = 0; i < E.size(); ++i)
-      res.insert({E[i], i});
-    return res;
-  }
-  edge_map_t edge_map(const AdjVecUInt& G) {
-    return edge_map(G.alledges());
-  }
-  AdjVecUInt::id_t edge_index(const edge_map_t& M,
-                              const AdjVecUInt::edge_t e) noexcept {
-    const AdjVecUInt::edge_t e2 = e.first <= e.second ? e :
+  inline AdjVecUInt::edge_t sort_edge(const AdjVecUInt::edge_t e) noexcept {
+    return  e.first <= e.second ? e :
       AdjVecUInt::edge_t{e.second, e.first};
-    const auto find = M.find(e2);
-    assert(find != M.end());
-    return find -> second;
+  }
+  inline AdjVecUInt::id_t edge_index(const AdjVecUInt::vecedges_t& E,
+                                     const AdjVecUInt::edge_t e) noexcept {
+    return std::ranges::lower_bound(E, sort_edge(e)) - E.begin();
   }
 
 
