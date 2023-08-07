@@ -53,6 +53,8 @@ TODOS:
       are treated.
     - But for the intersection we can (should) use std::lower_bound to jump
       from ladder spoke to ladder spoke.
+    - One should see whether std::set_intersection uses std::lower_bound
+      (or something similar to binary search).
 
 0. Try to find out if erase_if_unstable is indeed faster.
 
