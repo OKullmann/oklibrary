@@ -74,7 +74,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "7.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -128,9 +128,9 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "# input " << G.n() << " " << G.m() << std::endl;
   if (translation == CS::with) {
     if (parameters == DP::with)
-      std::cout << Bicliques::bccomp_graph<2>(G, sep);
+      std::cout << Bicliques::bccomp_graph<3>(G, sep);
     else {
-      const auto BG = Bicliques::bccomp_graph<2>(G, sep);
+      const auto BG = Bicliques::bccomp_graph<3>(G, sep);
       BG.output(std::cout);
     }
   }

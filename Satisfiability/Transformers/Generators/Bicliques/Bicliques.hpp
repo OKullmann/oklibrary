@@ -623,6 +623,92 @@ namespace Bicliques {
     return Graphs::edge_index(E,row);
   }
 
+  struct Cond_push_back {
+    Cond_push_back(const Cond_push_back&) = delete;
+    const AdjVecUInt& G;
+    AdjVecUInt::vecedges_t& row;
+    const list_t& Nv;
+    const idv_t v, w;
+    Cond_push_back(const AdjVecUInt& G, AdjVecUInt::vecedges_t& row,
+                   const list_t& Nv, const idv_t v, const idv_t w) noexcept :
+    G(G), row(row), Nv(Nv), v(v), w(w) {}
+
+    typedef idv_t value_type;
+    void push_back(const idv_t v2) {
+      if (v2 != v) {
+        const auto& Nv2 = G.neighbours(v2);
+        cond_push_back pb(row,v2,w);
+        std::set_intersection(Nv2.begin(), Nv2.end(),
+                              Nv.begin(), Nv.end(),
+                              std::back_inserter(pb));
+      }
+    }
+  };
+  template <class IT>
+  struct Uncond_push_back {
+    Uncond_push_back(const Uncond_push_back&) = delete;
+    const AdjVecUInt& G;
+    AdjVecUInt::vecedges_t& row;
+    const IT begin, end;
+    const idv_t w;
+    Uncond_push_back(const AdjVecUInt& G, AdjVecUInt::vecedges_t& row,
+                     const IT begin, const IT end, const idv_t w) noexcept :
+    G(G), row(row), begin(begin), end(end), w(w) {}
+
+    typedef idv_t value_type;
+    void push_back(const idv_t w2) {
+      if (w2 != w) {
+        const auto& Nw2 = G.neighbours(w2);
+        uncond_push_back pb(row,w2);
+        std::set_intersection(Nw2.begin(), Nw2.end(),
+                              begin, end,
+                              std::back_inserter(pb));
+      }
+    }
+  };
+  template <>
+  list_t neighbours_bccomp_graph<3>(const AdjVecUInt& G,
+                                    const AdjVecUInt::vecedges_t& E,
+                                    const edge_t e) {
+    AdjVecUInt::vecedges_t row;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    if (Nv.size() == 1 and Nw.size() == 1) return {};
+    for (const idv_t w2 : Nv)
+      if (w2 != w) row.push_back(Graphs::sort_edge({v, w2}));
+    for (const idv_t v2 : Nw)
+      if (v2 != v) row.push_back(Graphs::sort_edge({v2, w}));
+    if (Nv.size() == 1 or Nw.size() == 1)
+      return Graphs::edge_index(E,row);
+    const list_t I = Algorithms::intersection(Nw, Nv);
+    const auto beginI = I.begin(), endI = I.end();
+    {Cond_push_back pb(G, row, Nv, v, w);
+     std::set_difference(Nw.begin(), Nw.end(),
+                         beginI, endI,
+                         std::back_inserter(pb));
+    }
+    {Uncond_push_back pb(G, row, beginI, endI, w);
+     std::set_difference(Nv.begin(), Nv.end(),
+                         beginI, endI,
+                         std::back_inserter(pb));
+    }
+    const auto isize = I.size();
+    if (isize >= 2) {
+      for (idv_t i = 0; i < isize - 1; ++i) {
+        const idv_t a = I[i];
+        const auto& Na = G.neighbours(a);
+        uncond_push_back pb(row,a);
+        std::set_intersection(Na.begin(), Na.end(),
+                              beginI+i+1, endI,
+                              std::back_inserter(pb));
+      }
+    }
+    std::ranges::sort(row);
+    return Graphs::edge_index(E,row);
+  }
+
+
   template <unsigned version>
   AdjVecUInt bccomp_graph(const AdjVecUInt& G, const vecedges_t& E,
                           const std::string& sep) {
