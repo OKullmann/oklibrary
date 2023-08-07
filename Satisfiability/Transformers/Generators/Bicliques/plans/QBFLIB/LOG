@@ -1791,7 +1791,10 @@ Determining the size of the bc-comp-graph:
 Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 720110 4930280
-XXX
+# 4930280 913219090
+real    2321m44.054s
+user    2321m38.392s
+sys     0m1.416s
 
 New computation (with degree-statistics; should be faster):
 Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
@@ -1799,9 +1802,32 @@ Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # input 720110 4930280
 # 4930280 : 15 370.453 30098; 1988.56
 # 4930280 913219090
-
 real    1m43.758s
 user    1m45.404s
 sys     0m0.974s
 
 So here the bc-comp-graph is sparse (and the new computation thus much faster).
+
+6.8.2023
+
+Computing the full graph with bccomp_graph_2:
+
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph "" "" | head > BIG
+real    2m59.368s
+user    2m55.481s
+sys     0m6.566s
+
+So degree-computation with version-2 should also be faster.
+
+7.8.2023
+
+New computation:
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
+# "./Graph2BCcompGraph" "-trans" ""
+# "./Graph2BCcompGraph" "-trans" ""
+# input 720110 4930280
+# 4930280 : 15 370.453 30098; 1988.56
+# 4930280 913219090
+real    0m51.918s
+user    0m53.552s
+sys     0m0.981s
