@@ -52,10 +52,9 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # input 3964 157484
 # 157484 : 3 30001.5 83233; 27098.4
 # 157484 2362378400
-
-real	0m6.920s
-user	0m6.948s
-sys	0m0.005s
+real	0m6.453s
+user	0m6.467s
+sys	0m0.019s
 
 
 See plans/general.txt.
@@ -74,7 +73,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "7.8.2023",
         __FILE__,
         "Oliver Kullmann",

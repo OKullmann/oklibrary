@@ -797,12 +797,13 @@ namespace Bicliques {
     res += (Nv.size() - 1) + (Nw.size() - 1);
     if (Nv.size() == 1 or Nw.size() == 1) return res;
     const auto split = Algorithms::split(Nw, Nv);
-    for (const idv_t v2 : split[0]) {
+    for (const auto begin = Nv.begin(), end = Nv.end();
+         const idv_t v2 : split[0]) {
       if (v2 == v) continue;
       const auto& Nv2 = G.neighbours(v2);
       cond_push_back_count pb(w);
       std::set_intersection(Nv2.begin(), Nv2.end(),
-                            Nv.begin(), Nv.end(),
+                            begin, end,
                             std::back_inserter(pb));
       res += pb.count;
     }
@@ -831,15 +832,17 @@ namespace Bicliques {
     return res;
   }
 
+  template <class IT>
   struct Cond_push_back_count {
     Cond_push_back_count(const Cond_push_back_count&) = delete;
     idv_t count = 0;
     const AdjVecUInt& G;
-    const list_t& Nv;
+    const IT begin, end;
     const idv_t v, w;
-    Cond_push_back_count(const AdjVecUInt& G, const list_t& Nv,
+    Cond_push_back_count(const AdjVecUInt& G,
+                         const IT begin, const IT end,
                          const idv_t v, const idv_t w) noexcept :
-    G(G), Nv(Nv), v(v), w(w) {}
+    G(G), begin(begin), end(end), v(v), w(w) {}
 
     typedef idv_t value_type;
     void push_back(const idv_t v2) {
@@ -847,7 +850,7 @@ namespace Bicliques {
         const auto& Nv2 = G.neighbours(v2);
         cond_push_back_count pb(w);
         std::set_intersection(Nv2.begin(), Nv2.end(),
-                              Nv.begin(), Nv.end(),
+                              begin, end,
                               std::back_inserter(pb));
         count += pb.count;
       }
@@ -888,7 +891,7 @@ namespace Bicliques {
     if (Nv.size() == 1 or Nw.size() == 1) return res;
     const list_t I = Algorithms::intersection(Nw, Nv);
     const auto beginI = I.begin(), endI = I.end();
-    {Cond_push_back_count pb(G, Nv, v, w);
+    {Cond_push_back_count pb(G, Nv.begin(), Nv.end(), v, w);
      std::set_difference(Nw.begin(), Nw.end(),
                          beginI, endI,
                          std::back_inserter(pb));
