@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 23.6.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Transforming the QBF2BCC corpus into an experiment-"database"
+
+# Expanding the files "A_n_c_i" into a directory
+#   A_n_c_i-index.d"
+# where index is the running number (starting from 1), containing the files:
+# - "cnf" : the original file
+# - "i"   : index
+# - "n"   : n
+# - "c"   : c
+
+# USAGE:
+
+# Dir2ExpDir QBF2BCC
+
+# TODOS:
+
+
+set -o errexit
+set -o nounset
+
+program="Dir2ExpDir"
+errorm="ERROR[${program}]:"
+version="0.0.5"
+
+base_dir="$1"
+
+index=0
+
+shopt -s globstar
+for file in ${base_dir}/**/A_*; do
+  ((++index))
+
+  base="$(dirname ${file})"
+  name="$(basename ${file})"
+  newname="${base}/${name}-${index}.d"
+  mkdir ${newname}
+
+  mv ${file} ${newname}/cnf
+  echo -n ${index} > ${newname}/i
+
+  rname=${name#A_*}
+  rname=${rname%*_*} # now rname = "n_c"
+  cval=${rname#*_*}
+  nval=${rname%*_*}
+  echo -n ${nval} > ${newname}/n
+  echo -n ${cval} > ${newname}/c
+
+done
+
+echo ${index}
