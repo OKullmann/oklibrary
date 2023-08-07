@@ -73,7 +73,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
+        "0.4.0",
         "7.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -96,7 +96,7 @@ namespace {
     " separator      : a string (possibly empty)\n\n"
     " reads a graph from standard input, and prints the biclique-compatibility graph to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - The empty string as separator turns off the vertex-naming.\n"
+    "  - The empty string as separator turns off the vertex-naming.\n\n"
 
 ;
     return true;

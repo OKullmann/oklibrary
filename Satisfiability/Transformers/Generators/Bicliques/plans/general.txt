@@ -71,56 +71,12 @@ This is a bash-script, transforming the directory QBF2BCC:
 
 -5. Graph2BCcompGraph.cpp
 
-   - When using -trans, the second option becomes the number of threads
-     (for counting).
+   - Write application tests.
 
-   - DONE As with other similar programs:
-
-    - Provide basic statistics (V, E):
-      # input V E
-    - Provide turning off output.
-    - These are format-options (as with BCC2SAT):
-     +-com
-     +-trans (without trans just compute number of edges and vertices,
-       that is
-      # V E 1
-
-   - DONE (not done for now)
-     Switch between the different forms for computing the graph?
+   - When using -trans, the second option (which is no used here) becomes
+     the number of threads (for counting).
 
    - We also need a program for computing statistics for graphs.
-
-   - DONE
-     Once available, use the more efficient computation bccomp_graph.
-
-      With bydef-computation, on server:
-Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE
-real    6m4.354s
-user    5m26.904s
-sys     0m37.498s
-Bicliques> head -n 1 STORE
-# 157484 2362378400 1
-
-This bccomp-graph is dense, with an average degree 30000 (around 20%
-of the number of vertices).
-
-      With bccomp_graph_0:
-Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE2
-real    13m0.471s
-user    12m25.338s
-sys     0m35.157s
-      With bccomp_graph_1:
-real    9m14.379s
-user    9m0.994s
-sys     0m13.425s
-      With bccomp_graph_2:
-real    6m43.691s
-user    6m30.739s
-sys     0m13.005s
-      With bccomp_graph_3:
-real    6m28.911s
-user    6m13.151s
-sys     0m15.806s
 
 ---
 

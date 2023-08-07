@@ -67,6 +67,9 @@ License, or any later version. */
    - triv_trim(Bcc_frame&) (removing bicliques with one empty side)
    - trim(Bcc_frame&) (removing superfluous edges)
 
+
+   The biclique-compatibility graph:
+
    - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
      biclique)
 
@@ -74,11 +77,31 @@ License, or any later version. */
      bccomp_graph_bydef(AdjVecUInt) -> AdjVecUInt
    - num_edges_bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> idv_t
      num_edges_bccomp_graph_bydef(AdjVecUInt) -> idv_t
-   a more efficient computation:
-   - neighbours_bccomp_graph_0(AdjVecUInt, edge_map_t, edge_t) -> list_t
-   - bccomp_graph_0(AdjVecUInt, vecedges_t) -> AdjVecUInt
-     bccomp_graph_0(AdjVecUInt) -> AdjVecUInt
 
+     computing the neighbours of edge e:
+
+   - neighbours_bccomp_graph<version>(AdjVecUInt, vecedges_t, edge_t e)
+     -> list_t (with 0 <= version <= 3; 3 should be most eficient)
+     (versions 2, 3 use helper-class "*_push_back" for std::set_intersection
+     and std::set_difference)
+
+     more efficient versions of bccomp_graph:
+
+   - bccomp_graph<version>(AdjVecUInt, vecedges_t) -> AdjVecUInt
+     bccomp_graph<version>(AdjVecUInt) -> AdjVecUInt
+
+     computing the degree of edge e:
+
+   - degree_bccomp_graph<version>(AdjVecUInt, edge_t e) -> idv_t
+     (with 1 <= version <= 3; 3 should be most eficient)
+     (versions 2, 3 use helper-class "*_push_back_count")
+
+     degree-statistics plus the number of edges:
+
+   - bccom_degree_stats<version>(AdjVecUInt) ->
+       std::pair<bccom_degree_stats_t, idv_t>
+     where bccom_degree_stats_t is basic-stats with 2xfloat80
+     (with 1 <= version <= 3; 3 should be most eficient)
 
 TODOS:
 
@@ -737,6 +760,7 @@ namespace Bicliques {
                           const std::string& sep = "") {
     return bccomp_graph<version>(G, G.alledges(), sep);
   }
+
 
   template <unsigned>
   idv_t degree_bccomp_graph(const AdjVecUInt& G,
