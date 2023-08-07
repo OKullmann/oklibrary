@@ -1824,13 +1824,12 @@ So degree-computation with version-2 should also be faster.
 New computation:
 Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
-# "./Graph2BCcompGraph" "-trans" ""
 # input 720110 4930280
 # 4930280 : 15 370.453 30098; 1988.56
 # 4930280 913219090
-real    0m51.918s
-user    0m53.552s
-sys     0m0.981s
+real    0m52.172s
+user    0m53.799s
+sys     0m0.990s
 
 7.8.2023
 

@@ -85,11 +85,13 @@ This is a bash-script, transforming the directory QBF2BCC:
        that is
       # V E 1
 
-   - Switch between the different forms for computing the graph?
+   - DONE (not done for now)
+     Switch between the different forms for computing the graph?
 
    - We also need a program for computing statistics for graphs.
 
-   - Once available, use the more efficient computation bccomp_graph.
+   - DONE
+     Once available, use the more efficient computation bccomp_graph.
 
       With bydef-computation, on server:
 Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE
