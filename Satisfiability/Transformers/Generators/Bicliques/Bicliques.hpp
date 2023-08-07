@@ -475,9 +475,15 @@ namespace Bicliques {
   }
 
   // The sorted list of neighbours in bccomp-graph:
-  list_t neighbours_bccomp_graph_0(const AdjVecUInt& G,
-                                   const AdjVecUInt::vecedges_t& E,
-                                   const edge_t e) {
+  template <unsigned>
+  list_t neighbours_bccomp_graph(const AdjVecUInt& G,
+                                 const AdjVecUInt::vecedges_t& E,
+                                 const edge_t e);
+
+  template <>
+  list_t neighbours_bccomp_graph<0>(const AdjVecUInt& G,
+                                    const AdjVecUInt::vecedges_t& E,
+                                    const edge_t e) {
     list_t row;
     const auto [v,w] = e;
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
@@ -498,9 +504,10 @@ namespace Bicliques {
     row.erase(std::unique(row.begin(), row.end()), row.end());
     return row;
   }
-  list_t neighbours_bccomp_graph_1(const AdjVecUInt& G,
-                                   const AdjVecUInt::vecedges_t& E,
-                                   const edge_t e) {
+  template <>
+  list_t neighbours_bccomp_graph<1>(const AdjVecUInt& G,
+                                    const AdjVecUInt::vecedges_t& E,
+                                    const edge_t e) {
     AdjVecUInt::vecedges_t row;
     const auto [v,w] = e;
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
@@ -568,9 +575,10 @@ namespace Bicliques {
       if (w != w0) row.push_back(Graphs::sort_edge({v,w}));
     }
   };
-  list_t neighbours_bccomp_graph_2(const AdjVecUInt& G,
-                                   const AdjVecUInt::vecedges_t& E,
-                                   const edge_t e) {
+  template <>
+  list_t neighbours_bccomp_graph<2>(const AdjVecUInt& G,
+                                    const AdjVecUInt::vecedges_t& E,
+                                    const edge_t e) {
     AdjVecUInt::vecedges_t row;
     const auto [v,w] = e;
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
@@ -625,12 +633,7 @@ namespace Bicliques {
     if (n <= 1) return res;
     {AdjVecUInt::adjlist_t A(n);
      for (idv_t ei = 0; ei < n; ++ei)
-       if constexpr (version == 0)
-         A[ei] = neighbours_bccomp_graph_0(G, E, E[ei]);
-       else if constexpr (version == 1)
-         A[ei] = neighbours_bccomp_graph_1(G, E, E[ei]);
-       else
-         A[ei] = neighbours_bccomp_graph_2(G, E, E[ei]);
+       A[ei] = neighbours_bccomp_graph<version>(G, E, E[ei]);
      res.set(std::move(A));
     }
     if (not sep.empty()) {
@@ -649,7 +652,12 @@ namespace Bicliques {
     return bccomp_graph<version>(G, G.alledges(), sep);
   }
 
-  idv_t degree_bccomp_graph_1(const AdjVecUInt& G,
+  template <unsigned>
+  idv_t degree_bccomp_graph(const AdjVecUInt& G,
+                            const edge_t e);
+
+  template <>
+  idv_t degree_bccomp_graph<1>(const AdjVecUInt& G,
                               const edge_t e) {
     idv_t res = 0;
     const auto [v,w] = e;
@@ -693,8 +701,9 @@ namespace Bicliques {
     typedef idv_t value_type;
     void push_back(const idv_t w) {count += w != w0;}
   };
-  idv_t degree_bccomp_graph_2(const AdjVecUInt& G,
-                              const edge_t e) {
+  template <>
+  idv_t degree_bccomp_graph<2>(const AdjVecUInt& G,
+                               const edge_t e) {
     idv_t res = 0;
     const auto [v,w] = e;
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
@@ -743,10 +752,7 @@ namespace Bicliques {
   bccom_degree_stats(const AdjVecUInt& G) noexcept {
     std::pair<bccom_degree_stats_t, idv_t> res;
     for (const edge_t& e : G.alledges())
-      if constexpr (version == 1)
-        res.first += degree_bccomp_graph_1(G,e);
-      else
-        res.first += degree_bccomp_graph_2(G,e);
+      res.first += degree_bccomp_graph<version>(G,e);
     assert(FloatingPoint::isUInt(res.first.sum()));
     res.second = res.first.sum();
     assert(res.second % 2 == 0);
