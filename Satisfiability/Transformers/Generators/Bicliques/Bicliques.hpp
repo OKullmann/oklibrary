@@ -546,24 +546,24 @@ namespace Bicliques {
 
   struct uncond_push_back {
     uncond_push_back(const uncond_push_back&) = delete;
-    typedef idv_t value_type;
     AdjVecUInt::vecedges_t& row;
     const idv_t v;
     uncond_push_back(AdjVecUInt::vecedges_t& row,
                      const idv_t v)
       noexcept : row(row), v(v) {}
+    typedef idv_t value_type;
     void push_back(const idv_t w) {
       row.push_back(Graphs::sort_edge({v,w}));
     }
   };
   struct cond_push_back {
     cond_push_back(const cond_push_back&) = delete;
-    typedef idv_t value_type;
     AdjVecUInt::vecedges_t& row;
     const idv_t v, w0;
     cond_push_back(AdjVecUInt::vecedges_t& row,
                    const idv_t v, const idv_t w0)
       noexcept : row(row), v(v), w0(w0) {}
+    typedef idv_t value_type;
     void push_back(const idv_t w) {
       if (w != w0) row.push_back(Graphs::sort_edge({v,w}));
     }
@@ -576,11 +576,10 @@ namespace Bicliques {
     const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
     assert(not Nv.empty() and not Nw.empty());
     if (Nv.size() == 1 and Nw.size() == 1) return {};
-    using Graphs::sort_edge;
     for (const idv_t w2 : Nv)
-      if (w2 != w) row.push_back(sort_edge({v, w2}));
+      if (w2 != w) row.push_back(Graphs::sort_edge({v, w2}));
     for (const idv_t v2 : Nw)
-      if (v2 != v) row.push_back(sort_edge({v2, w}));
+      if (v2 != v) row.push_back(Graphs::sort_edge({v2, w}));
     if (Nv.size() == 1 or Nw.size() == 1)
       return Graphs::edge_index(E,row);
     const auto split = Algorithms::split(Nw, Nv);
@@ -601,7 +600,6 @@ namespace Bicliques {
                             begin2, end2,
                             std::back_inserter(pb));
     }
-
     const auto isize = split[2].size();
     if (isize >= 2) {
       for (idv_t i = 0; i < isize - 1; ++i) {
@@ -609,8 +607,8 @@ namespace Bicliques {
         const auto& Na = G.neighbours(a);
         uncond_push_back pb(row,a);
         std::set_intersection(Na.begin(), Na.end(),
-                            begin2+i+1, end2,
-                            std::back_inserter(pb));
+                              begin2+i+1, end2,
+                              std::back_inserter(pb));
       }
     }
     std::ranges::sort(row);
@@ -682,12 +680,73 @@ namespace Bicliques {
     }
     return res;
   }
+
+  struct uncond_push_back_count {
+    idv_t count = 0;
+    typedef idv_t value_type;
+    void push_back(const idv_t) {++count;}
+  };
+  struct cond_push_back_count {
+    idv_t count = 0;
+    const idv_t w0;
+    explicit cond_push_back_count(const idv_t w0) noexcept : w0(w0) {}
+    typedef idv_t value_type;
+    void push_back(const idv_t w) {count += w != w0;}
+  };
+  idv_t degree_bccomp_graph_2(const AdjVecUInt& G,
+                              const edge_t e) {
+    idv_t res = 0;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    res += (Nv.size() - 1) + (Nw.size() - 1);
+    if (Nv.size() == 1 or Nw.size() == 1) return res;
+    const auto split = Algorithms::split(Nw, Nv);
+    for (const idv_t v2 : split[0]) {
+      if (v2 == v) continue;
+      const auto& Nv2 = G.neighbours(v2);
+      cond_push_back_count pb(w);
+      std::set_intersection(Nv2.begin(), Nv2.end(),
+                            Nv.begin(), Nv.end(),
+                            std::back_inserter(pb));
+      res += pb.count;
+    }
+    const auto begin2 = split[2].begin(), end2 = split[2].end();
+    for (const idv_t w2 : split[1]) {
+      if (w2 == w) continue;
+      const auto& Nw2 = G.neighbours(w2);
+      uncond_push_back_count pb;
+      std::set_intersection(Nw2.begin(), Nw2.end(),
+                            begin2, end2,
+                            std::back_inserter(pb));
+      res += pb.count;
+    }
+    const auto isize = split[2].size();
+    if (isize >= 2) {
+      for (idv_t i = 0; i < isize - 1; ++i) {
+        const idv_t a = split[2][i];
+        const auto& Na = G.neighbours(a);
+        uncond_push_back_count pb;
+        std::set_intersection(Na.begin(), Na.end(),
+                              begin2+i+1, end2,
+                              std::back_inserter(pb));
+        res += pb.count;
+      }
+    }
+    return res;
+  }
+
   typedef GenStats::StdStats bccom_degree_stats_t;
+
+  template <unsigned version>
   std::pair<bccom_degree_stats_t, idv_t>
-  bccom_degree_stats_1(const AdjVecUInt& G) noexcept {
+  bccom_degree_stats(const AdjVecUInt& G) noexcept {
     std::pair<bccom_degree_stats_t, idv_t> res;
     for (const edge_t& e : G.alledges())
-      res.first += degree_bccomp_graph_1(G,e);
+      if constexpr (version == 1)
+        res.first += degree_bccomp_graph_1(G,e);
+      else
+        res.first += degree_bccomp_graph_2(G,e);
     assert(FloatingPoint::isUInt(res.first.sum()));
     res.second = res.first.sum();
     assert(res.second % 2 == 0);
