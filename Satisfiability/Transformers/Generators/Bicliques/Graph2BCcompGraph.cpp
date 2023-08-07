@@ -47,7 +47,8 @@ Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -trans ""
 # 4 : 1 1.5 2; 0.57735
 # 4 3
 
-Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
+A larger example:
+Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 3964 157484
 # 157484 : 3 30001.5 83233; 27098.4
@@ -55,6 +56,10 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 real	0m6.453s
 user	0m6.467s
 sys	0m0.019s
+# Now only showing the number of edges in the conflict-graph
+# and the derived bc-comp-graph:
+Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
+# 157484 2362378400
 
 
 See plans/general.txt.
