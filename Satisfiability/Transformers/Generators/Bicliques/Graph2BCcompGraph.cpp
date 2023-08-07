@@ -53,9 +53,9 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # 157484 : 3 30001.5 83233; 27098.4
 # 157484 2362378400
 
-real	1m51.622s
-user	1m51.635s
-sys	0m0.014s
+real	0m6.920s
+user	0m6.948s
+sys	0m0.005s
 
 
 See plans/general.txt.
@@ -74,8 +74,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "5.8.2023",
+        "0.3.0",
+        "7.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
@@ -128,14 +128,14 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "# input " << G.n() << " " << G.m() << std::endl;
   if (translation == CS::with) {
     if (parameters == DP::with)
-      std::cout << Bicliques::bccomp_graph_bydef(G, sep);
+      std::cout << Bicliques::bccomp_graph<2>(G, sep);
     else {
-      const auto BG = Bicliques::bccomp_graph_bydef(G, sep);
+      const auto BG = Bicliques::bccomp_graph<2>(G, sep);
       BG.output(std::cout);
     }
   }
   else {
-    const auto [stats, E] = Bicliques::bccom_degree_stats_1(G);
+    const auto [stats, E] = Bicliques::bccom_degree_stats<2>(G);
     if (comments == DC::with)
       std::cout << "# " << stats << "\n";
     if (parameters == DP::with)
