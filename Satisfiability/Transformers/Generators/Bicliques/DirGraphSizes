@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 7.8.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Computing the sizes of conflict-graph and derived biclique-compatibility graph
+
+
+
+# USAGE:
+
+# DirGraphSizes QBF2BCC
+
+# TODOS:
+
+
+set -o errexit
+set -o nounset
+
+program="DirGraphSizes"
+errorm="ERROR[${program}]:"
+version="0.0.5"
+
+base_dir="$1"
+
+: ${graphprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph}
+
+shopt -s globstar
+for dir in ${base_dir}/**/A_*; do
+
+  result="$(cat ${dir}/cnf | ${graphprog} -trans,-com \"\")"
+  result="${result#\# *}"
+  E="${result% *}"
+  cE="${result#* }"
+
+  echo -n ${E} > ${dir}/E
+  echo -n ${cE} > ${dir}/cE
+
+done
