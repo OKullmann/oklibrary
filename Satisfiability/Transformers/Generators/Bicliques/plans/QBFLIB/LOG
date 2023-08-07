@@ -1839,3 +1839,14 @@ Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph "" "" | he
 real    2m56.052s
 user    2m51.885s
 sys     0m6.675s
+
+
+7.8.2023
+
+Transforming QBF2BCC into a "database":
+
+QBFLIB> time Dir2ExpDir QBF2BCC
+8890
+real    1m41.943s
+user    0m57.884s
+sys     0m48.632s
