@@ -90,10 +90,8 @@ This is a bash-script, transforming the directory QBF2BCC:
    - We also need a program for computing statistics for graphs.
 
    - Once available, use the more efficient computation bccomp_graph.
-    - We have now bccomp_graph_0; need to check whether it is really
-      more efficient:
 
-      With current computation, on server:
+      With bydef-computation, on server:
 Bicliques> time cat data/A_131_3964_1 | CNF2cg | ./Graph2BCcompGraph "" "" | head > STORE
 real    6m4.354s
 user    5m26.904s
@@ -117,10 +115,10 @@ sys     0m13.425s
 real    6m43.691s
 user    6m30.739s
 sys     0m13.005s
-Getting closer!
-
-DONE Just computing the degrees, using bccomp_graph_1, is faster
-(the main overhead seems the computation of edge-indices).
+      With bccomp_graph_3:
+real    6m28.911s
+user    6m13.151s
+sys     0m15.806s
 
 ---
 

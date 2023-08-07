@@ -1831,3 +1831,12 @@ Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 real    0m51.918s
 user    0m53.552s
 sys     0m0.981s
+
+7.8.2023
+
+Computing the full graph with bccomp_graph<3>:
+
+Bicliques> time cat A_52521_720110_1 | ./CNF2cg | ./Graph2BCcompGraph "" "" | head > BIG2
+real    2m56.052s
+user    2m51.885s
+sys     0m6.675s
