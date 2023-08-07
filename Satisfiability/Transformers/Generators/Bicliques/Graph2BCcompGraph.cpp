@@ -74,7 +74,7 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "7.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -135,7 +135,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else {
-    const auto [stats, E] = Bicliques::bccom_degree_stats<2>(G);
+    const auto [stats, E] = Bicliques::bccom_degree_stats<3>(G);
     if (comments == DC::with)
       std::cout << "# " << stats << "\n";
     if (parameters == DP::with)

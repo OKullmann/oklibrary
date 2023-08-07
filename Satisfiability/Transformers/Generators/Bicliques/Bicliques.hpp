@@ -831,6 +831,90 @@ namespace Bicliques {
     return res;
   }
 
+  struct Cond_push_back_count {
+    Cond_push_back_count(const Cond_push_back_count&) = delete;
+    idv_t count = 0;
+    const AdjVecUInt& G;
+    const list_t& Nv;
+    const idv_t v, w;
+    Cond_push_back_count(const AdjVecUInt& G, const list_t& Nv,
+                         const idv_t v, const idv_t w) noexcept :
+    G(G), Nv(Nv), v(v), w(w) {}
+
+    typedef idv_t value_type;
+    void push_back(const idv_t v2) {
+      if (v2 != v) {
+        const auto& Nv2 = G.neighbours(v2);
+        cond_push_back_count pb(w);
+        std::set_intersection(Nv2.begin(), Nv2.end(),
+                              Nv.begin(), Nv.end(),
+                              std::back_inserter(pb));
+        count += pb.count;
+      }
+    }
+  };
+  template <class IT>
+  struct Uncond_push_back_count {
+    Uncond_push_back_count(const Uncond_push_back_count&) = delete;
+    idv_t count = 0;
+    const AdjVecUInt& G;
+    const IT begin, end;
+    const idv_t w;
+    Uncond_push_back_count(const AdjVecUInt& G,
+                           const IT begin, const IT end,
+                           const idv_t w) noexcept :
+    G(G), begin(begin), end(end), w(w) {}
+
+    typedef idv_t value_type;
+    void push_back(const idv_t w2) {
+      if (w2 != w) {
+        const auto& Nw2 = G.neighbours(w2);
+        uncond_push_back_count pb;
+        std::set_intersection(Nw2.begin(), Nw2.end(),
+                              begin, end,
+                              std::back_inserter(pb));
+        count += pb.count;
+      }
+    }
+  };
+  template <>
+  idv_t degree_bccomp_graph<3>(const AdjVecUInt& G,
+                               const edge_t e) {
+    idv_t res = 0;
+    const auto [v,w] = e;
+    const auto& Nv = G.neighbours(v), Nw = G.neighbours(w);
+    assert(not Nv.empty() and not Nw.empty());
+    res += (Nv.size() - 1) + (Nw.size() - 1);
+    if (Nv.size() == 1 or Nw.size() == 1) return res;
+    const list_t I = Algorithms::intersection(Nw, Nv);
+    const auto beginI = I.begin(), endI = I.end();
+    {Cond_push_back_count pb(G, Nv, v, w);
+     std::set_difference(Nw.begin(), Nw.end(),
+                         beginI, endI,
+                         std::back_inserter(pb));
+     res += pb.count;
+    }
+    {Uncond_push_back_count pb(G, beginI, endI, w);
+     std::set_difference(Nv.begin(), Nv.end(),
+                         beginI, endI,
+                         std::back_inserter(pb));
+     res += pb.count;
+    }
+    const auto isize = I.size();
+    if (isize >= 2) {
+      for (idv_t i = 0; i < isize - 1; ++i) {
+        const idv_t a = I[i];
+        const auto& Na = G.neighbours(a);
+        uncond_push_back_count pb;
+        std::set_intersection(Na.begin(), Na.end(),
+                              beginI+i+1, endI,
+                              std::back_inserter(pb));
+        res += pb.count;
+      }
+    }
+    return res;
+  }
+
   typedef GenStats::StdStats bccom_degree_stats_t;
 
   template <unsigned version>
