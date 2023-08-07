@@ -16,10 +16,6 @@ This is a bash-script, creating the directory QBF2BCC:
  0. Logging-information on the two programs used (syntax-analysis,
     disassembly).
 
- 1. DONE The argument is A.zip.
- 2. DONE If QBF2BCC exists, then exit with error.
- 3. DONE Run "unzip -q -d QBF2BCC A.zip".
- 4. DONE Delete all files in QBF2BCC not of the form *.qdimacs.gz.
  5. Collected statistiscs on runtime and memory-usage of Disassemble:
      - max-memory observed is 71.2% (server), with time ~ 6 min
        (instance 23001)
