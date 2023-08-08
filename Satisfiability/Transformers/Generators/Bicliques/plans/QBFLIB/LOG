@@ -1850,3 +1850,8 @@ QBFLIB> time Dir2ExpDir QBF2BCC
 real    1m41.943s
 user    0m57.884s
 sys     0m48.632s
+
+Computing the graph-sizes:
+
+QBFLIB> time DirGraphSizes TEST/
+XXX

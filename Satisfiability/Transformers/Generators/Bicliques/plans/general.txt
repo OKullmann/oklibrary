@@ -69,6 +69,19 @@ This is a bash-script, transforming the directory QBF2BCC:
 
    - Write application tests.
 
+   - It seems that all instances in e.g.
+     QBF2BCC/Jordan-Kaiser/reduction-finding-full-set-params-k1c3n4
+     need a very long time, e.g.
+nreachq_query42_1344n.B/A_23_3200_2-1414.d> time cat cnf | CNF2cg | Graph2BCcompGraph -trans ""
+# "Graph2BCcompGraph" "-trans" ""
+# input 3200 381696
+# 381696 : 53759 216851 326015; 50197.8
+# 381696 41385547392
+real    5m5.421s
+user    5m5.495s
+sys     0m0.045s
+     So well, the count is very high.
+
    - When using -trans, the second option (which is no used here) becomes
      the number of threads (for counting).
 
