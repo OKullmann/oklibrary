@@ -16,6 +16,13 @@
 
 # TODOS:
 
+# 1. Perhaps if file E or cE already exists, skip directory?
+#    - Perhaps that should be an option.
+# 2. We need a parallel mode; easiest just to parallelise on
+#    all directories.
+#    - Better a C++ program.
+#      Just storing all tasks in a vector.
+
 
 set -o errexit
 set -o nounset
