@@ -40,8 +40,8 @@ License, or any later version. */
    - finding greedily a maximal independent set in a graph, given by
      a predicate (using the order of v):
      - is_independent(VEC v, PRED p)
-     - greedy_max_independent_unstable(VEC v, PRED p)
-     - greedy_max_independent(VEC v, PRED p)
+     - orderly_max_independent_unstable(VEC v, PRED p)
+     - orderly_max_independent(VEC v, PRED p)
 
 
 TODOS:
@@ -294,7 +294,7 @@ namespace Algorithms {
 
   // Taking the elements from v in reverse order, using unstable removal:
   template <class VEC, class PRED>
-  VEC greedy_max_independent_unstable(VEC v, const PRED p) noexcept {
+  VEC orderly_max_independent_unstable(VEC v, const PRED p) noexcept {
     VEC res;
     while (not v.empty()) {
       const auto e = v.back(); v.pop_back();
@@ -306,7 +306,7 @@ namespace Algorithms {
   }
   // Now also taking in reverse order, but using stable removal:
   template <class VEC, class PRED>
-  VEC greedy_max_independent(VEC v, const PRED p) noexcept {
+  VEC orderly_max_independent(VEC v, const PRED p) noexcept {
     VEC res;
     while (not v.empty()) {
       const auto e = v.back(); v.pop_back();

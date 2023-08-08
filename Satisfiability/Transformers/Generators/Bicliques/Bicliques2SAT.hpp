@@ -722,11 +722,11 @@ namespace Bicliques2SAT {
                                         {return bccomp(i,j);});
     }
     vei_t max_bcincomp_unstable(vei_t avail) const {
-      return Algorithms::greedy_max_independent_unstable(std::move(avail),
+      return Algorithms::orderly_max_independent_unstable(std::move(avail),
              [this](id_t i, id_t j) {return bccomp(i,j);});
     }
     vei_t max_bcincomp_stable(vei_t avail) const {
-      return Algorithms::greedy_max_independent(std::move(avail),
+      return Algorithms::orderly_max_independent(std::move(avail),
              [this](id_t i, id_t j) {return bccomp(i,j);});
     }
 

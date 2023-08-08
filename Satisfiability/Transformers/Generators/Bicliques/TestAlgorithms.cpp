@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "5.8.2023",
+        "0.2.4",
+        "8.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -236,25 +236,25 @@ int main(const int argc, const char* const argv[]) {
    assert(not is_independent(v_t{0,1,0}, pred));
    assert(is_independent(v_t{0,1,2}, pred));
 
-   assert(greedy_max_independent_unstable(v_t{}, pred) == v_t{});
-   assert(greedy_max_independent_unstable(v_t{0}, pred) == v_t{0});
-   assert((greedy_max_independent_unstable(v_t{0,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent_unstable(v_t{0,1,2}, pred) == v_t{2,1,0}));
-   assert(greedy_max_independent_unstable(v_t{0,0}, pred) == v_t{0});
-   assert(greedy_max_independent_unstable(v_t{0,0,0}, pred) == v_t{0});
-   assert((greedy_max_independent_unstable(v_t{0,0,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent_unstable(v_t{0,0,1,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent_unstable(v_t{1,0,2,1}, pred) == v_t{1,0,2}));
+   assert(orderly_max_independent_unstable(v_t{}, pred) == v_t{});
+   assert(orderly_max_independent_unstable(v_t{0}, pred) == v_t{0});
+   assert((orderly_max_independent_unstable(v_t{0,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent_unstable(v_t{0,1,2}, pred) == v_t{2,1,0}));
+   assert(orderly_max_independent_unstable(v_t{0,0}, pred) == v_t{0});
+   assert(orderly_max_independent_unstable(v_t{0,0,0}, pred) == v_t{0});
+   assert((orderly_max_independent_unstable(v_t{0,0,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent_unstable(v_t{0,0,1,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent_unstable(v_t{1,0,2,1}, pred) == v_t{1,0,2}));
 
-   assert(greedy_max_independent(v_t{}, pred) == v_t{});
-   assert(greedy_max_independent(v_t{0}, pred) == v_t{0});
-   assert((greedy_max_independent(v_t{0,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent(v_t{0,1,2}, pred) == v_t{2,1,0}));
-   assert(greedy_max_independent(v_t{0,0}, pred) == v_t{0});
-   assert(greedy_max_independent(v_t{0,0,0}, pred) == v_t{0});
-   assert((greedy_max_independent(v_t{0,0,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent(v_t{0,0,1,1}, pred) == v_t{1,0}));
-   assert((greedy_max_independent(v_t{1,0,2,1}, pred) == v_t{1,2,0}));
+   assert(orderly_max_independent(v_t{}, pred) == v_t{});
+   assert(orderly_max_independent(v_t{0}, pred) == v_t{0});
+   assert((orderly_max_independent(v_t{0,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent(v_t{0,1,2}, pred) == v_t{2,1,0}));
+   assert(orderly_max_independent(v_t{0,0}, pred) == v_t{0});
+   assert(orderly_max_independent(v_t{0,0,0}, pred) == v_t{0});
+   assert((orderly_max_independent(v_t{0,0,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent(v_t{0,0,1,1}, pred) == v_t{1,0}));
+   assert((orderly_max_independent(v_t{1,0,2,1}, pred) == v_t{1,2,0}));
   }
 
 }
