@@ -29,7 +29,7 @@ set -o nounset
 
 program="DirGraphSizes"
 errorm="ERROR[${program}]:"
-version="0.0.7"
+version="0.0.8"
 
 base_dir="$1"
 
@@ -39,6 +39,9 @@ base_dir="$1"
 count=0
 shopt -s globstar
 for dir in ${base_dir}/**/A_*; do
+
+  if [[ -f ${dir}/E ]]; then continue fi
+  if [[ -f ${dir}/cE ]]; then continue fi
 
   ((++count))
   printf "\r%d" ${count}
