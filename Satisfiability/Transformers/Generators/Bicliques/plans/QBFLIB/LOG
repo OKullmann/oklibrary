@@ -1722,6 +1722,25 @@ sys     0m0.722s
 > ls -l
 18725057 Aug  3 07:49 QBF2BCC.tar.bz2
 
+Remark 9.8.2023: the subdirectories are of uneven sizes:
+
+QBF2BCC> for D in *; do echo -n "$D "; find $D -depth -name "A_*" | wc -l; done
+Akshay-Chakraborty-John-Shah-Rabe       169
+Ayari                                   10
+Basler                                  802
+Chen                                    100
+Jordan-Kaiser                           4213
+Lee-Jiang                               4
+Letombe                                 507
+Letz                                    4
+Miller-Scholl-Becker                    175
+Pan                                     6
+Seidl                                   300
+Tacchella                               741
+Tentrup                                 1162
+Wintersteiger                           697
+
+
 
 2.8.2023:
 
@@ -1854,4 +1873,61 @@ sys     0m48.632s
 Computing the graph-sizes:
 
 QBFLIB> time DirGraphSizes TEST/
+interrupted (while running computation):
+3693^C
+real    2481m45.281s
+user    2481m59.346s
+sys     0m47.584s
+Continuing (just this directory):
+QBFLIB> time DirGraphSizes QBF2BCC/Jordan-Kaiser/
+3693
 XXX
+
+
+QBFLIB> time DirGraphSizes QBF2BCC/Lee-Jiang/
+5298
+real    0m2.548s
+user    0m2.573s
+sys     0m0.035s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Letombe/
+5805
+real    11m8.748s
+user    11m12.859s
+sys     0m5.219s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Letz/
+5809
+real    0m0.035s
+user    0m0.024s
+sys     0m0.023s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Miller-Scholl-Becker/
+5984
+real    0m8.910s
+user    0m8.925s
+sys     0m0.745s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Pan/
+XXX
+
+QBFLIB> time DirGraphSizes QBF2BCC/Seidl/
+300 done
+real    27m8.821s
+user    27m15.273s
+sys     0m4.739s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Tacchella/
+741 done
+real    6m9.394s
+user    6m10.367s
+sys     0m4.742s
+
+QBFLIB> time DirGraphSizes QBF2BCC/Tentrup/
+XXX
+
+QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
+697 done
+real    7m21.016s
+user    7m31.314s
+sys     0m7.923s
