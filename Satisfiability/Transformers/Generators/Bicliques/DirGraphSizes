@@ -29,22 +29,21 @@ set -o nounset
 
 program="DirGraphSizes"
 errorm="ERROR[${program}]:"
-version="0.0.9"
+version="0.1.0"
 
 base_dir="$1"
 
 : ${transprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/CNF2cg}
 : ${graphprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph}
 
-count=0
 shopt -s globstar
 for dir in ${base_dir}/**/A_*; do
 
   if [[ -f ${dir}/E ]]; then continue; fi
   if [[ -f ${dir}/cE ]]; then continue; fi
 
-  ((++count))
-  printf "\r%d" ${count}
+  index="$(cat ${dir}/i)"
+  printf "\r%d" ${index}
 
   result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com \"\")"
   result="${result#\# *}"
