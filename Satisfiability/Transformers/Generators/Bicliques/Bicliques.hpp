@@ -956,6 +956,19 @@ namespace Bicliques {
     res.second /= 2;
     return res;
   }
+
+
+  // Similar to Algorithms::greedy_max_independent, but only
+  // computing a maximal independent set for the biclique-compatibility-graph,
+  // as given by neighbours_bccomp_graph:
+  list_t orderly_max_independent(const AdjVecUInt& G,
+                                 const AdjVecUInt::vecedges_t& E,
+                                 const list_t ord) {
+    assert(ord.size() == G.n());
+    assert(E.size() == G.m());
+    // XXX
+  }
+
 }
 
 #endif
