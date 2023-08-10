@@ -29,7 +29,7 @@ set -o nounset
 
 program="DirGraphSizes"
 errorm="ERROR[${program}]:"
-version="0.1.1"
+version="0.1.2"
 
 base_dir="$1"
 
@@ -48,7 +48,8 @@ for dir in ${base_dir}/**/A_*; do
   index="$(cat ${dir}/i)"
   echo -n " ${index}"
 
-  result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com \"\")"
+  call="${graphprog} -trans,-com \"\""
+  result="$(cat ${dir}/cnf | ${transprog} | ${call})"
   result="${result#\# *}"
   E="${result% *}"
   cE="${result#* }"
