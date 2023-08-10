@@ -56,6 +56,7 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 real	0m6.453s
 user	0m6.467s
 sys	0m0.019s
+
 Using 4 threads:
 Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans 4
 # "./Graph2BCcompGraph" "-trans" "4"
@@ -65,8 +66,9 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans 4
 real	0m2.326s
 user	0m7.287s
 sys	0m0.026s
-# Now only showing the number of edges in the conflict-graph
-# and the derived bc-comp-graph:
+
+Now only showing the number of edges in the conflict-graph
+and the derived bc-comp-graph:
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
 # 157484 2362378400
 
