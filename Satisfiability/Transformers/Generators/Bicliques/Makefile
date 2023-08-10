@@ -66,7 +66,10 @@ GSM_debug : GSM.cpp Bicliques2SAT.hpp DimacsTools.hpp BCC2SAT.hpp
 CNFstats : CNFstats.cpp DimacsTools.hpp ConflictGraphs.hpp GraphTraversal.hpp
 CNFstats_debug : CNFstats.cpp DimacsTools.hpp ConflictGraphs.hpp GraphTraversal.hpp
 
+Graph2BCcompGraph : LDFLAGS += -pthread
+Graph2BCcompGraph : Optimisation_plus = -fwhole-program
 Graph2BCcompGraph : Graph2BCcompGraph.cpp Graphs.hpp Bicliques.hpp
+Graph2BCcompGraph_debug : LDFLAGS += -pthread
 Graph2BCcompGraph_debug : Graph2BCcompGraph.cpp Graphs.hpp Bicliques.hpp
 
 MaxIndependentGreedy : MaxIndependentGreedy.cpp Graphs.hpp Bicliques2SAT.hpp BCC2SAT.hpp

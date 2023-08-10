@@ -48,7 +48,7 @@ Bicliques> ./GraphGen grid 5 1 | ./Graph2BCcompGraph -trans ""
 # 4 3
 
 A larger example:
-Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
+Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 # "./Graph2BCcompGraph" "-trans" ""
 # input 3964 157484
 # 157484 : 3 30001.5 83233; 27098.4
@@ -56,6 +56,15 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-c
 real	0m6.453s
 user	0m6.467s
 sys	0m0.019s
+Using 4 threads:
+Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans 4
+# "./Graph2BCcompGraph" "-trans" "4"
+# input 3964 157484
+# 157484 : 3 30001.5 83233; 27098.4
+# 157484 2362378400
+real	0m2.326s
+user	0m7.287s
+sys	0m0.026s
 # Now only showing the number of edges in the conflict-graph
 # and the derived bc-comp-graph:
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
@@ -68,6 +77,7 @@ See plans/general.txt.
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "Graphs.hpp"
 #include "Bicliques2SAT.hpp"
@@ -78,8 +88,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "7.8.2023",
+        "0.4.1",
+        "10.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
@@ -101,7 +111,8 @@ namespace {
     " separator      : a string (possibly empty)\n\n"
     " reads a graph from standard input, and prints the biclique-compatibility graph to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - The empty string as separator turns off the vertex-naming.\n\n"
+    "  - The empty string as separator turns off the vertex-naming.\n"
+    "  - When using \"-trans\", that is, counting-only, then sep can be the number of threads.\n\n"
 
 ;
     return true;
@@ -139,7 +150,10 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else {
-    const auto [stats, E] = Bicliques::bccom_degree_stats<3>(G);
+    const auto [stats, E] = sep.empty() ?
+      Bicliques::bccom_degree_stats<3>(G) :
+      Bicliques::bccom_degree_stats_parallel<3>(G,
+                                                FloatingPoint::to_UInt(sep));
     if (comments == DC::with)
       std::cout << "# " << stats << "\n";
     if (parameters == DP::with)

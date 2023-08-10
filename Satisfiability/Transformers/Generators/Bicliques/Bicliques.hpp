@@ -120,6 +120,7 @@ TODOS:
 #include <utility>
 #include <type_traits>
 #include <string>
+#include <thread>
 
 #include <cassert>
 
@@ -946,7 +947,7 @@ namespace Bicliques {
 
   template <unsigned version>
   std::pair<bccom_degree_stats_t, idv_t>
-  bccom_degree_stats(const AdjVecUInt& G) noexcept {
+  bccom_degree_stats(const AdjVecUInt& G) {
     std::pair<bccom_degree_stats_t, idv_t> res;
     for (const edge_t& e : G.alledges())
       res.first += degree_bccomp_graph<version>(G,e);
@@ -956,6 +957,47 @@ namespace Bicliques {
     res.second /= 2;
     return res;
   }
+  template <unsigned version>
+  struct bccom_degree_comp {
+    const AdjVecUInt& G;
+    const vecedges_t& E;
+    const idv_t size;
+    idv_t* const resv;
+    const idv_t start, step;
+    bccom_degree_comp(const AdjVecUInt& G,
+                      const vecedges_t& E, const idv_t size,
+                      idv_t* const resv, const idv_t start, const idv_t step) :
+      G(G), E(E), size(size), resv(resv), start(start), step(step) {}
+    void operator()() const {
+      for (idv_t i = start; i < size; i += step)
+        *(resv+i) = degree_bccomp_graph<version>(G, E[i]);
+    }
+  };
+  template <unsigned version>
+  std::pair<bccom_degree_stats_t, idv_t>
+  bccom_degree_stats_parallel(const AdjVecUInt& G, idv_t T) {
+    std::pair<bccom_degree_stats_t, idv_t> res{};
+    const idv_t size = G.m();
+    if (size == 0 or T == 0) return res;
+    T = std::min(T, size);
+    const auto E = G.alledges();
+    assert(E.size() == size);
+    list_t resv(size);
+    std::vector<std::thread> threads; threads.reserve(T);
+    for (idv_t i = 0; i < T; ++i)
+      threads.emplace_back(bccom_degree_comp<version>(G,E,size,
+                                                      &resv[0], i, T));
+    for (std::thread& t : threads) {
+      assert(t.joinable()); t.join();
+    }
+    for (const idv_t x : resv) res.first += x;
+    assert(FloatingPoint::isUInt(res.first.sum()));
+    res.second = res.first.sum();
+    assert(res.second % 2 == 0);
+    res.second /= 2;
+    return res;
+  }
+  
 
 
   // Similar to Algorithms::greedy_max_independent, but only

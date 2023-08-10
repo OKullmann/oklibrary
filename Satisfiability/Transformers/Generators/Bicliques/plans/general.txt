@@ -81,9 +81,18 @@ real    5m5.421s
 user    5m5.495s
 sys     0m0.045s
      So well, the count is very high.
+Or for query09_query31_1344n.B/A_24_3328_1-2445.d
+ E=500736 cE=66546839040
 
-   - When using -trans, the second option (which is no used here) becomes
+     Since n is low here, the expectation is simple symmetry-breaking
+     should reach that value, and thus these instances are in fact
+     easy for us.
+
+   - DONE
+     When using -trans, the second option (which is no used here) becomes
      the number of threads (for counting).
+    - DONE (indeed using a thread for every single vertex)
+      Just splitting the vertex-range, with a good redundancy.
 
    - We also need a program for computing statistics for graphs.
 
