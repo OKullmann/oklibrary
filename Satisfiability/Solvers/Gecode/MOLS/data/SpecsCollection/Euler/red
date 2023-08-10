@@ -342,7 +342,7 @@
 # Similar to above.
 
 # Absolute optimisation on lvs:
-# LVS_red_6_wdL> nomad np
+# LVS/red_6_wdL> nomad np
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Best feasible solution: #43973 ( 3.172 0.1205 0.9897 0.6864 ) Evaluation OK f = 3096 h =   0
 # Blackbox evaluations: 1143 Total model evaluations: 65480 Cache hits: 503 Total number of evaluations: 1646
@@ -1056,7 +1056,7 @@
 # real	0m2.596s user	0m24.417s sys	0m2.503s
 
 # New standard of optimisation (MAX_TIME=600, rep=100):
-# TAU_red_6_newv_ave> nomad np
+# TAU/red_6_newv_ave> nomad np
 # 256  1628.347884  -0.0165     9.97      -9.5       -0.02       2
 # Blackbox evaluations: 410 Total model evaluations: 15783 Cache hits: 47 Total number of evaluations: 457
 # Reproduction:
@@ -1121,7 +1121,7 @@
 # 57.108  0.438   41.184  0.105  0.059  0.083  0.071  0.002
 # Likely basically the same.
 
-# Alternative optimisation on max (MAX_TIME=600, rep=100)::
+# Alternative optimisation on max (MAX_TIME=600, rep=100):
 # TAU_red_6_newv_max> nomad np
 # 309  8714.146177   0.05127   -2.9997     0.0068    -1.93      -0.0086
 # Blackbox evaluations: 349 Total model evaluations: 30185 Cache hits: 42 Total number of evaluations: 391
