@@ -1886,7 +1886,10 @@ real    529m31.429s
 user    529m37.240s
 sys     0m4.494s
 QBFLIB> time DirGraphSizes QBF2BCC/Jordan-Kaiser/
-XXX
+1529 done
+real    248m40.576s
+user    4024m29.008s
+sys     1m19.579s
 
 
 QBFLIB> time DirGraphSizes QBF2BCC/Lee-Jiang/
@@ -1919,7 +1922,7 @@ real    546m42.372s
 user    125m34.244s
 sys     0m0.364s
 QBFLIB> threads=40 time DirGraphSizes QBF2BCC/Pan/
-XXX
+solved only the first three instances (see below).
 
 QBFLIB> time DirGraphSizes QBF2BCC/Seidl/
 300 done
@@ -1939,6 +1942,12 @@ real    548m25.924s
 user    452m54.890s
 sys     0m4.755s
 QBFLIB> time DirGraphSizes QBF2BCC/Tentrup/
+interrupted:
+7043 7044 7045^C
+real    477m32.334s
+user    4294m12.811s
+sys     0m6.488s
+QBFLIB> threads=80 time DirGraphSizes QBF2BCC/Tentrup/
 XXX
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
@@ -1946,3 +1955,37 @@ QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
 real    7m21.016s
 user    7m31.314s
 sys     0m7.923s
+
+
+10.8.2023
+
+Reproduction of QBF2BCC on server2:
+
+> third_argument=10 time DirQBF2BCC qdimacs.zip
+12045Command exited with non-zero status 137
+1523.92user 299.92system 30:22.18elapsed 100%CPU (0avgtext+0avgdata 260846500maxresident)k
+7824inputs+88364072outputs (328major+214068066minor)pagefaults 0swaps
+
+The instance seems to be Pan/Qshifter/qshifter_8.qdimacs
+That instance seems to have been replaced, so Disassemble seems to be
+the problem:
+QBF2BCC/Pan/Qshifter$ Disassemble qshifter_8.qdimacs "||.B" 10
+Killed
+due to insufficient memory.
+
+Thus copied over by
+QBFLIB> scp -r -q QBF2BCC/
+
+
+The problematic instance for DirGraphSizes is
+QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d
+On server spent 313h (total) on that instance.
+Aborting:
+QBFLIB> threads=40 time DirGraphSizes QBF2BCC/Pan/
+ 5988^CCommand terminated by signal 2
+0.00user 0.00system 7:55:38elapsed 0%CPU (0avgtext+0avgdata 3384maxresident)k
+0inputs+0outputs (0major+427minor)pagefaults 0swaps
+
+On server2:
+> threads=120 time DirGraphSizes QBF2BCC/Pan/
+XXX
