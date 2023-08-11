@@ -8,6 +8,13 @@
 
 # Computing the sizes of conflict-graph and derived biclique-compatibility graph
 
+# Extracting:
+# i
+# n
+# c
+# E
+# cE (possibly NA)
+
 
 
 # USAGE:
@@ -22,11 +29,13 @@ set -o nounset
 
 program="DirExtract"
 errorm="ERROR[${program}]:"
-version="0.0.3"
+version="0.0.5"
 
 base_dir="$1"
+base_dir="${base_dir%*/}"
 
 : ${output:="${base_dir}.R"}
+echo -e "Output: \"${output}\""
 
 echo " i n c E cE" > ${output}
 
@@ -41,7 +50,11 @@ for dir in ${base_dir}/**/A_*; do
   echo -n " " >> ${output}
   cat $dir/E >> ${output}
   echo -n " " >> ${output}
-  cat $dir/cE >> ${output}
+  if [[ -f ${dir}/E ]]; then
+    cat $dir/cE >> ${output}
+  else
+    echo "NA" >> ${output}
+  fi
   echo        >> ${output}
 
 done
