@@ -25,8 +25,8 @@ EXAMPLES:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "2.4.2023",
+        "0.1.1",
+        "11.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFstats.cpp",
@@ -57,12 +57,13 @@ int main(const int argc, const char* const argv[]) {
 
   const DimacsClauseList F = read_strict_Dimacs(std::cin);
   std::cout << "Dimacs: " << F.first.n << " " << F.first.c << "; L = "
-            << num_litocc(F) << "\n\n";
-  std::cout << "Clauses " << length_statistics(F) << "\n";
+            << num_litocc(F) << "\n" << std::endl;
+  std::cout << "Clauses " << length_statistics(F) << std::endl;
   const auto occ = allocc(F);
-  std::cout << VarStatistics(occ) << "\n";
+  std::cout << VarStatistics(occ) << std::endl;
   const auto G = conflictgraph(F.first.c, occ);
-  std::cout << "Conflict graph " << G.n() << " " << G.m() << "\n";
+  std::cout << "Conflict graph " << G.n() << " " << G.m() << std::endl;
   std::cout << "Degrees " << degree_statistics(G);
+  std::cout.flush();
   std::cout << "Sizes of components " << StatsCC(cc_by_dfs(G));
 }
