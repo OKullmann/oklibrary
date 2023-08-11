@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 11.8.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Putting indexing-files in a QBF2BCC-directory
+
+#
+
+
+# USAGE:
+
+# DirIndex QBF2BCC
+
+# TODOS:
+
+
+set -o errexit
+set -o nounset
+
+program="DirIndex"
+errorm="ERROR[${program}]:"
+version="0.0.5"
+
+base_dir="$1"
+base_dir="${base_dir%*/}"
+
+shopt -s globstar
+
+index=0
+for dir in ${base_dir}/*; do
+
+  ((++index))
+  cd $dir
+  echo -n ${index} > .d
+
+  subindex=0
+  for subdir in *; do
+    if ! [[ -d ${subdir} ]]; then
+      echo -e "$errorm \"$dir/$subdir\" is not a directory."
+      exit 1
+    fi
+    ((++subindex))
+    cd $subdir
+    echo -n ${subindex} > .sd
+
+    instindex=0
+    for instdir in *; do
+      if ! [[ -d ${instdir} ]]; then
+        echo -e "$errorm \"$dir/$subdir/$instdir\" is not a directory."
+        exit 1
+      fi
+      ((++instindex))
+      cd $instdir
+      echo -n ${instindex} > .qi
+
+      aindex=0
+      for adir in *; do
+        if ! [[ -d ${adir} ]]; then
+          echo -e "$errorm \"$dir/$subdir/$instdir/$adir\" is not a directory."
+          exit 1
+        fi
+        ((++aindex))
+        echo -n "${index}/${subindex}/${instindex}/${aindex}" > ${aindex}/.p
+      done
+
+      cd ..
+    done
+
+    cd ..
+  done
+
+  cd ../..
+done
