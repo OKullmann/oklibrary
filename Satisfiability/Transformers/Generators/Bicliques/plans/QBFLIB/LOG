@@ -1986,6 +1986,41 @@ QBFLIB> threads=40 time DirGraphSizes QBF2BCC/Pan/
 0.00user 0.00system 7:55:38elapsed 0%CPU (0avgtext+0avgdata 3384maxresident)k
 0inputs+0outputs (0major+427minor)pagefaults 0swaps
 
+The number of edges of the conflict-graph (on server2):
+$ cat QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/cnf | CNF2cg | head -n 1
+# 8192 33034240 1
 On server2:
-> threads=120 time DirGraphSizes QBF2BCC/Pan/
-XXX
+$ threads=120 time DirGraphSizes QBF2BCC/Pan/
+XXX 24h wallclock without a result XXX
+
+There are two more instances in this series, which are even bigger:
+$ cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg | head -n 1
+# 32768 532692992 1
+
+The final instance running on server3, using 640GB residual memory:
+$ time cat QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cnf | CNFstats
+Dimacs: 264 131072; L = 1179648
+Clauses L1 131072 : 9 9 9; 0 9
+9:131072
+L2 1 : 131072 131072 131072; 0 131072
+Variables 264 264 264
+  trivial-pure-singular-1singular-non1singular-nonsingular 0 0 0 0 0 264
+degree L1 264 : 512 4468.36 131072; 22423.1 512
+512:256 131072:8
+L2 2 : 8 132 256; 175.362 132
+Conflict graph 131072 8556445696
+Degrees L1 131072 : 130561 130561 130561; 0 130561
+130561:131072
+L2 1 : 131072 131072 131072; 0 131072
+real    35m7.071s
+user    30m52.113s
+sys     4m14.884s
+Unclear why it took so long? Perhaps the sorting.
+
+Remark: For these large graphs, Graph2BCcompGraph shold be replaced by
+CNF2BCcompGraph.
+And using an implicit representation of the conflict-graph throughout
+would be needed.
+
+Remark: Repeated instances (which seem to occur) should be somehow
+discarded.
