@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "12.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -76,10 +76,27 @@ int main(const int argc, const char* const argv[]) {
    }
    for (const auto it : to_remove) M0.erase(it);
   }
-  for (const auto& [p,S] : M0) {
-    std::cout << "[" << p[0] << "," << p[1] << "]: ";
-    Environment::out_line(std::cout, S);
-    std::cout << "\n";
-  }
   
+  std::set<std::set<count_t>> equals;
+  {std::vector<map_pair_t::iterator> to_remove;
+   for (auto it = M0.begin(); it != M0.end(); ++it) {
+     const auto [p, S] = *it;
+     assert(S.size() >= 2);
+     if (S.size() == 2) {
+       to_remove.push_back(it);
+       auto i = S.begin();
+       const count_t a = *i++, b = *i;
+       if (Environment::get_content(A[a].dir / "cnf") ==
+           Environment::get_content(A[b].dir / "cnf"))
+         equals.insert({a,b});
+       else { A.erase(a); A.erase(b); }
+     }
+   }
+   for (const auto it : to_remove) M0.erase(it);
+  }
+  std::cout << "Equal pairs:\n";
+  Environment::out_lines(std::cout, equals, " ", ",");
+  std::cout << "\nRemaining:\n";
+  for (const auto& [p,S] : M0)
+    std::cout << "[" << p[0] << "," << p[1] << "]: " << S.size() << "\n";;
 }
