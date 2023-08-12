@@ -40,6 +40,7 @@ namespace DirStatistics {
 
   const std::string instdir_suffix = ".B";
   const std::string Adir_prefix = "A_";
+  const std::string Adir_suffix = ".d";
 
   // Assuming that p is a directory, and all entries which are directories
   // end with instdir_suffix (above), or none does:
@@ -52,9 +53,12 @@ namespace DirStatistics {
   }
   bool is_Alevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
-    for (const auto& dir_entry : std::filesystem::directory_iterator(p))
-      if (std::filesystem::is_directory(dir_entry))
-        return dir_entry.path().string().starts_with(Adir_prefix);
+    for (const auto& dir_entry : std::filesystem::directory_iterator(p)) {
+      if (not std::filesystem::is_directory(dir_entry)) continue;
+      const std::string path = dir_entry.path().string();
+      if (not path.starts_with("."))
+        return path.starts_with(Adir_prefix) and path.ends_with(Adir_suffix);
+    }
     return false;
   }
 
@@ -133,7 +137,6 @@ namespace DirStatistics {
   }
 
 
-  typedef FP::UInt_t count_t;
   typedef FP::float80 float_t;
   typedef GenStats::FreqStats<count_t, float_t> fstats_t;
 
