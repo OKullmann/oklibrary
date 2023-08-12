@@ -51,13 +51,16 @@ namespace DirStatistics {
         return dir_entry.path().string().ends_with(instdir_suffix);
     return false;
   }
+  bool is_Aname(const std::string& s) noexcept {
+    return s.starts_with(Adir_prefix) and s.ends_with(Adir_suffix);
+  }
   bool is_Alevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
     for (const auto& dir_entry : std::filesystem::directory_iterator(p)) {
       const std::string path = dir_entry.path().string();
       if (not path.starts_with(".") and
           std::filesystem::is_directory(dir_entry))
-        return path.starts_with(Adir_prefix) and path.ends_with(Adir_suffix);
+        return is_Aname(path);
     }
     return false;
   }
@@ -83,7 +86,8 @@ namespace DirStatistics {
     assert(std::filesystem::is_directory(p));
     if (is_Alevel_QBF2BCC(p)) {
       for (const auto& dir_entry : std::filesystem::directory_iterator(p))
-        if (std::filesystem::is_directory(dir_entry))
+        if (std::filesystem::is_directory(dir_entry) and
+            not dir_entry.path().string().starts_with("."))
           F(dir_entry.path());
     }
     else {
