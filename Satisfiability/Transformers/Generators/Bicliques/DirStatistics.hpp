@@ -54,9 +54,9 @@ namespace DirStatistics {
   bool is_Alevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
     for (const auto& dir_entry : std::filesystem::directory_iterator(p)) {
-      if (not std::filesystem::is_directory(dir_entry)) continue;
       const std::string path = dir_entry.path().string();
-      if (not path.starts_with("."))
+      if (not path.starts_with(".") and
+          std::filesystem::is_directory(dir_entry))
         return path.starts_with(Adir_prefix) and path.ends_with(Adir_suffix);
     }
     return false;
