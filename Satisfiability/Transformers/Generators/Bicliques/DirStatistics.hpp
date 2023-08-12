@@ -71,6 +71,7 @@ namespace DirStatistics {
   struct components_stats {
     fstats_t Snt, Snb, Mn, Mc;
     void operator ()(const std::filesystem::path& p) noexcept {
+      assert(std::filesystem::is_directory(p));
       const auto f = p / DA::statsdirname;
       Snt += FP::to_UInt(Environment::get_content(f / DA::ntccfile));
       Snb += FP::to_UInt(Environment::get_content(f / DA::nbccfile));
