@@ -16,6 +16,9 @@ License, or any later version. */
 
 #include <filesystem>
 #include <string>
+#include <vector>
+#include <map>
+#include <utility>
 
 #include <cassert>
 
@@ -35,19 +38,28 @@ namespace DirStatistics {
     missing_parameters = 1,
   };
 
-  const std::string instdir_ending = ".B";
+  const std::string instdir_suffix = ".B";
+  const std::string Adir_prefix = "A_";
 
   // Assuming that p is a directory, and all entries which are directories
-  // end with instdir_ending (above), or none does:
+  // end with instdir_suffix (above), or none does:
   bool is_instancelevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
     for (const auto& dir_entry : std::filesystem::directory_iterator(p))
       if (std::filesystem::is_directory(dir_entry))
-        return dir_entry.path().string().ends_with(instdir_ending);
+        return dir_entry.path().string().ends_with(instdir_suffix);
+    return false;
+  }
+  bool is_Alevel_QBF2BCC(const std::filesystem::path& p) {
+    assert(std::filesystem::is_directory(p));
+    for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+      if (std::filesystem::is_directory(dir_entry))
+        return dir_entry.path().string().starts_with(Adir_prefix);
     return false;
   }
 
-  // Applying F to all leaves (that is, directories with instdir_ending):
+
+  // Applying F to all leaves (that is, directories with instdir_suffix):
   template <class FUNC>
   void for_each_instdir(const std::filesystem::path& p, FUNC& F) {
     assert(std::filesystem::is_directory(p));
@@ -62,6 +74,64 @@ namespace DirStatistics {
           for_each_instdir(dir_entry.path(), F);
     }
   }
+  template <class FUNC>
+  void for_each_Adir(const std::filesystem::path& p, FUNC& F) {
+    assert(std::filesystem::is_directory(p));
+    if (is_Alevel_QBF2BCC(p)) {
+      for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+        if (std::filesystem::is_directory(dir_entry))
+          F(dir_entry.path());
+    }
+    else {
+      for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+        if (std::filesystem::is_directory(dir_entry))
+          for_each_Adir(dir_entry.path(), F);
+    }
+  }
+
+  std::vector<std::filesystem::path>
+  all_instdir(const std::filesystem::path& p) {
+    typedef std::vector<std::filesystem::path> res_t;
+    struct pb {
+      res_t& res; pb(res_t& res) noexcept : res(res) {}
+      void operator ()(std::filesystem::path p) { res.push_back(p); }
+    };
+    res_t res; pb F(res);
+    for_each_instdir(p, F);
+    return res;
+  }
+
+  typedef FP::UInt_t count_t;
+  struct adir {
+    const std::filesystem::path dir;
+    const count_t i, n, c;
+    const std::string p;
+    adir(std::filesystem::path dir) : dir(dir), i(getn("i")), n(getn("n")),
+                                      c(getn("c")), p(get("p")) {}
+  private :
+    std::string get(const std::string& s) const {
+      return Environment::get_content(dir / s);
+    }
+    count_t getn(const std::string& s) const { return FP::to_UInt(get(s)); }
+  };
+  // The second component is the number of ignored A-dirs (due to
+  // repeated indices):
+  std::pair<std::map<count_t, adir>, count_t>
+  all_adir(const std::filesystem::path& p) {
+    typedef std::pair<std::map<count_t, adir>, count_t> res_t;
+    struct pb {
+      res_t& res; pb(res_t& res) noexcept : res(res) {}
+      void operator ()(std::filesystem::path p) {
+        adir A(p); const count_t i = A.i;
+        const auto [it,found] = res.first.insert(std::pair(i, std::move(A)));
+        res.second += not found;
+      }
+    };
+    res_t res{}; pb F(res);
+    for_each_Adir(p, F);
+    return res;
+  }
+
 
   typedef FP::UInt_t count_t;
   typedef FP::float80 float_t;
