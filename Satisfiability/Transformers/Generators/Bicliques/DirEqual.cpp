@@ -11,6 +11,9 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <array>
+#include <map>
+#include <set>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -19,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.7",
         "12.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -56,7 +59,27 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string dirname = argv[1];
-  const auto [A, ignored] = all_adir(dirname);
+  auto [A, ignored] = all_adir(dirname);
   std::cout << A.size() << " " << ignored << "\n";
+  typedef std::array<count_t, 2> par_pair_t;
+  typedef std::map<par_pair_t, std::set<count_t>> map_pair_t;
+  map_pair_t M0;
+  for (const auto& [i,ad] : A) M0[{ad.n, ad.c}].insert(i);
+  {std::vector<map_pair_t::iterator> to_remove;
+   for (auto it = M0.begin(); it != M0.end(); ++it) {
+     const auto [p, S] = *it;
+     assert(not S.empty());
+     if (S.size() == 1) {
+       A.erase(*S.begin());
+       to_remove.push_back(it);
+     }
+   }
+   for (const auto it : to_remove) M0.erase(it);
+  }
+  for (const auto& [p,S] : M0) {
+    std::cout << "[" << p[0] << "," << p[1] << "]: ";
+    Environment::out_line(std::cout, S);
+    std::cout << "\n";
+  }
   
 }
