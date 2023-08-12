@@ -112,8 +112,9 @@ namespace DirStatistics {
   typedef FP::UInt_t count_t;
   struct adir {
     const std::filesystem::path dir;
-    const count_t i, n, c;
+    const count_t i=0, n=0, c=0;
     const std::string p;
+    adir() = default;
     adir(std::filesystem::path dir) : dir(dir), i(getn("i")), n(getn("n")),
                                       c(getn("c")), p(get("p")) {}
   private :
