@@ -37,26 +37,27 @@ namespace DirStatistics {
 
   const std::string leaf_ending = ".B";
 
-  bool is_leaf_QBF2BCC(const std::filesystem::path& p) {
+  bool is_instancelevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
-    return(p.string().ends_with(leaf_ending));
+    for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+      if (std::filesystem::is_directory(dir_entry))
+        return dir_entry.path().string().ends_with(leaf_ending);
+    return false;
   }
 
   // Applying F to all leaves:
   template <class FUNC>
   void for_each_leaf(const std::filesystem::path& p, FUNC& F) {
-    assert(not is_leaf_QBF2BCC(p));
-    const std::filesystem::directory_iterator end;
-    std::filesystem::directory_iterator di(p);
-    if (di == end) return;
-    const auto first = *di++;
-    if (is_leaf_QBF2BCC(first)) {
-      F(first);
-      for (; di != end; ++di) F(*di);
+    assert(std::filesystem::is_directory(p));
+    if (is_instancelevel_QBF2BCC(p)) {
+      for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+        if (std::filesystem::is_directory(dir_entry))
+          F(dir_entry.path());
     }
     else {
-      for_each_leaf(first, F);
-      for (; di != end; ++di) for_each_leaf(*di, F);
+      for (const auto& dir_entry : std::filesystem::directory_iterator(p))
+        if (std::filesystem::is_directory(dir_entry))
+          for_each_leaf(dir_entry.path(), F);
     }
   }
 
