@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "12.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -70,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string dirname = argv[1];
   components_stats S;
-  for_each_leaf(dirname, S);
+  for_each_instdir(dirname, S);
   std::cout << "#non-trivial components:\n" << S.Snt << "\n";
   std::cout << "#non-biclique components:\n" << S.Snb << "\n";
   std::cout << "n-values:\n" << S.Mn << "\n";

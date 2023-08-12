@@ -35,21 +35,21 @@ namespace DirStatistics {
     missing_parameters = 1,
   };
 
-  const std::string leaf_ending = ".B";
+  const std::string instdir_ending = ".B";
 
   // Assuming that p is a directory, and all entries which are directories
-  // end with leaf_ending (above), or none does:
+  // end with instdir_ending (above), or none does:
   bool is_instancelevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
     for (const auto& dir_entry : std::filesystem::directory_iterator(p))
       if (std::filesystem::is_directory(dir_entry))
-        return dir_entry.path().string().ends_with(leaf_ending);
+        return dir_entry.path().string().ends_with(instdir_ending);
     return false;
   }
 
-  // Applying F to all leaves (that is, directories with leaf_ending):
+  // Applying F to all leaves (that is, directories with instdir_ending):
   template <class FUNC>
-  void for_each_leaf(const std::filesystem::path& p, FUNC& F) {
+  void for_each_instdir(const std::filesystem::path& p, FUNC& F) {
     assert(std::filesystem::is_directory(p));
     if (is_instancelevel_QBF2BCC(p)) {
       for (const auto& dir_entry : std::filesystem::directory_iterator(p))
@@ -59,7 +59,7 @@ namespace DirStatistics {
     else {
       for (const auto& dir_entry : std::filesystem::directory_iterator(p))
         if (std::filesystem::is_directory(dir_entry))
-          for_each_leaf(dir_entry.path(), F);
+          for_each_instdir(dir_entry.path(), F);
     }
   }
 
