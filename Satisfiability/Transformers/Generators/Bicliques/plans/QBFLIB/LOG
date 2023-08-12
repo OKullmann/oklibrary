@@ -2024,3 +2024,27 @@ would be needed.
 
 Remark: Repeated instances (which seem to occur) should be somehow
 discarded.
+
+
+11.8.2023
+
+Indexing:
+
+QBFLIB> DirIndex QBF2BCC/
+8890
+
+
+11.8.2023
+
+Equal files:
+
+E.g.
+
+QBFLIB> diff QBF2BCC/Akshay-Chakraborty-John-Shah-Rabe/disjunctive_decomposition/neclaftp3001.B/A_16_84_1-120.d/cnf QBF2BCC/Akshay-Chakraborty-John-Shah-Rabe/disjunctive_decomposition/neclaftp3001.B/A_16_84_2-121.d/cnf
+
+QBFLIB> diff QBF2BCC/Basler/irqlkeapclte/stmt17_62_78.B/A_11_401_1-180.d/cnf QBF2BCC/Basler/irqlkeapclte/stmt17_62_98.B/A_11_401_1-181.d/cnf
+
+shows file-equality.
+There seems to be a large amount of duplication.
+
+A C++-program is needed.
