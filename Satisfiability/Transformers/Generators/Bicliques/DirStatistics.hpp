@@ -37,6 +37,8 @@ namespace DirStatistics {
 
   const std::string leaf_ending = ".B";
 
+  // Assuming that p is a directory, and all entries which are directories
+  // end with leaf_ending (above), or none does:
   bool is_instancelevel_QBF2BCC(const std::filesystem::path& p) {
     assert(std::filesystem::is_directory(p));
     for (const auto& dir_entry : std::filesystem::directory_iterator(p))
@@ -45,7 +47,7 @@ namespace DirStatistics {
     return false;
   }
 
-  // Applying F to all leaves:
+  // Applying F to all leaves (that is, directories with leaf_ending):
   template <class FUNC>
   void for_each_leaf(const std::filesystem::path& p, FUNC& F) {
     assert(std::filesystem::is_directory(p));
