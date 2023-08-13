@@ -1948,7 +1948,8 @@ real    477m32.334s
 user    4294m12.811s
 sys     0m6.488s
 QBFLIB> threads=80 time DirGraphSizes QBF2BCC/Tentrup/
-XXX
+ 7045 7046 7047 7048 7049 7050 7051 7052 7053 7054
+XXX for instance 7054 51h wallclock-time spent yet.
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
 697 done
