@@ -14,7 +14,7 @@ License, or any later version. */
      for sorted ranges r1, r2:
    - empty_intersection(RAN1 r1, RAN2 r2) (uses < and ==)
    - intersection(RAN1 r1, RAN2 r2) -> std::vector<RAN1::value_type>
-     (uses only <)
+     (uses only <; convenience-wrapper for std::intersection)
    - split(RAN1 r0, RAN2 r1) -> std::array<std::vector<RAN1::value_type>, 3>
      splits the sorted sequence r1, r2 into res[0,1,2], with res[2] the
      intersection (uses < and ==)
@@ -55,6 +55,11 @@ TODOS:
       from ladder spoke to ladder spoke.
     - One should see whether std::set_intersection uses std::lower_bound
       (or something similar to binary search).
+    - Same for std::set_difference.
+      Indeed the std-algorithms assume only LegacyInputIterator,
+      and thus binary search is not performed (since no random access)!
+    - So we should provide refined versions, assuming random access
+      and using binary search.
 
 0. Try to find out if erase_if_unstable is indeed faster.
 
