@@ -2067,34 +2067,34 @@ A C++-program is needed.
 
 Determining the duplications:
 
-QBFLIB> time ~/OKlib/Satisfiability/Transformers/Generators/Bicliques/DirEqual QBF2BCC > EQ
+QBFLIB> time ~/OKlib/Satisfiability/Transformers/Generators/Bicliques/DirEqual_debug QBF2BCC > Equals
 
-real    0m0.984s
-user    0m0.453s
-sys     0m0.510s
+real    0m2.364s
+user    0m1.689s
+sys     0m0.655s
 
-QBFLIB> head EQ
+QBFLIB> head Equals
 8890 0
 
-38 42 43
-39 45
-40 41 44
-67 68 69 70
-109 112
-110 113
-120 121
-122 123
+1: 1/1/18/8 1/1/18/13 1/1/18/14
+2: 1/1/18/10 1/1/18/16
+3: 1/1/18/11 1/1/18/12 1/1/18/15
+4: 1/1/19/3 1/1/19/4 1/1/19/5 1/1/19/6
+5: 1/1/20/9 1/1/20/12
+6: 1/1/20/10 1/1/20/13
+7: 1/1/20/20 1/1/20/21
+8: 1/1/20/22 1/1/20/23
 
-QBFLIB> tail EQ
-8831 8840
-8832 8833 8841 8842
-8843 8846
-8844 8847
-8845 8848
-8885 8888
-8886 8889
-8887 8890
+QBFLIB> tail Equals
+1124: 14/2/33/1 14/2/36/1
+1125: 14/2/33/2 14/2/33/3 14/2/36/2 14/2/36/3
+1126: 14/2/37/1 14/2/40/1
+1127: 14/2/38/1 14/2/41/1
+1128: 14/2/39/1 14/2/42/1
+1129: 14/2/79/1 14/2/82/1
+1130: 14/2/80/1 14/2/83/1
+1131: 14/2/81/1 14/2/84/1
 
-5322 3568
+1131 5376 3514
 
-So after reduction the new database would have 3568 instances.
+So after reduction the new database would have 3514 instances.
