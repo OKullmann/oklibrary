@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
-        "12.8.2023",
+        "0.1.0",
+        "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -67,7 +67,7 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& [i,ad] : A) M0[{ad.n, ad.c}].insert(i);
   {std::vector<map_pair_t::iterator> to_remove;
    for (auto it = M0.begin(); it != M0.end(); ++it) {
-     const auto [p, S] = *it;
+     const auto& [p, S] = *it;
      assert(not S.empty());
      if (S.size() == 1) {
        A.erase(*S.begin());
@@ -76,27 +76,46 @@ int main(const int argc, const char* const argv[]) {
    }
    for (const auto it : to_remove) M0.erase(it);
   }
-  
+
+  using Environment::get_content;
   std::set<std::set<count_t>> equals;
   {std::vector<map_pair_t::iterator> to_remove;
    for (auto it = M0.begin(); it != M0.end(); ++it) {
-     const auto [p, S] = *it;
+     const auto& [p, S] = *it;
      assert(S.size() >= 2);
      if (S.size() == 2) {
        to_remove.push_back(it);
        auto i = S.begin();
        const count_t a = *i++, b = *i;
-       if (Environment::get_content(A[a].dir / "cnf") ==
-           Environment::get_content(A[b].dir / "cnf"))
+       if (get_content(A[a].dir / "cnf") == get_content(A[b].dir / "cnf"))
          equals.insert({a,b});
        else { A.erase(a); A.erase(b); }
      }
    }
    for (const auto it : to_remove) M0.erase(it);
   }
-  std::cout << "Equal pairs:\n";
+
+  for (const auto& [p, S] : M0) {
+    typedef std::map<count_t, std::set<count_t>> inv_img_t;
+    inv_img_t inv_img;
+    for (const count_t i : S)
+      inv_img[Environment::hash(get_content(A[i].dir / "cnf"))].insert(i);
+    for (const auto& [h, Sh] : inv_img) {
+      assert(not Sh.empty());
+      if (Sh.size() == 1) { A.erase(*Sh.begin()); continue; }
+      auto it = Sh.begin(); const auto end = Sh.end();
+      const count_t i0 = *it++;
+      const std::string F0 = get_content(A[i0].dir / "cnf");
+      do {
+        if (get_content(A[*it].dir / "cnf") != F0) {
+          std::cerr << error << "Cnf's with indices " << i0 << ", " <<
+            *it << " yield the same hash " << h << "\n";
+          return 1;
+        }
+      } while (++it != end);
+      equals.insert(Sh);
+    }
+  }
   Environment::out_lines(std::cout, equals, " ", ",");
-  std::cout << "\nRemaining:\n";
-  for (const auto& [p,S] : M0)
-    std::cout << "[" << p[0] << "," << p[1] << "]: " << S.size() << "\n";;
+
 }
