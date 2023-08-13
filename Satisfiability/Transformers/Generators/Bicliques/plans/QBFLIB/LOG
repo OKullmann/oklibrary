@@ -1991,7 +1991,19 @@ $ cat QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/cnf | CNF2cg | head -
 # 8192 33034240 1
 On server2:
 $ threads=120 time DirGraphSizes QBF2BCC/Pan/
-XXX 24h wallclock without a result XXX
+Instance 5988 computed after ~ 65h wallclock-time:
+Aborted, since the remaining two instances should be far too big.
+$ cat QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/E
+33034240
+$ cat QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/cE
+545626327744512
+Transferring to main database:
+QBFLIB> echo -n 33034240 > QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/E
+QBFLIB> echo -n 545626327744512 > QBF2BCC/Pan/Qshifter/qshifter_6.B/A_70_8192_1-5988.d/cE
+
+So this is nearly the complete graph:
+33034240 * (33034240-1) / 2 = 545630489671680.
+
 
 There are two more instances in this series, which are even bigger:
 $ cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg | head -n 1
