@@ -30,7 +30,7 @@ set -o nounset
 
 program="DirExtract"
 errorm="ERROR[${program}]:"
-version="0.0.7"
+version="0.0.8"
 
 base_dir="$1"
 base_dir="${base_dir%*/}"
@@ -55,7 +55,7 @@ for dir in ${base_dir}/**/A_*; do
   echo -n " " >> ${output}
   cat $dir/E >> ${output}
   echo -n " " >> ${output}
-  if [[ -f ${dir}/E ]]; then
+  if [[ -f ${dir}/cE ]]; then
     cat $dir/cE >> ${output}
   else
     echo "NA" >> ${output}
