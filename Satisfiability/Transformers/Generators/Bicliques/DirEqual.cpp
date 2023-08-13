@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -83,6 +83,7 @@ int main(const int argc, const char* const argv[]) {
    for (const auto it : to_remove) M0.erase(it);
   }
 
+  count_t reduced = 0;
   using Environment::get_content;
   std::set<std::set<count_t>> equals;
   {std::vector<map_pair_t::iterator> to_remove;
@@ -93,15 +94,16 @@ int main(const int argc, const char* const argv[]) {
        to_remove.push_back(it);
        auto i = S.begin();
        const count_t a = *i++, b = *i;
-       if (get_content(A[a].dir / "cnf") == get_content(A[b].dir / "cnf"))
+       if (get_content(A[a].dir / "cnf") == get_content(A[b].dir / "cnf")) {
          equals.insert({a,b});
+         ++reduced;
+       }
        else { A.erase(a); A.erase(b); }
      }
    }
    for (const auto it : to_remove) M0.erase(it);
   }
 
-  count_t reduced = 0;
   for (const auto& [p, S] : M0) {
     typedef std::map<count_t, std::set<count_t>> inv_img_t;
     inv_img_t inv_img;
