@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -116,6 +116,6 @@ int main(const int argc, const char* const argv[]) {
       equals.insert(Sh);
     }
   }
-  Environment::out_lines(std::cout, equals, " ", ",");
-
+  Environment::out_lines(std::cout, equals, "\n", " ");
+  std::cout << "\n";
 }
