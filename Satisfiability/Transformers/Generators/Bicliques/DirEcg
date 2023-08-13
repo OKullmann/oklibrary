@@ -6,54 +6,45 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version. */
 
-# Computing the size of the biclique-compatibility graph (derived from the
-# conflict-graph)
+# Computing the size of conflict-graph
 
 
 
 # USAGE:
 
-# DirEbccom QBF2BCC
+# DirEcg QBF2BCC
 
 # TODOS:
 
 # 1. Perhaps if file E or cE already exists, skip directory?
 #    - Perhaps that should be an option.
-# 2. We need a parallel mode; easiest just to parallelise on
-#    all directories.
-#    - Better a C++ program.
-#      Just storing all tasks in a vector.
-
 
 set -o errexit
 set -o nounset
 
-program="DirEbccom"
+program="DirEcg"
 errorm="ERROR[${program}]:"
 version="0.1.4"
 
 base_dir="$1"
 
 : ${transprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/CNF2cg}
-: ${graphprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph}
-: ${threads:=20}
 
 count=0
 shopt -s globstar
 for dir in ${base_dir}/**/A_*; do
 
-  if [[ -f ${dir}/cE ]]; then continue; fi
+  if [[ -f ${dir}/E ]]; then continue; fi
 
   ((++count))
 
   index="$(cat ${dir}/i)"
   echo -n " ${index}"
 
-  result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com ${threads})"
-  result="${result#\# *}"
-  cE="${result#* }"
+  result="$(cat ${dir}/cnf | ${transprog} X)"
+  E="${result#* }"
 
-  echo -n ${cE} > ${dir}/cE
+  echo -n ${E} > ${dir}/E
 
 done
 
