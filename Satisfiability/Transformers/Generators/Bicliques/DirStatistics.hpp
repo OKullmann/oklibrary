@@ -36,6 +36,7 @@ namespace DirStatistics {
 
   enum class Error {
     missing_parameters = 1,
+    hash_collision = 11,
   };
 
   const std::string instdir_suffix = ".B";

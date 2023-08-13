@@ -6,7 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
- 
+  Computing the cnf's (resp. their indices) which are file-equal.
+
+  Output:
+   1. line : #cnf's-found, duplications of indices (should be 0).
+   2. The blocks of equals, each block on a line, separated by spaces.
+   3. The number of cnf's to be eliminated, and the new total count.
 
 */
 
@@ -22,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.2.0",
         "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -39,7 +44,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " dirname\n\n"
-    " computes information on equal cnf's for a QBF2BCC-like corpus in dirname.\n\n"
+    " computes file-equal cnf's for a QBF2BCC-like corpus (in dirname).\n\n"
 ;
     return true;
   }
@@ -60,7 +65,8 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string dirname = argv[1];
   auto [A, ignored] = all_adir(dirname);
-  std::cout << A.size() << " " << ignored << "\n";
+  const count_t Aorig = A.size();
+  std::cout << Aorig << " " << ignored << "\n";
   typedef std::array<count_t, 2> par_pair_t;
   typedef std::map<par_pair_t, std::set<count_t>> map_pair_t;
   map_pair_t M0;
@@ -110,8 +116,8 @@ int main(const int argc, const char* const argv[]) {
       do {
         if (get_content(A[*it].dir / "cnf") != F0) {
           std::cerr << error << "Cnf's with indices " << i0 << ", " <<
-            *it << " yield the same hash " << h << "\n";
-          return 1;
+            *it << " yield the same hash " << h << ".\n";
+          return int(Error::hash_collision);
         }
       } while (++it != end);
       equals.insert(Sh);
@@ -120,6 +126,6 @@ int main(const int argc, const char* const argv[]) {
   }
   std::cout << "\n";
   Environment::out_lines(std::cout, equals, "\n", " ");
-  std::cout << "\n\n";
-  std::cout << reduced << "\n";
+  std::cout << "\n";
+  std::cout << reduced << " " << Aorig - reduced << "\n";
 }
