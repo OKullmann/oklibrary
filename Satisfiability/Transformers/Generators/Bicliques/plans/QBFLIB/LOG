@@ -2060,3 +2060,40 @@ shows file-equality.
 There seems to be a large amount of duplication.
 
 A C++-program is needed.
+
+
+13.8.2023
+
+Determining the duplications:
+
+QBFLIB> time ~/OKlib/Satisfiability/Transformers/Generators/Bicliques/DirEqual QBF2BCC > EQ
+
+real    0m0.984s
+user    0m0.453s
+sys     0m0.510s
+
+QBFLIB> head EQ
+8890 0
+
+38 42 43
+39 45
+40 41 44
+67 68 69 70
+109 112
+110 113
+120 121
+122 123
+
+QBFLIB> tail EQ
+8831 8840
+8832 8833 8841 8842
+8843 8846
+8844 8847
+8845 8848
+8885 8888
+8886 8889
+8887 8890
+
+5322 3568
+
+So after reduction the new database would have 3568 instances.
