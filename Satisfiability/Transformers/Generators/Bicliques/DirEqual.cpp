@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -125,7 +125,12 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   std::cout << "\n";
-  Environment::out_lines(std::cout, equals, "\n", " ");
-  std::cout << "\n";
-  std::cout << reduced << " " << Aorig - reduced << "\n";
+  for (count_t i = 1; const auto& S : equals) {
+    std::cout << i << ":";
+    for (const count_t j : S) std::cout << " " << A[j].p;
+    std::cout << "\n"; ++i;
+  }
+  std::cout << "\n" << equals.size() << " " << reduced << " "
+            << Aorig - reduced << "\n";
+  assert(A.size() == reduced + equals.size());
 }
