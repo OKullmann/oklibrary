@@ -2006,9 +2006,19 @@ So this is nearly the complete graph:
 33034240 * (33034240-1) / 2 = 545630489671680.
 
 
-There are two more instances in this series, which are even bigger:
-$ cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg | head -n 1
+There are two more instances in this series, which are even bigger
+(running on server2):
+$ time cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg | head -n 1
 # 32768 532692992 1
+real    1m29.042s
+user    1m20.254s
+sys     0m8.736s
+Only the statistics:
+$ time cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg ""
+32768 532692992
+real    0m1.972s
+user    0m1.966s
+sys     0m0.008s
 
 The final instance running on server3, using 640GB residual memory:
 $ time cat QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cnf | CNFstats
@@ -2029,14 +2039,21 @@ real    35m7.071s
 user    30m52.113s
 sys     4m14.884s
 Unclear why it took so long? Perhaps the sorting.
+Only the statistics (server2):
+$ time cat QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cnf | CNF2cg ""
+131072 8556445696
+real    0m34.653s
+user    0m34.625s
+sys     0m0.022s
 
-Remark: For these large graphs, Graph2BCcompGraph shold be replaced by
-CNF2BCcompGraph.
+Remark: For these large graphs, Graph2BCcompGraph should be replaced by
+CNF2BCcompGraph (which doesn't output the conflict-graph and reads it
+in again).
 And using an implicit representation of the conflict-graph throughout
 would be needed.
 
 Remark: Repeated instances (which seem to occur) should be somehow
-discarded.
+discarded; see below.
 
 
 11.8.2023
