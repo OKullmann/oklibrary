@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -95,6 +95,7 @@ int main(const int argc, const char* const argv[]) {
    for (const auto it : to_remove) M0.erase(it);
   }
 
+  count_t reduced = 0;
   for (const auto& [p, S] : M0) {
     typedef std::map<count_t, std::set<count_t>> inv_img_t;
     inv_img_t inv_img;
@@ -114,8 +115,11 @@ int main(const int argc, const char* const argv[]) {
         }
       } while (++it != end);
       equals.insert(Sh);
+      reduced += Sh.size() - 1;
     }
   }
-  Environment::out_lines(std::cout, equals, "\n", " ");
   std::cout << "\n";
+  Environment::out_lines(std::cout, equals, "\n", " ");
+  std::cout << "\n\n";
+  std::cout << reduced << "\n";
 }
