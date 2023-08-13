@@ -957,6 +957,7 @@ namespace Bicliques {
     res.second /= 2;
     return res;
   }
+  // Helper-class for parallel computation:
   template <unsigned version>
   struct bccom_degree_comp {
     const AdjVecUInt& G;

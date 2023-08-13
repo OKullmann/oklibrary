@@ -46,6 +46,7 @@ License, or any later version. */
      - struct AllOcc : contains a vector of OccVar (for every variable its
        occurrences)
      - allocc(DimacsClauseList) -> AllOcc
+
      - struct VarStatistics for variable-statistics, constructed from AllOcc
      - conflictgraph(var_t c, AllOcc) -> AdjVecUInt
          (works by adding bicliques)
@@ -364,7 +365,7 @@ namespace ConflictGraphs {
     assert(valid(F));
     const var_t c = F.first.c;
     GraphTraversal::CCbyIndices res(c);
-    for (var_t v = 0; v < c; ++v) {
+    for (var_t v = 0; v < c; ++v) { // v like "vertex"
       if (res.cv[v] != 0) continue;
       res.cv[v] = ++res.numcc;
       std::stack<size_t> S;
