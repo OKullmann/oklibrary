@@ -24,14 +24,23 @@ Bicliques> echo -e "p cnf 4 4\n0\n1 2 0\n-1 -2 0\n3 4 0\n" | ./CNF2cg
 
 The header says "4 vertices, 1 edges, undirected".
 
+Only the statistics:
+Bicliques> cat data/A_131_3964_1 | CNF2cg ""
+3964 157484
+
+
 TODOS:
 
 0. Likely best not to store the graph (never).
    - So computing the neighbourhood of a clause(-vertex) on its own.
-   - Then we can also just computing degree-statistics (or just the
+   - DONE (for the moment just outputting the number of edges)
+     Then we can also just computing degree-statistics (or just the
      number of edges).
 
-1. Write application tests.
+1. Likely we should have the same argument-conventions as
+   Graph2BCcompGraph.cpp.
+
+2. Write application tests.
 
 */
 
@@ -45,8 +54,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "15.3.2023",
+        "0.2.1",
+        "13.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
@@ -61,8 +70,10 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << "\n\n"
-    " reads a strict Dimacs-file from standard input, and prints the conflict-graph to standard output.\n"
+    "> " << proginfo.prg
+         << "[OPT] \n\n"
+    " reads a strict Dimacs-file from standard input, and prints the conflict-graph to standard output:\n\n"
+    "  - The optional arguments switches to statistics-only mode.\n\n"
 ;
     return true;
   }
@@ -74,6 +85,20 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  std::cout << conflictgraph(read_strict_Dimacs(std::cin));
+  if (argc > 2) {
+    std::cerr << error <<
+      "At most one argument"
+      " needed, but " << argc-1 << " provided.\n";
+    return 1;
+  }
+
+  const bool stats_only = argc==2;
+
+  if (stats_only) {
+    const auto S = conflictgraph_degree_stats(read_strict_Dimacs(std::cin));
+    std::cout << S.first.N() << " " << S.second << "\n";
+  }
+  else
+    std::cout << conflictgraph(read_strict_Dimacs(std::cin));
 
 }

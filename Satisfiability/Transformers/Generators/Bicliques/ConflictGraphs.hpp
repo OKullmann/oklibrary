@@ -76,6 +76,7 @@ License, or any later version. */
 #include <stack>
 #include <map>
 #include <type_traits>
+#include <utility>
 
 #include <cassert>
 
@@ -357,6 +358,29 @@ namespace ConflictGraphs {
     G.set(std::move(A));
     assert(A.empty());
     return G;
+  }
+
+  // Only computing statistics on the degree:
+  std::pair<GenStats::StdStats, size_t>
+  conflictgraph_degree_stats(const DimacsClauseList& F) {
+    std::pair<GenStats::StdStats, size_t> res;
+    const size_t c = F.first.c;
+    if (c == 0) return res;
+    const auto O = allocc(F);
+    std::vector<size_t> occurs(c);
+    for (size_t v = 0; v < c; ++v) {
+      size_t deg = 0;
+      const size_t round = v+1;
+      for (const auto x : F.second[v])
+        for (const size_t ci : O.conflicts(x))
+          if (occurs[ci] != round) { occurs[ci] = round; ++deg; }
+      res.first += deg;
+    }
+    assert(FloatingPoint::isUInt(res.first.sum()));
+    res.second = res.first.sum();
+    assert(res.second % 2 == 0);
+    res.second /= 2;
+    return res;
   }
 
 
