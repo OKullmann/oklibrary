@@ -26,6 +26,11 @@ The header says "4 vertices, 1 edges, undirected".
 
 TODOS:
 
+0. Likely best not to store the graph (never).
+   - So computing the neighbourhood of a clause(-vertex) on its own.
+   - Then we can also just computing degree-statistics (or just the
+     number of edges).
+
 1. Write application tests.
 
 */
