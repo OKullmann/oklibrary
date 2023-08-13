@@ -125,6 +125,7 @@ TODOS:
 #include <cassert>
 
 #include <Numerics/Statistics.hpp>
+#include <Numerics/NumTypes.hpp>
 
 #include "Graphs.hpp"
 #include "DimacsTools.hpp"
@@ -943,7 +944,7 @@ namespace Bicliques {
     return res;
   }
 
-  typedef GenStats::StdStats bccom_degree_stats_t;
+  typedef GenStats::StdStats bccom_degree_stats_t; // 2 x float80
 
   template <unsigned version>
   std::pair<bccom_degree_stats_t, idv_t>
