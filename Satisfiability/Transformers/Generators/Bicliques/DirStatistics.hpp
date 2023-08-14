@@ -203,8 +203,8 @@ namespace DirStatistics {
 
   };
   std::ostream& operator <<(std::ostream& out, const AData& a) {
-      return out << a.i << " " << a.p << " " << a.n << " " << a.c << " " << a.E << " " << a.cE;
-    }
+    return out << a.i << " " << a.p << " " << a.n << " " << a.c << " " << a.E << " " << a.cE;
+  }
 
 }
 

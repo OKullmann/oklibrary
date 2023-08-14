@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.0.9",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -82,6 +82,9 @@ int main(const int argc, const char* const argv[]) {
   std::cout << A.size() << " " << ignored << std::endl;
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
+
+  std::cout << "Statistics XXX" << std::endl;
   output << AData::header() << "\n";
+  FloatingPoint::fullprec_float80(output);
   Environment::out_line(output, ad, "\n");
 }
