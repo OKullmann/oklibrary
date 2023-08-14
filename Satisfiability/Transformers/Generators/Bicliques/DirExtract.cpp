@@ -21,13 +21,15 @@ License, or any later version. */
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumTypes.hpp>
+#include <Numerics/Statistics.hpp>
 
 #include "DirStatistics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.10",
+        "0.1.0",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -83,8 +85,17 @@ int main(const int argc, const char* const argv[]) {
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
-  std::cout << "Statistics XXX" << std::endl;
-  output << AData::header() << "\n";
+  GenStats::StdStats sn, sc, sE, scE;
+  for (const auto& d : ad) {
+    sn += d.n; sc += d.c; sE += d.E;
+    if (not FP::isnan(d.cE)) scE += d.cE;
+  }
   FloatingPoint::fullprec_float80(output);
+  std::cout << "n: " << sn << "\n";
+  std::cout << "c: " << sc << "\n";
+  std::cout << "E: " << sE << "\n";
+  std::cout << "cE: " << scE << std::endl;
+
+  output << AData::header() << "\n";
   Environment::out_line(output, ad, "\n");
 }
