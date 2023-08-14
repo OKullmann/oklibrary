@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -85,14 +85,13 @@ int main(const int argc, const char* const argv[]) {
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
-  GenStats::StdStats sn, sc, sE, scE;
+  GenStats::StdStatsStore sn, sc, sE, scE;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sE += d.E;
     if (not FP::isnan(d.cE)) scE += d.cE;
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
-  FloatingPoint::fullprec_float80(std::cout);
   std::cout << "E: " << sE << "\n";
   std::cout << "cE: " << scE << std::endl;
 
