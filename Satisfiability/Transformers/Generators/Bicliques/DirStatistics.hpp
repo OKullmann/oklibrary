@@ -191,14 +191,21 @@ namespace DirStatistics {
     FP::float80 cE;
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
                            E(getu(a.dir, "E")), cE(getf(a.dir, "cE")) {}
-    static std::string get(const std::filesystem::path& dir, const std::string& s) {
-      Environment::get_content(dir / s);
+    static std::pair<std::string, bool>
+    get(const std::filesystem::path& dir, const std::string& s) {
+      const auto p = dir / s;
+      if (not std::filesystem::is_regular_file(p)) return {};
+      return {Environment::get_content(dir / s), true};
     }
     static count_t getu(const std::filesystem::path& dir, const std::string& s) {
-      return FP::to_UInt(get(dir, s));
+      const auto [res, status] = get(dir, s);
+      assert(status);
+      return FP::to_UInt(res);
     }
-    static count_t getf(const std::filesystem::path& dir, const std::string& s) {
-      return FP::to_float80(get(dir, s));
+    static FP::float80 getf(const std::filesystem::path& dir, const std::string& s) {
+      const auto [res, status] = get(dir, s);
+      if (not status) return FP::NaN;
+      else return FP::to_float80(res);
     }
 
   };
