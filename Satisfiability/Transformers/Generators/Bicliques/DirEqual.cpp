@@ -19,6 +19,7 @@ License, or any later version. */
 #include <array>
 #include <map>
 #include <set>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -27,8 +28,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "13.8.2023",
+        "0.2.3",
+        "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -43,8 +44,12 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " dirname\n\n"
-    " computes file-equal cnf's for a QBF2BCC-like corpus (in dirname).\n\n"
+         << " dirname [DEL]\n\n"
+    " dirname        : a string\n"
+    " DEL            : a string; if present, duplications are removed\n\n"
+
+    " computes file-equal cnf's for a QBF2BCC-like corpus (in dirname):\n\n"
+    "  - DEL is the filename for logging of removal.\n\n"
 ;
     return true;
   }
@@ -56,14 +61,16 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 2) {
+  if (argc != 2 and argc != 3) {
     std::cerr << error <<
-      "Exactly one argument (dirname)"
+      "Exactly one or two arguments (dirname, [del-logging])"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
   const std::string dirname = argv[1];
+  const bool with_removal = argc == 3;
+
   auto [A, ignored] = all_adir(dirname);
   const count_t Aorig = A.size();
   std::cout << Aorig << " " << ignored << "\n";
@@ -133,6 +140,27 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "\n"; ++i;
   }
   std::cout << "\n" << equals.size() << " " << reduced << " "
-            << Aorig - reduced << "\n";
+            << Aorig - reduced << std::endl;
   assert(A.size() == reduced + equals.size());
+
+  if (with_removal) {
+    const std::string loggingname = argv[2];
+    std::ofstream logging(loggingname);
+    if (not logging) {
+      std::cerr << error <<
+        "Can not open logging-file " << loggingname << ".\n";
+      return int(Error::logging_file);
+    }
+    std::vector<std::filesystem::path> parentdirs;
+    for (const auto& S : equals) {
+      assert(S.size() >= 2);
+      for (auto it = ++S.begin(); it != S.end(); ++it) {
+        const auto path = A[*it].dir;
+        logging << path << "\n";
+        parentdirs.push_back(path.parent_path());
+        [[maybe_unused]] const bool removed = std::filesystem::remove(path);
+        assert(removed);
+      }
+    }
+  }
 }

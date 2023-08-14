@@ -38,6 +38,7 @@ namespace DirStatistics {
     missing_parameters = 1,
     input_directory = 2,
     output_file = 3,
+    logging_file = 4,
     hash_collision = 11,
   };
 
