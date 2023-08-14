@@ -20,6 +20,7 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumTypes.hpp>
