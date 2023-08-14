@@ -1970,6 +1970,11 @@ QBFLIB> DirEcg QBF2BCC
 Continuing with Tentrup (instance 7055) on server2:
 $ threads=120 time DirEbccom QBF2BCC
 7055
+aborted after 10h wallclock-time.
+QBFLIB> echo -n "NaN" > QBF2BCC/Tentrup/amba/amba5f17y2Esat.B/A_49_52905_1-7055.d/cE
+Restarted:
+$ threads=120 time DirEbccom QBF2BCC
+7056
 XXX
 
 
