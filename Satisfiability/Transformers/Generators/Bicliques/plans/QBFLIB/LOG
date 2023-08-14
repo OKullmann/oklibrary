@@ -1949,7 +1949,29 @@ user    4294m12.811s
 sys     0m6.488s
 QBFLIB> threads=80 time DirGraphSizes QBF2BCC/Tentrup/
  7045 7046 7047 7048 7049 7050 7051 7052 7053 7054
-XXX for instance 7054 51h wallclock-time spent yet.
+aborted after 73h wallclock-time (without
+any thread finishing):
+4683495.74user 61.09system 90:37:14elapsed 1435%CPU (0avgtext+0avgdata 3536956maxresident)k
+0inputs+1840outputs (0major+9615109minor)pagefaults 0swaps
+QBFLIB> find QBF2BCC -name "*-7054.d"
+Coding these "missing by design"-values with "NaN":
+QBF2BCC/Tentrup/amba/amba5f17n2Esat.B/A_49_53333_1-7054.d
+QBFLIB> echo -n "NaN" > QBF2BCC/Tentrup/amba/amba5f17n2Esat.B/A_49_53333_1-7054.d/cE
+Number of edges in conflict-graph:
+QBFLIB> cat QBF2BCC/Tentrup/amba/amba5f17n2Esat.B/A_49_53333_1-7054.d/cnf | CNF2cg X
+53333 96263800
+(so the size of the conflict-graph itself is not the problem).
+
+Addition 14.8.2023: Now computing all E-values (number of edges in
+conflict-graphs):
+QBFLIB> DirEcg QBF2BCC
+1142 done
+
+Continuing with Tentrup (instance 7055) on server2:
+$ threads=120 time DirEbccom QBF2BCC
+7055
+XXX
+
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
 697 done
@@ -2019,6 +2041,9 @@ $ time cat QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cnf | CNF2cg "
 real    0m1.972s
 user    0m1.966s
 sys     0m0.008s
+Marking as "non-computable":
+QBFLIB> echo -n "NaN" > QBF2BCC/Pan/Qshifter/qshifter_7.B/A_135_32768_1-5989.d/cE
+
 
 The final instance running on server3, using 640GB residual memory:
 $ time cat QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cnf | CNFstats
@@ -2045,6 +2070,9 @@ $ time cat QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cnf | CNF2cg 
 real    0m34.653s
 user    0m34.625s
 sys     0m0.022s
+Marking as "non-computable":
+QBFLIB> echo -n "NaN" > QBF2BCC/Pan/Qshifter/qshifter_8.B/A_264_131072_1-5990.d/cE
+
 
 Remark: For these large graphs, Graph2BCcompGraph should be replaced by
 CNF2BCcompGraph (which doesn't output the conflict-graph and reads it
@@ -2115,3 +2143,18 @@ QBFLIB> tail Equals
 1131 5376 3514
 
 So after reduction the new database would have 3514 instances.
+
+
+14.8.2023
+
+Before removing repeated instances, cleaning up (directory Tentrup has no
+repetitions):
+
+First getting the current snapshot:
+QBFLIB> time DirExtract QBF2BCC
+Output: "QBF2BCC.R"
+real    2m40.939s
+user    1m20.148s
+sys     1m27.390s
+
+Remark: A C++-program is needed here (takes too long).
