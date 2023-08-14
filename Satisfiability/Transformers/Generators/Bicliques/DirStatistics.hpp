@@ -36,6 +36,8 @@ namespace DirStatistics {
 
   enum class Error {
     missing_parameters = 1,
+    input_directory = 2,
+    output_file = 3,
     hash_collision = 11,
   };
 
@@ -169,6 +171,17 @@ namespace DirStatistics {
       }
     }
   };
+
+
+  // Taking the name of the directory dir, and appending .R :
+  std::string output_filename(const std::filesystem::path& dir) {
+    if (dir.empty()) return {};
+    auto it = --dir.end();
+    if (it->empty())
+      if (it == dir.begin()) return {};
+      else -- it;
+    return it->string() + ".R";
+  }
 
 }
 
