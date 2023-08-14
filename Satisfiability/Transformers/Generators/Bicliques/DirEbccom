@@ -30,11 +30,10 @@ set -o nounset
 
 program="DirEbccom"
 errorm="ERROR[${program}]:"
-version="0.1.5"
+version="0.1.6"
 
 base_dir="$1"
 
-: ${transprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/CNF2cg}
 : ${graphprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph}
 : ${threads:=20}
 
@@ -49,7 +48,7 @@ for dir in ${base_dir}/**/A_*; do
   index="$(cat ${dir}/i)"
   echo -n " ${index}"
 
-  result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com ${threads} X)"
+  result="$(cat ${dir}/cnf | ${graphprog} -trans,-com ${threads} X)"
   result="${result#\# *}"
   cE="${result#* }"
 
