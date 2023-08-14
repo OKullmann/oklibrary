@@ -28,7 +28,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
+        "0.2.4",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -158,8 +158,9 @@ int main(const int argc, const char* const argv[]) {
         const auto path = A[*it].dir;
         logging << path << "\n";
         parentdirs.push_back(path.parent_path());
-        [[maybe_unused]] const bool removed = std::filesystem::remove(path);
-        assert(removed);
+        [[maybe_unused]] const auto removed =
+          std::filesystem::remove_all(path);
+        assert(removed >= 1 + 4); // dir + i,p,n,c
       }
     }
   }
