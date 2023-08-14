@@ -187,11 +187,18 @@ namespace DirStatistics {
     static std::string header() noexcept { return " i p n c E cE"; }
     count_t i;
     std::string p;
-    count_t n, c, E, cE;
+    count_t n, c, E;
+    FP::float80 cE;
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
-                           E(get(a.dir, "E")), cE(get(a.dir, "cE")) {}
-    static count_t get(const std::filesystem::path& dir, const std::string& s) {
-      return FP::to_UInt(Environment::get_content(dir / s));
+                           E(getu(a.dir, "E")), cE(getf(a.dir, "cE")) {}
+    static std::string get(const std::filesystem::path& dir, const std::string& s) {
+      Environment::get_content(dir / s);
+    }
+    static count_t getu(const std::filesystem::path& dir, const std::string& s) {
+      return FP::to_UInt(get(dir, s));
+    }
+    static count_t getf(const std::filesystem::path& dir, const std::string& s) {
+      return FP::to_float80(get(dir, s));
     }
 
   };
