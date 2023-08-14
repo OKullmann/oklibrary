@@ -31,7 +31,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -77,7 +77,7 @@ int main(const int argc, const char* const argv[]) {
   std::ofstream output(outputname);
   if (not output) {
     std::cerr << error <<
-      "Can not open outputfile " << outputname << ".\n";
+      "Can not open output-file " << outputname << ".\n";
     return int(Error::output_file);
   }
   std::cout << "\"" << outputname << "\"" << std::endl;
