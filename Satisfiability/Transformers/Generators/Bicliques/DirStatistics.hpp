@@ -188,7 +188,7 @@ namespace DirStatistics {
     count_t i;
     std::string p;
     count_t n, c, E;
-    FP::float80 cE;
+    FP::float80 cE; // value -1 encodes NA
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
                            E(getu(a.dir, "E")), cE(getf(a.dir, "cE")) {}
     static std::pair<std::string, bool>
@@ -197,20 +197,25 @@ namespace DirStatistics {
       if (not std::filesystem::is_regular_file(p)) return {};
       return {Environment::get_content(dir / s), true};
     }
-    static count_t getu(const std::filesystem::path& dir, const std::string& s) {
+    static count_t getu(const std::filesystem::path& dir,
+                        const std::string& s) {
       const auto [res, status] = get(dir, s);
       assert(status);
       return FP::to_UInt(res);
     }
-    static FP::float80 getf(const std::filesystem::path& dir, const std::string& s) {
+    static FP::float80 getf(const std::filesystem::path& dir,
+                            const std::string& s) {
       const auto [res, status] = get(dir, s);
-      if (not status) return FP::NaN;
+      if (not status) return -1;
       else return FP::to_float80(res);
     }
 
   };
   std::ostream& operator <<(std::ostream& out, const AData& a) {
-    return out << a.i << " " << a.p << " " << a.n << " " << a.c << " " << a.E << " " << a.cE;
+    out << a.i << " " << a.p << " " << a.n << " " << a.c << " "
+        << a.E << " ";
+    if (a.ce == -1) return out << "NA";
+    else return out << a.cE;
   }
 
 }

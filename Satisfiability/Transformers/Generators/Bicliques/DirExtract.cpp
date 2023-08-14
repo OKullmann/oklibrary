@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -88,7 +88,7 @@ int main(const int argc, const char* const argv[]) {
   GenStats::StdStatsStore sn, sc, sE, scE;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sE += d.E;
-    if (not FP::isnan(d.cE)) scE += d.cE;
+    if (d.ce != -1 and not FP::isnan(d.cE)) scE += d.cE;
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
