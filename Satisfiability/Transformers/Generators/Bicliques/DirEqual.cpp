@@ -20,6 +20,7 @@ License, or any later version. */
 #include <map>
 #include <set>
 #include <fstream>
+#include <algorithm>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -28,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
+        "0.2.5",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -162,6 +163,29 @@ int main(const int argc, const char* const argv[]) {
           std::filesystem::remove_all(path);
         assert(removed >= 1 + 4); // dir + i,p,n,c
       }
+    }
+    bool first = true;
+    for (const auto& path : parentdirs) {
+      auto members = all_members(path, 3);
+      const auto size = members.size();
+      if (size <= 1) {
+        std::cerr << error <<
+          "Irregular instance-dir " << path << " with only " <<
+          size << " members.\n";
+        return int(Error::bad_instdir);
+      }
+      if (size >= 3) continue;
+      std::ranges::sort(members);
+      if (members != std::vector<std::string>{".qi", ".stats"}) {
+        std::cerr << error <<
+          "Instance-dir " << path << " has unexpected members \"" <<
+          members[0] << "\", \"" << members[1] << "\".\n";
+        return int(Error::bad_instdir);
+      }
+      if (first) {first = false; logging << "\n";}
+      logging << path << "\n";
+      [[maybe_unused]] const auto removed = std::filesystem::remove_all(path);
+      assert(removed == 3);
     }
   }
 }

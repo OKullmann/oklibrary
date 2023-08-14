@@ -34,11 +34,29 @@ namespace DirStatistics {
   namespace FP = FloatingPoint;
   namespace DA = Disassemble;
 
+  typedef FP::UInt_t count_t;
+
+  std::vector<std::string> all_members(const std::filesystem::path& dir,
+                                       count_t cap) {
+    assert(std::filesystem::is_directory(dir));
+    std::vector<std::string> res;
+    if (cap == 0)
+      for (const auto& e : std::filesystem::directory_iterator(dir))
+        res.push_back(e.path().filename().string());
+    else
+      for (const auto& e : std::filesystem::directory_iterator(dir)) {
+        res.push_back(e.path().filename().string());
+        if (--cap == 0) break;
+      }
+    return res;
+  }
+
   enum class Error {
     missing_parameters = 1,
     input_directory = 2,
     output_file = 3,
     logging_file = 4,
+    bad_instdir = 5,
     hash_collision = 11,
   };
 
@@ -113,7 +131,6 @@ namespace DirStatistics {
     return res;
   }
 
-  typedef FP::UInt_t count_t;
   struct adir {
     const std::filesystem::path dir;
     const count_t i=0, n=0, c=0;
