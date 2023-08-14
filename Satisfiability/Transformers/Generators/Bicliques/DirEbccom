@@ -30,7 +30,7 @@ set -o nounset
 
 program="DirEbccom"
 errorm="ERROR[${program}]:"
-version="0.1.4"
+version="0.1.5"
 
 base_dir="$1"
 
@@ -49,7 +49,7 @@ for dir in ${base_dir}/**/A_*; do
   index="$(cat ${dir}/i)"
   echo -n " ${index}"
 
-  result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com ${threads})"
+  result="$(cat ${dir}/cnf | ${transprog} | ${graphprog} -trans,-com ${threads} X)"
   result="${result#\# *}"
   cE="${result#* }"
 

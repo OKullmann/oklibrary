@@ -56,6 +56,11 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans ""
 real	0m6.453s
 user	0m6.467s
 sys	0m0.019s
+Directly using CNF-input:
+Bicliques> time cat data/A_131_3964_1 | ./Graph2BCcompGraph -trans "" X
+real	0m5.842s
+user	0m5.829s
+sys	0m0.016s
 
 Using 4 threads:
 Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans 4
@@ -66,10 +71,19 @@ Bicliques> time cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans 4
 real	0m2.326s
 user	0m7.287s
 sys	0m0.026s
+Directly using CNF-input:
+Bicliques> time cat data/A_131_3964_1 | ./Graph2BCcompGraph -trans 4 X
+real	0m1.551s
+user	0m6.136s
+sys	0m0.004s
+
 
 Now only showing the number of edges in the conflict-graph
 and the derived bc-comp-graph:
 Bicliques> cat data/A_131_3964_1 | ./CNF2cg | ./Graph2BCcompGraph -trans,-com ""
+# 157484 2362378400
+Directly using CNF-input:
+Bicliques> cat data/A_131_3964_1 | ./Graph2BCcompGraph -trans,-com "" X
 # 157484 2362378400
 
 
@@ -84,14 +98,16 @@ See plans/general.txt.
 #include "Graphs.hpp"
 #include "Bicliques2SAT.hpp"
 #include "Bicliques.hpp"
+#include "ConflictGraphs.hpp"
+#include "DimacsTools.hpp"
 
 #include "BCC2SAT.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "10.8.2023",
+        "0.4.2",
+        "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
@@ -106,11 +122,12 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " format-options separator\n\n"
+         << " format-options separator [input-option]\n\n"
     " format-options : " << Environment::WRP<DC>{} << "\n"
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n"
-    " separator      : a string (possibly empty)\n\n"
+    " separator      : a string (possibly empty)\n"
+    " input-option   : if present, CNF-input is processed\n\n"
     " reads a graph from standard input, and prints the biclique-compatibility graph to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - The empty string as separator turns off the vertex-naming.\n"
@@ -127,9 +144,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 3) {
+  if (argc != 3 and argc != 4) {
     std::cerr << error <<
-      "Exactly two arguments (form-opt, sep)"
+      "Exactly two or three arguments (form-opt, sep, [input-opt])"
       " needed, but " << argc-1 << " provided.\n";
     return 1;
   }
@@ -138,8 +155,10 @@ int main(const int argc, const char* const argv[]) {
     Environment::translate<format_options_t>()(argv[1], ',');
   const auto [comments, parameters, translation] = formopt;
   const std::string sep = argv[2];
+  const bool graph_input = argc == 3;
 
-  const auto G = make_AdjVecUInt(std::cin, Graphs::GT::und);
+  const auto G = graph_input ? make_AdjVecUInt(std::cin, Graphs::GT::und) :
+    ConflictGraphs::conflictgraph(DimacsTools::read_strict_Dimacs(std::cin));
   BCC2SAT::commandline_output(formopt, "# ", std::cout, argc, argv);
   if (comments == DC::with)
     std::cout << "# input " << G.n() << " " << G.m() << std::endl;

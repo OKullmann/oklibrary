@@ -66,6 +66,12 @@ This is a bash-script, transforming the directory QBF2BCC:
 ---
 
 -5. Graph2BCcompGraph.cpp
+   - DONE (quick fix)
+     We need a form which directly reads a CNF:
+   - The current handling of CNFs, via CNF2cg, is very wasteful:
+    - The graph is quite quickly produced by CNF2cg, but then output,
+      re-read as a string-graph (which takes also much more memory),
+      and then transformed (generically) into a graph.
 
    - Write application tests.
 
