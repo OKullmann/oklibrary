@@ -68,6 +68,7 @@ License, or any later version. */
     - function median<OUT, V>(V v)
     - class StatsStore<IN, OUT> (as BasicStats, but keeps the data, and
       providing the median)
+    - typedef StdStatsStore for StatsStore with 2xfloat80
 
 
     - class FreqStats<IN, OUT> (also keeps the data and providing median, now
@@ -684,6 +685,13 @@ namespace GenStats {
       }
     }
 
+    friend std::ostream& operator <<(std::ostream& out, StatsStore s) {
+      const auto sd = s.sd_corrected();
+      const auto med = s.median();
+      return out << s.N() << " : " << s.min() << " " << s.amean() << " "
+                 << s.max() << "; " << sd << " " << med;
+    }
+
   private :
 
     void camean() const noexcept {
@@ -708,6 +716,9 @@ namespace GenStats {
     mutable output_t am = 0;
     mutable output_t sqd = 0;
   };
+
+  using StdStatsStore =
+    StatsStore<FloatingPoint::float80, FloatingPoint::float80>;
 
 
   template <typename IN, typename OUT>
