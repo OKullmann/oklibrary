@@ -183,6 +183,18 @@ namespace DirStatistics {
     return it->string() + ".R";
   }
 
+  struct AData {
+    static std::string header() noexcept { return " i p n c E cE"; }
+    count_t i;
+    std::string p;
+    count_t n, c, E, cE;
+    AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
+                           E(get(a.dir, "E")), cE(get(a.dir, "cE")) {}
+    static count_t get(const std::filesystem::path& dir, const std::string& s) {
+      return FP::to_UInt(Environment::get_content(dir / s));
+    }
+  };
+
 }
 
 #endif

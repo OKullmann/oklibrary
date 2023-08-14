@@ -27,7 +27,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -80,5 +80,7 @@ int main(const int argc, const char* const argv[]) {
 
   const auto [A, ignored] = all_adir(dirname);
   std::cout << A.size() << " " << ignored << "\n";
-
+  std::vector<AData> ad; ad.reserve(A.size());
+  for (const auto& [i,a] : A) ad.emplace_back(a);
+  
 }
