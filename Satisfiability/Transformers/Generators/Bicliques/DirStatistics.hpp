@@ -214,7 +214,7 @@ namespace DirStatistics {
   std::ostream& operator <<(std::ostream& out, const AData& a) {
     out << a.i << " " << a.p << " " << a.n << " " << a.c << " "
         << a.E << " ";
-    if (a.ce == -1) return out << "NA";
+    if (a.cE == -1) return out << "NA";
     else return out << a.cE;
   }
 

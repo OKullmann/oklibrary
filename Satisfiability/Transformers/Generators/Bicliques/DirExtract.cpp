@@ -6,7 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Computing the sizes of conflict-graph and derived biclique-compatibility graph
+  Computing the sizes of conflict-graph and derived
+  biclique-compatibility graph
 
   Extracting:
   i
@@ -14,7 +15,7 @@ License, or any later version. */
   n
   c
   E
-  cE (NA, if not existing)
+  cE (NA, if not existing, and nan if declared "non-computable")
 
 */
 
@@ -29,7 +30,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
