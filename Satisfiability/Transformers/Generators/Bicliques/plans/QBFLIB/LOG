@@ -2157,7 +2157,8 @@ real    2m40.939s
 user    1m20.148s
 sys     1m27.390s
 
-Remark: A C++-program is needed here (takes too long).
+The old script DirExtract has been replaced be a much faster C++ program
+(see below).
 
 
 14.8.2023
