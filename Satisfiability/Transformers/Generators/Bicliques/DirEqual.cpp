@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.8",
+        "0.2.9",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -152,13 +152,13 @@ int main(const int argc, const char* const argv[]) {
         "Can not open logging-file " << loggingname << ".\n";
       return int(Error::logging_file);
     }
-    std::vector<std::filesystem::path> parentdirs;
+    std::set<std::filesystem::path> parentdirs;
     for (const auto& S : equals) {
       assert(S.size() >= 2);
       for (auto it = ++S.begin(); it != S.end(); ++it) {
         const auto path = A[*it].dir;
         logging << path << "\n";
-        parentdirs.push_back(path.parent_path());
+        parentdirs.insert(path.parent_path());
         [[maybe_unused]] const auto removed =
           std::filesystem::remove_all(path);
         assert(removed >= 1 + 4); // dir + i,p,n,c
