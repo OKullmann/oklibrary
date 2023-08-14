@@ -78,7 +78,7 @@ int main(const int argc, const char* const argv[]) {
   }
   std::cout << "\"" << outputname << "\"" << std::endl;
 
-  auto [A, ignored] = all_adir(dirname);
+  const auto [A, ignored] = all_adir(dirname);
   std::cout << A.size() << " " << ignored << "\n";
 
 }
