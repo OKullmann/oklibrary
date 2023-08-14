@@ -110,7 +110,7 @@ namespace DirStatistics {
       for (const auto& dir_entry : std::filesystem::directory_iterator(p))
         if (std::filesystem::is_directory(dir_entry) and
             not dir_entry.path().filename().string().starts_with(".")) {
-          assert(dir_entry.path().filename().string().starts_with("A_"));
+          assert(is_Aname(dir_entry.path().filename()));
           F(dir_entry.path());
         }
     }
