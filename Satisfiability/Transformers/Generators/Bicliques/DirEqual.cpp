@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.5",
+        "0.2.6",
         "14.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -185,7 +185,7 @@ int main(const int argc, const char* const argv[]) {
       if (first) {first = false; logging << "\n";}
       logging << path << "\n";
       [[maybe_unused]] const auto removed = std::filesystem::remove_all(path);
-      assert(removed == 3);
+      assert(removed == 1 + 2 + 4); // dir + qi,stats + 4 members of stats
     }
     logging.close();
   }
