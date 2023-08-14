@@ -193,7 +193,11 @@ namespace DirStatistics {
     static count_t get(const std::filesystem::path& dir, const std::string& s) {
       return FP::to_UInt(Environment::get_content(dir / s));
     }
+
   };
+  std::ostream& operator <<(std::ostream& out, const AData& a) {
+      return out << a.i << " " << a.p << " " << a.n << " " << a.c << " " << a.E << " " << a.cE;
+    }
 
 }
 
