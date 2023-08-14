@@ -187,5 +187,6 @@ int main(const int argc, const char* const argv[]) {
       [[maybe_unused]] const auto removed = std::filesystem::remove_all(path);
       assert(removed == 3);
     }
+    logging.close();
   }
 }
