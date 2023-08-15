@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.7.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,10 +12,16 @@ License, or any later version. */
   Namespace ParSysCalls, abbreviated "PSC".
 
   The main function is
-    run_parallel(A, T),
+    run_parallel(A, T) -> std::vector<res_t>
   where A is a vector of commandline-calls, and T is the number of threads.
   Returned is a vector the same size as A, with the results of the
-  system-calls.
+  system-calls:
+   - res_t = std::optional<SystemCalls::EReturnValue>
+   - a value r of res_t is false (that is, not set) iff the system-call
+     has not been performed (yet) --- if the system-call has been performed,
+     then also in any error-case the value is true, and via r.value()
+     the EReturnValue (containing ReturnValue rv and strings out and err)
+     is obtained.
 
 */
 
