@@ -204,7 +204,28 @@
 
 # Old values:
 # MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.280105,5,-1.1,8,-3.397332,-8,-6" "" ""
-# running on server XXX
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  8   +count dom enu newv   asc  relpr   1      432 22160023.220 11280800574  0 62137569 39983704  5.194233e+01  4.370785e+01
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#1479.2  0.96656   9.4764   120.67   203.63   2.2567     0   6.2067  0.52466  14.945
+#  1109        0        0   103.79    87.63        1     0  0.18603        0       0
+#  1896        5   41.439   125.53     1355       13     0   73.115   8.9917      27
+#97.564  0.41444   2.8562   1.1837   83.943  0.85202     0   2.9962  0.59607  2.5887
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds        solc      tr  pelvals      dp
+#1397.5   1.5733   4.8064   23.761   94.145   1.4871  1.0804e-05  3.1759   3.7055  16.389
+#   702   1.0118        0        0  0.12953        1           0       0  0.12121       7
+#  1695        6   716.67   123.52   1434.4       14           2  63.543    19.66      28
+#101.74  0.36879   6.9748   21.545   98.936  0.84247   0.0044054  3.3548   2.0458  2.3657
+#      estlvs       uestlvs
+#1.079162e+11  7.642391e+10
+#1.173458e+04  1.728000e+04
+#2.077227e+16  9.287605e+14
+#6.965208e+12  1.313636e+12
+#   dm0        w  ltausp        minp    meanp     maxp       sdd       tb
+#8.9889   2.8048  58.766     0.31036  0.38993  0.47951  0.076281   3.8162
+#     0        2  2.1182  2.2663e-06  0.14286  0.17142         0  0.20826
+#   248        7  3371.9         0.5      0.5  0.99645   0.49645   9.5186
+#11.317  0.89462  96.951     0.13286  0.10819  0.12236  0.065246  0.75465
 # New values:
 # MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.310805,4.77,-1.18,7.83,-2.787332,-8.0126,-5.9782" "" ""
 #   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
@@ -230,7 +251,7 @@
 #   248       7  2307.6        0.5      0.5  0.99745   0.49745     10.1
 #11.342  0.8952  80.922    0.13325  0.10824  0.12137   0.06453  0.70672
 # real    20710m6.368s user    324273m9.337s sys     955m32.305s
-
+# An improvement.
 
 
 squares A B C AB AC BC
