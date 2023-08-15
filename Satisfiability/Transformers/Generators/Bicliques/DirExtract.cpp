@@ -31,8 +31,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
-        "14.8.2023",
+        "0.2.0",
+        "15.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -88,14 +88,19 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
   GenStats::StdStatsStore sn, sc, sE, scE;
+  count_t cE_NA = 0, cE_nan = 0;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sE += d.E;
-    if (d.cE != -1 and not FP::isnan(d.cE)) scE += d.cE;
+    const auto cE = d.cE;
+    if (cE == -1) ++cE_NA;
+    else if (FP::isnan(cE)) ++cE_nan;
+    else scE += cE;
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
   std::cout << "E: " << sE << "\n";
-  std::cout << "cE: " << scE << std::endl;
+  std::cout << "cE: " << scE << "\n  NA=" << cE_NA
+            << " nan=" << cE_nan << std::endl;
 
   FloatingPoint::fullprec_float80(output);
   output << AData::header() << "\n";
