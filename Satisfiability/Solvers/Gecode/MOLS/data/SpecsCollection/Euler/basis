@@ -63,6 +63,9 @@
 # TAU_basis_6_wdL_sd>
 # same weights as for TAU_basis_6_wdL_avepsd.
 
+# New approach (version >= 0.99:
+# XXX NO XXX
+
 
 
 # laMols with newvars:
