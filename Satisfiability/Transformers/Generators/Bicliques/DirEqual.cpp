@@ -29,8 +29,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.9",
-        "14.8.2023",
+        "0.3.0",
+        "15.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -155,13 +155,15 @@ int main(const int argc, const char* const argv[]) {
     std::set<std::filesystem::path> parentdirs;
     for (const auto& S : equals) {
       assert(S.size() >= 2);
-      for (auto it = ++S.begin(); it != S.end(); ++it) {
+      auto it = S.begin();
+      logging << A[*it].dir << "\n";
+      for (++it; it != S.end(); ++it) {
         const auto path = A[*it].dir;
-        logging << path << "\n";
+        logging << " " << path << "\n";
         parentdirs.insert(path.parent_path());
         [[maybe_unused]] const auto removed =
           std::filesystem::remove_all(path);
-        assert(removed >= 1 + 4); // dir + i,p,n,c
+        assert(removed >= 1 + 5); // dir + i,p,n,c,E
       }
     }
     bool first = true;
