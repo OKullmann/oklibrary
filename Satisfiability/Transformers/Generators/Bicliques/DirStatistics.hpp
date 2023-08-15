@@ -57,6 +57,7 @@ namespace DirStatistics {
     output_file = 3,
     logging_file = 4,
     bad_instdir = 5,
+    cnf_file = 6,
     hash_collision = 11,
   };
 
