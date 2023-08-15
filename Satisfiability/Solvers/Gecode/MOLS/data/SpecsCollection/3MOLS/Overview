@@ -140,7 +140,8 @@ N=8:
  - laMols with newvars:
   - optimisation on tau-probs: 37'066'778
      total time 26'967'073.467
-     trying to improve optimisation: XXX
+     trying to improve optimisation: 35'414'940
+      total time 19'456'389.329
     - optimisation on ave+sd:  ?
   - optimisation on uni-probs: ?
     - optimisation on ave+sd:  ?

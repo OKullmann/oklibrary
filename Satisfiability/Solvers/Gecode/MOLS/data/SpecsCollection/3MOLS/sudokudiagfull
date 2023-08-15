@@ -206,8 +206,30 @@
 # MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.280105,5,-1.1,8,-3.397332,-8,-6" "" ""
 # running on server XXX
 # New values:
-# MOLS$ time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.310805,4.77,-1.18,7.83,-2.787332,-8.0126,-5.9782" "" ""
-# running on server XXX
+# MOLS> time ./laMols 8 data/SpecsCollection/3MOLS/sudokudiagfull "" +count dom enu newv "" "" 1 16 "-0.310805,4.77,-1.18,7.83,-2.787332,-8.0126,-5.9782" "" ""
+#   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  8   +count dom enu newv   asc  relpr   1      432 19456389.329 10179562991  0 55115623 35414940  4.169057e+01  3.496882e+01
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc       tr  pelvals      dp
+#1481.1  0.95605    9.434   120.65   203.16   2.2501     0   6.1296  0.52784    14.8
+#  1121        0        0   103.79   87.939        1     0  0.52279        0       0
+#  1896        5   40.872   125.53     1355       13     0   62.757   9.4776      27
+#98.753  0.40781   2.7666   1.1884   84.068  0.84958     0   2.9313  0.60239  2.5613
+#   mu0    qfppc  pprunes  pmprune  pprobes  rounds        solc      tr  pelvals      dp
+#1397.4   1.5702   4.8703   23.579   94.099  1.4835  1.2198e-05  3.1428    3.711  16.264
+#   672    1.012        0        0  0.12953       1           0       0  0.12392       7
+#  1695        6      600   123.72   1373.3      13           2  60.882    19.66      28
+#103.33  0.36595   7.1326   21.279   98.881  0.8409   0.0045711  3.3049   2.0643  2.3274
+#      estlvs       uestlvs
+#6.159026e+10  4.334146e+10
+#1.154593e+04  1.728000e+04
+#5.703194e+15  2.089711e+14
+#2.576993e+12  5.094576e+11
+#   dm0       w  ltausp       minp    meanp     maxp       sdd       tb
+#9.0386  2.7977  48.539    0.31217  0.39097   0.4795  0.075428   3.7765
+#     0       2  2.0805  2.073e-06  0.14286  0.17182         0   0.5412
+#   248       7  2307.6        0.5      0.5  0.99745   0.49745     10.1
+#11.342  0.8952  80.922    0.13325  0.10824  0.12137   0.06453  0.70672
+# real    20710m6.368s user    324273m9.337s sys     955m32.305s
 
 
 
