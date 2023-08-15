@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.7.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,7 +29,8 @@ BUGS:
 
 TODOS:
 
--1. Better error-messages when there is an error with the laMols-call.
+-1. DONE
+    Better error-messages when there is an error with the laMols-call.
 
 0. The handling of "tprob" versus "rand" is somewhat fragile.
 
@@ -43,6 +44,8 @@ TODOS:
 #include <string>
 #include <array>
 
+#include <cassert>
+
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
 #include <SystemSpecifics/ParSysCalls.hpp>
@@ -55,8 +58,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "17.8.2022",
+        "0.8.1",
+        "15.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -217,13 +220,16 @@ int main(const int argc, const char* const argv[]) {
   assert(res.size() == M);
   LB::vec_t results; results.reserve(M);
   for (const auto& r : res) {
-    if (not r) {
+    assert(r);
+    const auto& value = r.value();
+    if (value.rv.s != SystemCalls::ExitStatus::normal or not value.err.empty()) {
       std::cerr << error << "A " << solver_call << "-run resulted in an"
-        " error:\n" << r.value().err << "\n";
+        " error: " << value.rv.s << ", with error-message:\n" << value.err << "\n";
       return 1;
     }
+    assert(not value.out.empty());
     results.push_back(FloatingPoint::to_float80(
-      Environment::remove_leadingtrailing_spaces(r.value().out)));
+      Environment::remove_leadingtrailing_spaces(value.out)));
   }
   const GenStats::StdVFourStats stats(results);
   [[maybe_unused]] const auto oldprec =
