@@ -29,6 +29,8 @@ BUGS:
 
 TODOS:
 
+-1. Better error-messages when there is an error with the laMols-call.
+
 0. The handling of "tprob" versus "rand" is somewhat fragile.
 
 1. More statistics on the distribution
