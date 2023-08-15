@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "15.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -50,7 +50,7 @@ namespace {
     " DEL            : a string; if present, duplications are removed\n\n"
 
     " computes file-equal cnf's for a QBF2BCC-like corpus (in dirname):\n\n"
-    "  - DEL is the filename for logging of removal.\n\n"
+    "  - DELA, DELB are the filenames for logging of removal.\n\n"
 ;
     return true;
   }
@@ -145,28 +145,34 @@ int main(const int argc, const char* const argv[]) {
   assert(A.size() == reduced + equals.size());
 
   if (with_removal) {
-    const std::string loggingname = argv[2];
-    std::ofstream logging(loggingname);
-    if (not logging) {
+    const std::string loggingname0 = argv[2],
+      loggingnameA=loggingname0+"A", loggingnameB=loggingname0+"B";
+    std::ofstream loggingA(loggingnameA), loggingB(loggingnameB);
+    if (not loggingA) {
       std::cerr << error <<
-        "Can not open logging-file " << loggingname << ".\n";
+        "Can not open logging-file " << loggingnameA << ".\n";
+      return int(Error::logging_file);
+    }
+    if (not loggingB) {
+      std::cerr << error <<
+        "Can not open logging-file " << loggingnameB << ".\n";
       return int(Error::logging_file);
     }
     std::set<std::filesystem::path> parentdirs;
     for (const auto& S : equals) {
       assert(S.size() >= 2);
       auto it = S.begin();
-      logging << A[*it].dir << "\n";
+      loggingA << A[*it].dir.string() << "\n";
       for (++it; it != S.end(); ++it) {
         const auto path = A[*it].dir;
-        logging << " " << path << "\n";
+        loggingA << " " << path.string() << "\n";
         parentdirs.insert(path.parent_path());
         [[maybe_unused]] const auto removed =
           std::filesystem::remove_all(path);
         assert(removed >= 1 + 5); // dir + i,p,n,c,E
       }
     }
-    bool first = true;
+    loggingA.close();
     for (const auto& path : parentdirs) {
       auto members = all_members(path, 3);
       const auto size = members.size();
@@ -184,11 +190,10 @@ int main(const int argc, const char* const argv[]) {
           members[0] << "\", \"" << members[1] << "\".\n";
         return int(Error::bad_instdir);
       }
-      if (first) {first = false; logging << "\n";}
-      logging << path << "\n";
+      loggingB << path.string() << "\n";
       [[maybe_unused]] const auto removed = std::filesystem::remove_all(path);
       assert(removed == 1 + 2 + 4); // dir + qi,stats + 4 members of stats
     }
-    logging.close();
+    loggingB.close();
   }
 }
