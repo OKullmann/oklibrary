@@ -60,6 +60,7 @@ namespace DirStatistics {
     cnf_file = 6,
     bad_exceptions = 7,
     col_file = 8,
+    minisat_call = 9,
     hash_collision = 11,
   };
 
