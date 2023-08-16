@@ -223,8 +223,8 @@ namespace {
       " - stop-type    : " << Environment::WRPO<STO>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - to use a string instead of a filename, a leading \"\@" is needed\n"
-      "  - the four algorithmic options can be lists (all combinations)\n"
+      "  - to use a string instead of a filename, a leading \"@\" is needed\n"
+      "  - the four algorithmic options can be lists (all combinations created)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - stop-values are unsigned int; times in seconds\n"
       "  - for sat-solving and enumeration, output goes to file \"" <<
