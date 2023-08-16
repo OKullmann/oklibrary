@@ -26,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "16.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -93,7 +93,7 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& [i,ad] : A) {
     if (exceptions.contains(i)) continue;
     const auto outputpath = ad.dir / bipart_file;
-    if (not std::filesystem::is_regular_file(outputpath)) continue;
+    if (std::filesystem::is_regular_file(outputpath)) continue;
     ++count;
     std::cout << " " << i; std::cout.flush();
     std::ifstream cnf(ad.dir / "cnf");
