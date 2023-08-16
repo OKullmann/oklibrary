@@ -230,7 +230,7 @@ License, or any later version. */
     - minisat_call(SystemCalls::put_cin_t, Lit_filter, string options)
           -> Minisat_return
       does not create a file, but uses a pipe to stdin of minisat.
-      Via DimacsClauseListref_put(F) one can wrapp a DimacsClauseList.
+      Via DimacsClauseListref_put(F) one can wrap a DimacsClauseList.
 
 
 See plans/general.txt.
