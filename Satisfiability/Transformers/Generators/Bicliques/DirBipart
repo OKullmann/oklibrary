@@ -20,7 +20,7 @@ set -o nounset
 
 program="DirBipart"
 errorm="ERROR[${program}]:"
-version="0.0.7"
+version="0.0.8"
 
 base_dir="$1"
 
@@ -36,7 +36,7 @@ for dir in ${base_dir}/**/A_*; do
   echo -n " ${index}"
 
   set +e
-    cat ${dir}/cnf | ${transprog} X | minisat-2.2.0
+    cat ${dir}/cnf | ${transprog} X | minisat-2.2.0 -no-pre > /dev/null
   set -e
   res="$?"
   if [ ${res} = 10 ]; then
