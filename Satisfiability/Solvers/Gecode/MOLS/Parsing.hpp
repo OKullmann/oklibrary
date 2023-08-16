@@ -182,10 +182,15 @@ namespace Parsing {
       const size_t numlines = content.size();
       if (numlines == 0) throw Error("File empty.");
       assert(not content[0].empty());
-      if (content[0][0] != CD::Square::decl_keyword)
-        throw Error("First line, first entry does not contain \"" +
-                    std::string(CD::Square::decl_keyword) + "\", but \"" +
-                    content[0][0] + "\"");
+      if (content[0][0] != CD::Square::decl_keyword) {
+        std::stringstream ss;
+        ss << "First line, first entry of specification does not contain \""
+           << CD::Square::decl_keyword << "\", but \"" << content[0][0]
+           << "\"; the whole line is\n \"";
+        Environment::out_line(ss, content[0]);
+        ss << "\"\n";
+        throw Error(ss.str());
+      }
       Square::is = Environment::indexing_strings(content[0].cbegin()+1,
                                                  content[0].end(), false);
       for (const auto& name : Square::is.first)
