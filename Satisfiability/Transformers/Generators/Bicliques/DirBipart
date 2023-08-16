@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 16.8.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Computing the size of conflict-graph
+
+
+
+# USAGE:
+
+# DirBipart QBF2BCC
+
+
+set -o errexit
+set -o nounset
+
+program="DirBipart"
+errorm="ERROR[${program}]:"
+version="0.0.5"
+
+base_dir="$1"
+
+: ${transprog:=~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Bipart2SAT}
+
+count=0
+found_sat=0
+shopt -s globstar
+for dir in ${base_dir}/**/A_*; do
+  ((++count))
+
+  index="$(cat ${dir}/i)"
+  echo -n " ${index}"
+
+  result="$(cat ${dir}/cnf | ${transprog} X | minisat-2.2.0)"
+  res="$?"
+  if [ ${res} = 10 ]; then
+    ((++found_sat))
+    echo -e "\nSAT: ${dir}/cnf"
+  fi
+
+done
+
+echo
+echo "${count} done"
+echo "${found_sat} SAT"
+
