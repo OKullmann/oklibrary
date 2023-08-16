@@ -26,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "16.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -119,7 +119,7 @@ int main(const int argc, const char* const argv[]) {
     const auto ret_code = code(mres.stats.sr);
     if (ret_code != 0 and ret_code != 1) {
       std::cerr << error <<
-        "minisat-call with return_code " << return_code << ".\n";
+        "minisat-call with return_code " << ret_code << ".\n";
       return int(Error::minisat_call);
     }
     if (ret_code == 1) ++found_sat;
