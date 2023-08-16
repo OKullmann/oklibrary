@@ -110,6 +110,18 @@ namespace FloatingPoint {
   STATIC_ASSERT(touint((P232m1-1) + 0.5000000000000000001L) == P232m1);
   STATIC_ASSERT(touint(pinfinity) == P232m1);
 
+
+  struct ApproxBin {
+    const int exp;
+    const float80 base, low, mid, up; // base * 2^-exp is the original number
+    explicit ApproxBin(const float80 x, const int exp)
+      : exp(exp), base(std::ldexp(x, exp)),
+        low(std::ldexp(std::floor(base), -exp)),
+        mid(std::ldexp(std::roundl(base), -exp)),
+        up(std::ldexp(std::ceil(base), -exp)) {}
+    bool operator ==(const ApproxBin&) const noexcept = default;
+  };
+
 }
 
 #endif
