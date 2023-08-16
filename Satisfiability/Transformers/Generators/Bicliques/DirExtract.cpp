@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "16.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -89,7 +89,7 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
   GenStats::StdStatsStore sn, sc, sE, scE;
-  count_t cE_NA = 0, cE_nan = 0, tcol = 0;
+  count_t cE_NA = 0, cE_nan = 0, tcol = 0, tcol_NA = 0;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sE += d.E;
     const auto cE = d.cE;
@@ -97,13 +97,14 @@ int main(const int argc, const char* const argv[]) {
     else if (FP::isnan(cE)) ++cE_nan;
     else scE += cE;
     if (d.tcol == 1) ++tcol;
+    else if (d.tcol == -1) ++tcol_NA;
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
   std::cout << "E: " << sE << "\n";
   std::cout << "cE: " << scE << "\n  NA=" << cE_NA
             << " nan=" << cE_nan << "\n";
-  std::cout << "tcol: " << tcol << std::endl;
+  std::cout << "tcol: " << tcol << "\n  NA=" << tcol_NA << std::endl;
 
   FloatingPoint::fullprec_float80(output);
   output << AData::header() << "\n";
