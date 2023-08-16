@@ -17,12 +17,13 @@ License, or any later version. */
 
 #include "Graphs.hpp"
 #include "Generators.hpp"
+#include "RandomGraphs.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
-        "6.8.2023",
+        "0.4.4",
+        "16.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -722,6 +723,21 @@ int main(const int argc, const char* const argv[]) {
    assert(edge_index(v_t{{}}, v_t{{}}) == r_t{0});
    assert((edge_index(v_t{{},{0,1},{0,2},{1,3}}, v_t{{},{0,2}}) == r_t{0,2}));
    assert((edge_index(v_t{{},{0,1},{0,2},{1,3}}, v_t{{},{0,1},{0,2},{1,3}}) == r_t{0,1,2,3}));
+  }
+
+  {RandGen::RandGen_t g;
+   for (size_t n = 0; n < 100; ++n) {
+     const auto G = RandomGraphs::independent_edges(n, {1,2}, g);
+     struct FUN {
+       AdjVecUInt::vecedges_t res;
+       void operator()(const AdjVecUInt::edge_t& e) noexcept {
+         res.push_back(e);
+       }
+     };
+     FUN F;
+     G.process_alledges(F);
+     assert(F.res == G.alledges());
+   }
   }
 
 }

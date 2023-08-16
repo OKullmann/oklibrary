@@ -121,6 +121,7 @@ License, or any later version. */
      - neighbours(id) -> const list_t&
      - graph() -> const adjlist_t&
      - alledges() -> vecedges_t
+       process_alledges(FUN& F) (calls F(e) for all edges)
      - allnonedges(bool withloops) -> vecedges_t
 
     - operators:
@@ -643,6 +644,17 @@ namespace Graphs {
         }
       assert(res.size() == m_);
       return res;
+    }
+    template <class FUN>
+    void process_alledges(FUN& F) const noexcept {
+      for (id_t i = 0; i < n_; ++i)
+        if (type_ == GT::dir)
+          for (const id_t v : A[i]) F(edge_t{i,v});
+        else {
+          const auto& L = A[i];
+          const auto first = std::ranges::lower_bound(L, i), end = L.end();
+          for (auto it = first; it != end; ++it) F(edge_t{i,*it});
+        }
     }
     // The complement-edges:
     vecedges_t allnonedges(const bool withloops = false) const noexcept {
