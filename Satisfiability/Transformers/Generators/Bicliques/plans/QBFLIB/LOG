@@ -2166,15 +2166,16 @@ The old script DirExtract has been replaced be a much faster C++ program
 (see below).
 
 
-14.8.2023
+14.8. + 16.8.2023
 
-QBFLIB> time ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirExtract_debug QBF2BCC
+QBFLIB> time DirExtract QBF2BCC
 "QBF2BCC.R"
 8890 0
 n: 8890 : 11 101.582 52521; 1128.96 22
 c: 8890 : 24 2027.51 720110; 15491.5 640
 E: 8890 : 26 1.39023e+06 8.55645e+09; 9.13072e+07 13824
 cE: 7748 : 54 9.44125e+10 5.45626e+14; 6.26979e+12 2.16176e+06
-real    0m0.715s
-user    0m0.456s
-sys     0m0.251s
+  NA=1138 nan=4
+real    0m0.416s
+user    0m0.166s
+sys     0m0.244s
