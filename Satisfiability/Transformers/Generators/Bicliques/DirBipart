@@ -20,7 +20,7 @@ set -o nounset
 
 program="DirBipart"
 errorm="ERROR[${program}]:"
-version="0.0.8"
+version="0.1.0"
 
 base_dir="$1"
 
@@ -37,8 +37,8 @@ for dir in ${base_dir}/**/A_*; do
 
   set +e
     cat ${dir}/cnf | ${transprog} X | minisat-2.2.0 -no-pre > /dev/null
+    res="$?"
   set -e
-  res="$?"
   if [ ${res} = 10 ]; then
     ((++found_sat))
     echo -e "\nSAT: ${dir}/cnf"
