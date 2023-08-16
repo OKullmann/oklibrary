@@ -1974,8 +1974,11 @@ aborted after 10h wallclock-time.
 QBFLIB> echo -n "NaN" > QBF2BCC/Tentrup/amba/amba5f17y2Esat.B/A_49_52905_1-7055.d/cE
 Restarted:
 $ threads=120 time DirEbccom QBF2BCC
-7056
-XXX
+7056 ... 7095
+16.8.2023 interrupted 39:00:32elapsed
+results transferred
+$ threads=120 time DirEbccom Tentrup
+7095 XXX
 
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
@@ -2179,3 +2182,58 @@ cE: 7748 : 54 9.44125e+10 5.45626e+14; 6.26979e+12 2.16176e+06
 real    0m0.416s
 user    0m0.166s
 sys     0m0.244s
+
+
+16.8.2023
+
+QBFLIB> DirExtract QBF2BCC
+n: 8890 : 11 101.582 52521; 1128.96 22
+c: 8890 : 24 2027.51 720110; 15491.5 640
+E: 8890 : 26 1.39023e+06 8.55645e+09; 9.13072e+07 13824
+cE: 7787 : 54 1.51252e+11 5.45626e+14; 6.88775e+12 2.37006e+06
+  NA=1099 nan=4
+
+Now removal of duplications (keeping for now the old indices):
+
+QBFLIB> DirEqual QBF2BCC LOGEQ > LOGEQindices
+QBFLIB> tail LOGEQindices
+1124: 14/2/33/1 14/2/36/1
+1125: 14/2/33/2 14/2/33/3 14/2/36/2 14/2/36/3
+1126: 14/2/37/1 14/2/40/1
+1127: 14/2/38/1 14/2/41/1
+1128: 14/2/39/1 14/2/42/1
+1129: 14/2/79/1 14/2/82/1
+1130: 14/2/80/1 14/2/83/1
+1131: 14/2/81/1 14/2/84/1
+1131 5376 3514
+
+Standardisation of cnf's:
+
+QBFLIB> time ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirStdCNF QBF2BCC
+3514 0
+real    0m5.266s
+user    0m4.850s
+sys     0m0.412s
+
+Again removal of duplications:
+
+QBFLIB> DirEqual QBF2BCC LOGEQ2 > LOGEQ2indices
+QBFLIB> tail LOGEQ2indices
+65: 13/10/33/1 13/10/41/1
+66: 13/10/34/1 13/10/42/1
+67: 13/10/35/1 13/10/43/1
+68: 13/10/36/1 13/10/44/1
+69: 13/10/37/1 13/10/45/1
+70: 13/10/38/1 13/10/46/1
+71: 13/10/39/1 13/10/49/1
+72: 13/10/40/1 13/10/50/1
+72 796 2718
+
+QBFLIB> DirExtract QBF2BCC/
+"QBF2BCC.R"
+2718 0
+n: 2718 : 11 226.364 52521; 2033.75 63.5
+c: 2718 : 24 3779.49 720110; 27845.5 1100
+E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
+cE: 2344 : 54 4.85501e+11 5.45626e+14; 1.25495e+13 1.95674e+06
+  NA=370 nan=4
