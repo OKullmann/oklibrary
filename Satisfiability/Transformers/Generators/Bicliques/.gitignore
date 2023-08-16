@@ -49,3 +49,5 @@
 /DirStdCNF
 /DirStdCNF_debug
 /TestRandomGraphs_debug
+/Bipart2SAT
+/Bipart2SAT_debug

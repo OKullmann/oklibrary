@@ -166,6 +166,10 @@ License, or any later version. */
      - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
        tuple<list_t, stats_vertexsets_t, size_t>
 
+    - bipartiteness:
+
+     - bipart2SAT(AdjVecUInt) -> DimacsClauseList
+
 
 TODOS:
 
@@ -194,6 +198,7 @@ TODOS:
 #include <Transformers/Generators/Random/Distributions.hpp>
 
 #include "Algorithms.hpp"
+#include "DimacsTools.hpp"
 
 namespace Graphs {
 
@@ -1055,6 +1060,50 @@ namespace Graphs {
       }
       return {res,S,opti};
     }
+  }
+
+
+  // ********************************************************************
+
+
+  DimacsTools::DimacsClauseList bipart2SAT(const AdjVecUInt& G) {
+    assert(G.type() == GT::und);
+    DimacsTools::DimacsClauseList res{};
+    res.first.n = G.n();
+    res.first.c = 2*G.m();
+    struct transfer {
+      DimacsTools::ClauseList& res;
+      transfer(DimacsTools::DimacsClauseList& res) noexcept :
+      res(res.second) {}
+      void operator()(const AdjVecUInt::edge_t& e) {
+        const auto& [v,w] = e;
+        const DimacsTools::Lit x(v+1), y(w+1);
+        res.push_back({x, y});
+        res.push_back({-x, -y});
+      }
+    };
+    transfer T(res);
+    G.process_alledges(T);
+    assert(res.second.size() == res.first.c);
+    return res;
+  }
+  void bipart2SAT(std::ostream& out, const AdjVecUInt& G) {
+    assert(G.type() == GT::und);
+    const auto n = G.n();
+    const auto c = 2*G.m();
+    out << DimacsTools::dimacs_pars{n,c};
+    struct transfer {
+      std::ostream& out;
+      transfer(std::ostream& out) noexcept : out(out) {}
+      void operator()(const AdjVecUInt::edge_t& e) {
+        const auto& [v,w] = e;
+        const DimacsTools::Lit x(v+1), y(w+1);
+        using DimacsTools::Clause;
+        out << Clause({x, y}) << Clause({-x, -y});
+      }
+    };
+    transfer T(out);
+    G.process_alledges(T);
   }
 
 }
