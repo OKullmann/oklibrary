@@ -634,8 +634,13 @@ namespace Graphs {
     vecedges_t alledges() const noexcept {
       vecedges_t res; res.reserve(m_);
       for (id_t i = 0; i < n_; ++i)
-        for (const id_t v : A[i])
-          if (type_ == GT::dir or v >= i) res.emplace_back(i,v);
+        if (type_ == GT::dir)
+          for (const id_t v : A[i]) res.emplace_back(i,v);
+        else {
+          const auto& L = A[i];
+          const auto first = std::ranges::lower_bound(L, i), end = L.end();
+          for (auto it = first; it != end; ++it) res.emplace_back(i,*it);
+        }
       assert(res.size() == m_);
       return res;
     }
