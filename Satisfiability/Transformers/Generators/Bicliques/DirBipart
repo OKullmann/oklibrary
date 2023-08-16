@@ -20,7 +20,7 @@ set -o nounset
 
 program="DirBipart"
 errorm="ERROR[${program}]:"
-version="0.0.5"
+version="0.0.6"
 
 base_dir="$1"
 
@@ -35,7 +35,9 @@ for dir in ${base_dir}/**/A_*; do
   index="$(cat ${dir}/i)"
   echo -n " ${index}"
 
-  result="$(cat ${dir}/cnf | ${transprog} X | minisat-2.2.0)"
+  set +e
+    $(cat ${dir}/cnf | ${transprog} X | minisat-2.2.0)
+  set -e
   res="$?"
   if [ ${res} = 10 ]; then
     ((++found_sat))
