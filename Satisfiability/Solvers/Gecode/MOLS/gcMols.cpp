@@ -32,8 +32,8 @@ Examples:
     - commit-distance 1,
     - 1 thread,
     - and no stopping:
-
-MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
+This yields 4*6=24 runs:
+MOLS> ./gcMols 6 data/SpecsCollection/LS/red "" count "-" "" -first "" 1 1 ""
 first parameter-output:
 # command-line: "./gcMols" "6" "data/SpecsCollection/LSred" "" "count" "-" "" "-first" "" "1" "1" ""
 # N: 6
@@ -52,7 +52,7 @@ then result-output:
 2. Counting all 6240 reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
 
-MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1 1 ""
+MOLS> ./gcMols 8 data/SpecsCollection/LS/redsymmuni "" count "-" "" "mindom" "" 1 1 ""
 # N: 8
 # k=1 total_num_sq=1: "data/SpecsCollection/LSredsymmuni"
 #   num_uc=4 num_eq=0 num_peq=0
@@ -74,7 +74,7 @@ MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1
 
 The same, but specifying the condition (the second argument) as a string on
 the command-line:
-MOLS> tail data/SpecsCollection/LSredsymmuni
+MOLS> tail data/SpecsCollection/LS/redsymmuni
 squares A
 ls A
 red A
