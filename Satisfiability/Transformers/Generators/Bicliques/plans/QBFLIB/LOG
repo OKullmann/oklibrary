@@ -1978,7 +1978,12 @@ $ threads=120 time DirEbccom QBF2BCC
 16.8.2023 interrupted 39:00:32elapsed
 results transferred
 $ threads=120 time DirEbccom Tentrup
-7095 XXX
+7095 7096 7097 7098 7099 7100
+interrupted
+$ echo -n "NaN" > Tentrup/cycle-sched/cycle_sched_6_3_12Esat.B/A_14_30104_1-7100.d/cE
+$ echo -n "NaN" > Tentrup/cycle-sched/cycle_sched_6_3_12Esat.B/A_54_34592_1-7102.d/cE
+$ threads=120 time DirEbccom Tentrup
+ 7101 XXX
 
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/

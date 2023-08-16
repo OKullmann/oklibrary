@@ -121,7 +121,7 @@ sys     0m0.085s
 
 -2. Random graph generator GRG
 
-UPDATE: Easiest is to just extend GraphGen.
+UPDATE: Started with RandomGraphs.hpp.
 
    - Arguments:
          type  offset  V  P/E
