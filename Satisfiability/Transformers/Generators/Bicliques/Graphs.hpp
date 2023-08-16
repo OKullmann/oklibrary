@@ -192,6 +192,7 @@ TODOS:
 
 #include <cassert>
 #include <cstdint>
+#include <cstdio>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/Statistics.hpp>
@@ -1103,6 +1104,25 @@ namespace Graphs {
       }
     };
     transfer T(out);
+    G.process_alledges(T);
+  }
+  void bipart2SAT(std::FILE* const fp, const AdjVecUInt& G) {
+    assert(G.type() == GT::und);
+    const auto n = G.n();
+    const auto c = 2*G.m();
+    using DimacsTools:: operator <<;
+    fp << DimacsTools::dimacs_pars{n,c};
+    struct transfer {
+      std::FILE* const fp;
+      transfer(std::FILE* const fp) noexcept : fp(fp) {}
+      void operator()(const AdjVecUInt::edge_t& e) {
+        const auto& [v,w] = e;
+        const DimacsTools::Lit x(v+1), y(w+1);
+        using DimacsTools::Clause;
+        fp << Clause({x, y}) << Clause({-x, -y});
+      }
+    };
+    transfer T(fp);
     G.process_alledges(T);
   }
 

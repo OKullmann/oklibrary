@@ -58,12 +58,15 @@ namespace DirStatistics {
     logging_file = 4,
     bad_instdir = 5,
     cnf_file = 6,
+    bad_exceptions = 7,
+    col_file = 8,
     hash_collision = 11,
   };
 
   const std::string instdir_suffix = ".B";
   const std::string Adir_prefix = "A_";
   const std::string Adir_suffix = ".d";
+  const std::string bipart_file = "tcol";
 
   // Assuming that p is a directory, and all entries which are directories
   // end with instdir_suffix (above), or none does:
@@ -205,13 +208,14 @@ namespace DirStatistics {
   }
 
   struct AData {
-    static std::string header() noexcept { return " i p n c E cE"; }
+    static std::string header() noexcept { return " i p n c E cE tcol"; }
     count_t i;
     std::string p;
     count_t n, c, E;
-    FP::float80 cE; // value -1 encodes NA
+    FP::float80 cE, tcol; // value -1 encodes NA
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
-                           E(getu(a.dir, "E")), cE(getf(a.dir, "cE")) {}
+                           E(getu(a.dir, "E")), cE(getf(a.dir, "cE")),
+                           tcol(getf(a.dir, bipart_file)) {}
     static std::pair<std::string, bool>
     get(const std::filesystem::path& dir, const std::string& s) {
       const auto p = dir / s;
@@ -235,8 +239,10 @@ namespace DirStatistics {
   std::ostream& operator <<(std::ostream& out, const AData& a) {
     out << a.i << " " << a.p << " " << a.n << " " << a.c << " "
         << a.E << " ";
-    if (a.cE == -1) return out << "NA";
-    else return out << a.cE;
+    if (a.cE == -1) out << "NA"; else out << a.cE;
+    out << " ";
+    if (a.tcol == -1) out << "NA"; else out << a.tcol;
+    return out;
   }
 
 }

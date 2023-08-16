@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -98,6 +98,9 @@ DirStdCNF_debug : DirStdCNF.cpp DirStatistics.hpp
 
 Bipart2SAT : Bipart2SAT.cpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
 Bipart2SAT_debug : Bipart2SAT.cpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
+
+DirBipart : DirBipart.cpp DirStatistics.hpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
+DirBipart_debug : DirBipart.cpp DirStatistics.hpp Graphs.hpp ConflictGraphs.hpp DimacsTools.hpp
 
 # -------------------------
 

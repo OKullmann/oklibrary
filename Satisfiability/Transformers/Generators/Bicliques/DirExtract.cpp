@@ -16,6 +16,7 @@ License, or any later version. */
   c
   E
   cE (NA, if not existing, and nan if declared "non-computable")
+  2col (NA, if not existing)
 
 */
 
@@ -31,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "15.8.2023",
+        "0.2.1",
+        "16.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -88,19 +89,21 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
   GenStats::StdStatsStore sn, sc, sE, scE;
-  count_t cE_NA = 0, cE_nan = 0;
+  count_t cE_NA = 0, cE_nan = 0, tcol = 0;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sE += d.E;
     const auto cE = d.cE;
     if (cE == -1) ++cE_NA;
     else if (FP::isnan(cE)) ++cE_nan;
     else scE += cE;
+    if (d.tcol == 1) ++tcol;
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
   std::cout << "E: " << sE << "\n";
   std::cout << "cE: " << scE << "\n  NA=" << cE_NA
-            << " nan=" << cE_nan << std::endl;
+            << " nan=" << cE_nan << "\n";
+  std::cout << "tcol: " << tcol << std::endl;
 
   FloatingPoint::fullprec_float80(output);
   output << AData::header() << "\n";
