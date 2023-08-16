@@ -25,16 +25,29 @@ License, or any later version. */
 Examples:
 
 1. Counting all 9408 reduced ls's for N=6
-    - for all propagation-levels
     - the default branching-type (binary branching)
-    - all variable-selections except of first-var,
-    - the default branching-order,
+    - for all propagation-levels (using "-" for "minus nothing"))
+    - all variable-selections except of first-var (using "-first" for "minus first")
+    - the default branching-order ("asc"),
     - commit-distance 1,
     - 1 thread,
     - and no stopping:
 
 MOLS> ./gcMols 6 data/SpecsCollection/LSred "" count "-" "" -first "" 1 1 ""
+first parameter-output:
+# command-line: "./gcMols" "6" "data/SpecsCollection/LSred" "" "count" "-" "" "-first" "" "1" "1" ""
+# N: 6
+# k=1 total_num_sq=1: "data/SpecsCollection/LSred"
+#   num_uc=2 num_eq=0 num_peq=0
 ...
+then result-output:
+  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+  6    count dom bin    mindom  asc   1      9408       0.021        132588           0       18815     11  0
+  6    count dom bin    maxdeg  asc   1      9408       0.021        132432           0       18815     10  0
+...
+  6    count bnd bin    maxdom  asc   1      9408       0.043        198999        2667       24149     10  0
+  6    count bnd bin mindegdom  asc   1      9408       0.042        198999        2667       24149     10  0
+
 
 2. Counting all 6240 reduced symmetric unipotent ls's for N=8, using minimum-domain
    for the variable-selection and all propagation-levels:
@@ -58,6 +71,17 @@ MOLS> ./gcMols 8 data/SpecsCollection/LSredsymmuni "" count "-" "" "mindom" "" 1
    8    count def bin    mindom  asc    1        6240       0.030        236479        1000       14479      9  0
    8    count val bin    mindom  asc    1        6240       0.028        206400        1000       14479      9  0
    8    count bnd bin    mindom  asc    1        6240       0.043        261107         487       13453      9  0
+
+The same, but specifying the condition (the second argument) as a string on
+the command-line:
+MOLS> tail data/SpecsCollection/LSredsymmuni
+squares A
+ls A
+red A
+symm A
+uni A
+MOLS> ./gcMols 8 "@squares A\nls A\nred A\nsymm A\nuni A\n" "" count "-" "" "mindom" "" 1 1 ""
+
 
 */
 
@@ -199,7 +223,7 @@ namespace {
       " - stop-type    : " << Environment::WRPO<STO>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - to use a string instead of a filename, a leading \"@\" is needed\n"
+      "  - to use a string instead of a filename, a leading \"\@" is needed\n"
       "  - the four algorithmic options can be lists (all combinations)\n"
       "  - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - stop-values are unsigned int; times in seconds\n"
