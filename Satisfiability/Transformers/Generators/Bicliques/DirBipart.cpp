@@ -26,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "17.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -92,6 +92,7 @@ int main(const int argc, const char* const argv[]) {
 
   count_t count = 0, found_sat = 0;
   for (const auto& [i,ad] : A) {
+    assert(ad.c >= 1);
     if (exceptions.contains(i)) continue;
     const auto outputpath = ad.dir / bipart_file;
     if (std::filesystem::is_regular_file(outputpath)) continue;
@@ -106,25 +107,18 @@ int main(const int argc, const char* const argv[]) {
     const auto G =
       ConflictGraphs::conflictgraph(DimacsTools::read_strict_Dimacs(cnf));
     cnf.close();
-    const SystemCalls::put_cin_t PF = [&G](std::FILE* const fp){
-      Graphs::bipart2SAT(fp, G);
-    };
-    const auto mres = DimacsTools::minisat_call(PF, DimacsTools::triv_filter,
-                                                "-no-pre");
+    const auto res = bipart_0comp(G);
     std::ofstream colfile(outputpath);
     if (not colfile) {
       std::cerr << error <<
         "File " << outputpath << " not writable.\n";
       return int(Error::col_file);
     }
-    const auto ret_code = code(mres.stats.sr);
-    if (ret_code != 0 and ret_code != 1) {
-      std::cerr << error <<
-        "minisat-call with return_code " << ret_code << ".\n";
-      return int(Error::minisat_call);
+    if (res.result().empty()) colfile << 0;
+    else {
+      assert(res.size() == ad.n);
+      ++found_sat; colfile << 1;
     }
-    if (ret_code == 1) ++found_sat;
-    colfile << ret_code;
     colfile.close();
   }
 
