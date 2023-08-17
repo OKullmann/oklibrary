@@ -26,8 +26,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
-        "16.8.2023",
+        "0.1.0",
+        "17.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirBipart.cpp",
@@ -49,7 +49,8 @@ namespace {
   }
 
   std::set<count_t> read_exceptions(const int argc, const char* const argv[]) {
-    if (argc == 1) return {};
+    if (argc == 2) return {};
+    assert(argc >= 3);
     std::string arg(argv[2]);
     Environment::mremove_spaces(arg);
     std::set<count_t> res;
