@@ -70,7 +70,7 @@
 # TAU/basis_6_wdL_ave> nomad np
 # 64 35804108716.560135   0.0001     0.42       0.0001     0.0001
 # Blackbox evaluations: 133 Cache hits: 15 Total number of evaluations: 148
-# Reproduction:
+# Reproduction (exact):
 # TAU/basis_6_wdL_ave> time ./TAUscan 6 ../../basis "" enu wdL hash "0.0001,0.42,0.0001,0.0001" 100 1 ave
 # 3.58041087165601384006e+10
 # real	0m43.305s user	0m42.986s sys	0m0.309s
