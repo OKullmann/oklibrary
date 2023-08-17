@@ -666,6 +666,30 @@ TODOS:
 4. skip_strict_eline : don't store the characters discarded.
    - Similarly in read_string_gline.
 
+5.
+
+Direct call yields
+
+QBF2BCC/Tentrup/mult-matrix/mult_bool_matrix_dyn_8_82Esat.B/A_38_164505_1-8112.d> cat cnf | ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/Bipart2SAT X | minisat-2.2.0 -no-pre /dev/stdin
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+===============================================================================
+INDETERMINATE
+> echo $?
+0
+
+This form of output is currently not handled.
+
+While using the internal pipe just aborts the whole thing, without
+any message, and with exit-code 141:
+
+QBFLIB> ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirBipart QBF2BCC/ 5990
+2718 0
+ 8112QBFLIB> echo $?
+141
+
+
 ---
 
 8. Disassemble.cpp
