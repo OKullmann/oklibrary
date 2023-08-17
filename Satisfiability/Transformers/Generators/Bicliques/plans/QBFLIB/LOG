@@ -2265,3 +2265,32 @@ tcol: 429
   NA=2
 
 So there are 429 bipartite CNFs (and two couldn't be determined).
+
+New version of DirBipart, with native bipartition-algorithm:
+TEMP> time ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirBipart QBF2BCC/ 5990
+72717 done
+429 SAT
+real    4m15.451s
+user    3m42.154s
+sys     0m33.251s
+
+TEMP> DirExtract QBF2BCC/
+"QBF2BCC.R"
+2718 0
+n: 2718 : 11 226.364 52521; 2033.75 63.5
+c: 2718 : 24 3779.49 720110; 27845.5 1100
+E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
+cE: 2344 : 54 4.85501e+11 5.45626e+14; 1.25495e+13 1.95674e+06
+  NA=370 nan=4
+tcol: 429
+  NA=1
+
+diff shows that the results are the same, except that now 8112 has
+been solved:
+8112 13/9/52/1 38 164505 714087005 NA 0
+
+What finally is needed here is to run the bipartition-algorithm
+on the CNF itself (as an implicit representation of the conflict-graph).
+This should also solve 5990 without big memory.
+
+On server3 also 8112 could be completed (643GB): unsat.
