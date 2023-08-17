@@ -189,6 +189,7 @@ TODOS:
 #include <ranges>
 #include <algorithm>
 #include <iterator>
+#include <stack>
 
 #include <cassert>
 #include <cstdint>
@@ -1124,6 +1125,105 @@ namespace Graphs {
     };
     transfer T(fp);
     G.process_alledges(T);
+  }
+
+  struct Vector_2cols {
+    typedef std::int_fast8_t i_t; // -1,+1 are the colours, 0 is unassigned
+    typedef std::vector<i_t> vi_t;
+    typedef AdjVecUInt::size_t size_t;
+
+    explicit Vector_2cols(const size_t n) : v(n), n(n) {
+      if (n != 0) { v[0] = +1; size_ = 1; }
+    }
+    // For testing:
+    explicit Vector_2cols(vi_t v0) noexcept :
+    v(std::move(v0)), n(v.size()) {}
+
+    const vi_t& result() const noexcept { return v; }
+    size_t size() const noexcept { return size_; }
+
+    void init(const size_t i) noexcept {
+      assert(i < n and v.size() == n);
+      v[i] = -1; ++size_;
+    }
+    void set_curr(const i_t val) noexcept {
+      assert(val == -1 or val == 1);
+      curr = val;
+    }
+    // return -1 iff contradiction, 0 if value is new, 1 otherwise:
+    i_t set(const size_t i) noexcept {
+      assert(i < n and v.size() == n);
+      assert(curr == -1 or curr == 1);
+      i_t& vali = v[i];
+      if (vali == 0) { vali = curr; ++size_; return 0; }
+      else if (vali == curr) return 1;
+      else return -1;
+    }
+    void clear() noexcept { v.clear(); }
+
+    bool is_bipartite(const AdjVecUInt& G) const noexcept {
+      assert(G.n() == n);
+      assert(n == v.size());
+      std::vector<size_t> part1, part2;
+      part1.reserve(size_/2); part2.reserve(size_/2);
+      for (size_t i = 0; i < n; ++i) {
+        const i_t x = v[i];
+        if (x == 1) part1.push_back(i);
+        else if (x == -1) part2.push_back(i);
+      }
+      assert(size_ == part1.size() + part2.size());
+      return is_independent(part1, G) and is_independent(part2, G);
+    }
+
+    bool operator ==(const Vector_2cols&) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const Vector_2cols& V) {
+      if (V.size() == 0) return out;
+      const auto& v = V.result();
+      assert(V.n == v.size());
+      bool first = true;
+      for (Vector_2cols::size_t i = 0; i < V.n; ++i) {
+        const i_t x = v[i];
+        if (x == 0) continue;
+        if (first) first = false; else out << " ";
+        if (x == -1) out << "-";
+        out << x;
+      }
+      return out;
+    }
+
+  private :
+    vi_t v;
+    i_t curr = 0;
+    size_t size_ = 0; // number of assigned components
+  public :
+    const size_t n;
+  };
+
+  // Unassigned are exactly the vertices not reachable from 0:
+  Vector_2cols bipart_0comp(const AdjVecUInt& G) {
+    Vector_2cols res(G.n());
+    if (res.n <= 1) return res;
+    using size_t = Vector_2cols::size_t;
+    using i_t = Vector_2cols::i_t;
+    // vertex, parent, neighbour-colour:
+    std::stack<std::tuple<size_t,size_t,i_t>> S;
+    for (const auto w : G.neighbours(0)) { res.init(w); S.push({w,0,+1}); }
+    while (not S.empty()) {
+      const auto [v,p,col] = S.top(); S.pop();
+      res.set_curr(col);
+      const i_t new_col = -col;
+      for (const auto w : G.neighbours(v)) {
+        if (w != p) {
+          const auto s = res.set(w);
+          if (s == -1) { res.clear(); return res; } // an odd cycle
+          else if (s == 0) S.push({w,v,new_col});
+          // s == 1: an even cycle
+        }
+      }
+    }
+    assert(res.is_bipartite(G));
+    return res;
   }
 
 }
