@@ -26,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "17.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -122,7 +122,7 @@ int main(const int argc, const char* const argv[]) {
     colfile.close();
   }
 
-  std::cout << count << " done\n";
+  std::cout << "\n" << count << " done\n";
   std::cout << found_sat << " SAT\n";
 
 }
