@@ -74,7 +74,7 @@
 # TAU/basis_6_wdL_ave> time ./TAUscan 6 ../../basis "" enu wdL hash "0.0001,0.42,0.0001,0.0001" 100 1 all
 # 100 : 8.03692906735255177264e+07 3.58041087165601384006e+10 4.12393496586368163407e+11; 6.04890799976347304657e+10
 # real    0m42.910s user    0m42.496s sys     0m0.401s
-
+# Seems similar to the old values.
 
 
 # laMols with newvars:
