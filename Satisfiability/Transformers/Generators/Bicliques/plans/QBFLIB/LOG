@@ -2242,3 +2242,26 @@ c: 2718 : 24 3779.49 720110; 27845.5 1100
 E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
 cE: 2344 : 54 4.85501e+11 5.45626e+14; 1.25495e+13 1.95674e+06
   NA=370 nan=4
+
+
+17.8.2023
+
+Running DirBipart on a (temporary) copy and running (updated)
+DirExtract via
+
+QBFLIB/TEMP> ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirBipart QBF2BCC/ 5990,8112
+
+(these two execptions seem the largest conflict-graphs) yields
+
+QBFLIB/TEMP> DirExtract QBF2BCC/
+"QBF2BCC.R"
+2718 0
+n: 2718 : 11 226.364 52521; 2033.75 63.5
+c: 2718 : 24 3779.49 720110; 27845.5 1100
+E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
+cE: 2344 : 54 4.85501e+11 5.45626e+14; 1.25495e+13 1.95674e+06
+  NA=370 nan=4
+tcol: 429
+  NA=2
+
+So there are 429 bipartite CNFs (and two couldn't be determined).
