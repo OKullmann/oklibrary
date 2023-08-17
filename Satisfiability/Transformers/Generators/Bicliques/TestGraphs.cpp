@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
-        "16.8.2023",
+        "0.4.5",
+        "17.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -726,7 +726,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {RandGen::RandGen_t g;
-   for (size_t n = 0; n < 100; ++n) {
+   for (RandGen::gen_uint_t n = 0; n < 100; ++n) {
      const auto G = RandomGraphs::independent_edges(n, {1,2}, g);
      struct FUN {
        AdjVecUInt::vecedges_t res;
@@ -738,6 +738,45 @@ int main(const int argc, const char* const argv[]) {
      G.process_alledges(F);
      assert(F.res == G.alledges());
    }
+  }
+
+  {const Vector_2cols V(0);
+   assert(V.result().empty());
+   assert(V.size() == 0);
+   assert(V.is_bipartite(AdjVecUInt(GT::und)));
+   assert(V == Vector_2cols(0));
+   assert(V == Vector_2cols(Vector_2cols::vi_t{}));
+   std::ostringstream ss;
+   ss << V;
+   assert(ss.good());
+   assert(ss.str().empty());
+  }
+  {const Vector_2cols V(1);
+   assert(eqp(V.result(), {1}));
+   assert(V.size() == 1);
+   assert(V.is_bipartite(AdjVecUInt(GT::und, 1)));
+   assert(V == Vector_2cols(1));
+   assert(V == Vector_2cols(Vector_2cols::vi_t{1}));
+   std::ostringstream ss;
+   ss << V;
+   assert(ss.good());
+   assert(ss.str() == "1");
+  }
+
+  {using size_t = Generators::size_t;
+    for (size_t n = 1; n <= 6; ++n)
+      for (size_t m = 1; m <= 6; ++m) {
+        const AdjVecUInt G(Generators::grid(n,m));
+        const auto res = bipart_0comp(G);
+        assert(res.n == G.n());
+        assert(res.size() == G.n());
+      }
+    for (size_t n = 1; n <= 6; ++n) {
+      const AdjVecUInt G(Generators::clique(n));
+      const auto res = bipart_0comp(G);
+      assert(res.n == G.n());
+      assert(res.size() == (n <= 2 ? n : 0));
+    }
   }
 
 }

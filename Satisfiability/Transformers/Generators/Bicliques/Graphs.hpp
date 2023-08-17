@@ -1137,7 +1137,9 @@ namespace Graphs {
     }
     // For testing:
     explicit Vector_2cols(vi_t v0) noexcept :
-    v(std::move(v0)), n(v.size()) {}
+    v(std::move(v0)), n(v.size()) {
+      for (const auto x : v) size_ += x != 0;
+    }
 
     const vi_t& result() const noexcept { return v; }
     size_t size() const noexcept { return size_; }
@@ -1159,7 +1161,7 @@ namespace Graphs {
       else if (vali == curr) return 1;
       else return -1;
     }
-    void clear() noexcept { v.clear(); }
+    void clear() noexcept { v.clear(); size_ = 0; }
 
     bool is_bipartite(const AdjVecUInt& G) const noexcept {
       assert(G.n() == n);
@@ -1187,15 +1189,15 @@ namespace Graphs {
         if (x == 0) continue;
         if (first) first = false; else out << " ";
         if (x == -1) out << "-";
-        out << x;
+        out << i+1;
       }
       return out;
     }
 
   private :
     vi_t v;
-    i_t curr = 0;
     size_t size_ = 0; // number of assigned components
+    i_t curr = 0;
   public :
     const size_t n;
   };
