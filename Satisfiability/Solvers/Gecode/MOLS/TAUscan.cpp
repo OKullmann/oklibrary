@@ -8,7 +8,8 @@ License, or any later version. */
 /*
 
   Running M randomsised runs on laMols going down one branch,
-  collecting statistics on estlvs (or uestlvs), and printing them to standard output
+  collecting statistics on estlvs (or uestlvs), and printing them to
+  standard output
 
 Examples:
 
@@ -28,9 +29,6 @@ sys	0m19.177s
 BUGS:
 
 TODOS:
-
--1. DONE
-    Better error-messages when there is an error with the laMols-call.
 
 0. The handling of "tprob" versus "rand" is somewhat fragile.
 
