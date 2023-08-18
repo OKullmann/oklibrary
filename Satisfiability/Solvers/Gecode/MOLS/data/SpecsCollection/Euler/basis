@@ -63,7 +63,7 @@
 # TAU_basis_6_wdL_sd>
 # same weights as for TAU_basis_6_wdL_avepsd.
 
-# New approach (version >= 0.99:
+# New approach (version >= 0.99):
 # XXX NO XXX
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
