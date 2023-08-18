@@ -76,6 +76,16 @@
 # real    0m42.910s user    0m42.496s sys     0m0.401s
 # Seems similar to the old values.
 
+# Alternative optimisation on ave+sd:
+# TAU/basis_6_wdL_avepsd> nomad np
+# 67  93521293281.968674   0.0001     0.06       0.08       0.12
+# Blackbox evaluations: 136 Cache hits: 24 Total number of evaluations: 160
+# Reproduction (not exact):
+# TAU/basis_6_wdL_avepsd> time ./TAUscan 6 ../../basis "" enu wdL hash "0.0001,0.06,0.08,0.12" 100 1 all
+# 100 : 2.83937549812355943536e+09 4.24346187360756406635e+10 2.90802946286743894249e+11; 5.10866745458930295780e+10
+# real	0m34.798s user	0m34.482s sys	0m0.301s
+# Nomad result is higher (worse) than the old result. TAU scan reproduction gave higher (worse) result with higher (worse) standard deviation.
+
 
 # laMols with newvars:
 
