@@ -31,20 +31,21 @@ BUGS:
 TODOS:
 
 -1. Output of the probing-results as returned by laMols:
-   - Easiest is to add to "case STTS::all", which currently
+   - DONE
+     Easiest is to add to "case STTS::all", which currently
      only extracts the "four stats", also to (always) output
      the M single results, stored in variable results, to file.
-   - Filename "TS_M_threads_timestamp.R"
+   - DONE Filename "TS_M_threads_timestamp.R"
    - As comments:
-    - command-line inputs
-    - version of TAUscan
+    - DONE command-line inputs
+    - DONE version of TAUscan and id
     - version of laMols? how to obtain?
 MOLS> ./laMols -v | grep "^ version"
  version:           0.101.2
 
 ?
-   - header " est"
-   - Then, numbered with 1, ..., the results, one per line.
+   - DONE header " est"
+   - DONE Then, numbered with 1, ..., the results, one per line.
 
 0. The handling of "tprob" versus "rand" is somewhat fragile.
 
@@ -57,8 +58,11 @@ MOLS> ./laMols -v | grep "^ version"
 #include <iostream>
 #include <string>
 #include <array>
+#include <sstream>
+#include <fstream>
 
 #include <cassert>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -72,8 +76,8 @@ MOLS> ./laMols -v | grep "^ version"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
-        "15.8.2023",
+        "0.8.2",
+        "19.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -164,6 +168,33 @@ namespace {
     }
     else
       return que(transform_spaces(get_content(std::cin), ','));
+  }
+
+  void fileoutput(const LB::vec_t& results,
+                  const int argc, const char* const argv[],
+                  const size_t M, const size_t threads) {
+    std::stringstream ss;
+    ss << "TS_" << M << "_" << threads << "_" <<
+      Environment::CurrentTime::timestamp_str() << ".R";
+    const std::string& filename = ss.str();
+    std::ofstream output(filename);
+    if (not output) {
+      std::cerr << error << "Outputfile \"" << filename << "\" can not "
+        "be created.\n";
+      std::exit(1);
+    }
+    output << "# " << proginfo.prg << " " << proginfo.vrs << " "
+           << proginfo.git << "\n# ";
+    Environment::args_output(output, argc, argv);
+    output << "\n est\n";
+    for (size_t i = 0; i < results.size(); ++i)
+      output << i+1 << " " << results[i] << "\n";
+    if (not output) {
+      std::cerr << error << "Write-error to outputfile \"" << filename
+                << ".\n";
+      output.close();
+      std::exit(1);
+    }
   }
 
 }
@@ -257,6 +288,9 @@ int main(const int argc, const char* const argv[]) {
   case STTS::max : std::cout << stats.max; break;
   case STTS::stddev : std::cout << stats.sdc; break;
   case STTS::avepsd : std::cout << stats.amean + stats.sdc; break;
-  case STTS::all : std::cout << stats.extract(); }
+  case STTS::all : {
+    std::cout << stats.extract(); std::cout.flush();
+    fileoutput(results, argc, argv, M, threads);
+  }}
   std::cout << "\n";
 }
