@@ -30,6 +30,22 @@ BUGS:
 
 TODOS:
 
+-1. Output of the probing-results as returned by laMols:
+   - Easiest is to add to "case STTS::all", which currently
+     only extracts the "four stats", also to (always) output
+     the M single results, stored in variable results, to file.
+   - Filename "TS_M_threads_timestamp.R"
+   - As comments:
+    - command-line inputs
+    - version of TAUscan
+    - version of laMols? how to obtain?
+MOLS> ./laMols -v | grep "^ version"
+ version:           0.101.2
+
+?
+   - header " est"
+   - Then, numbered with 1, ..., the results, one per line.
+
 0. The handling of "tprob" versus "rand" is somewhat fragile.
 
 1. More statistics on the distribution
@@ -222,7 +238,8 @@ int main(const int argc, const char* const argv[]) {
     const auto& value = r.value();
     if (value.rv.s != SystemCalls::ExitStatus::normal or not value.err.empty()) {
       std::cerr << error << "A " << solver_call << "-run resulted in an"
-        " error: " << value.rv.s << ", with error-message:\n" << value.err << "\n";
+        " error: " << value.rv.s << ", with error-message:\n" << value.err
+                << "\n";
       return 1;
     }
     assert(not value.out.empty());
