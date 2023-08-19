@@ -1983,7 +1983,21 @@ interrupted
 $ echo -n "NaN" > Tentrup/cycle-sched/cycle_sched_6_3_12Esat.B/A_14_30104_1-7100.d/cE
 $ echo -n "NaN" > Tentrup/cycle-sched/cycle_sched_6_3_12Esat.B/A_54_34592_1-7102.d/cE
 $ threads=120 time DirEbccom Tentrup
- 7101 XXX
+ 7101 ... 7201
+19.8.2023 interrupted 62:00:05elapsed
+$ echo -n "NaN" > Tentrup/genbuf/genbuf6f6n2Esat.B/A_40_30178_1-7201.d/cE
+$ echo -n "NaN" > Tentrup/genbuf/genbuf6f6y2Esat.B/A_40_28703_1-7202.d/cE
+$ echo -n "NaN" > Tentrup/genbuf/genbuf7f7n2Esat.B/A_43_66331_1-7207.d/cE
+$ echo -n "NaN" > Tentrup/genbuf/genbuf7f7y2Esat.B/A_43_65471_1-7208.d/cE
+$ echo -n "NaN" > Tentrup/hwmcc/6s289rb05233_c0to1272Esat.B/A_7673_102712_1-7235.d/cE
+$ echo -n "NaN" > Tentrup/hwmcc/6s289rb05233_c0to2552Esat.B/A_7545_101616_1-7240.d/cE
+$ echo -n "NaN" > Tentrup/hwmcc/6s289rb05233_c0to5112Esat.B/A_7289_99009_1-7245.d/cE
+$ echo -n "NaN" > Tentrup/hwmcc/6s289rb05233_c0to632Esat.B/A_7737_103302_1-7250.d/cE
+$ echo -n "NaN" > Tentrup/mult-matrix/mult_bool_matrix_dyn_4_62Esat.B/A_25_24384_1-8079.d/cE
+$ echo -n "NaN" > Tentrup/mult-matrix/mult_bool_matrix_dyn_6_72Esat.B/A_34_39759_1-8096.d/cE
+$ echo -n "NaN" > Tentrup/mult-matrix/mult_bool_matrix_dyn_8_82Esat.B/A_38_164505_1-8112.d/cE
+$ threads=120 time DirEbccom Tentrup
+ 7203 XXX
 
 
 QBFLIB> time DirGraphSizes QBF2BCC/Wintersteiger/
