@@ -62,6 +62,7 @@ namespace DirStatistics {
     col_file = 8,
     minisat_call = 9,
     hash_collision = 11,
+    filename_empty = 12,
   };
 
   const std::string instdir_suffix = ".B";
