@@ -6,17 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Computing the sizes of conflict-graph and derived
-  biclique-compatibility graph
+  Extracting the data from a QBF2BCC-like file-database
 
   Extracting:
-  i
-  p
-  n
-  c
-  E
-  cE (NA, if not existing, and nan if declared "non-computable")
-  2col (NA, if not existing)
+   - i
+   - p
+   - n
+   - c
+   - E
+   - cE (NA, if not existing, and nan if declared "non-computable")
+   - 2col (NA, if not existing)
 
 */
 
@@ -32,8 +31,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
-        "16.8.2023",
+        "0.2.3",
+        "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -47,9 +46,10 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg
-         << " dirname\n\n"
-    " extracts the content of the QBF2BCC-corpus in dirname to dirname.R.\n\n"
+      "> " << proginfo.prg
+           << " dirname\n\n"
+      " extracts the content of the QBF2BCC-corpus in dirname"
+      " to \"dirname.R\".\n\n"
 ;
     return true;
   }
