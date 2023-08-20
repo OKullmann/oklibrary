@@ -74,8 +74,8 @@ License, or any later version. */
        reached)
     - absorb_spaces(std::istream)
 
-    - get_content(std::istream), get_content(std:filesystem::path)
-       both -> string
+    - get_content(std::istream) -> string
+      get_content(std:filesystem::path) -> string
        both have optional argument bool with_final_eol
     - string_or_cin(string) -> pair<string, bool>
     - get_lines(std::istream), get_lines(std:filesystem::path)
@@ -100,6 +100,8 @@ License, or any later version. */
       -> indstr_t.
 
     Formatted output:
+
+    - put_content(std:filesystem::path, std::string_view)
 
     - out_tokens(ostream&, tokens_t) : quoting each string, with separating
         spaces
@@ -652,6 +654,14 @@ namespace Environment {
     return indexing_strings(r.cbegin(), r.cend(), ignore_duplicates);
   }
 
+
+  void put_content(const std::filesystem::path& p, const std::string_view s) {
+    std::ofstream out(p);
+    if (not out)
+      throw std::runtime_error("ERROR[Environment::put_content(p)]: "
+        "Can't open file\n  " + p.string());
+    out << s;
+  }
 
   // Output the range R, separated by sep, and with given width
   // for w != 0:
