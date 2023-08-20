@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -93,5 +93,10 @@ int main(const int argc, const char* const argv[]) {
   std::cout << Xdir << "\n  " << X.size() << " " << Xignored << std::endl;
   const auto [Y, Yignored] = all_adir(Ydir);
   std::cout << Ydir << "\n  " << Y.size() << " " << Yignored << std::endl;
+  if (Xignored != 0 or Yignored != 0) {
+    std::cerr << error <<
+      "Repeated A-directories.\n";
+    return int(Error::repeated_adirs);
+  }
 
 }
