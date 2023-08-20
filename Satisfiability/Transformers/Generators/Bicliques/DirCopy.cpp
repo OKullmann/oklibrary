@@ -9,6 +9,21 @@ License, or any later version. */
   Copying from file-type from a QBF2BCC-like directory to another such
   directory
 
+EXAMPLES:
+
+If DIR is a directory, where the files X in the A-dirs have been updated
+(possibly newly created), then via
+
+QBFLIB> DirCopy DIR QBF2BCC X
+
+one can inspect statistics on what would happen, and then via
+
+QBFLIB> DirCopy DIR QBF2BCC X C
+
+the copy is performed (performing it a second time is a no-op, since
+the files X in QBF2BCC are only updated if not existing or having a
+different content).
+
 */
 
 #include <iostream>
@@ -22,7 +37,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.1.0",
         "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -125,14 +140,16 @@ int main(const int argc, const char* const argv[]) {
     const bool copy_equal =
       copy_exists and xcontent == Environment::get_content(ypath);
     targets_equal += copy_equal;
-    if (not test_only and not copy_equal) {
-      Environment::put_content(ypath, xcontent);
+    if (not copy_equal) {
       ++copied;
+      if (not test_only) Environment::put_content(ypath, xcontent);
     }
   }
 
   std::cout << "skipped: " << skipped << "\n";
   std::cout << "targets-exist: " << targets_exist << "\n";
   std::cout << "targets-equal: " << targets_equal << "\n";
-  std::cout << "copied: " << copied << "\n";
+  if (test_only) std::cout << "would-be-copied: ";
+  else std::cout << "copied: ";
+  std::cout << copied << "\n";
 }
