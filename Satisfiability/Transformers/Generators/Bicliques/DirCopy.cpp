@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -99,9 +99,10 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::repeated_adirs);
   }
 
-  size_t skipped = 0, copied = 0, target_exists = 0;
+  size_t skipped = 0, copied = 0, targets_exist = 0, targets_equal = 0;
   for (const auto& [i, xd] : X) {
-    if (not std::filesystem::is_regular_file( xd.dir / name)) {
+    const auto xpath = xd.dir / name;
+    if (not std::filesystem::is_regular_file( xpath)) {
       ++skipped; continue;
     }
     const auto xfind = Y.find(i);
@@ -117,13 +118,21 @@ int main(const int argc, const char* const argv[]) {
                 << yd << "\n";
       return int(Error::different_adir);
     }
-    if (std::filesystem::is_regular_file( yd.dir / name)) ++target_exists;
-    if (not test_only) {
-      // XXX
+    const auto ypath = yd.dir / name;
+    const bool copy_exists = std::filesystem::is_regular_file(ypath);
+    targets_exist += copy_exists;
+    const std::string xcontent = Environment::get_content(xpath);
+    const bool copy_equal =
+      copy_exists and xcontent == Environment::get_content(ypath);
+    targets_equal += copy_equal;
+    if (not test_only and not copy_equal) {
+      Environment::put_content(ypath, xcontent);
+      ++copied;
     }
   }
 
   std::cout << "skipped: " << skipped << "\n";
-  std::cout << "target-exists: " << target_exists << "\n";
+  std::cout << "targets-exist: " << targets_exist << "\n";
+  std::cout << "targets-equal: " << targets_equal << "\n";
   std::cout << "copied: " << copied << "\n";
 }
