@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.5",
         "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -38,8 +38,12 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " Xdir YDir name\n\n"
-    " copies the name-files from Xdir to YDir.\n\n"
+         << " Xdir Ydir name [mode]\n\n"
+    " Xdir, Ydir     : directory-names\n"
+    " name           : (generic) filename, to be handled in Xdir, Ydir\n"
+    " mode           : \"C\"=perform-copy, else test-only\n\n"
+
+    " copies the name-files from Xdir to Ydir.\n\n"
 ;
     return true;
   }
@@ -51,9 +55,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 4) {
+  if (argc != 4 and argc != 5) {
     std::cerr << error <<
-      "Exactly three arguments (Xdir, Ydir, name)"
+      "Either three or four arguments (Xdir, Ydir, name, {level])"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -80,11 +84,14 @@ int main(const int argc, const char* const argv[]) {
       "File-name \"" << name << "\" is empty.\n";
     return int(Error::filename_empty);
   }
+  const bool test_only = argc == 4 or std::string(argv[4]) != "C";
 
-
+  if (test_only) std::cout << "test-only-mode";
+  else std::cout << "copy-mode";
+  std::cout << " with filename \"" << name << "\"" << std::endl;
   const auto [X, Xignored] = all_adir(Xdir);
-  std::cout << Xdir << ": " << X.size() << " " << Xignored << std::endl;
+  std::cout << Xdir << "\n  " << X.size() << " " << Xignored << std::endl;
   const auto [Y, Yignored] = all_adir(Ydir);
-  std::cout << Ydir << ": " << Y.size() << " " << Yignored << std::endl;
+  std::cout << Ydir << "\n  " << Y.size() << " " << Yignored << std::endl;
 
 }
