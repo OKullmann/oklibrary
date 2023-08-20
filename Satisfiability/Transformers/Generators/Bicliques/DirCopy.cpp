@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "20.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -99,4 +99,31 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::repeated_adirs);
   }
 
+  size_t skipped = 0, copied = 0, target_exists = 0;
+  for (const auto& [i, xd] : X) {
+    if (not std::filesystem::is_regular_file( xd.dir / name)) {
+      ++skipped; continue;
+    }
+    const auto xfind = Y.find(i);
+    if (xfind == Y.end()) {
+      std::cerr << error <<
+        "The A-dir\n" << xd.dir << "\nfrom Xdir is not in Ydir.\n";
+      return int(Error::missing_adir);
+    }
+    const auto yd = xfind->second;
+    if (xd != yd) {
+      std::cerr << error <<
+        "The X-dir\n" << xd << "\nis different from the Ydir:\n"
+                << yd << "\n";
+      return int(Error::different_adir);
+    }
+    if (std::filesystem::is_regular_file( yd.dir / name)) ++target_exists;
+    if (not test_only) {
+      // XXX
+    }
+  }
+
+  std::cout << "skipped: " << skipped << "\n";
+  std::cout << "target-exists: " << target_exists << "\n";
+  std::cout << "copied: " << copied << "\n";
 }

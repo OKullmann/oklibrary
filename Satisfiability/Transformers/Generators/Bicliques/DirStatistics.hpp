@@ -64,6 +64,8 @@ namespace DirStatistics {
     hash_collision = 11,
     filename_empty = 12,
     repeated_adirs = 13,
+    missing_adir = 14,
+    different_adir = 15,
   };
 
   const std::string instdir_suffix = ".B";
@@ -147,6 +149,15 @@ namespace DirStatistics {
     adir() = default;
     adir(std::filesystem::path dir) : dir(dir), i(getn("i")), n(getn("n")),
                                       c(getn("c")), p(get("p")) {}
+    bool operator ==(const adir& rhs) const noexcept {
+      return i==rhs.i and n==rhs.n and c==rhs.c and p==rhs.p and
+        dir.filename() == rhs.dir.filename() and
+        dir.parent_path().filename() == rhs.dir.parent_path().filename();
+    }
+    friend std::ostream& operator <<(std::ostream& out, const adir& ad) {
+      return out << ad.dir << ": " << ad.i << " " << ad.p << " " <<
+        ad.n << " " << ad.c;
+    }
   private :
     std::string get(const std::string& s) const {
       return Environment::get_content(dir / s);
