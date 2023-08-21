@@ -93,7 +93,7 @@
 # Basically similar to old results (though all values somewhat higher).
 # Scheme of values different from ave-result (though TAUscan-values
 # comparable).
-
+# Viewing in R: Similar to previous result. An initial sharp peak, small peak and a heavy tail.
 
 # laMols with newvars:
 
