@@ -81,7 +81,6 @@
 #   plot(density(E$est))
 # an initial sharp peak, and a heavy tail.
 
-
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
 # 67  93521293281.968674   0.0001     0.06       0.08       0.12
@@ -94,6 +93,8 @@
 # Scheme of values different from ave-result (though TAUscan-values
 # comparable).
 # Viewing in R: Similar to previous result. An initial sharp peak, small peak and a heavy tail.
+
+
 
 # laMols with newvars:
 
