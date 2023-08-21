@@ -54,6 +54,9 @@ License, or any later version. */
          more generally, for a list of clauses and variables
      - conflictgraph(DimacsClauseList) -> AdjVecUInt
 
+     - conflictgraph_degree_stats(DimacsClauseList) ->
+         std::pair<GenStats::StdStats, size_t>
+
     - cc_by_dfs(DimacsClauseList) -> CCbyIndices
         returns the vector stating for every clause-index to which connected
         component of the global-conflict graph it belongs;
@@ -360,7 +363,8 @@ namespace ConflictGraphs {
     return G;
   }
 
-  // Only computing statistics on the degree:
+  // Only computing statistics on the degrees (number of edges in second
+  // result-component):
   std::pair<GenStats::StdStats, size_t>
   conflictgraph_degree_stats(const DimacsClauseList& F) {
     std::pair<GenStats::StdStats, size_t> res;
