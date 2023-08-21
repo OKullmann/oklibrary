@@ -94,6 +94,15 @@
 # comparable).
 # Viewing in R: An initial sharp peak, then a small peak and a heavy tail.
 
+# Alternative optimisation on max:
+# XXX
+
+# Alternative optimisation on sd:
+# XXX
+
+# All four optimisation also for uniform probabilities:
+# XXX
+
 
 
 # laMols with newvars:
