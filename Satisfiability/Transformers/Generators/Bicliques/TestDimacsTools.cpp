@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "5.4.2023",
+        "0.3.4",
+        "21.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -407,4 +407,18 @@ int main(const int argc, const char* const argv[]) {
    }
   }
 
+  {std::istringstream ss("p cnf 0 0\n");
+   assert(eqp(read_strict_MDimacs(ss), {}));
+  }
+  {std::istringstream ss("p cnf 0 2\n0\n0\n");
+   assert(eqp(read_strict_MDimacs(ss), {{{0,1},{{}}}, {2}, 2}));
+  }
+  {std::istringstream ss("p cnf 1 5\n0\n0\n1 0\n1 0\n-1 0\n");
+    assert(eqp(read_strict_MDimacs(ss),
+               {{{1,3},{{},{Lit(1)},{Lit(-1)}}}, {2,2,1}, 5}));
+  }
+  {std::istringstream ss("p cnf 1 5\n0\n1 0\n1 0\n-1 0\n-1 0\n");
+    assert(eqp(read_strict_MDimacs(ss),
+               {{{1,3},{{},{Lit(1)},{Lit(-1)}}}, {1,2,2}, 5}));
+  }
 }

@@ -27,6 +27,11 @@ The header says "4 vertices, 1 edges, undirected".
 Only the statistics:
 Bicliques> cat data/A_131_3964_1 | CNF2cg ""
 3964 157484
+Using multi-clause-set-mode (if the input contains subsequent repeated
+clauses):
+Bicliques> cat data/A_131_3964_1 | CNF2cg M
+3964 157484
+
 
 
 TODOS:
@@ -54,8 +59,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "13.8.2023",
+        "0.3.0",
+        "21.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
@@ -72,8 +77,10 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << "[OPT] \n\n"
-    " reads a strict Dimacs-file from standard input, and prints the conflict-graph to standard output:\n\n"
-    "  - The optional arguments switches to statistics-only mode.\n\n"
+    " reads a strict Dimacs-file from standard input, and prints the"
+    " conflict-graph to standard output:\n\n"
+    "  - The optional arguments switches to statistics-only mode.\n"
+    "  - It if is \"M\", then internally multi-clause-sets are used.\n\n"
 ;
     return true;
   }
@@ -93,9 +100,12 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const bool stats_only = argc==2;
+  const bool with_M = stats_only and std::string(argv[1]) == "M";
 
   if (stats_only) {
-    const auto S = conflictgraph_degree_stats(read_strict_Dimacs(std::cin));
+    const auto S = with_M ?
+      conflictgraph_degree_stats(read_strict_MDimacs(std::cin)) :
+      conflictgraph_degree_stats(read_strict_Dimacs(std::cin));
     std::cout << S.first.N() << " " << S.second << "\n";
   }
   else

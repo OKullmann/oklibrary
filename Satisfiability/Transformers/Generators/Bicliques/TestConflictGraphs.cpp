@@ -28,8 +28,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "31.3.2023",
+        "0.4.0",
+        "21.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -312,6 +312,16 @@ int main(const int argc, const char* const argv[]) {
     assert(G == GRT(Generators::clique(2)));
     assert(G == GR.conflictgraph(1));
    }
+  }
+
+  {const MDimacsClauseList F0{
+      {{4,6}, {{},{Lit(1), Lit(2)},{Lit(-2)},{Lit(-1)},
+               {Lit(3),Lit(4)},{Lit(-3),Lit(-4)}}},
+      {2,2,3,3,3,1},
+      14
+   };
+   assert(conflictgraph_degree_stats(F0) ==
+          conflictgraph_degree_stats(F0.expand()));
   }
 
 }

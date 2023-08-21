@@ -104,6 +104,16 @@ License, or any later version. */
         first read_strict_dimacs_pars, establishing c, then reading exactly
         c clauses via read_strict_clause.
 
+   - Reading strict Dimacs from istream into a multi-clause-set:
+
+    - struct MDimacsClauseList with members
+     - F : DimacsClauseList
+     - M : vector of multiplicities
+     - tc : total (sum) count of clauses
+
+    - read_strict_MDimacs -> MDimacsClauseList
+      (collecting subsequent equal clauses)
+
 
    Reading strict QDimacs from istream:
 
@@ -459,6 +469,57 @@ namespace DimacsTools {
     var_t c = res.first.c;
     res.second.reserve(c);
     for (; c != 0; --c) res.second.push_back(read_strict_clause(in));
+    return res;
+  }
+
+  // Clauses with multiplicities:
+  struct MDimacsClauseList {
+    DimacsClauseList F;
+    typedef std::vector<var_t> veccounts_t;
+    veccounts_t M; // Multiplicities for F
+    var_t tc; // total count
+    // The special conditions regarding multiplicities:
+    bool valid() const noexcept {
+      if (F.first.c != F.second.size()) return false;
+      if (F.first.c != M.size()) return false;
+      if (tc != std::accumulate(M.begin(), M.end(), var_t(0))) return false;
+      return true;
+    }
+    bool operator ==(const MDimacsClauseList&) const noexcept = default;
+    DimacsClauseList expand() const {
+      assert(valid());
+      DimacsClauseList res;
+      res.first = {F.first.n, tc};
+      res.second.reserve(tc);
+      for (var_t i = 0; i < F.first.c; ++i) {
+        const var_t m = M[i];
+        if (M[i] == 0) continue;
+        const Clause& C = F.second[i];
+        for (var_t j = 0; j < m; ++j) res.second.push_back(C);
+      }
+      assert(RandGen::valid(res));
+      return res;
+    }
+  };
+  // Only comparing subsequent clauses:
+  MDimacsClauseList read_strict_MDimacs(std::istream& in) {
+    assert(in);
+    MDimacsClauseList res{};
+    auto [n,c] = read_strict_dimacs_pars(in); assert(in);
+    if (c == 0) return res;
+    res.tc = c; res.F.first.n = n;
+    Clause oldC = read_strict_clause(in);
+    --c; res.F.second.push_back(oldC); res.M.push_back(1);
+    for (; c != 0; --c) {
+      Clause newC = read_strict_clause(in);
+      if (newC == oldC) ++res.M.back();
+      else {
+        res.F.second.push_back(newC); res.M.push_back(1);
+        oldC = std::move(newC);
+      }
+    }
+    res.F.first.c = res.F.second.size();
+    assert(res.valid());
     return res;
   }
 

@@ -367,7 +367,7 @@ namespace ConflictGraphs {
   // result-component):
   std::pair<GenStats::StdStats, size_t>
   conflictgraph_degree_stats(const DimacsClauseList& F) {
-    std::pair<GenStats::StdStats, size_t> res;
+    std::pair<GenStats::StdStats, size_t> res{};
     const size_t c = F.first.c;
     if (c == 0) return res;
     const auto O = allocc(F);
@@ -384,6 +384,31 @@ namespace ConflictGraphs {
     res.second = res.first.sum();
     assert(res.second % 2 == 0);
     res.second /= 2;
+    return res;
+  }
+  std::pair<GenStats::StdStats, size_t>
+  conflictgraph_degree_stats(const DimacsTools::MDimacsClauseList& F0) {
+    assert(F0.valid());
+    std::pair<GenStats::StdStats, size_t> res{};
+    const auto& [F,M, tc] = F0;
+    const size_t c = F.first.c;
+    if (c == 0) return res;
+    const auto O = allocc(F);
+    std::vector<size_t> occurs(c);
+    for (size_t v = 0; v < c; ++v) {
+      size_t deg = 0;
+      const size_t round = v+1;
+      for (const auto x : F.second[v])
+        for (const size_t ci : O.conflicts(x))
+          if (occurs[ci] != round) {
+            occurs[ci] = round;
+            deg += M[ci];
+          }
+      for (size_t i = 0; i < M[v]; ++i) res.first += deg;
+    }
+    assert(FloatingPoint::isUInt(res.first.sum()));
+    res.second = res.first.sum();
+    assert(res.second % 2 == 0); res.second /= 2;
     return res;
   }
 
