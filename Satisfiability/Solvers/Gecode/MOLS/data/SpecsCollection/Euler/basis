@@ -95,7 +95,18 @@
 # Viewing in R: An initial sharp peak, then a small peak and a heavy tail.
 
 # Alternative optimisation on max:
-# XXX
+# TAU/basis_6_wdL_max> nomad np
+# 72 290224835833.615479   0.05       0.2        0.11       0.09
+# Blackbox evaluations: 139 Cache hits: 21 Total number of evaluations: 160
+# Reproduction (not exact):
+# TAU/basis_6_wdL_max> time ./TAUscan 6 ../../basis "" enu wdL hash "0.05,0.2,0.11,0.09" 100 1 all
+# 100 : 2.02676661230718693021e+09 4.59448076844077746421e+10 2.90224835833615491807e+11; 5.49391528983793066926e+10
+# real	0m39.078s user	0m38.792s sys	0m0.272s
+# Basically similar to old results (though all values somewhat higher).
+# Scheme of values different from ave-result (though TAUscan-values
+# comparable).
+# Statistics of 100 runs are similar to avepsd-result even the weights given were different.
+# Viewing in R: An initial sharp peak, and a heavy tail.
 
 # Alternative optimisation on sd:
 # XXX
