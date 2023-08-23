@@ -66,6 +66,14 @@
 # New approach (version >= 0.99):
 # XXX NO XXX
 
+# TAUscan for simple values:
+# In any of the directories below:
+# > time ./TAUscan 6 ../../basis "" enu wdL hash "0.1" 100 10 all
+# 100 : 3.54385288075292159035e+09 5.92828564217183979861e+10 6.66968586018858701527e+11; 1.08065099370215408392e+11
+# real	0m3.837s user	0m36.922s sys	0m0.147s
+# These values, and viewing them via R, doesn't look much different from below.
+# So it appears that optimisation can't do much (anything) here.
+
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU/basis_6_wdL_ave> nomad np
 # 64 35804108716.560135   0.0001     0.42       0.0001     0.0001
