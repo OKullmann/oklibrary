@@ -561,7 +561,43 @@
 # Exactly the same as before.
 # Now with EVAL_OPPORTUNISTIC=no:
 # TAU/red_6_wdL_ave$ nomad np5
-# server2 XXX
+# 463 3056.770822   1.998373   0.0001     0.150589   0.0001
+# Blackbox evaluations: 1140 Total model evaluations: 100362 Cache hits: 358 Total number of evaluations: 1498
+# Reproducing TAUscan (not exact):
+# TAU/red_6_wdL_ave$ time ./TAUscan 6 ../../red "" enu wdL hash "1.998373,0.0001,0.150589,0.0001" 100 100 all
+# 100 : 4.55143260313238629172e+02 2.95763420830345286694e+03 1.03465484409996945594e+04; 2.18814350929255342026e+03
+# real    0m0.166s user    0m9.357s sys     0m0.346s
+# Plotting the data shows a much higher spread: incline to a two-peaked mountain,
+# followed by a softer decline, with a small peak halfway.
+# Thus the TAUscan preditions should be worse than compared to basis
+# (relatively speaking(!) -- the range of values here is much smaller).
+# Running laMols:
+# TAU/red_6_wdL_ave$ ./laMols 6 ../../red "" count dom enu wdL "" "" 1 6 "1.998373,0.0001,0.150589,0.0001" "" ""
+# weights: 1.998373 0.0001 0.150589 0.0001 -> 0 0 1 3.9954915408352000698 3.9957684968032997075 4.4353931818938373693 4.435700630576944119
+#  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+#  6    count dom enu  wdL   asc  relpr   1        0      20.114     398658  0     5809     3296  1.013948e+00  1.747883e+00
+#  mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals      dp
+#119.67   0.4933   166.82   144.56   98.205  1.5838     0  0.016915   4.0933  7.0593
+#    12        0        0   34.211   8.9109       1     0         0        0       0
+#   310        4      900      200   332.99       5     0   0.11815   35.057      11
+#84.966  0.64314   178.86   50.529   63.986  0.8457     0  0.019228   7.9122  1.6803
+#   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp
+#61.715   2.0374   1.7543   10.831    33.87   1.0692     0  0.0039029   19.099  8.4964
+#     8   1.1053        0        0    1.626        1     0          0    1.626       5
+#   189        5     87.5   115.85   327.87        4     0   0.085417       25      12
+#72.097  0.46616   5.8631   20.965   42.213  0.28638     0   0.010791   8.1657  1.4962
+#      estlvs       uestlvs
+#6.684586e+03  1.336559e+04
+#4.551433e+02  3.840000e+02
+#6.817574e+04  1.474560e+05
+#9.872068e+03  2.199043e+04
+#   dm0        w  ltausp     minp     meanp    maxp       sdd        tb
+#26.021   2.3112   3.122  0.38482   0.45414  0.5397  0.071636  0.013989
+#     0        2       1  0.04232      0.25    0.25         0         0
+#   162        4  10.511      0.5       0.5  0.8556    0.3556  0.061594
+#49.294  0.59878  2.4741  0.15576  0.083926  0.1107   0.10576  0.015114
+# Improved result, but still away from known optimum; the problem is likely that
+# the quality of the predictions is too bad.
 
 # Optimisation on uni-prob (600s, rep=100):
 # TAU/red_6_wdL_ave% nomad nprand
