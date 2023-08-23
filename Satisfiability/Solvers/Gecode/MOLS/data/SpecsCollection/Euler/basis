@@ -108,6 +108,9 @@
 # 1000 : 3.54886197369575232640e+09 4.97085552254785946757e+10 1.24073117481074249864e+12; 8.41401612120406359062e+10
 # real    0m6.991s user    10m35.005s sys     0m4.281s
 # All very close to all-0.1-values.
+# Testing stability of optimisation by starting at all-1-values:
+# TAU/basis_6_wdL_ave> nomad np4
+# XXX running on server
 
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
