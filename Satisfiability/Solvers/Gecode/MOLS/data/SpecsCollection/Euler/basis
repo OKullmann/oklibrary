@@ -90,6 +90,12 @@
 # an initial sharp peak, and a heavy tail.
 # Likely the precision is too low here, so using rep=1000:
 # TAU/basis_6_wdL_ave> nomad np2
+# 1 51636253186.994682   0.1        0.1        0.1        0.1
+# Blackbox evaluations: 92
+# So here no improvements achieved: likely the achievements for rep=100
+# are spurious.
+# Giving more time:
+# TAU/basis_6_wdL_ave> nomad np3
 # XXX running on server
 
 # Alternative optimisation on ave+sd:
