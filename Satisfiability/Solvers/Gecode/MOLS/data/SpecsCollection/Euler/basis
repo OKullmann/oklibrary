@@ -125,7 +125,18 @@
 # Aborted search preliminarily -- same result as above.
 # With EVAL_OPPORTUNISTIC=no:
 # TAU/basis_6_wdL_ave> nomad np6
+# aborted since showing the exact same behaviour.
+# Removed initial point X0:
+# TAU/basis_6_wdL_ave> nomad np7
 # XXX running on server2
+# we see the wrong behaviour of not using parallelism in the initial round(s);
+# that should be corrected in the newest nomad-version 4.3.1
+# https://github.com/bbopt/nomad/releases/tag/v.4.3.1
+# (this version also enables controlling the display-precision, needed
+# for precise reproduction).
+# One sees a very slow iteration through the values of the first parameter:
+# that is perhaps the first LH_SEARCH parameter in action now (which
+# apparently for given X0 was doing nothing; thus reducing it from 5000 to 50.
 
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
