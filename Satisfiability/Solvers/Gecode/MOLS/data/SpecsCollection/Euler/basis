@@ -88,6 +88,9 @@
 #   plot(E$est)
 #   plot(density(E$est))
 # an initial sharp peak, and a heavy tail.
+# Likely the precision is too low here, so using rep=1000:
+# TAU/basis_6_wdL_ave> nomad np2
+# XXX running on server
 
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
