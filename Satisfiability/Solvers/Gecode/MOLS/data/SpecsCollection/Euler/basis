@@ -99,9 +99,15 @@
 # Blackbox evaluations: 92
 # So here no improvements achieved: likely the achievements for rep=100
 # are spurious.
-# Giving more time:
+# Giving more time (6000s):
 # TAU/basis_6_wdL_ave> nomad np3
-# XXX running on server
+# 804 47146688391.016312   0.0966     0.1041     0.103      0.11
+# Blackbox evaluations: 869 Cache hits: 334 Total number of evaluations: 1203
+# Reproduction (not exact):
+# TAU/basis_6_wdL_ave> time ./TAUscan 6 ../../basis "" enu wdL hash "0.0966,0.1041,0.103,0.11" 1000 100 all
+# 1000 : 3.54886197369575232640e+09 4.97085552254785946757e+10 1.24073117481074249864e+12; 8.41401612120406359062e+10
+# real    0m6.991s user    10m35.005s sys     0m4.281s
+# All very close to all-0.1-values.
 
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
