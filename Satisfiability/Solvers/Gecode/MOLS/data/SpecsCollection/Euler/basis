@@ -103,9 +103,8 @@
 # 100 : 2.02676661230718693021e+09 4.59448076844077746421e+10 2.90224835833615491807e+11; 5.49391528983793066926e+10
 # real	0m39.078s user	0m38.792s sys	0m0.272s
 # Basically similar to old results (though all values somewhat higher).
-# Scheme of values different from ave-result (though TAUscan-values
+# Scheme of values different from from above (though TAUscan-values
 # comparable).
-# Statistics of 100 runs are similar to avepsd-result even the weights given were different.
 # Viewing in R: An initial sharp peak, and a heavy tail.
 
 # Alternative optimisation on sd:
