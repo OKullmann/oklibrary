@@ -147,6 +147,12 @@
 # zoomed in on a suboptimal local minimum.
 # Now with version 4.3.1:
 # TAU/basis_6_wdL_ave> nomad np8
+# 1720  59201338836.436577   2.008138   0.0305     0.0015     0.0538
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 2788 Cache hits: 582 Total number of evaluations: 3370
+# Still stuck in a local minimum.
+# Trying to force it (10000 initial search-points):
+# TAU/basis_6_wdL_ave> nomad np9
 # XXX running on server2
 
 # Alternative optimisation on ave+sd:
