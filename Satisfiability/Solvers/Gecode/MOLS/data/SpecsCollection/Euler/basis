@@ -118,7 +118,7 @@
 # 1000 : 1.24901616828738838558e+07 6.67431146749661802016e+10 2.81132191825418577385e+12; 2.24374018075310325712e+11
 # real    0m7.333s user    11m3.037s sys     0m4.299s
 # So nomad got stuck in a local optimum; trying a larger search:
-# nomap np5
+# TAU/basis_6_wdL_ave> nomad np5
 # XXX running on server2
 
 # Alternative optimisation on ave+sd:
