@@ -73,6 +73,11 @@
 # real	0m3.837s user	0m36.922s sys	0m0.147s
 # These values, and viewing them via R, doesn't look much different from below.
 # So it appears that optimisation can't do much (anything) here.
+# More "precision":
+# > time ./TAUscan 6 ../../basis "" enu wdL hash "0.1" 1000 100 all
+# 1000 : 3.54385288075292157196e+09 5.93362795462671436816e+10 3.63283150176803127027e+12; 1.67907871518036477566e+11
+# real    0m6.988s user    10m34.585s sys     0m4.298s
+# Viewing in R: the heavy tail is now more pronounced.
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU/basis_6_wdL_ave> nomad np
