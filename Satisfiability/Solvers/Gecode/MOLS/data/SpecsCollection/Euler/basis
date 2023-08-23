@@ -119,6 +119,12 @@
 # real    0m7.333s user    11m3.037s sys     0m4.299s
 # So nomad got stuck in a local optimum; trying a larger search:
 # TAU/basis_6_wdL_ave> nomad np5
+# 630  65376652301.440483   7.0        1.9467     0.0001     0.0004
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 979 Cache hits: 506 Total number of evaluations: 1485
+# Aborted search preliminarily -- same result as above.
+# With EVAL_OPPORTUNISTIC=no:
+# TAU/basis_6_wdL_ave> nomad np6
 # XXX running on server2
 
 # Alternative optimisation on ave+sd:
