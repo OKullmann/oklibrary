@@ -59,8 +59,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "21.8.2023",
+        "0.3.1",
+        "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNF2cg.cpp",
@@ -76,11 +76,11 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << "[OPT] \n\n"
+         << " [OPT] \n\n"
     " reads a strict Dimacs-file from standard input, and prints the"
     " conflict-graph to standard output:\n\n"
     "  - The optional arguments switches to statistics-only mode.\n"
-    "  - It if is \"M\", then internally multi-clause-sets are used.\n\n"
+    "  - If it is \"M\", then internally multi-clause-sets are used.\n\n"
 ;
     return true;
   }
