@@ -11,7 +11,8 @@ License, or any later version. */
   Output:
    1. line : #cnf's-found, duplications of indices (should be 0).
    2. The blocks of equals, each block on a line, separated by spaces.
-   3. The number of cnf's to be eliminated, and the new total count.
+   3. The number of equal-blocks, the number of cnf's to be eliminated, and
+      the new total count.
 
 */
 
@@ -29,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "15.8.2023",
+        "0.3.2",
+        "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -92,7 +93,6 @@ int main(const int argc, const char* const argv[]) {
   }
 
   count_t reduced = 0;
-  using Environment::get_content;
   std::set<std::set<count_t>> equals;
   {std::vector<map_pair_t::iterator> to_remove;
    for (auto it = M0.begin(); it != M0.end(); ++it) {
@@ -102,7 +102,7 @@ int main(const int argc, const char* const argv[]) {
        to_remove.push_back(it);
        auto i = S.begin();
        const count_t a = *i++, b = *i;
-       if (get_content(A[a].dir / "cnf") == get_content(A[b].dir / "cnf")) {
+       if (A[a].get("cnf") == A[b].get("cnf")) {
          equals.insert({a,b});
          ++reduced;
        }
@@ -116,15 +116,15 @@ int main(const int argc, const char* const argv[]) {
     typedef std::map<count_t, std::set<count_t>> inv_img_t;
     inv_img_t inv_img;
     for (const count_t i : S)
-      inv_img[Environment::hash(get_content(A[i].dir / "cnf"))].insert(i);
+      inv_img[Environment::hash(A[i].get("cnf"))].insert(i);
     for (const auto& [h, Sh] : inv_img) {
       assert(not Sh.empty());
       if (Sh.size() == 1) { A.erase(*Sh.begin()); continue; }
       auto it = Sh.begin(); const auto end = Sh.end();
       const count_t i0 = *it++;
-      const std::string F0 = get_content(A[i0].dir / "cnf");
+      const std::string F0 = A[i0].get("cnf");
       do {
-        if (get_content(A[*it].dir / "cnf") != F0) {
+        if (A[*it].get("cnf") != F0) {
           std::cerr << error << "Cnf's with indices " << i0 << ", " <<
             *it << " yield the same hash " << h << ".\n";
           return int(Error::hash_collision);
