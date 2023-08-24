@@ -24,6 +24,8 @@ License, or any later version. */
       (recognising "-1" as maximum).
 
     - to_F80ai(string s) also considers ".", "+" and "e0"
+
+    - to_vec_unsigned<UInt>(string s, char sep) returns a vector of UInt
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
@@ -242,6 +244,15 @@ namespace FloatingPoint {
       Environment::split(Environment::remove_spaces(s), sep);
     std::vector<float80> res; res.reserve(elements.size());
     for (const auto& x : elements) res.push_back(to_float80(x));
+    return res;
+  }
+  template <typename UInt>
+  std::vector<UInt> to_vec_unsigned(const std::string& s, const char sep) {
+    const auto elements = Environment::isspace(sep) ?
+      Environment::split(Environment::transform_spaces(s,' '), ' ') :
+      Environment::split(Environment::remove_spaces(s), sep);
+    std::vector<UInt> res; res.reserve(elements.size());
+    for (const auto& x : elements) res.push_back(to_unsigned<UInt>(x));
     return res;
   }
   // Now index i is treated special, returned as F80ai, where the criterion for
