@@ -50,7 +50,7 @@ License, or any later version. */
     - remove_spaces (modifying or not),
       remove_trailing_spaces, remove_leading_spaces,
       remove_leadingtrailing_spaces
-    - transform_spaces(string, char), transform_spaces(string&, char)
+    - transform_spaces(string, char), transform_spaces_mod(string&, char)
       replaces whitespace-characters, contracting adjacent ones and
       eliminating leading and trailing ones
 
