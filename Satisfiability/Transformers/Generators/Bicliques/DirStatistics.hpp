@@ -268,18 +268,19 @@ namespace DirStatistics {
   }
 
   struct AData {
-    static std::string header() noexcept { return " i p n c E cE tcol"; }
+    static std::string header() noexcept { return " i p n c c2 E cE tcol"; }
     count_t i;
     std::string p;
-    count_t n, c, E;
+    count_t n, c, c2, E;
     float_t cE, tcol; // value -1 encodes NA
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
+                           c2(a.getu("c2")),
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
   };
   std::ostream& operator <<(std::ostream& out, const AData& a) {
     out << a.i << " \"" << a.p << "\" " << a.n << " " << a.c << " "
-        << a.E << " ";
+        << a.c2 << " " << a.E << " ";
     if (a.cE == -1) out << "NA"; else out << a.cE;
     out << " ";
     if (a.tcol == -1) out << "NA"; else out << a.tcol;

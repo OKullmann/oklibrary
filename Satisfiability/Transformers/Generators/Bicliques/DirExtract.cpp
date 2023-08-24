@@ -13,6 +13,7 @@ License, or any later version. */
    - p
    - n
    - c
+   - c2
    - E
    - cE (NA, if not existing, and nan if declared "non-computable")
    - 2col (NA, if not existing)
@@ -31,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -88,10 +89,10 @@ int main(const int argc, const char* const argv[]) {
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
-  GenStats::StdStatsStore sn, sc, sE, scE;
+  GenStats::StdStatsStore sn, sc, sc2, sE, scE;
   count_t cE_NA = 0, cE_nan = 0, tcol = 0, tcol_NA = 0;
   for (const auto& d : ad) {
-    sn += d.n; sc += d.c; sE += d.E;
+    sn += d.n; sc += d.c; sc2 += d.c2; sE += d.E;
     const auto cE = d.cE;
     if (cE == -1) ++cE_NA;
     else if (FP::isnan(cE)) ++cE_nan;
@@ -101,6 +102,7 @@ int main(const int argc, const char* const argv[]) {
   }
   std::cout << "n: " << sn << "\n";
   std::cout << "c: " << sc << "\n";
+  std::cout << "c2: " << sc2 << "\n";
   std::cout << "E: " << sE << "\n";
   std::cout << "cE: " << scE << "\n  NA=" << cE_NA
             << " nan=" << cE_nan << "\n";
