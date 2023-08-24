@@ -276,19 +276,31 @@ namespace DirStatistics {
     std::array<count_t, 4> p;
     count_t n, c, c2, E;
     float_t cE, tcol; // value -1 encodes NA
-    AData(const adir& a) : i(a.i), p(trans(a.p)), n(a.n), c(a.c),
+    AData(const adir& a) : i(a.i), p(extrpath(a)), n(a.n), c(a.c),
                            c2(a.getu("c2")),
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
 
-    static std::array<count_t, 4> trans(const std::string& s) {
+    struct parse_error : std::runtime_error {
+      parse_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
+    };
+    static std::array<count_t, 4> extrpath(const adir& a) {
       std::vector<count_t> res;
-      try { res = FloatingPoint::to_vec_unsigned<count_t>(s, '/'); }
+      try { res = FloatingPoint::to_vec_unsigned<count_t>(a.p, '/'); }
       catch (const std::exception& e) {
-        
+        std::ostringstream ss;
+        ss << "DirStatistics::AData::extrpath: "
+          "Error getting vector of 64-bit unsigned int from\n  "
+           << a.dir / "p" << " = \"" << a.p << "\"\n   original error is\n  "
+           << e.what() << "\n";
+        throw parse_error(ss.str());
       }
       if (res.size() != 4) {
-        
+        std::ostringstream ss;
+        ss << "DirStatistics::AData::extrpath: "
+          "Not exactly 4 components in\n  "
+           << a.dir / "p" << " = " << a.p << "\n";
+        throw parse_error(ss.str());
       }
       return {res[0], res[1], res[2], res[3]};
     }
