@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -109,7 +109,5 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "tcol: " << tcol << "\n  NA=" << tcol_NA << std::endl;
 
   FloatingPoint::fullprec_float80(output);
-  output << AData::header() << "\n";
-  Environment::out_line(output, ad, "\n");
-  if (not ad.empty()) output << "\n";
+  formatted_output(output, ad);
 }

@@ -268,7 +268,9 @@ namespace DirStatistics {
     return it->string() + ".R";
   }
 
+
   struct AData {
+    static constexpr count_t N = 11;
     static std::string header() noexcept {
       return " i p1 p2 p3 p4 n c c2 E cE tcol";
     }
@@ -276,10 +278,18 @@ namespace DirStatistics {
     std::array<count_t, 4> p;
     count_t n, c, c2, E;
     float_t cE, tcol; // value -1 encodes NA
+
     AData(const adir& a) : i(a.i), p(extrpath(a)), n(a.n), c(a.c),
                            c2(a.getu("c2")),
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
+
+    typedef std::array<float_t, N> extract_t;
+    extract_t extract() const noexcept {
+      using t = float_t;
+      return {t(i), t(p[0]), t(p[1]), t(p[2]), t(p[3]), t(n), t(c), t(c2),
+          t(E), cE, tcol};
+    }
 
     struct parse_error : std::runtime_error {
       parse_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
@@ -314,6 +324,15 @@ namespace DirStatistics {
       return out;
     }
   };
+
+  void formatted_output(std::ostream& out, std::vector<AData>& V) {
+    const auto header =
+      Environment::split(Environment::transform_spaces(AData::header()), ' ');
+    assert(header.size() == AData::N);
+    std::vector<AData::extract_t> M; M.reserve(V.size());
+    for (const auto& d : V) M.push_back(d.extract());
+    Environment::print2dformat(out, M, 1, header);
+  }
 
 }
 
