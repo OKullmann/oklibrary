@@ -167,7 +167,14 @@
 # Very weak result! The problem seems early abortion?
 # Let's just try the default "opportunistic strategy":
 # TAU/basis_6_wdL_ave> time nomad np10 | tee OUTPUT
-# XXX running on server2
+# exactly the same solution as above, with
+# Blackbox evaluations: 11259 Cache hits: 37 Total number of evaluations: 11296
+# real 610m48.976s user    75523m1.831s sys     343m6.665s
+# So basically exactly half of the available time has been used; the best of
+# the 10000 LH-evaluations was
+# 1619  85954004818.045319   1.132517   2.362558   0.36145    0.322448
+# for which then some tiny (likely irrelevant) optimisations were performed.
+# The best next step seems to provide the initial points ourselves!
 
 # Alternative optimisation on ave+sd:
 # TAU/basis_6_wdL_avepsd> nomad np
