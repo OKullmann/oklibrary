@@ -31,8 +31,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.3",
-        "20.8.2023",
+        "0.2.4",
+        "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -109,4 +109,5 @@ int main(const int argc, const char* const argv[]) {
   FloatingPoint::fullprec_float80(output);
   output << AData::header() << "\n";
   Environment::out_line(output, ad, "\n");
+  if (not ad.empty()) output << "\n";
 }
