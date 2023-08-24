@@ -19,6 +19,8 @@ License, or any later version. */
 #include <vector>
 #include <map>
 #include <utility>
+#include <stdexcept>
+#include <sstream>
 
 #include <cassert>
 
@@ -158,12 +160,39 @@ namespace DirStatistics {
       return out << ad.dir << ": " << ad.i << " " << ad.p << " " <<
         ad.n << " " << ad.c;
     }
-  private :
+
+    struct file_error : std::runtime_error {
+      file_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
+    };
+    struct number_error : std::runtime_error {
+      number_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
+    };
+
     std::string get(const std::string& s) const {
-      return Environment::get_content(dir / s);
+      std::string res;
+      try { res = Environment::get_content(dir / s); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::get: Error getting content of\n  "
+           << dir / s << "\n   original error is\n  " << e.what() << "\n";
+        throw file_error(ss.str());
+      }
+      return res;
     }
-    count_t getn(const std::string& s) const { return FP::to_UInt(get(s)); }
+    count_t getn(const std::string& s) const {
+      count_t res;
+      try { res = FP::to_UInt(get(s)); }
+      catch (const file_error&) { throw; }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getn: Error getting number from\n  "
+           << dir / s << "\n   original error is\n  " << e.what() << "\n";
+        throw number_error(ss.str());
+      }
+      return res;
+    }
   };
+
   // The second component is the number of ignored A-dirs (due to
   // repeated indices):
   std::pair<std::map<count_t, adir>, count_t>
