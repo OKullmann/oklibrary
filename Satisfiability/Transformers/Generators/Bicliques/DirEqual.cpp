@@ -30,7 +30,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
+        "0.3.3",
         "24.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -46,8 +46,9 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " dirname [DEL]\n\n"
+         << " dirname extension [DEL]\n\n"
     " dirname        : a string\n"
+    " extension      : a string extending \"cnf\" (possibly empty)\n"
     " DEL            : a string; if present, duplications are removed\n\n"
 
     " computes file-equal cnf's for a QBF2BCC-like corpus (in dirname):\n\n"
@@ -63,15 +64,17 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 2 and argc != 3) {
+  if (argc != 3 and argc != 4) {
     std::cerr << error <<
-      "Exactly one or two arguments (dirname, [del-logging])"
+      "Exactly two or three arguments (dirname, extension, [del-logging])"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
 
   const std::string dirname = argv[1];
-  const bool with_removal = argc == 3;
+  const std::string extension = argv[2];
+  const std::string cnf = "cnf" + extension;
+  const bool with_removal = argc == 4;
 
   auto [A, ignored] = all_adir(dirname);
   const count_t Aorig = A.size();
@@ -102,7 +105,7 @@ int main(const int argc, const char* const argv[]) {
        to_remove.push_back(it);
        auto i = S.begin();
        const count_t a = *i++, b = *i;
-       if (A[a].get("cnf") == A[b].get("cnf")) {
+       if (A[a].get(cnf) == A[b].get(cnf)) {
          equals.insert({a,b});
          ++reduced;
        }
@@ -116,15 +119,15 @@ int main(const int argc, const char* const argv[]) {
     typedef std::map<count_t, std::set<count_t>> inv_img_t;
     inv_img_t inv_img;
     for (const count_t i : S)
-      inv_img[Environment::hash(A[i].get("cnf"))].insert(i);
+      inv_img[Environment::hash(A[i].get(cnf))].insert(i);
     for (const auto& [h, Sh] : inv_img) {
       assert(not Sh.empty());
       if (Sh.size() == 1) { A.erase(*Sh.begin()); continue; }
       auto it = Sh.begin(); const auto end = Sh.end();
       const count_t i0 = *it++;
-      const std::string F0 = A[i0].get("cnf");
+      const std::string F0 = A[i0].get(cnf);
       do {
-        if (A[*it].get("cnf") != F0) {
+        if (A[*it].get(cnf) != F0) {
           std::cerr << error << "Cnf's with indices " << i0 << ", " <<
             *it << " yield the same hash " << h << ".\n";
           return int(Error::hash_collision);
