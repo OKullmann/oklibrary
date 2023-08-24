@@ -2337,3 +2337,26 @@ cE: 2701 : 54 5.7755e+11 5.45626e+14; 1.21263e+13 3.22183e+06
   NA=0 nan=17
 tcol: 429
   NA=0
+
+
+24.8.2023
+
+Computing from A_*/cnf the two files cnf2 and mul2, which are the
+the underlying clause-set and the multiplicities of these clauses:
+QBFLIB> time ~/OKlib/Satisfiability/Transformers/Generators/Bicliques/DirCNF2MCNF_debug QBF2BCC
+2718 0
+real    0m21.697s
+user    0m21.385s
+sys     0m0.308s
+
+QBFLIB> DirExtract QBF2BCC
+"QBF2BCC.R"
+2718 0
+n: 2718 : 11 226.364 52521; 2033.75 63.5
+c: 2718 : 24 3779.49 720110; 27845.5 1100
+c2: 2718 : 14 1512.56 305115; 11865.8 364
+E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
+cE: 2701 : 54 5.7755e+11 5.45626e+14; 1.21263e+13 3.22183e+06
+  NA=0 nan=17
+tcol: 429
+  NA=0
