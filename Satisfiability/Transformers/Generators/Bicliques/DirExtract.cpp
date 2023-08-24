@@ -10,13 +10,13 @@ License, or any later version. */
 
   Extracting:
    - i
-   - p
+   - p1, p2, p3, p4
    - n
    - c
    - c2
    - E
-   - cE (NA, if not existing, and nan if declared "non-computable")
-   - 2col (NA, if not existing)
+   - cE (-1, if not existing, and nan if declared "non-computable")
+   - 2col (-1, if not existing)
 
 */
 
@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "24.8.2023",
         __FILE__,
         "Oliver Kullmann",

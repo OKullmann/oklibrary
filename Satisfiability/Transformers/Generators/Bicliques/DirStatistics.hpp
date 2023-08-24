@@ -21,6 +21,7 @@ License, or any later version. */
 #include <utility>
 #include <stdexcept>
 #include <sstream>
+#include <array>
 
 #include <cassert>
 
@@ -268,29 +269,39 @@ namespace DirStatistics {
   }
 
   struct AData {
-    static std::string header() noexcept { return " i p n c c2 E cE tcol"; }
+    static std::string header() noexcept {
+      return " i p1 p2 p3 p4 n c c2 E cE tcol";
+    }
     count_t i;
-    std::string p;
+    std::array<count_t, 4> p;
     count_t n, c, c2, E;
     float_t cE, tcol; // value -1 encodes NA
-    AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
+    AData(const adir& a) : i(a.i), p(trans(a.p)), n(a.n), c(a.c),
                            c2(a.getu("c2")),
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
-  };
-  struct fo {
-    const float_t x;
-    friend std::ostream& operator <<(std::ostream& out, const fo x) {
-      if (x.x == -1) return out << "NA";
-      else return out << x.x;
+
+    static std::array<count_t, 4> trans(const std::string& s) {
+      std::vector<count_t> res;
+      try { res = FloatingPoint::to_vec_unsigned<count_t>(s, '/'); }
+      catch (const std::exception& e) {
+        
+      }
+      if (res.size() != 4) {
+        
+      }
+      return {res[0], res[1], res[2], res[3]};
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const AData& a) {
+      out << a.i << " ";
+      Environment::out_line(out, a.p);
+      out << " " << a.n << " " << a.c << " "
+          << a.c2 << " " << a.E << " "
+          << a.cE << " " << a.tcol;
+      return out;
     }
   };
-  std::ostream& operator <<(std::ostream& out, const AData& a) {
-    out << a.i << " \"" << a.p << "\" " << a.n << " " << a.c << " "
-        << a.c2 << " " << a.E << " "
-        << fo{a.cE} << " " << fo{a.tcol};
-    return out;
-  }
 
 }
 
