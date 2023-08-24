@@ -71,13 +71,21 @@
 # > time ./TAUscan 6 ../../basis "" enu wdL hash "0.1" 100 10 all
 # 100 : 3.54385288075292159035e+09 5.92828564217183979861e+10 6.66968586018858701527e+11; 1.08065099370215408392e+11
 # real	0m3.837s user	0m36.922s sys	0m0.147s
-# These values, and viewing them via R, doesn't look much different from below.
+# These values, and viewing them via R, don't look much different from below.
 # So it appears that optimisation can't do much (anything) here.
+# Actually, nomad gets a different hash-value:
+# basis_6_wdL_ave> time ./TAUscan 6 ../../basis "" enu wdL hash "0.1,0.1,0.1,0.1" 100 10 all
+# 100 : 3.90703665557957747229e+09 4.78831365588377916254e+10 2.95639118713900244266e+11; 5.83425935528715811148e+10
+# real	0m3.903s user	0m37.461s sys	0m0.196s
 # More "precision":
 # > time ./TAUscan 6 ../../basis "" enu wdL hash "0.1" 1000 100 all
 # 1000 : 3.54385288075292157196e+09 5.93362795462671436816e+10 3.63283150176803127027e+12; 1.67907871518036477566e+11
 # real    0m6.988s user    10m34.585s sys     0m4.298s
 # Viewing in R: the heavy tail is now more pronounced.
+# Again, different hashing:
+# > time ./TAUscan 6 ../../basis "" enu wdL hash "0.1,0.1,0.1,0.1" 1000 100 all
+# 1000 : 3.54385288075292157196e+09 5.16362531869946837611e+10 1.12963532230940581739e+12; 9.11872015407383587137e+10
+# real    0m7.023s user    10m34.720s sys     0m4.170s
 
 # Optimising TAUscan via Nomad (MAX_TIME 600s, rep=100):
 # TAU/basis_6_wdL_ave> nomad np
@@ -153,6 +161,12 @@
 # Still stuck in a local minimum.
 # Trying to force it (10000 initial search-points):
 # TAU/basis_6_wdL_ave> nomad np9
+# 10427  75769735089.037323   1.131874   2.364665   0.362256   0.322331
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 11290 Cache hits: 433 Total number of evaluations: 11723
+# Very weak result! The problem seems early abortion?
+# Let's just try the default "opportunistic strategy":
+# TAU/basis_6_wdL_ave> time nomad np10 | tee OUTPUT
 # XXX running on server2
 
 # Alternative optimisation on ave+sd:
