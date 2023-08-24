@@ -144,13 +144,15 @@ namespace DirStatistics {
     return res;
   }
 
+  typedef FP::float80 float_t;
+
   struct adir {
     const std::filesystem::path dir;
     const count_t i=0, n=0, c=0;
     const std::string p;
     adir() = default;
-    adir(std::filesystem::path dir) : dir(dir), i(getn("i")), n(getn("n")),
-                                      c(getn("c")), p(get("p")) {}
+    adir(std::filesystem::path dir) : dir(dir), i(getu("i")), n(getu("n")),
+                                      c(getu("c")), p(get("p")) {}
     bool operator ==(const adir& rhs) const noexcept {
       return i==rhs.i and n==rhs.n and c==rhs.c and p==rhs.p and
         dir.filename() == rhs.dir.filename() and
@@ -179,13 +181,29 @@ namespace DirStatistics {
       }
       return res;
     }
-    count_t getn(const std::string& s) const {
+    count_t getu(const std::string& s) const {
       count_t res;
       try { res = FP::to_UInt(get(s)); }
       catch (const file_error&) { throw; }
       catch (const std::exception& e) {
         std::ostringstream ss;
-        ss << "DirStatistics::adir::getn: Error getting number from\n  "
+        ss << "DirStatistics::adir::getu: "
+          "Error getting unsigned integer from\n  "
+           << dir / s << "\n   original error is\n  " << e.what() << "\n";
+        throw number_error(ss.str());
+      }
+      return res;
+    }
+    // returns -1 if file doesn't exist:
+    float_t getf(const std::string& s) const {
+      if (not std::filesystem::is_regular_file(dir / s)) return -1;
+      float_t res;
+      try { res = FP::to_float80(get(s)); }
+      catch (const file_error&) { throw; }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getf: "
+          "Error getting floating-point number from\n  "
            << dir / s << "\n   original error is\n  " << e.what() << "\n";
         throw number_error(ss.str());
       }
@@ -212,7 +230,6 @@ namespace DirStatistics {
   }
 
 
-  typedef FP::float80 float_t;
   typedef GenStats::FreqStats<count_t, float_t> fstats_t;
 
   struct nlvs {
@@ -255,32 +272,13 @@ namespace DirStatistics {
     count_t i;
     std::string p;
     count_t n, c, E;
-    FP::float80 cE, tcol; // value -1 encodes NA
+    float_t cE, tcol; // value -1 encodes NA
     AData(const adir& a) : i(a.i), p(a.p), n(a.n), c(a.c),
-                           E(getu(a.dir, "E")), cE(getf(a.dir, "cE")),
-                           tcol(getf(a.dir, bipart_file)) {}
-    static std::pair<std::string, bool>
-    get(const std::filesystem::path& dir, const std::string& s) {
-      const auto p = dir / s;
-      if (not std::filesystem::is_regular_file(p)) return {};
-      return {Environment::get_content(dir / s), true};
-    }
-    static count_t getu(const std::filesystem::path& dir,
-                        const std::string& s) {
-      const auto [res, status] = get(dir, s);
-      assert(status);
-      return FP::to_UInt(res);
-    }
-    static FP::float80 getf(const std::filesystem::path& dir,
-                            const std::string& s) {
-      const auto [res, status] = get(dir, s);
-      if (not status) return -1;
-      else return FP::to_float80(res);
-    }
-
+                           E(a.getu("E")), cE(a.getf("cE")),
+                           tcol(a.getf(bipart_file)) {}
   };
   std::ostream& operator <<(std::ostream& out, const AData& a) {
-    out << a.i << " " << a.p << " " << a.n << " " << a.c << " "
+    out << a.i << " \"" << a.p << "\" " << a.n << " " << a.c << " "
         << a.E << " ";
     if (a.cE == -1) out << "NA"; else out << a.cE;
     out << " ";
