@@ -278,12 +278,17 @@ namespace DirStatistics {
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
   };
+  struct fo {
+    const float_t x;
+    friend std::ostream& operator <<(std::ostream& out, const fo x) {
+      if (x.x == -1) return out << "NA";
+      else return out << x.x;
+    }
+  };
   std::ostream& operator <<(std::ostream& out, const AData& a) {
     out << a.i << " \"" << a.p << "\" " << a.n << " " << a.c << " "
-        << a.c2 << " " << a.E << " ";
-    if (a.cE == -1) out << "NA"; else out << a.cE;
-    out << " ";
-    if (a.tcol == -1) out << "NA"; else out << a.tcol;
+        << a.c2 << " " << a.E << " "
+        << fo{a.cE} << " " << fo{a.tcol};
     return out;
   }
 
