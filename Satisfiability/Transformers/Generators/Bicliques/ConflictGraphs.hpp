@@ -56,6 +56,8 @@ License, or any later version. */
 
      - conflictgraph_degree_stats(DimacsClauseList) ->
          std::pair<GenStats::StdStats, size_t>
+     - conflictgraph_degree_stats(MDimacsClauseList) ->
+         std::pair<GenStats::StdStats, size_t>
 
     - cc_by_dfs(DimacsClauseList) -> CCbyIndices
         returns the vector stating for every clause-index to which connected
