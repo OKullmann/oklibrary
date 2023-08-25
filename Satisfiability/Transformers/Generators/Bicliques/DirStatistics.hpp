@@ -173,6 +173,9 @@ namespace DirStatistics {
     struct number_error : std::runtime_error {
       number_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
     };
+    struct dimacs_error : std::runtime_error {
+      dimacs_error(std::string m) noexcept : std::runtime_error(std::move(m)) {}
+    };
 
     std::string get(const std::string& s) const {
       std::string res;
@@ -213,6 +216,47 @@ namespace DirStatistics {
       }
       return res;
     }
+    DimacsTools::DimacsClauseList getcnf() const {
+      const auto path = dir / "cnf";
+      std::ifstream file(path);
+      if (not file) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getcnf: CNF " << path <<
+           "can not be opened for reading.\n";
+        throw file_error(ss.str());
+      }
+      DimacsTools::DimacsClauseList res;
+      try { res = DimacsTools::read_strict_Dimacs(file); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getcnf: "
+          "Error reading strict DIMACS file\n  "
+           << path << "\n   original error is\n  " << e.what() << "\n";
+        throw dimacs_error(ss.str());
+      }
+      return res;
+    }
+    DimacsTools::DimacsClauseList getcnf2() const {
+      const auto path = dir / "cnf2";
+      std::ifstream file(path);
+      if (not file) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getcnf: CNF2 " << path <<
+           "can not be opened for reading.\n";
+        throw file_error(ss.str());
+      }
+      DimacsTools::DimacsClauseList res;
+      try { res = DimacsTools::read_strict_Dimacs(file); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getcnf: "
+          "Error reading strict DIMACS file\n  "
+           << path << "\n   original error is\n  " << e.what() << "\n";
+        throw dimacs_error(ss.str());
+      }
+      return res;
+    }
+
   };
 
   // The second component is the number of ignored A-dirs (due to
