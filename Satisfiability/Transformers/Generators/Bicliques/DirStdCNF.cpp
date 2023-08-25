@@ -78,7 +78,7 @@ int main(const int argc, const char* const argv[]) {
     if (not ifile) {
       std::cerr << error <<
       "CNF " << path << " can not be opened for reading.\n";
-    return int(Error::cnf_file);
+      return int(Error::cnf_file);
     }
     auto F = DimacsTools::read_strict_Dimacs(ifile);
     ifile.close();
@@ -88,7 +88,7 @@ int main(const int argc, const char* const argv[]) {
     if (not ofile) {
       std::cerr << error <<
       "CNF " << path << " can not be opened for writing.\n";
-    return int(Error::cnf_file);
+      return int(Error::cnf_file);
     }
     ofile << F;
     ofile.close();
