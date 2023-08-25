@@ -1,0 +1,32 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 4, 0, 0
+
+# For N <= 9 the same as with "sudoku".
+
+
+# gcMols:
+
+# For N <= 9 not very hard:
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Queendiagonal/sudokum1 "" count dom bin maxdom asc 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.175             5           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.020            43           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.023            75           1           0      0  0
+#  5    count dom bin    maxdom  asc   1         2       0.008           956           6          15      2  0
+#  6    count dom bin    maxdom  asc   1         0       0.107         17775         137         273      5  0
+#  7    count dom bin    maxdom  asc   1         4       0.296       1194972        8083       16173     17  0
+#  8    count dom bin    maxdom  asc   1         0      16.089      56688867      398596      797191     23  0
+#  9    count dom bin    maxdom  asc   1         0     171.270     483754727     3145373     6290745     27  0
+
+# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 16 ""
+# XXX running on server2
+
+# The best combination needs to be determined (the above took the combination from "sudoku").
+
+
+squares A
+rred A
+ls A
+box A
+queendiagm1 A
+queenantidiagm1 A

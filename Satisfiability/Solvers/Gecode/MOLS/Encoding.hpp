@@ -258,6 +258,10 @@ namespace Encoding {
     void distinct(const SP s, const VAV& v) const {
       GC::distinct(*s, v, pl);
     }
+    template <class VAV, typename SP>
+    void distinct_ignoring0(const SP s, const VAV& v) const {
+      GC::distinct(*s, v, 0, pl);
+    }
 
     template <class VAV>
     std::vector<size_t> values(const VAV& v, const size_t i) const {
@@ -517,6 +521,23 @@ namespace Encoding {
             for (size_t j = 0; j < N-2; ++j) { vv_t vv;
               for (size_t i = 0; i < N; ++i) vv.push_back(va[index(sq,i,j)]);
               distinct(s, vv);
+            } break; }
+          case UC::queendiagm1 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              distinct_ignoring0(s, vv);
+            } break; }
+          case UC::queenantidiagm1 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              distinct_ignoring0(s, vv);
             } break; }
           default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
                                              +std::to_string(size_t(uc)));}

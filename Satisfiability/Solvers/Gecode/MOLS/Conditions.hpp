@@ -62,7 +62,8 @@ TODOS:
 -1. Generalise queendiag and queenantidiag
     - Likely we should have queen=queendiag+queenantidiag (and similarly for
       below).
-    - queendiagm1 and queenantidiagm1 exclude value 0;
+    - DONE
+      queendiagm1 and queenantidiagm1 exclude value 0;
       so only N-1 queens; based on
       Gecode::distinct (Home, const IntVarArgs &x, int c)
       https://www.gecode.org/doc/6.2.0/reference/group__TaskModelIntDistinct.html
@@ -136,9 +137,9 @@ namespace Conditions {
     antiuni = 7,
     idem = 8,
     antiidem = 9,
-    moddiag = 10, // all modular ("broken") diagonals (N)
+    moddiag = 10, // all modular ("broken") diagonals (N many)
     modantidiag = 11,
-    queendiag = 12, // all queen's diagonals (2N-1)
+    queendiag = 12, // all queen's diagonals (2N-1 many)
     queenantidiag = 13,
     rred = 14, // row reduced
     orred = 15, // opposite
@@ -154,9 +155,11 @@ namespace Conditions {
     rlsm1 = 25,
     clsm1 = 26,
     rlsm2 = 27,
-    clsm2 = 28
+    clsm2 = 28,
+    queendiagm1 = 29,
+    queenantidiagm1 = 30,
   };
-  constexpr size_t maxUC = size_t(UC::clsm2);
+  constexpr size_t maxUC = size_t(UC::queenantidiagm1);
 
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls",
@@ -164,7 +167,8 @@ namespace Conditions {
       "moddiag", "modantidiag", "queendiag", "queenantidiag",
       "rred", "orred", "cred", "ocred", "red", "ored", "wcred",
       "box", "symm", "antisymm", "mention",
-      "rlsm1", "clsm1", "rlsm2", "clsm2"};
+      "rlsm1", "clsm1", "rlsm2", "clsm2",
+      "queendiagm1", "queenantidiagm1"};
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) {
       assert(strUC[size_t(uc)]);
