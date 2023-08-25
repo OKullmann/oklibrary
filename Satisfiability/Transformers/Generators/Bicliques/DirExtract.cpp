@@ -32,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "24.8.2023",
+        "0.3.4",
+        "25.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -89,10 +89,11 @@ int main(const int argc, const char* const argv[]) {
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
-  GenStats::StdStatsStore sn, sc, sc2, sE, scE;
+  GenStats::StdStatsStore sn, sc, sc2, sE, sE2, scE;
   count_t cE_NA = 0, cE_nan = 0, tcol = 0, tcol_NA = 0;
   for (const auto& d : ad) {
-    sn += d.n; sc += d.c; sc2 += d.c2; sE += d.E;
+    sn += d.n; sc += d.c; sc2 += d.c2;
+    sE += d.E; sE2 += d.E2;
     const auto cE = d.cE;
     if (cE == -1) ++cE_NA;
     else if (FP::isnan(cE)) ++cE_nan;
@@ -104,6 +105,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "c: " << sc << "\n";
   std::cout << "c2: " << sc2 << "\n";
   std::cout << "E: " << sE << "\n";
+  std::cout << "E2: " << sE2 << "\n";
   std::cout << "cE: " << scE << "\n  NA=" << cE_NA
             << " nan=" << cE_nan << "\n";
   std::cout << "tcol: " << tcol << "\n  NA=" << tcol_NA << std::endl;
