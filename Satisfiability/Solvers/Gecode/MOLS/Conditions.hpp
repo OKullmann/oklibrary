@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -58,6 +58,30 @@ License, or any later version. */
 
 
 TODOS:
+
+-1. Generalise queendiag and queenantidiag
+    - Likely we should have queen=queendiag+queenantidiag (and similarly for
+      below).
+    - queendiagm1 and queenantidiagm1 exclude value 0;
+      so only N-1 queens; based on
+      Gecode::distinct (Home, const IntVarArgs &x, int c)
+      https://www.gecode.org/doc/6.2.0/reference/group__TaskModelIntDistinct.html
+      whichs posts that all values of x are distinct except for c (= 0).
+    - queendiaglast and queenantidiaglast only consider value N-1;
+      so only 1 queen; based on
+      Gecode::count (Home, const IntVarArgs &x, int n, IntRelType irt, int m)
+      https://www.gecode.org/doc/6.2.0/reference/group__TaskModelIntCount.html
+      whichs posts that the number of x with value n=N-1 is at most m=1.
+      This is AMO (hopefully the case m=1 is handled specially).
+    - The latter can be generalised using parameter 1 <= k <= N-2, posting
+      that the last k values are queens:
+       - One can just post for all values N-1, ..., N-k the AMO-condition.
+       - Is there something better?
+
+0. Write documentation on the constraints
+    - Perhaps in this file the "high-level" specification, with
+      the details in Encoding.hpp (where the constraints are implemented).
+    - In Encoding.hpp we also have partial documentation for the constraints.
 
 1. The current 7 versions should be extended to 12 versions:
     - UPDATE this todo (likely it is completed), and transfer to
