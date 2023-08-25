@@ -149,19 +149,22 @@ namespace DirStatistics {
 
   struct adir {
     const std::filesystem::path dir;
-    const count_t i=0, n=0, c=0;
+    const count_t i=0, n=0, c=0, c2=0;
     const std::string p;
+
     adir() = default;
-    adir(std::filesystem::path dir) : dir(dir), i(getu("i")), n(getu("n")),
-                                      c(getu("c")), p(get("p")) {}
+    adir(std::filesystem::path dir) :
+      dir(dir), i(getu("i")), n(getu("n")),
+      c(getu("c")), c2(getu("c2")), p(get("p")) {}
+
     bool operator ==(const adir& rhs) const noexcept {
-      return i==rhs.i and n==rhs.n and c==rhs.c and p==rhs.p and
+      return i==rhs.i and n==rhs.n and c==rhs.c and c2==rhs.c2 and p==rhs.p and
         dir.filename() == rhs.dir.filename() and
         dir.parent_path().filename() == rhs.dir.parent_path().filename();
     }
     friend std::ostream& operator <<(std::ostream& out, const adir& ad) {
       return out << ad.dir << ": " << ad.i << " " << ad.p << " " <<
-        ad.n << " " << ad.c;
+        ad.n << " " << ad.c << " " << ad.c2;
     }
 
     struct file_error : std::runtime_error {
@@ -279,8 +282,7 @@ namespace DirStatistics {
     count_t n, c, c2, E;
     float_t cE, tcol; // value -1 encodes NA
 
-    AData(const adir& a) : i(a.i), p(extrpath(a)), n(a.n), c(a.c),
-                           c2(a.getu("c2")),
+    AData(const adir& a) : i(a.i), p(extrpath(a)), n(a.n), c(a.c), c2(a.c2),
                            E(a.getu("E")), cE(a.getf("cE")),
                            tcol(a.getf(bipart_file)) {}
 
