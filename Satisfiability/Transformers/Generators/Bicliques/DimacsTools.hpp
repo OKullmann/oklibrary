@@ -523,6 +523,7 @@ namespace DimacsTools {
     return res;
   }
 
+
   Var read_strict_variable(std::istream& in) {
     std::string s;
     in >> s;
