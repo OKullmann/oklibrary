@@ -30,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "24.8.2023",
+        "0.3.4",
+        "25.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -57,6 +57,12 @@ namespace {
     return true;
   }
 
+  typedef std::array<count_t, 2> params_t;
+  params_t extract(const adir& a, const std::string& ext) noexcept {
+    if (ext.empty()) return {a.n, a.c};
+    else return {a.n, a.c2};
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -79,10 +85,10 @@ int main(const int argc, const char* const argv[]) {
   auto [A, ignored] = all_adir(dirname);
   const count_t Aorig = A.size();
   std::cout << Aorig << " " << ignored << "\n";
-  typedef std::array<count_t, 2> par_pair_t;
-  typedef std::map<par_pair_t, std::set<count_t>> map_pair_t;
+  // mapping cnf-parameters -> set of indices with those params:
+  typedef std::map<params_t, std::set<count_t>> map_pair_t;
   map_pair_t M0;
-  for (const auto& [i,ad] : A) M0[{ad.n, ad.c}].insert(i);
+  for (const auto& [i,ad] : A) M0[extract(ad, extension)].insert(i);
   {std::vector<map_pair_t::iterator> to_remove;
    for (auto it = M0.begin(); it != M0.end(); ++it) {
      const auto& [p, S] = *it;
