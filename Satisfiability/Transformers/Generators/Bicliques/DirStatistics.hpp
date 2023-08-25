@@ -69,6 +69,7 @@ namespace DirStatistics {
     repeated_adirs = 13,
     missing_adir = 14,
     different_adir = 15,
+    faulty_adir = 16,
   };
 
   const std::string instdir_suffix = ".B";
@@ -241,7 +242,7 @@ namespace DirStatistics {
       std::ifstream file(path);
       if (not file) {
         std::ostringstream ss;
-        ss << "DirStatistics::adir::getcnf: CNF2 " << path <<
+        ss << "DirStatistics::adir::getcnf2: CNF2 " << path <<
            "can not be opened for reading.\n";
         throw file_error(ss.str());
       }
@@ -249,9 +250,38 @@ namespace DirStatistics {
       try { res = DimacsTools::read_strict_Dimacs(file); }
       catch (const std::exception& e) {
         std::ostringstream ss;
-        ss << "DirStatistics::adir::getcnf: "
+        ss << "DirStatistics::adir::getcnf2: "
           "Error reading strict DIMACS file\n  "
            << path << "\n   original error is\n  " << e.what() << "\n";
+        throw dimacs_error(ss.str());
+      }
+      return res;
+    }
+    DimacsTools::MDimacsClauseList getmcnf2() const {
+      const auto path = dir / "cnf2";
+      std::ifstream file(path);
+      if (not file) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getmcnf2: CNF2 " << path <<
+           "can not be opened for reading.\n";
+        throw file_error(ss.str());
+      }
+      const auto mpath = dir / "mul2";
+      std::ifstream mfile(mpath);
+      if (not mfile) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getmcnf2: MUL2 " << mpath <<
+           "can not be opened for reading.\n";
+        throw file_error(ss.str());
+      }
+      DimacsTools::MDimacsClauseList res;
+      try { res = DimacsTools::read_strict_MDimacs(file, mfile); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "DirStatistics::adir::getmcnf2: "
+          "Error reading strict M-DIMACS file\n  "
+           << path << "\n  " << mpath <<
+          "\n   original error is\n  " << e.what() << "\n";
         throw dimacs_error(ss.str());
       }
       return res;
