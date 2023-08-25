@@ -203,7 +203,18 @@
 # Viewing in R: An initial sharp peak, and a heavy tail.
 
 # Alternative optimisation on sd:
-# XXX
+# TAU/basis_6_wdL_sd> nomad np
+# 8  58342593552.871582   0.1        0.1        0.1        0.1
+# Blackbox evaluations: 154 Cache hits: 2 Total number of evaluations: 156
+# Reproduction (not exact):
+# TAU/basis_6_wdL_sd> time ./TAUscan 6 ../../basis "" enu wdL hash "0.1,0.1,0.1,0.1" 100 1 all
+# 100 : 3.90703665557957747229e+09 4.78831365588377916254e+10 2.95639118713900244266e+11; 5.83425935528715811148e+10
+# real	0m35.047s user	0m34.763s sys	0m0.271s
+# Nomad optimisation result is almost twice bigger.
+# Basically similar to old results (average is lower).
+# Scheme of values different from from above (though TAUscan-values
+# comparable).
+# Viewing in R: An initial sharp peak, small peak, and a heavy tail.
 
 # All four optimisation also for uniform probabilities:
 # XXX
