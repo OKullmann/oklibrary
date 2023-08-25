@@ -18,10 +18,12 @@
 #  8    count dom bin    maxdom  asc   1         0      16.089      56688867      398596      797191     23  0
 #  9    count dom bin    maxdom  asc   1         0     171.270     483754727     3145373     6290745     27  0
 
-# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 16 ""
+# N=10:
+# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
 # XXX running on server2
 
-# The best combination needs to be determined (the above took the combination from "sudoku").
+
+# TODO: The best combination needs to be determined (the above took the combination from "sudoku").
 
 
 squares A
