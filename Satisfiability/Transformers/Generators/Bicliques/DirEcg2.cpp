@@ -24,7 +24,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
+        "0.0.8",
         "25.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -71,18 +71,16 @@ int main(const int argc, const char* const argv[]) {
   std::cout << A.size() << " " << ignored << std::endl;
   for (const auto& [i,a] : A) {
 
-    const auto F = a.getcnf2();
-    assert(F.first.n == a.n and F.first.c == a.c2);
+    const auto F = a.getmcnf2();
+    assert(F.F.first.n == a.n and F.F.first.c == a.c2 and F.tc == a.c);
 
-    const auto mpath = a.dir / "mul2";
-    std::ifstream mfile(mpath);
-    if (not mfile) {
+    const count_t E = ConflictGraphs::conflictgraph_degree_stats(F).second;
+    if (E != a.getu("E")) {
       std::cerr << error <<
-      "CNF " << mpath << " can not be opened for reading.\n";
-      return int(Error::cnf_file);
+        "New E=" << E << " different from old value found in\n" << a << "\n";
+      return int(Error::faulty_adir);
     }
-
-    const count_t E2 = 0;
+    const count_t E2 = ConflictGraphs::conflictgraph_degree_stats(F.F).second;
 
     const auto opath = a.dir / "E2";
     Environment::put_content(opath, std::to_string(E2));
