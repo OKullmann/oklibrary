@@ -111,8 +111,10 @@ License, or any later version. */
      - M : vector of multiplicities
      - tc : total (sum) count of clauses
 
-    - read_strict_MDimacs -> MDimacsClauseList
+    - read_strict_MDimacs(istream) -> MDimacsClauseList
       (collecting subsequent equal clauses)
+    - read_strict_MDimacs(istream, istream) -> MDimacsClauseList
+      (reading the multiplicities)
 
 
    Reading strict QDimacs from istream:
@@ -478,6 +480,11 @@ namespace DimacsTools {
     typedef std::vector<var_t> veccounts_t;
     veccounts_t M; // Multiplicities for F
     var_t tc; // total count
+
+    void set_tc() noexcept {
+      tc = std::accumulate(M.begin(), M.end(), var_t(0));
+    }
+
     // The special conditions regarding multiplicities:
     bool valid() const noexcept {
       if (F.first.c != F.second.size()) return false;
@@ -486,6 +493,7 @@ namespace DimacsTools {
       return true;
     }
     bool operator ==(const MDimacsClauseList&) const noexcept = default;
+
     DimacsClauseList expand() const {
       assert(valid());
       DimacsClauseList res;
@@ -519,6 +527,16 @@ namespace DimacsTools {
       }
     }
     res.F.first.c = res.F.second.size();
+    assert(res.valid());
+    return res;
+  }
+  MDimacsClauseList read_strict_MDimacs(std::istream& cnf, std::istream& mul) {
+    assert(cnf); assert(mul);
+    MDimacsClauseList res{};
+    res.F = read_strict_Dimacs(cnf);
+    res.M =
+      FloatingPoint::to_vec_unsigned<var_t>(Environment::get_content(mul), '\n');
+    res.set_tc();
     assert(res.valid());
     return res;
   }
