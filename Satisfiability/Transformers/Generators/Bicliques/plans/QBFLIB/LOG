@@ -2360,3 +2360,15 @@ cE: 2701 : 54 5.7755e+11 5.45626e+14; 1.21263e+13 3.22183e+06
   NA=0 nan=17
 tcol: 429
   NA=0
+
+
+25.8.2023
+
+Checking for equalities between the cnf2's:
+QBFLIB> DirEqual QBF2BCC "2"
+yields
+70 339 2379
+
+But before performing this reduction, first all E2 (for cnf2) are
+computed, and at this time also the old E-values are checked (using
+the multi-clause-sets).
