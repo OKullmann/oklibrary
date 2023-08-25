@@ -1,7 +1,7 @@
 # Counts for N >= 2:
-# 0, 0, 0, 2, 0, 4, 0, 0
+# 0, 0, 0, 2, 0, 4, 0, 0, 0
 
-# For N <= 9 the same as with "sudoku".
+# For N <= 10 the same as with "sudoku".
 
 
 # gcMols:
@@ -20,6 +20,11 @@
 
 # N=10:
 # MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10   +count dom bin    maxdom  asc   1         0   15816.981   46328907704   316182775   632365549     37  0
+
+# N=11:
+# MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
 # XXX running on server2
 
 
