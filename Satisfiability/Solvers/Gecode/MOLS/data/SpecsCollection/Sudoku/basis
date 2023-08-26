@@ -23,7 +23,7 @@
 
 # 2 <= N <= 6:
 
-# ./gcMols 2,6 data/SpecsCollection/Sudoku "" count dom enu maxdegdom "" 1 1 ""
+# ./gcMols 2,6 data/SpecsCollection/Sudoku/basis "" count dom enu maxdegdom "" 1 1 ""
 #  2    count dom enu maxdegdom  asc   1         1       0.000             4           0           1      0  0
 #  3    count dom enu maxdegdom  asc   1         2       0.000            18           0           3      1  0
 #  4    count dom enu maxdegdom  asc   1        12       0.000           196           0          23      4  0
