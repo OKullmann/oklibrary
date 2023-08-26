@@ -2372,3 +2372,46 @@ yields
 But before performing this reduction, first all E2 (for cnf2) are
 computed, and at this time also the old E-values are checked (using
 the multi-clause-sets).
+
+
+26.8.2023
+
+Computing E2-values (and verifying old E-values);
+
+QBFLIB> time ~/oklibrary/Satisfiability/Transformers/Generators/Bicliques/DirEcg2 QBF2BCC
+2718 0
+real    2m43.839s
+user    2m43.567s
+sys     0m0.261s
+
+QBFLIB> DirExtract QBF2BCC/
+"QBF2BCC.R"
+2718 0
+n: 2718 : 11 226.364 52521; 2033.75 63.5
+c: 2718 : 24 3779.49 720110; 27845.5 1100
+c2: 2718 : 14 1512.56 305115; 11865.8 364
+E: 2718 : 26 4.26486e+06 8.55645e+09; 1.65117e+08 16092.5
+E2: 2718 : 21 3.38861e+06 8.55645e+09; 1.64437e+08 1665.5
+cE: 2701 : 54 5.7755e+11 5.45626e+14; 1.21263e+13 3.22183e+06
+  NA=0 nan=17
+tcol: 429
+  NA=0
+
+
+Removal of duplications, now based on cnf2:
+
+QBFLIB> DirEqual QBF2BCC 2 DEL
+Output in Equals2.
+
+QBFLIB> DirExtract QBF2BCC
+"QBF2BCC.R"
+2379 0
+n: 2379 : 11 253.797 52521; 2172.46 80
+c: 2379 : 24 4170.49 720110; 29741 1251
+c2: 2379 : 14 1713.16 305115; 12670.6 459
+E: 2379 : 26 4.86952e+06 8.55645e+09; 1.76486e+08 20900
+E2: 2379 : 21 3.87144e+06 8.55645e+09; 1.75762e+08 3056
+cE: 2362 : 54 6.60423e+11 5.45626e+14; 1.29655e+13 3.60607e+06
+  NA=0 nan=17
+tcol: 199
+  NA=0
