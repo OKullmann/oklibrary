@@ -1,0 +1,41 @@
+# Counts for N >= 2:
+# 0, 0, 0, 2, 0, 931, >= 1, >= 1, >= 1
+
+
+# gcMols:
+
+# 2 <= N <= 7:
+
+# ./gcMols 2,7 data/SpecsCollection/Sudoku/p3bishop "" count dom enu mindeg "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindeg  asc   1         0       0.000             2           1           0      0  0
+#  3    count dom enu    mindeg  asc   1         0       0.000            10           1           0      0  0
+#  4    count dom enu    mindeg  asc   1         0       0.000            33           1           0      0  0
+#  5    count dom enu    mindeg  asc   1         2       0.000           506           4          10      4  0
+#  6    count dom enu    mindeg  asc   1         0       0.006         43032         481         853      9  0
+#  7    count dom enu    mindeg  asc   1       931       8.628      66711267      713573     1219030     17  0
+
+
+# The best combinations need to be found out above (and below).
+
+
+# SAT decision:
+
+# MOLS$ ./gcMols 7,10 data/SpecsCollection/Sudoku/p3bishop "" satd dom bin first asc 0 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom bin     first  asc   0         1       0.007         36312         282         592     16  0
+#  8     satd dom bin     first  asc   0         1      44.051     107280557     1084760     2169605     29  0
+#  9     satd dom bin     first  asc   0         1       0.010         25196         322         709     25  0
+# 10     satd dom bin     first  asc   0         1    1049.021    2385459600    19546703    39093542     45  0
+
+
+squares A
+rred A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
+bishopdiagf1 A
+bishopantidiagf1 A
+bishopdiagf2 A
+bishopantidiagf2 A

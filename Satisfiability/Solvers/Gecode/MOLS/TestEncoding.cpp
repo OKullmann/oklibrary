@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
+        "0.3.9",
         "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -376,6 +376,146 @@ int main(const int argc, const char* const argv[]) {
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found ==
           3 * (2*1 + 2*2 + 1) * (3*2 + 2*3 + 1) * (2*1 + 2*2 + 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf0 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf0 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf0 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf0 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf2 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf2 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf2 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf2 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == 3 * (3*3 - 1) * (3*3*3 - 1 - 3*2) * (3*3 - 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf3 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf3 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf3 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf3 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf4 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf4 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf4 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf4 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf5 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf5 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf5 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf5 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf6 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf6 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2*2*2*2);
+  }
+  {std::istringstream ss_cond("squares A\nbishopdiagf6 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
+  }
+  {std::istringstream ss_cond("squares A\nbishopantidiagf6 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found == FP::pow(3,3*3));
   }
 
 }

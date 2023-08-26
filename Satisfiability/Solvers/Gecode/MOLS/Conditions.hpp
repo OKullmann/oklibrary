@@ -172,8 +172,22 @@ namespace Conditions {
     clsm2 = 28,
     queendiagm1 = 29,
     queenantidiagm1 = 30,
+    bishopdiagfor0 = 31,
+    bishopantidiagfor0 = 32,
+    bishopdiagfor1 = 33,
+    bishopantidiagfor1 = 34,
+    bishopdiagfor2 = 35,
+    bishopantidiagfor2 = 36,
+    bishopdiagfor3 = 37,
+    bishopantidiagfor3 = 38,
+    bishopdiagfor4 = 39,
+    bishopantidiagfor4 = 40,
+    bishopdiagfor5 = 41,
+    bishopantidiagfor5 = 42,
+    bishopdiagfor6 = 43,
+    bishopantidiagfor6 = 44,
   };
-  constexpr size_t maxUC = size_t(UC::queenantidiagm1);
+  constexpr size_t maxUC = size_t(UC::bishopantidiagfor6);
 
   constexpr std::array<const char*, maxUC+1>
     strUC{"UNDEF", "rls", "cls", "ls",
@@ -182,7 +196,12 @@ namespace Conditions {
       "rred", "orred", "cred", "ocred", "red", "ored", "wcred",
       "box", "symm", "antisymm", "mention",
       "rlsm1", "clsm1", "rlsm2", "clsm2",
-      "queendiagm1", "queenantidiagm1"};
+      "queendiagm1", "queenantidiagm1",
+      "bishopdiagf0", "bishopantidiagf0", "bishopdiagf1", "bishopantidiagf1",
+        "bishopdiagf2", "bishopantidiagf2", "bishopdiagf3", "bishopantidiagf3",
+        "bishopdiagf4", "bishopantidiagf4", "bishopdiagf5", "bishopantidiagf5",
+        "bishopdiagf6", "bishopantidiagf6"
+      };
   std::ostream& operator <<(std::ostream& out, const UC uc) {
     if (size_t(uc) <= maxUC) {
       assert(strUC[size_t(uc)]);

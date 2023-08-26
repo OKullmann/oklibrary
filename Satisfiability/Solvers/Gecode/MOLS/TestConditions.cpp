@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
+        "0.4.8",
         "25.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
   {assert(toUC("") == UC(0));
    assert(toUC("UNDEF") == UC(0));
    assert(toUC("rls") == UC(1));
-   assert(toUC("queenantidiagm1") == UC(maxUC));
+   assert(toUC("bishopantidiagf6") == UC(maxUC));
   }
 
   {assert(toVS("") == VS::id);

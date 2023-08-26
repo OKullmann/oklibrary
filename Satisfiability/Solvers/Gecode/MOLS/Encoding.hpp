@@ -262,6 +262,10 @@ namespace Encoding {
     void distinct_ignoring0(const SP s, const VAV& v) const {
       GC::distinct(*s, v, 0, pl);
     }
+    template <class VAV, typename SP>
+    void amo_val(const SP s, const VAV& v, const size_t val) const {
+      GC::count(*s, v, val, GC::IRT_LQ, 1, pl);
+    }
 
     template <class VAV>
     std::vector<size_t> values(const VAV& v, const size_t i) const {
@@ -538,6 +542,125 @@ namespace Encoding {
               for (size_t i = lb; i < ub; ++i)
                 vv.push_back(va[index(sq, i, sum-i)]);
               distinct_ignoring0(s, vv);
+            } break; }
+          case UC::bishopdiagfor0 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 0);
+            } break; }
+          case UC::bishopantidiagfor0 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 0);
+            } break; }
+          case UC::bishopdiagfor1 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 1);
+            } break; }
+          case UC::bishopantidiagfor1 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 1);
+            } break; }
+          case UC::bishopdiagfor2 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 2);
+            } break; }
+          case UC::bishopantidiagfor2 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 2);
+            } break; }
+          case UC::bishopdiagfor3 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 3);
+            } break; }
+          case UC::bishopantidiagfor3 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 3);
+            } break; }
+          case UC::bishopdiagfor4 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 4);
+            } break; }
+          case UC::bishopantidiagfor4 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 4);
+            } break; }
+          case UC::bishopdiagfor5 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 5);
+            } break; }
+          case UC::bishopantidiagfor5 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 5);
+            } break; }
+          case UC::bishopdiagfor6 : {
+            const signed_t sN = N;
+            for (signed_t diff = -sN + 2; diff <= sN - 2; ++diff) { vv_t vv;
+              const signed_t lb = diff <= 0 ? 0 : diff,
+                ub = diff >= 0 ? sN : sN + diff;
+              for (signed_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, i-diff)]);
+              amo_val(s, vv, 6);
+            } break; }
+          case UC::bishopantidiagfor6 : {
+            for (size_t sum = 1; sum < 2*N - 2; ++sum) { vv_t vv;
+              const size_t lb = sum >= N ? (sum+1) - N : 0,
+                ub = std::min(N, sum+1);
+              for (size_t i = lb; i < ub; ++i)
+                vv.push_back(va[index(sq, i, sum-i)]);
+              amo_val(s, vv, 6);
             } break; }
           default : throw std::runtime_error("ERROR[post_unary]: UNKNOWN uc="
                                              +std::to_string(size_t(uc)));}

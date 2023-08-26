@@ -275,6 +275,19 @@ namespace Verification {
     }
     return true;
   }
+  bool bishopdiagonal_forval(const ls_t& S, const size_t val0) {
+    std::map<size_t, std::set<signed_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j) {
+        const size_t val = r[j];
+        if (val == val0 and
+            not equiv_classes[diff_equiv(i,j)].insert(val).second)
+          return false;
+      }
+    }
+    return true;
+  }
   bool queenantidiagonal(const ls_t& S) {
     std::map<size_t, std::set<size_t>> equiv_classes;
     for (size_t i = 0; i < S.size(); ++i) {
@@ -292,6 +305,19 @@ namespace Verification {
       for (size_t j = 0; j < r.size(); ++j) {
         const size_t val = r[j];
         if (val != 0 and not equiv_classes[sum_equiv(i,j)].insert(val).second)
+          return false;
+      }
+    }
+    return true;
+  }
+  bool bishopantidiagonal_forval(const ls_t& S, const size_t val0) {
+    std::map<size_t, std::set<size_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j) {
+        const size_t val = r[j];
+        if (val == val0 and
+            not equiv_classes[sum_equiv(i,j)].insert(val).second)
           return false;
       }
     }
@@ -442,6 +468,34 @@ namespace Verification {
           if (not queendiagonalm1(L)) return false; else break;
         case CD::UC::queenantidiagm1 :
           if (not queenantidiagonalm1(L)) return false; else break;
+        case CD::UC::bishopdiagfor0 :
+          if (not bishopdiagonal_forval(L,0)) return false; else break;
+        case CD::UC::bishopantidiagfor0 :
+          if (not bishopantidiagonal_forval(L,0)) return false; else break;
+        case CD::UC::bishopdiagfor1 :
+          if (not bishopdiagonal_forval(L,1)) return false; else break;
+        case CD::UC::bishopantidiagfor1 :
+          if (not bishopantidiagonal_forval(L,1)) return false; else break;
+        case CD::UC::bishopdiagfor2 :
+          if (not bishopdiagonal_forval(L,2)) return false; else break;
+        case CD::UC::bishopantidiagfor2 :
+          if (not bishopantidiagonal_forval(L,2)) return false; else break;
+        case CD::UC::bishopdiagfor3 :
+          if (not bishopdiagonal_forval(L,3)) return false; else break;
+        case CD::UC::bishopantidiagfor3 :
+          if (not bishopantidiagonal_forval(L,3)) return false; else break;
+        case CD::UC::bishopdiagfor4 :
+          if (not bishopdiagonal_forval(L,4)) return false; else break;
+        case CD::UC::bishopantidiagfor4 :
+          if (not bishopantidiagonal_forval(L,4)) return false; else break;
+        case CD::UC::bishopdiagfor5 :
+          if (not bishopdiagonal_forval(L,5)) return false; else break;
+        case CD::UC::bishopantidiagfor5 :
+          if (not bishopantidiagonal_forval(L,5)) return false; else break;
+        case CD::UC::bishopdiagfor6 :
+          if (not bishopdiagonal_forval(L,6)) return false; else break;
+        case CD::UC::bishopantidiagfor6 :
+          if (not bishopantidiagonal_forval(L,6)) return false; else break;
         default : throw std::runtime_error("Verification::correct: unknown"
                                            " uc=" + std::to_string(int(uc)));
         }

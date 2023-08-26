@@ -1,0 +1,42 @@
+# Counts for N >= 2:
+# 0, 0, 0, 6, 0, >= 1, >= 1, >= 1, >= 1
+
+
+# gcMols:
+
+# 2 <= N <= 6:
+
+# ./gcMols 2,6 data/SpecsCollection/Sudoku/p2bishop "" count dom enu mindeg "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindeg  asc   1         0       0.000             2           1           0      0  0
+#  3    count dom enu    mindeg  asc   1         0       0.000            10           1           0      0  0
+#  4    count dom enu    mindeg  asc   1         0       0.000            23           1           0      0  0
+#  5    count dom enu    mindeg  asc   1         6       0.000          1219          18          42      5  0
+#  6    count dom enu    mindeg  asc   1         0       0.027        184081        2745        4955     10  0
+
+# N=7:
+# ./gcMols 7 data/SpecsCollection/Sudoku/p2bishop "" +count dom enu mindeg "" 1 16 ""
+# running on server2
+
+# The best combinations need to be found out above.
+
+
+# SAT decision:
+
+# MOLS$ ./gcMols 7,10 data/SpecsCollection/Sudoku/p2bishop "" satd dom bin first asc 0 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom bin     first  asc   0         1       0.012         32628         432         905     17  0
+#  8     satd dom bin     first  asc   0         1      15.695      32791272      465108      930297     33  0
+#  9     satd dom bin     first  asc   0         1       0.011         22983         245         578     29  0
+# 10     satd dom bin     first  asc   0         1       2.626       5566650       52218      104567     40  0
+
+
+
+squares A
+rred A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
+bishopdiagf1 A
+bishopantidiagf1 A
