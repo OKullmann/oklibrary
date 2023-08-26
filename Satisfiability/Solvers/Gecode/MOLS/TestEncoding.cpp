@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
-        "14.5.2022",
+        "0.3.8",
+        "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestEncoding.cpp",
@@ -354,6 +354,28 @@ int main(const int argc, const char* const argv[]) {
    std::istringstream ss_ps("");
    const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
    assert(res.sol_found == 3*3 * 3*2 * 3*2 * 6);
+  }
+  {std::istringstream ss_cond("squares A\nqueendiagm1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nqueendiagm1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found ==
+          3 * (2*1 + 2*2 + 1) * (3*2 + 2*3 + 1) * (2*1 + 2*2 + 1) * 3);
+  }
+  {std::istringstream ss_cond("squares A\nqueenantidiagm1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 2, ss_cond, ss_ps);
+   assert(res.sol_found == 2 * 3 * 2);
+  }
+  {std::istringstream ss_cond("squares A\nqueenantidiagm1 A\n");
+   std::istringstream ss_ps("");
+   const auto res = solver0(RT::enumerate_solutions, 3, ss_cond, ss_ps);
+   assert(res.sol_found ==
+          3 * (2*1 + 2*2 + 1) * (3*2 + 2*3 + 1) * (2*1 + 2*2 + 1) * 3);
   }
 
 }

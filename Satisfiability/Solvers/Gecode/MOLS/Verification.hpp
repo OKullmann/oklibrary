@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.4.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -263,6 +263,18 @@ namespace Verification {
     }
     return true;
   }
+  bool queendiagonalm1(const ls_t& S) {
+    std::map<size_t, std::set<signed_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j) {
+        const size_t val = r[j];
+        if (val != 0 and not equiv_classes[diff_equiv(i,j)].insert(val).second)
+          return false;
+      }
+    }
+    return true;
+  }
   bool queenantidiagonal(const ls_t& S) {
     std::map<size_t, std::set<size_t>> equiv_classes;
     for (size_t i = 0; i < S.size(); ++i) {
@@ -273,6 +285,19 @@ namespace Verification {
     }
     return true;
   }
+  bool queenantidiagonalm1(const ls_t& S) {
+    std::map<size_t, std::set<size_t>> equiv_classes;
+    for (size_t i = 0; i < S.size(); ++i) {
+      const ls_row_t& r = S[i];
+      for (size_t j = 0; j < r.size(); ++j) {
+        const size_t val = r[j];
+        if (val != 0 and not equiv_classes[sum_equiv(i,j)].insert(val).second)
+          return false;
+      }
+    }
+    return true;
+  }
+
 
   std::array<size_t, 2> box_index(const size_t i, const size_t j,
                                   const size_t N) noexcept {
@@ -413,6 +438,10 @@ namespace Verification {
         case CD::UC::clsm1 : if (not BS::clsm1(L)) return false; break;
         case CD::UC::rlsm2 : if (not BS::rlsm2(L)) return false; break;
         case CD::UC::clsm2 : if (not BS::clsm2(L)) return false; break;
+        case CD::UC::queendiagm1 :
+          if (not queendiagonalm1(L)) return false; else break;
+        case CD::UC::queenantidiagm1 :
+          if (not queenantidiagonalm1(L)) return false; else break;
         default : throw std::runtime_error("Verification::correct: unknown"
                                            " uc=" + std::to_string(int(uc)));
         }
