@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -99,6 +99,7 @@ int main(const int argc, const char* const argv[]) {
     if (cE == -1) ++cE_NA;
     else if (FP::isnan(cE)) ++cE_nan;
     else scE += cE;
+    const auto cE2 = d.cE2;
     if (cE2 == -1) ++cE2_NA;
     else if (FP::isnan(cE2)) ++cE2_nan;
     else scE2 += cE2;
