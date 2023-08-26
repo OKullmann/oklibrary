@@ -18,7 +18,6 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "DirStatistics.hpp"
-#include "DimacsTools.hpp"
 #include "ConflictGraphs.hpp"
 
 namespace {

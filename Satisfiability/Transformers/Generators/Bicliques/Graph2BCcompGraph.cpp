@@ -128,10 +128,12 @@ namespace {
     "                : " << Environment::WRP<CS>{} << "\n"
     " separator      : a string (possibly empty)\n"
     " input-option   : if present, CNF-input is processed\n\n"
-    " reads a graph from standard input, and prints the biclique-compatibility graph to standard output:\n\n"
+    " reads a graph from standard input, and prints the"
+    " biclique-compatibility graph to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - The empty string as separator turns off the vertex-naming.\n"
-    "  - When using \"-trans\", that is, counting-only, then sep can be the number of threads.\n\n"
+    "  - When using \"-trans\", that is, counting-only, then sep can be"
+    " the number of threads.\n\n"
 
 ;
     return true;
