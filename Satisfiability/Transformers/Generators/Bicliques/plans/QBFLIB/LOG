@@ -2415,3 +2415,32 @@ cE: 2362 : 54 6.60423e+11 5.45626e+14; 1.29655e+13 3.60607e+06
   NA=0 nan=17
 tcol: 199
   NA=0
+
+
+26.8.2023
+
+Computing cE2:
+
+QBFLIB> time ~/OKlib/Satisfiability/Transformers/Generators/Bicliques/DirEbccom2 QBF2BCC/ 40
+2379 0
+ignored : 0
+copied  : 514
+computed: 1865
+real    200m47.401s
+user    7986m22.214s
+sys     0m9.592s
+
+QBFLIB> DirExtract QBF2BCC
+"QBF2BCC.R"
+2379 0
+n: 2379 : 11 253.797 52521; 2172.46 80
+c: 2379 : 24 4170.49 720110; 29741 1251
+c2: 2379 : 14 1713.16 305115; 12670.6 459
+E: 2379 : 26 4.86952e+06 8.55645e+09; 1.76486e+08 20900
+E2: 2379 : 21 3.87144e+06 8.55645e+09; 1.75762e+08 3056
+cE: 2362 : 54 6.60423e+11 5.45626e+14; 1.29655e+13 3.60607e+06
+  NA=0 nan=17
+cE2: 2377 : 30 2.38768e+11 5.45626e+14; 1.11926e+13 196317
+  NA=0 nan=2
+tcol: 199
+  NA=0
