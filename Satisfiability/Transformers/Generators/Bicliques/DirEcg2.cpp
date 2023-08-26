@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
-        "25.8.2023",
+        "0.0.9",
+        "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEcg2.cpp",
@@ -40,7 +40,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " dirname\n\n"
-    " computes E2 for all cnfs's in dirname.\n\n"
+    " computes E2 for all cnf2's in dirname.\n\n"
 ;
     return true;
   }
