@@ -15,8 +15,8 @@
 #  6    count dom enu    mindeg  asc   1         0       0.091        605000       11850       20375     12  0
 
 # N=7:
-# ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" +count dom enu mindeg "" 1 16 ""
-# running on server2
+# ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" count dom enu mindeg "" 1 16 ""
+# XXX running on server2
 
 # The best combinations need to be found out above (and below).
 

@@ -1,7 +1,13 @@
 server:         0 running
 
 
-server2:        0 running
+server2:        3 running
+
+1. Queendiagonal/sudokum1       N=11
+2. Sudoku/p1bishop              N=7
+3. Sudoku/p6bishop              N=9
+
+
 
 
 server3:        0 running
