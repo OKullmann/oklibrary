@@ -30,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "25.8.2023",
+        "0.3.5",
+        "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -154,7 +154,7 @@ int main(const int argc, const char* const argv[]) {
   assert(A.size() == reduced + equals.size());
 
   if (with_removal) {
-    const std::string loggingname0 = argv[2],
+    const std::string loggingname0 = argv[3],
       loggingnameA=loggingname0+"A", loggingnameB=loggingname0+"B";
     std::ofstream loggingA(loggingnameA), loggingB(loggingnameB);
     if (not loggingA) {
