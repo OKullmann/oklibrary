@@ -32,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "25.8.2023",
+        "0.4.0",
+        "26.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -89,8 +89,9 @@ int main(const int argc, const char* const argv[]) {
   std::vector<AData> ad; ad.reserve(A.size());
   for (const auto& [i,a] : A) ad.emplace_back(a);
 
-  GenStats::StdStatsStore sn, sc, sc2, sE, sE2, scE;
-  count_t cE_NA = 0, cE_nan = 0, tcol = 0, tcol_NA = 0;
+  GenStats::StdStatsStore sn, sc, sc2, sE, sE2, scE, scE2;
+  count_t cE_NA = 0, cE_nan = 0, cE2_NA = 0, cE2_nan = 0,
+    tcol = 0, tcol_NA = 0;
   for (const auto& d : ad) {
     sn += d.n; sc += d.c; sc2 += d.c2;
     sE += d.E; sE2 += d.E2;
@@ -98,6 +99,9 @@ int main(const int argc, const char* const argv[]) {
     if (cE == -1) ++cE_NA;
     else if (FP::isnan(cE)) ++cE_nan;
     else scE += cE;
+    if (cE2 == -1) ++cE2_NA;
+    else if (FP::isnan(cE2)) ++cE2_nan;
+    else scE2 += cE2;
     if (d.tcol == 1) ++tcol;
     else if (d.tcol == -1) ++tcol_NA;
   }
@@ -108,6 +112,8 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "E2: " << sE2 << "\n";
   std::cout << "cE: " << scE << "\n  NA=" << cE_NA
             << " nan=" << cE_nan << "\n";
+  std::cout << "cE2: " << scE2 << "\n  NA=" << cE2_NA
+            << " nan=" << cE2_nan << "\n";
   std::cout << "tcol: " << tcol << "\n  NA=" << tcol_NA << std::endl;
 
   FloatingPoint::fullprec_float80(output);

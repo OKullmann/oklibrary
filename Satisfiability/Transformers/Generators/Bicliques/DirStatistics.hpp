@@ -347,25 +347,25 @@ namespace DirStatistics {
 
 
   struct AData {
-    static constexpr count_t N = 12;
+    static constexpr count_t N = 13;
     static std::string header() noexcept {
-      return " i p1 p2 p3 p4 n c c2 E E2 cE tcol";
+      return " i p1 p2 p3 p4 n c c2 E E2 cE cE2 tcol";
     }
     count_t i;
     std::array<count_t, 4> p;
     count_t n, c, c2, E, E2;
-    float_t cE, tcol; // value -1 encodes NA
+    float_t cE, cE2, tcol; // value -1 encodes NA
 
     AData(const adir& a) : i(a.i), p(extrpath(a)), n(a.n), c(a.c), c2(a.c2),
                            E(a.getu("E")), E2(a.getu("E2")),
-                           cE(a.getf("cE")),
+                           cE(a.getf("cE")), cE2(a.getf("cE2")),
                            tcol(a.getf(bipart_file)) {}
 
     typedef std::array<float_t, N> extract_t;
     extract_t extract() const noexcept {
       using t = float_t;
       return {t(i), t(p[0]), t(p[1]), t(p[2]), t(p[3]), t(n), t(c), t(c2),
-          t(E), t(E2), cE, tcol};
+          t(E), t(E2), cE, cE2, tcol};
     }
 
     struct parse_error : std::runtime_error {
@@ -397,7 +397,7 @@ namespace DirStatistics {
       Environment::out_line(out, a.p);
       out << " " << a.n << " " << a.c << " "
           << a.c2 << " " << a.E << " " << a.E2 << " "
-          << a.cE << " " << a.tcol;
+          << a.cE << " " << a.cE2 << " " << a.tcol;
       return out;
     }
   };
