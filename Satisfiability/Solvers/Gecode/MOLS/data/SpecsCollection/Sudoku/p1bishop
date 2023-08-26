@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 30, 0, >= 1, >= 1, >= 1, >= 1
+# 0, 0, 0, 30, 0, 5911738, >= 1, >= 1, >= 1
 
 
 # gcMols:
@@ -16,7 +16,9 @@
 
 # N=7:
 # ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" count dom enu mindeg "" 1 16 ""
-# XXX running on server2
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu    mindeg  asc   1   5911738    2382.380    5541745908    93094548   167245196     23  0
+
 
 # The best combinations need to be found out above (and below).
 
