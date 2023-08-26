@@ -60,6 +60,9 @@ License, or any later version. */
 TODOS:
 
 -1. Generalise queendiag and queenantidiag
+    - These conditions should actually be called bishopdiag and
+      bishopantidiag.
+
     - Likely we should have queen=queendiag+queenantidiag (and similarly for
       below).
     - DONE
@@ -68,16 +71,27 @@ TODOS:
       Gecode::distinct (Home, const IntVarArgs &x, int c)
       https://www.gecode.org/doc/6.2.0/reference/group__TaskModelIntDistinct.html
       whichs posts that all values of x are distinct except for c (= 0).
+
     - queendiaglast and queenantidiaglast only consider value N-1;
       so only 1 queen; based on
       Gecode::count (Home, const IntVarArgs &x, int n, IntRelType irt, int m)
       https://www.gecode.org/doc/6.2.0/reference/group__TaskModelIntCount.html
       whichs posts that the number of x with value n=N-1 is at most m=1.
       This is AMO (hopefully the case m=1 is handled specially).
+    - Actually we should better have
+        bishopf0 (for 0)
+        bishopf1
+      etc
+
+      The parameterised version could read
+        bishopset i_1 ... i_k
+      for 1 <= k <= N indices, requiring the bishop-condition for them.
     - The latter can be generalised using parameter 1 <= k <= N-2, posting
-      that the last k values are queens:
-       - One can just post for all values N-1, ..., N-k the AMO-condition.
-       - Is there something better?
+      that the first k values are bishops:
+       - One can just post for all values 0, ..., k-1 the AMO-condition.
+         That is, bishop(0), bishop(1), ... bishop(k-1).
+       - Is there something better? For k=N and k=N-1 we have specialised
+         constraints, but that seems to be it (in Gecode).
 
 0. Write documentation on the constraints
     - Perhaps in this file the "high-level" specification, with
