@@ -108,6 +108,8 @@ License, or any later version. */
 
       Output of sequences (ranges):
     - out_line(ostream&, RAN R, sep=" ", width=0) (for example std::vector)
+      more generally with a transformer T on the elements of R:
+      out_line_T(ostream&, RAN R, TRAN T, sep=" ", width=0)
     - out_pair(ostream&, PAIR P, sep=" ", width=0) (for example std::pair)
     - print1d(ostream&, std::tuple<T1, ...>, width_vector, seps)
 
@@ -124,6 +126,15 @@ License, or any later version. */
 
 
 TODOS:
+
+0. Likely more versions should be supplied providing transformers on ranges:
+    - As we have out_line and out_line_t.
+    - std::views::transform seems too complicated to use.
+    - Making a differentiation in the function-name should help avoiding
+      nasty overloading-problems.
+    - For example std::ranges::sort uses the notion of a "projection", but
+      otherwise "transformation" seems more usual (thus the "_T" --- "_t"
+      we typically use for types).
 
 1. Switch to namespace "Strings".
     - Or possibly stay with "Environment"?
@@ -680,6 +691,24 @@ namespace Environment {
       out << *it; ++it;
       for (; it != end; ++it) {
         out << sep; out.width(w); out << *it;
+      }
+    }
+  }
+  template <class RAN, class TRANS>
+  void out_line_T(std::ostream& out, const RAN& R, const TRANS& T,
+                  const std::string& sep = " ",
+                  const std::streamsize w = 0) {
+    if (R.empty()) return;
+    auto it = R.begin(); const auto end = R.end();
+    if (w == 0) {
+      out << T(*it); ++it;
+      for (; it != end; ++it) out << sep << T(*it);
+    }
+    else {
+      out.width(w);
+      out << T(*it); ++it;
+      for (; it != end; ++it) {
+        out << sep; out.width(w); out << T(*it);
       }
     }
   }
