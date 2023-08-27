@@ -19,7 +19,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "27.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -28,6 +28,10 @@ namespace {
 
   using namespace RandGen;
 
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -110,4 +114,41 @@ int main(const int argc, const char* const argv[]) {
    assert(values2.size() == size);
    assert(accuracymax(values1, values2) <= 1);
   }
+
+  {UniformVectors V(0,0,{});
+   assert(V.a == 0 and V.b == 0 and V.n == 1);
+   assert(eqp(V(0), {}));
+   assert(eqp(V(1), {0}));
+   assert(eqp(V(2), {0,0}));
+   assert(eqp(V(3), {0,0,0}));
+  }
+  {UniformVectors V(0,1,{});
+   assert(V.a == 0 and V.b == 1 and V.n == 2);
+   assert(eqp(V(0), {}));
+   assert(eqp(V(1), {0}));
+   assert(eqp(V(2), {0,0}));
+   assert(eqp(V(0), {}));
+   assert(eqp(V(3), {0,1,1}));
+  }
+  {UniformVectors V(1,0,{});
+   assert(V.a == 0 and V.b == 1 and V.n == 2);
+   assert(eqp(V(0), {}));
+   assert(eqp(V(1), {0}));
+   assert(eqp(V(2), {0,0}));
+   assert(eqp(V(0), {}));
+   assert(eqp(V(3), {0,1,1}));
+  }
+  {UniformVectors V(6,13,{77});
+   assert(V.a == 6 and V.b == 13 and V.n == 8);
+   assert(eqp(V(20), {7,9,7,13,7,6,7,9,13,7,6,10,10,13,12,6,9,12,6,12}));
+  }
+  {UniformVectors V(1,randgen_max,{});
+   assert(V.a == 1 and V.b == randgen_max and V.n == randgen_max);
+   assert(eqp(V(10), {835052665647855779ULL,3190053552572815829ULL,4634633302865102306ULL,6117669629961065222ULL,14178379554402451545ULL,16962453898710657878ULL,9687764880492433482ULL,17119310685016112210ULL,9933769879964784476ULL,15552734942315811377ULL}));
+  }
+  {UniformVectors V(0,randgen_max,{});
+   assert(V.a == 0 and V.b == randgen_max and V.n == 0);
+   assert(eqp(V(10), {835052665647855778ULL,3190053552572815828ULL,4634633302865102305ULL,6117669629961065221ULL,14178379554402451544ULL,16962453898710657877ULL,9687764880492433481ULL,17119310685016112209ULL,9933769879964784475ULL,15552734942315811376ULL}));
+  }
+
 }

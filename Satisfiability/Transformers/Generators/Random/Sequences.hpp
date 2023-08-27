@@ -78,6 +78,8 @@ License, or any later version. */
 
 #include <ostream>
 #include <iterator>
+#include <algorithm>
+#include <vector>
 
 #include <cassert>
 #include <cstdint>
@@ -87,7 +89,54 @@ License, or any later version. */
 // Guaranteed to be included:
 #include "Numbers.hpp"
 
+#include "Distributions.hpp"
+
 namespace RandGen {
+
+  /*
+    Convenience wrappers
+
+      - UniformVectors V(a,b, seeds) :
+          calls to V(N) create a vector of length N with "random" elements
+          from the closed interval [a,b], where if a>b, then these values are
+          swapped.
+  */
+
+  class UniformVectors {
+  public :
+    const gen_uint_t a, b, n; // a, b here mean the closed interval, except
+                              // when a=0, b=randgen_max.
+
+    UniformVectors(const gen_uint_t a0, const gen_uint_t b0,
+                   const vec_eseed_t& v) noexcept :
+      a(std::min(a0,b0)), b(std::max(a0,b0)), n((b-a)+1),
+      U(n==0?1:n, n==0?vec_seed_t{}:transform(v), n==0?0:a) {}
+
+
+    std::vector<gen_uint_t> operator ()(const gen_uint_t N) {
+      if (N == 0) return {};
+      if (a == b) return std::vector<gen_uint_t>(N,a);
+      std::vector<gen_uint_t> res; res.reserve(N);
+      if (n == 0)
+        for (gen_uint_t i = 0; i < N; ++i) res.push_back(U.g());
+      else
+        for (gen_uint_t i = 0; i < N; ++i) res.push_back(U());
+      return res;
+    }
+
+  private :
+    UniformRangeS U;
+  };
+
+
+  /*
+    ExpSeq(E,S,N,true/false)
+
+    provides a sequence (as a range) of random values, which can be
+    transformed into a sequence of
+      E * (10^S - 1) * N
+    many floating-point numbers, ranging roughly from 1 to 10^E.
+  */
 
   struct ExpSeq {
     typedef gen_uint_t size_t;
