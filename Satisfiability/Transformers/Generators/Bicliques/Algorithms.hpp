@@ -35,6 +35,19 @@ License, or any later version. */
 
    - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
 
+   Finding equal elements:
+
+    - not_eqel_bysort(VEC v) -> std::vector<std::vector<FloatingPoint::UInt_t>>
+      computes the nontrivial equivalence-classes regarding == on v (via
+      indices), by stably sorting the indices of v w.r.t. == on the
+      corresponding elements of v (w.r.t. <), and then extracting subsequent
+      equal intervals;
+      thus the result-elements are sorted vectors of indices, and this
+      collection of vectors is lexicographically sorted w.r.t. v.
+    - nt_eqel_bydef(VEC v) compares the elements directly (thus using
+      only ==), and so the collection of vectors (the equivalence-classes)
+      is sorted lexicographically w.r.t. the indices themselves.
+
    Graph algorithms:
 
    - finding greedily a maximal independent set in a graph, given by
@@ -279,6 +292,65 @@ namespace Algorithms {
     };
     using std::begin; using std::end;
     return std::accumulate(begin(r), end(r), ui(0), op);
+  }
+
+
+  // Using only ==:
+  typedef std::vector<std::vector<FloatingPoint::UInt_t>> vec_equivs_t;
+  template <class VEC>
+  vec_equivs_t nt_eqel_bydef(const VEC& v) {
+    using UInt_t = FloatingPoint::UInt_t;
+    const UInt_t size = v.size();
+    if (size <= 1) return {};
+    vec_equivs_t res;
+    std::vector<bool> eliminated(size);
+    for (UInt_t i = 0; i < size-1; ++i) {
+      if (eliminated[i]) continue;
+      const auto& x = v[i];
+      UInt_t j = i+1;
+      while (not (v[j] == x)) if (++j == size) break;
+      if (j != size) {
+        std::vector<UInt_t> eqcl;
+        eqcl.push_back(i);
+        eqcl.push_back(j); eliminated[j] = true;
+        while (++j < size)
+          if (not eliminated[j] and v[j] == x) {
+            eqcl.push_back(j); eliminated[j] = true;
+          }
+        res.push_back(std::move(eqcl));
+      }
+    }
+    return res;
+  }
+  // Using == and <:
+  template <class VEC>
+  vec_equivs_t nt_eqel_bysort(const VEC& v) {
+    using UInt_t = FloatingPoint::UInt_t;
+    const UInt_t size = v.size();
+    if (size <= 1) return {};
+    std::vector<UInt_t> indices; indices.reserve(size);
+    for (UInt_t i = 0; i < size; ++i) indices.push_back(i);
+    std::ranges::stable_sort(indices, [&v](UInt_t i, UInt_t j)noexcept{
+                               return v[i] < v[j];});
+    vec_equivs_t res;
+    for (UInt_t i = 0; i < size-1;) {
+      const UInt_t indi = indices[i];
+      const auto& x = v[indi];
+      UInt_t j = i+1;
+      const UInt_t indj = indices[j];
+      if (v[indj] == x) {
+        std::vector<UInt_t> eqcl;
+        eqcl.push_back(indi); eqcl.push_back(indj);
+        while (++j < size) {
+          const UInt_t indj = indices[j];
+          if (v[indj] == x) eqcl.push_back(indj);
+          else break;
+        }
+        res.push_back(std::move(eqcl));
+      }
+      i = j;
+    }
+    return res;
   }
 
 

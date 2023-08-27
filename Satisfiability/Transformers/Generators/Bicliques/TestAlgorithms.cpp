@@ -16,14 +16,15 @@ License, or any later version. */
 
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
+#include <Transformers/Generators/Random/Sequences.hpp>
 
 #include "Algorithms.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.4",
-        "8.8.2023",
+        "0.3.0",
+        "28.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -224,6 +225,36 @@ int main(const int argc, const char* const argv[]) {
   }
   {using vt = std::array<int [5], 2>;
    assert(sum_sizes(vt{}) == 10);
+  }
+
+  {typedef std::vector<int> v_t;
+   typedef std::vector<v_t> vv_t;
+   assert(eqp(nt_eqel_bysort(vv_t{}), {}));
+   assert(eqp(nt_eqel_bysort(vv_t{v_t{}}), {}));
+   assert(eqp(nt_eqel_bysort(vv_t{v_t{},v_t{}}), {{0,1}}));
+   assert(eqp(nt_eqel_bysort(vv_t{v_t{},v_t{0},v_t{},v_t{2},v_t{0}}),
+                             {{0,2},{1,4}}));
+  }
+  {RandGen::UniformVectors V(4,17,{});
+   for (size_t s = 0; s <= 30; ++s)
+     for (size_t i = 0; i < 200; ++i) {
+       const auto S = V(s);
+       auto res1 = nt_eqel_bysort(S);
+       std::ranges::sort(res1);
+       const auto res2 = nt_eqel_bydef(S);
+       assert(res1 == res2);
+     }
+  }
+  {RandGen::UniformVectors V(6,7,{333});
+   for (size_t i = 0; i < 200; ++i)
+     for (size_t s = 0; s < 33; ++s) {
+       std::vector<std::vector<size_t>> v2; v2.reserve(s);
+       for (size_t j = 0; j < s; ++j) v2.push_back(V(5));
+       auto res1 = nt_eqel_bysort(v2);
+       std::ranges::sort(res1);
+       const auto res2 = nt_eqel_bydef(v2);
+       assert(res1 == res2);
+     }
   }
 
   {const auto pred = [](const unsigned i, const unsigned j){return i==j;};
