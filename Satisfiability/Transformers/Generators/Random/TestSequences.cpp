@@ -1,11 +1,15 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
+#include <iterator>
+#include <vector>
+#include <algorithm>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/FloatingPoint.hpp>
@@ -15,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "8.11.2020",
+        "0.1.2",
+        "27.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestSequences.cpp",
@@ -90,14 +94,20 @@ int main(const int argc, const char* const argv[]) {
      }
    }
   }
-  {ExpSeq S(4,2,3,false);
-   typedef ExpSeq::size_t size_t;
-   auto it = S.begin();
-   for (size_t i = 0; i < S.main_size(); ++i) {
-     for (size_t j = 0; j < S.N; ++j, ++it)
-       //std::cout << FloatingPoint::Wrap(S.translate<FloatingPoint::float80>(*it)) << " ";
-       ;//std::cout << "\n";
-   }
-   assert(it == S.end());
+  {const ExpSeq S(4,2,3,false);
+   const gen_uint_t size = 3*4*99;
+   assert(S.size() == size);
+   std::ostringstream ss;
+   using namespace FloatingPoint;
+   fullprec_float80(ss);
+   Environment::out_line_T(ss, S, ExpSeq::translate<float80>);
+   assert(ss.str().size() == 29036);
+   const auto values1 = to_vec_float80(ss.str(), ' ');
+   assert(values1.size() == size);
+   std::vector<float80> values2; values2.reserve(size);
+   std::ranges::transform(S, std::back_inserter(values2),
+                          ExpSeq::translate<float80>);
+   assert(values2.size() == size);
+   assert(accuracymax(values1, values2) <= 1);
   }
 }
