@@ -37,7 +37,7 @@ License, or any later version. */
 
    Finding equal elements:
 
-    - not_eqel_bysort(VEC v) -> std::vector<std::vector<FloatingPoint::UInt_t>>
+    - nt_eqel_bysort(VEC v) -> std::vector<std::vector<FloatingPoint::UInt_t>>
       computes the nontrivial equivalence-classes regarding == on v (via
       indices), by stably sorting the indices of v w.r.t. == on the
       corresponding elements of v (w.r.t. <), and then extracting subsequent
@@ -47,6 +47,9 @@ License, or any later version. */
     - nt_eqel_bydef(VEC v) compares the elements directly (thus using
       only ==), and so the collection of vectors (the equivalence-classes)
       is sorted lexicographically w.r.t. the indices themselves.
+
+      Above from VEC just size, and [] is required, where the arguments of
+      [] (the indices) can be FloatingPoint::UInt_t.
 
    Graph algorithms:
 

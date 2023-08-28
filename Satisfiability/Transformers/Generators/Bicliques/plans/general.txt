@@ -167,7 +167,8 @@ UPDATE: Started with RandomGraphs.hpp.
 ---
 
 0. New program CNFstats.cpp
-
+ - Compute the graph-statistics without creating the graph;
+   as with CNF2cg.cpp .
  - DONE Reading strict Dimacs.
  - DONE Reporting the dimacs-parameters.
  - DONE Then the clause-statistics.
