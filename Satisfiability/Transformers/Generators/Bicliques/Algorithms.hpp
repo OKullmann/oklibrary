@@ -48,8 +48,19 @@ License, or any later version. */
       only ==), and so the collection of vectors (the equivalence-classes)
       is sorted lexicographically w.r.t. the indices themselves.
 
-      Above from VEC just size, and [] is required, where the arguments of
-      [] (the indices) can be FloatingPoint::UInt_t.
+      Both functions use only the indices of VEC v.
+
+    - nt_eqel_byhash(VEC v, HASH h, COMP c) in a sense combines the above
+      two approaches; for a good hash-function h we only compare
+      the equal elements (and only with the first of them).
+      So if a good h can be provided, this should be the most efficient
+      approach (the default for h is the identity, which means that just
+      the inverse of the map v (from indices to values) is computed, via
+      a std::map). COMP c is == by default.
+      The resulting order is the same as of nt_eqel_bydef.
+
+      Above, for VEC just size and [] is required, where the arguments of
+      [] (the indices) are FloatingPoint::UInt_t.
 
    Graph algorithms:
 
@@ -98,6 +109,9 @@ TODOS:
 #include <algorithm>
 #include <iterator>
 #include <array>
+#include <map>
+#include <set>
+#include <functional>
 
 #include <cassert>
 
@@ -323,6 +337,57 @@ namespace Algorithms {
         res.push_back(std::move(eqcl));
       }
     }
+    return res;
+  }
+  template <class RAN>
+  struct trivial_hash {
+    typedef typename RAN::value_type return_type;
+    return_type operator()(const return_type& x) const {return x;}
+  };
+  // More generally, using comparison by COMP, and relying on a
+  // "good" hash-function (using the default just means the simple
+  // algorithm using a map from the elements to their indices, which needs
+  // < on the value_type of VEC):
+  template <class VEC,
+            class HASH = trivial_hash<VEC>,
+            class COMP= std::equal_to<typename VEC::value_type>>
+  vec_equivs_t nt_eqel_byhash(const VEC& v,
+                              const HASH& hash = HASH(),
+                              const COMP& comp = COMP()) {
+    using UInt_t = FloatingPoint::UInt_t;
+    const UInt_t size = v.size();
+    if (size <= 1) return {};
+    typedef std::map<typename HASH::return_type, std::set<UInt_t>> map_t;
+    map_t M;
+    for (UInt_t i = 0; i < size; ++i) M[hash(v[i])].insert(i);
+    vec_equivs_t res;
+    for (auto [h,S] : M) {
+       if (S.size() == 1) continue;
+       const auto end = S.end();
+       do {
+         assert(not S.empty());
+         auto it = S.begin();
+         const UInt_t i = *it;
+         const auto& x = v[i];
+         it = S.erase(it);
+         assert(it != end);
+         while (not comp(v[*it], x)) if (++it == end) break;
+         if (it != end) {
+           std::vector<UInt_t> eqcl;
+           eqcl.push_back(i); eqcl.push_back(*it);
+           it = S.erase(it);
+           while (it != end) {
+             if (comp(v[*it], x)) {
+               eqcl.push_back(*it);
+               it = S.erase(it);
+             }
+             else ++it;
+           }
+           res.push_back(std::move(eqcl));
+         }
+       } while (not S.empty());
+    }
+    std::ranges::sort(res);
     return res;
   }
   // Using == and <:

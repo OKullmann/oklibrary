@@ -13,6 +13,7 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
@@ -23,7 +24,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
+        "0.3.1",
         "28.8.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -239,10 +240,13 @@ int main(const int argc, const char* const argv[]) {
    for (size_t s = 0; s <= 30; ++s)
      for (size_t i = 0; i < 200; ++i) {
        const auto S = V(s);
-       auto res1 = nt_eqel_bysort(S);
-       std::ranges::sort(res1);
-       const auto res2 = nt_eqel_bydef(S);
+       const auto res1 = nt_eqel_bydef(S);
+       auto res2 = nt_eqel_bysort(S);
+       std::ranges::sort(res2);
        assert(res1 == res2);
+       auto res3 = nt_eqel_byhash(S);
+       std::ranges::sort(res3);
+       assert(res1 == res3);
      }
   }
   {RandGen::UniformVectors V(6,7,{333});
@@ -250,10 +254,14 @@ int main(const int argc, const char* const argv[]) {
      for (size_t s = 0; s < 33; ++s) {
        std::vector<std::vector<size_t>> v2; v2.reserve(s);
        for (size_t j = 0; j < s; ++j) v2.push_back(V(5));
-       auto res1 = nt_eqel_bysort(v2);
-       std::ranges::sort(res1);
-       const auto res2 = nt_eqel_bydef(v2);
+       const auto res1 = nt_eqel_bydef(v2);
+       auto res2 = nt_eqel_bysort(v2);
+       std::ranges::sort(res2);
        assert(res1 == res2);
+       const auto res3 = nt_eqel_byhash(v2);
+       assert(res1 == res3);
+       const auto res4 = nt_eqel_byhash(v2, FloatingPoint::hash_UInt_range());
+       assert(res1 == res4);
      }
   }
 
