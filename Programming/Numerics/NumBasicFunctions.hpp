@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.1.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,10 +33,23 @@ License, or any later version. */
 
     - Log2 (= log(2))
     - euler, eulerm1
-    - pi
-    - Sqr2 = sqrt(2), Cbr2 = cbrt(2), Qar2 = qart(2)
-    - golden_ratio, log_golden_ratio, log_golden_ratio64
 
+    - pi
+
+    - Sqr2 = sqrt(2), Cbr2 = cbrt(2), Qar2 = qart(2)
+
+    - golden_ratio, log_golden_ratio, log_golden_ratio64
+      UInt_t golden_ratio_u64 (rounded P264 / golden_ration to nearest)
+      uint_t golden_ratio_u32 (rounded P232 / golden_ration to nearest).
+
+  Hashing:
+
+    - hash(UInt_t) -> UInt_t
+    - hash(uint_t) -> uint_t
+    - hash_combine(UInt_t& seed, UInt_t other)
+    - hash_combine(uint_t& seed, uint_t other)
+
+    (see ProgramOptions/Strings.hpp for a hash-function for strings).
 
 */
 
@@ -49,7 +62,7 @@ License, or any later version. */
 #include <cmath>
 
 #include "NumTypes.hpp"
-
+#include "Conversions.hpp"
 
 namespace FloatingPoint {
 
@@ -229,6 +242,10 @@ namespace FloatingPoint {
   STATIC_ASSERT(exp(log_golden_ratio) == golden_ratio);
   constexpr float64 log_golden_ratio64 = log_golden_ratio;
   STATIC_ASSERT(log_golden_ratio64 == std::log(std::numbers::phi));
+  constexpr UInt_t golden_ratio_u64 = UInt_t(round(P264 * (golden_ratio-1)));
+  static_assert(golden_ratio_u64 == 0x9e3779b97f4a7c16LLU);
+  constexpr uint_t golden_ratio_u32 = uint_t(round(P232 * (golden_ratio-1)));
+  static_assert(golden_ratio_u32 == 0x9e3779b9U);
 
 
   inline constexpr float80 cb(const float80 x) noexcept {
@@ -297,6 +314,39 @@ namespace FloatingPoint {
   STATIC_ASSERT(erfc(1) == 0.15729920705028513066L);
   STATIC_ASSERT(erfc(-1) == 1.8427007929497148693L);
 
+
+  inline constexpr uint_t hash(uint_t x) noexcept {
+    x = ((x >> 16) ^ x) * 0x45d9f3bU;
+    x = ((x >> 16) ^ x) * 0x45d9f3bU;
+    x = (x >> 16) ^ x;
+    return x;
+  }
+  static_assert(hash(uint_t(0)) == 0);
+  static_assert(hash(uint_t(1)) == 824515495);
+  inline constexpr UInt_t hash(UInt_t x) noexcept {
+    x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+    x = x ^ (x >> 31);
+    return x;
+  }
+  static_assert(hash(UInt_t(0)) == 0);
+  static_assert(hash(UInt_t(1)) == 6238072747940578789ULL);
+  inline void hash_combine(uint_t& seed, uint_t other) noexcept {
+    seed ^= other + golden_ratio_u32 + (seed<<6) + (seed>>2);
+  }
+  inline void hash_combine(UInt_t& seed, UInt_t other) noexcept {
+    seed ^= other + golden_ratio_u64 + (seed<<12) + (seed>>4);
+  }
+
+  struct hash_UInt_range {
+    typedef UInt_t return_type;
+    template <class RAN>
+    UInt_t operator ()(const RAN& r) const noexcept {
+      UInt_t seed = r.size();
+      for (const auto x : r) hash_combine(seed, hash(x));
+      return seed;
+    }
+  };
 
 }
 

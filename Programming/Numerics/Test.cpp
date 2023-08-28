@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.8",
-        "26.5.2022",
+        "0.12.0",
+        "28.8.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1304,6 +1304,13 @@ int main(const int argc, const char* const argv[]) {
    assert((sequences<UInt>("3;7;0") == v_t{3,7,0}));
    assert((sequences<UInt>(" 3, 5, 2; 7,8;0,-1,-1;; 4,3, 2, 1") ==
            v_t{3,5,7,8,0,65535,4,3,2,1}));
+  }
+
+  {typedef std::vector<UInt_t> v_t;
+   assert(hash_UInt_range()(v_t{}) == 0);
+   assert(hash_UInt_range()(v_t{0}) == 11400714819323202583ULL);
+   assert(hash_UInt_range()(v_t{1}) == 17638787567263781370ULL);
+   assert(hash_UInt_range()(v_t{0,0}) == 9332004819663780291ULL);
   }
 
 }
