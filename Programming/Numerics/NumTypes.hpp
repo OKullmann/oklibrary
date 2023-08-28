@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,6 +18,7 @@ License, or any later version. */
   The type limitfloat resp. limitfloat64 abbreviates the
   corresponding limits-type. Additionally the constants P264m1 = 2^64-1
   of type UInt_t and P232m1 = 2^32-1 of type uint_t are defined.
+  P264 and P232 are of type float80
 
 
   Listing of all provided components:
@@ -40,6 +41,7 @@ License, or any later version. */
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
    - constants P264m1, P232m1, P231m1
+     (P264, P232 of type float80)
    - functions for checking integrality:
     - isUInt(float80), isUInt(list of float80),
     - isuint(float80)
@@ -211,8 +213,12 @@ namespace FloatingPoint {
   constexpr float80 P264 = 18446744073709551616.0L;
   constexpr float80 P232 = 4294967296.0L;
   static_assert(P264 == 1.8446744073709551616e19L);
-  static_assert(P232 == 4.294967296e9L);
+  static_assert(P264 == float80(P264m1) + 1);
+  static_assert(UInt_t(P264-1) == P264m1);
   static_assert(-(-P264) == P264);
+  static_assert(P232 == 4.294967296e9L);
+  static_assert(P232 == float80(P232m1) + 1);
+  static_assert(uint_t(P232-1) == P232m1);
 
   // Exactly the integers in the interval [-P264, +P264] are exactly
   // represented by float80:
