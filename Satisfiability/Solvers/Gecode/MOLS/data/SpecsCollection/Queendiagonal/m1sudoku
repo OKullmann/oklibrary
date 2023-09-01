@@ -1,5 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0
+# >= 1
 
 # For N <= 10 the same as with "sudoku".
 
@@ -25,7 +26,8 @@
 
 # N=11:
 # MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
-# XXX running on server2
+# aborted after real    9446m46.496s user    73643m20.488s sys     67830m20.999s
+# and 1 solution found.
 
 
 # TODO: The best combination needs to be determined (the above took the combination from "sudoku").
