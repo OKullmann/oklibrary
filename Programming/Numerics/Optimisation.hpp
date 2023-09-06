@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.12.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,15 +8,41 @@ License, or any later version. */
 /*
   Tools for mathematical optimisation
 
+   Examples:
+    - bealef(vec_t) -> y_t
+    - goldsteinpricef(vec_t) -> y_t
+
    Basic functions:
 
-    - eval(function_t, vec_t, y_t) -> y_t
+    - expand(f0_t) -> function_t
+
+    - eval(function_t, vec_t, y_t bound) -> y_t (
     - eval(function_t, fpoint_t) -> y_t
-
     - min_value_points(list_points_t) -> y_t
-    - val_argument_points(list_points_t, y_t) -> point_t
-    - min_argument_points(list_points_t) -> point_t
 
+    - val_argument_points(list_points_t, y_t val) -> point_t
+      (find the points with given value val, and return the middle-point)
+    - min_argument_points(list_points_t) -> point_t
+      (computing the minimal value, and apply val_argument_points)
+
+    Helper functions for optimisation:
+
+     -  valid_partitionsize(index_t M) (just excluding the maximum index_t)
+
+    Algorithm bbopt_index handles one index and one subdivision of its
+    interval:
+
+      bbopt_index(vec_t x, const y_t y0, const index_t i,
+        const Interval I, const function_t f,
+        const index_t M,
+        RandGen::RandGen_t* const rg = nullptr,
+        const SP::Smode sm = SP::Smode::eq_un)
+
+      bbopt_index_parallel(vec_t x, const y_t y0, const index_t i,
+        const Interval I, const function_t f,
+        const index_t M, const index_t T,
+        RandGen::RandGen_t* const rg = nullptr,
+        const SP::Smode sm = SP::Smode::eq_un)
 
     Algorithm bbopt_rounds_scan (minimising coordinates independently in
     rounds, with shrinking of intervals, and possible scanning of starting
@@ -43,7 +69,7 @@ License, or any later version. */
        bbopt_rounds_app(const int argc, const char* const argv[], FUNC F)
        -> fpoint_t
 
-     which constructs the arguments for bbopt_rounds from the command-line
+     which constructs the arguments for bbopt_rounds_scan from the command-line
      arguments.
      If one wants to improve given values, then the x-values shall be given
      as the point inside the intervals (while the y-value will be computed).
@@ -55,9 +81,12 @@ License, or any later version. */
 
      Shrinking the intervals (parameter S) is done via function
        shrink_intervals.
+     Performing the rounds happens in bbopt_rounds.
 
 
 TODOS:
+
+-2. Put scanning-phase into free-standing function.
 
 -1. Create application-tests (BBOpt.cpp).
 
@@ -221,7 +250,7 @@ namespace Optimisation {
   }
 
   inline y_t eval(const function_t f, const fpoint_t& p) noexcept {
-    return eval(f,p.x,p.y);
+    return eval(f, p.x, p.y);
   }
 
 
@@ -535,7 +564,8 @@ namespace Optimisation {
 
 
   fpoint_t bbopt_rounds_scan(
-      const evec_t& x, const list_intervals_t& I, const function_t f, const Parameters& P,
+      const evec_t& x, const list_intervals_t& I, const function_t f,
+      const Parameters& P,
       RandGen::vec_eseed_t seeds, const bool randomised) {
     const auto N = x.size();
     assert(I.size() == N);
@@ -570,59 +600,59 @@ namespace Optimisation {
       assert(init_poss.size() == N);
 
       auto ipc = init_poss;
-       typedef SP::Lockstep<vec_t, FP::float80> LS_t;
-       typedef LS_t::vcon_t vcon_t;
-       typedef LS_t::vpelem_t vpelem_t;
-       std::vector<LS_t> equiv_classes; equiv_classes.reserve(N);
-       vec_t currv(N);
-       for (index_t i = 0; i < N; ++i)
-         if (not x[i].isint or not x[i].hase0)
-           equiv_classes.emplace_back(
-             vcon_t{std::move(ipc[i])}, vpelem_t{&currv[i]});
-       assert(equiv_classes.size() <= N);
-       assert(has_e0 or equiv_classes.size() == N);
-       if (has_e0) {
-         std::map<FP::UInt_t, std::vector<index_t>> groups;
-         for (index_t i = 0; i < N; ++i) {
-           if (not x[i].isint or not x[i].hase0) continue;
-           assert(FP::isUInt(FP::abs(x[i].x)));
-           const FP::UInt_t m = FP::abs(x[i].x);
-           groups[m].push_back(i);
-         }
-         for (const auto& pair : groups) {
-           const std::vector<index_t>& group = pair.second;
-           vcon_t C; C.reserve(group.size());
-           vpelem_t D; D.reserve(group.size());
-           for (const index_t j : group) {
-             C.push_back(std::move(ipc[j]));
-             D.push_back(&currv[j]);
-           }
-           equiv_classes.emplace_back(std::move(C), std::move(D));
-         }
-       }
-       assert(N == [&equiv_classes]{
-                index_t s = 0;
-                for (const auto& ec : equiv_classes) s += ec.content.size();
-                return s;}());
-       std::vector<LS_t::It> equicl_it;
-       equicl_it.reserve(equiv_classes.size());
-       for (const auto& ec : equiv_classes)
-         equicl_it.push_back(ec.begin());
-       const auto b = equicl_it;
-       const std::vector<LS_t::It> e = [&equiv_classes]{
-         std::vector<LS_t::It> res;
-         for (const auto& ec : equiv_classes)
-           res.push_back(ec.end());
-         return res;}();
-       /*
-       auto copy = equicl_it;
-       do {
-         for (index_t i = 0; i < equiv_classes.size(); ++i)
-           equiv_classes[i].update(copy[i]);
-         for (const auto x : currv) std::cerr << x << " ";
-         std::cerr << "\n";
-       } while (SP::next_combination(copy, b, e));
-       */
+      typedef SP::Lockstep<vec_t, FP::float80> LS_t;
+      typedef LS_t::vcon_t vcon_t;
+      typedef LS_t::vpelem_t vpelem_t;
+      std::vector<LS_t> equiv_classes; equiv_classes.reserve(N);
+      vec_t currv(N);
+      for (index_t i = 0; i < N; ++i)
+        if (not x[i].isint or not x[i].hase0)
+          equiv_classes.emplace_back(
+            vcon_t{std::move(ipc[i])}, vpelem_t{&currv[i]});
+      assert(equiv_classes.size() <= N);
+      assert(has_e0 or equiv_classes.size() == N);
+      if (has_e0) {
+        std::map<FP::UInt_t, std::vector<index_t>> groups;
+        for (index_t i = 0; i < N; ++i) {
+          if (not x[i].isint or not x[i].hase0) continue;
+          assert(FP::isUInt(FP::abs(x[i].x)));
+          const FP::UInt_t m = FP::abs(x[i].x);
+          groups[m].push_back(i);
+        }
+        for (const auto& pair : groups) {
+          const std::vector<index_t>& group = pair.second;
+          vcon_t C; C.reserve(group.size());
+          vpelem_t D; D.reserve(group.size());
+          for (const index_t j : group) {
+            C.push_back(std::move(ipc[j]));
+            D.push_back(&currv[j]);
+          }
+          equiv_classes.emplace_back(std::move(C), std::move(D));
+        }
+      }
+      assert(N == [&equiv_classes]{
+               index_t s = 0;
+               for (const auto& ec : equiv_classes) s += ec.content.size();
+               return s;}());
+      std::vector<LS_t::It> equicl_it;
+      equicl_it.reserve(equiv_classes.size());
+      for (const auto& ec : equiv_classes)
+        equicl_it.push_back(ec.begin());
+      const auto b = equicl_it;
+      const std::vector<LS_t::It> e = [&equiv_classes]{
+        std::vector<LS_t::It> res;
+        for (const auto& ec : equiv_classes)
+          res.push_back(ec.end());
+        return res;}();
+      /*
+        auto copy = equicl_it;
+        do {
+        for (index_t i = 0; i < equiv_classes.size(); ++i)
+        equiv_classes[i].update(copy[i]);
+        for (const auto x : currv) std::cerr << x << " ";
+        std::cerr << "\n";
+        } while (SP::next_combination(copy, b, e));
+      */
 
       fpoint_t optimum; optimum.y = FP::pinfinity;
       if (P.T == 1) { // sequential

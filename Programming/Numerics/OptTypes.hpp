@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.1.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,31 +8,37 @@ License, or any later version. */
 /*
   Types for optimisation components
 
-   - x_t, y_t
-   - vec_t (vector of x_t), valid(vec_t)
-   - evec_t (vector of x_t or integers)
-   - index_t
+   Typedefs:
+   - x_t, y_t (both just float80)
+   - vec_t (vector of x_t)
+     valid(vec_t) (not empty and no NaN)
+   - evec_t (vector of F80ai)
+   - index_t (UInt_t)
    - function_t ((vec_t, y_t) -> y_t)
+     (the "underlying function" f0_t just is vec_t -> y_t)
 
-   - point_t:
-     - data-members x (x_t), y
-     - valid(point_t)
-     - operators ==, <<
-   - list_points_t (vector of point_t), valid(list_points_t)
-   - fpoint_t:
-     - data-members x (vec_t), y
-     - valid(fpoint_t)
-     - operators ==, <<
+   - struct point_t:
+     - data-members x : x_t, y : y_t
+     - valid(point_t) (none NaN)
+     - operators == (default), << (comma-separated)
+   - typedef list_points_t (vector of point_t)
+     valid(list_points_t) (all valid)
+
+   - struct fpoint_t:
+     - data-members x : vec_t, y : y_t
+     - valid(fpoint_t) (none NaN)
+     - operators ==, << ( "(x_1,...,x_n),y" )
 
    - Interval:
-     - data-members l, r, hl, hr (all x_t)
+     - data-members l, r, hl, hr (all x_t; l,r "soft" bounds, hl, hr "hard"
      - constructors:
       - Interval()
       - Interval(l,r)
       - Interval(l,r.hl,hr)
      - valid(Interval)
      - operators ==
-   - list_intervals_t (vector of Interval), valid(list_intervals_t)
+   - typedeflist_intervals_t (vector of Interval)
+     valid(list_intervals_t)
 
     - element(x_t, Interval)
     - element(point_t, Interval)
@@ -91,7 +97,8 @@ namespace Optimisation {
     x_t x; y_t y;
     friend constexpr bool operator ==(const point_t&, const point_t&) noexcept;
   };
-  inline constexpr bool operator ==(const point_t& lhs, const point_t& rhs) noexcept = default;
+  inline constexpr bool operator ==(const point_t&, const point_t&)
+    noexcept = default;
   inline bool valid(const point_t p) noexcept {
     return not FP::isnan(p.x) and not FP::isnan(p.y);
   }
@@ -133,9 +140,11 @@ namespace Optimisation {
       Interval(l,r,0,FP::pinfinity) {}
     constexpr Interval() noexcept : Interval(0,0) {}
 
-    friend constexpr bool operator ==(const Interval&, const Interval&) noexcept;
+    friend constexpr bool operator ==(const Interval&, const Interval&)
+      noexcept;
   };
-  inline constexpr bool operator ==(const Interval& lhs, const Interval& rhs) noexcept = default;
+  inline constexpr bool operator ==(const Interval&, const Interval&)
+    noexcept = default;
   inline constexpr bool valid(const Interval& I) noexcept {
     return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }
@@ -162,7 +171,8 @@ namespace Optimisation {
       if (not element(v[i], I[i])) return false;
     return true;
   }
-  inline bool element(const list_points_t& v, const list_intervals_t& I) noexcept {
+  inline bool element(const list_points_t& v, const list_intervals_t& I)
+    noexcept {
     const index_t N = v.size();
     assert(I.size() >= N);
     for (index_t i = 0; i < N; ++i)
