@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.0",
-        "28.8.2023",
+        "0.12.1",
+        "3.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1157,6 +1157,22 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(curr, {1,1}));
    assert(not next_combination(curr, {0,0}, {2,2}));
    assert(eqp(curr, {2,2}));
+   assert(eqp(get_vit_range(itv_t{0},{1}), {{0}}));
+   assert(eqp(get_vit_range(itv_t{2},{5}), {{2},{3},{4}}));
+   assert(eqp(get_vit_range(itv_t{0,0},{2,2}), {{0,0},{1,0},{0,1},{1,1}}));
+   assert(eqp(get_vit_range(itv_t{-1,0},{2,3}),
+              {{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1},{-1,2},{0,2},{1,2}}));
+  }
+
+  {typedef std::vector<std::vector<float80>> vcon_t;
+   assert(eqp(get_vcon_range(vcon_t{}), {}));
+   assert(eqp(get_vcon_range(vcon_t{{},{}}), {{}}));
+   assert(eqp(get_vcon_range(vcon_t{{-1},{2}}), {{-1,2}}));
+   assert(eqp(get_vcon_range(vcon_t{{-1,7,-2},{2,3.5,5}}),
+              {{-1,2},{7,3.5},{-2,5}}));
+   assert(eqp(get_vcon_range(vcon_t{{5},{-77},{33}}), {{5,-77,33}}));
+   assert(eqp(get_vcon_range(vcon_t{{5,6,-10},{-77,-88,-99},{33,44,55}}),
+              {{5,-77,33},{6,-88,44},{-10,-99,55}}));
   }
 
   {assert(bealef({3,0.5}) == 0);

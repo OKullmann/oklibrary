@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.1.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,12 +8,39 @@ License, or any later version. */
 /*
   Tools for creating sampling sequences
 
-    - scoped enum Smode
-    - sampling_points(x_t,x_t, index_t, RandGen_t*, Smode) -> vec_t
+      helper functions:
+    - allnotequal(VEC v1, VEC v2) -> bool
+    - allsamesize(VEC v1, VEC v2) -> bool
 
-    - fill_possibilities creates the mesh for scanning;
-    - next_combination allows to run through all combinations.
+    - scoped enum Smode (eq_un, boxed, eq)
+    - sampling_points(x_t l, x_t r, index_t M, RandGen_t*, Smode) -> vec_t
 
+    - fill_possibilities(evec_t x, list_intervals_t I, RandGen_t*) ->
+        vector<vec_t>
+      creates the mesh (grid) for scanning
+;
+    - next_combination allows to run through all combinations, via considering
+      a range given by a vector of iterators, which are iterated through
+      anti-lexicographically
+    - get_vit_range(std::vector<ITER> begin, const vector<ITER> end) ->
+        std::vector<std::vector<ITER>>
+      shows how to use next_combination (by creating explicitly the
+      range of iterator-vectors)
+    here "iterator" just means == and ++ (so for example numbers can be
+    ITER).
+
+    - struct Lockstep<CON, ELEM> provides a wrapper Lockstep::It, which
+      creates an iterator, which increments a vector of iterators (e.g., those
+      combined in a latin-hypercube-sampling); at construction a "delivery"-
+      vector of pointers is given, where via the update-function the
+      vector of iterators is dereferenced (all elements);
+      the iterators are constructed from a vector<CON>, where each "container"
+      contains the sampling points of the respective dimension;
+      thus we have a "zip"-operation
+    - get_vcon_range(std::vector<CON> content) ->
+        std::vector<std::vector<CON::value_type>>
+      shows how to use Lockstep (by creating explicitly the range of the
+      zip-results).
 
 TODOS:
 
@@ -210,6 +237,10 @@ namespace Sampling {
   }
 
 
+  // The range is given by begin, end (assumed to be fixed), as a vector
+  // of iterators (just need ++ and end()), and this range is iterated through
+  // in antilexicographical order, with current within this range; returns
+  // false iff at the end, and always advances current:
   template <class ITER>
   bool next_combination(
     std::vector<ITER>& current,
@@ -227,7 +258,40 @@ namespace Sampling {
     }
     return false;
   }
+  // Demonstration of how to run through such a "range":
+  template <class VEC>
+  bool allnotequal(const VEC& v1, const VEC& v2) noexcept {
+    const auto size = std::min(v1.size(), v2.size());
+    for (typename VEC::size_type i = 0; i < size; ++i)
+      if (v1[i] == v2[i]) return false;
+    return true;
+  }
+  template <class ITER>
+  std::vector<std::vector<ITER>>
+  get_vit_range(const std::vector<ITER>& begin,
+               const std::vector<ITER>& end) {
+    const auto size = begin.size();
+    assert(size == end.size());
+    std::vector<std::vector<ITER>> res;
+    if (begin == end) return res;
+    assert(allnotequal(begin, end));
+    std::vector<ITER> current = begin;
+    do res.push_back(current);
+    while (next_combination(current, begin, end));
+    assert(current == end);
+    return res;
+  }
 
+
+  template<class VEC>
+  bool allsamesize(const VEC& v) noexcept {
+    const auto size = v.size();
+    if (size <= 1) return true;
+    const auto size0 = v[0].size();
+    for (typename VEC::size_type i = 1; i < size; ++i)
+      if (v[i].size() != size0) return false;
+    return true;
+  }
 
   template <class CON, typename ELEM>
   struct Lockstep {
@@ -238,14 +302,17 @@ namespace Sampling {
     typedef std::vector<element*> vpelem_t;
     vcon_t content;
     vpelem_t delivery;
+
     Lockstep(const vcon_t V, const vpelem_t D) noexcept :
         content(V), delivery(D) {
       assert(not content.empty());
       assert(content.size() == delivery.size());
+      assert(allsamesize(content));
     }
 
     typedef typename container::const_iterator iterator;
     typedef std::vector<iterator> vit_t;
+
     struct It {
       vit_t vi;
       void operator ++() noexcept { for (auto& i : vi) ++i; }
@@ -272,6 +339,30 @@ namespace Sampling {
     }
 
   };
+
+  template <class CON>
+  std::vector<std::vector<typename CON::value_type>>
+  get_vcon_range(std::vector<CON> content) {
+    typedef typename CON::size_type size_type;
+    const size_type size = content.size();
+    if (size == 0) return {};
+    typedef typename CON::value_type value_type;
+    typedef std::vector<std::vector<value_type>> res_t;
+    const auto N = content[0].size();
+    if (N == 0) return res_t{{}};
+    typedef Lockstep<CON, value_type> LS_t;
+    typedef typename LS_t::vpelem_t vpelem_t;
+    std::vector<value_type> delivery0(size);
+    vpelem_t delivery; delivery.reserve(size);
+    for (size_type i = 0; i < size; ++i) delivery.push_back(&delivery0[i]);
+    LS_t LS(std::move(content), std::move(delivery));
+    res_t res; res.reserve(N);
+    const auto end = LS.end();
+    for (auto it = LS.begin(); it != end; ++it) {
+      LS.update(it); res.push_back(delivery0);
+    }
+    return res;
+  }
 
 }
 
