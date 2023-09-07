@@ -474,7 +474,8 @@ namespace Optimisation {
       assert(valid());
     }
 
-    Parameters(const std::string& Ms, const std::string& Rs, const std::string& Ss, const std::string& Ts) :
+    Parameters(const std::string& Ms, const std::string& Rs,
+               const std::string& Ss, const std::string& Ts) :
       R(FP::toUInt(Rs)), S(FP::toUInt(Ss)), T(FP::touint(Ts)) {
       const FP::F80ai mai = FP::to_F80ai(Ms);
       if (not mai.isint)
@@ -506,9 +507,11 @@ namespace Optimisation {
       return valid_M() and valid_S() and valid_T();
     }
 
-    friend constexpr bool operator ==(const Parameters&, const Parameters&) noexcept;
+    friend constexpr bool operator ==(const Parameters&,
+                                      const Parameters&) noexcept;
   };
-  inline constexpr bool operator ==(const Parameters&, const Parameters&) noexcept = default;
+  inline constexpr bool operator ==(const Parameters&,
+                                    const Parameters&) noexcept = default;
   inline constexpr bool valid(const Parameters& P) noexcept {
     return P.valid();
   }
@@ -573,9 +576,9 @@ namespace Optimisation {
     assert(valid(P));
     assert(randomised or seeds.empty());
 
-    const bool has_ai = std::any_of(x.begin(), x.end(),
-                                    [](const FP::F80ai x){return x.isint;});
-    if (not has_ai) { // non-scanning
+    const bool has_ai =
+      std::ranges::any_of(x, [](const FP::F80ai x){return x.isint;});
+    if (not has_ai) { // non-scanning, i.e., a single initial point
       fpoint_t p; p.x.reserve(N);
       for (const FP::F80ai xi : x) p.x.push_back(xi.x);
       p.y = f(p.x, FP::pinfinity);
@@ -587,70 +590,27 @@ namespace Optimisation {
         return bbopt_rounds(p, I, f, P, nullptr);
     }
     else { // scanning
-      const bool has_e0 = std::any_of(x.begin(), x.end(),
-        [](const FP::F80ai x){return x.isint and x.hase0;});
-      assert(not has_e0 or randomised);
-      const bool has_plus = std::any_of(x.begin(), x.end(),
-        [](const FP::F80ai x){return x.isint and x.hasplus;});
-      assert(not has_plus or randomised);
-      const std::vector<vec_t> init_poss = randomised ?
-        [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
-                        return SP::fill_possibilities(x, I, &g);}()
-        : SP::fill_possibilities(x, I, nullptr);
-      assert(init_poss.size() == N);
-
-      auto ipc = init_poss;
-      typedef SP::Lockstep<vec_t, FP::float80> LS_t;
-      typedef LS_t::vcon_t vcon_t;
-      typedef LS_t::vpelem_t vpelem_t;
-      std::vector<LS_t> equiv_classes; equiv_classes.reserve(N);
       vec_t currv(N);
-      for (index_t i = 0; i < N; ++i)
-        if (not x[i].isint or not x[i].hase0)
-          equiv_classes.emplace_back(
-            vcon_t{std::move(ipc[i])}, vpelem_t{&currv[i]});
-      assert(equiv_classes.size() <= N);
-      assert(has_e0 or equiv_classes.size() == N);
-      if (has_e0) {
-        std::map<FP::UInt_t, std::vector<index_t>> groups;
-        for (index_t i = 0; i < N; ++i) {
-          if (not x[i].isint or not x[i].hase0) continue;
-          assert(FP::isUInt(FP::abs(x[i].x)));
-          const FP::UInt_t m = FP::abs(x[i].x);
-          groups[m].push_back(i);
-        }
-        for (const auto& pair : groups) {
-          const std::vector<index_t>& group = pair.second;
-          vcon_t C; C.reserve(group.size());
-          vpelem_t D; D.reserve(group.size());
-          for (const index_t j : group) {
-            C.push_back(std::move(ipc[j]));
-            D.push_back(&currv[j]);
-          }
-          equiv_classes.emplace_back(std::move(C), std::move(D));
-        }
-      }
-      assert(N == [&equiv_classes]{
-               index_t s = 0;
-               for (const auto& ec : equiv_classes) s += ec.content.size();
-               return s;}());
+      const auto equiv_classes =
+        SP::prepare_scanning(x,I,seeds,randomised, currv);
+
+      using LS_t = SP::StdLockstep;
       std::vector<LS_t::It> equicl_it;
       equicl_it.reserve(equiv_classes.size());
-      for (const auto& ec : equiv_classes)
-        equicl_it.push_back(ec.begin());
+      for (const auto& ec : equiv_classes) equicl_it.push_back(ec.begin());
       const auto b = equicl_it;
       const std::vector<LS_t::It> e = [&equiv_classes]{
         std::vector<LS_t::It> res;
         for (const auto& ec : equiv_classes)
           res.push_back(ec.end());
         return res;}();
-      /*
+      /*// How to iterate through the initial points:
         auto copy = equicl_it;
         do {
-        for (index_t i = 0; i < equiv_classes.size(); ++i)
-        equiv_classes[i].update(copy[i]);
-        for (const auto x : currv) std::cerr << x << " ";
-        std::cerr << "\n";
+          for (index_t i = 0; i < equiv_classes.size(); ++i)
+            equiv_classes[i].update(copy[i]);
+          for (const auto x : currv) std::cerr << x << " ";
+          std::cerr << "\n";
         } while (SP::next_combination(copy, b, e));
       */
 

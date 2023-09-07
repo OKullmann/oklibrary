@@ -88,7 +88,6 @@ Is the current computation the best we can do?
 #include "NumBasicFunctions.hpp"
 #include "NumPrecise.hpp"
 
-
 #include "OptTypes.hpp"
 
 namespace Sampling {
@@ -361,6 +360,69 @@ namespace Sampling {
     for (auto it = LS.begin(); it != end; ++it) {
       LS.update(it); res.push_back(delivery0);
     }
+    return res;
+  }
+
+
+  typedef Lockstep<OS::vec_t, FP::float80> StdLockstep;
+  std::vector<StdLockstep> prepare_scanning(
+      const OS::evec_t& x, const OS::list_intervals_t& I,
+      RandGen::vec_eseed_t seeds, const bool randomised,
+      OS::vec_t& currv) {
+    const auto N = x.size();
+    assert(I.size() == N);
+    assert(valid(I));
+    assert(randomised or seeds.empty());
+    [[maybe_unused]] const bool has_ai =
+      std::ranges::any_of(x, [](const FP::F80ai x){return x.isint;});
+    assert(has_ai);
+    const bool has_e0 = std::ranges::any_of(x,
+      [](const FP::F80ai x){return x.isint and x.hase0;});
+    assert(not has_e0 or randomised);
+    [[maybe_unused]] const bool has_plus = std::ranges::any_of(x,
+      [](const FP::F80ai x){return x.isint and x.hasplus;});
+    assert(not has_plus or randomised);
+
+    using vec_t = OS::vec_t;
+    const std::vector<vec_t> init_poss = randomised ?
+      [&x,&I, &seeds]{RandGen::RandGen_t g(seeds);
+                      return fill_possibilities(x, I, &g);}()
+      : fill_possibilities(x, I, nullptr);
+    assert(init_poss.size() == N);
+
+    auto ipc = init_poss;
+    std::vector<StdLockstep> res; res.reserve(N);
+    using vcon_t = StdLockstep::vcon_t;
+    using vpelem_t = StdLockstep::vpelem_t;
+    using index_t = OS::index_t;
+    for (index_t i = 0; i < N; ++i)
+      if (not x[i].isint or not x[i].hase0)
+        res.emplace_back(vcon_t{std::move(ipc[i])}, vpelem_t{&currv[i]});
+    assert(res.size() <= N);
+    assert(has_e0 or res.size() == N);
+    if (has_e0) {
+      std::map<FP::UInt_t, std::vector<index_t>> groups;
+      for (index_t i = 0; i < N; ++i) {
+        if (not x[i].isint or not x[i].hase0) continue;
+        assert(FP::isUInt(FP::abs(x[i].x)));
+        const FP::UInt_t m = FP::abs(x[i].x);
+        groups[m].push_back(i);
+      }
+      for (const auto& pair : groups) {
+        const std::vector<index_t>& group = pair.second;
+        vcon_t C; C.reserve(group.size());
+        vpelem_t D; D.reserve(group.size());
+        for (const index_t j : group) {
+          C.push_back(std::move(ipc[j]));
+          D.push_back(&currv[j]);
+        }
+        res.emplace_back(std::move(C), std::move(D));
+      }
+    }
+    assert(N == [&res]{
+             index_t s = 0;
+             for (const auto& ec : res) s += ec.content.size();
+             return s;}());
     return res;
   }
 
