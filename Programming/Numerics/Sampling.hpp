@@ -17,8 +17,16 @@ License, or any later version. */
 
     - fill_possibilities(evec_t x, list_intervals_t I, RandGen_t*) ->
         vector<vec_t>
-      creates the mesh (grid) for scanning
-;
+      creates the mesh (grid) for scanning:
+       - handles each coordinate 0 <= i < x.size() individually, within the
+         given soft interval-bounds l_i, r_i
+       - single values: either fixed given value, or a random element of
+         [l,r] resp. [l,r) or the middle point (for 0 resp. +0 resp. -0)
+       - sequences of length L+1: either equidistant, or uniform random or
+         random from the half-open subintervals; here L is "asserted integral",
+         (for strings: no decimal point), and we get the three cases from
+         -L resp. L resp. +L (this generalises the single-value-case).
+
     - next_combination allows to run through all combinations, via considering
       a range given by a vector of iterators, which are iterated through
       anti-lexicographically
@@ -41,6 +49,24 @@ License, or any later version. */
         std::vector<std::vector<CON::value_type>>
       shows how to use Lockstep (by creating explicitly the range of the
       zip-results).
+
+    - typedefs StdLockstep, vit_t = std::vector<StdLockstep::It>
+    - prepare_scanning(evec_t x, list_intervals_t I, vec_eseed_t seeds,
+      bool randomised, vec_t& currv)
+        -> std::tuple<std::vector<StdLockstep>, vit_t, vit_t>
+      creates the scanning-range (as the underlying Lockstep-vector, plus
+      begin and end):
+       - the initial mesh is created by fill_possibilities (using the above
+         possibilities for F80ai, the elements of x)
+       - all coordinates i with asserted int and without e0 are combined
+         combinatorially and independently
+       - while those with e0 are combined into groups for latin-hypercube
+         sampling, grouped together for equal number of points (different
+         groups are combined combinatorially and independently)
+    - get_scanning_points(evec_t x, list_intervals_t I, vec_eseed_t seeds,
+        bool randomised) -> vector<vec_t>
+      shows how to get the list of points.
+
 
 TODOS:
 
@@ -77,6 +103,9 @@ Is the current computation the best we can do?
 #include <vector>
 #include <set>
 #include <numeric>
+#include <map>
+#include <tuple>
+#include <utility>
 
 #include <cassert>
 
@@ -365,7 +394,10 @@ namespace Sampling {
 
 
   typedef Lockstep<OS::vec_t, FP::float80> StdLockstep;
-  std::vector<StdLockstep> prepare_scanning(
+  typedef std::vector<StdLockstep::It> vit_t;
+
+  std::tuple<std::vector<StdLockstep>, vit_t, vit_t>
+  prepare_scanning(
       const OS::evec_t& x, const OS::list_intervals_t& I,
       RandGen::vec_eseed_t seeds, const bool randomised,
       OS::vec_t& currv) {
@@ -423,6 +455,28 @@ namespace Sampling {
              index_t s = 0;
              for (const auto& ec : res) s += ec.content.size();
              return s;}());
+    vit_t b, e; b.reserve(res.size()); e.reserve(res.size());
+    for (const auto& ec : res) {
+      b.push_back(ec.begin());
+      e.push_back(ec.end());
+    }
+    return {std::move(res), std::move(b), std::move(e)};
+  }
+
+  std::vector<OS::vec_t>
+  get_scanning_points(
+      const OS::evec_t& x, const OS::list_intervals_t& I,
+      RandGen::vec_eseed_t seeds, const bool randomised) {
+    OS::vec_t currv(x.size());
+    const auto [equiv_classes, b, e] =
+      prepare_scanning(x,I,seeds,randomised, currv);
+    auto equicl_it = b;
+    std::vector<OS::vec_t> res;
+    do {
+      for (OS::index_t i = 0; i < equiv_classes.size(); ++i)
+        equiv_classes[i].update(equicl_it[i]);
+      res.push_back(currv);
+    } while (next_combination(equicl_it, b, e));
     return res;
   }
 

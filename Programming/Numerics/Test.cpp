@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.1",
-        "3.9.2023",
+        "0.12.2",
+        "8.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1173,6 +1173,38 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(get_vcon_range(vcon_t{{5},{-77},{33}}), {{5,-77,33}}));
    assert(eqp(get_vcon_range(vcon_t{{5,6,-10},{-77,-88,-99},{33,44,55}}),
               {{5,-77,33},{6,-88,44},{-10,-99,55}}));
+  }
+
+  {assert(eqp(get_scanning_points({{1,true}}, {{0,2}}, {}, false),
+              {{0}, {2}}));
+   assert(eqp(get_scanning_points(evec_t(2,{1,true}),
+                                  {{0,2},{3,4}},
+                                  {}, false),
+              {{0,3},{2,3}, {0,4},{2,4}}));
+   assert(eqp(get_scanning_points(evec_t(2,{-1,true,false,true}),
+                                  {{0,2},{3,4}},
+                                  {}, true),
+              {{0,4},{2,3}}));
+   assert(eqp(get_scanning_points(evec_t(2,{-1,true,false,true}),
+                                  {{0,2},{3,4}},
+                                  {4}, true),
+              {{0,3},{2,4}}));
+Environment::out_lines(std::cerr, get_scanning_points(
+     evec_t{{-1,true,false,true},{-1,true},{-1,true,false,true},{-1,true},{1.2}},
+     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
+                                  {4}, true));
+   assert(eqp(get_scanning_points(
+     evec_t{{-1,true,false,true},{-1,true},
+           {-1,true,false,true},{-1,true},{1.2}},
+     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
+                                  {}, true),
+              {{0,3,-3,10,1.2},{0,4,-3,10,1.2},{0,3,-3,11,1.2},{0,4,-3,11,1.2},{2,3,-4,10,1.2},{2,4,-4,10,1.2},{2,3,-4,11,1.2},{2,4,-4,11,1.2}}));
+   assert(eqp(get_scanning_points(
+     evec_t{{-1,true,false,true},{-1,true},
+           {-1,true,false,true},{-1,true},{1.2}},
+     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
+                                  {4}, true),
+              {{0,3,-4,10,1.2},{0,4,-4,10,1.2},{0,3,-4,11,1.2},{0,4,-4,11,1.2},{2,3,-3,10,1.2},{2,4,-3,10,1.2},{2,3,-3,11,1.2},{2,4,-3,11,1.2}}));
   }
 
   {assert(bealef({3,0.5}) == 0);

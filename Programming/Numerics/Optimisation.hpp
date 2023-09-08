@@ -590,20 +590,10 @@ namespace Optimisation {
         return bbopt_rounds(p, I, f, P, nullptr);
     }
     else { // scanning
-      vec_t currv(N);
-      const auto equiv_classes =
+      vec_t currv(N); // the delivery for the current input-vector
+      const auto [equiv_classes, b, e] =
         SP::prepare_scanning(x,I,seeds,randomised, currv);
-
-      using LS_t = SP::StdLockstep;
-      std::vector<LS_t::It> equicl_it;
-      equicl_it.reserve(equiv_classes.size());
-      for (const auto& ec : equiv_classes) equicl_it.push_back(ec.begin());
-      const auto b = equicl_it;
-      const std::vector<LS_t::It> e = [&equiv_classes]{
-        std::vector<LS_t::It> res;
-        for (const auto& ec : equiv_classes)
-          res.push_back(ec.end());
-        return res;}();
+      auto equicl_it = b;
       /*// How to iterate through the initial points:
         auto copy = equicl_it;
         do {
