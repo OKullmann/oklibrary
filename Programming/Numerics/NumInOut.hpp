@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -257,7 +257,8 @@ namespace FloatingPoint {
   }
   // Now index i is treated special, returned as F80ai, where the criterion for
   // being "integral" is the non-existence of "." :
-  std::pair<std::vector<float80>, F80ai> to_vec_float80ai(const std::string& s, const char sep, const UInt_t i) {
+  std::pair<std::vector<float80>, F80ai>
+  to_vec_float80ai(const std::string& s, const char sep, const UInt_t i) {
     const auto elements = Environment::isspace(sep) ?
       Environment::split(Environment::transform_spaces(s,' '), ' ') :
       Environment::split(Environment::remove_spaces(s), sep);

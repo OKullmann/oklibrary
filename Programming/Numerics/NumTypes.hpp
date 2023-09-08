@@ -51,9 +51,19 @@ License, or any later version. */
   Extended float80:
    - struct F80ai (float80 with possibly asserted integrality and asserted
      "positivity" (i.e., "+")) and asserted "e0"
-    - equality-comparison and "valid" for F80ai
+
+     the idea here is that strings for float80 allow redundancy, namely
+      - integers might have a ".0" or not ("asserted int" in the latter case)
+      - there might be a leading "+" or not ("has plus" or not)
+      - there might be a trailing "e0" or not ("has e0" or not);
+      see to_F80ai in NumInOut.hpp;
+     furthermore for x==0 we can have x==-0 or not;
+
+    - an aggregate, created as {x,isint=false,hasplus=false,hase0=false}
+    - equality-comparison
+    - valid: if isint, then indeed integral, and if hasplus, then no signbit
    - typedef variant_t<POL>: either value from POL or a float80;
-     extended for Pfloat80<POL> in NumInOut.hpp.
+     wrapped by Pfloat80<POL> in NumInOut.hpp.
 
   Related to float64:
    - constants pinfinity64, minfinity64, NaN64
@@ -381,7 +391,8 @@ namespace FloatingPoint {
     bool hase0 = false;
     friend constexpr bool operator ==(F80ai, F80ai) noexcept;
   };
-  inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept = default;
+  inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept
+  = default;
   static_assert(F80ai{0} == F80ai{0,false,false,false});
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
     return (not x.isint or is_integral(x.x)) and

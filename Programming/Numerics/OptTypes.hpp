@@ -30,11 +30,11 @@ License, or any later version. */
      - operators ==, << ( "(x_1,...,x_n),y" )
 
    - Interval:
-     - data-members l, r, hl, hr (all x_t; l,r "soft" bounds, hl, hr "hard"
+     - data-members l, r, hl, hr (all x_t; l,r "soft" bounds, hl, hr "hard")
      - constructors:
-      - Interval()
-      - Interval(l,r)
-      - Interval(l,r.hl,hr)
+      - Interval(l,r, hl,hr)
+      - Interval(l,r) = Interval(l,r, hl = 0, hr = +inf))
+      - Interval() = Interval(0,0)
      - valid(Interval)
      - operators ==
    - typedeflist_intervals_t (vector of Interval)
