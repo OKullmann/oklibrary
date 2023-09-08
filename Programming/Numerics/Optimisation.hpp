@@ -594,15 +594,6 @@ namespace Optimisation {
       const auto [equiv_classes, b, e] =
         SP::prepare_scanning(x,I,seeds,randomised, currv);
       auto equicl_it = b;
-      /*// How to iterate through the initial points:
-        auto copy = equicl_it;
-        do {
-          for (index_t i = 0; i < equiv_classes.size(); ++i)
-            equiv_classes[i].update(copy[i]);
-          for (const auto x : currv) std::cerr << x << " ";
-          std::cerr << "\n";
-        } while (SP::next_combination(copy, b, e));
-      */
 
       fpoint_t optimum; optimum.y = FP::pinfinity;
       if (P.T == 1) { // sequential
