@@ -1189,10 +1189,6 @@ int main(const int argc, const char* const argv[]) {
                                   {{0,2},{3,4}},
                                   {4}, true),
               {{0,3},{2,4}}));
-Environment::out_lines(std::cerr, get_scanning_points(
-     evec_t{{-1,true,false,true},{-1,true},{-1,true,false,true},{-1,true},{1.2}},
-     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
-                                  {4}, true));
    assert(eqp(get_scanning_points(
      evec_t{{-1,true,false,true},{-1,true},
            {-1,true,false,true},{-1,true},{1.2}},
