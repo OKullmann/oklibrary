@@ -625,11 +625,7 @@ namespace Optimisation {
         }
       }
       else { // using P.T >= 2 threads
-        const index_t size = [&equiv_classes]{
-          index_t prod = 1;
-          for (const auto& e : equiv_classes) prod *= e.content.front().size();
-          return prod;
-        }();
+        const index_t size = SP::size_scanning(equiv_classes);
 std::cerr << "size=" << size << "\n";
         std::vector<fpoint_t> results(size);
         std::vector<Computation2> computations; computations.reserve(size);
@@ -645,7 +641,7 @@ std::cerr << "size=" << size << "\n";
         assert(computations.size() == size);
         for (index_t i = 0; i+P.T < size; ++i)
           computations[i].next = &computations[i+P.T];
-        const index_t num_threads = std::min(P.T,size);
+        const index_t num_threads = std::min(P.T, size);
         std::vector<RandGen::RandGen_t> generators;
         if (randomised) {
           generators.reserve(num_threads);

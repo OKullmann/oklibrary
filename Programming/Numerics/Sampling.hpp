@@ -50,10 +50,10 @@ License, or any later version. */
       shows how to use Lockstep (by creating explicitly the range of the
       zip-results).
 
-    - typedefs StdLockstep, vit_t = std::vector<StdLockstep::It>
+    - typedefs StdLockstep, vit_t = vector<StdLockstep::It>
+    - typedef scanning_t = tuple<StdLockstep, vit_t, vit_t>
     - prepare_scanning(evec_t x, list_intervals_t I, vec_eseed_t seeds,
-      bool randomised, vec_t& currv)
-        -> std::tuple<std::vector<StdLockstep>, vit_t, vit_t>
+                       bool randomised, vec_t& currv) -> scanning_t
       creates the scanning-range (as the underlying Lockstep-vector, plus
       begin and end):
        - the initial mesh is created by fill_possibilities (using the above
@@ -67,6 +67,13 @@ License, or any later version. */
         bool randomised) -> vector<vec_t>
       shows how to get the list of points.
 
+    - perform_scanning<VAL>(scanning_t S, vec_t& currv, FUN f, index_t threads)
+        -> pair<vector<vec_t>, vector<VAL>>
+      applies f to all scanning-points x : vec_t (in the order given by S),
+      and stores the pairs x, f(x) : VAL in the two (separate) output-vectors
+    - perform_scanning<VAL>(evec_t x, list_intervals_t I, vec_eseed_t seeds,
+        bool randomised, FUN f, index_t threads)
+          -> pair<vector<vec_t>, vector<VAL>>
 
 TODOS:
 
@@ -106,6 +113,7 @@ Is the current computation the best we can do?
 #include <map>
 #include <tuple>
 #include <utility>
+#include <thread>
 
 #include <cassert>
 
@@ -395,14 +403,14 @@ namespace Sampling {
 
   typedef Lockstep<OS::vec_t, FP::float80> StdLockstep;
   typedef std::vector<StdLockstep::It> vit_t;
+  typedef std::tuple<std::vector<StdLockstep>, vit_t, vit_t> scanning_t;
 
-  std::tuple<std::vector<StdLockstep>, vit_t, vit_t>
-  prepare_scanning(
+  scanning_t prepare_scanning(
       const OS::evec_t& x, const OS::list_intervals_t& I,
       RandGen::vec_eseed_t seeds, const bool randomised,
       OS::vec_t& currv) {
     const auto N = x.size();
-    assert(I.size() == N);
+    assert(I.size() == N); assert(currv.size() == N);
     assert(valid(I));
     assert(randomised or seeds.empty());
     [[maybe_unused]] const bool has_ai =
@@ -423,7 +431,7 @@ namespace Sampling {
     assert(init_poss.size() == N);
 
     auto ipc = init_poss;
-    std::vector<StdLockstep> res; res.reserve(N);
+    std::vector<StdLockstep> res;
     using vcon_t = StdLockstep::vcon_t;
     using vpelem_t = StdLockstep::vpelem_t;
     using index_t = OS::index_t;
@@ -463,6 +471,12 @@ namespace Sampling {
     return {std::move(res), std::move(b), std::move(e)};
   }
 
+  OS::index_t size_scanning(const std::vector<StdLockstep>& S) noexcept {
+    OS::index_t res = 1;
+    for (const auto& e : S) res *= e.content.front().size();
+    return res;
+  }
+
   std::vector<OS::vec_t>
   get_scanning_points(
       const OS::evec_t& x, const OS::list_intervals_t& I,
@@ -471,13 +485,98 @@ namespace Sampling {
     const auto [equiv_classes, b, e] =
       prepare_scanning(x,I,seeds,randomised, currv);
     auto equicl_it = b;
-    std::vector<OS::vec_t> res;
+    std::vector<OS::vec_t> res; res.reserve(size_scanning(equiv_classes));
     do {
       for (OS::index_t i = 0; i < equiv_classes.size(); ++i)
         equiv_classes[i].update(equicl_it[i]);
       res.push_back(currv);
     } while (next_combination(equicl_it, b, e));
+    assert(res.size() == size_scanning(equiv_classes));
     return res;
+  }
+
+
+  template <class FUN, typename VAL>
+  struct Computation_scanning {
+    typedef FUN f_t;
+    typedef VAL val_t;
+
+    const f_t& f;
+    const OS::vec_t* const input;
+    val_t* const output;
+    const Computation_scanning* next = nullptr;
+
+    Computation_scanning(const f_t& f,
+                         const OS::vec_t* const i,
+                         val_t* const o) noexcept :
+    f(f), input(i), output(o) { assert(input); assert(output); }
+    Computation_scanning(const Computation_scanning&) = default;
+    Computation_scanning(Computation_scanning&&) = delete;
+
+    void operator()() const noexcept {
+      *output = f(*input);
+      if (next) next->operator()();
+    }
+  };
+
+  template <typename VAL, class FUN>
+  std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
+  perform_scanning(const scanning_t& S0, OS::vec_t& currv,
+                   const FUN& f, const OS::index_t threads) {
+    if (threads == 0) return {};
+    const auto& [equiv_classes, b, e] = S0;
+    using index_t = OS::index_t;
+    const index_t size = size_scanning(equiv_classes);
+    if (size == 0) return {};
+    std::vector<OS::vec_t> inputs; inputs.reserve(size);
+    std::vector<VAL> outputs; outputs.reserve(size);
+    if (threads == 1) {
+      auto equicl_it = b;
+      do {
+        for (index_t i = 0; i < equiv_classes.size(); ++i)
+          equiv_classes[i].update(equicl_it[i]);
+        inputs.push_back(currv);
+        outputs.push_back(f(currv));
+      } while (next_combination(equicl_it, b, e));
+    }
+    else {
+      typedef Computation_scanning<FUN, VAL> comp_t;
+      std::vector<comp_t> computations; computations.reserve(size);
+      {auto equicl_it = b;
+       do {
+         for (index_t i = 0; i < equiv_classes.size(); ++i)
+           equiv_classes[i].update(equicl_it[i]);
+         inputs.push_back(currv);
+         outputs.push_back(f(currv));
+         computations.emplace_back(f, &inputs.back(), &outputs.back());
+       } while (next_combination(equicl_it, b, e));
+       assert(computations.size() == size);
+      }
+      for (index_t i = 0; i+threads < size; ++i)
+        computations[i].next = &computations[i+threads];
+      const index_t num_threads = std::min(threads, size);
+      std::vector<std::thread> threads; threads.reserve(num_threads);
+      for (index_t i = 0; i < num_threads; ++i)
+        threads.emplace_back(computations[i]);
+      assert(threads.size() == num_threads);
+      for (std::thread& t : threads) {
+        assert(t.joinable());
+        t.join();
+      }
+    }
+    assert(inputs.size() == size and outputs.size() == size);
+    return {std::move(inputs), std::move(outputs)};
+  }
+
+  template <typename VAL, class FUN>
+  std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
+  perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
+                   RandGen::vec_eseed_t seeds, const bool randomised,
+                   const FUN& f, const OS::index_t threads) {
+    OS::vec_t currv(x.size());
+    return
+      perform_scanning<VAL, FUN>(prepare_scanning(x,I,seeds,randomised, currv),
+                                 currv, f, threads);
   }
 
 }

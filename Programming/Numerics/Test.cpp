@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.2",
+        "0.12.3",
         "8.9.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -55,6 +55,22 @@ namespace {
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
   }
+
+  template <class CON>
+  struct sum {
+    typedef CON c_t;
+    typedef typename c_t::value_type v_t;
+    const v_t init = 0;
+
+    sum() noexcept = default;
+    sum(const v_t val) noexcept : init(val) {}
+
+    v_t operator()(const c_t& C) const noexcept {
+      v_t sum = init;
+      for (const auto& x : C) sum += x;
+      return sum;
+    }
+  };
 
 
   // wtau-values:
@@ -1175,32 +1191,121 @@ int main(const int argc, const char* const argv[]) {
               {{5,-77,33},{6,-88,44},{-10,-99,55}}));
   }
 
-  {assert(eqp(get_scanning_points({{1,true}}, {{0,2}}, {}, false),
-              {{0}, {2}}));
-   assert(eqp(get_scanning_points(evec_t(2,{1,true}),
-                                  {{0,2},{3,4}},
-                                  {}, false),
-              {{0,3},{2,3}, {0,4},{2,4}}));
-   assert(eqp(get_scanning_points(evec_t(2,{-1,true,false,true}),
-                                  {{0,2},{3,4}},
-                                  {}, true),
-              {{0,4},{2,3}}));
-   assert(eqp(get_scanning_points(evec_t(2,{-1,true,false,true}),
-                                  {{0,2},{3,4}},
-                                  {4}, true),
-              {{0,3},{2,4}}));
-   assert(eqp(get_scanning_points(
-     evec_t{{-1,true,false,true},{-1,true},
-           {-1,true,false,true},{-1,true},{1.2}},
-     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
-                                  {}, true),
-              {{0,3,-3,10,1.2},{0,4,-3,10,1.2},{0,3,-3,11,1.2},{0,4,-3,11,1.2},{2,3,-4,10,1.2},{2,4,-4,10,1.2},{2,3,-4,11,1.2},{2,4,-4,11,1.2}}));
-   assert(eqp(get_scanning_points(
-     evec_t{{-1,true,false,true},{-1,true},
-           {-1,true,false,true},{-1,true},{1.2}},
-     {{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2,1.2}},
-                                  {4}, true),
-              {{0,3,-4,10,1.2},{0,4,-4,10,1.2},{0,3,-4,11,1.2},{0,4,-4,11,1.2},{2,3,-3,10,1.2},{2,4,-3,10,1.2},{2,3,-3,11,1.2},{2,4,-3,11,1.2}}));
+  {const evec_t ev{{1,true}};
+   const list_intervals_t I{{0,2}};
+   const RandGen::vec_eseed_t s{};
+   const bool r = false;
+   const std::vector<vec_t> res{{0}, {2}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(), threads);
+     assert(in == res);
+     assert(eqp(out, {0,2}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
+  }
+  {const evec_t ev(2,{1,true});
+   const list_intervals_t I{{0,2},{3,4}};
+   const RandGen::vec_eseed_t s{};
+   const bool r = false;
+   const std::vector<vec_t> res{{0,3},{2,3}, {0,4},{2,4}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(1), threads);
+     assert(in == res);
+     assert(eqp(out, {4,6,5,7}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
+  }
+  {const evec_t ev(2,{-1,true,false,true});
+   const list_intervals_t I{{0,2},{3,4}};
+   const RandGen::vec_eseed_t s{};
+   const bool r = true;
+   const std::vector<vec_t> res{{0,4},{2,3}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(1), threads);
+     assert(in == res);
+     assert(eqp(out, {5,6}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
+  }
+  {const evec_t ev(2,{-1,true,false,true});
+   const list_intervals_t I{{0,2},{3,4}};
+   const RandGen::vec_eseed_t s{4};
+   const bool r = true;
+   const std::vector<vec_t> res{{0,3},{2,4}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(1), threads);
+     assert(in == res);
+     assert(eqp(out, {4,7}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
+  }
+  {const evec_t ev{{-1,true,false,true},{-1,true},
+                  {-1,true,false,true},{-1,true},{1.2L}};
+   const list_intervals_t I{{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2L,1.2L}};
+   const RandGen::vec_eseed_t s{};
+   const bool r = true;
+   const std::vector<vec_t> res{{0,3,-3,10,1.2L},{0,4,-3,10,1.2L},
+                                {0,3,-3,11,1.2L},{0,4,-3,11,1.2L},
+                                {2,3,-4,10,1.2L},{2,4,-4,10,1.2L},
+                                {2,3,-4,11,1.2L},{2,4,-4,11,1.2L}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(), threads);
+     assert(in == res);
+     assert(eqp(out, {11.2L,12.2L, 12.2L,13.2L, 12.2L,13.2L, 13.2L,14.2L}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
+  }
+  {const evec_t ev{{-1,true,false,true},{-1,true},
+                  {-1,true,false,true},{-1,true},{1.2L}};
+   const list_intervals_t I{{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2L,1.2L}};
+   const RandGen::vec_eseed_t s{4};
+   const bool r = true;
+   const std::vector<vec_t> res{{0,3,-4,10,1.2L},{0,4,-4,10,1.2L},
+                                {0,3,-4,11,1.2L},{0,4,-4,11,1.2L},
+                                {2,3,-3,10,1.2L},{2,4,-3,10,1.2L},
+                                {2,3,-3,11,1.2L},{2,4,-3,11,1.2L}};
+   assert(eqp(get_scanning_points(ev, I, s, r), res));
+   using s_t = sum<vec_t>;
+   for (index_t threads = 1; threads <= 4; ++threads) {
+     const auto [in, out] =
+       perform_scanning<float80>(ev, I, s, r, s_t(), threads);
+     assert(in == res);
+     assert(eqp(out, {10.2L,11.2L, 11.2L,12.2L, 13.2L,14.2L, 14.2L,15.2L}));
+     const auto [in2, out2] =
+       perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
+     assert(in2 == res);
+     assert(out2 == res);
+   }
   }
 
   {assert(bealef({3,0.5}) == 0);
