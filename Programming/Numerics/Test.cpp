@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.3",
-        "8.9.2023",
+        "0.12.4",
+        "9.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1213,14 +1213,14 @@ int main(const int argc, const char* const argv[]) {
    const list_intervals_t I{{0,2},{3,4}};
    const RandGen::vec_eseed_t s{};
    const bool r = false;
-   const std::vector<vec_t> res{{0,3},{2,3}, {0,4},{2,4}};
+   const std::vector<vec_t> res{{0,3},{0,4},{2,3},{2,4}};
    assert(eqp(get_scanning_points(ev, I, s, r), res));
    using s_t = sum<vec_t>;
    for (index_t threads = 1; threads <= 4; ++threads) {
      const auto [in, out] =
        perform_scanning<float80>(ev, I, s, r, s_t(1), threads);
      assert(in == res);
-     assert(eqp(out, {4,6,5,7}));
+     assert(eqp(out, {4,5,6,7}));
      const auto [in2, out2] =
        perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
      assert(in2 == res);
@@ -1268,17 +1268,17 @@ int main(const int argc, const char* const argv[]) {
    const list_intervals_t I{{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2L,1.2L}};
    const RandGen::vec_eseed_t s{};
    const bool r = true;
-   const std::vector<vec_t> res{{0,3,-3,10,1.2L},{0,4,-3,10,1.2L},
-                                {0,3,-3,11,1.2L},{0,4,-3,11,1.2L},
-                                {2,3,-4,10,1.2L},{2,4,-4,10,1.2L},
-                                {2,3,-4,11,1.2L},{2,4,-4,11,1.2L}};
+   const std::vector<vec_t> res{{0,3,-3,10,1.2L},{0,3,-3,11,1.2L},
+                                {0,4,-3,10,1.2L},{0,4,-3,11,1.2L},
+                                {2,3,-4,10,1.2L},{2,3,-4,11,1.2L},
+                                {2,4,-4,10,1.2L},{2,4,-4,11,1.2L}};
    assert(eqp(get_scanning_points(ev, I, s, r), res));
    using s_t = sum<vec_t>;
    for (index_t threads = 1; threads <= 4; ++threads) {
      const auto [in, out] =
        perform_scanning<float80>(ev, I, s, r, s_t(), threads);
      assert(in == res);
-     assert(eqp(out, {11.2L,12.2L, 12.2L,13.2L, 12.2L,13.2L, 13.2L,14.2L}));
+     assert(eqp(out, {11.2L,12.2L,12.2L,13.2L, 12.2L,13.2L,13.2L,14.2L}));
      const auto [in2, out2] =
        perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
      assert(in2 == res);
@@ -1290,17 +1290,17 @@ int main(const int argc, const char* const argv[]) {
    const list_intervals_t I{{0,2},{3,4},{-4,-3,-10,10},{10,11},{1.2L,1.2L}};
    const RandGen::vec_eseed_t s{4};
    const bool r = true;
-   const std::vector<vec_t> res{{0,3,-4,10,1.2L},{0,4,-4,10,1.2L},
-                                {0,3,-4,11,1.2L},{0,4,-4,11,1.2L},
-                                {2,3,-3,10,1.2L},{2,4,-3,10,1.2L},
-                                {2,3,-3,11,1.2L},{2,4,-3,11,1.2L}};
+   const std::vector<vec_t> res{{0,3,-4,10,1.2L},{0,3,-4,11,1.2L},
+                                {0,4,-4,10,1.2L},{0,4,-4,11,1.2L},
+                                {2,3,-3,10,1.2L},{2,3,-3,11,1.2L},
+                                {2,4,-3,10,1.2L},{2,4,-3,11,1.2L}};
    assert(eqp(get_scanning_points(ev, I, s, r), res));
    using s_t = sum<vec_t>;
    for (index_t threads = 1; threads <= 4; ++threads) {
      const auto [in, out] =
        perform_scanning<float80>(ev, I, s, r, s_t(), threads);
      assert(in == res);
-     assert(eqp(out, {10.2L,11.2L, 11.2L,12.2L, 13.2L,14.2L, 14.2L,15.2L}));
+     assert(eqp(out, {10.2L,11.2L,11.2L,12.2L, 13.2L,14.2L,14.2L,15.2L}));
      const auto [in2, out2] =
        perform_scanning<vec_t>(ev, I, s, r, std::identity(), threads);
      assert(in2 == res);

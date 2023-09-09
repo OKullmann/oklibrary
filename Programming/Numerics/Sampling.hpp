@@ -65,15 +65,14 @@ License, or any later version. */
          groups are combined combinatorially and independently)
     - get_scanning_points(evec_t x, list_intervals_t I, vec_eseed_t seeds,
         bool randomised) -> vector<vec_t>
-      shows how to get the list of points.
+      shows how to get the list of points, and sorts them.
 
-    - perform_scanning<VAL>(scanning_t S, vec_t& currv, FUN f, index_t threads)
-        -> pair<vector<vec_t>, vector<VAL>>
-      applies f to all scanning-points x : vec_t (in the order given by S),
-      and stores the pairs x, f(x) : VAL in the two (separate) output-vectors
     - perform_scanning<VAL>(evec_t x, list_intervals_t I, vec_eseed_t seeds,
         bool randomised, FUN f, index_t threads)
           -> pair<vector<vec_t>, vector<VAL>>
+      applies f to all scanning-points x : vec_t (in sorted order),
+      and stores the pairs x, f(x) : VAL in the two (separate) output-vectors.
+
 
 TODOS:
 
@@ -492,6 +491,7 @@ namespace Sampling {
       res.push_back(currv);
     } while (next_combination(equicl_it, b, e));
     assert(res.size() == size_scanning(equiv_classes));
+    std::ranges::sort(res);
     return res;
   }
 
@@ -521,37 +521,25 @@ namespace Sampling {
 
   template <typename VAL, class FUN>
   std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
-  perform_scanning(const scanning_t& S0, OS::vec_t& currv,
+  perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
+                   RandGen::vec_eseed_t seeds, const bool randomised,
                    const FUN& f, const OS::index_t threads) {
     if (threads == 0) return {};
-    const auto& [equiv_classes, b, e] = S0;
+    std::vector<OS::vec_t> inputs = get_scanning_points(x,I,seeds,randomised);
     using index_t = OS::index_t;
-    const index_t size = size_scanning(equiv_classes);
+    const index_t size = inputs.size();
     if (size == 0) return {};
-    std::vector<OS::vec_t> inputs; inputs.reserve(size);
     std::vector<VAL> outputs; outputs.reserve(size);
     if (threads == 1) {
-      auto equicl_it = b;
-      do {
-        for (index_t i = 0; i < equiv_classes.size(); ++i)
-          equiv_classes[i].update(equicl_it[i]);
-        inputs.push_back(currv);
-        outputs.push_back(f(currv));
-      } while (next_combination(equicl_it, b, e));
+      for (const auto& x : inputs) outputs.push_back(f(x));
     }
     else {
-      typedef Computation_scanning<FUN, VAL> comp_t;
-      std::vector<comp_t> computations; computations.reserve(size);
-      {auto equicl_it = b;
-       do {
-         for (index_t i = 0; i < equiv_classes.size(); ++i)
-           equiv_classes[i].update(equicl_it[i]);
-         inputs.push_back(currv);
-         outputs.push_back(f(currv));
-         computations.emplace_back(f, &inputs.back(), &outputs.back());
-       } while (next_combination(equicl_it, b, e));
-       assert(computations.size() == size);
-      }
+      outputs.resize(size);
+      std::vector<Computation_scanning<FUN, VAL>> computations;
+      computations.reserve(size);
+      for (index_t i = 0; i < size; ++i)
+        computations.emplace_back(f, &inputs[i], &outputs[i]);
+      assert(computations.size() == size);
       for (index_t i = 0; i+threads < size; ++i)
         computations[i].next = &computations[i+threads];
       const index_t num_threads = std::min(threads, size);
@@ -566,17 +554,6 @@ namespace Sampling {
     }
     assert(inputs.size() == size and outputs.size() == size);
     return {std::move(inputs), std::move(outputs)};
-  }
-
-  template <typename VAL, class FUN>
-  std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
-  perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
-                   RandGen::vec_eseed_t seeds, const bool randomised,
-                   const FUN& f, const OS::index_t threads) {
-    OS::vec_t currv(x.size());
-    return
-      perform_scanning<VAL, FUN>(prepare_scanning(x,I,seeds,randomised, currv),
-                                 currv, f, threads);
   }
 
 }
