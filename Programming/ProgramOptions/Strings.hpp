@@ -425,7 +425,10 @@ namespace Environment {
     s.pop_back();
     return s;
   }
-  // Removal of final eol only for small files:
+
+  // All get_content-functions empty the underlying buffer.
+
+  // Removal of final eol efficient only for small files:
   std::string get_content(const std::istream& in,
                           const bool with_eol = true) {
     assert(in);
@@ -461,6 +464,8 @@ namespace Environment {
     if (with_eol) return s.str();
     else return remove_final_eol(s.str());
   }
+
+  // All get_lines-functions empty the underlying buffer (using get_content).
 
   tokens_t get_lines(const std::istream& in) {
     return split(get_content(in), '\n');

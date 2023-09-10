@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.3.1",
-        "13.7.2023",
+        "0.3.2",
+        "10.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -332,14 +332,18 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {const std::string t = "ab\n \t\n x y";
-   std::istringstream ss(t);
+   const std::istringstream ss(t);
    assert(get_content(ss) == t);
    assert(ss.str() == t);
-   ss.str(t);
-   assert(eqp(get_lines(ss), {"ab", " \t", " x y"}));
-   ss.str("");
-   assert(get_content(ss) == "");
-   ss.str("");
+   assert(ss.good());
+   assert(get_content(ss).empty());
+   assert(ss.str() == t);
+   const std::istringstream ss2(t);
+   assert(eqp(get_lines(ss2), {"ab", " \t", " x y"}));
+   assert(ss2.str() == t);
+  }
+  {const std::istringstream ss;
+   assert(get_content(ss).empty());
    assert(get_lines(ss).empty());
   }
 
