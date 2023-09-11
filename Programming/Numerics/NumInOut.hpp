@@ -88,6 +88,7 @@ License, or any later version. */
 #include <type_traits>
 #include <limits>
 #include <ios>
+#include <typeinfo>
 
 #include <cstddef>
 
@@ -112,12 +113,16 @@ namespace FloatingPoint {
     long double x;
     try { x = FloatingPoint::stold(s, &converted); }
     catch (const std::invalid_argument& e) {
-      throw std::invalid_argument("FloatingPoint::to_float80(string), failed"
-                                  " for \"" + s + "\"");
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_float80(string): failed for s=\"" << s << "\","
+        " due to\n  " << e.what();
+      throw std::invalid_argument(ss.str());
     }
     catch (const std::out_of_range& e) {
-      throw std::out_of_range("FloatingPoint::to_float80(string), \""
-                              + s + "\"");
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_float80(string): failed for s=\"" << s << "\","
+        " due to\n  " << e.what();
+      throw std::out_of_range(ss.str());
     }
     if (converted != s.size())
       throw std::invalid_argument
@@ -162,12 +167,16 @@ namespace FloatingPoint {
     unsigned long long x;
     try { x = std::stoull(s, &converted); }
     catch (const std::invalid_argument& e) {
-      throw std::invalid_argument("FloatingPoint::to_UInt(string), failed"
-                                  " for \"" + s + "\"");
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_UInt(string): failed for s=\"" << s << "\","
+        " due to\n  " << e.what();
+      throw std::invalid_argument(ss.str());
     }
     catch (const std::out_of_range& e) {
-      throw std::out_of_range("FloatingPoint::to_UInt(string), \""
-                              + s + "\"");
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_UInt(string): failed for s=\"" << s << "\","
+        " due to\n  " << e.what();
+      throw std::out_of_range(ss.str());
     }
     if (converted != s.size())
       throw std::invalid_argument
@@ -286,15 +295,39 @@ namespace FloatingPoint {
     table_t res; res.reserve(lines.size());
     for (const auto l : lines) {
       if (l.empty() or l.front() == '#') continue;
-      res.push_back(to_vec_float80(l, ' '));
+      std::vector<float80> v;
+      try { v = to_vec_float80(l, ' '); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "FloatingPoint::read_table(lines,i): failed due to\n  "
+           << typeid(e).name() << "\n  " << e.what();
+        throw std::runtime_error(ss.str());
+      }
+      res.push_back(std::move(v));
     }
     return res;
   }
   table_t read_table(const std::istream& in) {
-    return read_table(Environment::get_lines(in));
+    Environment::tokens_t lines;
+    try { lines = Environment::get_lines(in); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::read_table(in): failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_table(std::move(lines));
   }
   table_t read_table(const std::filesystem::path& p) {
-    return read_table(Environment::get_lines(p));
+    Environment::tokens_t lines;
+    try { lines = Environment::get_lines(p); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::read_table(p): failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_table(std::move(lines));
   }
 
   typedef std::vector<std::pair<std::vector<float80>, F80ai>> table_wai_t;
@@ -303,15 +336,39 @@ namespace FloatingPoint {
     table_wai_t res; res.reserve(lines.size());
     for (const auto l : lines) {
       if (l.empty() or l.front() == '#') continue;
-      res.push_back(to_vec_float80ai(l, ' ', i));
+      std::pair<std::vector<float80>, F80ai> v;
+      try { v = to_vec_float80ai(l, ' ', i); }
+      catch (const std::exception& e) {
+        std::ostringstream ss;
+        ss << "FloatingPoint::read_table_ai(lines,i): failed due to\n  "
+           << typeid(e).name() << "\n  " << e.what();
+        throw std::runtime_error(ss.str());
+      }
+      res.push_back(std::move(v));
     }
     return res;
   }
   table_wai_t read_table_ai(const std::istream& in, const UInt_t i) {
-    return read_table_ai(Environment::get_lines(in), i);
+    Environment::tokens_t lines;
+    try { lines = Environment::get_lines(in); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::read_table_ai(in,i): failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_table_ai(std::move(lines), i);
   }
   table_wai_t read_table_ai(const std::filesystem::path& p, const UInt_t i) {
-    return read_table_ai(Environment::get_lines(p), i);
+    Environment::tokens_t lines;
+    try { lines = Environment::get_lines(p); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::read_table_ai(p,i): failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_table_ai(std::move(lines), i);
   }
 
 
