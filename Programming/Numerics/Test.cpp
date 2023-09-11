@@ -38,8 +38,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.4",
-        "9.9.2023",
+        "0.12.5",
+        "11.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -379,6 +379,26 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(to_F80ai("+0.0E0"), {0,false,true,false}));
    assert(eqp(to_F80ai("+5.78E0"),
               {.x=5.78L,.isint=false,.hasplus=true,.hase0=false}));
+  }
+  {const auto x = to_F80ai("-0");
+   assert(eqp(x, {0,true}));
+   assert(signbit(x.x));
+   const auto y = to_F80ai("0");
+   assert(eqp(y, {0,true}));
+   assert(not signbit(y.x));
+   const auto z = to_F80ai("+0");
+   assert(eqp(z, {0,true,true,false}));
+   assert(not signbit(z.x));
+  }
+  {const auto x = to_F80ai("-0.0");
+   assert(eqp(x, {0}));
+   assert(signbit(x.x));
+   const auto y = to_F80ai("0.0");
+   assert(eqp(y, {0}));
+   assert(not signbit(y.x));
+   const auto z = to_F80ai("+0.0");
+   assert(eqp(z, {0,false,true,false}));
+   assert(not signbit(z.x));
   }
 
   {assert(toUInt("1e18") == pow(10.0L,18.0L));
@@ -1460,6 +1480,43 @@ int main(const int argc, const char* const argv[]) {
    assert(hash_UInt_range()(v_t{0}) == 11400714819323202583ULL);
    assert(hash_UInt_range()(v_t{1}) == 17638787567263781370ULL);
    assert(hash_UInt_range()(v_t{0,0}) == 9332004819663780291ULL);
+  }
+
+  {using tt = Environment::tokens_t;
+   assert(read_table(tt{}).empty());
+   assert(read_table(tt{"","#","","# j"}).empty());
+   assert(eqp(read_table(tt{"1 2 3","2.5","","# j"," \t3.5 \n 4.5\n"}),
+              {{1,2,3},{2.5},{3.5,4.5}}));
+  }
+  {const std::string s = " 1 2 \t3\n4 \n 5 6\n# \n8 9  10 \n";
+   const std::istringstream ss(s);
+   assert(eqp(read_table(ss), {{1,2,3},{4},{5,6},{8,9,10}}));
+   assert(read_table(ss).empty());
+   assert(ss.str() == s);
+  }
+
+  {using tt = Environment::tokens_t;
+   assert(read_table_ai(tt{}, 0).empty());
+   assert(read_table_ai(tt{}, 1).empty());
+   assert(read_table_ai(tt{"","#","","# j"}, 0).empty());
+   assert(read_table_ai(tt{"","#","","# j"}, 10).empty());
+   assert(eqp(read_table_ai(tt{"1 2 3","2.5","","# j"," \t3.5 \n 4.5\n"}, 0),
+              { {{2,3},{1,true}}, {{},{2.5}}, {{4.5},{3.5}} }));
+   assert(eqp(read_table_ai(
+          tt{"1 2 3 4",
+              "2.5 1 2.0",
+              "","# ZX",
+              " \t3.5 1 0e0 \n 4.5 1 +0",
+              "77 8 -0",
+              "0 1 -0.0"
+            }, 2),
+          {
+            {{1,2,4},{3,true}},
+            {{2.5,1},{2.0}},
+            {{3.5,1,4.5,1,0},{0,true,false,true}},
+            {{77,8},{0,true}},
+            {{0,1},{0}}
+          }));
   }
 
 }

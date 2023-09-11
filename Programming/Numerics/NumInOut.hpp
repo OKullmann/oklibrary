@@ -30,9 +30,17 @@ License, or any later version. */
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
 
-    - read_table(filesystem::path) returns a vector of vector of float80
-    - read_table_ai(filesystem::path, UIint_t i) returns a vector of pairs
-      of vector and F80ai (for index i)
+    - typedef table_t = std::vector<std::vector<float80>>
+    - read_table(tokens_t), read_table(istream&), read_table(filesystem::path)
+        all -> table_t
+
+    - typedef table_wai_t =
+      std::vector<std::pair<std::vector<float80>, F80ai>>
+    - read_table_ai(tokens_t, UInt_t i)
+      read_table_ai(istream&, UInt_t i)
+      read_table_ai(filesystem::path, UIint_t i)
+        all -> table_wai_t
+      (representing the lines minus component i, and component i)
 
     - struct Pfloat80<POL> wraps variant_t<POL> by providing string-
       input (either POL- or float80-input) and output
@@ -273,26 +281,37 @@ namespace FloatingPoint {
     return {res1, to_F80ai(elements[i])};
   }
 
-  std::vector<std::vector<float80>> read_table(const std::filesystem::path& p) {
-    const auto lines = Environment::get_lines(p);
-    std::vector<std::vector<float80>> res; res.reserve(lines.size());
+  typedef std::vector<std::vector<float80>> table_t;
+  table_t read_table(const Environment::tokens_t& lines) {
+    table_t res; res.reserve(lines.size());
     for (const auto l : lines) {
       if (l.empty() or l.front() == '#') continue;
       res.push_back(to_vec_float80(l, ' '));
     }
     return res;
   }
+  table_t read_table(const std::istream& in) {
+    return read_table(Environment::get_lines(in));
+  }
+  table_t read_table(const std::filesystem::path& p) {
+    return read_table(Environment::get_lines(p));
+  }
 
-  std::vector<std::pair<std::vector<float80>, F80ai>>
-  read_table_ai(const std::filesystem::path& p, const UInt_t i) {
-    const auto lines = Environment::get_lines(p);
-    std::vector<std::pair<std::vector<float80>, F80ai>> res;
-    res.reserve(lines.size());
+  typedef std::vector<std::pair<std::vector<float80>, F80ai>> table_wai_t;
+  table_wai_t read_table_ai(const Environment::tokens_t& lines,
+                            const UInt_t i) {
+    table_wai_t res; res.reserve(lines.size());
     for (const auto l : lines) {
       if (l.empty() or l.front() == '#') continue;
       res.push_back(to_vec_float80ai(l, ' ', i));
     }
     return res;
+  }
+  table_wai_t read_table_ai(const std::istream& in, const UInt_t i) {
+    return read_table_ai(Environment::get_lines(in), i);
+  }
+  table_wai_t read_table_ai(const std::filesystem::path& p, const UInt_t i) {
+    return read_table_ai(Environment::get_lines(p), i);
   }
 
 
