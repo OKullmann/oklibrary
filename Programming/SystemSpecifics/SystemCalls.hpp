@@ -26,6 +26,8 @@ License, or any later version. */
        is delivered to stdin of the command
      - the destructor of Popen removes the two auxiliary files for cout
        and cerr.
+     The pipe is opened at construction-time, and closed with one call of
+     (e)transfer.
 
    - tsystem(command, cout, cerr) performing command, putting standard output
      and error into files cout resp. cerr, and returning ReturnValue plus
@@ -106,13 +108,19 @@ License, or any later version. */
      Class Popen:
 
    - similar to function esystem, but now broken into three stages
-     (construction, delivery of input to standard input, removal
-     of auxiliary files), so that the input to the command does not need
-     to be stored on file (or in memory)
-   - the transfer-function uses a functor-template to take the function
-     which provides the input;
-   - helper types put_cin_t and stringref_put, which can be used for the
-     transfer.
+      - construction (simplest with the command (as string))
+      - delivery of input to standard input, and computation:
+       - transfer(FUN) -> ReturnValue
+       - etransfer(FUN) -> EReturnValue
+      - removal of auxiliary files (with destruction),
+     so that the input to the command does not need to be stored on file
+     (or in memory)
+   - the transfer-function uses a functor-template FUN to take the function
+     which provides the input, providing std::FILE* as parameter
+   - helper types to create appropriate FUN:
+      - put_cin_t (a typedef for std::function FILE* -> void)
+      - stringref_put (aggregate, which puts the stored string on the FILE*)
+     can be used for the transfer.
 
      For etransfer, which reads the output-files, cout can't be "" (can't be
      read), nor "/dev/stdout" (endless reading), and similarly for cerr.
@@ -136,7 +144,7 @@ License, or any later version. */
 
 TODOS:
 
-1. Class ProfInfo
+1. Class ProgInfo
     - Likely this should be integrated now with
       ProgramOptions/Environment.hpp ?
 
@@ -163,11 +171,11 @@ TODOS:
 #include <cstdint>
 #include <cstdio> // for std::FILE, std::fputs
 
-#include <stdio.h> // for popen
+#include <stdio.h> // for popen, pclose
 
 #include <sys/types.h> // for pid_t
-#include <unistd.h> // for getpid
-#include <sys/wait.h> // for return value of std::system
+#include <unistd.h>    // for getpid
+#include <sys/wait.h>  // for return value of std::system
 
 #include <ProgramOptions/Environment.hpp>
 
