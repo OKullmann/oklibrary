@@ -36,15 +36,26 @@ License, or any later version. */
       - Interval(l,r) = Interval(l,r, hl = 0, hr = +inf))
       - Interval() = Interval(0,0)
      - valid(Interval)
-     - operators ==
-   - typedeflist_intervals_t (vector of Interval)
+     - operators ==, <<
+   - typedef list_intervals_t (vector of Interval)
      valid(list_intervals_t)
 
     - element(x_t, Interval)
     - element(point_t, Interval)
+    - element(FP80ai, Interval)
     - element(vec_t, list_intervals_t)
     - element(evec_t, list_intervals_t) (ignoring the integral-elements)
     - element(list_points_t, list_intervals_t)
+
+   - Scanning of lines like "-10 -1 77 1 10", which mean the hard-interval
+     [-10, 10], the soft-interval [-1,1], and 77 sub-intervals:
+     - typedef scanning_info_t (pair of list_intervals_t and evec_t)
+       (in the above example, evec_t would have the component 77 with
+       asserted int)
+     - read_scanning_info(FP::table_wai_t lines)
+       read_scanning_info(istream in)
+       read_scanning_info(filesystem::path p)
+         all -> scanning_info_t.
 
 
 */
@@ -56,10 +67,14 @@ License, or any later version. */
 #include <algorithm>
 #include <ostream>
 #include <functional>
+#include <stdexcept>
+#include <filesystem>
+#include <utility>
 
 #include <cassert>
 
 #include "NumTypes.hpp"
+#include "NumInOut.hpp"
 
 namespace Optimisation {
 
@@ -145,6 +160,11 @@ namespace Optimisation {
   };
   inline constexpr bool operator ==(const Interval&, const Interval&)
     noexcept = default;
+  std::ostream& operator <<(std::ostream& out, const Interval& I) {
+    return out << "[" << I.hl << " [" << I.l << "," << I.r << "] " << I.hr
+               << "]";
+  }
+
   inline constexpr bool valid(const Interval& I) noexcept {
     return I.l >= I.hl and I.r >= I.l and I.hr >= I.r;
   }
@@ -183,14 +203,75 @@ namespace Optimisation {
 
   typedef std::vector<FP::F80ai> evec_t ;
 
+  inline bool element(const FP::F80ai x, const Interval& I) noexcept {
+    return x.isint or element(x.x, I);
+  }
   inline bool element(const evec_t& v, const list_intervals_t& I) noexcept {
     const index_t N = v.size();
     assert(I.size() >= N);
     for (index_t i = 0; i < N; ++i)
-      if (not v[i].isint and not element(v[i].x, I[i])) return false;
+      if (not element(v[i], I[i])) return false;
     return true;
   }
 
+
+  typedef std::pair<list_intervals_t, evec_t> scanning_info_t;
+
+  scanning_info_t read_scanning_info(const FP::table_wai_t& lines) {
+    const auto N = lines.size();
+    scanning_info_t res;
+    res.first.reserve(N); res.second.reserve(N);
+    for (const auto& line : lines) {
+      const vec_t& v = line.first;
+      if (v.size() != 4) {
+        std::ostringstream ss;
+        ss << "ERROR[Optimisation::read_scanning_info(lines)]: "
+          "Vector with " << v.size() << " != 4 elements found;"
+          " the vector is\n  ";
+        Environment::out_line(ss, v);
+        throw std::domain_error(ss.str());
+      }
+      Interval I(v[1],v[2], v[0],v[3]);
+      if (not valid(I)) {
+        std::ostringstream ss;
+        ss << "ERROR[Optimisation::read_scanning_info(lines)]: "
+          "Invalid interval (w.r.t. order) found; the interval is " << I;
+        throw std::domain_error(ss.str());
+      }
+      const auto& x = line.second;
+      if (not element(x, I)) {
+        std::ostringstream ss;
+        ss << "ERROR[Optimisation::read_scanning_info(lines)]: "
+          "The value " << x.x << " is not element of the interval " << I;
+        throw std::domain_error(ss.str());
+      }
+      res.first.push_back(std::move(I));
+      res.second.push_back(x);
+    }
+    return res;
+  }
+  scanning_info_t read_scanning_info(const std::istream& in) {
+    FP::table_wai_t lines;
+    try { lines = FP::read_table_ai(in, 2); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "ERROR[Optimisation::read_scanning_info(in)]: failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_scanning_info(std::move(lines));
+  }
+  scanning_info_t read_scanning_info(const std::filesystem::path& p) {
+    FP::table_wai_t lines;
+    try { lines = FP::read_table_ai(p, 2); }
+    catch (const std::exception& e) {
+      std::ostringstream ss;
+      ss << "ERROR[Optimisation::read_scanning_info(p)]: failed due to\n  "
+         << typeid(e).name() << "\n  " << e.what();
+      throw std::runtime_error(ss.str());
+    }
+    return read_scanning_info(std::move(lines));
+  }
 
 }
 

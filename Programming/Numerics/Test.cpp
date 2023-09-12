@@ -38,7 +38,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.5",
+        "0.13.1",
         "11.9.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -249,8 +249,9 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_float80("x"); }
    catch(const std::invalid_argument& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_float80(string), failed"
-        " for \"x\""));
+     assert(std::string_view(e.what()).starts_with
+            ("FloatingPoint::to_float80(string): "
+             "failed for s=\"x\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -258,8 +259,9 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_UInt("x"); }
    catch(const std::invalid_argument& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string), failed"
-        " for \"x\""));
+     assert(std::string_view(e.what()).starts_with
+            ("FloatingPoint::to_UInt(string): "
+             "failed for s=\"x\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -267,8 +269,9 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_float80("1e5000"); }
    catch(const std::out_of_range& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_float80(string),"
-       " \"1e5000\""));
+     assert(std::string_view(e.what()).starts_with
+            ("FloatingPoint::to_float80(string): "
+             "failed for s=\"1e5000\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -278,8 +281,9 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_UInt("18446744073709551616"); }
    catch(const std::out_of_range& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
-       " \"18446744073709551616\""));
+     assert(std::string_view(e.what()).starts_with
+            ("FloatingPoint::to_UInt(string): "
+             "failed for s=\"18446744073709551616\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -290,8 +294,8 @@ int main(const int argc, const char* const argv[]) {
   {bool thrown = false;
    try { to_float80("0x"); }
    catch(const std::invalid_argument& e) {
-     assert(e.what() == std::string_view("FloatingPoint::to_float80(string), trailing:"
-        " \"x\" in \"0x\""));
+     assert(e.what() == std::string_view("FloatingPoint::to_float80(string),"
+                                         " trailing: \"x\" in \"0x\""));
      thrown = true;
    }
    assert(thrown);
@@ -330,8 +334,9 @@ int main(const int argc, const char* const argv[]) {
    {bool thrown = false;
     try { to_unsigned<std::uint16_t>(""); }
     catch(const std::invalid_argument& e) {
-      assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
-                                          " failed for \"\""));
+      assert(std::string_view(e.what()).starts_with
+            ("FloatingPoint::to_UInt(string): "
+             "failed for s=\"\", due to"));
       thrown = true;
     }
     assert(thrown);
@@ -348,8 +353,9 @@ int main(const int argc, const char* const argv[]) {
    {bool thrown = false;
     try { to_unsigned<std::uint16_t>("- 1"); }
     catch(const std::invalid_argument& e) {
-      assert(e.what() == std::string_view("FloatingPoint::to_UInt(string),"
-                                          " failed for \"- 1\""));
+      assert(std::string_view(e.what()).starts_with
+             ("FloatingPoint::to_UInt(string): "
+              "failed for s=\"- 1\", due to"));
       thrown = true;
     }
     assert(thrown);
@@ -379,6 +385,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(to_F80ai("+0.0E0"), {0,false,true,false}));
    assert(eqp(to_F80ai("+5.78E0"),
               {.x=5.78L,.isint=false,.hasplus=true,.hase0=false}));
+   assert(eqp(to_F80ai("100e0"), {100,true,false,true}));
   }
   {const auto x = to_F80ai("-0");
    assert(eqp(x, {0,true}));
@@ -1517,6 +1524,18 @@ int main(const int argc, const char* const argv[]) {
             {{77,8},{0,true}},
             {{0,1},{0}}
           }));
+  }
+
+  {using tt = table_wai_t;
+   assert(eqp(read_scanning_info(tt{}), {}));
+   assert(eqp(read_scanning_info(tt{{{1,2,3,4},{2.5}}}),
+              {{{2,3,1,4}}, {{2.5}}}));
+   assert(eqp(read_scanning_info(tt{{{-10,-1.5,2.5,12},{100,true,false,true}}}),
+              {{{-1.5,2.5,-10,12}}, {{100,true,false,true}}}));
+  }
+  {const std::istringstream ss("-20 1 2.5 5 100\n\n#jkx\n-7.5 0 77e0 2 10.5");
+   assert(eqp(read_scanning_info(ss),
+              {{{1,5,-20,100},{0,2,-7.5,10.5}}, {{2.5},{77,true,false,true}}}));
   }
 
 }

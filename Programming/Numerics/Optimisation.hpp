@@ -696,22 +696,7 @@ std::cerr << "size=" << size << "\n";
     const Parameters P(argv[1], argv[2], argv[3], argv[4]);
 
     const std::string filename(argv[5]);
-    const auto table = FP::read_table_ai(filename, 2);
-    const index_t N = table.size();
-    list_intervals_t I; I.reserve(N);
-    evec_t x; x.reserve(N);
-    for (const auto& line : table) {
-      x.push_back(line.second);
-      const vec_t ivs = line.first;
-      assert(ivs.size() >= 4);
-      I.emplace_back(ivs[1],ivs[2], ivs[0],ivs[3]);
-    }
-    if (not valid(I))
-      throw std::domain_error("Optimisation::bbopt_rounds_app : "
-        "Invalid intervals in file \"" + filename + "\"");
-    if (not element(x, I))
-      throw std::domain_error("Optimisation::bbopt_rounds_app : "
-        "Point not included in intervals of file \"" + filename + "\"");
+    const auto [I,x] = Optimisation::read_scanning_info(filename);
 
     const std::string seeds_string(argv[6]);
     const bool randomised = not seeds_string.empty();
