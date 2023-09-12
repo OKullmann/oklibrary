@@ -144,6 +144,13 @@ License, or any later version. */
 
 TODOS:
 
+0. Improve Popen:
+    - It would make more sense to open the pipe (variable cin) only
+      in the functions (e)transfer.
+    - Then one could call (e)transfer many times --- always opening and
+      closing a pipe, while using always the same auxiliary files for
+      cout and cerr.
+
 1. Class ProgInfo
     - Likely this should be integrated now with
       ProgramOptions/Environment.hpp ?
