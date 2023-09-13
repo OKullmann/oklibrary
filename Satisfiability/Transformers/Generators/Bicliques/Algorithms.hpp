@@ -27,6 +27,8 @@ License, or any later version. */
 
    Sequence operations:
 
+   - generate_vector(RAN r, FUN f) -> vector of f(x) for x : r
+
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
 
@@ -112,6 +114,7 @@ TODOS:
 #include <map>
 #include <set>
 #include <functional>
+#include <type_traits>
 
 #include <cassert>
 
@@ -256,6 +259,20 @@ namespace Algorithms {
     const auto bend = b.end();
     for (; itb != bend; ++itb) res.push_back(*itb);
     assert(res.size() == size);
+    return res;
+  }
+
+
+  template <class RAN, class FUN>
+  std::vector<typename std::remove_reference_t<
+    std::invoke_result_t<FUN, typename RAN::value_type>>>
+  generate_vector(const RAN& r, const FUN& f) {
+    std::vector<
+      typename std::remove_reference_t<
+      std::invoke_result_t<FUN, typename RAN::value_type>>>
+      res;
+    res.reserve(r.size());
+    std::ranges::transform(r, std::back_inserter(res), f);
     return res;
   }
 
