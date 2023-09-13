@@ -73,6 +73,20 @@ License, or any later version. */
       applies f to all scanning-points x : vec_t (in sorted order),
       and stores the pairs x, f(x) : VAL in the two (separate) output-vectors.
 
+    - perform_scanning_script(istream& in, vec_eseed_t seeds,
+        bool randomised, string script, TRANS T, index_t threads)
+      applies perform_scanning with x,I obtained from in, and f obtained
+      by applying T to the result of the script (fed with the generated
+      vectors)
+    - perform_scanning_script(istream& in, vec_eseed_t seeds,
+        bool randomised, string script, index_t threads)
+      is the special case, where the results of script are translated
+      into vectors of float80
+    - calling a script and applying a transformation is wrapped into
+      the struct call_script<TRANS>
+    - the translation of strings into vectors of float80 is wrapped into
+      the struct string2vec_t
+
 
 TODOS:
 
@@ -113,12 +127,16 @@ Is the current computation the best we can do?
 #include <tuple>
 #include <utility>
 #include <thread>
+#include <string>
+#include <istream>
+#include <type_traits>
 
 #include <cassert>
 
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
+#include <SystemSpecifics/SystemCalls.hpp>
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
@@ -496,6 +514,8 @@ namespace Sampling {
   }
 
 
+  /* Requirements on FUN: just operator()(vec_t)
+  */
   template <class FUN, typename VAL>
   struct Computation_scanning {
     typedef FUN f_t;
@@ -523,7 +543,8 @@ namespace Sampling {
   std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
   perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
                    RandGen::vec_eseed_t seeds, const bool randomised,
-                   const FUN& f, const OS::index_t threads) {
+                   const FUN& f,
+                   const OS::index_t threads) {
     if (threads == 0) return {};
     std::vector<OS::vec_t> inputs = get_scanning_points(x,I,seeds,randomised);
     using index_t = OS::index_t;
@@ -554,6 +575,72 @@ namespace Sampling {
     }
     assert(inputs.size() == size and outputs.size() == size);
     return {std::move(inputs), std::move(outputs)};
+  }
+
+  /* Helper classes to call an external program ("script"),
+     with T(string) being the result, for TRANS T.
+  */
+  template <class TRANS>
+  struct call_script {
+    typedef OS::vec_t vec_t;
+    typedef TRANS trans_t;
+    typedef typename
+      std::remove_reference_t<std::invoke_result_t<TRANS, std::string>>
+      result_type;
+
+    const std::string& command;
+    const trans_t& T;
+
+    call_script(const std::string& command, const trans_t& T) noexcept :
+    command(command), T(T) {}
+
+    result_type operator()(const vec_t& x) const {
+      std::ostringstream ss;
+      Environment::out_line(ss, x);
+      SystemCalls::Popen po(command);
+      const auto res = po.etransfer(SystemCalls::stringref_put(ss.str()));
+      if (res.rv.s != SystemCalls::ExitStatus::normal or
+          not res.err.empty()) {
+        std::ostringstream ss;
+        ss << "Sampling::call_script::operator(vec_t): error with calling"
+          " command \"" << command << "\", exit-code is " << res.rv.s <<
+          ", and error-output is\n  \"" << res.err << "\"";
+        throw std::runtime_error(ss.str());
+      }
+      return T(res.out);
+    }
+  };
+
+  // The "script" returns a string, which is transformed via TRANS:
+  template <class TRANS>
+  std::pair<std::vector<OS::vec_t>,
+            std::vector<typename call_script<TRANS>::result_type >>
+  perform_scanning_script(const std::istream& in,
+                          RandGen::vec_eseed_t seeds, const bool rand,
+                          const std::string& script0, const TRANS& T,
+                          const OS::index_t threads) {
+    const auto [I,x] = OS::read_scanning_info(in);
+    typedef call_script<TRANS> script_t;
+    const script_t script(script0, T);
+    typedef typename script_t::result_type result_type;
+    return perform_scanning<result_type>(x,I,seeds,rand,script,threads);
+  }
+
+  struct string2vec_t {
+    typedef OS::vec_t vec_t;
+    vec_t operator()(const std::string& s) const {
+      return FP::to_vec_float80(s, ' ');
+    }
+  };
+
+  std::pair<std::vector<OS::vec_t>, std::vector<OS::vec_t>>
+  perform_scanning_script(const std::istream& in,
+                          RandGen::vec_eseed_t seeds, const bool rand,
+                          const std::string& script0,
+                          const OS::index_t threads) {
+    return
+      perform_scanning_script(in, seeds, rand, script0,
+                              string2vec_t{}, threads);
   }
 
 }
