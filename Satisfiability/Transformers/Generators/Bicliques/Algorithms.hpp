@@ -27,6 +27,11 @@ License, or any later version. */
 
    Sequence operations:
 
+   - allnotequal(VEC v1, VEC v2) -> bool
+     (false iff there is i with v1[i] == v2[i])
+   - allsamesize(VEC v1, VEC v2) -> bool
+     (false iff there is i with v1[i].size() != v2[i].size())
+
    - generate_vector(RAN r, FUN f) -> vector of f(x) for x : r
 
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
@@ -260,6 +265,25 @@ namespace Algorithms {
     for (; itb != bend; ++itb) res.push_back(*itb);
     assert(res.size() == size);
     return res;
+  }
+
+
+  template <class VEC>
+  bool allnotequal(const VEC& v1, const VEC& v2) noexcept {
+    const auto size = std::min(v1.size(), v2.size());
+    for (typename VEC::size_type i = 0; i < size; ++i)
+      if (v1[i] == v2[i]) return false;
+    return true;
+  }
+
+  template<class VEC>
+  bool allsamesize(const VEC& v) noexcept {
+    const auto size = v.size();
+    if (size <= 1) return true;
+    const auto size0 = v[0].size();
+    for (typename VEC::size_type i = 1; i < size; ++i)
+      if (v[i].size() != size0) return false;
+    return true;
   }
 
 

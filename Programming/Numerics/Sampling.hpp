@@ -8,10 +8,6 @@ License, or any later version. */
 /*
   Tools for creating sampling sequences
 
-      helper functions:
-    - allnotequal(VEC v1, VEC v2) -> bool
-    - allsamesize(VEC v1, VEC v2) -> bool
-
     - scoped enum Smode (eq_un, boxed, eq)
     - sampling_points(x_t l, x_t r, index_t M, RandGen_t*, Smode) -> vec_t
 
@@ -63,6 +59,9 @@ License, or any later version. */
        - while those with e0 are combined into groups for latin-hypercube
          sampling, grouped together for equal number of points (different
          groups are combined combinatorially and independently)
+    - size_scanning(vector<StdLockstep>) -> index_t
+      computes the size of the range (as the product of the sizes of the
+      Lockstep-vectors)
     - get_scanning_points(evec_t x, list_intervals_t I, vec_eseed_t seeds,
         bool randomised) -> vector<vec_t>
       shows how to get the list of points, and sorts them.
@@ -89,6 +88,15 @@ License, or any later version. */
 
 
 TODOS:
+
+0. Proper ranges for lexicographical order:
+    - next_combination likely should evolve into a proper
+      range-generator.
+    - So that the users (get_vit_range for a start) just employ the usual
+      range-operations.
+    - Same for Lockstep (this performs bundling of iterators).
+    - So that the users (get_vcon_range for a start) again just employ the
+      usual range-operations.
 
 1. Accuracy of sampling_points(l,r,M)
 
@@ -137,6 +145,7 @@ Is the current computation the best we can do?
 #include <Transformers/Generators/Random/FPDistributions.hpp>
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
+#include <Transformers/Generators/Bicliques/Algorithms.hpp>
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
@@ -312,13 +321,6 @@ namespace Sampling {
     return false;
   }
   // Demonstration of how to run through such a "range":
-  template <class VEC>
-  bool allnotequal(const VEC& v1, const VEC& v2) noexcept {
-    const auto size = std::min(v1.size(), v2.size());
-    for (typename VEC::size_type i = 0; i < size; ++i)
-      if (v1[i] == v2[i]) return false;
-    return true;
-  }
   template <class ITER>
   std::vector<std::vector<ITER>>
   get_vit_range(const std::vector<ITER>& begin,
@@ -327,7 +329,7 @@ namespace Sampling {
     assert(size == end.size());
     std::vector<std::vector<ITER>> res;
     if (begin == end) return res;
-    assert(allnotequal(begin, end));
+    assert(Algorithms::allnotequal(begin, end));
     std::vector<ITER> current = begin;
     do res.push_back(current);
     while (next_combination(current, begin, end));
@@ -335,16 +337,6 @@ namespace Sampling {
     return res;
   }
 
-
-  template<class VEC>
-  bool allsamesize(const VEC& v) noexcept {
-    const auto size = v.size();
-    if (size <= 1) return true;
-    const auto size0 = v[0].size();
-    for (typename VEC::size_type i = 1; i < size; ++i)
-      if (v[i].size() != size0) return false;
-    return true;
-  }
 
   template <class CON, typename ELEM>
   struct Lockstep {
@@ -360,7 +352,7 @@ namespace Sampling {
         content(V), delivery(D) {
       assert(not content.empty());
       assert(content.size() == delivery.size());
-      assert(allsamesize(content));
+      assert(Algorithms::allsamesize(content));
     }
 
     typedef typename container::const_iterator iterator;
@@ -420,8 +412,10 @@ namespace Sampling {
 
   typedef Lockstep<OS::vec_t, FP::float80> StdLockstep;
   typedef std::vector<StdLockstep::It> vit_t;
+  // The basic lockstep-iterator, plus begin and end:
   typedef std::tuple<std::vector<StdLockstep>, vit_t, vit_t> scanning_t;
 
+  // Creates the scanning-vectors, as a kind of range:
   scanning_t prepare_scanning(
       const OS::evec_t& x, const OS::list_intervals_t& I,
       RandGen::vec_eseed_t seeds, const bool randomised,
@@ -494,6 +488,7 @@ namespace Sampling {
     return res;
   }
 
+  // Creating the "material" scanning-vectors:
   std::vector<OS::vec_t>
   get_scanning_points(
       const OS::evec_t& x, const OS::list_intervals_t& I,
@@ -514,7 +509,10 @@ namespace Sampling {
   }
 
 
-  /* Requirements on FUN: just operator()(vec_t)
+  /*
+    The usual helper-class for parallel computation of the application
+    of a function FUN to a scanning-range
+     - requirements on FUN: just operator()(vec_t)
   */
   template <class FUN, typename VAL>
   struct Computation_scanning {
@@ -539,6 +537,8 @@ namespace Sampling {
     }
   };
 
+  // Apply f to the x from the scanning-range, and return the vectors
+  // of x and f(x) :
   template <typename VAL, class FUN>
   std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
   perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
@@ -579,6 +579,11 @@ namespace Sampling {
 
   /* Helper classes to call an external program ("script"),
      with T(string) being the result, for TRANS T.
+      - the type of T(string) is used as result_type, after
+        having been stripped of possible references;
+      - thus the results can be directly stored in a vector, and
+        for example the perfectly-forwarding std::identity can
+        be used for TRANS.
   */
   template <class TRANS>
   struct call_script {
@@ -611,7 +616,9 @@ namespace Sampling {
     }
   };
 
-  // The "script" returns a string, which is transformed via TRANS:
+  // Special case of perform_scanning, where f is realised by a "script",
+  // invoked by a system-command, which returns a string, and which is
+  // transformed via TRANS:
   template <class TRANS>
   std::pair<std::vector<OS::vec_t>,
             std::vector<typename call_script<TRANS>::result_type >>
@@ -633,6 +640,8 @@ namespace Sampling {
     }
   };
 
+  // The special case of perform_scanning_script, where the result is
+  // transformed into vectors:
   std::pair<std::vector<OS::vec_t>, std::vector<OS::vec_t>>
   perform_scanning_script(const std::istream& in,
                           RandGen::vec_eseed_t seeds, const bool rand,
