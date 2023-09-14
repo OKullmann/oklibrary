@@ -44,10 +44,20 @@ License, or any later version. */
 
   Hashing:
 
-    - hash(UInt_t) -> UInt_t
-    - hash(uint_t) -> uint_t
+    - hash(UInt_t)  -> UInt_t
+    - hash(uint_t)  -> uint_t
+    - hash(int)     -> UInt_t
+    - hash(float80) -> UInt_t
+
     - hash_combine(UInt_t& seed, UInt_t other)
     - hash_combine(uint_t& seed, uint_t other)
+
+    - functor hash_UInt_range with member-operator (), taking
+      a range of values (with above-provided hash-functions) as argument,
+      and producing a UInt_t hash-value (also a brace-enclosed
+      initialiser-list is possible);
+      the apply-member-template takes the hash-function explicitly
+      as argument
 
     (see ProgramOptions/Strings.hpp for a hash-function for strings).
 
@@ -315,6 +325,10 @@ namespace FloatingPoint {
   STATIC_ASSERT(erfc(-1) == 1.8427007929497148693L);
 
 
+  /*
+    Hashing
+  */
+
   inline constexpr uint_t hash(uint_t x) noexcept {
     x = ((x >> 16) ^ x) * 0x45d9f3bU;
     x = ((x >> 16) ^ x) * 0x45d9f3bU;
@@ -323,6 +337,7 @@ namespace FloatingPoint {
   }
   static_assert(hash(uint_t(0)) == 0);
   static_assert(hash(uint_t(1)) == 824515495);
+
   inline constexpr UInt_t hash(UInt_t x) noexcept {
     x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
     x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
@@ -331,6 +346,17 @@ namespace FloatingPoint {
   }
   static_assert(hash(UInt_t(0)) == 0);
   static_assert(hash(UInt_t(1)) == 6238072747940578789ULL);
+  static_assert(hash(UInt_t(-1)) == 13029008266876403067ULL);
+
+  inline constexpr UInt_t hash(const int x) noexcept {
+    static_assert(std::numeric_limits<int>::digits <= 63);
+    return hash(UInt_t(x));
+  }
+  static_assert(hash(0) == 0);
+  static_assert(hash(1) == 6238072747940578789ULL);
+  static_assert(hash(-1) == 13029008266876403067ULL);
+
+
   inline void hash_combine(uint_t& seed, uint_t other) noexcept {
     seed ^= other + golden_ratio_u32 + (seed<<6) + (seed>>2);
   }
@@ -338,10 +364,41 @@ namespace FloatingPoint {
     seed ^= other + golden_ratio_u64 + (seed<<12) + (seed>>4);
   }
 
+
+  // needs constexpr with C++23:
+  inline UInt_t hash(const float80 x) noexcept {
+    const RepFloat80 r(x);
+    UInt_t seed = 5;
+    hash_combine(seed, hash(r.m));
+    hash_combine(seed, hash(r.be));
+    hash_combine(seed, hash(1*r.neg + 2*r.nan + 4*r.inf));
+    return seed;
+  }
+
+
   struct hash_UInt_range {
     typedef UInt_t return_type;
     template <class RAN>
     UInt_t operator ()(const RAN& r) const noexcept {
+      UInt_t seed = r.size();
+      for (const auto x : r) hash_combine(seed, hash(x));
+      return seed;
+    }
+    template <class RAN, class FUN>
+    UInt_t apply(const RAN& r, const FUN& hash) const noexcept {
+      UInt_t seed = r.size();
+      for (const auto x : r) hash_combine(seed, hash(x));
+      return seed;
+    }
+    template <typename T>
+    UInt_t operator ()(const std::initializer_list<T>& r) noexcept {
+      UInt_t seed = r.size();
+      for (const auto x : r) hash_combine(seed, hash(x));
+      return seed;
+    }
+    template <typename T, class FUN>
+    UInt_t apply(const std::initializer_list<T>& r,
+                 const FUN& hash) noexcept {
       UInt_t seed = r.size();
       for (const auto x : r) hash_combine(seed, hash(x));
       return seed;

@@ -34,13 +34,17 @@ License, or any later version. */
 /*
 TODOS:
 
+1. Create special testfile for the tests which need gmp or mpfr.
+    - Perhaps this is all (for now at least) about Tau?
+    - So TestTau.cpp ?
+
 */
 
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.3",
+        "0.13.4",
         "14.9.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -1560,6 +1564,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using rp = RepFloat80;
+   assert(rp(1,2,true,true,true) == rp(1,2,true,true,true));
+   assert(not rp(1,2,true,true,true).valid());
    assert(rp(0) == rp());
    assert(rp(+0.0) == rp());
    assert(rp(-0.0) == rp(0,0,true,false,false));
@@ -1573,12 +1579,41 @@ int main(const int argc, const char* const argv[]) {
    assert(rp(-2) == rp(P263,-62,true,false,false));
    assert(rp(P263) == rp(P263,0,false,false,false));
    assert(rp(-float80(P263)) == rp(P263,0,true,false,false));
+   assert(rp(0.5) == rp(P263,-64,false,false,false));
+   assert(rp(-0.5) == rp(P263,-64,true,false,false));
    assert(rp(P2m64) == rp(P263,-127,false,false,false));
    assert(rp(-P2m64) == rp(P263,-127,true,false,false));
    assert(rp(P264m1/P264) == rp(P264m1,-64,false,false,false));
    assert(rp(-(P264m1/P264)) == rp(P264m1,-64,true,false,false));
    assert(rp(denorm_min_value) == rp(P263, -16508, false, false, false));
    assert(rp(-denorm_min_value) == rp(P263, -16508, true, false, false));
+  }
+
+  {UInt_t seed = 5;
+   hash_combine(seed, hash(UInt_t(0)));
+   hash_combine(seed, hash(int(0)));
+   hash_combine(seed, hash(int(0)));
+   assert(seed == hash(float80(0)));
+  }
+  {UInt_t seed = 3;
+   hash_combine(seed, hash(0));
+   hash_combine(seed, hash(0));
+   hash_combine(seed, hash(0));
+   assert(seed == hash_UInt_range()({0,0,0}));
+   assert(seed == hash_UInt_range()(std::vector{0,0,0}));
+   UInt_t seed2 = 3;
+   hash_combine(seed2, hash(float80(0)));
+   hash_combine(seed2, hash(float80(0)));
+   hash_combine(seed2, hash(float80(0)));
+   assert(seed2 == hash_UInt_range()({float80(0),float80(0),float80(0)}));
+   assert(seed2 == hash_UInt_range()(std::vector<float80>(3)));
+   assert(seed2 != seed);
+  }
+  {const std::vector<float80> special{0.0,-0.0,NaN,-NaN,pinfinity,minfinity,
+       -1,1,0};
+   const auto hashes = Algorithms::generate_vector(special,
+     [](float80 x){return hash(x);});
+   assert(eqp(Algorithms::nt_eqel_bydef(hashes), {{0,8}}));
   }
 
 }
