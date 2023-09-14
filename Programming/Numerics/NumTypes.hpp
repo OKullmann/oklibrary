@@ -67,6 +67,7 @@ License, or any later version. */
     - an aggregate, created as {x,isint=false,hasplus=false,hase0=false}
     - equality-comparison
     - valid: if isint, then indeed integral, and if hasplus, then no signbit
+
    - typedef variant_t<POL>: either value from POL or a float80;
      wrapped by Pfloat80<POL> in NumInOut.hpp.
 
