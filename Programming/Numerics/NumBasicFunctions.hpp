@@ -374,6 +374,16 @@ namespace FloatingPoint {
     hash_combine(seed, hash(1*r.neg + 2*r.nan + 4*r.inf));
     return seed;
   }
+  inline UInt_t hash(const float64 x) noexcept {
+    return hash(float80(x));
+  }
+
+  // needs constexpr with C++23:
+  inline UInt_t hash(const F80ai x) noexcept {
+    UInt_t seed = hash(x.x);
+    hash_combine(seed, hash(1*x.isint + 2*x.hasplus + 4*x.hase0));
+    return seed;
+  }
 
 
   struct hash_UInt_range {

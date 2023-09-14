@@ -44,7 +44,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.4",
+        "0.13.5",
         "14.9.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -1614,6 +1614,10 @@ int main(const int argc, const char* const argv[]) {
    const auto hashes = Algorithms::generate_vector(special,
      [](float80 x){return hash(x);});
    assert(eqp(Algorithms::nt_eqel_bydef(hashes), {{0,8}}));
+  }
+  {UInt_t seed = hash(0.0);
+   hash_combine(seed, hash(0));
+   assert(seed == hash(F80ai(0)));
   }
 
 }
