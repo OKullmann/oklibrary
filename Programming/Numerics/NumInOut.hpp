@@ -293,7 +293,7 @@ namespace FloatingPoint {
   typedef std::vector<std::vector<float80>> table_t;
   table_t read_table(const Environment::tokens_t& lines) {
     table_t res; res.reserve(lines.size());
-    for (const auto l : lines) {
+    for (const auto& l : lines) {
       if (l.empty() or l.front() == '#') continue;
       std::vector<float80> v;
       try { v = to_vec_float80(l, ' '); }
@@ -334,7 +334,7 @@ namespace FloatingPoint {
   table_wai_t read_table_ai(const Environment::tokens_t& lines,
                             const UInt_t i) {
     table_wai_t res; res.reserve(lines.size());
-    for (const auto l : lines) {
+    for (const auto& l : lines) {
       if (l.empty() or l.front() == '#') continue;
       std::pair<std::vector<float80>, F80ai> v;
       try { v = to_vec_float80ai(l, ' ', i); }
