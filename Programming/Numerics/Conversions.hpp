@@ -18,6 +18,15 @@ License, or any later version. */
     - struct RepFloat80 represents float80 via integral mantissa, int exponent,
       and booleans for negative, nan, and inf.
 
+
+TODOS:
+
+1. How precise is RepFloat80 ?
+  - Does for *every* float80 x hold: fulleq(x, float80(RepFloat80(x))) ?
+    This is currently asserted in the constructor.
+  - Then also fulleq(x, y) <=> RepFloat80(x) == RepFloat80(y)
+    should hold.
+
 */
 
 #ifndef CONVERSIONS_7SoZrKQ2nw
@@ -140,15 +149,38 @@ namespace FloatingPoint {
       if (not nan and not inf and x != 0) {
         m = std::ldexp(std::frexp(std::abs(x), &be), 64);
         be -= 64;
-        assert(x == (neg ? -1 : +1) * std::ldexp(float80(m), be));
       }
+      assert(fulleq(x, operator float80()));
+      assert(valid());
     }
+
+    // Might create invalid objects:
     constexpr RepFloat80(const UInt_t m, const int be, const bool neg,
                          const bool nan, const bool inf) noexcept :
     m(m), be(be), neg(neg), nan(nan), inf(inf) {}
 
+    // The range of be is unchecked (except for be=0 if m=0; so a valid object
+    // could use a larger range for be):
+    constexpr bool valid() const noexcept {
+      if (nan and inf) return false;
+      if (nan and (m != 0 or be != 0)) return false;
+      if (inf and (m != 0 or be != 0)) return false;
+      if (m == 0 and be != 0) return false;
+      if (m != 0 and m < P263) return false;
+      return true;
+    }
+
+    constexpr int negf() const noexcept { return neg ? -1 : +1; }
+    explicit operator float80() const noexcept {
+      if (nan) return neg ? -NaN : NaN;
+      else if (inf) return neg ? minfinity : pinfinity;
+      else if (m == 0) return neg ? -0.0L : 0;
+      else return negf() * std::ldexp(float80(m), be);
+    }
+
     constexpr bool operator ==(const RepFloat80&) const noexcept = default;
   };
+  static_assert(RepFloat80().valid());
   static_assert(RepFloat80() == RepFloat80{0,0,false,false,false});
 
   std::ostream& operator <<(std::ostream& out, const RepFloat80& r) {
