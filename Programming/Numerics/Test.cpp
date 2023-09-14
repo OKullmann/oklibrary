@@ -40,8 +40,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.2",
-        "13.9.2023",
+        "0.13.3",
+        "14.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1557,6 +1557,28 @@ int main(const int argc, const char* const argv[]) {
    assert(res2 == perform_scanning_script(std::istringstream(in), {},
                                           false, "cat -",
                                           std::identity(), 2));
+  }
+
+  {using rp = RepFloat80;
+   assert(rp(0) == rp());
+   assert(rp(+0.0) == rp());
+   assert(rp(-0.0) == rp(0,0,true,false,false));
+   assert(rp(NaN) == rp(0,0,false,true,false));
+   assert(rp(-NaN) == rp(0,0,true,true,false));
+   assert(rp(pinfinity) == rp(0,0,false,false,true));
+   assert(rp(minfinity) == rp(0,0,true,false,true));
+   assert(rp(1) == rp(P263,-63,false,false,false));
+   assert(rp(-1) == rp(P263,-63,true,false,false));
+   assert(rp(2) == rp(P263,-62,false,false,false));
+   assert(rp(-2) == rp(P263,-62,true,false,false));
+   assert(rp(P263) == rp(P263,0,false,false,false));
+   assert(rp(-float80(P263)) == rp(P263,0,true,false,false));
+   assert(rp(P2m64) == rp(P263,-127,false,false,false));
+   assert(rp(-P2m64) == rp(P263,-127,true,false,false));
+   assert(rp(P264m1/P264) == rp(P264m1,-64,false,false,false));
+   assert(rp(-(P264m1/P264)) == rp(P264m1,-64,true,false,false));
+   assert(rp(denorm_min_value) == rp(P263, -16508, false, false, false));
+   assert(rp(-denorm_min_value) == rp(P263, -16508, true, false, false));
   }
 
 }

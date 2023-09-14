@@ -15,10 +15,15 @@ License, or any later version. */
     - toUInt(float80 x) converts (every) x >= 0 to UIint_t
     - touint(x) same for uint_t
 
+    - struct RepFloat80 represents float80 via integral mantissa, int exponent,
+      and booleans for negative, nan, and inf.
+
 */
 
 #ifndef CONVERSIONS_7SoZrKQ2nw
 #define CONVERSIONS_7SoZrKQ2nw
+
+#include <ostream>
 
 #include "NumTypes.hpp"
 
@@ -122,6 +127,34 @@ namespace FloatingPoint {
     bool operator ==(const ApproxBin&) const noexcept = default;
   };
 
+
+  struct RepFloat80 {
+    UInt_t m = 0; // mantissa
+    int be = 0; // binary exponent
+    bool neg = false, nan = false, inf=false;
+
+    constexpr RepFloat80() noexcept = default;
+    // needs constexpr with C++23:
+    RepFloat80(const float80 x) noexcept :
+    neg(std::signbit(x)), nan(isnan(x)), inf(isinf(x)) {
+      if (not nan and not inf and x != 0) {
+        m = std::ldexp(std::frexp(std::abs(x), &be), 64);
+        be -= 64;
+        assert(x == (neg ? -1 : +1) * std::ldexp(float80(m), be));
+      }
+    }
+    constexpr RepFloat80(const UInt_t m, const int be, const bool neg,
+                         const bool nan, const bool inf) noexcept :
+    m(m), be(be), neg(neg), nan(nan), inf(inf) {}
+
+    constexpr bool operator ==(const RepFloat80&) const noexcept = default;
+  };
+  static_assert(RepFloat80() == RepFloat80{0,0,false,false,false});
+
+  std::ostream& operator <<(std::ostream& out, const RepFloat80& r) {
+    return out << "(" << r.m << "," << r.be << "," << r.neg << ","
+               << r.nan << "," << r.inf << ")";
+  }
 }
 
 #endif
