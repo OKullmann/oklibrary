@@ -163,7 +163,7 @@ namespace FloatingPoint {
 
   // x * 2^x:
   inline CONSTEXPR float80 ldexp(const float80 x, const int exp) noexcept {
-    return std::ldexp(x, exp); // ERROR with gcc 10.2: std::ldexpl not available
+    return std::ldexp(x, exp); // ERROR with gcc 10.3: std::ldexpl not available
   }
   STATIC_ASSERT(ldexp(1,-1000) == pow(2,-1000));
   STATIC_ASSERT(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
