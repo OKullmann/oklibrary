@@ -36,7 +36,12 @@ License, or any later version. */
    - functions isinf, isnan, signbit, copysign
    - constants epsilon, min_value, denorm_min_value, max_value
    - constants P264, P232, P2m64, P2m32
-   - functions max, min.
+   - functions max, min
+
+   - function fulleq(float80 x, float80 y) -> bool:
+       compares the full representation of x, y
+     (see Conversions.hpp::RepFloat80 for the full representation made
+     explicit).
 
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
@@ -190,6 +195,19 @@ namespace FloatingPoint {
   STATIC_ASSERT(copysign(3,-2) == -3);
   STATIC_ASSERT(copysign(1,-0.0) == -1);
   STATIC_ASSERT(copysign(-3,2) == 3);
+
+  inline CONSTEXPR bool fulleq(const float80 x, const float80 y) noexcept {
+    if (signbit(x) != signbit(y)) return false;
+    if (isnan(x)) return isnan(y);
+    else return x == y;
+  }
+  STATIC_ASSERT(fulleq(NaN, NaN));
+  STATIC_ASSERT(fulleq(-NaN, -NaN));
+  STATIC_ASSERT(not fulleq(NaN, -NaN));
+  STATIC_ASSERT(not fulleq(-NaN, NaN));
+  STATIC_ASSERT(fulleq(pinfinity, pinfinity));
+  STATIC_ASSERT(not fulleq(pinfinity, minfinity));
+  STATIC_ASSERT(not fulleq(-0.0, 0.0));
 
   constexpr float80 epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
