@@ -134,7 +134,7 @@ namespace FloatingPoint {
   false
 #endif
 ;
-  // static_assert(fp_fast_fmal); // not given in gcc 10.2, at least not for OK's laptop; http://www.cplusplus.com/reference/cmath/fma/
+  // static_assert(fp_fast_fmal); // not true in gcc 10.3, at least not for OK's laptop; http://www.cplusplus.com/reference/cmath/fma/
 
   struct Wrap {
     float80 x;
@@ -186,7 +186,6 @@ namespace FloatingPoint {
   inline CONSTEXPR float80 copysign(const float80 x,
                                     const float80 y) noexcept {
     return std::copysignl(x,y);
-    // ERROR with gcc 10.1: std::copysignl not available
   }
   STATIC_ASSERT(copysign(3,-2) == -3);
   STATIC_ASSERT(copysign(1,-0.0) == -1);
