@@ -35,13 +35,13 @@ License, or any later version. */
    - constants pinfinity, minfinity, NaN
    - functions isinf, isnan, signbit, copysign
    - constants epsilon, min_value, denorm_min_value, max_value
-   - constants P264, P232
+   - constants P264, P232, P2m64, P2m32
    - functions max, min.
 
   Related integral types:
    - typedefs UInt_t, uint_t, Int_t, int_t
-   - constants P264m1, P232m1, P231m1
-     (P264, P232 of type float80)
+   - constants P264m1, P232m1, P231m1, P263
+     (P264, P232 are of type float80)
    - functions for checking integrality:
     - isUInt(float80), isUInt(list of float80),
     - isuint(float80)
@@ -238,11 +238,16 @@ namespace FloatingPoint {
   static_assert(P232m1 + 1 == 0);
   static_assert(UInt_t(P232m1)*P232m1 == P264m1 - 2*(UInt_t(P232m1)+1) + 2);
 
+  constexpr UInt_t P263 = 9223372036854775808ULL;
+  static_assert(P263 == P264m1/2 + 1);
+
   constexpr int_t P231m1 = std::numeric_limits<int_t>::max();
   static_assert(2 * uint_t(P231m1) + 1 == P232m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
+  constexpr float80 P2m64 = 1 / P264;
   constexpr float80 P232 = 4294967296.0L;
+  constexpr float80 P2m32 = 1 / P232;
   static_assert(P264 == 1.8446744073709551616e19L);
   static_assert(P264 == float80(P264m1) + 1);
   static_assert(UInt_t(P264-1) == P264m1);
@@ -250,6 +255,8 @@ namespace FloatingPoint {
   static_assert(P232 == 4.294967296e9L);
   static_assert(P232 == float80(P232m1) + 1);
   static_assert(uint_t(P232-1) == P232m1);
+  static_assert(P264 * P2m64 == 1);
+  static_assert(P232 * P2m32 == 1);
 
   // Exactly the integers in the interval [-P264, +P264] are exactly
   // represented by float80:
