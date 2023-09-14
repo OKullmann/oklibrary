@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.1.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,8 +10,7 @@ License, or any later version. */
 
   Wrappers:
 
-   - copysign(float80, float80), signbit(float80)
-   - nextafter(float80, float80).
+    - nextafter(float80, float80).
 
   Accuracy measurement:
 
@@ -52,24 +51,6 @@ TODOS:
 
 
 namespace FloatingPoint {
-
-  inline CONSTEXPR float80 copysign(const float80 x, const float80 y) noexcept {
-    return std::copysign(x,y); // ERROR with gcc 10.1: std::copysignl not available
-  }
-  STATIC_ASSERT(copysign(3,-2) == -3);
-  STATIC_ASSERT(copysign(1,-0.0) == -1);
-  STATIC_ASSERT(copysign(-3,2) == 3);
-
-  inline CONSTEXPR float80 signbit(const float80 x) noexcept {
-    return std::signbit(x);
-  }
-  STATIC_ASSERT(not signbit(1));
-  STATIC_ASSERT(not signbit(0));
-  STATIC_ASSERT(signbit(-0.0));
-  STATIC_ASSERT(signbit(-1));
-  STATIC_ASSERT(not signbit(NaN));
-  STATIC_ASSERT(signbit(-NaN));
-
 
   /* Accuracy testing */
 

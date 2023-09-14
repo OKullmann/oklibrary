@@ -33,7 +33,7 @@ License, or any later version. */
    - constant bool fp_fast_fmal
    - struct Wrap
    - constants pinfinity, minfinity, NaN
-   - function isinf, isnan
+   - functions isinf, isnan, signbit, copysign
    - constants epsilon, min_value, denorm_min_value, max_value
    - constants P264, P232
    - functions max, min.
@@ -171,6 +171,27 @@ namespace FloatingPoint {
   STATIC_ASSERT(isnan(limitfloat::quiet_NaN()));
   STATIC_ASSERT(isnan(NaN));
 
+  inline CONSTEXPR bool signbit(const float80 x) noexcept {
+    return std::signbit(x);
+  }
+  STATIC_ASSERT(not signbit(1));
+  STATIC_ASSERT(not signbit(0));
+  STATIC_ASSERT(signbit(-0.0));
+  STATIC_ASSERT(signbit(-1));
+  STATIC_ASSERT(not signbit(NaN));
+  STATIC_ASSERT(signbit(-NaN));
+  STATIC_ASSERT(signbit(minfinity));
+  STATIC_ASSERT(not signbit(pinfinity));
+
+  inline CONSTEXPR float80 copysign(const float80 x,
+                                    const float80 y) noexcept {
+    return std::copysignl(x,y);
+    // ERROR with gcc 10.1: std::copysignl not available
+  }
+  STATIC_ASSERT(copysign(3,-2) == -3);
+  STATIC_ASSERT(copysign(1,-0.0) == -1);
+  STATIC_ASSERT(copysign(-3,2) == 3);
+
   constexpr float80 epsilon = limitfloat::epsilon();
   static_assert(1 - epsilon < 1);
   static_assert(1 + epsilon > 1);
@@ -183,7 +204,8 @@ namespace FloatingPoint {
   static_assert(min_value < 3.4e-4932L);
   static_assert(denorm_min_value < 1e-4950L);
   static_assert(denorm_min_value > 0);
-  static_assert(denorm_min_value / 2 == 0, "Higher precision than usual for denorm_min.");
+  static_assert(denorm_min_value / 2 == 0,
+                "Higher precision than usual for denorm_min.");
   constexpr float80 max_value = limitfloat::max();
   static_assert(max_value < pinfinity);
   static_assert(1/max_value > 0);
