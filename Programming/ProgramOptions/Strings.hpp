@@ -11,9 +11,11 @@ License, or any later version. */
 
     - STR(x) is a macro, putting quotation marks around x
     - qu(string) adds quotes around a string
+
     - hash(string) -> std::uint64_t (simple function for usage in id's etc.)
       (see Numerics/NumBasicFunctions.hpp for hash-functions for numbers
-      and sequences of numbers)
+      and sequences of numbers, and for FloatingPoint::hash_UInt_range::apply,
+      which can handle ranges (of strings etc.; example in Test.cpp).
 
     Filename handling:
 

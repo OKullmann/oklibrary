@@ -15,6 +15,7 @@ License, or any later version. */
 #include <map>
 
 #include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 #include "Strings.hpp"
 #include "Environment.hpp"
@@ -22,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo pi{
-        "0.3.2",
-        "10.9.2023",
+        "0.3.3",
+        "14.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/Test.cpp",
@@ -52,6 +53,9 @@ int main(const int argc, const char* const argv[]) {
 
   {assert(hash("") == 525201411107845655ULL);
    assert(hash("XXX") == 14474473597063577439ULL);
+   assert(FloatingPoint::hash_UInt_range().apply(
+     {std::string(""), std::string("abc")},
+     [](const std::string& s){return hash(s);}) == 7268759395194620642ULL);
   }
 
   {assert(replace("xxyxzxxyx", 'x', 'y') == "yyyyzyyyy");
