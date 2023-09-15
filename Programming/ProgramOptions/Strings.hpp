@@ -21,7 +21,7 @@ License, or any later version. */
 
     - basename(string) extracts the part of the string before "."
     - auto_prg(filename) ("automatic" program-name from file-name)
-    - see str2ident(filename) below
+    - see str2corename(filename) below
 
     General string facilities:
 

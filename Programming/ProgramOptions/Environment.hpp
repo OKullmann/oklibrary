@@ -625,9 +625,12 @@ namespace Environment {
     typedef clock::time_point time_point;
     typedef time_point::rep ticks_t;
 
-    static constexpr bool ticks_t_is_integer = std::numeric_limits<ticks_t>::is_integer;
-    static constexpr bool ticks_t_is_signed = std::numeric_limits<ticks_t>::is_signed;
-    static constexpr int ticks_t_digits = std::numeric_limits<ticks_t>::digits;
+    static constexpr bool ticks_t_is_integer =
+      std::numeric_limits<ticks_t>::is_integer;
+    static constexpr bool ticks_t_is_signed =
+      std::numeric_limits<ticks_t>::is_signed;
+    static constexpr int ticks_t_digits =
+      std::numeric_limits<ticks_t>::digits;
 
     const time_point now = clock::now();
     const ticks_t ticks = now.time_since_epoch().count();
@@ -840,7 +843,8 @@ namespace Environment {
     return argc == 2 and std::string_view(argv[1]) == "-p";
   }
 
-  void args_output(std::ostream& out, const int argc, const char* const argv[]) {
+  void args_output(std::ostream& out, const int argc,
+                   const char* const argv[]) {
     out << qu(argv[0]);
     for (int i = 1; i < argc; ++i) out << " " << qu(argv[i]);
   }
