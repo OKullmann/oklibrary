@@ -45,7 +45,7 @@ namespace {
          << " sb-rounds seeds\n\n"
     " sb-rounds      : " << "default is " <<
       Bicliques2SAT::default_sb_rounds << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"\n\n"
     " reads a cnf from standard input, and computes symmetry-breaking data :\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n\n"
 ;

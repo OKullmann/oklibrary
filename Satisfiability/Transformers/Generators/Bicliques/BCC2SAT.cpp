@@ -404,11 +404,13 @@ namespace {
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n\n"
-    " reads a graph from standard input, and prints the SAT-translation to standard output:\n\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"\n\n"
+    " reads a graph from standard input, and prints the SAT-translation"
+    " to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - \"+\" for B means the increment from the symmetry-breaking result.\n"
-    "  - If rounds=1, then seeds are taken as given, otherwise a round-index is appended.\n"
+    "  - If rounds=1, then seeds are taken as given, otherwise a round-index"
+    " is appended.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
