@@ -72,12 +72,16 @@ License, or any later version. */
       applies f to all scanning-points x : vec_t (in sorted order),
       and stores the pairs x, f(x) : VAL in the two (separate) output-vectors.
 
-    - perform_scanning_script(istream& in, vec_eseed_t seeds,
+    - perform_scanning_script(istream& in, vec_eseed_t& seeds,
         bool randomised, string script, TRANS T, index_t threads)
       applies perform_scanning with x,I obtained from in, and f obtained
       by applying T to the result of the script (fed with the generated
-      vectors)
-    - perform_scanning_script(istream& in, vec_eseed_t seeds,
+      vectors);
+       - seeds is extended with three 64-bit keys:
+        - first with the hash for the sequence of intervals;
+        - then the hash for the sequence of "midpoints";
+        - finally the hash for the "script"-string
+    - perform_scanning_script(istream& in, vec_eseed_t& seeds,
         bool randomised, string script, index_t threads)
       is the special case, where the results of script are translated
       into vectors of float80
@@ -418,7 +422,7 @@ namespace Sampling {
   // Creates the scanning-vectors, as a kind of range:
   scanning_t prepare_scanning(
       const OS::evec_t& x, const OS::list_intervals_t& I,
-      RandGen::vec_eseed_t seeds, const bool randomised,
+      const RandGen::vec_eseed_t seeds, const bool randomised,
       OS::vec_t& currv) {
     const auto N = x.size();
     assert(I.size() == N); assert(currv.size() == N);
@@ -492,7 +496,7 @@ namespace Sampling {
   std::vector<OS::vec_t>
   get_scanning_points(
       const OS::evec_t& x, const OS::list_intervals_t& I,
-      RandGen::vec_eseed_t seeds, const bool randomised) {
+      const RandGen::vec_eseed_t seeds, const bool randomised) {
     OS::vec_t currv(x.size());
     const auto [equiv_classes, b, e] =
       prepare_scanning(x,I,seeds,randomised, currv);
@@ -542,7 +546,7 @@ namespace Sampling {
   template <typename VAL, class FUN>
   std::pair<std::vector<OS::vec_t>, std::vector<VAL>>
   perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
-                   RandGen::vec_eseed_t seeds, const bool randomised,
+                   const RandGen::vec_eseed_t seeds, const bool randomised,
                    const FUN& f,
                    const OS::index_t threads) {
     if (threads == 0) return {};
@@ -623,13 +627,19 @@ namespace Sampling {
   std::pair<std::vector<OS::vec_t>,
             std::vector<typename call_script<TRANS>::result_type >>
   perform_scanning_script(const std::istream& in,
-                          RandGen::vec_eseed_t seeds, const bool rand,
+                          RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0, const TRANS& T,
                           const OS::index_t threads) {
-    const auto [I,x] = OS::read_scanning_info(in);
+    const auto si = OS::read_scanning_info(in);
+    if (rand) {
+      const auto [seed1, seed2] = hash2(si);
+      seeds.push_back(seed1); seeds.push_back(seed2);
+      seeds.push_back(Environment::hash(script0));
+    }
     typedef call_script<TRANS> script_t;
     const script_t script(script0, T);
     typedef typename script_t::result_type result_type;
+    const auto& [I,x] = si;
     return perform_scanning<result_type>(x,I,seeds,rand,script,threads);
   }
 
@@ -644,7 +654,7 @@ namespace Sampling {
   // transformed into vectors:
   std::pair<std::vector<OS::vec_t>, std::vector<OS::vec_t>>
   perform_scanning_script(const std::istream& in,
-                          RandGen::vec_eseed_t seeds, const bool rand,
+                          RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0,
                           const OS::index_t threads) {
     return

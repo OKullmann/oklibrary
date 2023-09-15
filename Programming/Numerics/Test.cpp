@@ -44,8 +44,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.5",
-        "14.9.2023",
+        "0.13.6",
+        "15.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1540,27 +1540,34 @@ int main(const int argc, const char* const argv[]) {
               {{{-1.5,2.5,-10,12}}, {{100,true,false,true}}}));
   }
   {const std::istringstream ss("-20 1 2.5 5 100\n\n#jkx\n-7.5 0 77e0 2 10.5");
-   assert(eqp(read_scanning_info(ss),
-              {{{1,5,-20,100},{0,2,-7.5,10.5}}, {{2.5},{77,true,false,true}}}));
+    const auto si = read_scanning_info(ss);
+   assert(
+     eqp(si,{{{1,5,-20,100},{0,2,-7.5,10.5}}, {{2.5},{77,true,false,true}}}));
+   assert(eqp(hash2(si), {3922673232375708711ULL, 16962350084066399073ULL}));
   }
 
   {const std::string in = "-10 -1 0.0 1 10\n-7 -7 1 7 7\n-11 -11 1 11 11\n";
-   const auto res1 = perform_scanning_script(std::istringstream(in), {},
+   RandGen::vec_eseed_t seeds;
+   const auto res1 = perform_scanning_script(std::istringstream(in), seeds,
                                              false, "cat -", 1);
+   assert(seeds.empty());
    assert(eqp(res1.first, {{0,-7,-11},{0,-7,11},{0,7,-11},{0,7,11}}));
    assert(res1.first == res1.second);
-   assert(res1 == perform_scanning_script(std::istringstream(in), {},
+   assert(res1 == perform_scanning_script(std::istringstream(in), seeds,
                                           false, "cat -", 2));
-   const auto res2 = perform_scanning_script(std::istringstream(in), {},
+   assert(seeds.empty());
+   const auto res2 = perform_scanning_script(std::istringstream(in), seeds,
                                              false, "cat -",
                                              std::identity(), 1);
+   assert(seeds.empty());
    assert(res2.first == res1.first);
    std::vector<vec_t> res2sec =
      Algorithms::generate_vector(res2.second, string2vec_t());
    assert(res2sec == res1.second);
-   assert(res2 == perform_scanning_script(std::istringstream(in), {},
+   assert(res2 == perform_scanning_script(std::istringstream(in), seeds,
                                           false, "cat -",
                                           std::identity(), 2));
+   assert(seeds.empty());
   }
 
   {using rp = RepFloat80;
