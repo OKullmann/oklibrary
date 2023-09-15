@@ -8,20 +8,68 @@ License, or any later version. */
 /*
   Tools for creating sampling sequences
 
-    - scoped enum Smode (eq_un, boxed, eq)
-    - sampling_points(x_t l, x_t r, index_t M, RandGen_t*, Smode) -> vec_t
+    - scoped enum Smode (eq_un, boxed, eq:
+       - "equi-distant or uniform"
+       - for uniformly random in "boxes"
+       - for equi-distant only ("forced", whether randomised or not)
 
-    - fill_possibilities(evec_t x, list_intervals_t I, RandGen_t*) ->
+    - sampling_points(x_t l, x_t r, index_t M, RandGen_t* rg, Smode rsm)
+        -> vec_t
+      creates M+1 sorted values in the interval [l, r]:
+       - in principle there are 3 * 2 modes: 3 values of Smode, and
+         rg can be nullptr or not (in which case rg is active);
+       - however if rsm==boxed, then rg must be active
+       - so if rg is inactive, then we either have eq_un or eq, which here
+         become the same (that is, here eq_un -> eq); this is also the
+         default, when not giving rg and rsm;
+         "equi-distant" means inclusion of l and r except for M=0, where
+         the mid-point of [l,r] is chosen
+       - while if rg is active :
+        - rsm=eq forces equi-distant values (without randomisation)
+        - rsm=eq_un means uniform randomness (so here eq_un -> un)
+        - rsm=boxed means first M+2 equidistant sampling points are
+          created, which yield M+1 right-open intervals, from which
+          the M+1 points are chosen
+        - M=0 means:
+         - uniform-random in [l,r] for eq_un
+         - uniform-random in [l,r) for boxed (right-open).
+      So altogether we have actually exactly three modes (covered by 5 modes):
+        - equi-distant (for M=0 this means midpoint), created by
+         - eq and rg arbitrary
+         - eq_un and rg inactive
+        - uniform-random, created by eq_un and rg active
+        - boxed-random (for M=0 this means right-open), created by
+          boxed and rg active.
+
+    - fill_possibilities(evec_t x, list_intervals_t I, RandGen_t* rg) ->
         vector<vec_t>
       creates the mesh (grid) for scanning:
        - handles each coordinate 0 <= i < x.size() individually, within the
          given soft interval-bounds l_i, r_i
-       - single values: either fixed given value, or a random element of
-         [l,r] resp. [l,r) or the middle point (for 0 resp. +0 resp. -0)
+       - the value x[i] determines the 4 cases (single value, or 3 cases
+         of sampling points) as follows;
+       - single values: either fixed given value (due to decimal point), or
+          - a random element of [l,r] resp. [l,r)
+          - or the middle point
+         for x[i]=0 resp. +0 resp. -0 ("asserted integral", i.e., no decimal
+         point)
+       - we get single-values also if l=r
        - sequences of length L+1: either equidistant, or uniform random or
-         random from the half-open subintervals; here L is "asserted integral",
-         (for strings: no decimal point), and we get the three cases from
-         -L resp. L resp. +L (this generalises the single-value-case).
+         random from the half-open subintervals; here x[i]=L is
+         "asserted integral", (for strings: no decimal point), and we get the
+         three cases from -L resp. L resp. +L
+       - this generalises the single-value-case:
+        - 0 resp. L for random value(s) from closed interval
+        - -0 resp. -L for middle-point resp. equidistant values
+        - +0 resp. +L for random-value from right-open interval resp.
+          half-open subintervals
+       - here "+" requires rg (!= nullptr)
+       - while without "+" and with rg == nullptr we always get equi-distant
+       - furthermore asserted int can have e0 or not: if yes, then rg is
+         required, and groups are created according to having the same number
+         of sampling-points >= 2 (i.e., L >= 1 above), where then all
+         sequences in a group except of the first are randomly permuted
+         (the first's thus stay in sorted order).
 
     - next_combination allows to run through all combinations, via considering
       a range given by a vector of iterators, which are iterated through
@@ -59,6 +107,8 @@ License, or any later version. */
        - while those with e0 are combined into groups for latin-hypercube
          sampling, grouped together for equal number of points (different
          groups are combined combinatorially and independently)
+    - randomised:
+       - false : XXX
     - size_scanning(vector<StdLockstep>) -> index_t
       computes the size of the range (as the product of the sizes of the
       Lockstep-vectors)
@@ -164,9 +214,12 @@ namespace Sampling {
 
   // SamplingMode
   enum class Smode {
-    eq_un = 0, // equi-distant or uniform random
-    boxed = 1, // kind of equi-distant uniform random
-    eq = 2     // equi-distant (only)
+    // equi-distant or uniform random (depending on whether rg is given):
+    eq_un = 0,
+    // kind of equi-distant uniform random (requires rg):
+    boxed = 1,
+    // equi-distant (independent of rg):
+    eq = 2
   };
 
   /* M+1 Sampling points in the interval [l,r] uniformly:
@@ -193,10 +246,10 @@ namespace Sampling {
             const OS::index_t ip = i/g, Mp = M/g;
             const OS::x_t delta = (r - l) / Mp;
             const OS::x_t x = FP::fma(ip, delta, l);
-            /* Remark: this computation of x seems most accurate than e.g.
+            /* Remark: this computation of x seems more accurate than e.g.
                  const OS::x_t x = FP::fma(ip * (r - l), 1.0L / Mp, l);
                  const OS::x_t x = FP::lerp(l, r, OS::x_t(ip) / Mp);
-               seem to yield worse results.
+               which seem to yield worse results.
             */
             assert(x <= r);
             res.push_back(x);
@@ -278,8 +331,10 @@ namespace Sampling {
           else
             res.push_back(sampling_points(li, ri, M, rg));
           if (x[i].hase0) {
-            if (groups.contains(M))
+            if (groups.contains(M)) {
+              assert(rg);
               RandGen::shuffle(res.back().begin(), res.back().end(), *rg);
+            }
             else
               groups.insert(M);
           }
@@ -290,8 +345,10 @@ namespace Sampling {
           const FP::UInt_t M = nxi;
           res.push_back(sampling_points(li, ri, M));
           if (x[i].hase0) {
-            if (groups.contains(M))
+            if (groups.contains(M)) {
+              assert(rg);
               RandGen::shuffle(res.back().begin(), res.back().end(), *rg);
+            }
             else
               groups.insert(M);
           }

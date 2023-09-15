@@ -44,7 +44,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.6",
+        "0.13.7",
         "15.9.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -1169,25 +1169,68 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(fill_possibilities({{2,true}}, {{-1,1}}), {{-1,0,1}}));
    assert(eqp(fill_possibilities({{4,true}}, {{-1,1}}), {{-1,-0.5,0,0.5,1}}));
    assert(eqp(fill_possibilities({{4,true}}, {{-1,-1}}), {{-1}}));
-   const evec_t ev = {{4,true},{2.2L},{4,true}};
-   assert(eqp(fill_possibilities(ev, {{-1,1},{1,3},{0,4}}), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
    RandGen::RandGen_t g;
-   assert(eqp(fill_possibilities({{-4,true},{2.2L},{-4,true}}, {{-1,1},{1,3},{0,4}}, &g), {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
-   assert(eqp(
-     fill_possibilities(ev, {{-1,1},{1,3},{0,4}}, &g),
-     {{-0.90946340857647832065L, -0.65413370079554517466L, -0.49751205043599872394L, -0.33672092966476210808L, 0.53722299152071962668L},
-      {2.2L},
-      {2.1006991459917339232L, 2.1540429769657775871L, 3.3724618025100038361L, 3.6781458735334619701L, 3.7121587672297555916L}}));
-   const evec_t ev2 = {{4,true,true},{2.2L},{4,true,true}};
-   assert(eqp(
-     fill_possibilities(ev2, {{-1,1},{1,3},{0,4}}, &g),
-     {{-0.68626670862416910412L, -0.31847614377893462302L, 0.033188061414209394546L, 0.20665942470113943374L, 0.87292856729822431203L},
-      {2.2L},
-      {0.55871463157492082057L, 1.0111006455619547244L, 2.3740890219599347852L, 2.6558020824107845571L, 3.4783618784204470688L}}));
+   {const evec_t ev = {{4,true},{2.2L},{4,true}};
+    assert(eqp(fill_possibilities(ev, {{-1,1},{1,3},{0,4}}),
+               {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+    assert(eqp(fill_possibilities({{-4,true},{2.2L},{-4,true}}, {{-1,1},{1,3},{0,4}}, &g),
+               {{-1,-0.5,0,0.5,1},{2.2L},{0,1,2,3,4}}));
+    assert(eqp(
+      fill_possibilities(ev, {{-1,1},{1,3},{0,4}}, &g),
+      {{-0.90946340857647832065L, -0.65413370079554517466L, -0.49751205043599872394L, -0.33672092966476210808L, 0.53722299152071962668L},
+       {2.2L},
+      { 2.1006991459917339232L, 2.1540429769657775871L, 3.3724618025100038361L, 3.6781458735334619701L, 3.7121587672297555916L}}));
+   }
+   {const evec_t ev2 = {{4,true,true},{2.2L},{4,true,true}};
+    assert(eqp(
+      fill_possibilities(ev2, {{-1,1},{1,3},{0,4}}, &g),
+      {{-0.68626670862416910412L, -0.31847614377893462302L, 0.033188061414209394546L, 0.20665942470113943374L, 0.87292856729822431203L},
+       {2.2L},
+       {0.55871463157492082057L, 1.0111006455619547244L, 2.3740890219599347852L, 2.6558020824107845571L, 3.4783618784204470688L}}));
+   }
    assert(eqp(fill_possibilities({{0,true}},{{0,1}}), {{0.5}}));
    assert(eqp(fill_possibilities({{0,true}},{{0,1}}, &g), {{0.91068351869532792491L}}));
    assert(eqp(fill_possibilities({{-0.0L,true}},{{0,1}}, &g), {{0.5}}));
    assert(eqp(fill_possibilities({{0,true,true}},{{0,*++F80it(0)}}, &g), {{0}}));
+   {const evec_t ev = {{-1,true,false,true},{-1,true,false,true}};
+    UInt_t count = 0;
+    for (UInt_t i = 0; i < 1000; ++i) {
+      const auto fill = fill_possibilities(ev, {{0,1},{0,1}}, &g);
+      assert(fill.size() == 2);
+      assert(eqp(fill[0], {0,1}));
+      if (eqp(fill[1], {0,1})) ++count;
+      else assert(eqp(fill[1], {1,0}));
+    }
+    assert(count == 479);
+   }
+   {const evec_t ev = {{1,true,false,true},{1,true,false,true}};
+    UInt_t count0 = 0, count1 = 0;
+    for (UInt_t i = 0; i < 1000; ++i) {
+      const auto fill = fill_possibilities(ev, {{0,1},{0,1}}, &g);
+      assert(fill.size() == 2);
+      assert(std::ranges::is_sorted(fill[0]));
+      count0 += fill[0][0] < 0.5;
+      count1 += std::ranges::is_sorted(fill[1]);
+    }
+    assert(count0 == 760);
+    assert(count1 == 502);
+   }
+   {const evec_t ev = {{1,true,true,true},{1,true,true,true}};
+    UInt_t count0 = 0, count1 = 0, count2 = 0;
+    for (UInt_t i = 0; i < 1000; ++i) {
+      const auto fill = fill_possibilities(ev, {{0,1},{0,1}}, &g);
+      assert(fill.size() == 2);
+      assert(std::ranges::is_sorted(fill[0]));
+      assert(fill[0][0] < 0.5);
+      assert(0.5 <= fill[0][1]);
+      count0 += fill[0][0] < 0.25;
+      count1 += fill[0][1] < 0.75;
+      count2 += std::ranges::is_sorted(fill[1]);
+    }
+    assert(count0 == 486);
+    assert(count1 == 512);
+    assert(count2 == 514);
+   }
   }
 
   {typedef std::vector<int> itv_t;
