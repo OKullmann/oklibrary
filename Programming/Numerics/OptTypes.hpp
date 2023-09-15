@@ -55,7 +55,10 @@ License, or any later version. */
      - read_scanning_info(FP::table_wai_t lines)
        read_scanning_info(istream in)
        read_scanning_info(filesystem::path p)
-         all -> scanning_info_t.
+         all -> scanning_info_t
+     - hash2(scanning_info_t) -> array<FP::UInt_t, 2>
+         computes a pair of hashes, based on
+         hash(Intervals) -> FP::UInt_t.
 
 
 */
@@ -70,11 +73,13 @@ License, or any later version. */
 #include <stdexcept>
 #include <filesystem>
 #include <utility>
+#include <array>
 
 #include <cassert>
 
 #include "NumTypes.hpp"
 #include "NumInOut.hpp"
+#include "NumBasicFunctions.hpp"
 
 namespace Optimisation {
 
@@ -163,6 +168,14 @@ namespace Optimisation {
   std::ostream& operator <<(std::ostream& out, const Interval& I) {
     return out << "[" << I.hl << " [" << I.l << "," << I.r << "] " << I.hr
                << "]";
+  }
+  inline FP::UInt_t hash(const Interval& I) noexcept {
+    FP::UInt_t seed = 4;
+    FP::hash_combine(seed, FP::hash(I.l));
+    FP::hash_combine(seed, FP::hash(I.r));
+    FP::hash_combine(seed, FP::hash(I.hl));
+    FP::hash_combine(seed, FP::hash(I.hr));
+    return seed;
   }
 
   inline constexpr bool valid(const Interval& I) noexcept {
@@ -271,6 +284,11 @@ namespace Optimisation {
       throw std::runtime_error(ss.str());
     }
     return read_scanning_info(std::move(lines));
+  }
+
+  std::array<FP::UInt_t, 2> hash2(const scanning_info_t& S) noexcept {
+    return {FP::hash_UInt_range().apply(S.first, hash),
+            FP::hash_UInt_range()(S.second)};
   }
 
 }
