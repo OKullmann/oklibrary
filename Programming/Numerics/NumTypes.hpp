@@ -65,7 +65,7 @@ License, or any later version. */
      furthermore for x==0 we can have x==-0 or not;
 
     - an aggregate, created as {x,isint=false,hasplus=false,hase0=false}
-    - equality-comparison
+    - operators ==, <<
     - valid: if isint, then indeed integral, and if hasplus, then no signbit
 
    - typedef variant_t<POL>: either value from POL or a float80;
@@ -441,6 +441,10 @@ namespace FloatingPoint {
   inline constexpr bool operator ==(const F80ai lhs, const F80ai rhs) noexcept
   = default;
   static_assert(F80ai{0} == F80ai{0,false,false,false});
+  std::ostream& operator <<(std::ostream& out, const F80ai& x) {
+    return out << "(" << x.x << "," << x.isint << "," << x.hasplus
+               << "," << x.hase0 << ")";
+  }
   inline CONSTEXPR bool valid(const F80ai x) noexcept {
     return (not x.isint or is_integral(x.x)) and
       (not x.hasplus or not std::signbit(x.x));
