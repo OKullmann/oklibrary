@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.3.2019 (Swansea)
-# Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
+# Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@
 
 oklibloc = ../..
 
-opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt
+opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt BBScan
 test_progs = Test TestStatistics
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 unit_targets = $(addsuffix _debug_run,$(test_progs))
@@ -42,6 +42,12 @@ BBOpt : Optimisation_plus = -fwhole-program
 BBOpt : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 BBOpt_debug : LDFLAGS += -pthread
 BBOpt_debug : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+
+BBScan : LDFLAGS += -pthread
+BBScan : Optimisation_plus = -fwhole-program
+BBScan : BBScan.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBScan_debug : LDFLAGS += -pthread
+BBScan_debug : BBScan.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 
 # -------------------------
 

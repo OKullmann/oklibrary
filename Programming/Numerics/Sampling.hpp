@@ -140,6 +140,10 @@ License, or any later version. */
     - the translation of strings into vectors of float80 is wrapped into
       the struct string2vec_t
 
+    - scanning_output(string grid, string script) -> string
+      computes the standard output-filename for the scanning-results
+      (applying script to grid).
+
 
 TODOS:
 
@@ -192,6 +196,7 @@ Is the current computation the best we can do?
 #include <string>
 #include <istream>
 #include <type_traits>
+#include <filesystem>
 
 #include <cassert>
 
@@ -200,6 +205,7 @@ Is the current computation the best we can do?
 #include <Transformers/Generators/Random/Algorithms.hpp>
 #include <SystemSpecifics/SystemCalls.hpp>
 #include <Transformers/Generators/Bicliques/Algorithms.hpp>
+#include <ProgramOptions/Strings.hpp>
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
@@ -717,6 +723,18 @@ namespace Sampling {
     return
       perform_scanning_script(in, seeds, rand, script0,
                               string2vec_t{}, threads);
+  }
+
+
+  const std::string scanning_prefix = "BBs";
+  std::string scanning_output(const std::string& grid,
+                              const std::string& script) {
+    const std::string gridn =
+      Environment::str2corename(
+        std::filesystem::path(grid).filename().string());
+    const std::string scriptn = Environment::str2corename(script);
+    return scanning_prefix + "_" + gridn + "_" + scriptn + "_" +
+      Environment::CurrentTime::timestamp_str() + ".R";
   }
 
 }

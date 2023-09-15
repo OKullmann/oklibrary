@@ -58,7 +58,9 @@ License, or any later version. */
          all -> scanning_info_t
      - hash2(scanning_info_t) -> array<FP::UInt_t, 2>
          computes a pair of hashes, based on
-         hash(Intervals) -> FP::UInt_t.
+         hash(Intervals) -> FP::UInt_t
+
+   - scoped enum Error
 
 
 */
@@ -290,6 +292,13 @@ namespace Optimisation {
     return {FP::hash_UInt_range().apply(S.first, hash),
             FP::hash_UInt_range()(S.second)};
   }
+
+
+  enum class Error {
+    missing_parameters = 1,
+    faulty_parameters = 2,
+  };
+
 
 }
 
