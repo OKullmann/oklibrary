@@ -71,6 +71,8 @@ License, or any later version. */
     - iscorename(string) -> bool (true iff all characters are core)
     - str2corename(string) -> string (translates an arbitrary string into one
         containing only letters, digits, underscores and hyphens)
+    - str2scorename(string) -> string
+        for this "strict" form only letters and digits are not translated)
 
     File access:
 
@@ -411,6 +413,10 @@ namespace Environment {
     if (iscorechar(c)) return {c};
     else return char2hex(c);
   }
+  std::string scorechar2str(const char c) noexcept {
+    if (isalnum(c)) return {c};
+    else return char2hex(c);
+  }
 
   bool iscorename(const std::string& s) {
     return std::ranges::all_of(s, iscorechar);
@@ -418,6 +424,12 @@ namespace Environment {
   std::string str2corename(const std::string& s) {
     std::string res;
     for (const char c : s) res += corechar2str(c);
+    return res;
+  }
+  // Now also replacing "_" and "-":
+  std::string str2scorename(const std::string& s) {
+    std::string res;
+    for (const char c : s) res += scorechar2str(c);
     return res;
   }
 
