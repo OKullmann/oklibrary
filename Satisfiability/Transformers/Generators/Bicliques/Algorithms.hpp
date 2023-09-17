@@ -34,8 +34,12 @@ License, or any later version. */
 
    - generate_vector(RAN r, FUN f) -> vector of f(x) for x : r
 
-   - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends to it)
+   - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends r2
+     elementwise to it, using conversions if applicable)
    - append_ranges(RAN1 r1, RAN2 r2, RAN3 r3) -> RAN1
+   - append2d_ranges(RAN1 r1, RAN2 r2) -> vector<vector<value_type>>
+     (considered r1, r2 as ragged matrices, and appends their rows; as above,
+     value_type is from RAN1)
 
    - erase_if_unstable(vec, pred) : possibly faster than std::erase_if due to
      not keeping the order of vec
@@ -318,6 +322,23 @@ namespace Algorithms {
     for (const auto& x : r3) r1.push_back(x);
     assert(r1.size() == size);
     return r1;
+  }
+
+  template <class RANGE1, class RANGE2>
+  std::vector<std::vector<typename RANGE1::value_type::value_type>>
+  append2d_ranges(const RANGE1& r1, const RANGE2& r2) {
+    using size_type = typename RANGE1::size_type;
+    const size_type size = std::min(r1.size(), r2.size());
+    using value_type = typename RANGE1::value_type::value_type;
+    std::vector<std::vector<value_type>> res(size);
+    for (size_type i = 0; i < size; ++i) {
+      const auto& row1 = r1[i]; const auto& row2 = r2[i];
+      std::vector<value_type> row(row1.begin(), row1.end());
+      row.reserve(row1.size() + row2.size());
+      for (const auto& x : row2) row.push_back(x);
+      res[i] = std::move(row);
+    }
+    return res;
   }
 
 

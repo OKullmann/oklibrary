@@ -24,8 +24,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "28.8.2023",
+        "0.3.2",
+        "17.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -141,6 +141,17 @@ int main(const int argc, const char* const argv[]) {
    assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{},{},{}}));
    assert((append_ranges(vx_t{{}}, vx_t{{}}, vx_t{{}}) == vx_t{{""},{""},{""}}));
    assert((append_ranges(vx_t{{}}, vs_t{"A"}, vs_t{"B"}) == vx_t{{""},{""},{""}}));
+  }
+  {typedef std::vector<double> v1t;
+   typedef std::vector<v1t> vv1t;
+   typedef std::vector<int> v2t;
+   typedef std::vector<v2t> vv2t;
+   assert(append2d_ranges(vv1t{}, vv2t{}) == vv1t{});
+   assert(append2d_ranges(vv1t{}, vv2t{{1,2},{}}) == vv1t{});
+   assert((append2d_ranges(vv1t{{1.5,2.5}}, vv2t{{1,2},{}}) ==
+           vv1t{{1.5,2.5,1,2}}));
+   assert((append2d_ranges(vv2t{{1,2},{7,8},{9}}, vv1t{{3.5,4.5},{}}) ==
+           vv2t{{1,2,3,4},{7,8}}));
   }
 
   {typedef std::vector<int> v_t;
