@@ -106,9 +106,13 @@ License, or any later version. */
          combinatorially and independently
        - while those with e0 are combined into groups for latin-hypercube
          sampling, grouped together for equal number of points (different
-         groups are combined combinatorially and independently)
-    - randomised:
-       - false : XXX
+         groups are combined combinatorially and independently);
+         echo coordinate may be equidistant or uniform random or boxed random
+    - randomised (affects only coordinates with asserted int):
+       - false : there must be no + or e0, and then all coordinates are
+         equidistant;
+       - true  : the coordinates with - are still equidistant, while the
+         coordinates without + or - are now uniform random
     - size_scanning(vector<StdLockstep>) -> index_t
       computes the size of the range (as the product of the sizes of the
       Lockstep-vectors)
@@ -488,12 +492,13 @@ namespace Sampling {
       const RandGen::vec_eseed_t seeds, const bool randomised,
       OS::vec_t& currv) {
     const auto N = x.size();
+    assert(N != 0);
     assert(I.size() == N); assert(currv.size() == N);
     assert(valid(I));
     assert(randomised or seeds.empty());
     [[maybe_unused]] const bool has_ai =
       std::ranges::any_of(x, [](const FP::F80ai x){return x.isint;});
-    assert(has_ai);
+    assert(has_ai); // XXX ???
     const bool has_e0 = std::ranges::any_of(x,
       [](const FP::F80ai x){return x.isint and x.hase0;});
     assert(not has_e0 or randomised);
@@ -668,6 +673,7 @@ namespace Sampling {
 
     result_type operator()(const vec_t& x) const {
       std::ostringstream ss;
+      FP::fullprec_float80(ss);
       Environment::out_line(ss, x);
       SystemCalls::Popen po(command);
       const auto res = po.etransfer(SystemCalls::stringref_put(ss.str()));
@@ -730,9 +736,9 @@ namespace Sampling {
   std::string scanning_output(const std::string& grid,
                               const std::string& script) {
     const std::string gridn =
-      Environment::str2corename(
+      Environment::str2scorename(
         std::filesystem::path(grid).filename().string());
-    const std::string scriptn = Environment::str2corename(script);
+    const std::string scriptn = Environment::str2scorename(script);
     return scanning_prefix + "_" + gridn + "_" + scriptn + "_" +
       Environment::CurrentTime::timestamp_str() + ".R";
   }

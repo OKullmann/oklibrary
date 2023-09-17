@@ -297,6 +297,7 @@ namespace Optimisation {
   enum class Error {
     missing_parameters = 1,
     faulty_parameters = 2,
+    write_error = 3,
   };
 
 
