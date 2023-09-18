@@ -31,6 +31,10 @@ BUGS:
 TODOS:
 
 -1. Output of the probing-results as returned by laMols:
+   - Documentation needs update (showing the filename-pattern).
+   - We also need "-all" (or another name?), which shows all 5 numbers,
+     but just space-separated (so no ":" and no ";"), and not
+     creating the file with all cases.
    - DONE
      Easiest is to add to "case STTS::all", which currently
      only extracts the "four stats", also to (always) output
@@ -47,9 +51,18 @@ MOLS> ./laMols -v | grep "^ version"
    - DONE header " est"
    - DONE Then, numbered with 1, ..., the results, one per line.
 
-0. The handling of "tprob" versus "rand" is somewhat fragile.
+0. Hashing should take all algorithmic parameters into account:
+    - Similar to BBScan (in Numerics).
+    - So hash N, the specs-object, the algorithmic options, and
+      the weights-vector.
+    - Not, as now, the strings, but the objects.
+    - Perhaps then the hash-instruction needs to be transferred to
+      laMols (since laMols only has all the data).
+      So no hashing in TAUscan.
 
-1. More statistics on the distribution
+1. The handling of "tprob" versus "rand" is somewhat fragile.
+
+2. More statistics on the distribution
     - Kurtosis https://en.wikipedia.org/wiki/Kurtosis
       seems relevant.
 
