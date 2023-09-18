@@ -21,7 +21,8 @@ License, or any later version. */
 
    - struct Popen performs a similar operator, but now allowing access to
      stdin for the command:
-     - constructor Popen(command)
+     - constructor Popen(command, prefix="") (prefix is used if in parallel
+       several Popen-calls are made)
      - etransfer(FUN pcin) : pcin(FILE*) puts the content into FILE*, which
        is delivered to stdin of the command
      - the destructor of Popen removes the two auxiliary files for cout
@@ -345,7 +346,11 @@ namespace SystemCalls {
     typedef std::string str_t;
     const str_t command;
     // For the automatic output-files (if applicable):
-       const str_t hcom, out_stem, err_stem, timestamp;
+    const str_t
+      prefix,
+      hcom, // hash of command
+      out_stem, err_stem,
+      timestamp;
     const str_t cout, cerr, command_ext;
     inline static const std::string error = "ERROR[SystemCalls::Popen]: ";
 
@@ -357,11 +362,13 @@ namespace SystemCalls {
         cin(internal_popen(command_ext)) {
       test_validity();
     }
-    Popen(const str_t& command) :
+    Popen(const str_t& command, const str_t& pre = "") :
         command(command),
-        hcom("_"+std::to_string(Environment::hash(command))+"_"),
-        out_stem("Popen_out" + hcom), err_stem("Popen_err" + hcom),
-        timestamp(std::to_string(Environment::CurrentTime::timestamp())),
+        prefix(pre),
+        hcom("_" + std::to_string(Environment::hash(command)) + "_"),
+        out_stem("Popen_out" + prefix + hcom),
+        err_stem("Popen_err" + prefix + hcom),
+        timestamp(Environment::CurrentTime::timestamp_str()),
         cout(system_filename(out_stem + timestamp)),
         cerr(system_filename(err_stem + timestamp)),
         command_ext(call_extension(command, cout, cerr)),
