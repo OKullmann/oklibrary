@@ -203,6 +203,32 @@ namespace FloatingPoint {
                               std::to_string(max));
     return x;
   }
+  inline Int_t to_Int(const std::string& s) {
+    std::size_t converted;
+    long long x;
+    try { x = std::stoll(s, &converted); }
+    catch (const std::invalid_argument& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_Int(string): invalid for s=\"" << s << "\","
+        " due to\n  " << e.what();
+      throw std::invalid_argument(ss.str());
+    }
+    catch (const std::out_of_range& e) {
+      std::ostringstream ss;
+      ss << "FloatingPoint::to_Int(string): out-of-range for s=\"" << s
+         << "\", due to\n  " << e.what();
+      throw std::out_of_range(ss.str());
+    }
+    if (converted != s.size())
+      throw std::invalid_argument
+        ("FloatingPoint::to_Int(string), trailing: \""
+         + s.substr(converted) + "\" in \"" + s + "\"");
+    if (x > P263m1)
+      throw std::domain_error("FloatingPoint::to_Int(string), x=" +
+                              std::to_string(x) + " > " +
+                              std::to_string(P263m1));
+    return x;
+  }
 
 
   // Succeeds for every s convertible to float80, interpreting negative x

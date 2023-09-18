@@ -260,8 +260,14 @@ namespace FloatingPoint {
   constexpr UInt_t P263 = 9223372036854775808ULL;
   static_assert(P263 == P264m1/2 + 1);
 
+  constexpr Int_t P263m1 = std::numeric_limits<Int_t>::max();
+  static_assert(2 * UInt_t(P263m1) + 1 == P264m1);
   constexpr int_t P231m1 = std::numeric_limits<int_t>::max();
   static_assert(2 * uint_t(P231m1) + 1 == P232m1);
+  constexpr Int_t mP263 = std::numeric_limits<Int_t>::min();
+  static_assert(mP263 < 0 and -(mP263+1) == P263m1);
+  constexpr int_t mP231 = std::numeric_limits<int_t>::min();
+  static_assert(mP231 < 0 and -(mP231+1) == P231m1);
 
   constexpr float80 P264 = 18446744073709551616.0L;
   constexpr float80 P2m64 = 1 / P264;

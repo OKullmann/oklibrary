@@ -234,6 +234,7 @@ TODOS:
 */
 
 #include <iostream>
+#include <utility>
 
 #include <cassert>
 #include <cstdlib>
@@ -249,8 +250,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "17.9.2023",
+        "0.1.1",
+        "19.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBScan.cpp",
@@ -286,9 +287,9 @@ namespace {
     index_t res;
     try { res = FP::touint(s); }
     catch (const std::exception& e) {
-      std::cerr << error <<
-        "Reading-error for number of threads, with error-message\n  " <<
-        e.what();
+      std::cerr
+        << error << "Reading-error for number of threads \"" << s
+        << "\", with error-message\n  " << e.what() <<"\n";
       std::exit(int(OS::Error::faulty_parameters));
     }
     return res;
@@ -303,6 +304,29 @@ namespace {
     return res;
   }
 
+  constexpr FP::Int_t default1_sorting_index = -1;
+  constexpr FP::Int_t default2_sorting_index = 1;
+  FP::Int_t read_sorting_index(const std::string& s) {
+    if (s.empty()) return default2_sorting_index;
+    FP::Int_t res;
+    try { res = FP::to_Int(s); }
+    catch (const std::exception& e) {
+      std::cerr
+        << error << "Reading-error for sorting-index \"" << s
+        << "\", with error-message\n  " << e.what() <<"\n";
+      std::exit(int(OS::Error::faulty_parameters));
+    }
+    return res;
+  }
+  constexpr index_t determine_sorting_index(FP::Int_t i,
+                      const index_t N, const index_t M) noexcept {
+    // testing for N+M overflowing XXX
+    if (std::cmp_greater_equal(i,M)) return N+M - 1;
+    else if (std::cmp_greater_equal(-i,M)) return N;
+    else return i > 0 ? N+(i-1) : N + (M + i);
+  }
+  static_assert(determine_sorting_index(-2,2,2) == 2);
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -310,10 +334,10 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 5) {
+  if (argc != 5 and argc != 6) {
     std::cerr << error <<
-      "Exactly four arguments (grid, script, seeds, threads)"
-      " needed, but " << argc-1 << " provided.\n";
+      "Exactly four or five arguments (grid, script, seeds, threads,"
+      " [sorting-index]) needed, but " << argc-1 << " provided.\n";
     return int(OS::Error::missing_parameters);
   }
 
@@ -333,6 +357,18 @@ int main(const int argc, const char* const argv[]) {
   const RandGen::vec_eseed_t seeds0 = RandGen::extract_seeds(argv[3]);
   const bool randomised = not seeds0.empty();
   const index_t threads = read_threads(argv[4]);
+  const FP::Int_t sorting_index = argc == 5 ? default1_sorting_index
+    : read_sorting_index(argv[5]);
+  if (sorting_index == 0) {
+    std::cerr << error <<
+      "Sorting-index is 0.\n";
+    return int(OS::Error::faulty_parameters);
+  }
+  if (sorting_index == FP::mP263) {
+    std::cerr << error <<
+      "Sorting-index is " << FP::mP263 << ".\n";
+    return int(OS::Error::faulty_parameters);
+  }
 
   const std::string output = SP::scanning_output(grid, script);
 
@@ -341,7 +377,8 @@ int main(const int argc, const char* const argv[]) {
     const index_t N = I.size();
     std::cout << "# ";
     Environment::args_output(std::cout, argc, argv);
-    std::cout << "\n# " << output << "\n# N=" << N << " #points=";
+    std::cout << "\n# " << output << "\n# N=" << N <<
+      " index=" << sorting_index << " #points=";
     OS::vec_t dummy(N);
     std::cout << size_scanning(std::get<0>(
                    SP::prepare_scanning(x,I,seeds0,randomised,dummy))) << "\n";
@@ -366,13 +403,14 @@ int main(const int argc, const char* const argv[]) {
     assert(size == FX.size());
     const index_t N = X[0].size();
     const index_t M = FX[0].size();
-    outputs << "# " << N << " " << M << " " << size << "\n# "
-            << seeds.size() << " : ";
+    const index_t final_index = determine_sorting_index(sorting_index,N,M);
+    outputs << "# " << N << " " << M << " " << final_index << " "
+            << size << "\n# " << seeds.size() << " : ";
     Environment::out_line(outputs, seeds);
     outputs << std::endl;
     auto matrix = Algorithms::append2d_ranges(X, FX);
-    std::ranges::stable_sort(matrix, [](const auto& x, const auto& y){
-                               return x.back() < y.back();});
+    std::ranges::stable_sort(matrix, [final_index]
+      (const auto& x, const auto& y){return x[final_index] < y[final_index];});
     FP::fullprec_float80(outputs);
     Environment::print2dformat(outputs, matrix, 2, header(N, M));
   }

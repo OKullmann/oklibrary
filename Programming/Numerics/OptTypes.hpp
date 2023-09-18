@@ -298,6 +298,7 @@ namespace Optimisation {
     missing_parameters = 1,
     faulty_parameters = 2,
     write_error = 3,
+    too_large_index = 4,
   };
 
 
