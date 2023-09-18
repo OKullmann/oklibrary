@@ -675,7 +675,7 @@ namespace Sampling {
       std::ostringstream ss;
       FP::fullprec_float80(ss);
       Environment::out_line(ss, x);
-      SystemCalls::Popen po(command);
+      SystemCalls::Popen po(command, std::to_string(FP::hash_UInt_range()(x)));
       const auto res = po.etransfer(SystemCalls::stringref_put(ss.str()));
       if (res.rv.s != SystemCalls::ExitStatus::normal or
           not res.err.empty()) {
