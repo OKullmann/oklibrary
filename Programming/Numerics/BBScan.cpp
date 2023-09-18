@@ -215,6 +215,22 @@ sys	1m29.561s
 
 Remarks: the number of threads does not influence the results.
 
+
+TODOS:
+
+0. Since the program names starts with "BBS", perhaps also the output-files
+   should start with "BBS", not with "BBs" as now?
+    - We have "TAUscan".
+    - And "BBOpt".
+    - Perhaps this program is called "BBscan" ?
+
+1. As an optional argument, take the index of the Y-column
+   to be sorted.
+    - Default value is -1, which means the last argument.
+    - -2 is the penultimate, and so on.
+    - While 1 is the first one, and so on.
+    - So the natural type perhaps is int?
+
 */
 
 #include <iostream>
