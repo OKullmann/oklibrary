@@ -8,7 +8,7 @@
 # gcMols:
 
 # For N <= 9 not very hard:
-# MOLS> ./gcMols 2,9 data/SpecsCollection/Queendiagonal/sudokum1 "" count dom bin maxdom asc 1 12 ""
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Queendiagonal/m1sudoku "" count dom bin maxdom asc 1 12 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  2    count dom bin    maxdom  asc   1         0       0.175             5           1           0      0  0
 #  3    count dom bin    maxdom  asc   1         0       0.020            43           1           0      0  0
@@ -20,12 +20,12 @@
 #  9    count dom bin    maxdom  asc   1         0     171.270     483754727     3145373     6290745     27  0
 
 # N=10:
-# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
+# MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/m1sudoku "" +count dom bin maxdom asc 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 10   +count dom bin    maxdom  asc   1         0   15816.981   46328907704   316182775   632365549     37  0
 
 # N=11:
-# MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/sudokum1 "" +count dom bin maxdom asc 1 16 ""
+# MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/m1sudoku "" +count dom bin maxdom asc 1 16 ""
 # aborted after real    9446m46.496s user    73643m20.488s sys     67830m20.999s
 # and 1 solution found.
 
