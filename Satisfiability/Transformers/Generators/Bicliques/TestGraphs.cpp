@@ -438,7 +438,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G2.alledges(), {{0,0},{0,1},{0,2},{0,4},{1,0},{1,1},{1,3},{1,5},{4,0},{5,4}}));
    assert(eqp(G2.allnonedges(), {{0,3},{0,5}, {1,2},{1,4}, {2,0},{2,1},{2,3},{2,4},{2,5}, {3,0},{3,1},{3,2},{3,4},{3,5}, {4,1},{4,2},{4,3},{4,5}, {5,0},{5,1},{5,2},{5,3}}));
    assert(eqp(G2.allnonedges(true), {{0,3},{0,5}, {1,2},{1,4}, {2,0},{2,1},{2,2},{2,3},{2,4},{2,5}, {3,0},{3,1},{3,2},{3,3},{3,4},{3,5}, {4,1},{4,2},{4,3},{4,4},{4,5}, {5,0},{5,1},{5,2},{5,3},{5,5}}));
-   for (const auto e : G2.alledges())
+   for (const auto& e : G2.alledges())
      assert(G2.adjacent(e.first, e.second));
    assert(not G2.adjacent(0,3));
    assert(not G2.adjacent(4,4));
@@ -526,7 +526,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(G2.allnonedges(),
               {{0,4},{0,5},{1,2},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}}));
    assert(eqp(G2.allnonedges(true), {{0,0},{0,4},{0,5},{1,1},{1,2},{1,5},{2,2},{2,3},{2,4},{2,5},{3,3},{3,4},{3,5},{4,4},{4,5},{5,5}}));
-   for (const auto e : G2.alledges()) {
+   for (const auto& e : G2.alledges()) {
      assert(G2.adjacent(e.first, e.second));
      assert(G2.adjacent(e.second, e.first));
    }
