@@ -954,7 +954,7 @@ namespace Bicliques2SAT {
       id_t count = 0;
       const auto nedges = G.allnonedges(true); // including loops
       for (id_t b = 0; b < enc_.B(); ++b)
-        for (const auto [v,w] : nedges) {
+        for (const auto& [v,w] : nedges) {
           const auto F = nonedge_for_bc(v,w,b);
           using DimacsTools:: operator <<;
           out << F;

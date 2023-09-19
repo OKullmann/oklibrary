@@ -289,7 +289,7 @@ namespace Bicliques {
   inline bool is_partition(const Bcc_frame& B, const AdjVecUInt& G) noexcept {
     assert(valid(B, G));
     const auto E = G.alledges();
-    for (const auto [v,w] : E) {
+    for (const auto& [v,w] : E) {
       idv_t count = 0;
       for (const auto& b : B.L)
         if (covers(b, v, w)) {
