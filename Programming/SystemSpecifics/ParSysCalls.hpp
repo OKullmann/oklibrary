@@ -23,6 +23,11 @@ License, or any later version. */
      the EReturnValue (containing ReturnValue rv and strings out and err)
      is obtained.
 
+
+TODOS:
+
+1. Create a version of run_parallel, which uses Popen.
+
 */
 
 #ifndef PARSYSCALLS_l7FmxWXpDs
