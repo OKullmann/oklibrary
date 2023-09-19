@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.6.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -150,7 +150,8 @@ namespace Measures {
     const float_t w1 = FP::exp2((*w)[1] * depth);
     for (int v = 0; v < V.size(); ++v) {
       const size_t s = tr(V[v].size(), 1), sn = tr(nV[v].size(), 1);
-      if (sn == s) continue; assert(sn < s);
+      if (sn == s) continue;
+      assert(sn < s);
       if (sn == 1) sum += w1;
       else { assert(sn < w->size()); sum += (*w)[sn]; }
     }
@@ -163,7 +164,8 @@ namespace Measures {
     const float_t w1 = FP::exp2((*w)[1] * depth);
     for (size_t v = 0; v < V.size(); ++v) {
       const size_t s = V[v], sn = tr(nV[v].size(), 1);
-      if (sn == s) continue; assert(sn < s);
+      if (sn == s) continue;
+      assert(sn < s);
       if (sn == 1) sum += w1;
       else { assert(sn < w->size()); sum += (*w)[sn]; }
     }

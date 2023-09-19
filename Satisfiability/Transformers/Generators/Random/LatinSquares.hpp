@@ -921,7 +921,7 @@ namespace LatinSquares {
 
   typedef std::vector<std::pair<ls_dim_t,ls_dim_t>> ls_map_t;
   std::ostream& operator <<(std::ostream& out, const ls_map_t m) {
-    for (const auto [x,y] : m) out << "(" << x << "," << y << ")";
+    for (const auto [x,y]& : m) out << "(" << x << "," << y << ")";
     return out;
   }
 
@@ -937,7 +937,7 @@ namespace LatinSquares {
 
     ls_dim_t insert(const ls_map_t& m) noexcept {
       ls_dim_t count = 0;
-      for (const auto [x,y] : m) count += set(x,y);
+      for (const auto [x,y]& : m) count += set(x,y);
       return count;
     }
 

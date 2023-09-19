@@ -1,5 +1,5 @@
 // Oleg Zaikin, 31.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -530,7 +530,7 @@ namespace LookaheadBranching {
       const int v = c.br[0]; assert(v >= 0);
       CT::GenericMols1* const node = &(static_cast<CT::GenericMols1&>(s));
       node->update_clone(a, c.id);
-      for (const auto [var,val] : c.elim) {
+      for (const auto& [var,val] : c.elim) {
         assert(var < node->V.size());
         GV::unset_var(s, node->V[var], val);
       }
