@@ -165,6 +165,12 @@ BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694976061242412238.R
 real	12m6.944s
 user	10m29.896s
 sys	4m58.926s
+These times are for "powersave governance" on csltok2.
+With "performance" we get
+real	3m38.454s
+user	4m8.885s
+sys	0m40.243s
+
 > head BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694984766662792815.R
 # "./BBScan" "data/blackbox/g_5d_100000" "data/blackbox/s_mul" "0" "1"
 # 5 1 100000
@@ -199,15 +205,6 @@ sys	1m6.879s
 With 12 threads:
 > time ./BBScan data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 12
 BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694985941427759273.R
-terminate called after throwing an instance of 'std::runtime_error'
-  what():  ERROR[SystemCalls::Popen]: Can't remove file
-  SystemCalls_Popen_out_16804024383169274529_1694985955240112813_26872
-Aborted (core dumped)
-real	0m13.904s
-user	1m40.863s
-sys	0m28.079s
-Remark: the file-output is a bottleneck.
-Again (this time succesful):
 real	0m44.225s
 user	5m15.627s
 sys	1m29.561s
@@ -250,7 +247,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "19.9.2023",
         __FILE__,
         "Oliver Kullmann",
