@@ -44,8 +44,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.7",
-        "15.9.2023",
+        "0.13.8",
+        "19.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -257,7 +257,7 @@ int main(const int argc, const char* const argv[]) {
    catch(const std::invalid_argument& e) {
      assert(std::string_view(e.what()).starts_with
             ("FloatingPoint::to_float80(string): "
-             "failed for s=\"x\", due to"));
+             "invalid for s=\"x\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -267,7 +267,7 @@ int main(const int argc, const char* const argv[]) {
    catch(const std::invalid_argument& e) {
      assert(std::string_view(e.what()).starts_with
             ("FloatingPoint::to_UInt(string): "
-             "failed for s=\"x\", due to"));
+             "invalid for s=\"x\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -277,7 +277,7 @@ int main(const int argc, const char* const argv[]) {
    catch(const std::out_of_range& e) {
      assert(std::string_view(e.what()).starts_with
             ("FloatingPoint::to_float80(string): "
-             "failed for s=\"1e5000\", due to"));
+             "out-of-range for s=\"1e5000\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -289,7 +289,7 @@ int main(const int argc, const char* const argv[]) {
    catch(const std::out_of_range& e) {
      assert(std::string_view(e.what()).starts_with
             ("FloatingPoint::to_UInt(string): "
-             "failed for s=\"18446744073709551616\", due to"));
+             "out-of-range for s=\"18446744073709551616\", due to"));
      thrown = true;
    }
    assert(thrown);
@@ -342,7 +342,7 @@ int main(const int argc, const char* const argv[]) {
     catch(const std::invalid_argument& e) {
       assert(std::string_view(e.what()).starts_with
             ("FloatingPoint::to_UInt(string): "
-             "failed for s=\"\", due to"));
+             "invalid for s=\"\", due to"));
       thrown = true;
     }
     assert(thrown);
@@ -361,7 +361,7 @@ int main(const int argc, const char* const argv[]) {
     catch(const std::invalid_argument& e) {
       assert(std::string_view(e.what()).starts_with
              ("FloatingPoint::to_UInt(string): "
-              "failed for s=\"- 1\", due to"));
+              "invalid for s=\"- 1\", due to"));
       thrown = true;
     }
     assert(thrown);

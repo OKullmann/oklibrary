@@ -21,7 +21,8 @@ License, or any later version. */
       (see also toUInt below, which is more liberal, since starting from
        float80)
     - to_unsigned<UInt>(s) generalises this to unsigned integral UInt
-      (recognising "-1" as maximum).
+      (recognising "-1" as maximum)
+    - to_Int(s)
 
     - to_F80ai(string s) also considers ".", "+" and "e0"
 
@@ -114,14 +115,14 @@ namespace FloatingPoint {
     try { x = FloatingPoint::stold(s, &converted); }
     catch (const std::invalid_argument& e) {
       std::ostringstream ss;
-      ss << "FloatingPoint::to_float80(string): failed for s=\"" << s << "\","
+      ss << "FloatingPoint::to_float80(string): invalid for s=\"" << s << "\","
         " due to\n  " << e.what();
       throw std::invalid_argument(ss.str());
     }
     catch (const std::out_of_range& e) {
       std::ostringstream ss;
-      ss << "FloatingPoint::to_float80(string): failed for s=\"" << s << "\","
-        " due to\n  " << e.what();
+      ss << "FloatingPoint::to_float80(string): out-of-range for s=\"" << s
+         << "\", due to\n  " << e.what();
       throw std::out_of_range(ss.str());
     }
     if (converted != s.size())
@@ -146,7 +147,7 @@ namespace FloatingPoint {
     double x;
     try { x = FloatingPoint::stod(s, &converted); }
     catch (const std::invalid_argument& e) {
-      throw std::invalid_argument("FloatingPoint::to_float64(string), failed"
+      throw std::invalid_argument("FloatingPoint::to_float64(string), invalid"
                                   " for \"" + s + "\"");
     }
     catch (const std::out_of_range& e) {
@@ -168,14 +169,14 @@ namespace FloatingPoint {
     try { x = std::stoull(s, &converted); }
     catch (const std::invalid_argument& e) {
       std::ostringstream ss;
-      ss << "FloatingPoint::to_UInt(string): failed for s=\"" << s << "\","
+      ss << "FloatingPoint::to_UInt(string): invalid for s=\"" << s << "\","
         " due to\n  " << e.what();
       throw std::invalid_argument(ss.str());
     }
     catch (const std::out_of_range& e) {
       std::ostringstream ss;
-      ss << "FloatingPoint::to_UInt(string): failed for s=\"" << s << "\","
-        " due to\n  " << e.what();
+      ss << "FloatingPoint::to_UInt(string): out-of-range for s=\"" << s
+         << "\", due to\n  " << e.what();
       throw std::out_of_range(ss.str());
     }
     if (converted != s.size())
@@ -227,6 +228,10 @@ namespace FloatingPoint {
       throw std::domain_error("FloatingPoint::to_Int(string), x=" +
                               std::to_string(x) + " > " +
                               std::to_string(P263m1));
+    if (x < mP263)
+      throw std::domain_error("FloatingPoint::to_Int(string), x=" +
+                              std::to_string(x) + " < " +
+                              std::to_string(mP263));
     return x;
   }
 
