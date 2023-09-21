@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019, 2020, 2021, 2022 Oliver Kullmann
+/* Copyright 2018, 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -410,6 +410,12 @@ namespace RandGen {
     else if (s == "t") return timestamp_to_eseed();
     else return to_gen_uint_t(s, allow_extensions);
   }
+  vec_eseed_t to_eseed_hash(const std::string& s, const vec_eseed_t& hash) {
+    if (s == "r") return {device_to_eseed()};
+    else if (s == "t") return {timestamp_to_eseed()};
+    else if (s == "h") return hash;
+    else return {to_gen_uint_t(s, false)};
+  }
 
   // Adding the seeds from the command-line:
   gen_uint_t add_seeds(const std::string_view s, vec_eseed_t& v) {
@@ -419,8 +425,25 @@ namespace RandGen {
     for (const auto& x : seeds) v.push_back(to_eseed(x));
     return size;
   }
+  gen_uint_t add_seeds_hash(const std::string_view s, vec_eseed_t& v,
+                            const vec_eseed_t& hash) {
+    const auto seeds = Environment::split(s, ',');
+    gen_uint_t count = 0;
+    for (const auto& x : seeds) {
+      const auto new_seeds = to_eseed_hash(x,hash);
+      const auto new_size = new_seeds.size();
+      count += new_size;
+      v.reserve(v.size() + new_size);
+      for (const auto& y : new_seeds) v.push_back(y);
+    }
+    return count;
+  }
   vec_eseed_t extract_seeds(const std::string_view s) {
     vec_eseed_t res; add_seeds(s, res); return res;
+  }
+  vec_eseed_t extract_seeds_hash(const std::string_view s,
+                                 const vec_eseed_t& hash) {
+    vec_eseed_t res; add_seeds_hash(s, res, hash); return res;
   }
 
   inline randgen_t init(const vec_seed_t& v) {

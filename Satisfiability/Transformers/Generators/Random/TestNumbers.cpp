@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019, 2021, 2022 Oliver Kullmann
+/* Copyright 2019, 2021, 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,8 +15,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "22.3.2022",
+        "0.3.2",
+        "21.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestNumbers.cpp",
@@ -244,6 +244,11 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(to_eseed("12345678901") == 12345678901ULL);
+  }
+
+  {assert((extract_seeds("0,77") == vec_eseed_t{0,77}));
+   assert((extract_seeds_hash("0,77,h,88,h", {1,2})
+           == vec_eseed_t{0,77,1,2,88,1,2}));
   }
 
 }
