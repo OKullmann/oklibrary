@@ -58,16 +58,22 @@ License, or any later version. */
        interpreting the characters as integers; via valid_ascii(s) one
        can check whether the codes are platform-independent
 
-     - to_eseed(std::string s, bool allow_extensions) interpretes s as 64-bit
+     - to_eseed(string s, bool allow_extensions) interpretes s as 64-bit
        unsigned int, allowing also "r" and "t", using
       - device_to_eseed()
       - timestamp_to_eseed()
       - to_gen_uint_t(s, bool allow_extensions)
       - to_eseed(unsigned long long, bool allow_extensions)
-     - add_seeds(std::string_view, vec_eseed_t&) for adding
-       user-specified seeds from the command-line (returning the number
+     - to_eseed_hash(string s, vec_eseed_t hash) allows additionally "h", for
+       which the given "hash"-vector is inserted
+     - add_seeds(string_view s, vec_eseed_t& v) for adding
+       user-specified seeds from the command-line to v (returning the number
        of seeds added)
-     - extract_seeds(std::string_view) just returns the eseed-vector
+     - add_seeds_hash(string_view s, vec_eseed_t& v, vec_eseed_t hash)
+       is the form allowing insertion of the "hash"-vector
+     - extract_seeds(string_view) just returns the eseed-vector
+     - extract_seeds_hash(string_view s, vec_eseed_t hash)
+       is the form allowing the hash-vector.
 
      - init(vec_seed_t v) returns a randgen_t initialised with v
 
