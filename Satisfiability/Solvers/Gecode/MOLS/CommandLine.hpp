@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -61,6 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
+  const std::string version_laMols = "0.102.0";
+  const std::string date_laMols = "19.9.2023";
   constexpr int commandline_args_laMols = 14;
 
   typedef std::vector<size_t> list_size_t;

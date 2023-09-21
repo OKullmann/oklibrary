@@ -13,17 +13,54 @@ License, or any later version. */
 
 Examples:
 
+With "all" we get all statistics, and the single results in a file
+(here 10 probes and 10 threads):
+
 MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL hash 0.1 10 10 all
 10 : 8.67774578323596440922e+24 1.22450048735265398083e+36 1.14699293230448961192e+37; 3.60495586501903848797e+36
-real	0m44.665s
-user	6m4.372s
-sys	0m20.689s
+TS_10_10_1695122450839812219.R
+real	0m44.558s
+user	5m58.006s
+sys	0m22.757s
+MOLS> cat TS_10_10_1695122450839812219.R
+# TAUscan 0.9.0 341e8762241f4a1eac0a1f6e2cf4eb6da240e5ae laMols=0.102.0
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu" "wdL" "hash" "0.1" "10" "10" "all"
+ estlvs
+1 2.7147946178118402006e+34
+2 1.1469929323044896119e+37
+3 4.3558281368091233982e+32
+4 8.6777457832359644092e+24
+5 1.5442854410081259727e+27
+6 1.1445825129039211791e+35
+7 7.9915856021724196495e+31
+8 6.6325978061787310117e+31
+9 6.1809392887493355786e+35
+10 1.4793597937472000791e+34
+
+
+Above "tauprob" (tprob) was used, now "uniform random" (rand):
 
 MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL hash 0.1 10 10 all
 10 : 6.57489838704741983453e+30 9.25281428686421350058e+33 4.79310092415756905961e+34; 1.82953695554334109691e+34
-real	0m42.105s
-user	5m43.737s
-sys	0m19.177s
+TS_10_10_1695122539524332866.R
+real	0m41.155s
+user	5m51.190s
+sys	0m20.980s
+MOLS> cat TS_10_10_1695122539524332866.R
+# TAUscan 0.9.0 341e8762241f4a1eac0a1f6e2cf4eb6da240e5ae laMols=0.102.0
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu,rand" "wdL" "hash" "0.1" "10" "10" "all"
+ uestlvs
+1 1.5219672192239397765e+31
+2 4.7931009241575690596e+34
+3 7.8012710354127100578e+30
+4 1.2944331199499607799e+31
+5 3.9449390322284519006e+34
+6 3.5948256931181767944e+33
+7 2.7737852570356302427e+31
+8 1.4382590221666230889e+33
+9 4.4380564112570083883e+31
+10 6.5748983870474198345e+30
+
 
 
 BUGS:
@@ -32,7 +69,10 @@ TODOS:
 
 -1. Output of the probing-results as returned by laMols:
    - Documentation needs update (showing the filename-pattern).
-   - We also need "-all" (or another name?), which shows all 5 numbers,
+   - Perhaps the filename should be more telling?
+      - Including a simplified form of the specs (similar to BBScan).
+      - DONE And for "all", also outputting the filename.
+   - We also need "-all" (or another name? "mall"?), which shows all 5 numbers,
      but just space-separated (so no ":" and no ";"), and not
      creating the file with all cases.
    - DONE
@@ -43,12 +83,13 @@ TODOS:
    - As comments:
     - DONE command-line inputs
     - DONE version of TAUscan and id
-    - version of laMols? how to obtain?
+    - DONE version of laMols? how to obtain?
 MOLS> ./laMols -v | grep "^ version"
  version:           0.101.2
 
 ?
-   - DONE header " est"
+      Better to make this available as a string-constant.
+   - DONE header " estlvs"
    - DONE Then, numbered with 1, ..., the results, one per line.
 
 0. Hashing should take all algorithmic parameters into account:
@@ -59,6 +100,7 @@ MOLS> ./laMols -v | grep "^ version"
     - Perhaps then the hash-instruction needs to be transferred to
       laMols (since laMols only has all the data).
       So no hashing in TAUscan.
+    - See Todo "Provide hashing for seeds" in laMols.cpp.
 
 1. The handling of "tprob" versus "rand" is somewhat fragile.
 
@@ -89,8 +131,8 @@ MOLS> ./laMols -v | grep "^ version"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.2",
-        "19.8.2023",
+        "0.9.0",
+        "19.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -183,13 +225,14 @@ namespace {
       return que(transform_spaces(get_content(std::cin), ','));
   }
 
+  std::string fileoutput_name(const size_t M, const size_t threads) {
+    return "TS_" + std::to_string(M) + "_" + std::to_string(threads) +
+      "_" + Environment::CurrentTime::timestamp_str() + ".R";
+  }
   void fileoutput(const LB::vec_t& results,
                   const int argc, const char* const argv[],
-                  const size_t M, const size_t threads) {
-    std::stringstream ss;
-    ss << "TS_" << M << "_" << threads << "_" <<
-      Environment::CurrentTime::timestamp_str() << ".R";
-    const std::string& filename = ss.str();
+                  const std::string& filename,
+                  const std::string& valuesel) {
     std::ofstream output(filename);
     if (not output) {
       std::cerr << error << "Outputfile \"" << filename << "\" can not "
@@ -197,9 +240,10 @@ namespace {
       std::exit(1);
     }
     output << "# " << proginfo.prg << " " << proginfo.vrs << " "
-           << proginfo.git << "\n# ";
+           << proginfo.git << " laMols=" << version_laMols << "\n# ";
     Environment::args_output(output, argc, argv);
-    output << "\n est\n";
+    output << "\n " << valuesel << "\n";
+    FloatingPoint::fullprec_float80(output);
     for (size_t i = 0; i < results.size(); ++i)
       output << i+1 << " " << results[i] << "\n";
     if (not output) {
@@ -280,7 +324,8 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& r : res) {
     assert(r);
     const auto& value = r.value();
-    if (value.rv.s != SystemCalls::ExitStatus::normal or not value.err.empty()) {
+    if (value.rv.s != SystemCalls::ExitStatus::normal or
+        not value.err.empty()) {
       std::cerr << error << "A " << solver_call << "-run resulted in an"
         " error: " << value.rv.s << ", with error-message:\n" << value.err
                 << "\n";
@@ -301,9 +346,13 @@ int main(const int argc, const char* const argv[]) {
   case STTS::max : std::cout << stats.max; break;
   case STTS::stddev : std::cout << stats.sdc; break;
   case STTS::avepsd : std::cout << stats.amean + stats.sdc; break;
+
   case STTS::all : {
-    std::cout << stats.extract(); std::cout.flush();
-    fileoutput(results, argc, argv, M, threads);
+    const std::string outputname = fileoutput_name(M, threads);
+    std::cout << stats.extract() << "\n" << outputname;
+    std::cout.flush();
+    fileoutput(results, argc, argv, outputname, valuesel);
   }}
+
   std::cout << "\n";
 }

@@ -1,5 +1,5 @@
 // Oleg Zaikin, 6.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,66 +10,220 @@ License, or any later version. */
   A Gecode-based solver for general MOLS-LS-related problems.
   using look-ahead for reduction and branching
 
+  Remarks on command-line arguments:
+
+   - The branch-order are permutations of the branches:
+    - order tprob computes one branch according to the
+      tau-probabilities, and swaps this with the first branch (otherwise
+      we just have the natural order of values)
+    - so tprob likely only makes sense when computing one branch
+    - the order rand and tprob use randomisation (the only randomised aspects
+      of laMols).
+
+   - When a stopping-criterion is given, then the first time the given measure
+     is noticed for (strictly) exceeding the given value, the algorithm stops;
+     so "lvs,0" with one thread means stopping once the first leaf has been
+     reached (while with more than one thread, more leaves might be created).
+
+   - Estimation of the number of leaves:
+    - For each leaf we have estlvs and uestlvs.
+    - The former is the reciprocal of the product of the tau-probabilities.
+    - The latter is the product of the widths.
+    - For these measurements their global statistics are the usual
+      one (taking each leaf with the same probability).
+    - On the other hand, for the global statistics nsel and nsuel the
+      probability of a leaf is the reciprocal value of its prediction
+      value. With this distribution, the expection is exactly the number
+      of leaves, and reported is the "normalised standard deviations"
+      (also coefficient of variation (CV), the ratio of standard deviation
+      divided by the number of leaves.
+    - These quantities make only sense for the completed tree (while all
+      other measures make sense for partial trees).
+
 Examples:
 
 1. Counting the 432 Euler-squares (pairs of mutually orthogonal latin squares)
-of order 5, which are row-reduced:
+of order 5, which are row-reduced (stating the conditions in the command-line
+argument, and making all values explicit):
 
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL "" "" 1 3 "0.1" "" ""
-# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A\nrred B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "" "" "1" "3" "0.1" "" ""
+Inserted are basic explanations via "[ ]":
+
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc relpr 1 3 "0.1" "" ""
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "" "" "1" "3" "0.1" "" ""
 # N: 5
-# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A\nrred B\nrprod B aux A\n"
+# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
 # no_ps
 # num_runs=1
 # threads=3
 # rt=count-solutions(count)
 # no_stopping
-# output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
+# output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) without-tree-logging(-tree) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
 #   propagation-level: domain-prop(dom)
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: ascending-order(asc)
 #   la-reduction-type: relaxed-pruning(relpr)
 #   commit-distance: 1
+
+[ Showing the real weights: ]
 #   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
+
+[ Input parameters and total counts / measures: ]
+
   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  5    count dom enu  wdL   asc  relpr   1      432       0.529       5225  0      125       72  4.754312e-02  0.000000e+00
+  5    count dom enu  wdL   asc  relpr   1      432       0.540       5225  0      125       72  4.754312e-02  0.000000e+00
+
+[ satc : satisfying assignments
+  t    : time (s)
+  ppc  : propagations
+  st   : 0 is false (no stopping)
+  nds  : nodes
+  lvs  : leaves
+  nsel  : normalised standard deviation of estlvs-measure
+  nsuel : normalised standard deviation of uestlvs-measure ]
+
+[ Statistics for inner nodes: ]
+
    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0068913  0.62896    2.566
-   143        0        0   133.33   133.14        1     0   0.000885        0        0
-   180        1    16.35   138.46   200.69        2     0   0.010354   1.3793        3
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0027395  0.51141  0.72083
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0071787  0.62896    2.566
+   143        0        0   133.33   133.14        1     0   0.001457        0        0
+   180        1    16.35   138.46   200.69        2     0   0.011874   1.3793        3
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0029315  0.51141  0.72083
+
+[ solc : solution-count (found at the node)
+  tr   : time for reduction
+  dp   : depth (per node) ]
+[ Per column: average, minimum, maximum, standard deviation ]
+
+[ Statistics for leaves: ]
+
     mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp
- 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0054902   15.222   4
-    129     1.25   1.1628   23.077   64.615        1     6    0.00091   13.846   4
-    130   1.6667   12.308   88.462   176.15        2     6   0.010164   17.054   4
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0025864  0.76313   0
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0053992   15.222   4
+    129     1.25   1.1628   23.077   64.615        1     6   0.000916   13.846   4
+    130   1.6667   12.308   88.462   176.15        2     6    0.01019   17.054   4
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0027211  0.76313   0
+
+[ Per leaf we have estlvs and uestlvs; these are the global statistics: ]
+
       estlvs       uestlvs
 7.216275e+01  7.200000e+01
 6.739697e+01  7.200000e+01
 7.454563e+01  7.200000e+01
 3.393564e+00  0.000000e+00
+
+[ Statistics on branchings (for inner nodes): ]
+
     dm0        w  ltausp      minp     meanp      maxp        sdd         tb
-0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0059668
-      0        2  1.0456      0.25      0.25      0.25          0   0.001602
-      2        4  3.4742       0.5       0.5       0.5   0.016098   0.009933
-0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0023645
+0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0059713
+      0        2  1.0456      0.25      0.25      0.25          0   0.001603
+      2        4  3.4742       0.5       0.5       0.5   0.016098   0.010325
+0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0024959
+
+[ w : width
+  minp, meanp, maxp : tau-propabilities
+  tb : time for branching ]
 
 Remark: This tree is the perfect tree with 4 levels and widths 4,3,3,2 at these
 levels; so there are 4 * 3^2 * 2 = 72 leaves and 1 + 4 + 4*3 + 4*3^2 = 53 inner
 nodes, while the average width is (1*4 + 4*3 +12*3 + 36*2)/53 = 124/53.
 So nsuel = 0.
+At each leaf there are 6 solutions.
+
+Just picking one random leaf:
+
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" 1 1 0.1 lvs,0 ""
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "1" "1" "0.1" "lvs,0" ""
+# N: 5
+# k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
+#   num_uc=5 num_eq=0 num_peq=1
+# no_ps
+# num_runs=1
+# threads=1
+# rt=count-solutions(count)
+# stopping: by-leaf-count(lvs),0
+# output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) without-tree-logging(-tree) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
+#   propagation-level: domain-prop(dom)
+#   la-branching-type: enumerative-branching(enu)
+#   distance-type: weighted-delta-literals(wdL)
+#   la-order-heuristic: random-order(rand)
+#   la-reduction-type: relaxed-pruning(relpr)
+#   order-seeds: (empty)
+#   commit-distance: 1
+#   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  5    count dom enu  wdL  rand  relpr   1        6       0.017        166  1        5        1  8.148433e+00  8.426150e+00
+   mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc          tr  pelvals     dp
+161.75   0.25    2.511   135.69   150.41    1.25     0   0.0020478  0.34483    1.5
+   145      0        0   133.33   133.14       1     0    0.001643        0      0
+   180      1   8.7108   137.25   197.93       2     0    0.002949   1.3793      3
+15.735    0.5   4.1807   1.9162   31.735     0.5     0  0.00060831  0.68966  1.291
+mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
+129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
+129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
+129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
+  0       0        0        0        0       0     0         0        0   0
+      estlvs       uestlvs
+6.739697e+01  7.200000e+01
+6.739697e+01  7.200000e+01
+6.739697e+01  7.200000e+01
+0.000000e+00  0.000000e+00
+dm0       w  ltausp     minp    meanp     maxp        sdd          tb
+0.5       3  2.0283  0.35132  0.35417  0.35986  0.0040245   0.0018587
+  0       2  1.0456     0.25     0.25     0.25          0    0.001622
+  2       4  3.4742      0.5      0.5      0.5   0.016098    0.002045
+  1  0.8165  1.1092  0.10576  0.10486  0.10397  0.0080489  0.00019645
 
 
 2. There is no Euler-square for N=6:
 
+Showing only the leaf-count and whether the run was stopped or not (no "info", showing the
+parameters, and not showing the weights):
 MOLS> ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
 3072 0
 
-Here we show only the leaf-count and whether the run was stopped or not
-(0 means no-stop, 1 means stop).
+0 means no-stop, while 1 would mean stop.
 This used 6 threads.
+
+
+
+3. Randomly finding some solutions for N=7:
+
+Sampling 100 leaves, and outputting only the number of solutions found:
+MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;0" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
+1
+MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;2" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
+0
+
+For branch-order "rand" (or "tprob"; see below) only 1 thread can be used (for reproducibility).
+
+
+4.
+
+Probing one branch:
+
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+30233088000
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;1" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+15116544000
+
+(Note that is is always a natural number.)
+
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+8072167675.1987981838
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;1" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+15510712536.085001176
+
+Remark: For branching-order rand one can consider estlvs: this is just
+for one "random leaf" (as given by random branchings) the tau-estimation
+of the number of leaves (while using tprob we have that the expected value
+of this estimation is exactly the number of leaves).
+And for branching-order tprob one can use uestlvs (for comparison).
+
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+6827808605.0310231736
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+6718464000
 
 */
 
@@ -83,7 +237,39 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
--5. Improved error-messages when parsing specs:
+-7. Provide hashing for seeds
+   - First update documentation on seed-provision.
+   - Allowing key-word "hash".
+   - Perhaps that belongs to namespace RandGen, which allows for
+     seed-construction besides "t, r" also "h", which means a function will
+     be called, delivering the "hash-values" (an eseed-vector).
+   - One could also just always provide that vector (computational costs
+     should be negligible).
+
+-6. Provide higher-precision computation of quantities related to tau
+   - First step is to provide a special class TauV for the tau-values and
+     derived quantities.
+   - At the beginning TauV just wrappes FP::float80, and the first task is
+     to reproduce everything old in this new framework.
+   - From the tau-values for a branch we get the tau-probabilities,
+     which are used outside of branching, in the statistics.
+   - Namely in the quantity estlvs for a leaf, and the corresponding
+     4 statistics, and for nsel.
+   - So TauV wraps the value and the operations.
+   - The statistics in Numerics/Statistics.hpp need to be able to handle
+     TauV.
+   - Easiest to take the statistics for TauV as a further, dedicated member
+     of the statistics-classes (where currently it is part of an array).
+   - How to parameterise TauV? As a concept, with the float80-TauV and
+     arbitrary-precision-TauV (as in Numerics/Tau.hpp) as instances.
+   - If FP::float80 would also fit this concept, then the transition would
+     be seamless; of perhaps just a simple wrapper around float80.
+   - Would then also nice to support the Boost higher precision types.
+   - In C++23 we have <stdfloat>, with std::float128_t (which of course
+     should also be usable).
+
+-5. DONE (improved now)
+    Improved error-messages when parsing specs:
    - Current, if some line in a specs-file misses an initial "#", then we
      just get
 terminate called after throwing an instance of 'std::invalid_argument'
@@ -274,8 +460,8 @@ terminate called after throwing an instance of 'std::invalid_argument'
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.101.2",
-        "16.8.2022",
+        CommandLine::version_laMols,
+        CommandLine::date_laMols,
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/laMols.cpp",
@@ -333,7 +519,7 @@ namespace {
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "  - the six algorithmic options can be lists (all combinations)\n"
       "    - these lists can have a leading + (inclusion) or - (exclusion)\n"
-      "  - for branch-order \"rand\" a comma-separated seed-sequence can be"
+      "  - for branch-orders \"rand,tprob\" a comma-separated seed-sequence can be"
       " given after \";\"\n"
       "    - this sequence can include \"t\" (timestamp) and \"r\" (random)\n"
       "  - weights are patterns, with the last entry used for filling (thus"
@@ -343,7 +529,7 @@ namespace {
       " space-separated,\n"
       "        and batch-mode is used (no additionaly info-output)\n"
       "  - stop-values are unsigned int\n"
-      "    - pairs of stop-types/values are separated by \"|\"\n"
+      "    - different pairs of stop-types/values are separated by \"|\"\n"
       "  - formatting uses the given defaults for fields not specified\n"
       "    - these are flipped in batch-mode for the first three fields\n"
       "    - the final three fields are only relevant for single-values\n"
@@ -382,7 +568,11 @@ namespace {
     const auto state = FloatingPoint::fixed_width(out, precision);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
-    {const auto state = FloatingPoint::engineering_width(out, precision_engineering);
+    {// Let the probability of leaf v be p(v) (either uniform or tau).
+     // Then the variance is sigma = (sum_v p(v) * prediction(v)^2) - lvs^2,
+     // where p(v) * prediction(v)^2 = p(v) * (p(v)^-2) = prediction(v).
+     const auto state =
+       FloatingPoint::engineering_width(out, precision_engineering);
      using LookaheadBranching::float_t;
      const float_t lvs = res.S[1].N();
      const float_t variance = res.mS.sum()[0] - lvs*lvs,
@@ -584,6 +774,8 @@ int main(const int argc, const char* const argv[]) {
   std::ostream* const log = with_log ? &std::cout : nullptr;
 
   if (outopt.with_info()) {
+    std::cout << "# " << proginfo.prg << " " << proginfo.vrs << " "
+              << proginfo.git << "\n";
     commandline_output(std::cout, argc, argv);
     info_output(std::cout,
                 list_N, ac, name_ac, ps0, name_ps, rt,
