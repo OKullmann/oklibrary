@@ -238,13 +238,32 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -7. Provide hashing for seeds
-   - First update documentation on seed-provision.
-   - Allowing key-word "hash".
-   - Perhaps that belongs to namespace RandGen, which allows for
+   - DONE First update documentation on seed-provision.
+   - Allowing key-word "h".
+   - DONE (in second form)
+     Perhaps that belongs to namespace RandGen, which allows for
      seed-construction besides "t, r" also "h", which means a function will
      be called, delivering the "hash-values" (an eseed-vector).
-   - One could also just always provide that vector (computational costs
+     One could also just always provide that vector (computational costs
      should be negligible).
+   - Seeding (the hash-vector) has 12 values:
+      - N : as is
+      - file_cond : one hash-value for all the conditions (listed together
+        with summary of conditions)
+      - file_ps : also one hash-value
+      - run_type : as is
+      - list of prop-levels : one hash-value
+      - list of branch-type : one hash-value
+      - list of distance : one hash-value
+      - list of branch-order: one hash-value
+      - list of la-type: one hash-value
+      - list of gcd: one hash-value
+      - list of weight-vectors: one hash-value
+        obtained from the WGenerator-object;
+
+        perhaps actually the timestamp used as seed (in case of
+        random values) could be another seed-value?
+      - list of stop-types: one hash-value
 
 -6. Provide higher-precision computation of quantities related to tau
    - First step is to provide a special class TauV for the tau-values and
@@ -517,7 +536,9 @@ namespace {
       "Here\n"
       "  - to use a string instead of a filename, a leading \"@\" is needed\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
-      "  - the six algorithmic options can be lists (all combinations)\n"
+      "  - the seven algorithmic options (propagation, branch-type,\n"
+      "      distance, branch-order, la-type, gcd, weights) can be lists\n"
+      "      (all combinations)\n"
       "    - these lists can have a leading + (inclusion) or - (exclusion)\n"
       "  - for branch-orders \"rand,tprob\" a comma-separated seed-sequence can be"
       " given after \";\"\n"
