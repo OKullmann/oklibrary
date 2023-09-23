@@ -237,6 +237,10 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-8. In the help-text, break the overlong line for run-type:
+   - Perhaps introducing a variation of Environment::WRPO,
+     which tries to avoid overlong lines.
+
 -7. Provide hashing for seeds
    - DONE First update documentation on seed-provision.
    - Allowing key-word "h".
@@ -246,7 +250,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      be called, delivering the "hash-values" (an eseed-vector).
      One could also just always provide that vector (computational costs
      should be negligible).
-   - Seeding (the hash-vector) has 12 values:
+   - Seeding (the hash-vector) has 11+4*#weights values:
       - N : as is
       - file_cond : one hash-value for all the conditions (listed together
         with summary of conditions)
@@ -258,12 +262,15 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
       - list of branch-order: one hash-value
       - list of la-type: one hash-value
       - list of gcd: one hash-value
-      - list of weight-vectors: one hash-value
-        obtained from the WGenerator-object;
-
-        perhaps actually the timestamp used as seed (in case of
-        random values) could be another seed-value?
       - list of stop-types: one hash-value
+      - DONE list of weight-vectors: each WGenerator-object yields 4 seeds:
+        Just hashing the data-members into seeds:
+         - DONE
+           pattern_t: list of float80 and OP::EXW, so just translating
+           into a list of float80 ? Using +-inf and NaN for encoding.
+         - DONE seed : as is
+         - DONE leveluse, randomuse, into one
+         - DONE sp put into into the final seed.
 
 -6. Provide higher-precision computation of quantities related to tau
    - First step is to provide a special class TauV for the tau-values and
@@ -519,9 +526,10 @@ namespace {
       " - la-type      : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
-      " - weights      : comma-separated list of weights for distance\n"
+      " - weights      : either comma-separated list of weights for distance,"
+      " possibly using\n"
+      "   - variables  : " << Environment::WRPO<EXW>{} << "; or one of\n" <<
       "   - specials   : " << Environment::WRPO<SPW>{} << "\n" <<
-      "   - variables  : " << Environment::WRPO<EXW>{} << "\n" <<
       " - stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
       " - formatting   : comma-separated list of\n" <<
       "   - info       : " << Environment::WRPO<Info>{} << "\n" <<
@@ -540,8 +548,8 @@ namespace {
       "      distance, branch-order, la-type, gcd, weights) can be lists\n"
       "      (all combinations)\n"
       "    - these lists can have a leading + (inclusion) or - (exclusion)\n"
-      "  - for branch-orders \"rand,tprob\" a comma-separated seed-sequence can be"
-      " given after \";\"\n"
+      "  - for branch-orders \"rand,tprob\" a comma-separated seed-sequence"
+      " can be given after \";\"\n"
       "    - this sequence can include \"t\" (timestamp) and \"r\" (random)\n"
       "  - weights are patterns, with the last entry used for filling (thus"
       " the tail is always constant)\n"

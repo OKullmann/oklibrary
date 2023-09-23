@@ -61,8 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.102.0";
-  const std::string date_laMols = "19.9.2023";
+  const std::string version_laMols = "0.102.1";
+  const std::string date_laMols = "23.9.2023";
   constexpr int commandline_args_laMols = 14;
 
   typedef std::vector<size_t> list_size_t;
@@ -357,7 +357,7 @@ namespace CommandLine {
       return minval_wdL * (level + 1);
     }
 
-    typedef FloatingPoint::Pfloat80<EXW> item_t;
+    typedef FloatingPoint::Pfloat80<EXW> item_t; // either number or "r" etc.
     static bool uses_levels(const item_t x) noexcept {
       return x.v.index() == 0 and std::get<0>(x.v) != EXW::rand;
     }
@@ -375,9 +375,10 @@ namespace CommandLine {
     const pattern_t pat;
     const bool leveluse = false;
     const bool randomuse = false;
-    const SPW sp;
+    const SPW sp; // "special"
 
-    const RandGen::gen_uint_t seed = 0;
+    using gen_uint_t = RandGen::gen_uint_t;
+    const gen_uint_t seed = 0;
   private :
     RandGen::UniformRangeS* const U = nullptr;
   public :
@@ -396,6 +397,30 @@ namespace CommandLine {
       assert(not pat.empty());
     }
     ~WGenerator() noexcept { delete U; }
+
+    float80 code(const EXW e) const noexcept {
+      namespace FP = FloatingPoint;
+      switch(e) {
+      case EXW::rand : return FP::NaN;
+      case EXW::asc : return FP::pinfinity;
+      case EXW::desc : return FP::minfinity;
+      default : assert(false); }
+    }
+    gen_uint_t hash_pattern() const noexcept {
+      std::vector<float80> transfer; transfer.reserve(pat.size());
+      for (const auto& x : pat)
+        transfer.push_back(x.v.index() == 0 ? code(std::get<0>(x.v)) :
+                           std::get<1>(x.v));
+      return FloatingPoint::hash_UInt_range()(transfer);
+    }
+    std::vector<gen_uint_t> hash() const noexcept {
+      std::vector<gen_uint_t> res; res.reserve(4);
+      res.push_back(hash_pattern());
+      res.push_back(seed);
+      res.push_back(gen_uint_t(leveluse) + 2*gen_uint_t(randomuse));
+      res.push_back(gen_uint_t(int(sp)));
+      return res;
+    }
 
 
     pattern_t fill_random(const OP::DIS dis) const {
