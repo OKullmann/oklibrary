@@ -83,7 +83,7 @@ License, or any later version. */
     - get_content(std::istream) -> string
       get_content(std:filesystem::path) -> string
        both have optional argument bool with_final_eol
-    - string_or_cin(string) -> pair<string, bool>
+    - cin_or_string(string) -> pair<string, bool>
     - get_lines(std::istream), get_lines(std:filesystem::path)
        both -> tokens_t
     - get_items<X,k>(istream/path) -> pair<vector of k-array of X, bool>
