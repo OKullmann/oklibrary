@@ -134,6 +134,7 @@ TODOS:
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 namespace Conditions {
 
@@ -297,6 +298,12 @@ namespace Conditions {
       choices_.insert(VS::id);
     }
 
+    size_t hash() const noexcept {
+      namespace FP = FloatingPoint;
+      return FP::hash_UInt_range().apply(choices_,
+        [](const auto& x){return FP::hash(size_t(x));});
+    }
+
     size_t size() const noexcept { return choices_.size(); }
     const choices_t& choices() const noexcept { return choices_; }
     bool insert(const VS v) {
@@ -338,8 +345,14 @@ namespace Conditions {
   struct Square {
     size_t i;
     VS v;
+
     constexpr Square(const size_t i, const VS v = VS::id)
       : i(i), v(v) {}
+
+    size_t hash() const noexcept {
+      return FloatingPoint::hash_UInt_range()({i, size_t(v)});
+    }
+
     bool operator ==(const Square&) const noexcept = default;
     auto operator <=>(const Square&) const noexcept = default;
 
@@ -405,6 +418,11 @@ namespace Conditions {
     Squares(const std::initializer_list<Square>& L)
       : sqs_(L.begin(), L.end()) {}
 
+    size_t hash() const noexcept {
+      return FloatingPoint::hash_UInt_range().apply(sqs_,
+        [](const auto& x){return x.hash();});
+    }
+
     bool empty() const noexcept { return sqs_.empty(); }
     size_t size() const noexcept { return sqs_.size(); }
     const set_t& sqs() const noexcept { return sqs_; }
@@ -428,6 +446,9 @@ namespace Conditions {
   public :
     constexpr Equation(const Square s1, const Square s2) noexcept
       : s1(std::min(s1,s2)), s2(std::max(s1,s2)) {}
+    size_t hash() const noexcept {
+      return FloatingPoint::hash_UInt_range()({s1.hash(), s2.hash()});
+    }
     Square lhs() const noexcept { return s1; }
     Square rhs() const noexcept { return s2; }
     bool operator ==(const Equation&) const noexcept = default;
@@ -445,6 +466,10 @@ namespace Conditions {
     constexpr ProdEq(const Square r, const Square f2,
                      const Square f1, const PT pt = PT::rprod) noexcept
     : r_(r), f2_(f2), f1_(f1), pt_(pt) {}
+    size_t hash() const noexcept {
+      return FloatingPoint::hash_UInt_range()({r_.hash(), f2_.hash(),
+            f1_.hash(), size_t(pt_)});
+    }
     PT pt() const noexcept { return pt_; }
     Square f1() const noexcept { return f1_; }
     Square f2() const noexcept { return f2_; }
@@ -463,7 +488,7 @@ namespace Conditions {
     typedef std::set<Equation> set_eq_t;
     typedef std::set<ProdEq> set_peq_t;
 
-    const size_t k; // the number of primary squaress
+    const size_t k; // the number of primary squares
   private :
     vv_t versions_;    // versions_.size() == k
     map_t m_;          // all squares for which a given condition is required
@@ -478,6 +503,21 @@ namespace Conditions {
     const map_t& map() const noexcept { return m_; }
     const set_eq_t& eq() const noexcept { return eq_; }
     const set_peq_t& peq() const noexcept { return peq_; }
+
+    size_t hash() const noexcept {
+      namespace FP = FloatingPoint;
+      size_t seed = k;
+      FP::hash_combine(seed, FP::hash_UInt_range().apply(versions_,
+        [](const auto& v){return v.hash();}));
+      const auto hash_m = [](const auto& P){
+        return FP::hash_UInt_range()({size_t(P.first), P.second.hash()});};
+      FP::hash_combine(seed, FP::hash_UInt_range().apply(m_, hash_m));
+      FP::hash_combine(seed, FP::hash_UInt_range().apply(eq_,
+        [](const auto& e){return e.hash();}));
+      FP::hash_combine(seed, FP::hash_UInt_range().apply(peq_,
+        [](const auto& p){return p.hash();}));
+      return seed;
+    }
 
     const Squares& sqs(const UC uc) const noexcept {
       static const Squares empty;

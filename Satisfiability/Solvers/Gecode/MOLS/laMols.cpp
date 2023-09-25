@@ -49,10 +49,17 @@ argument, and making all values explicit):
 Inserted are basic explanations via "[ ]":
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc relpr 1 3 "0.1" "" ""
-# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "" "" "1" "3" "0.1" "" ""
+# laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
+#   hash=773446287326109641
+
+[ the hash-value of the specs does not depend on the order of conditions,
+  nor on the names of the squares, but does depend on the order of squares
+  specified in the first line of specifications ]
+
 # no_ps
 # num_runs=1
 # threads=3
@@ -72,7 +79,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ Input parameters and total counts / measures: ]
 
   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  5    count dom enu  wdL   asc  relpr   1      432       0.540       5225  0      125       72  4.754312e-02  0.000000e+00
+  5    count dom enu  wdL   asc  relpr   1      432       0.391       5225  0      125       72  4.754312e-02  0.000000e+00
 
 [ satc : satisfying assignments
   t    : time (s)
@@ -86,10 +93,10 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ Statistics for inner nodes: ]
 
    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0071787  0.62896    2.566
-   143        0        0   133.33   133.14        1     0   0.001457        0        0
-   180        1    16.35   138.46   200.69        2     0   0.011874   1.3793        3
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0029315  0.51141  0.72083
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0   0.004566  0.62896    2.566
+   143        0        0   133.33   133.14        1     0   0.000853        0        0
+   180        1    16.35   138.46   200.69        2     0     0.0105   1.3793        3
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0019515  0.51141  0.72083
 
 [ solc : solution-count (found at the node)
   tr   : time for reduction
@@ -99,10 +106,10 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ Statistics for leaves: ]
 
     mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp
- 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0053992   15.222   4
-    129     1.25   1.1628   23.077   64.615        1     6   0.000916   13.846   4
-    130   1.6667   12.308   88.462   176.15        2     6    0.01019   17.054   4
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.0027211  0.76313   0
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0036716   15.222   4
+    129     1.25   1.1628   23.077   64.615        1     6   0.000995   13.846   4
+    130   1.6667   12.308   88.462   176.15        2     6   0.008929   17.054   4
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0   0.001373  0.76313   0
 
 [ Per leaf we have estlvs and uestlvs; these are the global statistics: ]
 
@@ -115,10 +122,10 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ Statistics on branchings (for inner nodes): ]
 
     dm0        w  ltausp      minp     meanp      maxp        sdd         tb
-0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0059713
-      0        2  1.0456      0.25      0.25      0.25          0   0.001603
-      2        4  3.4742       0.5       0.5       0.5   0.016098   0.010325
-0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0024959
+0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0033915
+      0        2  1.0456      0.25      0.25      0.25          0          0
+      2        4  3.4742       0.5       0.5       0.5   0.016098   0.006511
+0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016   0.001221
 
 [ w : width
   minp, meanp, maxp : tau-propabilities
@@ -133,10 +140,12 @@ At each leaf there are 6 solutions.
 Just picking one random leaf:
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" 1 1 0.1 lvs,0 ""
+# laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "1" "1" "0.1" "lvs,0" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
+#   hash=773446287326109641
 # no_ps
 # num_runs=1
 # threads=1
@@ -250,9 +259,18 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      be called, delivering the "hash-values" (an eseed-vector).
      One could also just always provide that vector (computational costs
      should be negligible).
+   - Currently the computation of the seeds occurs according to the order
+     on the command-line:
+  const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
+                                        "distance");
+  const auto [brov, randgen, seeds] = read_lbro(argc, argv, 8);
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+                                        "lookahead-reduction");
+     This must now be moved to the first point where all
+     the data is available.
    - Seeding (the hash-vector) has 11+4*#weights values:
       - N : as is
-      - file_cond : one hash-value for all the conditions (listed together
+      - DONE file_cond : one hash-value for all the conditions (listed together
         with summary of conditions)
       - file_ps : also one hash-value
       - run_type : as is
@@ -736,6 +754,8 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  /* Reading the command-line parameters: */
+
   const auto list_N = read_N(argc, argv);
   const auto [ac, name_ac] = read_ac(argc, argv);
   const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
@@ -774,6 +794,8 @@ int main(const int argc, const char* const argv[]) {
 
   OutputOptions::set_def(batch_mode);
   const auto outopt = read_output_options(argv[14]);
+
+  /* Reading of command-line parameters completed. */
 
 
   const std::string outfile = output_filename(proginfo.prg, list_N);

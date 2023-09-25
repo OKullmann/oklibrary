@@ -61,8 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.102.1";
-  const std::string date_laMols = "23.9.2023";
+  const std::string version_laMols = "0.102.2";
+  const std::string date_laMols = "25.9.2023";
   constexpr int commandline_args_laMols = 14;
 
   typedef std::vector<size_t> list_size_t;
@@ -615,7 +615,8 @@ namespace CommandLine {
       "# k=" << ac.k << " " << "total_num_sq=" << ac.num_squares() <<
         ": \"" << name_ac << "\"\n"
       "#   num_uc=" << ac.num_ucs() << " num_eq=" << ac.eq().size() <<
-      " num_peq=" << ac.peq().size() << "\n";
+      " num_peq=" << ac.peq().size() << "\n"
+      "#   hash=" << ac.hash() << "\n";
     if (not ps0)
       out << "# no_ps";
     else
