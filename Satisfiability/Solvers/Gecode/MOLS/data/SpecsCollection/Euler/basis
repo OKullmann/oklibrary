@@ -1,6 +1,8 @@
 # Counts for N >= 2:
 # 0, 72, 6912, 6220800
 
+#   hash=12022445848885784817
+
 # These counts are obtained from the reduced counts in ./red by
 # multiplication with: (N!)^2 * (N-1)! .
 # This factor is 62'208'000 for N=6, and 18'289'152'000 for N=7.

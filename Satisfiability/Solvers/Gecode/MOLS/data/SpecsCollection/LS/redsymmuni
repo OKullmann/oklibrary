@@ -1,8 +1,11 @@
 # Counts for 2 <= N <= 11:
 # 1,0,1,0,6,0,6240,0,1225566720,0
+
 # https://oeis.org/A000438
 # Remark: https://oeis.org/A003191 seems nonsense
-#
+
+#   hash=15729876580392681007
+
 # The odd N could be nice benchmarks (all unsatisfiable):
 #  - with gc-standard the best seems "domain-prop max-dom-var" (N=13 becomes
 #    hard)
@@ -10,6 +13,8 @@
 #  - very similar behaviour: min-deg/dom-var.
 #  - bounds-prop should here be the same as dom-prop.
 #  - default-prop should be value-prop, which performs very badly.
+
+
 # Example:
 # MOLS> ./gcMols 13 data/SpecsCollection/LSredsymmuni "" satd dom "maxdom" "" 1
 # domain-prop max-dom-var bin-branch-min 0 5.143 13927948 320301 640601 20

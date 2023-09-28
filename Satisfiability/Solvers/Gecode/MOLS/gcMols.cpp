@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,13 +34,27 @@ Examples:
     - and no stopping:
 This yields 4*6=24 runs:
 MOLS> ./gcMols 6 data/SpecsCollection/LS/red "" count "-" "" -first "" 1 1 ""
+
 first parameter-output:
-# command-line: "./gcMols" "6" "data/SpecsCollection/LSred" "" "count" "-" "" "-first" "" "1" "1" ""
+
+# command-line: "./gcMols" "6" "data/SpecsCollection/LS/red" "" "count" "-" "" "-first" "" "1" "1" ""
 # N: 6
-# k=1 total_num_sq=1: "data/SpecsCollection/LSred"
+# k=1 total_num_sq=1: "data/SpecsCollection/LS/red"
 #   num_uc=2 num_eq=0 num_peq=0
-...
+#   hash=15703240654455336669
+# no_ps
+# num_runs=24
+# threads=1
+# rt=count-solutions(count)
+# no_stopping
+#   propagation-level: domain-prop(dom) default-prop(def) values-prop(val) bounds-prop(bnd)
+#   branching-type: binary-branching(bin)
+#   variable-heuristic: min-dom-var(mindom) max-deg-var(maxdeg) max-deg/dom-var(maxdegdom) min-deg-var(mindeg) max-dom-var(maxdom) min-deg/dom-var(mindegdom)
+#   order-heuristic: ascending-order(asc)
+#   commit-distance: 1
+
 then result-output:
+
   N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
   6    count dom bin    mindom  asc   1      9408       0.021        132588           0       18815     11  0
   6    count dom bin    maxdeg  asc   1      9408       0.021        132432           0       18815     10  0
@@ -53,9 +67,11 @@ then result-output:
    for the variable-selection and all propagation-levels:
 
 MOLS> ./gcMols 8 data/SpecsCollection/LS/redsymmuni "" count "-" "" "mindom" "" 1 1 ""
+# command-line: "./gcMols" "8" "data/SpecsCollection/LS/redsymmuni" "" "count" "-" "" "mindom" "" "1" "1" ""
 # N: 8
-# k=1 total_num_sq=1: "data/SpecsCollection/LSredsymmuni"
+# k=1 total_num_sq=1: "data/SpecsCollection/LS/redsymmuni"
 #   num_uc=4 num_eq=0 num_peq=0
+#   hash=15729876580392681007
 # no_ps
 # num_runs=4
 # threads=1
@@ -182,8 +198,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.99.0",
-        "30.8.2022",
+        "0.99.1",
+        "27.9.2023",
 #ifndef SIMBRANCH
         __FILE__,
 #else
@@ -273,8 +289,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto list_N = read_N(argc, argv);
+  const size_t N_hash = FloatingPoint::hash_UInt_range()(list_N);
   const auto [ac, name_ac] = read_ac(argc, argv);
+  const size_t ac_hash = ac.hash();
   const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
+  const size_t ps_hash = ps0 ? ps0.value().hash() : 0;
+  const std::vector<size_t> hash_seeds{N_hash, ac_hash, ps_hash};
+
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
@@ -315,7 +336,8 @@ int main(const int argc, const char* const argv[]) {
   commandline_output(std::cout, argc, argv);
   info_output(std::cout,
               list_N, ac, name_ac, ps0, name_ps, rt,
-              num_runs, threads, outfile, with_file_output);
+              num_runs, threads, outfile, with_file_output,
+              hash_seeds);
   st_output(std::cout, stod);
   algo_output(std::cout, std::make_tuple(pov, brtv, bvarv, gbov));
   cd_output(std::cout, gcdv);

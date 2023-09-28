@@ -1,5 +1,5 @@
 // Oleg Zaikin, 13.4.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,10 +24,12 @@ Examples:
     - and no stopping:
 
 MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 "" ""
-# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" ""
+# rlaMols 1.0.1 d262061724e5442f9da54da4e8a95c9be74a3902
+# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" "" ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
 #   num_uc=9 num_eq=0 num_peq=3
+#   hash=15974295162956530494
 # no_ps
 # num_runs=1
 # threads=2
@@ -41,17 +43,17 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
 #   la-reduction-type: relaxed-pruning(relpr)
 #   commit-distance: 1
   N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
-  5    count dom enu maxdegdom  asc  relpr   1       36       0.091        691  0       11        8
+  5    count dom enu maxdegdom  asc  relpr   1       36       0.092        691  0       11        8
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.019    0.773  1.000
-302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.009    0.000  0.000
-320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.032    2.318  2.000
-  9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.012    1.338  1.000
+310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.013    0.773  1.000
+302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.004    0.000  0.000
+320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.024    2.318  2.000
+  9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.008    6.090  2.000
+289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.006    6.090  2.000
 251.000  1.154    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000
-309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.022   11.650  3.000
- 25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.009    3.441  0.926
+309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000
+ 25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926
 
 */
 
@@ -109,8 +111,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.0",
-        "12.8.2022",
+        "1.0.1",
+        "28.9.2023",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -205,8 +207,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto list_N = read_N(argc, argv);
+  const size_t N_hash = FloatingPoint::hash_UInt_range()(list_N);
   const auto [ac, name_ac] = read_ac(argc, argv);
+  const size_t ac_hash = ac.hash();
   const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
+  const size_t ps_hash = ps0 ? ps0.value().hash() : 0;
+  const std::vector<size_t> hash_seeds{N_hash, ac_hash, ps_hash};
+
   const RT rt = read_rt(argc, argv);
 
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
@@ -271,7 +278,8 @@ int main(const int argc, const char* const argv[]) {
     info_output(out,
                 list_N, ac, name_ac, ps0, name_ps, rt,
                 num_runs, threads, outfile,
-                withfiles ? with_file_output : false);
+                withfiles ? with_file_output : false,
+                hash_seeds);
     st_output(out, stod);
     if (withfiles)
       treelogging_output(out, to.value(), treeloggingfile);
@@ -279,6 +287,8 @@ int main(const int argc, const char* const argv[]) {
     cd_output(out, gcdv);
     out.flush();
   };
+  std::cout << "# " << proginfo.prg << " " << proginfo.vrs << " "
+            << proginfo.git << "\n";
   info(std::cout, true);
   if (tree_log) {
     *tree_log << Environment::Wrap(proginfo, Environment::OP::rh) << "\n";

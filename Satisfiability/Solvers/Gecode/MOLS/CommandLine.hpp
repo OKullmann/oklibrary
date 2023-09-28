@@ -61,8 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.102.2";
-  const std::string date_laMols = "25.9.2023";
+  const std::string version_laMols = "0.102.3";
+  const std::string date_laMols = "28.9.2023";
   constexpr int commandline_args_laMols = 14;
 
   typedef std::vector<size_t> list_size_t;
@@ -206,7 +206,8 @@ namespace CommandLine {
              std::unique_ptr<RandGen::RandGen_t>,
              RandGen::vec_eseed_t>
   read_lbro([[maybe_unused]]const int argc,
-            const char* const argv[], const int pos) {
+            const char* const argv[], const int pos,
+            const RandGen::vec_eseed_t& hash) {
     assert(argc > pos);
     const std::string s = argv[pos];
     const auto find = s.find(';');
@@ -222,11 +223,12 @@ namespace CommandLine {
       else {
         std::ostringstream ss;
         ss << "ERROR[CommandLine::read_lbro]: \";\" present, but no need for "
-          "additional parameters.\n";
+          "additional (seed-)parameters.\n";
         throw std::runtime_error(ss.str());
       }
     }
-    vec_eseed_t seeds = found ? extract_seeds(s.substr(find+1)):vec_eseed_t{};
+    vec_eseed_t seeds = found ?
+      extract_seeds_hash(s.substr(find+1), hash) : vec_eseed_t{};
     return std::make_tuple(list, std::make_unique<RandGen_t>(seeds), seeds);
   }
 
@@ -404,7 +406,7 @@ namespace CommandLine {
       case EXW::rand : return FP::NaN;
       case EXW::asc : return FP::pinfinity;
       case EXW::desc : return FP::minfinity;
-      default : assert(false); }
+      default : assert(false); return 0; }
     }
     gen_uint_t hash_pattern() const noexcept {
       std::vector<float80> transfer; transfer.reserve(pat.size());
@@ -608,7 +610,9 @@ namespace CommandLine {
                    const std::string& name_ps,
                    const OP::RT rt,
                    const size_t num_runs, const double threads,
-                   const std::string& outfile, const bool with_output) {
+                   const std::string& outfile, const bool with_output,
+                   const std::vector<size_t>& seeds) {
+    assert(seeds.size() >= 3);
     out << "# N: ";
     Environment::out_line(out, list_N);
     out << "\n"
@@ -616,12 +620,13 @@ namespace CommandLine {
         ": \"" << name_ac << "\"\n"
       "#   num_uc=" << ac.num_ucs() << " num_eq=" << ac.eq().size() <<
       " num_peq=" << ac.peq().size() << "\n"
-      "#   hash=" << ac.hash() << "\n";
+      "#   hash=" << seeds[1] << "\n";
     if (not ps0)
       out << "# no_ps";
     else
       out <<
-        "# num_ps=" << ps0.value().psqs.size() << ": \"" << name_ps << "\"";
+        "# num_ps=" << ps0.value().psqs.size() << ": \"" << name_ps << "\"\n"
+        "#   hash=" << seeds[2] << "\n";
     out << "\n"
       "# num_runs=" << num_runs << "\n"
       "# threads=" << threads << "\n"

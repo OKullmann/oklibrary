@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,6 +11,32 @@ License, or any later version. */
   Namespace PartialSquares, abbreviated "PS".
 
   Internally and for input and output the numbers are 0, ..., N-1.
+
+   - typedef cell_t = vector<bool>
+
+   - set_val(size_t N, size_t val) -> cell_t
+
+   - struct Cell
+    - wrapper for cell_t
+
+   - typedef prow_t = vector<Cell>
+   - typedef psquare_t = vector<prow_t>
+
+   - functions valid
+   - functions consistent
+   - functions unit
+   - construction functions
+
+   - struct coord
+    - wrapper for x, y : size_t
+   - typedef std::map<coord, Cell> ps_map_t
+
+   - struct PSquare
+    - wrapper for ps : psquare_t, and s : Square
+
+   - typedef psquares = vector<PSquare>
+   - struct PSquares
+    - wrapper for psqs : psquares_t, size_t N
 
 TODOS:
 
@@ -56,6 +82,7 @@ B m
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 #include "Conditions.hpp"
 
@@ -83,6 +110,12 @@ namespace PartialSquares {
     Cell(const cell_t c) : c(c) {}
     Cell(const size_t N) : c(N) {} // all N positions enabled
     Cell(const size_t N, const size_t val) : c(set_val(N,val)) {}
+
+    size_t hash() const noexcept {
+      size_t seed = c.size();
+      for (const bool x : c) FloatingPoint::hash_combine(seed, size_t(x));
+      return seed;
+    }
 
     Cell& flip() noexcept { c.flip(); return *this; }
 
@@ -149,7 +182,16 @@ namespace PartialSquares {
 
 
   typedef std::vector<Cell> prow_t;
+  size_t hash_prow(const prow_t& pr) noexcept {
+    return FloatingPoint::hash_UInt_range().apply(pr, [](const auto& x){
+                                                    return x.hash();});
+  }
+
   typedef std::vector<prow_t> psquare_t;
+  size_t hash_psquare(const psquare_t& ps) noexcept {
+    return FloatingPoint::hash_UInt_range().apply(ps, [](const auto& x){
+                                                    return hash_prow(x);});
+  }
 
   bool valid(const prow_t& pr, const size_t N) noexcept {
     return pr.size() == N and
@@ -229,6 +271,13 @@ namespace PartialSquares {
     PSquare(psquare_t ps, const CD::Square s) : ps(ps), s(s) {}
     PSquare(const ps_map_t& m , const size_t N, const CD::Square s) :
       ps(map2ps(m,N)), s(s) {}
+
+    size_t hash() const noexcept {
+      size_t seed = hash_psquare(ps);
+      FloatingPoint::hash_combine(seed, s.i);
+      FloatingPoint::hash_combine(seed, size_t(s.v));
+      return seed;
+    }
 
     bool consistent() const noexcept { return PartialSquares::consistent(ps); }
     bool unit() const noexcept { return PartialSquares::unit(ps); }
@@ -313,6 +362,13 @@ namespace PartialSquares {
       assert(N == rhs.N);
       psqs = std::move(rhs.psqs);
       return *this;
+    }
+
+    size_t hash() const noexcept {
+      size_t seed = FloatingPoint::hash_UInt_range().apply(psqs,
+                      [](const auto& x) {return x.hash();});
+      FloatingPoint::hash_combine(seed, N);
+      return seed;
     }
 
     bool empty() const noexcept { return psqs.empty(); }

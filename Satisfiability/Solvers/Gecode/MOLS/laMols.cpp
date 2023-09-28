@@ -223,6 +223,63 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "
 MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;1" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
 15510712536.085001176
 
+Showing full information, and using hash-seeds plus a final 777:
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,777" "" 1 1 0.1 lvs,0 ""
+# laMols 0.102.3 d262061724e5442f9da54da4e8a95c9be74a3902
+# command-line: "./laMols" "6" "data/SpecsCollection/Euler/basis" "" "count" "" "" "wdL" "tprob;h,777" "" "1" "1" "0.1" "lvs,0" ""
+# N: 6
+# k=3 total_num_sq=3: "data/SpecsCollection/Euler/basis"
+#   num_uc=3 num_eq=0 num_peq=1
+#   hash=12022445848885784817
+# no_ps
+# num_runs=1
+# threads=1
+# rt=count-solutions(count)
+# stopping: by-leaf-count(lvs),0
+# output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) without-tree-logging(-tree) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
+#   propagation-level: domain-prop(dom)
+#   la-branching-type: enumerative-branching(enu)
+#   distance-type: weighted-delta-literals(wdL)
+#   la-order-heuristic: tauprob-first(tprob)
+#   la-reduction-type: relaxed-pruning(relpr)
+#   order-seeds: 8047511768777539459 12022445848885784817 0 14182395947665704810 0 0 0 777
+
+Explanation:
+The first three seeds are hashes for:
+  - N
+  - conditions (see above)
+  - partial square (none here)
+Then come 4 seeds for the weights:
+  - hashing the weight-pattern
+  - the seed used for random weights (none here)
+  - two seeds for further details.
+
+#   commit-distance: 1
+#   weights: 0.1 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843 1.3195079107728942591
+  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu  wdL tprob  relpr   1        0       0.189        832  1       19        1  5.953027e+04  8.693832e+04
+   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp
+375.94  0.11111   2.4653   125.95   129.19  1.0556     0  0.0051263  0.06105     8.5
+   243        0        0      120    117.7       1     0   0.002945        0       0
+   540        2   12.587   132.51   234.89       2     0    0.00911   1.0989      17
+98.405   0.4714    3.593   4.2254   26.551  0.2357     0  0.0018848  0.25901  5.3385
+mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
+232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
+232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
+232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
+  0      0        0        0        0       0     0         0        0   0
+      estlvs       uestlvs
+3.543853e+09  7.558272e+09
+3.543853e+09  7.558272e+09
+3.543853e+09  7.558272e+09
+0.000000e+00  0.000000e+00
+    dm0       w  ltausp      minp    meanp     maxp       sdd         tb
+0.22222  3.7222  2.3444   0.28312  0.29722  0.31652  0.015382  0.0051187
+      0       2       1   0.16667  0.16667  0.16667         0   0.003499
+      4       6  6.6612       0.5      0.5  0.60955   0.19532   0.007459
+0.94281  1.2274  1.3984  0.098471  0.09756  0.12334  0.046361  0.0013853
+
+
 Remark: For branching-order rand one can consider estlvs: this is just
 for one "random leaf" (as given by random branchings) the tau-estimation
 of the number of leaves (while using tprob we have that the expected value
@@ -233,6 +290,30 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" ""
 6827808605.0310231736
 MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
 6718464000
+
+Choosing the first two weights randomly (from a restricted pool), and showing the weights:
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 r,r lvs,0 estlvs,-info,-stop
+#   weights: 3.2 1.6 1.6 1.6 -> 0 0 1 9.1895868399762800551 27.857618025475972455 84.448506289465232612 256.00000000000000003
+87823146264.256520517
+
+Remark: these weights are proper random weights: the current timestamp
+is used as seed for them.
+So repeated runs yield different results:
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 r,r lvs,0 estlvs,-info,-stop
+#   weights: 2 0.60000000000000000002 0.60000000000000000002 0.60000000000000000002 -> 0 0 1 4 6.0628662660415923295 9.1895868399762800542 13.928809012737986226
+88609148990.883491397
+To repeat, use the same weights:
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 2,0.6 lvs,0 estlvs,-info,-stop
+#   weights: 2 0.60000000000000000002 0.60000000000000000002 0.60000000000000000002 -> 0 0 1 4 6.0628662660415923295 9.1895868399762800542 13.928809012737986226
+88609148990.883491397
+
+Further remark: the last weight-parameter is "recycled", if further weights are needed.
+
+The parameters w for the weights on the command-line yield factors 2^w
+for the previous weight; so "2,0.6" means first a multplication of the
+initial weight 1 with 2^2 = 4, and then all other weights are obtained by
+successive multiplications with 2^0.6 ~ 1.515717.
+
 
 */
 
@@ -272,23 +353,25 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
       - N : as is
       - DONE file_cond : one hash-value for all the conditions (listed together
         with summary of conditions)
-      - file_ps : also one hash-value
-      - run_type : as is
-      - list of prop-levels : one hash-value
-      - list of branch-type : one hash-value
-      - list of distance : one hash-value
-      - list of branch-order: one hash-value
-      - list of la-type: one hash-value
-      - list of gcd: one hash-value
-      - list of stop-types: one hash-value
-      - DONE list of weight-vectors: each WGenerator-object yields 4 seeds:
+      - DONE file_ps : also one hash-value
+      - DONE (not included) run_type
+      - DONE (not included) list of prop-levels
+      - DONE (not included) list of branch-type
+      - DONE (not included) list of distance
+      - DONE (not included) list of branch-order
+      - DONE (not included) list of la-type
+      - DONE (not included) list of gcd
+      - DONE (not included) list of stop-types
+      - DONE
+        the WGenerator-object yields 4 seeds:
         Just hashing the data-members into seeds:
          - DONE
            pattern_t: list of float80 and OP::EXW, so just translating
            into a list of float80 ? Using +-inf and NaN for encoding.
          - DONE seed : as is
          - DONE leveluse, randomuse, into one
-         - DONE sp put into into the final seed.
+         - DONE sp put into the final seed.
+        Remark: from this *one* generator all weight-vectors are obtained.
 
 -6. Provide higher-precision computation of quantities related to tau
    - First step is to provide a special class TauV for the tau-values and
@@ -757,20 +840,30 @@ int main(const int argc, const char* const argv[]) {
   /* Reading the command-line parameters: */
 
   const auto list_N = read_N(argc, argv);
+  const size_t N_hash = FloatingPoint::hash_UInt_range()(list_N);
   const auto [ac, name_ac] = read_ac(argc, argv);
+  const size_t ac_hash = ac.hash();
   const auto [ps0, name_ps] = read_ps(argc, argv, list_N);
-  const RT rt = read_rt(argc, argv);
+  const size_t ps_hash = ps0 ? ps0.value().hash() : 0;
 
+  const RT rt = read_rt(argc, argv);
   const list_propo_t pov = read_opt<PropO>(argc, argv, 5, "po",
                                            "propagation");
   const list_lbrt_t brtv = read_opt<LBRT>(argc, argv, 6, "brt",
                                           "branching-type");
   const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  const auto [brov, randgen, seeds] = read_lbro(argc, argv, 8);
   const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
                                         "lookahead-reduction");
   const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
+
+  const auto [wg, batch_mode] = read_weights(argc, argv, 12);
+  const std::vector<size_t> wg_hash = wg.hash();
+  const std::vector<size_t> hash_seeds = [&N_hash,&ac_hash,&ps_hash,&wg_hash]{
+    std::vector<size_t> res{N_hash, ac_hash, ps_hash};
+    for (const auto& x : wg_hash) res.push_back(x);
+    return res;}();
+  const auto [brov, randgen, seeds] = read_lbro(argc, argv, 8, hash_seeds);
 
   const double threads = read_threads(argc, argv, 11);
   if (threads != 1 and randgen) {
@@ -778,8 +871,6 @@ int main(const int argc, const char* const argv[]) {
       " number of threads must be 1, but is " << threads << ".\n";
     return 1;
   }
-
-  const auto [wg, batch_mode] = read_weights(argc, argv, 12);
 
   const size_t num_runs =
     mult(pov.size()*brov.size()*larv.size()*gcdv.size(),
@@ -830,7 +921,8 @@ int main(const int argc, const char* const argv[]) {
     commandline_output(std::cout, argc, argv);
     info_output(std::cout,
                 list_N, ac, name_ac, ps0, name_ps, rt,
-                num_runs, threads, outfile, with_file_output);
+                num_runs, threads, outfile, with_file_output,
+                hash_seeds);
     st_output(std::cout, stod);
     output_options(std::cout, outopt);
     algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
