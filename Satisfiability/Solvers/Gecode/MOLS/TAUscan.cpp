@@ -16,54 +16,58 @@ Examples:
 With "all" we get all statistics, and the single results in a file
 (here 10 probes and 10 threads):
 
-MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL hash 0.1 10 10 all
-10 : 8.67774578323596440922e+24 1.22450048735265398083e+36 1.14699293230448961192e+37; 3.60495586501903848797e+36
-TS_10_10_1695122450839812219.R
-real	0m44.558s
-user	5m58.006s
-sys	0m22.757s
-MOLS> cat TS_10_10_1695122450839812219.R
-# TAUscan 0.9.0 341e8762241f4a1eac0a1f6e2cf4eb6da240e5ae laMols=0.102.0
-# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu" "wdL" "hash" "0.1" "10" "10" "all"
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL h 0.1 10 10 all
+10 : 2.86182157749415107420e+31 1.96759786066486124029e+34 1.27797960477944986434e+35; 4.19209525125229165856e+34
+TS_10_10_1696012083070680529.R
+real	0m45.490s
+user	5m57.432s
+sys	0m23.539s
+MOLS> cat TS_10_10_1696012083070680529.R
+# TAUscan 0.9.1 8b6df47156c79c4f4e1e378fb260a04c3791fd21 laMols=0.102.3
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu" "wdL" "h" "0.1" "10" "10" "all"
  estlvs
-1 2.7147946178118402006e+34
-2 1.1469929323044896119e+37
-3 4.3558281368091233982e+32
-4 8.6777457832359644092e+24
-5 1.5442854410081259727e+27
-6 1.1445825129039211791e+35
-7 7.9915856021724196495e+31
-8 6.6325978061787310117e+31
-9 6.1809392887493355786e+35
-10 1.4793597937472000791e+34
+1 5.7559749953485999621e+34
+2 3.5061446370603864919e+33
+3 5.2944474814249570665e+33
+4 7.4055336436209241046e+32
+5 5.3416039821393925621e+32
+6 1.0478888160218900889e+33
+7 1.2779796047794498643e+35
+8 1.7982881721044819227e+32
+9 2.8618215774941510742e+31
+10 7.0433904986482943963e+31
 
 
 Above "tauprob" (tprob) was used, now "uniform random" (rand):
 
-MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL hash 0.1 10 10 all
-10 : 6.57489838704741983453e+30 9.25281428686421350058e+33 4.79310092415756905961e+34; 1.82953695554334109691e+34
-TS_10_10_1695122539524332866.R
-real	0m41.155s
-user	5m51.190s
-sys	0m20.980s
-MOLS> cat TS_10_10_1695122539524332866.R
-# TAUscan 0.9.0 341e8762241f4a1eac0a1f6e2cf4eb6da240e5ae laMols=0.102.0
-# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu,rand" "wdL" "hash" "0.1" "10" "10" "all"
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL h 0.1 10 10 all
+10 : 2.34871484448138854400e+26 7.74379309173471536293e+33 3.55044512900560671082e+34; 1.38965740094092635693e+34
+TS_10_10_1696012202917905314.R
+real	0m40.298s
+user	5m30.395s
+sys	0m20.131s
+MOLS> cat TS_10_10_1696012202917905314.R
+# TAUscan 0.9.1 8b6df47156c79c4f4e1e378fb260a04c3791fd21 laMols=0.102.3
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu,rand" "wdL" "h" "0.1" "10" "10" "all"
  uestlvs
-1 1.5219672192239397765e+31
-2 4.7931009241575690596e+34
-3 7.8012710354127100578e+30
-4 1.2944331199499607799e+31
-5 3.9449390322284519006e+34
-6 3.5948256931181767944e+33
-7 2.7737852570356302427e+31
-8 1.4382590221666230889e+33
-9 4.4380564112570083883e+31
-10 6.5748983870474198345e+30
+1 7.0132249461839144902e+31
+2 3.8344807393260552475e+33
+3 3.5504451290056067106e+33
+4 2.348714844481388544e+26
+5 3.5504451290056067108e+34
+6 1.7042136619226912211e+33
+7 4.0910478852739501193e+32
+8 1.1414754144179548324e+31
+9 2.5683196824403983729e+29
+10 3.235343123806359115e+34
 
 
 
 BUGS:
+
+1. In the above examples we see that min and max are different from
+   the results in the file (in the last digits)?
+
 
 TODOS:
 
@@ -131,8 +135,8 @@ MOLS> ./laMols -v | grep "^ version"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.0",
-        "19.9.2023",
+        "0.9.1",
+        "29.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -173,7 +177,7 @@ namespace {
       "     - while \"" << special_bro << "\" leads to \"" << special_sel << "\"\n"
       "   - init-seeds is the initial seed-sequence for random branching\n"
       "     - may be empty\n"
-      "     - may be \"hash\", hashing the weights\n"
+      "     - may contain \"h\", hashing the main parameters\n"
       "   - weights may be \"cin\"\n"
       " - M         : number of runs or \"probes\" (unsigned integer)\n"
       " - threads   : number of threads (unsigned integer)\n"
@@ -203,13 +207,10 @@ namespace {
              branchtypearg.substr(find+1)};
   }
 
-  // Argument weightsarg as computed by weights_arg (below):
-  std::string seed_arg(std::string initseedarg,
-                       const std::string& weightsarg) {
+  // The seed-arg is to be completed by the unning seed for the probes:
+  std::string seed_arg(std::string initseedarg) {
     Environment::mremove_spaces(initseedarg);
     std::string res = ";";
-    if (initseedarg == "hash")
-      return res + std::to_string(Environment::hash(weightsarg)) + ",";
     res += initseedarg;
     const char last = res.back();
     if (last != ';' and last != ',') res.push_back(',');
@@ -301,7 +302,7 @@ int main(const int argc, const char* const argv[]) {
     threadsarg_11 = "1",
     weightsarg_12 = weights_arg(weightsarg), // cin has been read
     branchorderarg = // completed below; no spaces allowed here by laMols
-      prefix_branchorder + seed_arg(initseedarg, weightsarg_12),
+      prefix_branchorder + seed_arg(initseedarg),
     stoparg_13 = "lvs,0",
     formattingarg_14 = valuesel + ",-info,-w,-stop";
 
