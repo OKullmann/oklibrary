@@ -212,13 +212,14 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
-1. As an optional argument, take the index of the Y-column
+1. DONE As an optional argument, take the index of the Y-column
    to be sorted.
     - Default value is -1, which means the last argument.
     - -2 is the penultimate, and so on.
     - While 1 is the first one, and so on.
-    - So the natural type perhaps is int?
-    - Or shouldn't this be optional?
+    - DONE (no)
+      So the natural type perhaps is int?
+    - 0 means no sorting.
 
 */
 
@@ -240,7 +241,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "8.10.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -260,17 +261,23 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " grid script seeds threads\n\n"
+         << " grid script seeds threads [sort-index=-1]\n\n"
     " grid           : " << "filename\n"
     " script         : " << "string\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"\n"
-    " threads        : " << "natural number >= 0\n\n"
-    " applies the script to the points of the script :\n\n"
+    " threads        : " << "natural number >= 0\n"
+    " sort-index     : " << "integer\n\n"
+    " applies the script to the points of the grid :\n\n"
     "  - if threads is \"+1\", then scanning is logged (stdout)\n"
     "  - the output is stored in file \"" << SP::scanning_prefix <<
       "_grid_script_timestamp.R\"\n"
     "    - here \"grid\" and \"script\" are simplifications of the"
-    " corresponding strings.\n\n"
+             " corresponding strings\n"
+    "  - the final sorting-indices are N+1,...,N+M:\n"
+    "    - N is the number of input-values, M is the number of output-values\n"
+    "    - \"-1\" means the last index (N+M)\n"
+    "    - \"1\" means the first index (N+1)\n"
+    "    - \"0\" means no sorting.\n\n"
 ;
     return true;
   }
@@ -336,10 +343,13 @@ namespace {
   }
   constexpr index_t determine_sorting_index(FP::Int_t i,
                       const index_t N, const index_t M) noexcept {
-    // testing for N+M overflowing XXX
-    if (std::cmp_greater_equal(i,M)) return N+M - 1;
+    if (i == 0) return 0;
+    assert(N >= 1); assert(M >= 1);
+    const size_t num_vars = N+M;
+    assert(num_vars > N); assert(num_vars > M);
+    if (std::cmp_greater_equal(i,M)) return num_vars - 1;
     else if (std::cmp_greater_equal(-i,M)) return N;
-    else return i > 0 ? N+(i-1) : N + (M + i);
+    else return i > 0 ? N+(i-1) : num_vars + i;
   }
   static_assert(determine_sorting_index(-2,2,2) == 2);
 
@@ -370,11 +380,6 @@ int main(const int argc, const char* const argv[]) {
   const auto [threads, logging] = read_threads(argv[4]);
   const FP::Int_t sorting_index = argc == 5 ? default1_sorting_index
     : read_sorting_index(argv[5]);
-  if (sorting_index == 0) {
-    std::cerr << error <<
-      "Sorting-index is 0.\n";
-    return int(OS::Error::faulty_parameters);
-  }
   if (sorting_index == FP::mP263) {
     std::cerr << error <<
       "Sorting-index is " << FP::mP263 << ".\n";
@@ -422,8 +427,9 @@ int main(const int argc, const char* const argv[]) {
     Environment::out_line(outputs, seeds);
     outputs << std::endl;
     auto matrix = Algorithms::append2d_ranges(X, FX);
-    std::ranges::stable_sort(matrix, [final_index]
-      (const auto& x, const auto& y){return x[final_index] < y[final_index];});
+    if (final_index != 0)
+      std::ranges::stable_sort(matrix, [final_index]
+        (const auto& x, const auto& y){return x[final_index] < y[final_index];});
     FP::fullprec_float80(outputs);
     Environment::print2dformat(outputs, matrix, 2, header(N, M));
   }
