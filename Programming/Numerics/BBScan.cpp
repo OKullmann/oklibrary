@@ -215,11 +215,17 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
+-1. Check if the script is executable, and output error-message:
+    - Testing of variable "script" should get its own function.
+
 0. Since the program names starts with "BBS", perhaps also the output-files
    should start with "BBS", not with "BBs" as now?
     - We have "TAUscan".
     - And "BBOpt".
-    - Perhaps this program is called "BBscan" ?
+    - Perhaps this program is called "BBscan" ? But "BBS" is easier to type
+      and to read.
+    - Perhaps "sampling" instead of "scanning" is the usual terminolgy here?
+    - Then we would use "BBSampling" and "BBS" ?
 
 1. As an optional argument, take the index of the Y-column
    to be sorted.
@@ -227,6 +233,12 @@ TODOS:
     - -2 is the penultimate, and so on.
     - While 1 is the first one, and so on.
     - So the natural type perhaps is int?
+
+2. DONE Provide optional argument for logging-output
+    - There seems little value in providing something else than stdout.
+    - So only some boolean needs to be provided.
+    - And only for threads=1.
+    - So perhaps using "+1" ?
 
 */
 
@@ -247,8 +259,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "19.9.2023",
+        "0.1.3",
+        "8.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBScan.cpp",
@@ -273,6 +285,7 @@ namespace {
     " seeds          : " << "sequence, can contain \"t\" or \"r\"\n"
     " threads        : " << "natural number >= 0\n\n"
     " applies the script to the points of the script :\n\n"
+    "  - if threads is \"+1\", then scanning is logged (stdout)\n"
     "  - the output is stored in file \"BBs_grid_script_timestamp\"\n"
     "  - here \"grid\" and \"script\" are simplifications of the"
     " corresponding strings.\n\n"
@@ -280,7 +293,9 @@ namespace {
     return true;
   }
 
-  index_t read_threads(const std::string& s) {
+  // Second component true iff logging:
+  std::pair<index_t, bool> read_threads(const std::string& s) {
+    if (s == "+1") return {1, true};
     index_t res;
     try { res = FP::touint(s); }
     catch (const std::exception& e) {
@@ -289,7 +304,7 @@ namespace {
         << "\", with error-message\n  " << e.what() <<"\n";
       std::exit(int(OS::Error::faulty_parameters));
     }
-    return res;
+    return {res, false};
   }
 
   std::vector<std::string> header(const index_t N, const index_t M) {
@@ -353,7 +368,7 @@ int main(const int argc, const char* const argv[]) {
   }
   const RandGen::vec_eseed_t seeds0 = RandGen::extract_seeds(argv[3]);
   const bool randomised = not seeds0.empty();
-  const index_t threads = read_threads(argv[4]);
+  const auto [threads, logging] = read_threads(argv[4]);
   const FP::Int_t sorting_index = argc == 5 ? default1_sorting_index
     : read_sorting_index(argv[5]);
   if (sorting_index == 0) {
@@ -393,8 +408,10 @@ int main(const int argc, const char* const argv[]) {
     Environment::args_output(outputs, argc, argv);
     outputs << std::endl;
     RandGen::vec_eseed_t seeds(seeds0);
-    const auto [X,FX] = SP::perform_scanning_script(grids, seeds, randomised,
-                                                    script, threads);
+    const auto [X,FX] =
+      SP::perform_scanning_script(grids, seeds, randomised,
+                                  script, threads,
+                                  logging ? &std::cout : nullptr);
     if (X.empty()) return 0;
     const auto size = X.size();
     assert(size == FX.size());

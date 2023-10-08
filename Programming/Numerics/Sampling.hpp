@@ -616,7 +616,8 @@ namespace Sampling {
   perform_scanning(const OS::evec_t& x, const OS::list_intervals_t& I,
                    const RandGen::vec_eseed_t seeds, const bool randomised,
                    const FUN& f,
-                   const OS::index_t threads) {
+                   const OS::index_t threads,
+                   std::ostream* const log = nullptr) {
     if (threads == 0) return {};
     std::vector<OS::vec_t> inputs = get_scanning_points(x,I,seeds,randomised);
     using index_t = OS::index_t;
@@ -624,7 +625,19 @@ namespace Sampling {
     if (size == 0) return {};
     std::vector<VAL> outputs; outputs.reserve(size);
     if (threads == 1) {
-      for (const auto& x : inputs) outputs.push_back(f(x));
+      if (not log)
+        for (const auto& x : inputs) outputs.push_back(f(x));
+      else {
+        for (const auto& x : inputs) {
+          Environment::out_line(*log, x);
+          *log << "   "; log->flush();
+          const VAL y = f(x);
+          outputs.push_back(y);
+          if constexpr (std::is_arithmetic_v<VAL>) *log << y;
+          else Environment::out_line(*log, y);
+          *log << std::endl;
+        }
+      }
     }
     else {
       outputs.resize(size);
@@ -698,7 +711,8 @@ namespace Sampling {
   perform_scanning_script(const std::istream& in,
                           RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0, const TRANS& T,
-                          const OS::index_t threads) {
+                          const OS::index_t threads,
+                          std::ostream* const log = nullptr) {
     const auto si = OS::read_scanning_info(in);
     if (rand) {
       const auto [seed1, seed2] = hash2(si);
@@ -709,7 +723,7 @@ namespace Sampling {
     const script_t script(script0, T);
     typedef typename script_t::result_type result_type;
     const auto& [I,x] = si;
-    return perform_scanning<result_type>(x,I,seeds,rand,script,threads);
+    return perform_scanning<result_type>(x,I,seeds,rand,script,threads,log);
   }
 
   struct string2vec_t {
@@ -725,10 +739,11 @@ namespace Sampling {
   perform_scanning_script(const std::istream& in,
                           RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0,
-                          const OS::index_t threads) {
+                          const OS::index_t threads,
+                          std::ostream* const log = nullptr) {
     return
       perform_scanning_script(in, seeds, rand, script0,
-                              string2vec_t{}, threads);
+                              string2vec_t{}, threads, log);
   }
 
 
