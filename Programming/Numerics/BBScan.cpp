@@ -215,8 +215,11 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
--1. Check if the script is executable, and output error-message:
+-1. DONE Check if the script is executable, and output error-message:
     - Testing of variable "script" should get its own function.
+    - However, what to do if directly a bash-command is used?
+    - Perhaps we use a prefix "@" for directly executable statements?
+      No, for BBScan it is not natural to give scripts directly.
 
 0. Since the program names starts with "BBS", perhaps also the output-files
    should start with "BBS", not with "BBs" as now?
@@ -244,6 +247,7 @@ TODOS:
 
 #include <iostream>
 #include <utility>
+#include <filesystem>
 
 #include <cassert>
 #include <cstdlib>
@@ -259,7 +263,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "8.10.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -291,6 +295,28 @@ namespace {
     " corresponding strings.\n\n"
 ;
     return true;
+  }
+
+  std::filesystem::path read_script(const std::string& s) {
+    if (s.empty()) {
+      std::cerr << error <<
+        "Empty script-string.\n";
+      std::exit(int(OS::Error::faulty_parameters));
+    }
+    namespace fs = std::filesystem;
+    const fs::path p(s);
+    if (not fs::is_regular_file(p)) {
+      std::cerr << error <<
+        "Script " << p << " is not a regular file.\n";
+      std::exit(int(OS::Error::faulty_parameters));
+    }
+    if (fs::perms::none ==
+        (fs::status(p).permissions() & fs::perms::owner_exec)) {
+      std::cerr << error <<
+        "Script " << p << " is not executable.\n";
+      std::exit(int(OS::Error::faulty_parameters));
+    }
+    return p;
   }
 
   // Second component true iff logging:
@@ -360,12 +386,7 @@ int main(const int argc, const char* const argv[]) {
       "Reading-error for grid-file \"" << grid << "\".\n";
     return int(OS::Error::faulty_parameters);
   }
-  const std::string script = argv[2];
-  if (script.empty()) {
-    std::cerr << error <<
-      "Empty script-string.\n";
-    return int(OS::Error::faulty_parameters);
-  }
+  const std::filesystem::path script = read_script(argv[2]);
   const RandGen::vec_eseed_t seeds0 = RandGen::extract_seeds(argv[3]);
   const bool randomised = not seeds0.empty();
   const auto [threads, logging] = read_threads(argv[4]);
