@@ -7,7 +7,7 @@
 
 oklibloc = ../..
 
-opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt BBScan
+opt_progs = ExperimentsTau GMP_MPFR_test Boost_int_test Boost_dec_test BBOpt BBSample
 test_progs = Test TestStatistics
 debug_progs = $(addsuffix _debug,$(opt_progs)) $(addsuffix _debug,$(test_progs))
 unit_targets = $(addsuffix _debug_run,$(test_progs))
@@ -43,11 +43,11 @@ BBOpt : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 BBOpt_debug : LDFLAGS += -pthread
 BBOpt_debug : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 
-BBScan : LDFLAGS += -pthread
-BBScan : Optimisation_plus = -fwhole-program
-BBScan : BBScan.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
-BBScan_debug : LDFLAGS += -pthread
-BBScan_debug : BBScan.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBSample : LDFLAGS += -pthread
+BBSample : Optimisation_plus = -fwhole-program
+BBSample : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBSample_debug : LDFLAGS += -pthread
+BBSample_debug : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
 
 # -------------------------
 
