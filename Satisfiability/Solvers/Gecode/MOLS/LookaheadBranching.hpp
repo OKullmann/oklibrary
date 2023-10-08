@@ -615,7 +615,7 @@ namespace LookaheadBranching {
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
       return {"dm0", "w", "ltausp",
-          "minp", "meanp", "maxp", "sdd",
+          "minp", "meanp", "maxp", "sddp",
           "tb"};
     }
     static size_t index(const std::string& s) {

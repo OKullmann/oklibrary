@@ -101,7 +101,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ solc : solution-count (found at the node)
   tr   : time for reduction
   dp   : depth (per node) ]
-[ Per column: average, minimum, maximum, standard deviation ]
+[ Per column: average, minimum, maximum, standard deviation (same below) ]
 
 [ Statistics for leaves: ]
 
@@ -121,14 +121,17 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics on branchings (for inner nodes): ]
 
-    dm0        w  ltausp      minp     meanp      maxp        sdd         tb
+    dm0        w  ltausp      minp     meanp      maxp       sddp         tb
 0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0033915
       0        2  1.0456      0.25      0.25      0.25          0          0
       2        4  3.4742       0.5       0.5       0.5   0.016098   0.006511
 0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016   0.001221
 
-[ w : width
-  minp, meanp, maxp : tau-propabilities
+[ w : width (of chosen branching)
+  dm0 : for the reduction (thus "0"): Delta of weighted sum of domain-sizes D,
+        using weight D-1
+  ltausp :  quotient of worst / best logarithmic-tau of all branchings considered
+  minp, meanp, maxp, sddp : tau-probabilities (of chosen branching)
   tb : time for branching ]
 
 Remark: This tree is the perfect tree with 4 levels and widths 4,3,3,2 at these
@@ -177,7 +180,7 @@ mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
 6.739697e+01  7.200000e+01
 6.739697e+01  7.200000e+01
 0.000000e+00  0.000000e+00
-dm0       w  ltausp     minp    meanp     maxp        sdd          tb
+dm0       w  ltausp     minp    meanp     maxp       sddp          tb
 0.5       3  2.0283  0.35132  0.35417  0.35986  0.0040245   0.0018587
   0       2  1.0456     0.25     0.25     0.25          0    0.001622
   2       4  3.4742      0.5      0.5      0.5   0.016098    0.002045
@@ -273,7 +276,7 @@ mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
 3.543853e+09  7.558272e+09
 3.543853e+09  7.558272e+09
 0.000000e+00  0.000000e+00
-    dm0       w  ltausp      minp    meanp     maxp       sdd         tb
+    dm0       w  ltausp      minp    meanp     maxp      sddp         tb
 0.22222  3.7222  2.3444   0.28312  0.29722  0.31652  0.015382  0.0051187
       0       2       1   0.16667  0.16667  0.16667         0   0.003499
       4       6  6.6612       0.5      0.5  0.60955   0.19532   0.007459
@@ -327,13 +330,34 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-9. Extended output "lvs"
+   - Perhaps "+lvs" ? Better "lvs+". Or "ess" (for "essentials").
+   - For scanning, outputting the most important measures:
+    - lvs
+    - st
+    - nsel, nsuel
+    - t
+    - average rounds&pelvals for inner nodes and leaves :
+        aroundsi, aroundsl, apelvalsi, apelvalsl
+    - average dp for inner nodes and leaves : adpi, adpl
+    - average estlvs&uestlvs : aestlvs, auestlvs
+    - standard deviation estlvs&uestlvs : sddestlvs, sdduestlvs
+    - average dm0 : adm0
+    - average w : aw
+    - average ltausp : altausp
+    - average minp, meanp, maxp, sdd : aminp, ameanp, amaxp, asddp
+    - minimum minp : minminp
+    - maximum maxp : maxmaxp
+   - For batch-mode (weights: cin), the empty input should trigger
+     output of the column-names, space-separated.
+
 -8. In the help-text, break the overlong line for run-type:
    - Perhaps introducing a variation of Environment::WRPO,
      which tries to avoid overlong lines.
 
 -7. Provide hashing for seeds
    - DONE First update documentation on seed-provision.
-   - Allowing key-word "h".
+   - DONE Allowing key-word "h".
    - DONE (in second form)
      Perhaps that belongs to namespace RandGen, which allows for
      seed-construction besides "t, r" also "h", which means a function will
