@@ -24,13 +24,13 @@ Adding the inputs:
 > cat data/blackbox/s_add
 input="$(cat -)"; echo "$input" | tr ' ' '+' | bc
 
-First reproducing the inputs:
+First (just) reproducing the inputs:
 
-Numerics> ./BBScan_debug data/blackbox/g_2d data/blackbox/s_cat "" 1
-BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960414816250236.R
-Numerics> cat BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960414816250236.R
-# "./BBScan_debug" "data/blackbox/g_2d" "data/blackbox/s_cat" "" "1"
-# 2 2 9
+Numerics> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_cat "" 1
+BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746228118836801.R
+Numerics> cat BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746228118836801.R
+# "./BBSample_debug" "data/blackbox/g_2d" "data/blackbox/s_cat" "" "1"
+# 2 2 3 9
 # 0 :
  X1  X2   Y1  Y2
  -1   1   -1   1
@@ -44,14 +44,16 @@ Numerics> cat BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960414816250236.R
   2   3    2   3
 
 Explanation:
-Input-dimension = 2, output-dimension = 2, 3*3 = 9 points, 0 seeds.
+Input-dimension = 2, output-dimension = 2, index sorting = 3 (Y2),
+3*3 = 9 points, 0 seeds.
 
 With randomisation:
-> ./BBScan_debug data/blackbox/g_2d data/blackbox/s_cat "0" 1
-BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960645767118375.R
-> cat BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960645767118375.R
-# "./BBScan_debug" "data/blackbox/g_2d" "data/blackbox/s_cat" "0" "1"
-# 2 2 9
+> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_cat "0" 1
+BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746344955769638.R
+BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746344955769638.R
+Numerics> cat BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746344955769638.R
+# "./BBSample_debug" "data/blackbox/g_2d" "data/blackbox/s_cat" "0" "1"
+# 2 2 3 9
 # 4 : 0 14842017794727834215 10005490731784888750 8630965937302476832
                       X1                     X2                        Y1                     Y2
  -0.26984558498791723951   2.018737656379828717   -0.26984558498791723951   2.018737656379828717
@@ -66,13 +68,13 @@ BBs_g5F2d_data2Fblackbox2Fs5Fcat_1694960645767118375.R
 
 Here now we have 4 seeds: the original seed(-sequence), plus 3 further hashs.
 
-Adding the inputs:
+Now adding the inputs:
 
-> ./BBScan_debug data/blackbox/g_2d data/blackbox/s_add "" 1
-BBs_g5F2d_data2Fblackbox2Fs5Fadd_1694960915359801025.R
-> cat BBs_g5F2d_data2Fblackbox2Fs5Fadd_1694960915359801025.R
-# "./BBScan_debug" "data/blackbox/g_2d" "data/blackbox/s_add" "" "1"
-# 2 1 9
+> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_add "" 1
+BBS_g5F2d_data2Fblackbox2Fs5Fadd_1696746421166888260.R
+Numerics> cat BBS_g5F2d_data2Fblackbox2Fs5Fadd_1696746421166888260.R
+# "./BBSample_debug" "data/blackbox/g_2d" "data/blackbox/s_add" "" "1"
+# 2 1 2 9
 # 0 :
  X1  X2   Y1
  -1   1    0
@@ -85,11 +87,11 @@ BBs_g5F2d_data2Fblackbox2Fs5Fadd_1694960915359801025.R
   2   2    4
   2   3    5
 
-> ./BBScan_debug data/blackbox/g_2d data/blackbox/s_add "0" 1
-BBs_g5F2d_data2Fblackbox2Fs5Fadd_1694960969853642415.R
-Numerics> cat BBs_g5F2d_data2Fblackbox2Fs5Fadd_1694960969853642415.R
-# "./BBScan_debug" "data/blackbox/g_2d" "data/blackbox/s_add" "0" "1"
-# 2 1 9
+> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_add "0" 1
+BBS_g5F2d_data2Fblackbox2Fs5Fadd_1696746472466880872.R
+Numerics> cat BBS_g5F2d_data2Fblackbox2Fs5Fadd_1696746472466880872.R
+# "./BBSample_debug" "data/blackbox/g_2d" "data/blackbox/s_add" "0" "1"
+# 2 1 2 9
 # 4 : 0 14842017794727834215 10005490731784888750 14974945910891974697
                     X1                     X2                     Y1
 0.24294871090993161366  1.4349311563374949226  1.6778798672474265363
@@ -118,11 +120,11 @@ s> cat data/blackbox/g_5d
 
 The "9" means that 9+1=10 points are created.
 
-> ./BBScan_debug data/blackbox/g_5d data/blackbox/s_add "0" 1
-BBs_g5F5d_data2Fblackbox2Fs5Fadd_1694961933763192830.R
-Numerics> cat BBs_g5F5d_data2Fblackbox2Fs5Fadd_1694961933763192830.R
-# "./BBScan_debug" "data/blackbox/g_5d" "data/blackbox/s_add" "0" "1"
-# 5 1 10
+> ./BBSample_debug data/blackbox/g_5d data/blackbox/s_add "0" 1
+BBS_g5F5d_data2Fblackbox2Fs5Fadd_1696746526007526083.R
+Numerics> cat BBS_g5F5d_data2Fblackbox2Fs5Fadd_1696746526007526083.R
+# "./BBSample_debug" "data/blackbox/g_5d" "data/blackbox/s_add" "0" "1"
+# 5 1 5 10
 # 4 : 0 721945341853075457 7457344390317643264 14974945910891974697
                       X1  X2                     X3                      X4   X5                     Y1
    6.0853952803682812176   6  100.66589147358692353   1.8271925799483893617   -2  112.57847933390359411
@@ -152,28 +154,22 @@ A larger computation:
 -inf 300 99999e0 400 inf
 -inf 400 99999e0 500 inf
 
-> time ./BBScan data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 0
-# "./BBScan" "data/blackbox/g_5d_100000" "data/blackbox/s_mul" "0" "0"
-# BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694975921263054424.R
-# N=5 #points=1000000
-real	0m0.124s
-user	0m0.116s
-sys	0m0.008s
+> time ./BBSample data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 0
+# "./BBSample" "data/blackbox/g_5d_100000" "data/blackbox/s_mul" "0" "0"
+# BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746573163284359.R
+# N=5 index=-1 #points=100000
+real	0m0.013s
+user	0m0.013s
+sys	0m0.000s
 
-> time ./BBScan data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 1
-BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694976061242412238.R
-real	12m6.944s
-user	10m29.896s
-sys	4m58.926s
-These times are for "powersave governance" on csltok2.
-With "performance" we get
-real	3m38.454s
-user	4m8.885s
-sys	0m40.243s
-
-> head BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694984766662792815.R
-# "./BBScan" "data/blackbox/g_5d_100000" "data/blackbox/s_mul" "0" "1"
-# 5 1 100000
+> time ./BBSample data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 1
+BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746609777230294.R
+real	3m34.226s
+user	4m5.435s
+sys	0m38.781s
+Numerics> head BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746609777230294.R
+# "./BBSample" "data/blackbox/g_5d_100000" "data/blackbox/s_mul" "0" "1"
+# 5 1 5 100000
 # 4 : 0 1265311246719625050 7640216111640571731 16804024383169274529
                    X1                     X2                     X3                     X4                     X5                     Y1
 12.121584215023058397  103.50248958601902424  203.14847669243306597   314.8818078144024164  403.30428231034261682  32367127079.832867019
@@ -182,7 +178,8 @@ sys	0m40.243s
 12.121584215023058397  102.50658071979773519  206.07090424579942908  315.16483047089940628  417.46215386653917395   33688576836.65327842
 12.121584215023058397   103.2575550445745163  205.66566693480223411  313.83059131181741122  419.08603749236650618  33856455252.827702433
 12.121584215023058397  100.23070415111455041  218.36478740989419003  308.40569707355392939  413.96825525111727179  33871326301.666914733
-> tail BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694984766662792815.R
+
+Numerics> tail BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746609777230294.R
 98.429974396756213982  199.57933053620069196  276.91112205372610289  391.67467207507510216  496.99203053500799457  1058908041092.3896691
 98.429974396756213982  198.29773422842254245  281.06419749500010796  392.94067172660637463  491.93694184362252986  1060442371208.3908358
 98.429974396756213982  194.61054481104895875  299.82883740535849648  386.06419189701822089  480.64418148311157863  1065737757787.4814643
@@ -193,18 +190,18 @@ sys	0m40.243s
 98.429974396756213982  199.63080652043846309  285.74246139774979256  397.11632831270225436   489.1228697916078629  1090599837960.3238195
 98.429974396756213982  199.72792094995813607  289.31765793042891383   394.1943926988430332  497.59620546313177805  1115651609561.5780722
 98.429974396756213982  199.06373670667775934  298.58732151012535472  393.62434259767803538  498.97839863814528583  1149091416198.6519789
-> ls -l BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694984766662792815.R
-13700290
+> ls -l BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746609777230294.R
+13700294
 
 With 6 threads:
-> time ./BBScan data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 6
-BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694985748852783225.R
+> time ./BBSample data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 6
+BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696746959984118140.R
 real	1m0.308s
 user	4m57.755s
 sys	1m6.879s
 With 12 threads:
-> time ./BBScan data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 12
-BBs_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1694985941427759273.R
+> time ./BBSample data/blackbox/g_5d_100000 data/blackbox/s_mul "0" 12
+BBS_g5F5d5F100000_data2Fblackbox2Fs5Fmul_1696747033222199283.R
 real	0m44.225s
 user	5m15.627s
 sys	1m29.561s
@@ -215,33 +212,13 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
--1. DONE Check if the script is executable, and output error-message:
-    - Testing of variable "script" should get its own function.
-    - However, what to do if directly a bash-command is used?
-    - Perhaps we use a prefix "@" for directly executable statements?
-      No, for BBScan it is not natural to give scripts directly.
-
-0. Since the program names starts with "BBS", perhaps also the output-files
-   should start with "BBS", not with "BBs" as now?
-    - We have "TAUscan".
-    - And "BBOpt".
-    - Perhaps this program is called "BBscan" ? But "BBS" is easier to type
-      and to read.
-    - Perhaps "sampling" instead of "scanning" is the usual terminolgy here?
-    - Then we would use "BBSampling" and "BBS" ?
-
 1. As an optional argument, take the index of the Y-column
    to be sorted.
     - Default value is -1, which means the last argument.
     - -2 is the penultimate, and so on.
     - While 1 is the first one, and so on.
     - So the natural type perhaps is int?
-
-2. DONE Provide optional argument for logging-output
-    - There seems little value in providing something else than stdout.
-    - So only some boolean needs to be provided.
-    - And only for threads=1.
-    - So perhaps using "+1" ?
+    - Or shouldn't this be optional?
 
 */
 
@@ -263,11 +240,11 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "8.10.2023",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBScan.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBSample.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
@@ -290,8 +267,9 @@ namespace {
     " threads        : " << "natural number >= 0\n\n"
     " applies the script to the points of the script :\n\n"
     "  - if threads is \"+1\", then scanning is logged (stdout)\n"
-    "  - the output is stored in file \"BBs_grid_script_timestamp\"\n"
-    "  - here \"grid\" and \"script\" are simplifications of the"
+    "  - the output is stored in file \"" << SP::scanning_prefix <<
+      "_grid_script_timestamp.R\"\n"
+    "    - here \"grid\" and \"script\" are simplifications of the"
     " corresponding strings.\n\n"
 ;
     return true;

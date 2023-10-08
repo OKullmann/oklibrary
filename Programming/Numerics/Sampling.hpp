@@ -747,7 +747,7 @@ namespace Sampling {
   }
 
 
-  const std::string scanning_prefix = "BBs";
+  const std::string scanning_prefix = "BBS";
   std::string scanning_output(const std::string& grid,
                               const std::string& script) {
     const std::string gridn =
