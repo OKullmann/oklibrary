@@ -331,25 +331,39 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -9. Extended output "lvs"
-   - Perhaps "+lvs" ? Better "lvs+". Or "ess" (for "essentials").
-   - For scanning, outputting the most important measures:
-    - lvs
-    - st
-    - nsel, nsuel
-    - t
-    - average rounds&pelvals for inner nodes and leaves :
+   - DONE Perhaps "+lvs" ? Better "lvs+". Or "ess" (for "essentials").
+   - DONE For scanning, outputting the most important measures:
+    - DONE lvs
+    - DONE st
+    - DONE nsel, nsuel
+    - DONE t
+    - DONE average rounds&pelvals for inner nodes and leaves :
         aroundsi, aroundsl, apelvalsi, apelvalsl
-    - average dp for inner nodes and leaves : adpi, adpl
-    - average estlvs&uestlvs : aestlvs, auestlvs
-    - standard deviation estlvs&uestlvs : sddestlvs, sdduestlvs
-    - average dm0 : adm0
-    - average w : aw
-    - average ltausp : altausp
-    - average minp, meanp, maxp, sdd : aminp, ameanp, amaxp, asddp
-    - minimum minp : minminp
-    - maximum maxp : maxmaxp
+    - DONE average dp for inner nodes and leaves : adpi, adpl
+    - DONE average estlvs&uestlvs : aestlvs, auestlvs
+    - DONE standard deviation estlvs&uestlvs : sddestlvs, sdduestlvs
+    - DONE average dm0 : adm0
+    - DONE average w : aw
+    - DONE average ltausp : altausp
+    - DONE average minp, meanp, maxp, sdd : aminp, ameanp, amaxp, asddp
+    - DONE minimum minp : minminp
+    - DONE maximum maxp : maxmaxp
+   - DONE We currently have the mode "single-valued" -- is this such a case?
+     Should we just add "ess" to Options::SIVA?
+     A problem with the formatting-options is that "ess" overwrites all
+     the others.
+     Perhaps only headers, negation, stop-info, stat-type, node-type are
+     ignored.
+     +headers is currently ignored anyway for single-values.
+     So we have as for single-values, but outputting several values;
+     likely using "select" for all the selected values.
    - For batch-mode (weights: cin), the empty input should trigger
      output of the column-names, space-separated.
+   - For now just using
+     "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl
+      aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp
+      aminp ameanp amaxp asddp minminp maxmaxp"
+     for BBSample.
 
 -8. In the help-text, break the overlong line for run-type:
    - Perhaps introducing a variation of Environment::WRPO,
@@ -594,6 +608,7 @@ terminate called after throwing an instance of 'std::invalid_argument'
 #include <ostream>
 #include <fstream>
 #include <string_view>
+#include <array>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -718,21 +733,28 @@ namespace {
     out << "\n";
   }
 
+  // Let the probability of leaf v be p(v) (either uniform or tau).
+  // Then the variance is sigma = (sum_v p(v) * prediction(v)^2) - lvs^2,
+  // where p(v) * prediction(v)^2 = p(v) * (p(v)^-2) = prediction(v).
+  std::array<LookaheadBranching::float_t, 2>
+  tauprob_variances(const laSR& res) noexcept {
+    using LookaheadBranching::float_t;
+    const float_t lvs = res.S[1].N();
+    const float_t variance = res.mS.sum()[0] - lvs*lvs,
+      uvariance = res.mS.sum()[1] - lvs*lvs;
+    const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs,
+      normalised_ustddev = FloatingPoint::sqrt(uvariance) / lvs;
+    return {normalised_stddev, normalised_ustddev};
+  }
+
   void rs(std::ostream& out, const laSR& res, const bool with_headers) {
     const auto state = FloatingPoint::fixed_width(out, precision);
     out << std::string(sep_spaces, ' ');
     rs_genstats(out, res);
-    {// Let the probability of leaf v be p(v) (either uniform or tau).
-     // Then the variance is sigma = (sum_v p(v) * prediction(v)^2) - lvs^2,
-     // where p(v) * prediction(v)^2 = p(v) * (p(v)^-2) = prediction(v).
-     const auto state =
+    {const auto state =
        FloatingPoint::engineering_width(out, precision_engineering);
-     using LookaheadBranching::float_t;
-     const float_t lvs = res.S[1].N();
-     const float_t variance = res.mS.sum()[0] - lvs*lvs,
-       uvariance = res.mS.sum()[1] - lvs*lvs;
-     const float_t normalised_stddev = FloatingPoint::sqrt(variance) / lvs,
-       normalised_ustddev = FloatingPoint::sqrt(uvariance) / lvs;
+     const auto [normalised_stddev, normalised_ustddev] =
+       tauprob_variances(res);
      out << " "; out.width(wnsel); out << normalised_stddev;
      out << " "; out.width(wnsel); out << normalised_ustddev;
      FloatingPoint::undo(out, state);
@@ -756,7 +778,7 @@ namespace {
   }
   void select(std::ostream& out, const laSR& res,
               const SIVA sv, const STAT st, const NOTY nt, const bool neg) {
-    assert(sv != SIVA::all);
+    assert(sv != SIVA::all and sv != SIVA::ess);
 
     const auto val = [&res,st,nt](const std::string& s){
       const auto i = ReductionStatistics::index(s);
@@ -817,13 +839,13 @@ namespace {
     case SIVA::pelvals : out << val("pelvals"); return;
     case SIVA::dp : out << val("dp"); return;
 
-    case SIVA::mu1 : out << valb("mu1"); return;
+    case SIVA::mu1 : out << valb("dm0"); return;
     case SIVA::w : out << valb("w"); return;
-    case SIVA::ltau : out << valb("ltau"); return;
+    case SIVA::ltau : out << valb("ltausp"); return;
     case SIVA::minp : out << valb("minp"); return;
     case SIVA::meanp : out << valb("meanp"); return;
     case SIVA::maxp : out << valb("maxp"); return;
-    case SIVA::sdd : out << valb("sdd"); return;
+    case SIVA::sdd : out << valb("sddp"); return;
     case SIVA::tb : out << valb("tb"); return;
 
     case SIVA::estlvs : out << valm("estlvs"); return;
@@ -986,6 +1008,57 @@ int main(const int argc, const char* const argv[]) {
                            outopt.stat(),outopt.node_type(),outopt.negated());
                     if (outopt.with_stop())
                       std::cout << " " << res.stopped;
+                    std::cout << std::endl;
+                    std::cout.precision(old);
+                  }
+                  else if (outopt.essentials()) {
+                    const auto old =
+                      FloatingPoint::fullprec_float80(std::cout);
+
+                    select(std::cout,res, SIVA::lvs, {},{},{});
+                    std::cout << " " << res.stopped << " ";
+                    Environment::out_line(std::cout, tauprob_variances(res));
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::t, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::rounds,{},NOTY::inode, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::rounds,{},NOTY::leaf, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::pelvals,{},NOTY::inode, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::pelvals,{},NOTY::leaf, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::dp,{},NOTY::inode, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::dp,{},NOTY::leaf, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::estlvs, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::estlvs,STAT::stddev, {},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::uestlvs, {},{}, {});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::uestlvs,STAT::stddev, {},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::mu1, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::w, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::ltau, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::minp, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::meanp, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::maxp, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::sdd, {},{},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::minp,STAT::min, {},{});
+                    std::cout << " ";
+                    select(std::cout,res, SIVA::maxp,STAT::max, {},{});
+
                     std::cout << std::endl;
                     std::cout.precision(old);
                   }

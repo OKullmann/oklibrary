@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,6 +53,10 @@ License, or any later version. */
      - struct OutputOptions: wrapper around output_options_t.
 
 TODOS
+
+-1. Rename SIVA::mu1 to SIVA::dm0.
+    Rename SIVA::ltau to SIVA::ltausp.
+    Rename SIVA::sdd to SIVA::sddp.
 
 0. Write documentation.
 
@@ -364,9 +368,10 @@ namespace Options {
     mu0=7,qfppc=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
       tr=14,pelvals=15,dp=16,
     mu1=17,w=18,ltau=19,minp=20,meanp=21,maxp=22,sdd=23,tb=24,
-    estlvs=25, uestlvs=26
+    estlvs=25, uestlvs=26,
+    ess=27
   };
-  constexpr int SIVAsize = int(SIVA::uestlvs) + 1;
+  constexpr int SIVAsize = int(SIVA::ess) + 1;
 
   // Additional specifications, ignored if not relevant:
   enum class NEG { off=0, on=1 };
@@ -383,7 +388,7 @@ namespace Options {
                      SIVA, NEG, STOP, STAT, NOTY>
     output_options_t;
 
-  // Adapt to output of single value:
+  // Adapt to output of single or essential values:
   output_options_t adapt(output_options_t in) noexcept {
     if (std::get<SIVA>(in) == SIVA::all) return in;
     std::get<Headers>(in) = HDS::off;
@@ -392,7 +397,7 @@ namespace Options {
 
   struct OutputOptions {
     const output_options_t options;
-    static void set_def(const bool bm) noexcept {
+    static void set_def(const bool bm) noexcept { // set default
       Info::set_def(bm); Weights::set_def(bm); Headers::set_def(bm);
       Computations::set_def(bm);
     }
@@ -413,16 +418,21 @@ namespace Options {
     bool with_tree() const noexcept {
       return std::get<TREE>(options) == TREE::on;
     }
-    SIVA values() const noexcept { return std::get<SIVA>(options); }
     bool negated() const noexcept {
       return std::get<NEG>(options) == NEG::on;
     }
-    bool single_valued() const noexcept { return values() != SIVA::all; }
     bool with_stop() const noexcept {
       return std::get<STOP>(options) == STOP::on;
     }
+
+    SIVA values() const noexcept { return std::get<SIVA>(options); }
     STAT stat() const noexcept { return std::get<STAT>(options); }
     NOTY node_type() const noexcept { return std::get<NOTY>(options); }
+
+    bool single_valued() const noexcept {
+      return values() != SIVA::all and values() != SIVA::ess;
+    }
+    bool essentials() const noexcept { return values() == SIVA::ess; }
   };
 
 
@@ -607,7 +617,8 @@ namespace Environment {
         "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
         "solc", "tr", "pelvals", "dp",
         "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
-        "estlvs", "uestlvs"};
+        "estlvs", "uestlvs",
+        "ess"};
   };
   template <> struct RegistrationPolicies<Options::NEG> {
     static constexpr const char* name = "negation-sign";
