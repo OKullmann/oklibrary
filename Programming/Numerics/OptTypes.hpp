@@ -299,6 +299,7 @@ namespace Optimisation {
     faulty_parameters = 2,
     write_error = 3,
     too_large_index = 4,
+    script_with_empty_input = 5,
   };
 
 

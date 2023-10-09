@@ -24,7 +24,9 @@ Adding the inputs:
 > cat data/blackbox/s_add
 input="$(cat -)"; echo "$input" | tr ' ' '+' | bc
 
-First (just) reproducing the inputs:
+First (just) reproducing the inputs (using grid g_2d, script s_cat,
+no randomisation (= no seeds), and 1 thread, and default-sorting on the
+last column):
 
 Numerics> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_cat "" 1
 BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746228118836801.R
@@ -47,7 +49,35 @@ Explanation:
 Input-dimension = 2, output-dimension = 2, index sorting = 3 (Y2),
 3*3 = 9 points, 0 seeds.
 
+With script-given column-names, and now sorting with on the first column:
+
+Numerics> cat data/blackbox/s_cat_names
+input="$(cat -)"
+if [ -z "$input" ]; then
+  echo "ABCD XYZ"
+else
+  echo "$input"
+fi
+
+Numerics> ./BBSample_debug data/blackbox/g_2d data/blackbox/s_cat_names "" 1 "" ""
+BBS_g5F2d_data2Fblackbox2Fs5Fcat5Fnames_1696819490229114920.R
+Numerics> cat BBS_g5F2d_data2Fblackbox2Fs5Fcat5Fnames_1696819490229114920.R
+# "./BBSample_debug" "data/blackbox/g_2d" "data/blackbox/s_cat_names" "" "1" "" ""
+# 2 2 2 9
+# 0 :
+ X1  X2  ABCD  XYZ
+ -1   1    -1    1
+ -1   2    -1    2
+ -1   3    -1    3
+0.5   1   0.5    1
+0.5   2   0.5    2
+0.5   3   0.5    3
+  2   1     2    1
+  2   2     2    2
+  2   3     2    3
+
 With randomisation:
+
 > ./BBSample_debug data/blackbox/g_2d data/blackbox/s_cat "0" 1
 BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746344955769638.R
 BBS_g5F2d_data2Fblackbox2Fs5Fcat_1696746344955769638.R
@@ -212,15 +242,6 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
-1. DONE As an optional argument, take the index of the Y-column
-   to be sorted.
-    - Default value is -1, which means the last argument.
-    - -2 is the penultimate, and so on.
-    - While 1 is the first one, and so on.
-    - DONE (no)
-      So the natural type perhaps is int?
-    - 0 means no sorting.
-
 */
 
 #include <iostream>
@@ -234,6 +255,7 @@ TODOS:
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Numerics/NumInOut.hpp>
 #include <Transformers/Generators/Bicliques/Algorithms.hpp>
+#include <SystemSpecifics/SystemCalls.hpp>
 
 #include "OptTypes.hpp"
 #include "Sampling.hpp"
@@ -241,8 +263,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "8.10.2023",
+        "0.3.0",
+        "9.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBSample.cpp",
@@ -261,12 +283,13 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " grid script seeds threads [sort-index=-1]\n\n"
+         << " grid script seeds threads [sort-index=-1] [output-names]\n\n"
     " grid           : " << "filename\n"
     " script         : " << "string\n"
     " seeds          : " << "sequence, can contain \"t\" or \"r\"\n"
     " threads        : " << "natural number >= 0\n"
-    " sort-index     : " << "integer\n\n"
+    " sort-index     : " << "integer\n"
+    " output-names   : " << "sequence of strings, space-separated\n\n"
     " applies the script to the points of the grid :\n\n"
     "  - if threads is \"+1\", then scanning is logged (stdout)\n"
     "  - the output is stored in file \"" << SP::scanning_prefix <<
@@ -276,8 +299,12 @@ namespace {
     "  - the final sorting-indices are N+1,...,N+M:\n"
     "    - N is the number of input-values, M is the number of output-values\n"
     "    - \"-1\" means the last index (N+M)\n"
-    "    - \"1\" means the first index (N+1)\n"
-    "    - \"0\" means no sorting.\n\n"
+    "    - \"1\" means the first index (N+1); obtained also from \"\"\n"
+    "    - \"0\" means no sorting\n"
+    "  - output-names can be the empty string:\n"
+    "    - this means getting the sequence from the script\n"
+    "    - via the empty input\n"
+    "  - output-names never trigger an error, but can only cause unnamed or empty columns.\n\n"
 ;
     return true;
   }
@@ -326,6 +353,14 @@ namespace {
       res.push_back(std::string("Y") + std::to_string(i));
     return res;
   }
+  std::vector<std::string> header(const index_t N,
+                                  const std::vector<std::string>& M) {
+    std::vector<std::string> res; res.reserve(N+M.size());
+    for (index_t i = 1; i <= N; ++i)
+      res.push_back(std::string("X") + std::to_string(i));
+    for (const auto& y : M) res.push_back(y);
+    return res;
+  }
 
   constexpr FP::Int_t default1_sorting_index = -1;
   constexpr FP::Int_t default2_sorting_index = 1;
@@ -353,6 +388,30 @@ namespace {
   }
   static_assert(determine_sorting_index(-2,2,2) == 2);
 
+  // boolean is true iff names are provided:
+  std::pair<std::vector<std::string>, bool>
+  read_names(const int argc, const char* const argv[],
+             const std::filesystem::path& script) {
+    if (argc <= 6) return {};
+    const std::string s = argv[6];
+    if (s.empty()) {
+      SystemCalls::Popen call(script);
+      const auto res = call.etransfer(SystemCalls::stringref_put(""));
+      if (res.rv.error()) {
+        std::cerr
+          << error << "read_names: calling " << script << " with empty input"
+          " results in return-value " << std::string(res.rv) << "\n";
+        if (not res.err.empty())
+          std::cerr
+            << "   Error-message:\n" << res.err << "\n";
+        std::exit(int(OS::Error::script_with_empty_input));
+      }
+      return {Environment::split_spaces(res.out), true};
+    }
+    else
+      return {Environment::split_spaces(s), true};
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -360,10 +419,11 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 5 and argc != 6) {
+  if (argc != 5 and argc != 6 and argc != 7) {
     std::cerr << error <<
       "Exactly four or five arguments (grid, script, seeds, threads,"
-      " [sorting-index]) needed, but " << argc-1 << " provided.\n";
+      " [sorting-index], [output-names]) needed, but " << argc-1
+              << " provided.\n";
     return int(OS::Error::missing_parameters);
   }
 
@@ -385,6 +445,7 @@ int main(const int argc, const char* const argv[]) {
       "Sorting-index is " << FP::mP263 << ".\n";
     return int(OS::Error::faulty_parameters);
   }
+  const auto [output_names, with_names] = read_names(argc, argv, script);
 
   const std::string output = SP::scanning_output(grid, script);
 
@@ -393,7 +454,8 @@ int main(const int argc, const char* const argv[]) {
     const index_t N = I.size();
     std::cout << "# ";
     Environment::args_output(std::cout, argc, argv);
-    std::cout << "\n# " << output << "\n# N=" << N <<
+    std::cout << "\n# " << output << "\n# N=" << N
+              << " M=" << output_names.size() <<
       " index=" << sorting_index << " #points=";
     OS::vec_t dummy(N);
     std::cout << size_scanning(std::get<0>(
@@ -431,7 +493,8 @@ int main(const int argc, const char* const argv[]) {
       std::ranges::stable_sort(matrix, [final_index]
         (const auto& x, const auto& y){return x[final_index] < y[final_index];});
     FP::fullprec_float80(outputs);
-    Environment::print2dformat(outputs, matrix, 2, header(N, M));
+    Environment::print2dformat(outputs, matrix, 2,
+      with_names ? header(N, output_names) : header(N, M));
   }
 
 }

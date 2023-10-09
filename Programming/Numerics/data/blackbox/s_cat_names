@@ -1,0 +1,6 @@
+input="$(cat -)"
+if [ -z "$input" ]; then
+  echo "ABCD XYZ"
+else
+  echo "$input"
+fi
