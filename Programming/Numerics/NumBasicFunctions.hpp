@@ -391,26 +391,26 @@ namespace FloatingPoint {
     template <class RAN>
     UInt_t operator ()(const RAN& r) const noexcept {
       UInt_t seed = r.size();
-      for (const auto x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <class RAN, class FUN>
     UInt_t apply(const RAN& r, const FUN& hash) const noexcept {
       UInt_t seed = r.size();
-      for (const auto x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <typename T>
     UInt_t operator ()(const std::initializer_list<T>& r) noexcept {
       UInt_t seed = r.size();
-      for (const auto x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <typename T, class FUN>
     UInt_t apply(const std::initializer_list<T>& r,
                  const FUN& hash) noexcept {
       UInt_t seed = r.size();
-      for (const auto x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
   };
