@@ -39,10 +39,14 @@ License, or any later version. */
       split(istream, char, char& final_character),
       split_cutoff(istream, char, char cutoff-character)
         all -> tokens_t
+
+      the above split exactly on the character given
     - split2(string, char1, char2) -> vector<tokens_t>
+      performs exact splitting on two levels
 
     Splitting on (strings of) space-symbols:
 
+    - split_spaces(string)
     - split2_spaces(string_view, char) -> vector<tokens_t>
     - split2_cutoff(istream, char, cutoff-character) -> vector<tokens_t>
       (removing all content from lines from cut-off-characters on)
@@ -331,6 +335,11 @@ namespace Environment {
     return s;
   }
 
+
+  tokens_t split_spaces(std::string s) {
+    transform_spaces_mod(s);
+    return split(s, ' ');
+  }
 
   // Secondary split on space-symbols, eliminating all whitespace otherwise:
   inline std::vector<tokens_t> split2_spaces(const std::string_view s,
@@ -801,7 +810,10 @@ namespace Environment {
   }
 
   // Print a ragged 2d-matrix M, using per column the maximum width needed
-  // for that column, plus seps many spaces for separation:
+  // for that column, plus seps many spaces for separation; all headers
+  // are always printed (without error); thus if there are too few, then
+  // there are unnamed columns, if there are too many, then there are
+  // empty columns:
   template <class VEC2d>
   void print2dformat(std::ostream& out, const VEC2d& M,
                      const std::string::size_type seps = 1,
