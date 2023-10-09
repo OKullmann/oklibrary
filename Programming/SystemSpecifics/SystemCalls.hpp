@@ -145,6 +145,9 @@ License, or any later version. */
 
 TODOS:
 
+-1. Is the member-function ReturnValue::error correct?
+    - Would "val != 0" alone be sufficient?
+
 0. Improve Popen:
     - It would make more sense to open the pipe (variable cin) only
       in the functions (e)transfer.
@@ -229,6 +232,10 @@ namespace SystemCalls {
       else if (exited) return ExitStatus::normal;
       else if (signaled) return ExitStatus::aborted;
       else return ExitStatus::stopped;
+    }
+
+    bool error() const noexcept {
+      return s != ExitStatus::normal or val != 0;
     }
 
     bool operator ==(const ReturnValue&) const noexcept = default;
