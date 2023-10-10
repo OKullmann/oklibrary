@@ -27,7 +27,7 @@
 
 # N=10:
 # ./gcMols 10 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 16 ""
-# XXX running on server2
+# aborted after 982096:49 min total runtime without finding a solution.
 
 
 # The best combinations need to be found out above (and below).
