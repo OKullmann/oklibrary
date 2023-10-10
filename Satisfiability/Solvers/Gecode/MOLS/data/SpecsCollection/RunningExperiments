@@ -1,11 +1,11 @@
-server:         0 running
+server:         1 running
+
+LVS/red_6_newv> BBSample
 
 
-server2:        1 running
+server2:        0 running
 
-1. Sudoku/p6bishop              N=10
-
-
+LVS/red_6_newv> BBSample
 
 
 server3:        0 running
