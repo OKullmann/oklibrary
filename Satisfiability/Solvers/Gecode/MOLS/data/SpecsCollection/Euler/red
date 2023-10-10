@@ -1020,8 +1020,27 @@
 # N=6:
 
 # Preparing complete RESTART:
+# First all combinations of 10 values per dimension (makes 10^5 samples):
 # LVS/red_6_newv> time BBSample S1 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
+#BBS_S1_2E2FSs1_1696830344459298331.R
+#real    1097m27.770s user    88815m0.141s sys     2950m0.145s
+# Analysis
+# E=read.table("BBS_S1_2E2FSs1_1696830344459298331.R", header=TRUE)
+# summary(E)
+# min-lvs=2520
+# viewing by E[E$lvs==2520,] : X1=0.5bar, X2=7.7bar, X3=-5.5bar, X4=3.3bar, X5 all 10 values)
+# Variable dependencies, viewing via plot(E$Xi, E$lvs):
+# Clearly X5 has no influence, and can be set to 0.
+# Considering only the interesting cases:
+# F = E[E$lvs<= 2700,]
+# nrow(F)
+# 840
+# Viewing plot(F$Xi, F$lvs):
+# X2: abline(v=-4:10) shows one can restrict to say X2 >= -4.
+# X3: abline(v=-10:-3) shows one can restrict to say X3 <= -2.
+# New approach:
+# LVS/red_6_newv> time BBSample S2 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
