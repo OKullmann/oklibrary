@@ -590,6 +590,10 @@ namespace Sampling {
   struct Computation_scanning {
     typedef FUN f_t;
     typedef VAL val_t;
+    typedef OS::index_t index_t;
+
+    inline static std::atomic<index_t> counter;
+    static index_t inc() noexcept { return ++counter; }
 
     const f_t& f;
     const OS::vec_t* const input;
@@ -605,6 +609,7 @@ namespace Sampling {
 
     void operator()() const noexcept {
       *output = f(*input);
+      inc();
       if (next) next->operator()();
     }
   };
@@ -641,7 +646,9 @@ namespace Sampling {
     }
     else {
       outputs.resize(size);
-      std::vector<Computation_scanning<FUN, VAL>> computations;
+      using Computation = Computation_scanning<FUN, VAL>;
+      Computation::counter = 0;
+      std::vector<Computation> computations;
       computations.reserve(size);
       for (index_t i = 0; i < size; ++i)
         computations.emplace_back(f, &inputs[i], &outputs[i]);
@@ -657,6 +664,7 @@ namespace Sampling {
         assert(t.joinable());
         t.join();
       }
+      assert(Computation::counter == size);
     }
     assert(inputs.size() == size and outputs.size() == size);
     return {std::move(inputs), std::move(outputs)};

@@ -242,6 +242,20 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
+1. Progress monitor
+    - DONE Create atomic counter like
+unsigned counter() {
+  static std::atomic<unsigned> counter{0};
+  return counter.fetch_add(1, std::memory_order_relaxed) + 1;
+}
+    - Every computation-object has a reference to a list (set) with the given
+      monitoring points (the counts say for 10%, 20%, ...).
+    - Before finishing, the atomic counter is incremented, and it is checked
+      whether the new value is element of that list, in which case the counter
+      and the current date-time is printed (no synchronisation needed).
+    - Another optional argument is needed, which has the number of break-points
+      (default is 10; 0 means no output).
+
 */
 
 #include <iostream>
@@ -263,8 +277,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.0",
-        "9.10.2023",
+        "0.3.1",
+        "10.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBSample.cpp",
