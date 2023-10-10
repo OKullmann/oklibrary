@@ -242,6 +242,9 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
+0. Likely when no randomisation is required, then the seed-argument
+   must be empty (otherwise an error-message).
+
 1. Progress monitor
     - DONE Create atomic counter like
 unsigned counter() {
@@ -255,6 +258,8 @@ unsigned counter() {
       and the current date-time is printed (no synchronisation needed).
     - Another optional argument is needed, which has the number of break-points
       (default is 10; 0 means no output).
+      Actually, since for 0% as well as 100% no output is required, "10" should
+      actually mean 9 outputs (for 10%, ..., 90%).
 
 */
 
