@@ -86,6 +86,17 @@ License, or any later version. */
   Generic wrapper:
    - template class WrapE<FLOAT>.
 
+TODOS:
+
+1. Provide float128 as std::float128_t
+  - Provided by <stdfloat> (C++23).
+    https://en.cppreference.com/w/cpp/header/stdfloat
+  - Apparently with gcc 13.2 this is available.
+  - First duplicate all float80-functionality.
+  - The assumption is that float128 uses the same memory as float80,
+    and should be faster.
+  - So that it should become our standard floating-point type.
+
 */
 
 #ifndef NUMTYPES_87bJ65ZkQQ
