@@ -486,6 +486,14 @@ namespace Sampling {
   // The basic lockstep-iterator, plus begin and end:
   typedef std::tuple<std::vector<StdLockstep>, vit_t, vit_t> scanning_t;
 
+  // Returning true iff all members of x are either fixed values, or
+  // sample equidistantly and not via hypercube-sampling:
+  bool not_randomised(const OS::evec_t& x) noexcept {
+    for (const FP::F80ai& v : x)
+      if (v.isint and (not FP::signbit(v.x) or v.hase0)) return false;
+    return true;
+  }
+
   // Creates the scanning-vectors, as a kind of range:
   scanning_t prepare_scanning(
       const OS::evec_t& x, const OS::list_intervals_t& I,
@@ -720,7 +728,8 @@ namespace Sampling {
                           RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0, const TRANS& T,
                           const OS::index_t threads,
-                          std::ostream* const log = nullptr) {
+                          std::ostream* const log = nullptr,
+                          const bool check_randomness = false) {
     const auto si = OS::read_scanning_info(in);
     if (rand) {
       const auto [seed1, seed2] = hash2(si);
@@ -729,8 +738,14 @@ namespace Sampling {
     }
     typedef call_script<TRANS> script_t;
     const script_t script(script0, T);
-    typedef typename script_t::result_type result_type;
     const auto& [I,x] = si;
+    if (check_randomness and not seeds.empty() and not_randomised(x)) {
+      std::ostringstream ss;
+      ss << "Sampling::perform_scanning_script: non-empty seed sequence, but"
+        " definitely grid not randomised.\n";
+      throw std::runtime_error(ss.str());
+    }
+    typedef typename script_t::result_type result_type;
     return perform_scanning<result_type>(x,I,seeds,rand,script,threads,log);
   }
 
@@ -748,10 +763,12 @@ namespace Sampling {
                           RandGen::vec_eseed_t& seeds, const bool rand,
                           const std::string& script0,
                           const OS::index_t threads,
-                          std::ostream* const log = nullptr) {
+                          std::ostream* const log = nullptr,
+                          const bool check_randomness = false) {
     return
       perform_scanning_script(in, seeds, rand, script0,
-                              string2vec_t{}, threads, log);
+                              string2vec_t{}, threads, log,
+                              check_randomness);
   }
 
 

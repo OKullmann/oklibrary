@@ -242,7 +242,7 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
-0. Likely when no randomisation is required, then the seed-argument
+0. DONE Likely when no randomisation is required, then the seed-argument
    must be empty (otherwise an error-message).
 
 1. Progress monitor
@@ -282,7 +282,7 @@ unsigned counter() {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
+        "0.3.2",
         "10.10.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -470,6 +470,11 @@ int main(const int argc, const char* const argv[]) {
 
   if (threads == 0) { // dry run
     const auto [I,x] = OS::read_scanning_info(grids);
+    if (randomised and SP::not_randomised(x)) {
+      std::cerr << error <<
+        "non-empty seed sequence, but definitely grid not randomised.\n";
+      return int(OS::Error::faulty_parameters);
+    }
     const index_t N = I.size();
     std::cout << "# ";
     Environment::args_output(std::cout, argc, argv);
@@ -496,7 +501,8 @@ int main(const int argc, const char* const argv[]) {
     const auto [X,FX] =
       SP::perform_scanning_script(grids, seeds, randomised,
                                   script, threads,
-                                  logging ? &std::cout : nullptr);
+                                  logging ? &std::cout : nullptr,
+                                  true);
     if (X.empty()) return 0;
     const auto size = X.size();
     assert(size == FX.size());
