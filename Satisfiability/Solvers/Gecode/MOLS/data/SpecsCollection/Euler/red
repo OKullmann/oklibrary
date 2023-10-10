@@ -1038,9 +1038,13 @@
 # Viewing plot(F$Xi, F$lvs):
 # X2: abline(v=-4:10) shows one can restrict to say X2 >= -4.
 # X3: abline(v=-10:-3) shows one can restrict to say X3 <= -2.
-# New approach:
-# LVS/red_6_newv> time BBSample S2 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# The same grid, but +-randomised:
+# LVS/red_6_newv> time BBSample S1p ./Ss1 0 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
+
+# More restricted, finer grid (with 20^4 = 160000 samples):
+# LVS/red_6_newv> time BBSample S2 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
