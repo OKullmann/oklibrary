@@ -658,8 +658,11 @@ namespace Sampling {
       Computation::counter = 0;
       std::vector<Computation> computations;
       computations.reserve(size);
-      for (index_t i = 0; i < size; ++i)
-        computations.emplace_back(f, &inputs[i], &outputs[i]);
+      {const auto permutation =
+          RandGen::random_permutation<std::vector<size_t>>(size, {size});
+       for (const index_t i : permutation)
+         computations.emplace_back(f, &inputs[i], &outputs[i]);
+      }
       assert(computations.size() == size);
       for (index_t i = 0; i+threads < size; ++i)
         computations[i].next = &computations[i+threads];

@@ -242,9 +242,6 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
-0. DONE Likely when no randomisation is required, then the seed-argument
-   must be empty (otherwise an error-message).
-
 1. Progress monitor
     - DONE Create atomic counter like
 unsigned counter() {
@@ -282,8 +279,8 @@ unsigned counter() {
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "10.10.2023",
+        "0.3.3",
+        "11.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/BBSample.cpp",
