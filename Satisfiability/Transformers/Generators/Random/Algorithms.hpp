@@ -10,6 +10,7 @@ License, or any later version. */
     - shuffle for shuffling a sequence:
         shuffle(RAI begin, RAI end, randgen_t&(&) g)
         shuffle(RAI begin, RAI end, RandGen_t&(&) g)
+        shuffle_seed(RAI begin, RAI end, const vec_eseed_t& seeds)
     - random_permutation for creating a random permutation of size N:
         random_permutation(gen_uint_t N, const vec_eseed_t& seeds) -> VEC
     - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1:
@@ -115,6 +116,13 @@ namespace RandGen {
   inline void shuffle(const RAI begin, const RAI end, RandGen_t&& g) noexcept {
     RandGen::shuffle(begin, end, g);
   }
+
+  template <class RAI>
+  inline void shuffle_seeds(const RAI begin, const RAI end,
+                            const vec_eseed_t& seeds) noexcept {
+    RandGen::shuffle(begin, end, RandGen_t(seeds));
+  }
+
 
   template <class VEC>
   VEC random_permutation(const gen_uint_t N, const vec_eseed_t& seeds) {

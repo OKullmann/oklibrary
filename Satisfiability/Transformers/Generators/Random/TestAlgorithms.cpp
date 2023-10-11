@@ -18,14 +18,19 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "10.7.2023",
+        "0.4.0",
+        "11.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/Algorithms.cpp",
         "GPL v3"};
 
   using namespace RandGen;
+
+  template <class X>
+  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+    return lhs == rhs;
+  }
 
 }
 
@@ -67,6 +72,10 @@ int main(const int argc, const char* const argv[]) {
    g.seed(); gcopy.seed();
    assert(g == gcopy);
    assert(g == randgen_t(specseed));
+  }
+  {std::vector v{1,2,3,4,5,6,7};
+   shuffle_seeds(v.begin(), v.end(), {});
+   assert(eqp(v, {7,4,3,5,6,2,1}));
   }
 
   {typedef std::vector<unsigned> v_t;
