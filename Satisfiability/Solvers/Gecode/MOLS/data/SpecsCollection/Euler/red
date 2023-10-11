@@ -1021,7 +1021,7 @@
 
 # Preparing complete RESTART:
 # First all combinations of 10 values per dimension (makes 10^5 samples):
-# LVS/red_6_newv> time BBSample S1 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_newv> time BBSample S1 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S1_2E2FSs1_1696830344459298331.R
 #real    1097m27.770s user    88815m0.141s sys     2950m0.145s
 # Analysis
@@ -1045,7 +1045,7 @@
 # Analysis: XXX
 
 # More restricted, finer grid (with 20^4 = 160000 samples):
-# LVS/red_6_newv> time BBSample S2 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_newv> time BBSample S2 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S2_2E2FSs1_1696903197127869352.R
 #real    1555m9.610s user    116728m6.601s sys     3889m29.507s
 # min-lvs=2472
@@ -1060,7 +1060,7 @@
 #7 0.68421053 10.000000 -4.526316 1.578947  0 2472  0 1.095004 1.270023 35.39092
 
 # Again restricting the grid, focussing on the best lvs-value:
-# LVS/red_6_newv> time BBSample S3 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_newv> time BBSample S3 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 
