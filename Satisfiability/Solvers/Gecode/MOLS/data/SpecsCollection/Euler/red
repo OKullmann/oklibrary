@@ -1040,10 +1040,27 @@
 # X3: abline(v=-10:-3) shows one can restrict to say X3 <= -2.
 # The same grid, but +-randomised:
 # LVS/red_6_newv> time BBSample S1p ./Ss1 0 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S1p_2E2FSs1_1696946105117725456.R
+#real    828m45.311s user    82151m24.466s sys     5687m37.781s
+# Analysis: XXX
 
 # More restricted, finer grid (with 20^4 = 160000 samples):
 # LVS/red_6_newv> time BBSample S2 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S2_2E2FSs1_1696903197127869352.R
+#real    1555m9.610s user    116728m6.601s sys     3889m29.507s
+# min-lvs=2472
+#> E[E$lvs == 2472,]
+#          X1        X2        X3       X4 X5  lvs st     nsel    nsuel        t
+#1 0.05263158  4.105263 -5.789474 2.631579  0 2472  0 1.114060 1.270023 38.97149
+#2 0.15789474  4.842105 -4.947368 1.578947  0 2472  0 1.107372 1.270023 45.47432
+#3 0.26315789  5.578947 -5.368421 2.631579  0 2472  0 1.087964 1.270023 35.32696
+#4 0.26315789  5.578947 -4.947368 1.578947  0 2472  0 1.109539 1.270023 41.62062
+#5 0.36842105  6.315789 -5.368421 2.631579  0 2472  0 1.087626 1.270023 34.28582
+#6 0.36842105  6.315789 -4.947368 1.578947  0 2472  0 1.111101 1.270023 39.65117
+#7 0.68421053 10.000000 -4.526316 1.578947  0 2472  0 1.095004 1.270023 35.39092
+
+# Again restricting the grid, focussing on the best lvs-value:
+# LVS/red_6_newv> time BBSample S3 ./Ss1 0 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 
