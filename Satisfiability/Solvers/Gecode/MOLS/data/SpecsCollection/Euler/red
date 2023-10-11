@@ -1042,7 +1042,7 @@
 # LVS/red_6_newv> time BBSample S1p ./Ss1 0 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S1p_2E2FSs1_1696946105117725456.R
 #real    828m45.311s user    82151m24.466s sys     5687m37.781s
-# Analysis: XXX
+# Analysis: seems similar to the equidistant case (without better insights).
 
 # More restricted, finer grid (with 20^4 = 160000 samples):
 # LVS/red_6_newv> time BBSample S2 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
@@ -1062,6 +1062,9 @@
 # Again restricting the grid, focussing on the best lvs-value:
 # LVS/red_6_newv> time BBSample S3 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
+# The same grid, but +-randomised:
+# LVS/red_6_newv> time BBSample S3p ./Ss1 "" 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
