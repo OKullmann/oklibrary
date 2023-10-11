@@ -11,6 +11,43 @@ License, or any later version. */
 
   Namespace Measures, abbreviated "MS".
 
+  Imported typedefs:
+
+   - size_t = CD::size_t
+   - VarVec = GcVariables::VarVec
+   - domsizes_t = GcVariables::domsizes_t
+   - float_t = FP::float80
+
+  Helper functions:
+
+   - tr(int) -> size_t (translating int to size_t, possibly checked)
+   - mumi(VarVec) -> float_t (number of unassigned variables)
+
+  Logarithmic weights
+
+   - wmuld(size_t) -> float_t
+
+  Measures:
+
+   - wnumvars(VarVec, weights_t*) -> float_t
+   - wnumvars(domsizes_t, weights_t*) -> float_t
+
+   - typedef canonical_measures_t = array<float_t, 3>
+     component 0 : mu0 = sum of (domain-size - 1)
+     component 1 : mu1 = sum of binary logarithms of domain-size
+     component 2 : mu2 = number of unassigned variables
+
+   Special cases:
+    - muap(VarVec) -> float_t
+    - muap(domsizes_t) -> float_t
+    - muld(VarVec) -> float_t
+    - muld(domsizes_t) -> float_t
+
+  Distances:
+
+   - new_vars(VarVec, VarVec, weights_t*, size_t) -> float)t
+   - new_vars(domsizes_t, VarVec, weights_t*, size_t) -> float)t
+
 */
 
 #ifndef MEASURES_MzdnyXKN5C
@@ -55,23 +92,22 @@ namespace Measures {
 
 
   // The logarithmic weights:
-  typedef FP::float80 muld_t;
   constexpr size_t N_muld = 100;
   static_assert(N_muld >= 10);
-  typedef std::array<muld_t, N_muld+1> given_wmuld_t;
-  consteval given_wmuld_t init_wmuld() noexcept {
-    static_assert(std::is_same_v<muld_t, FP::float80>);
-    given_wmuld_t res; res[0] = FP::minfinity;
+  typedef std::array<float_t, N_muld+1> given_wfloat_t;
+  consteval given_wfloat_t init_wmuld() noexcept {
+    static_assert(std::is_same_v<float_t, FP::float80>);
+    given_wfloat_t res; res[0] = FP::minfinity;
     for (size_t i = 2; i <= N_muld; ++i) res[i] = FP::log2(i);
     return res;
   }
-  constexpr given_wmuld_t given_wmuld = init_wmuld();
+  constexpr given_wfloat_t given_wmuld = init_wmuld();
   static_assert(given_wmuld.size() == N_muld+1);
   static_assert(given_wmuld[0] == FP::minfinity);
   static_assert(given_wmuld[1] == 0); static_assert(given_wmuld[2] == 1);
   static_assert(given_wmuld[4] == 2);
-  constexpr muld_t wmuld(const size_t i) noexcept {
-    static_assert(std::is_same_v<muld_t, FP::float80>);
+  constexpr float_t wmuld(const size_t i) noexcept {
+    static_assert(std::is_same_v<float_t, FP::float80>);
     return i <= N_muld ? given_wmuld[i] : FP::log2(i);
   }
   static_assert(wmuld(0) == FP::minfinity); static_assert(wmuld(8) == 3);
@@ -123,14 +159,14 @@ namespace Measures {
     return sum;
   }
 
-  // The number of non-assigned variables:
+  // The number of unassigned variables:
   float_t mumi(const VarVec& V) noexcept { // mu2
     const int size = V.size(); float_t sum = 0;
     for (int v = 0; v < size; ++v) sum += tr(V[v].size(), 1) > 1;
     return sum;
   }
   typedef std::array<float_t, 3> canonical_measures_t;
-  canonical_measures_t muall(const VarVec& V) noexcept { // mu0-2
+  canonical_measures_t muall(const VarVec& V) noexcept { // mu0/1/2
     const int size = V.size(); canonical_measures_t res;
     res[0] = - float_t(size);
     for (int v = 0; v < size; ++v) {
