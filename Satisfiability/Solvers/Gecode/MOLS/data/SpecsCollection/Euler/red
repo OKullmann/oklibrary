@@ -1084,6 +1084,32 @@
 #3 0.05501868 0.1127543 0.8055675
 # The same grid as S3, but +-randomised:
 # LVS/red_6_newv> time BBSample S3p ./Ss1 1 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S3p_2E2FSs1_1697059043337545066.R
+#real    1116m23.239s user    102849m35.896s sys     6380m45.938s
+# min-lvs=2424
+#> E[E$lvs == 2424,]
+#           X1       X2        X3       X4 X5  lvs st     nsel    nsuel        t
+#1 0.003712721 5.464380 -5.014941 2.567417  0 2424  0 1.046034 1.125054 37.08478
+#2 0.096886518 5.464380 -5.169033 2.763057  0 2424  0 1.039764 1.125054 37.69431
+#3 0.096886518 5.579850 -5.169033 2.763057  0 2424  0 1.041427 1.125054 38.11472
+#4 0.096886518 5.927015 -5.014941 2.567417  0 2424  0 1.044319 1.125054 30.33280
+#  aroundsi aroundsl apelvalsi apelvalsl     adpi     adpl  aestlvs sddestlvs
+#1 1.801576 1.124587  5.075409  19.36363 6.976356 8.618812 5076.307  5149.810
+#2 1.799722 1.121287  5.100398  19.36393 6.976356 8.618812 5044.610  5065.579
+#3 1.801576 1.126650  5.076956  19.36835 6.976356 8.618812 5052.999  5084.069
+#4 1.805285 1.125000  5.137973  19.39024 6.976356 8.618812 5067.622  5123.890
+#  auestlvs sdduestlvs     adm0       aw   altausp     aminp    ameanp     amaxp
+#1 5492.172   5145.612 42.44784 2.123319  9.912034 0.4266812 0.4828852 0.5390845
+#2 5492.172   5145.612 42.44784 2.123319 10.270560 0.4269574 0.4828852 0.5388018
+#3 5492.172   5145.612 42.44784 2.123319 10.344056 0.4268855 0.4828852 0.5388749
+#4 5492.172   5145.612 42.44784 2.123319  9.866726 0.4267947 0.4828852 0.5389691
+#       asddp   minminp   maxmaxp
+#1 0.05528175 0.1126645 0.8045187
+#2 0.05499998 0.1126904 0.8053818
+#3 0.05507268 0.1126373 0.8053317
+#4 0.05516715 0.1125965 0.8045508
+# The same grid as S3, but u-randomised:
+# LVS/red_6_newv> time BBSample S3u ./Ss1 0 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
 # A final refinement of the grid (focussing on the best lvs-values):
