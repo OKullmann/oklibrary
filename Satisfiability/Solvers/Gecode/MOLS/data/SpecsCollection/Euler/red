@@ -1061,10 +1061,34 @@
 
 # Again restricting the grid, focussing on the best lvs-value:
 # LVS/red_6_newv> time BBSample S3 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
-# The same grid, but +-randomised:
+#BBS_S3_2E2FSs1_1696999984341381294.R
+#real    1312m28.440s user    104462m16.859s sys     3102m13.652s
+# Analysis:
+# min-lvs=2424
+#> E[E$lvs == 2424,]
+#          X1       X2        X3       X4 X5  lvs st     nsel    nsuel        t
+#1 0.00000000 4.947368 -5.263158 2.894737  0 2424  0 1.041891 1.125054 35.09473
+#2 0.07368421 5.263158 -5.263158 2.894737  0 2424  0 1.039469 1.125054 39.95221
+#3 0.14736842 5.894737 -5.157895 2.789474  0 2424  0 1.039641 1.125054 36.74104
+#  aroundsi aroundsl apelvalsi apelvalsl     adpi     adpl  aestlvs sddestlvs
+#1 1.801576 1.121287  5.086191  19.35642 6.976356 8.618812 5055.339  5093.322
+#2 1.801576 1.128713  5.091831  19.35748 6.976356 8.618812 5043.122  5060.640
+#3 1.801576 1.121287  5.085419  19.35642 6.976356 8.618812 5043.988  5060.964
+#  auestlvs sdduestlvs     adm0       aw  altausp     aminp    ameanp     amaxp
+#1 5492.172   5145.612 42.44784 2.123319 10.71839 0.4267694 0.4828852 0.5389920
+#2 5492.172   5145.612 42.44784 2.123319 10.62909 0.4269173 0.4828852 0.5388414
+#3 5492.172   5145.612 42.44784 2.123319 10.28503 0.4269380 0.4828852 0.5388215
+#       asddp   minminp   maxmaxp
+#1 0.05518803 0.1128199 0.8058237
+#2 0.05503849 0.1127687 0.8058793
+#3 0.05501868 0.1127543 0.8055675
+# The same grid as S3, but +-randomised:
 # LVS/red_6_newv> time BBSample S3p ./Ss1 1 20 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
+
+# A final refinement of the grid (focussing on the best lvs-values):
+# LVS/red_6_newv> time BBSample S4 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
