@@ -1170,6 +1170,13 @@
 # Clearly the best lvs-value don't have the best nsel-values (however they have the best
 # nsuel-values).
 # LVS/red_6_newv> time BBSample Sopt_3 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F3_2E2FSs1_1697286015863857095.R
+#real    141m36.044s user    12714m12.120s sys     441m39.968s
+# X3-values <= 0 are all quite good, with the optimum lvs=2424 attained
+# exactly for the 12 values -5.268 <= X3 <= -5.246; a "phase transition"
+# at about X3=-0.5, where then the lvs reaches quickly around 9000 (and then
+# becomes kind of constant).
+# LVS/red_6_newv> time BBSample Sopt_4 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 # New distance newv-degm:
