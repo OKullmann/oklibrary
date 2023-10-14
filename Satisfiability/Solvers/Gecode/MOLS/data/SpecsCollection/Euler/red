@@ -1172,6 +1172,13 @@
 # LVS/red_6_newv> time BBSample Sopt_3 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
+# New distance newv-degm:
+# First all combinations of 11 values per dimension (makes 11^5 samples):
+# LVS/red_6_newvdegm> time BBSample S1 ./Ss1 "" 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
+
+
+
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
 # Best, and only one succeeding: enu
 # laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
