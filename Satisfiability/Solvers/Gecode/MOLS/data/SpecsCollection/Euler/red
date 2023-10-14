@@ -1129,6 +1129,34 @@
 
 # Considering the dependency on the 5 dimensions for one solution realising lvs=2424:
 # LVS/red_6_newv> time BBSample Sopt_1 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F1_2E2FSs1_1697244473890864200.R
+#real    74m20.207s user    6805m30.352s sys     196m4.315s
+# new minimum lvs=2406
+#> E[E$lvs == 2406,]
+#     X1  X2    X3   X4 X5  lvs st     nsel    nsuel        t aroundsi aroundsl
+#1 -0.01 4.9 -5.26 2.89  0 2406  0 1.050028 1.125869 36.52983 1.808034 1.121779
+#  apelvalsi apelvalsl    adpi     adpl  aestlvs sddestlvs auestlvs sdduestlvs
+#1  5.130497  19.43571 6.96964 8.611804 5058.754  5111.215   5455.8   5085.353
+#      adm0       aw  altausp     aminp    ameanp     amaxp      asddp  minminp
+#1 42.40262 2.123774 10.72136 0.4268654 0.4828351 0.5387905 0.05504446 0.112822
+#    maxmaxp
+#1 0.8058046
+# A sharp minimum for X1=-0.01.
+# This minimum is not reproducible by calling laMols directly, also not with
+# the exact values given in the file (also not e.g. the nsel,nsuel,adm0,aw-values,
+# where these values show quite a huge difference), and on the same machine.
+# Rerunning yields numerical differences in the last digits, and minimum now 2424:
+#BBS_Sopt5F1_2E2FSs1_1697272697682875019.R
+# Again a sharp minimum, 90 X1-values yielding the minimum, exactly the interval
+# [-0.0152, 0.0204]
+# (midpoint = 0.0026)
+# To the left mostly constant, to the right sharp increase until X1=1, where
+# it flattens.
+#> summary(E2$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2424    2640    2640    3034    3724    3828
+# (The first file shows the same, except for Min=2406.)
+# LVS/red_6_newv> time BBSample Sopt_2 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 
