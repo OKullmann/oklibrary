@@ -1110,11 +1110,23 @@
 #4 0.05516715 0.1125965 0.8045508
 # The same grid as S3, but u-randomised:
 # LVS/red_6_newv> time BBSample S3u ./Ss1 0 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S3u_2E2FSs1_1697132774560559856.R
+# No real difference seems visible.
+
+# A further refinement of the grid (focussing on the best lvs-values):
+# LVS/red_6_newv> time BBSample S4 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S4_2E2FSs1_1697092492778080226.R
+#real    1266m32.333s user    100344m10.787s sys     2972m53.588s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2424    2544    2640    2619    2672    2984
+# > nrow(E[E$lvs == 2424,])
+# [1] 208
+
+# A final refinement of the grid, now using lh-sampling:
+# LVS/red_6_newv> time BBSample S5LH ./Ss1 0 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
-# A final refinement of the grid (focussing on the best lvs-values):
-# LVS/red_6_newv> time BBSample S4 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""

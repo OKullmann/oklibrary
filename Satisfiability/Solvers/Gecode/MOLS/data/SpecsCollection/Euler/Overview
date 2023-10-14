@@ -51,7 +51,7 @@ N=6:
     - optimisation on ave+sd:    3'856 (reps=100)
 
  - laMols with newvars:
-  - optimisation on lvs: 2'520
+  - optimisation on lvs: 2'424
   - optimisation on tau-probs: 2'796 (reps=100)
     - optimisation on ave+sd:  2'720 (reps=100)
   - optimisation on uni-probs: 2'720 (reps=100)
