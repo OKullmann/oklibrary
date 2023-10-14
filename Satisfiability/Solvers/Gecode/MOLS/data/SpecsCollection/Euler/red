@@ -1123,9 +1123,16 @@
 # > nrow(E[E$lvs == 2424,])
 # [1] 208
 
-# A final refinement of the grid, now using lh-sampling:
+# A final refinement of the grid, now using lh-sampling (but equidistant):
 # LVS/red_6_newv> time BBSample S5LH ./Ss1 0 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S5LH_2E2FSs1_1697243623203070823.R
+#real    694m59.839s user    84342m53.644s sys     2785m52.792s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2424    2544    2640    2597    2640    2672
+#> nrow(E[E$lvs == 2424,])
+#[1] 676
+# Now a very narrow spectrum, looking somewhat random.
 
 # Considering the dependency on the 5 dimensions for one solution realising lvs=2424:
 # LVS/red_6_newv> time BBSample Sopt_1 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
@@ -1157,9 +1164,13 @@
 #   2424    2640    2640    3034    3724    3828
 # (The first file shows the same, except for Min=2406.)
 # LVS/red_6_newv> time BBSample Sopt_2 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F2_2E2FSs1_1697281000159626816.R
+#real    72m1.172s user    6594m9.987s sys     192m59.224s
+# Also shows a local (global) minimum for the given values.
+# Clearly the best lvs-value don't have the best nsel-values (however they have the best
+# nsuel-values).
+# LVS/red_6_newv> time BBSample Sopt_3 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
-
-
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
 # Best, and only one succeeding: enu
