@@ -1127,6 +1127,10 @@
 # LVS/red_6_newv> time BBSample S5LH ./Ss1 0 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
+# Considering the dependency on the 5 dimensions for one solution realising lvs=2424:
+# LVS/red_6_newv> time BBSample Sopt_1 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server XXX
+
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
