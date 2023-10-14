@@ -30,7 +30,7 @@ License, or any later version. */
     Lookahead-branching for laMols:
      - LBRT branching-type (lookahead-brt) enu, bin; plus later binbal
      - LBRO branching-order asc, desc, ascd, descd, rand, tauprobfirst
-     - DIS distance deltaL, wdeltaL, newvars
+     - DIS distance wdeltaL, newvars, wdeltaL_degm, newvars_degm
      - SPW special-weights other, zero, one, ap, ld
      - EXW weights for experiments rand, asc, desc
 
@@ -308,9 +308,20 @@ namespace Options {
 
   enum class DIS {
     wdeltaL = 0,
-    newvars = 1
+    newvars = 1,
+    wdeltaL_degm = 2,
+    newvars_degm = 3
   };
-  constexpr int DISsize = int(DIS::newvars) + 1;
+  constexpr int DISsize = int(DIS::newvars_degm) + 1;
+  constexpr bool is_deltaL(const DIS d) noexcept {
+    return d == DIS::wdeltaL or d == DIS::wdeltaL_degm;
+  }
+  constexpr bool is_newv(const DIS d) noexcept {
+    return d == DIS::newvars or d == DIS::newvars_degm;
+  }
+  constexpr bool deltaL_or_newv(const DIS d) noexcept {
+    return is_deltaL(d) or is_newv(d);
+  }
 
   enum class SPW { // special patterns for weights
     other=0,
@@ -548,9 +559,11 @@ namespace Environment {
     static constexpr const char* sname = "dis";
     static constexpr int size = Options::DISsize;
     static constexpr std::array<const char*, size>
-      string {"wdL", "newv"};
+      string {"wdL", "newv", "wdL-degm", "newv-degm"};
     static constexpr std::array<const char*, size>
-      estring {"weighted-delta-literals", "new-variables"};
+      estring {"weighted-delta-literals", "new-variables",
+        "weighted-delta-literals-degree-multiplied",
+        "new-variables-degree-multiplied"};
   };
   template <> struct RegistrationPolicies<Options::SPW> {
     static constexpr const char* name = "special-weights";

@@ -118,7 +118,6 @@ TODOS:
 #include <utility>
 #include <ostream>
 #include <iostream>
-#include <functional>
 #include <algorithm>
 #include <initializer_list>
 #include <map>
@@ -169,6 +168,8 @@ namespace LookaheadBranching {
   using float_t = MS::float_t;
 
   using VarVec = GV::VarVec;
+  using measure_t = MS::measure_t;
+  using distance_t = MS::distance_t;
 
   typedef std::vector<float_t> vec_t;
 
@@ -743,9 +744,6 @@ namespace LookaheadBranching {
   };
 
 
-  typedef std::function<float_t(const VarVec&)> measure_t;
-  typedef std::function<float_t(const VarVec&)> distance_t;
-
   template <class SPA>
   float_t branch_distance(SPA* const m, const int v, const int val,
                          const bool equal,
@@ -800,6 +798,7 @@ namespace LookaheadBranching {
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols2& s = static_cast<CT::GenericMols2&>(s0);
       const GV::domsizes_t V0 = GV::domsizes(s.V);
+      const GV::degrees_t V0deg = GV::degrees(s.V);
 
       auto stats0 = LR::lareduction(&s, P.rt, P.lar);
       {MeasureStatistics mstats(s);
@@ -825,21 +824,20 @@ namespace LookaheadBranching {
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity, worsttau = FP::minfinity;
       vec_t optbt;
-      const float_t mu0 = P.d == OP::DIS::wdeltaL ?
-        MS::wnumvars(V0, weights) : 0;
-      const distance_t d = P.d == OP::DIS::newvars ?
-        distance_t([this,V0,depth](const VarVec& nV){
-                     return MS::new_vars(V0, nV, weights, depth);}) :
-        distance_t([this,mu0](const VarVec& nV){
-                     return mu0 - MS::wnumvars(nV, weights);});
+
+      assert(OP::deltaL_or_newv(P.d));
+      const float_t mu0 = MS::initial_measure(V0,V0deg,weights, P.d);
+      const distance_t dist =
+        MS::distance_choice(V0,V0deg,weights,depth,mu0,P.d);
+
       for (int v = 0; v < n; ++v) {
         const auto& vo = V[v];
         if (vo.size() == 1) continue;
         const auto values = GV::values(V, v);
         if (P.bt == OP::LBRT::bin) {
           for (const int val : values) {
-            const float_t a = branch_distance(&s, v, val, true, d),
-              b = branch_distance(&s, v, val, false, d);
+            const float_t a = branch_distance(&s, v, val, true, dist),
+              b = branch_distance(&s, v, val, false, dist);
             assert(a > 0 and b > 0);
             const float_t tau =  Tau::ltau(a,b);
             assert(tau > 0 and tau < FP::pinfinity);
@@ -853,7 +851,7 @@ namespace LookaheadBranching {
           vec_t branchtuple;
           branchtuple.reserve(values.size());
           for (const int val : values) {
-            const float_t t = branch_distance(&s, v, val, true, d);
+            const float_t t = branch_distance(&s, v, val, true, dist);
             assert(t > 0);
             branchtuple.push_back(t);
           }

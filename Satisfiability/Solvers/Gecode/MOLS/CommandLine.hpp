@@ -61,8 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.103.1";
-  const std::string date_laMols = "9.10.2023";
+  const std::string version_laMols = "0.104.0";
+  const std::string date_laMols = "14.10.2023";
   constexpr int commandline_args_laMols = 14;
 
   typedef std::vector<size_t> list_size_t;
@@ -354,8 +354,8 @@ namespace CommandLine {
                              const EXW ew = EXW::rand) noexcept {
       assert(level < num_levels);
       if (ew == EXW::desc) level = (num_levels-1) - level;
-      if (dis == DIS::newvars) return minval_newv + level;
-      assert(dis == DIS::wdeltaL);
+      if (OP::is_newv(dis)) return minval_newv + level;
+      assert(OP::is_deltaL(dis));
       return minval_wdL * (level + 1);
     }
 
@@ -461,10 +461,11 @@ namespace CommandLine {
     // while the one for DIS::wdL handles 3,...,N:
     list_weightswo_t adapt(const size_t start,
                            const size_t N, const OP::DIS dis) const {
+      assert(OP::deltaL_or_newv(dis));
       assert(start < pat.size());
       const pattern_t patdr = fill_random(dis);
       assert(patdr.size() == pat.size());
-      const size_t target = dis==OP::DIS::newvars ? N-1 : N-2;
+      const size_t target = OP::is_newv(dis) ? N-1 : N-2;
       // Expand patdr to epat, by recycling from "start":
       pattern_t epat(patdr.begin(),
                      patdr.begin() + std::min(target, pat.size()));
@@ -477,13 +478,13 @@ namespace CommandLine {
       for (const weights_t& res0 : res0v) {
         // Interprete res0 (exponantiate and multiply), obtaining res;
         OP::weights_t res(N+1);
-        if (dis == OP::DIS::wdeltaL) {
+        if (OP::is_deltaL(dis)) {
           res[2] = 1;
           for (size_t i = 0; i < target; ++i)
             res[3+i] = res[2+i] * FloatingPoint::exp2(res0[i]);
         }
         else {
-          assert(dis == OP::DIS::newvars);
+          assert(OP::is_newv(dis));
           res[1] = res0[0];
           for (size_t i = 1; i < target; ++i)
             res[1+i] = (i==1 ? 1 : res[i]) * FloatingPoint::exp2(res0[i]);
@@ -497,8 +498,8 @@ namespace CommandLine {
                 const OP::LBRT brt, const OP::DIS dis) const noexcept {
       if (sp != SPW::other) return 1;
       if (pat.empty()) {
-        if (dis == OP::DIS::wdeltaL) return 2;
-        assert(dis == OP::DIS::newvars);
+        if (OP::is_deltaL(dis)) return 2;
+        assert(OP::is_newv(dis));
         if (brt == OP::LBRT::bin) return 3;
         assert(brt == OP::LBRT::enu);
         return 4;
@@ -518,7 +519,7 @@ namespace CommandLine {
         default : assert(false); break;}
       }
       else if (pat.empty()) {
-        if (dis == OP::DIS::wdeltaL) {
+        if (OP::is_deltaL(dis)) {
           res.push_back(weights_ap(N)); res.push_back(weights_ld(N));
         }
         else if (brt == OP::LBRT::bin) {
@@ -536,7 +537,7 @@ namespace CommandLine {
       }
       assert(res.size() == size(N,brt,dis));
       if (not res.empty() and res[0].sp == OP::SPW::other and
-          dis == OP::DIS::newvars and pat[0].v.index() == 0) {
+          OP::is_newv(dis) and pat[0].v.index() == 0) {
         list_weightswo_t nres;
         for (WeightsWithOrigin& wo : res) {
           assert(wo.sp == OP::SPW::other);

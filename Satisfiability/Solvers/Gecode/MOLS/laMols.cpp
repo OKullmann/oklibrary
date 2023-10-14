@@ -191,11 +191,20 @@ dm0       w  ltausp     minp    meanp     maxp       sddp          tb
 
 Showing only the leaf-count and whether the run was stopped or not (no "info", showing the
 parameters, and not showing the weights):
-MOLS> ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
 3072 0
+real	0m2.698s
+user	0m14.202s
+sys	0m0.425s
 
 0 means no-stop, while 1 would mean stop.
 This used 6 threads.
+
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" 1 6 "0,4.9,-5.26,2.89,0" "" "-info,-w,lvs"
+2424 0
+real	0m3.325s
+user	0m18.104s
+sys	0m0.632s
 
 
 

@@ -132,6 +132,12 @@ namespace GcVariables {
     for (int v = 0; v < V.size(); ++v) res.push_back(V[v].size());
     return res;
   }
+  typedef std::vector<size_t> degrees_t;
+  degrees_t degrees(const VarVec& V) noexcept {
+    degrees_t res; res.reserve(V.size());
+    for (int v = 0; v < V.size(); ++v) res.push_back(V[v].degree());
+    return res;
+  }
 
   size_t sumdomsizes(const VarVec& V) noexcept {
     size_t sum = 0;

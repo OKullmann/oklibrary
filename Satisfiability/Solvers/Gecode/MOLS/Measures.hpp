@@ -56,6 +56,7 @@ License, or any later version. */
 #include <array>
 #include <limits>
 #include <type_traits>
+#include <functional>
 
 #include <cassert>
 
@@ -79,6 +80,7 @@ namespace Measures {
 
   using VarVec = GcVariables::VarVec;
   using domsizes_t = GcVariables::domsizes_t;
+  using degrees_t = GcVariables::degrees_t;
 
   typedef FP::float80 float_t;
 
@@ -135,6 +137,30 @@ namespace Measures {
     return sum;
   }
 
+  float_t wnumvars_muldeg(const VarVec& V,
+                          const OP::weights_t* const w) noexcept {
+    float_t sum = 0;
+    for (int v = 0; v < V.size(); ++v) {
+      const auto& var = V[v];
+      const size_t s = tr(var.size(), 1); assert(s < w->size());
+      const auto d = var.degree();
+      sum += (*w)[s] * d;
+    }
+    return sum;
+  }
+  float_t wnumvars_muldeg(const domsizes_t& V, const degrees_t& Vd,
+                          const OP::weights_t* const w) noexcept {
+    const size_t size = V.size();
+    assert(size == Vd.size());
+    float_t sum = 0;
+    for (size_t v = 0; v < size; ++v) {
+      const size_t s = V[v]; assert(s < w->size());
+      const size_t d = Vd[v];
+      sum += (*w)[s] * d;
+    }
+    return sum;
+  }
+
   // A variable of domain-size D has weight D-1:
   float_t muap(const VarVec& V) noexcept { // mu0
     const int size = V.size(); float_t sum = - float_t(size);
@@ -176,6 +202,16 @@ namespace Measures {
     return res;
   }
 
+  float_t initial_measure(const domsizes_t& V0, const degrees_t& V0deg,
+                          const OP::weights_t* const w,
+                          const OP::DIS d) noexcept {
+    if (OP::is_newv(d)) return 0;
+    assert(OP::is_deltaL(d));
+    if (d == OP::DIS::wdeltaL) return wnumvars(V0, w);
+    assert(d == OP::DIS::wdeltaL_degm);
+    return wnumvars_muldeg(V0, V0deg, w);
+  }
+
 
   /* Distances */
 
@@ -206,6 +242,58 @@ namespace Measures {
       else { assert(sn < w->size()); sum += (*w)[sn]; }
     }
     return sum;
+  }
+
+  float_t new_vars_muldeg(const domsizes_t& V, const degrees_t& Vdeg,
+                          const VarVec& nV,
+                          const OP::weights_t* const w,
+                          const size_t depth) noexcept {
+    float_t sum = 0;
+    const float_t w1 = FP::exp2((*w)[1] * depth);
+    for (size_t v = 0; v < V.size(); ++v) {
+      const auto& newvar = nV[v];
+      const size_t oldsize = V[v], newsize = tr(newvar.size(), 1);
+      if (newsize == oldsize) continue;
+      assert(newsize < oldsize);
+      if (newsize == 1) {
+        const size_t olddeg = Vdeg[v];
+        sum += w1 * olddeg;
+      }
+      else {
+        const auto newdeg = newvar.degree();
+        assert(newsize < w->size());
+        sum += (*w)[newsize] * newdeg;
+      }
+    }
+    return sum;
+  }
+
+  typedef std::function<float_t(const VarVec&)> measure_t;
+  typedef std::function<float_t(const VarVec&)> distance_t;
+
+  distance_t distance_choice(const domsizes_t& V0,
+                             const degrees_t& V0deg,
+                             const OP::weights_t* const w,
+                             const size_t depth,
+                             const float_t mu0,
+                             const OP::DIS d) noexcept {
+    assert(OP::deltaL_or_newv(d));
+    if (OP::is_newv(d)) {
+      if (d == OP::DIS::newvars)
+        return distance_t([&V0,w,depth](const VarVec& nV)noexcept{
+                            return new_vars(V0, nV, w, depth);});
+      assert(d == OP::DIS::newvars_degm);
+      return distance_t([&V0,&V0deg,w,depth](const VarVec& nV)noexcept{
+                          return new_vars_muldeg(V0,V0deg, nV, w, depth);});
+    }
+    else {
+      if (d == OP::DIS::wdeltaL)
+        return distance_t([w,mu0](const VarVec& nV)noexcept{
+                            return mu0 - wnumvars(nV, w);});
+      assert(d == OP::DIS::wdeltaL_degm);
+      return distance_t([w,mu0](const VarVec& nV)noexcept{
+                          return mu0 - wnumvars_muldeg(nV, w);});
+    }
   }
 
 }
