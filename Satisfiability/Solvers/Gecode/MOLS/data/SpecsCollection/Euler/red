@@ -1238,11 +1238,21 @@
 # that under parallelism floating-point arithmetic become more unpredictable
 # --- but why then always a *lower* leaf-count?)
 
+
 # New distance newv-degm:
 # First all combinations of 11 values per dimension (makes 11^5 samples):
 # LVS/red_6_newvdegm> time BBSample S1 ./Ss1 "" 25 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S1_2E2FSs1_1697289300586757878.R
+#real    925m17.311s user    112044m17.798s sys     3799m10.084s
+#> min(E$minminp)
+#[1] 3.364129e-10
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2472    2864    3504    4487    3884   10006
+# Conclusions from plot(E$Xi, E$lvs):
+# X1 <= 0.9, X2 >= 0, X3 <= -2, X4 >= 1, X5 = 0
+# LVS/red_6_newvdegm> time BBSample S2 ./Ss2 "" 50 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
-
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
