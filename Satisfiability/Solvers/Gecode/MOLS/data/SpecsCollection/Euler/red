@@ -128,6 +128,13 @@
 
 # N=6:
 
+# Preparing complete RESTART:
+
+# LVS/red_6_wdL> time BBSample S1 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server XXX
+
+
+
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
 #   weights: 0 0 1 2 3 4 5
 #  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
@@ -1020,6 +1027,7 @@
 # N=6:
 
 # Preparing complete RESTART:
+
 # First all combinations of 10 values per dimension (makes 10^5 samples):
 # LVS/red_6_newv> time BBSample S1 ./Ss1 "" 15 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S1_2E2FSs1_1696830344459298331.R
@@ -1222,7 +1230,13 @@
 # This time only three outliers.
 # Rerunning without gecode-parallelism:
 # LVS/red_6_newv> time BBSample Sopt_5 ./Ss2 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
+#BBS_Sopt5F5_2E2FSs2_1697329176714378164.R
+#real    53m34.456s user    4772m33.391s sys     2m27.529s
+# Remark: quite a bit faster this way.
+# Now all results seem exactly the same.
+# So there seems to be a problem with the gecode-parallelism (or it could be
+# that under parallelism floating-point arithmetic become more unpredictable
+# --- but why then always a *lower* leaf-count?)
 
 # New distance newv-degm:
 # First all combinations of 11 values per dimension (makes 11^5 samples):
