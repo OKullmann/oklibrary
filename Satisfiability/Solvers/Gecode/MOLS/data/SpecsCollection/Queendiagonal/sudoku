@@ -2,12 +2,13 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 4, >= 2
 
-# At
-# https://www.funwithpuzzles.com/2015/08/queen-sudoku.html
-# we have a "Queen Sudoku", which is a standard 9x9 Sudoku,
-# with "one queen" (the symbol 9, using normal Sudoku-symbols).
-# At https://www.youtube.com/watch?v=tLxH3ADwUEE we have a guy
-# solving such a Queen Sudoku online.
+#   hash=6630968238017515591
+
+# See "m1sudoku" for N-1 Queens.
+# See Pandiagonal/sudoku for the stronger pandiagional-conditions
+# (the queens "wrap around diagonally").
+# For a restricted number
+# of queens see SpecsCollection/Sudoku.
 
 
 # gcMols:
@@ -33,18 +34,19 @@
 # MOLS> ./gcMols 10 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom desc 1 1 ""
 #    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
 #   10    count dom bin    maxdom desc    1               0      5.560      7172755      118026      236051     17
+
 # But for N=11 desc is quite a bit better:
-# MOLS> time ./gcMols 11 data/SpecsCollection/SudokuQueen "" +count dom bin maxdom asc 1 12
-#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
-#   11   +count dom bin    maxdom  asc    1               4   1890.888   2447323709    37691626    75383259     40
-# real	3m20.157s user	31m30.889s sys	1m38.504s
-# MOLS> time ./gcMols 11 data/SpecsCollection/SudokuQueen "" count dom bin maxdom desc 1 12
-#    N       rt  pl  bt        bv   bo  gcd            satc          t          ppc        flvs        gnds     gd
-#   11    count dom bin    maxdom desc    1               4   1264.173   1686242110    26782437    53564881     40
-# real	2m26.775s user	21m4.175s sys	1m10.209s
+# MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/sudoku "" +count dom bin maxdom asc 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11   +count dom bin    maxdom  asc   1         4    1980.154    2447323709    37691626    75383259     41  0
+# real	3m44.283s user	33m0.156s sys	1m38.420s
+# MOLS> time ./gcMols 11 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom desc 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11    count dom bin    maxdom desc   1         4    1406.036    1686242110    26782437    53564881     34  0
+# real	2m30.911s user	23m26.038s sys	1m20.025s
 
 
-# For N <= 11 no additional solution compared to SudokuPandiagonal
+# For N <= 11 no additional solution compared to Pandiagonal/sudoku
 # exist, but this changes for N=12:
 # MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
 # aborted after 12 h wall-clock-time; two solutions found:
@@ -108,6 +110,7 @@
 # ./rlaMols 11 data/SpecsCollection/SudokuQueen "" +count dom enu maxdom desc relpr 1 12
 # aborted after 4h wallclock-time without finding a solution.
 # So the "special magic" of maxdom seems lost here for N=11.
+
 
 
 # laMols with dL:

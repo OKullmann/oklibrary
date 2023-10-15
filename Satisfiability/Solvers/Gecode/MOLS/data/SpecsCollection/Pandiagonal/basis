@@ -2,9 +2,14 @@
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
 # 8, 0, >= 129, 0, 0, 0
 
+#   hash=7282994701214749140
+
 # These "pandiagional squares" are also called "Knut Vik designs".
 
 # Satisfiability is completely known: count != 0 iff gcd(N,6) = 1.
+# A complete enumeration for N<=13 is given in
+# Construction of Knut Vik designs
+# https://www.sciencedirect.com/science/article/pii/0378375877900131
 
 # By [Keedwell, Denes, Latin squares and their applications], Theorem 6.3.3
 # holds that that at most N-3 MOPLS (mutually orthogonal pandiagonal
@@ -26,23 +31,23 @@
 
 # 2 <= N <= 12:
 
-# MOLS> ./gcMols 2,16 data/SpecsCollection/Pandiagonal "" count dom bin mindegdom "" 1 12 "t,5"
+# MOLS> ./gcMols 2,16 data/SpecsCollection/Pandiagonal/basis "" count dom bin mindegdom "" 1 12 "t,5"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  2    count dom bin mindegdom  asc   1         0       0.191             5           1           0      0  0
-#  3    count dom bin mindegdom  asc   1         0       0.035             7           1           0      0  0
-#  4    count dom bin mindegdom  asc   1         0       0.014            11           1           0      0  0
-#  5    count dom bin mindegdom  asc   1         2       0.009            81           0           3      1  0
-#  6    count dom bin mindegdom  asc   1         0       0.008            61           2           3      1  0
-#  7    count dom bin mindegdom  asc   1         4       0.022          1160          25          57      3  0
-#  8    count dom bin mindegdom  asc   1         0       0.008          4487         126         251      5  0
-#  9    count dom bin mindegdom  asc   1         0       0.064         26216         873        1745     14  0
-# 10    count dom bin mindegdom  asc   1         0       0.319        288574        8257       16513     18  0
-# 11    count dom bin mindegdom  asc   1         8       4.639       3996237      110267      220549     25  0
-# 12    count dom bin mindegdom  asc   1         0       8.993       6166249      161829      323657     23  0
-# 13    count dom bin mindegdom  asc   1         0      50.870      38546220      922320     1844770     30  1
-# 14    count dom bin mindegdom  asc   1         0      47.971      23730115      582048     1164178     25  1
-# 15    count dom bin mindegdom  asc   1         0      45.350      19972177      473568      947216     21  1
-# 16    count dom bin mindegdom  asc   1         0      47.898      18195195      411801      823684     21  1
+#  2    count dom bin mindegdom  asc   1         0       0.168             5           1           0      0  0
+#  3    count dom bin mindegdom  asc   1         0       0.039             7           1           0      0  0
+#  4    count dom bin mindegdom  asc   1         0       0.012            11           1           0      0  0
+#  5    count dom bin mindegdom  asc   1         2       0.008            81           0           3      1  0
+#  6    count dom bin mindegdom  asc   1         0       0.011            61           2           3      1  0
+#  7    count dom bin mindegdom  asc   1         4       0.012          1160          25          57      3  0
+#  8    count dom bin mindegdom  asc   1         0       0.011          4487         126         251      5  0
+#  9    count dom bin mindegdom  asc   1         0       0.069         26216         873        1745     15  0
+# 10    count dom bin mindegdom  asc   1         0       0.393        288574        8257       16513     15  0
+# 11    count dom bin mindegdom  asc   1         8       5.206       3996237      110267      220549     23  0
+# 12    count dom bin mindegdom  asc   1         0      10.178       6166249      161829      323657     22  0
+# 13    count dom bin mindegdom  asc   1         0      54.434      39013459      934248     1868607     30  1
+# 14    count dom bin mindegdom  asc   1         0      51.325      24027870      594577     1189230     26  1
+# 15    count dom bin mindegdom  asc   1         0      45.080      19284971      465660      931400     20  1
+# 16    count dom bin mindegdom  asc   1         0      53.575      18801263      428014      856117     21  1
 # enu+mindegdom performs worse.
 # bin+maxdom seems equivalent.
 
@@ -50,8 +55,8 @@
 
 # MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 40h wall-clock and 129 solutions found.
-# Visual inspection indicates that there are no Sudokus, but there are
-# (see SodukuPandiagonal).
+# Visual inspection indicates that there are no Sudokus, but indeed there are
+# (see Pandiagonal/sudoku).
 
 # N=17:
 

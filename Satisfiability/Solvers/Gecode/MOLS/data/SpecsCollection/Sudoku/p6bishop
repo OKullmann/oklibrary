@@ -1,6 +1,19 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 8, 76
 
+#   hash=16678893109417561909
+
+# At
+# https://www.funwithpuzzles.com/2015/08/queen-sudoku.html
+# we have a "Queen Sudoku", which is a standard 9x9 Sudoku,
+# with "one queen" (the symbol 9, using normal Sudoku-symbols).
+# At https://www.youtube.com/watch?v=tLxH3ADwUEE we have a guy
+# solving such a Queen Sudoku online.
+# This is investigated in p1bishop.
+
+# For the "Queens"-version (all "digits" are Queens) see
+# SpecsCollection/Queendiagonal.
+
 
 # gcMols:
 
@@ -15,15 +28,19 @@
 #  6    count dom enu    mindeg  asc   1         0       0.000          3137          14          24      4  0
 #  7    count dom enu    mindeg  asc   1         4       0.035        291074        1541        2672     11  0
 
+
 # N=8:
 # ./gcMols 8 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  8   +count dom enu    mindeg  asc   1         8     138.385     688030247     3517870     6185756     19  0
 
+
 # N=9:
-# ./gcMols 9 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 16 ""
+# time ./gcMols  9 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 12 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  9   +count dom enu    mindeg  asc   1        76    7256.941   34931389454   166803359   286796235     26  0
+#  9   +count dom enu    mindeg  asc   1        76    9660.112   34931389454   166803359   286796235     26  0
+# real	15m30.124s user	161m0.115s sys	7m19.238s
+
 
 # N=10:
 # ./gcMols 10 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 16 ""

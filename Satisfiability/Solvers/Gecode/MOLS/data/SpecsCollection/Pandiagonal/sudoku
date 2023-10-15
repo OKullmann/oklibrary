@@ -5,7 +5,7 @@
 # For N <= 8 the box-condition is redundant.
 # N=11 is the first case where the box-condition means a restriction
 # (for counting; compare ./basis).
-# For N=12 there are queens-solutions (see "SudokoQueen").
+# For N=12 there are queens-solutions (see "Queendiagonal/sudoku").
 # No case is known where the sudoku-conditions turns a satisfiable case
 # (i.e., gcd(N,6) = 1) into an unsatisfiable one.
 
@@ -218,6 +218,6 @@
 squares A
 rred A
 ls A
+box A
 moddiag A
 modantidiag A
-box A
