@@ -1172,11 +1172,56 @@
 # LVS/red_6_newv> time BBSample Sopt_3 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_Sopt5F3_2E2FSs1_1697286015863857095.R
 #real    141m36.044s user    12714m12.120s sys     441m39.968s
-# X3-values <= 0 are all quite good, with the optimum lvs=2424 attained
+# X3-values <= -0.5 are all quite good, with the optimum lvs=2424 attained
 # exactly for the 12 values -5.268 <= X3 <= -5.246; a "phase transition"
 # at about X3=-0.5, where then the lvs reaches quickly around 9000 (and then
 # becomes kind of constant).
 # LVS/red_6_newv> time BBSample Sopt_4 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F4_2E2FSs1_1697301191200247304.R
+#real    94m27.830s user    8559m2.821s sys     260m56.181s
+# Somehow similar to X3: a minimum in a good region (to the left), followed by
+# a phase transition to bad values. The optimum lvs=2424 is attained
+# exactly for the 19 values 2.880 <= X4 <= 2.916.
+# LVS/red_6_newv> time BBSample Sopt_5 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F5_2E2FSs1_1697307916932584713.R
+#real    75m4.344s user    6871m28.989s sys     201m50.158s
+# Again we have unreproducible better results:
+#> E[E$lvs!=2424,]
+#  X1  X2    X3   X4     X5  lvs st     nsel    nsuel        t aroundsi aroundsl
+#1  0 4.9 -5.26 2.89  1.776 2400  0 1.042006 1.127948 42.20702 1.800937 1.122500
+#2  0 4.9 -5.26 2.89  0.626 2406  0 1.049110 1.125869 36.96201 1.801962 1.120948
+#3  0 4.9 -5.26 2.89  3.300 2406  0 1.049110 1.125869 36.71569 1.801962 1.120532
+#4  0 4.9 -5.26 2.89 -4.478 2419  0 1.043692 1.125955 36.91887 1.800743 1.121538
+#5  0 4.9 -5.26 2.89 -2.994 2419  0 1.043692 1.125955 37.41972 1.800743 1.121538
+#6  0 4.9 -5.26 2.89  0.992 2419  0 1.043692 1.125955 38.23199 1.800743 1.121538
+#  apelvalsi apelvalsl     adpi     adpl  aestlvs sddestlvs auestlvs sdduestlvs
+#1  5.067794  19.32781 6.965808 8.608333 5005.862  5014.008 5453.440   5132.535
+#2  5.086935  19.37726 6.969640 8.611804 5054.119  5100.384 5455.800   5085.353
+#3  5.088091  19.37894 6.969640 8.611804 5054.119  5100.384 5455.800   5085.353
+#4  5.073418  19.35279 6.974454 8.617197 5053.997  5090.713 5485.745   5147.165
+#5  5.074744  19.35279 6.974454 8.617197 5053.997  5090.713 5485.745   5147.165
+#6  5.074510  19.35279 6.974454 8.617197 5053.997  5090.713 5485.745   5147.165
+#      adm0       aw  altausp     aminp    ameanp     amaxp      asddp   minminp
+#1 42.37705 2.124122 10.68861 0.4266398 0.4827869 0.5389677 0.05523695 0.1128448
+#2 42.40262 2.123774 10.67943 0.4269093 0.4828351 0.5387458 0.05500004 0.1128448
+#3 42.40262 2.123774 10.67943 0.4269093 0.4828351 0.5387458 0.05500004 0.1128448
+#4 42.37901 2.123549 10.67479 0.4266912 0.4828534 0.5390061 0.05523245 0.1128448
+#5 42.37901 2.123549 10.67479 0.4266912 0.4828534 0.5390061 0.05523245 0.1128448
+#6 42.37901 2.123549 10.67479 0.4266912 0.4828534 0.5390061 0.05523245 0.1128448
+#    maxmaxp
+#1 0.8058261
+#2 0.8058261
+#3 0.8058261
+#4 0.8058261
+#5 0.8058261
+#6 0.8058261
+# Running laMols, all these X5-values just yield lvs=2424. Rerunning:
+# LVS/red_6_newv> time BBSample Sopt_5 ./Ss1 "" 18 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_Sopt5F5_2E2FSs1_1697324072479064180.R
+#real    75m40.198s user    6888m34.695s sys     203m27.497s
+# This time only three outliers.
+# Rerunning without gecode-parallelism:
+# LVS/red_6_newv> time BBSample Sopt_5 ./Ss2 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 # New distance newv-degm:
