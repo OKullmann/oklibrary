@@ -131,6 +131,22 @@
 # Preparing complete RESTART:
 
 # LVS/red_6_wdL> time BBSample S1 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S1_2E2FSs1_1697333756210445785.R
+#real    1967m10.793s user    175321m45.467s sys     78m17.786s
+# Analysis:
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   3144    8671    9214    8147    9370   10001
+# plot(E$Xi, E$lvs):
+# X1 >= 1
+# X2 <= 1
+# X3 <= 1.5
+# X4 seems to have no influence.
+#> F=E[E$lvs <= 3500,]
+#> nrow(F)
+#[1] 1520
+# X1 <= 2
+# LVS/red_6_wdL> time BBSample S2 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 
