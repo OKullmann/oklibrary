@@ -1252,6 +1252,39 @@
 # Conclusions from plot(E$Xi, E$lvs):
 # X1 <= 0.9, X2 >= 0, X3 <= -2, X4 >= 1, X5 = 0
 # LVS/red_6_newvdegm> time BBSample S2 ./Ss2 "" 50 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S2_2E2FSs2_1697357784265380546.R
+#real    797m53.355s user    99289m41.125s sys     888m30.282s
+# Non-reproducible optimum lvs=2073, next best lvs=2424.
+# Ignoring this "outlier" for now: examining lvs<=2700 (53762 cases)
+# and lvs>=9000 (17213 cases) suggests that a sufficient condition
+# to get rid off the bad values (though not necessary) by
+# X3 <= -7 (this eliminates the lvs=2073)
+# X4 <= 5
+# where perhaps it is more prudent to only have X4 <= 5.
+# Considering only lvs <= 2500 (1206 cases):
+# > F=E[E$lvs<=2450,]
+# > summary(F)
+#       X1                X2               X3               X4
+# Min.   :-1.0000   Min.   : 0.000   Min.   :-7.895   Min.   : 1.474
+# 1st Qu.:-0.7000   1st Qu.: 4.737   1st Qu.:-7.053   1st Qu.: 4.079
+# Median :-0.4000   Median : 6.842   Median :-6.632   Median : 8.579
+# Mean   :-0.3245   Mean   : 6.400   Mean   :-5.676   Mean   : 6.808
+# 3rd Qu.: 0.1000   3rd Qu.: 8.421   3rd Qu.:-4.105   3rd Qu.: 9.053
+# Max.   : 0.9000   Max.   :10.000   Max.   :-2.000   Max.   :10.000
+# So likely there is a more complex constraint at work, to restrict
+# to only the good cases.
+# Restricting to lvs <= 2450 (276 cases):
+#> F=E[E$lvs<=2450,]
+#> summary(F)
+#       X1                X2               X3               X4
+# Min.   :-1.0000   Min.   : 1.053   Min.   :-4.105   Min.   :1.947
+# 1st Qu.:-0.8000   1st Qu.: 5.789   1st Qu.:-3.684   1st Qu.:1.947
+# Median :-0.5000   Median : 7.895   Median :-3.684   Median :1.947
+# Mean   :-0.4543   Mean   : 7.311   Mean   :-3.690   Mean   :2.117
+# 3rd Qu.:-0.2000   3rd Qu.: 8.947   3rd Qu.:-3.684   3rd Qu.:2.421
+# Max.   : 0.7000   Max.   :10.000   Max.   :-2.000   Max.   :3.842
+# Let's use this for the next round, and let's not use parallel gc:
+# LVS/red_6_newvdegm> time BBSample S3 ./Ss3 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
 
