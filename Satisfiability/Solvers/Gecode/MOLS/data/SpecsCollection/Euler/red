@@ -153,7 +153,12 @@
 # LVS/red_6_wdL> time BBSample S3 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S3_2E2FSs1_1697458387353262333.R
 #real    72m27.056s user    6455m4.850s sys     4m16.250s
-
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   3072    3216    3264    3293    3336    4596
+# Viewing the cases lvs<=3100 leads to S4:
+# LVS/red_6_wdL> time BBSample S4 ./Ss1 0 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
