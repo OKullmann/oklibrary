@@ -151,7 +151,8 @@
 #real    49m5.454s user    4096m52.935s sys     2m39.711s
 # Viewing the cases lvs<=3500 leads to S3.
 # LVS/red_6_wdL> time BBSample S3 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
+#BBS_S3_2E2FSs1_1697458387353262333.R
+#real    72m27.056s user    6455m4.850s sys     4m16.250s
 
 
 
@@ -1311,7 +1312,7 @@
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #   2424    2720    2812    2931    3112    3912
 # Further refinement:
-# LVS/red_6_newvdegm> time BBSample S4 ./Ss3 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_newvdegm> time BBSample S4 ./Ss3 "0" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
 
