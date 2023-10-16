@@ -147,7 +147,10 @@
 #[1] 1520
 # X1 <= 2
 # LVS/red_6_wdL> time BBSample S2 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
+#BBS_S2_2E2FSs1_1697454012021779713.R
+#real    49m5.454s user    4096m52.935s sys     2m39.711s
+# Viewing the cases lvs<=3500 leads to S3.
+# LVS/red_6_wdL> time BBSample S3 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 
 
 
