@@ -1305,6 +1305,13 @@
 # Max.   : 0.7000   Max.   :10.000   Max.   :-2.000   Max.   :3.842
 # Let's use this for the next round, and let's not use parallel gc:
 # LVS/red_6_newvdegm> time BBSample S3 ./Ss3 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S3_2E2FSs3_1697428984148463841.R
+#real    524m10.949s user    66916m52.060s sys     40m49.909s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2424    2720    2812    2931    3112    3912
+# Further refinement:
+# LVS/red_6_newvdegm> time BBSample S4 ./Ss3 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
 
