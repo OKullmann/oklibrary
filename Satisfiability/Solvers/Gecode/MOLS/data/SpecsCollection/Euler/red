@@ -1352,7 +1352,11 @@
 # X3 : -4.105 -3.551 # as in S4
 # X4 : 1.947 2.845 # as in S4
 # LVS/red_6_newvdegm> time BBSample S5 ./Ss3 0 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S5_2E2FSs3_1697533826474367760.R
+#real    288m54.120s user    36896m51.458s sys     19m41.557s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2424    2424    2544    2504    2544    2624
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
