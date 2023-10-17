@@ -176,7 +176,12 @@
 # One would assume that all minimum runs have the same underlying
 # branching tree?
 # LVS/red_6_wdL> time BBSample S5 ./Ss1 0 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server XXX
+#BBS_S5_2E2FSs1_1697532544281858318.R
+#real    281m7.346s user    25181m42.433s sys     16m43.487s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   3072    3144    3192    3194    3216    3336
+
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
