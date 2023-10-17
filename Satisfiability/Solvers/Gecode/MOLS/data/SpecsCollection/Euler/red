@@ -158,6 +158,24 @@
 #   3072    3216    3264    3293    3336    4596
 # Viewing the cases lvs<=3100 leads to S4:
 # LVS/red_6_wdL> time BBSample S4 ./Ss1 0 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S4_2E2FSs1_1697485480370333342.R
+#real    35m16.951s user    3139m11.671s sys     2m5.422s
+# Final refinement:
+# plot(E$i, E$lvs) suggests:
+# X1 >= 1.6
+# X2 <= 0.04
+# 1.0 <= X3 <= 1.07
+#> F=E[E$lvs<=3072,]
+# summary(F)
+# has min/max:
+# X1 : 1.611 1.800
+# X2 : 0.000100 0.036905 # same as S4
+# X3 : 1.005 1.067 # same as S4
+# Remark: X1, X2, X3 have a strong negative linear correlation with nsel (F)
+# as well as with altausp, while nsuel is constant (F).
+# One would assume that all minimum runs have the same underlying
+# branching tree?
+# LVS/red_6_wdL> time BBSample S5 ./Ss1 0 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server XXX
 
 
@@ -1318,7 +1336,9 @@
 #   2424    2720    2812    2931    3112    3912
 # Further refinement:
 # LVS/red_6_newvdegm> time BBSample S4 ./Ss3 "0" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S4_2E2FSs3_1697484838489910382.R
+#real    519m56.029s user    66418m27.267s sys     39m11.578s
+
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
