@@ -1338,7 +1338,21 @@
 # LVS/red_6_newvdegm> time BBSample S4 ./Ss3 "0" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S4_2E2FSs3_1697484838489910382.R
 #real    519m56.029s user    66418m27.267s sys     39m11.578s
-
+# Final refinement:
+# plot(E$Xi, E$lvs) suggests:
+# X1 <= -0.2
+# X2 >= 8.5
+# X3, X4 have little influence.
+# > F=E[E$lvs<=2424,]
+# > nrow(F)
+# [1] 23601
+# Via summary(F) we get the min,max of Xi:
+# X1 : -0.95451 0.65093
+# X2 : 1.326 9.970
+# X3 : -4.105 -3.551 # as in S4
+# X4 : 1.947 2.845 # as in S4
+# LVS/red_6_newvdegm> time BBSample S5 ./Ss3 0 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
