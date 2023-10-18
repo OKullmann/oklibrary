@@ -4,7 +4,7 @@ BB_OUTPUT_TYPE          OBJ EB
 X0                      ( -1 8.5 -3.93 2.8 0 )
 LOWER_BOUND             ( -1 -10 -10 -10 0 )
 UPPER_BOUND             (1 10 10 10 0 )
-FIXED_VARIABLE          5
+FIXED_VARIABLE          4
 NB_THREADS_OPENMP       15
 DISPLAY_ALL_EVAL        no
 DISPLAY_STATS           BBE OBJ SOL
