@@ -2,8 +2,8 @@ DIMENSION               5
 BB_EXE                  ns
 BB_OUTPUT_TYPE          OBJ EB
 X0                      ( -1 8.5 -3.93 2.8 0 )
-LOWER_BOUND             ( -1 -10 -10 -10 0 )
-UPPER_BOUND             (1 10 10 10 0 )
+LOWER_BOUND             ( -1 -10 -10 -10 -10 )
+UPPER_BOUND             (1 10 10 10 10 )
 FIXED_VARIABLE          4
 NB_THREADS_OPENMP       15
 DISPLAY_ALL_EVAL        no
