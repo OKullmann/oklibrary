@@ -184,7 +184,7 @@
 
 
 # New distance wdL-degm:
-# LVS/red_6_wdLdegm> time BBSample S1 ./Ss1 0 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_wdLdegm> time BBSample S1 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
 
 
