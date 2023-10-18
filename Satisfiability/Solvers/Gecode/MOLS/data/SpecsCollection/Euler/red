@@ -1367,6 +1367,9 @@
 #> summary(E$lvs)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #   2424    2424    2544    2504    2544    2624
+# Finally trying to find an improvement, with one starting point, by nomad:
+# LVS/red_6_newvdegm> time nomad np
+# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
