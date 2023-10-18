@@ -1370,7 +1370,9 @@
 # Finally trying to find an improvement, with one starting point, by nomad:
 # LVS/red_6_newvdegm> time nomad np
 # running on server: error message from nomad (problem with the fixed variable);
-# to be investigated XXX
+# seems a bug in nomad; workaround:
+# LVS/red_6_newvdegm> time nomad np_hack
+# running on server XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
