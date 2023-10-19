@@ -1,5 +1,5 @@
 DIMENSION               4
-BB_EXE                  ns
+BB_EXE                  ns2_hack
 BB_OUTPUT_TYPE          OBJ EB
 X0                      ( -1 8.5 -3.93 2.8 )
 LOWER_BOUND             ( -1 -10 -10 -10 )

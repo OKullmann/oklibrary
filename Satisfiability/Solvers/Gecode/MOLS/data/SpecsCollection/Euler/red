@@ -1378,7 +1378,13 @@
 # real    166m39.932s user    3483m59.727s sys     61m21.184s
 # Better use of parallelism:
 # LVS/red_6_newvdegm> time nomad np2_hack
-# error: VNS Mads generateTrialPointsFinal() not yet implemented --- MEGA_SEARCH_POLL removed:
+# error: VNS Mads generateTrialPointsFinal() not yet implemented --- MEGA_SEARCH_POLL removed.
+# It seems nomad runs never more than 4 parallel laMols (that is for each dimension one);
+# so the only chance to use more computation power is to increase the threads for laMols;
+# though from time to time it runs 10 parallel.
+# The above np_hack wrongly did not use ns_hack, which shouldn't matter in this
+# case, since the last argument doesn't seem to matter at all.
+# LVS/red_6_newvdegm> time nomad np2_hack
 # running on server XXX
 
 
