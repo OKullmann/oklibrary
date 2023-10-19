@@ -1,0 +1,3 @@
+#!/bin/bash
+weights=$(cat $1)
+echo -n "$weights 1" | ./laMols 6 ../../red "" count dom enu wdL-degm "" "" 1 10 cin "lvs,6000" "lvs"

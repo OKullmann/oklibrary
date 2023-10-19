@@ -220,8 +220,16 @@
 # separate population, with lvs > 3600).
 # Final refinement:
 # LVS/red_6_wdLdegm> time BBSample S4 ./Ss1 0 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-#BBS_S3_2E2FSs1_1697699403302535178.R
-
+#BBS_S4_2E2FSs1_1697706840869540098.R
+#real    69m18.101s user    8846m3.253s sys     5m28.572s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2972    2972    2972    2996    3020    3068
+# It seems cutting off X1 < 3 was too aggressive (or the +-optimisation?) regarding
+# the very best values (who possibly don't matter that much?).
+# Nomad-optimisation:
+# LVS/red_6_wdLdegm> nomad np_hack
+# running on server2 XXX
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""

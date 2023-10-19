@@ -1,0 +1,12 @@
+DIMENSION               3
+BB_EXE                  ns_hack
+BB_OUTPUT_TYPE          OBJ EB
+X0                      ( 2.45 0.145 1.52 )
+LOWER_BOUND             ( 0.0001 0.0001 0.0001 )
+UPPER_BOUND             ( 7 7 7 )
+NB_THREADS_OPENMP       25
+DISPLAY_ALL_EVAL        no
+DISPLAY_STATS           BBE OBJ SOL
+MAX_TIME                10000
+VNS_MADS_SEARCH         yes
+SPECULATIVE_SEARCH_MAX  10
