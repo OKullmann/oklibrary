@@ -1372,6 +1372,12 @@
 # running on server: error message from nomad (problem with the fixed variable);
 # seems a bug in nomad; workaround:
 # LVS/red_6_newvdegm> time nomad np_hack
+#1 2424         -1          8.5       -3.93       2.8
+#A termination criterion is reached: Maximum allowed time reached (Base)
+# Blackbox evaluations: 3023 Total model evaluations: 338674 Cache hits: 371 Total number of evaluations:  3394
+# real    166m39.932s user    3483m59.727s sys     61m21.184s
+# Better use of parallelism:
+# LVS/red_6_newvdegm> time nomad np2_hack
 # running on server XXX
 
 
