@@ -211,7 +211,16 @@
 # X2 : 0.1449 0.2380
 # X3 : 1.517 1.552
 # LVS/red_6_wdLdegm> time BBSample S3 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S3_2E2FSs1_1697699403302535178.R
+#real    71m16.575s user    9023m25.310s sys     5m31.986s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2876    2924    2972    3060    3020    4157
+# It seems by X1 >= 3, X2 <= 0.16 we could eliminate the bad values (clearly a
+# separate population, with lvs > 3600).
+# Final refinement:
+# LVS/red_6_wdLdegm> time BBSample S4 ./Ss1 0 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S3_2E2FSs1_1697699403302535178.R
 
 
 
