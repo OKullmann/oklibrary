@@ -227,9 +227,11 @@
 #   2972    2972    2972    2996    3020    3068
 # It seems cutting off X1 < 3 was too aggressive (or the +-optimisation?) regarding
 # the very best values (who possibly don't matter that much?).
-# Nomad-optimisation:
+# Nomad-optimisation yields no improvement:
 # LVS/red_6_wdLdegm> nomad np_hack
-# running on server2 XXX
+# 1 2876          2.45       0.145      1.52
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 2682 Total model evaluations: 330808 Cache hits: 829 Total number of evaluations: 3511
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
