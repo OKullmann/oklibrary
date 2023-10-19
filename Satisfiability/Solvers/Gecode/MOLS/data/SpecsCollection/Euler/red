@@ -196,8 +196,23 @@
 # 1 <= X3 <= 2
 # X4 = 1
 # Viewing F=E[E$lvs<=3500,] confirms this.
-# LVS/red_6_wdLdegm> time BBSample S1 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# LVS/red_6_wdLdegm> time BBSample S2 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S2_2E2FSs1_1697681620550562617.R
+#real    97m1.457s user    12109m14.106s sys     6m31.218s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   2876    3304    3703    3957    4707    7411
+# Viewing plot(E$Xi, E$lvs):
+# X1 >= 2.5
+# 0.15 <= X2 <= 0.24
+# 1.5 <= X3 <= 1.6
+# From F=E[E$lvs<=2900,] (nrow=55, all lvs=2876) the summary:
+# X1 : 2.448 4
+# X2 : 0.1449 0.2380
+# X3 : 1.517 1.552
+# LVS/red_6_wdLdegm> time BBSample S3 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
+
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
@@ -1396,7 +1411,10 @@
 # The above np_hack wrongly did not use ns_hack, which shouldn't matter in this
 # case, since the last argument doesn't seem to matter at all.
 # LVS/red_6_newvdegm> time nomad np2_hack
-# running on server XXX
+# 1 2424         -1          8.5       -3.93       2.8
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 3420 Total model evaluations: 404892 Cache hits: 619 Total number of evaluations:  4039
+# real    164m20.704s user    5868m29.871s sys     234m29.145s
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""
