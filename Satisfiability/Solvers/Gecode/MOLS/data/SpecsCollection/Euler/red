@@ -185,8 +185,19 @@
 
 # New distance wdL-degm:
 # LVS/red_6_wdLdegm> time BBSample S1 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+#BBS_S1_2E2FSs1_1697600303885103870.R
+#real    1101m8.319s user    139050m12.097s sys     66m59.081s
+#> summary(E$lvs)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+#   3068    5053    8868    7566    9006   10001
+# Viewing plot(E$Xi, E$lvs) suggests:
+# 1 <= X1 <= 4
+# X2 <= 0.3
+# 1 <= X3 <= 2
+# X4 = 1
+# Viewing F=E[E$lvs<=3500,] confirms this.
+# LVS/red_6_wdLdegm> time BBSample S1 ./Ss1 "" 128 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 # running on server2 XXX
-
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" enu wdL "" "" 1 1 "" "" ""
