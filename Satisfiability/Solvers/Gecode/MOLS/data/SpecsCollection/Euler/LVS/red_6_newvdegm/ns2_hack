@@ -1,0 +1,3 @@
+#!/bin/bash
+read weights
+echo -n "$weights 0" | ./laMols 6 ../../red "" count dom enu newv-degm "" "" 1 10 cin "lvs,6000" "lvs"

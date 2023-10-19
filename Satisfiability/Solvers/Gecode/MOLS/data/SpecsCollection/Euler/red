@@ -1378,6 +1378,7 @@
 # real    166m39.932s user    3483m59.727s sys     61m21.184s
 # Better use of parallelism:
 # LVS/red_6_newvdegm> time nomad np2_hack
+# error: VNS Mads generateTrialPointsFinal() not yet implemented --- MEGA_SEARCH_POLL removed:
 # running on server XXX
 
 
