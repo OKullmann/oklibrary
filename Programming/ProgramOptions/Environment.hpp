@@ -108,7 +108,9 @@ License, or any later version. */
       to extract from a time_t-object date and time, using the given formats
     - class CurrentTime (contains the now-timepoint in various formats)
      - especially static function timestamp_str() for the current timestamp
-    - output-streaming for CurrentTime.
+    - output-streaming for CurrentTime
+    - to_string(CurrentTime) -> string
+    - current_datetime() -> string (= to_string(CurrentTime())).
 
    Tools for Dimacs-output:
 
@@ -679,6 +681,14 @@ namespace Environment {
   static_assert(CurrentTime::ticks_as_uints(0) == 0);
   std::ostream& operator <<(std::ostream& out, const CurrentTime& t) {
     return out << t.date << " " << t.time << " " << t.ticks;
+  }
+  std::string to_string(const CurrentTime& t) noexcept {
+    std::ostringstream str;
+    str << t;
+    return str.str();
+  }
+  std::string current_datetime() noexcept {
+    return to_string(CurrentTime());
   }
 
 
