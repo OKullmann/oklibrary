@@ -226,7 +226,7 @@
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #   2972    2972    2972    2996    3020    3068
 # It seems cutting off X1 < 3 was too aggressive (or the +-optimisation?) regarding
-# the very best values (who possibly don't matter that much?).
+# the very best values (which possibly don't matter that much?).
 # Nomad-optimisation yields no improvement:
 # LVS/red_6_wdLdegm> nomad np_hack
 # 1 2876          2.45       0.145      1.52
