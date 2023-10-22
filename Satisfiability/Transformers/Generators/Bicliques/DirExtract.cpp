@@ -9,14 +9,28 @@ License, or any later version. */
   Extracting the data from a QBF2BCC-like file-database
 
   Extracting:
+
    - i
    - p1, p2, p3, p4
+
+     the CNF:
    - n
-   - c
-   - c2
-   - E
+   - c (orignal number of clauses)
+   - c2 (number of clauses after removal of duplicated clauses)
+
+     the conflict-graph
+   - E (number of edges)
+
+     the biclique-compatibility-graph
    - cE (-1, if not existing, and nan if declared "non-computable")
-   - 2col (-1, if not existing)
+   - cE2
+   - tcol (-1, if not existing)
+
+USAGE:
+
+  DirExtract dirname
+
+extracts the data from directory dirname into dirname.R.
 
 */
 
@@ -32,8 +46,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "26.8.2023",
+        "0.4.2",
+        "22.10.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirExtract.cpp",
@@ -53,6 +67,13 @@ namespace {
       " to \"dirname.R\".\n\n"
 ;
     return true;
+  }
+
+  std::string header() {
+    std::string res;
+    res += proginfo.prg; res += " "; res += proginfo.vrs; res += " ";
+    res += Environment::current_datetime();
+    return res;
   }
 
 }
@@ -82,7 +103,10 @@ int main(const int argc, const char* const argv[]) {
       "Can not open output-file " << outputname << ".\n";
     return int(Error::output_file);
   }
-  std::cout << "\"" << outputname << "\"" << std::endl;
+
+  const std::string info = header();
+  std::cout << info << "\n\"" << outputname << "\"" << std::endl;
+  output << "# " << info << std::endl;
 
   const auto [A, ignored] = all_adir(dirname);
   std::cout << A.size() << " " << ignored << std::endl;
