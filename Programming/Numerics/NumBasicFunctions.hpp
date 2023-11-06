@@ -46,6 +46,7 @@ License, or any later version. */
 
     - hash(UInt_t)  -> UInt_t
     - hash(uint_t)  -> uint_t
+    - hash_Int(Int_t) -> UInt_t
     - hash(int)     -> UInt_t
     - hash(float80) -> UInt_t
 
@@ -347,6 +348,14 @@ namespace FloatingPoint {
   static_assert(hash(UInt_t(0)) == 0);
   static_assert(hash(UInt_t(1)) == 6238072747940578789ULL);
   static_assert(hash(UInt_t(-1)) == 13029008266876403067ULL);
+
+
+  inline constexpr UInt_t hash_Int(const Int_t x) noexcept {
+    return hash(UInt_t(x));
+  }
+  static_assert(hash_Int(0) == 0);
+  static_assert(hash_Int(1) == 6238072747940578789ULL);
+  static_assert(hash_Int(-1) == 13029008266876403067ULL);
 
   inline constexpr UInt_t hash(const int x) noexcept {
     static_assert(std::numeric_limits<int>::digits <= 63);
