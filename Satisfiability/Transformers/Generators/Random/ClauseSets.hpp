@@ -581,7 +581,8 @@ namespace RandGen {
   }
   typedef std::pair<dimacs_pars, ClauseSet> DimacsClauseSet;
   template <class CLS>
-  std::ostream& operator <<(std::ostream& out, const std::pair<dimacs_pars, CLS>& F) {
+  std::ostream& operator <<(std::ostream& out,
+                            const std::pair<dimacs_pars, CLS>& F) {
     return out << F.first << F.second;
   }
 
@@ -596,7 +597,8 @@ namespace RandGen {
     return out;
   }
   template <class DCLS>
-  std::ostream& operator <<(std::ostream& out, const std::pair<DimacsComments, DCLS>& D) {
+  std::ostream& operator <<(std::ostream& out,
+                            const std::pair<DimacsComments, DCLS>& D) {
     return out << D.first << D.second;
   }
 
