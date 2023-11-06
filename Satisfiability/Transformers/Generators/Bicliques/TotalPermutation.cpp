@@ -54,6 +54,7 @@ TODOS:
 
 #include <iostream>
 #include <vector>
+#include <filesystem>
 
 #include <cassert>
 
@@ -68,7 +69,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "6.11.2023",
         __FILE__,
         "Oliver Kullmann",
@@ -176,6 +177,11 @@ int main(const int argc, const char* const argv[]) {
   const signvec_t S = random_signs(g, F.first.n);
   output(std::cout, F, s, g, V, S);
   if (not assignmentfile.empty()) {
+    if (std::filesystem::exists(assignmentfile)) {
+      std::cerr << error <<
+        "File \"" << assignmentfile << "\" already exists.\n";
+      return 1;
+    }
     std::ofstream out(assignmentfile);
     for (RandGen::gen_uint_t i = 0; i < F.first.n; ++i) {
       const RandGen::gen_uint_t oldv = i+1, v = V[i];
