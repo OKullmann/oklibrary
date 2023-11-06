@@ -12,6 +12,7 @@ License, or any later version. */
         shuffle(RAI begin, RAI end, RandGen_t&(&) g)
         shuffle_seed(RAI begin, RAI end, const vec_eseed_t& seeds)
     - random_permutation for creating a random permutation of size N:
+        random_permutation(gen_uint_t N, RandGen_t& g) -> VEC
         random_permutation(gen_uint_t N, const vec_eseed_t& seeds) -> VEC
     - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1:
         choose_kn(gen_uint_t k, gen_uint_t n, RandGen_t&(&) g, bool sorted)
@@ -124,6 +125,14 @@ namespace RandGen {
   }
 
 
+  template <class VEC>
+  VEC random_permutation(const gen_uint_t N, RandGen_t& g) {
+    VEC res; res.reserve(N);
+    for (gen_uint_t i = 0; i < N; ++i) res.push_back(i);
+    if (N <= 1) return res;
+    shuffle(res.begin(), res.end(), g);
+    return res;
+  }
   template <class VEC>
   VEC random_permutation(const gen_uint_t N, const vec_eseed_t& seeds) {
     VEC res; res.reserve(N);
