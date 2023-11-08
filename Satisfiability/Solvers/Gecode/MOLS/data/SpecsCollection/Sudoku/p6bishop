@@ -36,26 +36,28 @@
 
 
 # N=9:
+
+# There are 76 solutions:
 # time ./gcMols  9 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 12 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  9   +count dom enu    mindeg  asc   1        76    9660.112   34931389454   166803359   286796235     26  0
 # real	15m30.124s user	161m0.115s sys	7m19.238s
 
-A single solution was found quickly:
-MOLS> ./gcMols  9 data/SpecsCollection/Sudoku/p6bishop "" sats dom enu mindeg "" 1 12 ""
-  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-  9     sats dom enu    mindeg  asc   1         1     466.556    1687326778     8148001    14038112     23  0
-MOLS> cat SOLUTIONS_gcMols_9_1697558233796056488
-A
-0 1 2 3 4 5 6 7 8
-3 8 5 7 6 2 4 0 1
-4 7 6 8 0 1 3 2 5
-2 5 0 1 7 4 8 6 3
-6 3 8 2 5 0 1 4 7
-1 4 7 6 8 3 2 5 0
-5 0 1 4 2 8 7 3 6
-7 2 3 0 1 6 5 8 4
-8 6 4 5 3 7 0 1 2
+# A single solution was found quickly:
+#MOLS> ./gcMols  9 data/SpecsCollection/Sudoku/p6bishop "" sats dom enu mindeg "" 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9     sats dom enu    mindeg  asc   1         1     466.556    1687326778     8148001    14038112     23  0
+#MOLS> cat SOLUTIONS_gcMols_9_1697558233796056488
+#A
+#0 1 2 3 4 5 6 7 8
+#3 8 5 7 6 2 4 0 1
+#4 7 6 8 0 1 3 2 5
+#2 5 0 1 7 4 8 6 3
+#6 3 8 2 5 0 1 4 7
+#1 4 7 6 8 3 2 5 0
+#5 0 1 4 2 8 7 3 6
+#7 2 3 0 1 6 5 8 4
+#8 6 4 5 3 7 0 1 2
 
 # N=10:
 # ./gcMols 10 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu mindeg "" 1 16 ""
