@@ -1,5 +1,5 @@
 // Matthew Gwynne, 12.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -148,6 +148,9 @@ R> subset(E, min == 359)
 
   \todo r_1-bases : mincl_r1 <= 4200
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> Current minimum clause-count of an r_1-base: 4200. </li>
    <li> Iterating through the random seeds, while sorting inputs in
    ascending order of clause-length into RUcpGen, and descending into
