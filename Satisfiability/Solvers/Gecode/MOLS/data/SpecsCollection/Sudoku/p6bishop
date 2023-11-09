@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 0, 2, 0, 4, 8, 76
+# 0, 0, 0, 2, 0, 4, 8, 76, 7385
 
 #   hash=16678893109417561909
 
@@ -73,6 +73,40 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  8     satd dom bin     first  asc   0         1       5.167      23115517       91267      182590     26  0
 #  9     satd dom bin     first  asc   0         1      72.980     284076675     1082767     2165609     32  0
+
+
+
+# rlaMols:
+
+# MOLS> ./rlaMols 8 data/SpecsCollection/Sudoku/p6bishop "" count dom - - "" "" 1 6 "nds,5000" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  8    count dom bin    maxdeg  asc  relpr   1        8       1.647       3488  0       35       18
+#  8    count dom bin    maxdom  asc  relpr   1        8       1.636       3714  0       35       18
+
+# MOLS> ./rlaMols 9 data/SpecsCollection/Sudoku/p6bishop "" count dom - - "" "" 1 6 "nds,5000" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  9    count dom bin    maxdeg  asc  relpr   1       76       7.777      12123  0      123       62
+#  9    count dom bin maxdegdom  asc  relpr   1       76       6.045      10989  0      117       59
+#  9    count dom bin    maxdom  asc  relpr   1       76       7.156      13742  0      127       64
+#  9    count dom enu maxdegdom  asc  relpr   1       76       2.454      14807  0      104       67
+
+# So let's consider maxdegdom:
+# MOLS> ./rlaMols 10 data/SpecsCollection/Sudoku/p6bishop "" +count dom enu maxdegdom "" "" 1 12 "" ""
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 10   +count dom enu maxdegdom  asc  relpr   1     7385    1999.148    9218799  0    64592    48471
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds    solc     tr  pelvals      dp
+#423.485  0.890   31.207  120.626   217.814   2.319   0.123  0.332    2.054   7.474
+#  8.000  0.000    0.000   13.258    14.000   1.000   0.000  0.000    0.000   0.000
+#642.000  3.000  800.000  200.000  1057.557  11.000  14.000  3.526   40.435  18.000
+#152.680  0.418   90.546   18.868   115.505   1.085   0.682  0.301    3.333   2.275
+#    mu0  qfppc  pprunes  pmprune   pprobes  rounds    solc     tr  pelvals      dp
+#421.060  2.027    1.816   23.764   117.697   1.633   0.111  0.167   10.070   8.323
+#  4.000  1.063    0.000    0.000     0.839   1.000   0.000  0.000    0.641   6.000
+#512.000  8.000  262.500  152.381  1190.833  12.000  16.000  4.002   50.000  19.000
+# 94.520  0.949    4.243   16.524   113.729   1.027   0.575  0.220    8.761   1.542
+
+# So rlaMols seems vastly superior to gcMols.
+
 
 
 squares A
