@@ -105,6 +105,7 @@
 #   339.000      0.000       0.000       0.000       0.000        5.000     1.000     0.000     0.000     0.000     0.000
 #   712.000     86.000     116.000     105.000     702.000     2914.000     7.000     0.000     0.110     0.214     0.109
 #    67.824     13.001      18.395      13.089     150.057      484.698     0.959     0.000     0.017     0.038     0.015
+
 # time ./rlaMols 11 data/SpecsCollection/SudokuQueen "" +count dom enu maxdom asc relpr 1 12
 # aborted after 5h wallclock-time without finding a solution.
 # ./rlaMols 11 data/SpecsCollection/SudokuQueen "" +count dom enu maxdom desc relpr 1 12
