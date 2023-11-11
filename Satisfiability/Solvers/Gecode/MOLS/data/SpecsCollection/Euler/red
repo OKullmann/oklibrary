@@ -133,6 +133,8 @@
 # LVS/red_6_wdL> time BBSample S1 ./Ss1 "" 90 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
 #BBS_S1_2E2FSs1_1697333756210445785.R
 #real    1967m10.793s user    175321m45.467s sys     78m17.786s
+# (So 160000 calls needed ~ 30h; all 4 intervals run from 0.0001 to 7,
+#  with 20 points).
 # Analysis:
 #> summary(E$lvs)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
@@ -181,6 +183,10 @@
 #> summary(E$lvs)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #   3072    3144    3192    3194    3216    3336
+# Final evaluation, to obtain a reasonable fine grid to compare different
+# heuristics:
+# LVS/red_6_wdL> time BBSample Sfinal ./Ssfinal "" 120 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
 
 
 # New distance wdL-degm:
