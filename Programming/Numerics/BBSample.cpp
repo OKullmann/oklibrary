@@ -242,6 +242,13 @@ Remarks: the number of threads does not influence the results.
 
 TODOS:
 
+0. The name of the output-file should contain the number of points:
+    - Right before the timestamp in the name.
+    - So the creation and output of the filename needs the call of
+        SP::size_scanning
+      as in the dry run.
+
+
 1. Progress monitor
     - DONE Create atomic counter like
 unsigned counter() {
@@ -479,7 +486,7 @@ int main(const int argc, const char* const argv[]) {
               << " M=" << output_names.size() <<
       " index=" << sorting_index << " #points=";
     OS::vec_t dummy(N);
-    std::cout << size_scanning(std::get<0>(
+    std::cout << SP::size_scanning(std::get<0>(
                    SP::prepare_scanning(x,I,seeds0,randomised,dummy))) << "\n";
     return 0;
   }
