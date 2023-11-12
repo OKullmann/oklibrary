@@ -442,14 +442,6 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - In C++23 we have <stdfloat>, with std::float128_t (which of course
      should also be usable).
 
--5. DONE (improved now)
-    Improved error-messages when parsing specs:
-   - Current, if some line in a specs-file misses an initial "#", then we
-     just get
-terminate called after throwing an instance of 'std::invalid_argument'
-  what():  FloatingPoint::to_float80(string), failed for ""
-   - But we need to see more information.
-
 -4. Output of tree-logging (once this has been implemented for laMols,
     we have version 1.0 of laMols).
    - DONE Fixed file for output; name as for output of solutions, but
