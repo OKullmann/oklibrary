@@ -339,6 +339,37 @@ BUGS:
 
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
+-10. New reduction-types
+   - After branch-order and before la-type comes "red-type".
+   - "elimfv" eliminates variables with degree 0 and dom>=2, by setting them
+     to their first value.
+   - this happens in function lareduction, right before the loops over
+     variables v happens.
+   - A new counter is created (like ReductionStatistics::props), counting
+     the number of eliminated formal variables.
+   - Later for this reduction the count can be corrected, and solutions
+     can be made partial (so that all solutions are still enumerated).
+     But for now solutions (and their count) maybe lost.
+   - "autfv" includes elimfv, and eliminates assignments found which have
+     all their variables set having degree 0 (at the end).
+   - In the function(s) probe there is another succesful case: when
+     autfv is enabled, then after checking that status one needs to see
+     whether all newly-set variables have degree 0 (now, i.e., after
+     the assignment), in which case an autarky was found.
+   - Concerning forced assignments, we run through all (current) values
+     of the current variable v; however if an autarky was found for v,
+     then this loop is aborted, and v is set to the autarky-value.
+     This is new behaviour (currently also in case of a solution found we
+     just continue), where the current loop starting with
+     "if (elimvals.empty())" is side-stepped.
+   - The two solve-functions are split into two forms each, without and
+     with autarky-consideration.
+   - The case with pruning handles an autarky the same way as a forced
+     assignment (so that it removes previous prunings).
+   - We need at least another counter, namely for the number of autarkies.
+     Would also be good to have the total number of variables assigned by
+     autarkies; but currently we don't have that for forced literals either.
+
 -9. Extended output "lvs"
    - DONE Perhaps "+lvs" ? Better "lvs+". Or "ess" (for "essentials").
    - DONE For scanning, outputting the most important measures:
