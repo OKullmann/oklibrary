@@ -1,20 +1,14 @@
 server:         1 running
 
-LVS/red_6_newv> BBSample
+Pandiagonal/basis : gcMols
 
 
-server2:        0 running
+server2:        1 running
 
-LVS/red_6_newv> BBSample
+LVS/red_6_wdL> BBSample
 
 
 server3:        0 running
 
 
 -------------------------------------------
-
-Focus points:
-
-NO:
-
-Euler/basis
