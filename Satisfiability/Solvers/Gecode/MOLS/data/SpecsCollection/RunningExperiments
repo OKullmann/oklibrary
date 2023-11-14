@@ -1,6 +1,7 @@
-server:         1 running
+server:         2 running
 
 Pandiagonal/basis : gcMols
+Queendiagonal/basis : gcMols
 
 
 server2:        1 running
