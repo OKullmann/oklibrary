@@ -41,6 +41,16 @@
 #4 0 1 2 3
 #2 3 4 0 1
 
+# Open combinatorial questions:
+# 1. Can the solutions for N=13 be enumerated?
+#    What does the above source say about the count (and the instances)?
+
+# Open solving-questions:
+# 1. Determine best gc-combinations (which might depend on N).
+# 2. Determine best rla-combinations (might depend on N).
+# 3. Determine best weights for the la-heuristics (for specific N).
+# 4. Find a solution for N=17.
+
 
 
 # gcMols:
