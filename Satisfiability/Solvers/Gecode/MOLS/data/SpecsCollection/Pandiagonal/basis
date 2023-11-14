@@ -76,7 +76,7 @@
 # According to the above source, in some sense a complete enumeration of
 # these solution had been achieved.
 # Rerunning:
-# MOLS> ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
+# MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
 # running on server XXX
 
 
