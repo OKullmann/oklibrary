@@ -18,6 +18,30 @@ License, or any later version. */
 
 TODOS:
 
+-1. The function values<VAV>(const VAV& v, const size_t i)
+    is a duplication (in some form) of the the two forms
+    available in GcVariables.hpp.
+     - What is the use of the template-parameter VAV (why does
+       VarVec not suffice)?
+
+0. The interface to Gecode-constraints should move to a dedicated
+   module.
+     - Called "GcConstraints.hpp".
+     - Instead of posting these constraints to the Gecode-solver,
+       we also want just to output them, in various formats
+       (Minizinc, Flatzing https://www.minizinc.org/
+        XCSP3, XCSP3-core http://xcsp.org/ )
+     - Easiest seems to have these posting functions alternatively
+       outputting the constraint in some format to an output-stream.
+       One can use the template-parameter SP for this.
+     - For this it seems easiest to use the following universal
+       variable-convention:
+       - All Gecode-variables are indices i in 0, ..., numvars-1.
+       - In any output-format then Xi (X0, ...) is used (it seems
+         that they require proper identifiers as variable-names).
+       - In case arrays are available, then perhaps better X[i]
+         is used.
+
 1. DONE Complete the encoding of the unary conditions:
 
   The following Gecode constraints are enough for encoding all
@@ -229,6 +253,7 @@ namespace Encoding {
 
     bool operator ==(const EncCond&) const noexcept = default;
 
+
     /* The interface to Gecode-constraints */
 
     template <class VAR, typename SP>
@@ -266,6 +291,7 @@ namespace Encoding {
     void amo_val(const SP s, const VAV& v, const size_t val) const {
       GC::count(*s, v, val, GC::IRT_LQ, 1, pl);
     }
+
 
     template <class VAV>
     std::vector<size_t> values(const VAV& v, const size_t i) const {
