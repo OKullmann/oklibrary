@@ -1,0 +1,40 @@
+# Counts for N >= 2:
+# 0, 0, 0, 240, 0, 20160, 74880
+
+#   hash=7682384401658449634
+
+# Like p6bishop, but considering the bishops in "general position".
+
+
+
+# gcMols:
+
+# 2 <= N <= 8:
+
+# MOLS> ./gcMols 2,8 data/SpecsCollection/Sudoku/gp6bishop "" count dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.005            14           2           3      1  0
+#  3    count dom bin    maxdom  asc   1         0       0.007           104           3           5      1  0
+#  4    count dom bin    maxdom  asc   1         0       0.007           845          12          23      3  0
+#  5    count dom bin    maxdom  asc   1       240       0.003         24853          52         583      7  0
+#  6    count dom bin    maxdom  asc   1         0       0.006         29666         214         427      7  0
+#  7    count dom bin    maxdom  asc   1     20160       1.365       6707489       46687      133693     22  0
+#  8    count dom bin    maxdom  asc   1     74880      58.735     319718794     3000886     6151531     29  0
+
+
+
+squares A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
+bishopdiagf1 A
+bishopantidiagf1 A
+bishopdiagf2 A
+bishopantidiagf2 A
+bishopdiagf3 A
+bishopantidiagf3 A
+bishopdiagf4 A
+bishopantidiagf4 A
+bishopdiagf5 A
+bishopantidiagf5 A
