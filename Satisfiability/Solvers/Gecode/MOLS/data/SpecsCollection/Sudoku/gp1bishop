@@ -1,0 +1,32 @@
+# Counts for N >= 2:
+# 0, 0, 36, 3600, 327360
+
+#   hash=12418126245062740948
+
+# Like p1bishop, but considering the bishop in "general position".
+
+
+
+# gcMols:
+
+# 2 <= N <= 6:
+
+# MOLS> ./gcMols 2,6 data/SpecsCollection/Sudoku/gp1bishop "" count dom enu mindeg "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.004            10           2           3      1  0
+#  3    count dom bin    maxdom  asc   1         0       0.006            44           3           5      1  0
+#  4    count dom bin    maxdom  asc   1        36       0.003           831           4          79      5  0
+#  5    count dom bin    maxdom  asc   1      3600       0.072         99834        1328        9855     13  0
+#  6    count dom bin    maxdom  asc   1    327360       8.085      11467144      180796     1016311     21  0
+
+# N=7:
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/gp1bishop "" count dom enu mindeg "" 1 12 ""
+# running on server XXX
+
+
+squares A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
