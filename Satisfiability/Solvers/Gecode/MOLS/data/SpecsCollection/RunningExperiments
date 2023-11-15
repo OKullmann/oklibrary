@@ -1,7 +1,8 @@
-server:         2 running
+server:         3 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
+Sudoku/gp1bishop : gcMols
 
 
 server2:        1 running
