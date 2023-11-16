@@ -4,12 +4,18 @@
 
 #   hash=7282994701214749140
 
+# This is https://oeis.org/A338620 (which has N=2n+1, where
+# their n = 0,1,2, ... 7).
+# While https://oeis.org/A342306 is the total number, which is
+# the above times N!.
+
 # These "pandiagional squares" are also called "Knut Vik designs".
 
 # Satisfiability is completely known: count != 0 iff gcd(N,6) = 1.
 # A complete enumeration for N<=13 is given in
-# Construction of Knut Vik designs
-# https://www.sciencedirect.com/science/article/pii/0378375877900131
+#   Construction of Knut Vik designs
+#   https://www.sciencedirect.com/science/article/pii/0378375877900131
+#   Atkin, Hay, Larson, 1977
 # using a mathematical analysis of the symmetry-group (but they
 # don't give the solutions, nor do they prove their count --
 # the underlying algebraic computation (by computer) is not given.
@@ -25,15 +31,13 @@
 # latin squares) exist, and that this bound is attained for prime N.
 # Furthermore for satisfiable N also always pairs of MOPLS exist.
 
-# Apparently not on OEIS.
-
 # Restrictions in other directories:
 # + 2MOLS : Euler/pandiag
 # + 2MOLS + Sudoku : Euler/pandiagsudoku
 # + 3MOLS : 3MOLS/pandiag
 # + 3MOLS + Sudoku : 3MOLS/pandiagsudoku
-# For none of these restrictions a case is known where the basis (pure pandiagonal
-# as in here) is satisfiable, but the restriction is not.
+# For none of these restrictions a case is known where the basis
+# (pure pandiagonal as in here) is satisfiable, but the restriction is not.
 
 # The two examples for N=5:
 # ./gcMols 5 data/SpecsCollection/Pandiagonal/basis "" enum dom bin mindegdom "" 1 12 ""
@@ -50,14 +54,15 @@
 #2 3 4 0 1
 
 # Open combinatorial questions:
-# 1. Can the solutions for N=13 be enumerated?
-#    What does the above source say about the count (and the instances)?
+# 1. Can the special structure used by [Atkin, Hay, Larson]
+#    be related to our algorithms?
 
 # Open solving-questions:
 # 1. Determine best gc-combinations (which might depend on N).
 # 2. Determine best rla-combinations (might depend on N).
 # 3. Determine best weights for the la-heuristics (for specific N).
-# 4. Find a solution for N=17.
+# 4. Can the solutions for N=13 be enumerated?
+# 5. Find a solution for N=17.
 
 
 
