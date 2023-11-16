@@ -19,7 +19,7 @@
 #  9    count dom bin    maxdom  asc   1         0   37208.455  160054580646  1288669150  2577338299     32  0
 
 # For N=8, clearly less efficient than Sudoku/gp7bishop (for this combination).
-# N=9 is quite a hard problem (when encoded in this way: queendiagm1 excludes
+# N=9 is quite a hard problem, when encoded in this way: queendiagm1 excludes
 # 0 --- using rred A. for N=9 we count everything by having:
 # 2*(exclude 0) + 2*(exclude 1) + 2*(exclude 2) + 2*exclude (3) + (exclude 4).
 
