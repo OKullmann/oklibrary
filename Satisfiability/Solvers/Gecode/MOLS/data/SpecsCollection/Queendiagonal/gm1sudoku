@@ -1,0 +1,32 @@
+# Counts for N >= 2:
+# 0, 0, 0, 240, 0, 20160, 0, 0
+
+#   hash=140308639887855467
+
+
+
+# gcMols:
+
+# MOLS> ./gcMols 2,9 data/SpecsCollection/Queendiagonal/gm1sudoku "" count dom bin maxdom asc 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.007            23           2           3      1  0
+#  3    count dom bin    maxdom  asc   1         0       0.006           216           8          15      3  0
+#  4    count dom bin    maxdom  asc   1         0       0.007          2158          42          83      5  0
+#  5    count dom bin    maxdom  asc   1       240       0.016         46060         333        1145      8  0
+#  6    count dom bin    maxdom  asc   1         0       0.054        270109        3039        6077     16  0
+#  7    count dom bin    maxdom  asc   1     20160      13.439      64933478      605975     1252269     24  0
+#  8    count dom bin    maxdom  asc   1         0     976.977    4635354801    41602871    83205741     26  0
+#  9    count dom bin    maxdom  asc   1         0   37208.455  160054580646  1288669150  2577338299     32  0
+
+# For N=8, clearly less efficient than Sudoku/gp7bishop (for this combination).
+# N=9 is quite a hard problem (when encoded in this way: queendiagm1 excludes
+# 0 --- using rred A. for N=9 we count everything by having:
+# 2*(exclude 0) + 2*(exclude 1) + 2*(exclude 2) + 2*exclude (3) + (exclude 4).
+
+
+
+squares A
+ls A
+box A
+queendiagm1 A
+queenantidiagm1 A

@@ -3,8 +3,11 @@
 
 #   hash=10252590938149606178
 
-# So we obtained that for N=9, 6 Queens can be placed, but not 7.
-# For N=10 we know that 7 Queens is possible, but not 9.
+# So we obtained that for N=9, 6 Queens can be placed such that they occupy
+# the first 6 elements of the first row, but not 7.
+# (By gp7bishop we know that we can have 7 queens (at all), while by
+# Queendiagonal/gm1sudoku we know that 8 queens are not possible (at all).
+# For N=10 we know that 7 Queens is possible (in this way), but not 9.
 
 
 # gcMols:

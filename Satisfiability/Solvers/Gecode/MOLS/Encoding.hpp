@@ -18,6 +18,10 @@ License, or any later version. */
 
 TODOS:
 
+-2. Generalising queendiagm1 :
+     - This should be called "queendiagw0" (for "without 0").
+     - We need that also the other "without i".
+
 -1. The function values<VAV>(const VAV& v, const size_t i)
     is a duplication (in some form) of the the two forms
     available in GcVariables.hpp.

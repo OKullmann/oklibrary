@@ -1,0 +1,60 @@
+# Counts for N >= 2:
+# 0, 0, 0, 240, 0, 20160, 0, 80640
+
+#   hash=7706303330814783683
+
+# Like p7bishop, but considering the bishops in "general position".
+
+
+
+# gcMols:
+
+# 2 <= N <= 8:
+
+# MOLS> ./gcMols 2,8 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom  asc   1         0       0.007            14           2           3      1  0
+#  3    count dom bin    maxdom  asc   1         0       0.007           104           3           5      1  0
+#  4    count dom bin    maxdom  asc   1         0       0.007           845          12          23      3  0
+#  5    count dom bin    maxdom  asc   1       240       0.009         24853          52         583      7  0
+#  6    count dom bin    maxdom  asc   1         0       0.007         29666         214         427      7  0
+#  7    count dom bin    maxdom  asc   1     20160       1.459       8412827       46687      133693     22  0
+#  8    count dom bin    maxdom  asc   1         0      52.561     405035370     3026806     6053611     25  0
+
+# N=9:
+
+# MOLS> ./gcMols 9 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    count dom bin    maxdom  asc   1     80640    1398.070    8005261734    61262031   122685341     30  0
+# MOLS> ./gcMols 9 data/SpecsCollection/Sudoku/gp7bishop "" sats dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9     sats dom bin    maxdom  asc   1         1      14.581      89456543      692065     1384183     25  0
+#0 7 1 2 3 4 5 6 8
+#8 2 3 5 0 6 1 7 4
+#6 5 4 1 7 8 0 3 2
+#4 1 6 8 2 3 7 5 0
+#2 3 7 0 6 5 8 4 1
+#5 0 8 4 1 7 6 2 3
+#1 4 5 7 8 2 3 0 6
+#3 8 2 6 5 0 4 1 7
+#7 6 0 3 4 1 2 8 5
+# 7, 8 are indeed not bishops.
+
+
+squares A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
+bishopdiagf1 A
+bishopantidiagf1 A
+bishopdiagf2 A
+bishopantidiagf2 A
+bishopdiagf3 A
+bishopantidiagf3 A
+bishopdiagf4 A
+bishopantidiagf4 A
+bishopdiagf5 A
+bishopantidiagf5 A
+bishopdiagf6 A
+bishopantidiagf6 A
