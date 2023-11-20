@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 36, 3600, 327360
+# 0, 0, 36, 3600, 327360, 43918567200
 
 #   hash=12418126245062740948
 
@@ -22,7 +22,10 @@
 # N=7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/Sudoku/gp1bishop "" count dom bin maxdom "" 1 12 ""
-# running on server XXX
+# N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 7    count dom bin    maxdom  asc   1 43918567200 1101474.668 1416965077408 19415395500 126667925399     37  0
+# real    7317m56.975s user    18357m54.668s sys     15847m48.997s
+
 
 
 squares A
