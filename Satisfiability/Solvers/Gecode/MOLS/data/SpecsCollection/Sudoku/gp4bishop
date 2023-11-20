@@ -9,9 +9,9 @@
 
 # gcMols:
 
-# 2 <= N <= 7:
+# 2 <= N <= 6:
 
-# ./gcMols 2,7 data/SpecsCollection/Sudoku/gp4bishop "" count dom enu mindeg "" 1 1 ""
+# ./gcMols 2,6 data/SpecsCollection/Sudoku/gp4bishop "" count dom enu mindeg "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  2    count dom enu    mindeg  asc   1         0       0.000            14           2           3      1  0
 #  3    count dom enu    mindeg  asc   1         0       0.000           104           3           4      1  0
