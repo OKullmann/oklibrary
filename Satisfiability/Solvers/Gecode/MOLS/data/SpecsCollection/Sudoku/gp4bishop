@@ -1,0 +1,33 @@
+# Counts for N >= 2:
+# 0, 0, 0, 240, 0, >= 1
+
+#   hash=8258205627355301342
+
+# Like p4bishop, but considering the bishop in "general position".
+
+
+
+# gcMols:
+
+# 2 <= N <= 6:
+
+# ./gcMols 2,6 data/SpecsCollection/Sudoku/gp4bishop "" count dom enu mindeg "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom enu    mindeg  asc   1         0       0.000            14           2           3      1  0
+#  3    count dom enu    mindeg  asc   1         0       0.000           104           3           4      1  0
+#  4    count dom enu    mindeg  asc   1         0       0.000          3533          48          89      4  0
+#  5    count dom enu    mindeg  asc   1       240       0.010        112401         792        1735      5  0
+#  6    count dom enu    mindeg  asc   1         0       2.629      24857814      190904      328737     11  0
+
+
+squares A
+ls A
+box A
+bishopdiagf0 A
+bishopantidiagf0 A
+bishopdiagf1 A
+bishopantidiagf1 A
+bishopdiagf2 A
+bishopantidiagf2 A
+bishopdiagf3 A
+bishopantidiagf3 A
