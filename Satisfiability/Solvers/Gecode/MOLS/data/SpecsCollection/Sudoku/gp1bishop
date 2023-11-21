@@ -5,6 +5,40 @@
 
 # Like p1bishop, but considering the bishop in "general position".
 
+# A presentation of such a Sudoku-puzzle, with digit 9 as the
+# Queen (not digit 0 as we have), is given at
+# https://www.youtube.com/watch?v=tLxH3ADwUEE
+# Other examples:
+
+# https://www.funwithpuzzles.com/2015/08/queen-sudoku.html
+
+# 9 is the queen:
+# . . . . . . 3 . 1
+# . . 4 7 . 8 9 . .
+# . 1 . . 3 . . 2 .
+# . 9 . . 6 . . 4 .
+# . . 5 4 . 2 1 . .
+# . 2 . . 8 . . 7 .
+# . 7 . . 5 . . 1 .
+# . . 3 2 . 7 5 . .
+# 5 . 2 . . . . . .
+
+
+# https://puzzling.stackexchange.com/questions/91988/queens-of-the-square-sudoku-table
+
+# 2 is the queen:
+# .  6  . | 8  .  3 | .  7  .
+# .  .  1 | .  .  . | .  6  9
+# 7  .  . | .  .  . | .  .  5
+#---------+---------+--------
+# .  .  . | 9  .  . | .  1  .
+# .  .  . | .  .  . | .  .  4
+# .  .  5 | .  1  . | .  .  .
+#---------+---------+--------
+# 5  4  . | .  8  . | .  .  7
+# .  .  . | 5  .  . | .  .  .
+# .  9  7 | 3  .  . | .  .  .
+
 
 
 # gcMols:
