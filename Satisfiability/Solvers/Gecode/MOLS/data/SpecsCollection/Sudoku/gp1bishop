@@ -61,6 +61,47 @@
 # real    7317m56.975s user    18357m54.668s sys     15847m48.997s
 
 
+# SAT decision:
+# Let's repeat same experiments done in p1bishop.
+# Slower computation is expected, therefore increasing threads.
+#
+# MOLS$ ./gcMols 7,10 data/SpecsCollection/Sudoku/gp1bishop "" satd dom bin first asc 0 50 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom bin     first  asc   0         1       0.006          1241           8          37     20  0
+#  8     satd dom bin     first  asc   0         1     164.238     133850832     2506816     5014146     42  0
+#  9     satd dom bin     first  asc   0         1       0.000          1308           1          42     40  0
+# 10     satd dom bin     first  asc   0         1       0.162        143110        1664        4058     49  0
+# Remark: SAT decision on N=8 took some time. Similar trend as in p1bishop.
+# MOLS$ ./gcMols 11,19 data/SpecsCollection/Sudoku/gp1bishop "" satd dom bin maxdom "" 0 50 "flvs,1000000"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11     satd dom bin    maxdom  asc   0         1       0.002          4013          36         139     68  0
+# 12     satd dom bin    maxdom  asc   0         1       0.394        157285        5893       12239     96  0
+# 13     satd dom bin    maxdom  asc   0         1       0.003          7439          74         238    105  0
+# 14     satd dom bin    maxdom  asc   0         1       0.107         55746         654        1987    125  0
+# 15     satd dom bin    maxdom  asc   0         1       4.075       1231880       49978      101115    175  0
+# 16     satd dom bin    maxdom  asc   0         1       0.013         14591          43         646    161  0
+# 17     satd dom bin    maxdom  asc   0         1       0.068         36481          77        1432    174  0
+# 18     satd dom bin    maxdom  asc   0         1       0.258        150209        1972        6196    223  0
+# 19     satd dom bin    maxdom  asc   0         1      77.336      22194774      879459     1765397    291  0
+# Remark: N=12,N=18,N=19 was stopped before finding SAT solution in p1bishop. Here we solutions.
+# Remark: N>=20 seems to be difficult, let's try different combinations.
+# MOLS$ ./gcMols 20,25 data/SpecsCollection/Sudoku/gp1bishop "" satd - - - - 0 50 "t,100"
+# XXX Running on server XXX
+
+# Ns that are square of a number.
+# MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/gp1bishop "" satd dom bin first asc 0 50 "flvs,10000"
+#   N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#   4     satd dom bin     first  asc   0         1       0.006           969          24          54      6  0
+#   9     satd dom bin     first  asc   0         1       0.002          1308           1          42     40  0
+#  16     satd dom bin     first  asc   0         1       0.064         38044         101        1219    158  0
+#  25     satd dom bin     first  asc   0         0     123.146      48026822      444318      894300    319  1
+#  36     satd dom bin     first  asc   0         1       4.986        837679        2014       13296    917  0
+#  49     satd dom bin     first  asc   0         0     226.558      28868218      345050      702950   1547  1
+#  64     satd dom bin     first  asc   0         1       8.703        332218           0        3156   3155  0
+#  81     satd dom bin     first  asc   0         1     202.974       4402211         603       28263   4941  0
+# 100     satd dom bin     first  asc   0         1    1226.937      16186157        8589      102109   7701  0
+# Remark: Further investigation into N=25,N=49 might result in sat decision as well.
+
 
 squares A
 ls A
