@@ -24,6 +24,12 @@
 # 2*(exclude 0) + 2*(exclude 1) + 2*(exclude 2) + 2*exclude (3) + (exclude 4).
 
 
+# SAT decision:
+
+# MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/gm1sudoku "" sats dom bin maxdom asc 1 6 ""
+# aborted after 40min wallclock time without finding a solution.
+
+
 
 squares A
 ls A

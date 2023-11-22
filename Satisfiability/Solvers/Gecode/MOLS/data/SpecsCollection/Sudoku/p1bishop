@@ -1,27 +1,55 @@
 # Counts for N >= 2:
 # 0, 0, 0, 30, 0, 5911738, >= 1, >= 1, >= 1
+# >= 1, ?, >= 1, >= 1, >= 1, >= 1, >= 1, ?, ?, ?
+# ?, ?, ?, ?, >= 1
 
 #   hash=3826388759709001301
 
 # See gp1bishop for the general form (no rred).
+
+# Example for N=16:
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/p1bishop "" sats dom bin maxdom asc 0 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16     sats dom bin    maxdom  asc   0         1       0.002          4113           6         143    134  0
+# 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+# 4  5  6  7  8 12  3  0 13 15 14  1 10  9 11  2
+# 8  9 10 11 13 14 15  2 12  6  3  0  5  7  4  1
+#12 13 15 14  9 10 11  1  5  4  7  2  8  6  0  3
+# 1  0  3  4  5  6  7  8  9 10 11 12 15 14  2 13
+# 2  6  5  8  0  3  9 10  7 14 13 15  4  1 12 11
+# 7 11 12 15  1  2 14 13  0  3  4  5  6  8 10  9
+# 9 10 14 13 11  4 12 15  1  2  6  8  0  3  5  7
+# 3  2  0  5  6  7  8  9 10 11 12 14 13 15  1  4
+# 6  4  1 10  2 11  5 14 15  7  8 13  3  0  9 12
+#15  7 13 12  3  0  1  4  2  5  9  6 11 10  8 14
+#14  8 11  9 10 15 13 12  3  0  1  4  2  5  7  6
+# 5  3  4  1  7  8 10  6 11 12 15  9 14  2 13  0
+#11 14  7  0 15  1  2  3  4 13  5 10  9 12  6  8
+#13 12  8  2 14  9  4  5  6  1  0  3  7 11 15 10
+#10 15  9  6 12 13  0 11 14  8  2  7  1  4  3  5
+
 
 
 # gcMols:
 
 # 2 <= N <= 6:
 
-# ./gcMols 2,6 data/SpecsCollection/Sudoku/p1bishop "" count dom enu mindeg "" 1 1 ""
+# MOLS> ./gcMols 2,6 data/SpecsCollection/Sudoku/p1bishop "" count dom bin maxdom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  2    count dom enu    mindeg  asc   1         0       0.000             3           1           0      0  0
-#  3    count dom enu    mindeg  asc   1         0       0.000            10           1           0      0  0
-#  4    count dom enu    mindeg  asc   1         0       0.000           156           6          11      3  0
-#  5    count dom enu    mindeg  asc   1        30       0.003          3751          59         154      5  0
-#  6    count dom enu    mindeg  asc   1         0       0.091        605000       11850       20375     12  0
+#  2    count dom bin    maxdom  asc   1         0       0.000             3           1           0      0  0
+#  3    count dom bin    maxdom  asc   1         0       0.000            10           1           0      0  0
+#  4    count dom bin    maxdom  asc   1         0       0.000           109           4           7      2  0
+#  5    count dom bin    maxdom  asc   1        30       0.000          1168          13          85      5  0
+#  6    count dom bin    maxdom  asc   1         0       0.000           558          14          27      3  0
 
 # N=7:
-# ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" count dom enu mindeg "" 1 16 ""
+
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" count dom enu mindeg "" 1 16 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count dom enu    mindeg  asc   1   5911738    2382.380    5541745908    93094548   167245196     23  0
+# ./gcMols 7 data/SpecsCollection/Sudoku/p1bishop "" count dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    maxdom  asc   1   5911738     148.231     198209581     1911114    15645703     24  0
 
 
 # The best combinations need to be found out above (and below).
@@ -36,6 +64,41 @@
 #  9     satd dom bin     first  asc   0         1       0.002          1028           1          34     32  0
 # 10     satd dom bin     first  asc   0         1       0.028         52593         687        1490     40  0
 # Remark: The quick decision for N=7 was "lucky" (it can take much longer).
+# MOLS> ./gcMols 7,16 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin maxdom "" 0 6 "flvs,1000000"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom bin    maxdom  asc   0         1       0.000          1067           9          38     16  0
+#  8     satd dom bin    maxdom  asc   0         1       0.000          1938          15          57     22  0
+#  9     satd dom bin    maxdom  asc   0         1       0.000           918           2          35     29  0
+# 10     satd dom bin    maxdom  asc   0         1       0.003          2992          24          96     38  0
+# 11     satd dom bin    maxdom  asc   0         1       0.004          5275          60         172     58  0
+# 12     satd dom bin    maxdom  asc   0         0     121.021     191145433     5282986    10566063     80  1
+# 13     satd dom bin    maxdom  asc   0         1       0.028         36778         376         842     88  0
+# 14     satd dom bin    maxdom  asc   0         1       0.017         15622         222         585    113  0
+# 15     satd dom bin    maxdom  asc   0         1       0.199        271136        5837       11887    129  0
+# 16     satd dom bin    maxdom  asc   0         1       0.005          3919           6         140    133  0
+# MOLS> ./gcMols 7,25 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin maxdom "" 0 6 "flvs,1000000"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom bin    maxdom  asc   0         1       0.000          1067           9          38     16  0
+#  8     satd dom bin    maxdom  asc   0         1       0.001          1786          15          53     22  0
+#  9     satd dom bin    maxdom  asc   0         1       0.002           953           2          36     29  0
+# 10     satd dom bin    maxdom  asc   0         1       0.002          3090          24         101     38  0
+# 11     satd dom bin    maxdom  asc   0         1       0.003          5388          60         176     58  0
+# 12     satd dom bin    maxdom  asc   0         0     123.742     196037269     5381403    10762903     82  1
+# 13     satd dom bin    maxdom  asc   0         1       0.025         37372         412         957     89  0
+# 14     satd dom bin    maxdom  asc   0         1       0.016         17518         286         713    115  0
+# 15     satd dom bin    maxdom  asc   0         1      82.655     144897761     3800865     7602117    138  0
+# 16     satd dom bin    maxdom  asc   0         1       0.005          4038           6         142    134  0
+# 17     satd dom bin    maxdom  asc   0         1       0.029         28046         217         598    156  0
+# 18     satd dom bin    maxdom  asc   0         0     128.403     170014881     3808775     7617869    196  1
+# 19     satd dom bin    maxdom  asc   0         0     237.239     157252567     3948045     7896543    205  1
+# 20     satd dom bin    maxdom  asc   0         0     438.968     196397543     5954096    11908426    120  1
+# 21     satd dom bin    maxdom  asc   0         0     266.279     208340823     5425789    10852064    265  1
+# 22     satd dom bin    maxdom  asc   0         0     316.713     229022653     5293384    10587472    259  1
+# 23     satd dom bin    maxdom  asc   0         0     271.666     191782280     4357555     8716322    295  1
+# 24     satd dom bin    maxdom  asc   0         0     480.320     173234472     5525530    11051924    207  1
+# 25     satd dom bin    maxdom  asc   0         1       0.074         45177         464        1675    447  0
+
+
 
 # MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin first asc 0 1 "flvs,1000"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -48,6 +111,18 @@
 # 64     satd dom bin     first  asc   0         1       4.335        317063           0        3093   3092  0
 # 81     satd dom bin     first  asc   0         0      18.758        897611        1001        5966   3979  1
 #100     satd dom bin     first  asc   0         0      63.066       1249731        1001        8420   6426  1
+# MOLS> ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" count dom bin maxdom asc 0 6 "flvs,10000"
+#  4    count dom bin    maxdom  asc   0         0       0.007           108           4           7      2  0
+#  9    count dom bin    maxdom  asc   0    213037       5.968      11297416       53094      532327     40  1
+# 16    count dom bin    maxdom  asc   0    338879      11.976      16213578       46646      771218    151  1
+# 25    count dom bin    maxdom  asc   0     26558       1.928       3107557       24649      103792    459  1
+# 36    count dom bin    maxdom  asc   0     17160       8.147       2996433       42077      121892   1016  1
+# 49    count dom bin    maxdom  asc   0         0      18.991       2470436       54167      112103   1074  1
+# 64    count dom bin    maxdom  asc   0         0      25.400       1681689       26596       56465   1975  1
+# 81    count dom bin    maxdom  asc   0         0     160.825       3562584       49904      108682   2747  1
+#100    count dom bin    maxdom  asc   0         0     458.512       6045205       54966      122728   4460  1
+
+
 
 
 squares A
