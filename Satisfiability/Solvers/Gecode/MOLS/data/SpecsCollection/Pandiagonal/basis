@@ -105,7 +105,8 @@
 # 11    count bnd bin    maxdom desc   1         8       5.242       4098421      111804      223623     32  0
 # 11    count bnd bin mindegdom  asc   1         8      12.236       9399811      263954      527923     26  0
 # 11    count bnd bin mindegdom desc   1         8       5.391       4098421      111804      223623     24  0
-# Indeed we can see that dom+bin+mindegdom+desc and dom+bin+maxdom+desc yield less flvs and less t than dom+bin+mindegdom+asc.
+# Best are dom+bin+maxdom/mindegdom+desc .
+
 
 # N=13:
 
