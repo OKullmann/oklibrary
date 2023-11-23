@@ -256,7 +256,6 @@
 # 131.563  0.774    0.329   21.173   72.399   0.519  0.778  0.297    1.896   4.766
 # real    3m39.390s user    31m12.606s sys     23m58.913s
 # Much easier to find a solution than with rred.
-# Remark: I think we have a type on the line above it should be "without rred".
 
 # MOLS> time ./rlaMols 14 "@squares A\nls A\nmoddiag A\nmodantidiag A\n" "" +count dom bin maxdom "" "" 1 16 ""
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds    inds      lvs
