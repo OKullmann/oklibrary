@@ -90,6 +90,23 @@
 # enu+mindegdom performs worse.
 # bin+maxdom seems equivalent.
 
+# N=11:
+
+# Analysing N=11 problem might give us more insights for N>11 problems.
+
+# MOLS> ./gcMols 11 data/SpecsCollection/Pandiagonal/basis "" count - - - - 1 12 "t,5"
+# Showing only non-stopped computations.
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd s
+# 11    count dom bin    maxdom  asc   1         8       6.874       3996237      110267      220549     22  0
+# 11    count dom bin    maxdom desc   1         8       4.099       2356883       64206      128427     24  0
+# 11    count dom bin mindegdom  asc   1         8       6.671       3996237      110267      220549     24  0
+# 11    count dom bin mindegdom desc   1         8       4.071       2356883       64206      128427     24  0
+# 11    count bnd bin    maxdom  asc   1         8      12.125       9399811      263954      527923     24  0
+# 11    count bnd bin    maxdom desc   1         8       5.242       4098421      111804      223623     32  0
+# 11    count bnd bin mindegdom  asc   1         8      12.236       9399811      263954      527923     26  0
+# 11    count bnd bin mindegdom desc   1         8       5.391       4098421      111804      223623     24  0
+# Indeed we can see that dom+bin+mindegdom+desc and dom+bin+maxdom+desc yield less flvs and less t than dom+bin+mindegdom+asc.
+
 # N=13:
 
 # As above state, the literature states 12386 solutions here.
