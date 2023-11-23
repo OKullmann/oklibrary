@@ -1,0 +1,26 @@
+# Counts for N >= 2:
+# ?
+
+#   hash=
+
+# Like basis, but without row reduction (rred).
+# It is stated in basis that "Without rred, sat-decision seems much easier for N <= 16".
+# Some experiments already exist, but count is used instead of satd.
+# Instead of expanding basis file further, maybe it's better to create a separate spec file for that.
+
+# MOLS> ./gcMols "2,20" data/SpecsCollection/Pandiagonal/gpbasis "" satd dom bin mindegdom "" 1 50 "t,10"
+# XXX Running on server XXX
+
+# In basis, count is calculated for N=13 using rlaMols and aborted.
+# Here, I suggest we run, satd for N's that are in range 2 <= N <= 20.
+# To find out which combination works best for rlaMols.
+# MOLS> ./rlaMols "2,20" data/SpecsCollection/Pandiagonal/gpbasis "" satd - - - - - 1 50 "satc,1" ""
+# If you have any suggestion on stop type, please help.
+# Since in rlaMols stop-type for time doesn't exist.
+# XXX Running on server XXX
+
+
+squares A
+ls A
+moddiag A
+modantidiag A
