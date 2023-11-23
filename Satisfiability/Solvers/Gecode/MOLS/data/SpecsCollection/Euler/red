@@ -241,7 +241,7 @@
 # Kind of "final evaluation", to obtain a reasonable fine grid to compare
 # different heuristics:
 # LVS/red_6_wdLdegm> time BBSample Sfinal ./Ssfinal "" 120 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+# real    7200m41.966s user    859597m19.698s sys     817m16.702s
 
 
 
