@@ -88,7 +88,7 @@
 # 19     satd dom bin    maxdom  asc   0         1      77.336      22194774      879459     1765397    291  0
 # Remark: N=12,N=18,N=19 were stopped before finding SAT solution in p1bishop,
 # while here we find solutions.
-# Remark: N >=20 seems to be difficult; trying to find better compinations.
+# Remark: N >=20 seems to be difficult; trying to find better combinations:
 # MOLS$ ./gcMols 20,25 data/SpecsCollection/Sudoku/gp1bishop "" satd - - - - 0 50 "t,100"
 # XXX Running on server XXX
 
@@ -104,8 +104,9 @@
 #  64     satd dom bin     first  asc   0         1       8.703        332218           0        3156   3155  0
 #  81     satd dom bin     first  asc   0         1     202.974       4402211         603       28263   4941  0
 # 100     satd dom bin     first  asc   0         1    1226.937      16186157        8589      102109   7701  0
-# Remark: Further investigation into N=25,N=49 might result in sat decision as well.
+# Remark: Further investigation into N=25,N=49 might result in sat-decision as well.
 # maxdom is likely better; running now with 12 threads:
+# MOLS> ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/gp1bishop "" satd dom bin maxdom asc 0 12 "flvs,10000"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  4     satd dom bin    maxdom  asc   0         1       0.000           231           2          10      5  0
 #  9     satd dom bin    maxdom  asc   0         1       0.000          1391          10          61     50  0
@@ -116,7 +117,7 @@
 # 64     satd dom bin    maxdom  asc   0         1     120.198       1438880        3179       25576   3363  0
 # 81     satd dom bin    maxdom  asc   0         0     808.553       8539958       92295      229386   7896  1
 #100     satd dom bin    maxdom  asc   0         0    3005.552      15229577      109428      229189   3061  1
-# We see that running more threads increases the likelihood of finding on solution.
+# We see that running more threads increases the likelihood of finding one solution.
 
 
 
