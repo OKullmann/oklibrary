@@ -90,7 +90,11 @@
 # while here we find solutions.
 # Remark: N >=20 seems to be difficult; trying to find better combinations:
 # MOLS$ ./gcMols 20,25 data/SpecsCollection/Sudoku/gp1bishop "" satd - - - - 0 50 "t,100"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  21     satd dom bin maxdegdom  asc   0         1       7.242       3256187       43549       91804    325  0
+#  22     satd dom bin    mindom desc   0         1       0.646        354365         575        7932    344  0
+#  25     satd dom bin    mindom desc   0         1       0.167         64124          53        1647    450  0
+# Remark: N=20,N=23,N=24 were stopped before finding a solution.
 
 # N's that are squares:
 # MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/gp1bishop "" satd dom bin first asc 0 50 "flvs,10000"
