@@ -1348,6 +1348,12 @@
 # that under parallelism floating-point arithmetic become more unpredictable
 # --- but why then always a *lower* leaf-count?)
 
+# Kind of "final evaluation", to obtain a reasonable fine grid to compare
+# different heuristics; first setting X1=0:
+# LVS/red_6_newv> time BBSample S0final ./Ssfinal "" 120 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
+# running on server2 XXX
+
+
 
 # New distance newv-degm:
 # First all combinations of 11 values per dimension (makes 11^5 samples):
