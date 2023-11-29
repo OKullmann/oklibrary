@@ -75,6 +75,12 @@
 
 # For N=17 (same setting) aborted after 41h wall-clock (without finding a solution).
 
+# We saw that without rred, sat-decision seems much easier.
+# Maybe, there is a good combination out there.
+# Sat decision run-type for N=17 using all combinations without rred.
+# MOLS> time ./gcMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" satd - - - - 1 24 "t,1542"
+# XXX Running on server XXX
+
 
 # rlaMols:
 
