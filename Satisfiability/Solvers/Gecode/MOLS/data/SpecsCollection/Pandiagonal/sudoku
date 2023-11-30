@@ -42,9 +42,10 @@
 # MOLS> ./gcMols 13 data/SpecsCollection/SudokuPandiagonal "" +enum dom binbr maxdom desc 12
 # aborted after 20h wall-clock and 5 solutions found.
 
-# Count for N=13 using all combinations.
+# Partial count for N=13 using all combinations:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count - - - - 1 24 "t,1542"
 # XXX Running on server XXX
+
 
 # Unsatisfiable cases only:
 
