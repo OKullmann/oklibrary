@@ -49,7 +49,9 @@
 
 # Unsatisfiable cases only:
 
-# Without rred, sat-decision seems much easier for N <= 16 (as with ./basis):
+# Without rred, sat-decision seems much easier for N <= 16 (as with ./basis; this is
+# of cause a weakness of the solver, and in most cases there isn't much interest
+# in finding some accidental solution):
 
 # MOLS> ./gcMols "2,20" "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" count dom bin maxdom "" 1 12 "t,30"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
@@ -76,11 +78,11 @@
 
 # For N=17 (same setting) aborted after 41h wall-clock (without finding a solution).
 
-# We saw that without rred, sat-decision seems much easier.
-# Maybe, there is a good combination out there.
-# Sat decision run-type for N=17 using all combinations without rred.
+
+# Sat decision run-type for N=17 using all combinations without rred:
 # MOLS> time ./gcMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" satd - - - - 1 24 "t,1542"
 # XXX Running on server XXX
+
 
 
 # rlaMols:
