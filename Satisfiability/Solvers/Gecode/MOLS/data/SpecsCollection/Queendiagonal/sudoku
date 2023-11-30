@@ -48,6 +48,9 @@
 
 # For N <= 11 no additional solution compared to Pandiagonal/sudoku
 # exist, but this changes for N=12:
+
+# N=12:
+
 # MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
 # aborted after 12 h wall-clock-time; two solutions found:
 
@@ -86,6 +89,9 @@
 # MOLS> ./gcMols 12 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
 # After 80 min wall-clock aborted; perhaps not better.
 
+
+# N=13:
+
 # MOLS> ./gcMols 13 data/SpecsCollection/SudokuQueen "" +enum dom binbr maxdom desc 12
 # aborted after 50h wall-clock without a solution found (while finding a
 # solution for SudokuPandiagonal is rather easy)>
@@ -95,31 +101,39 @@
 # For checking, "dom enumbr mindom" was run for nearly 60h wall-clock without finding a solution (with rred).
 
 
-# For N = 16 lets try all combinations:
+# N=16:
+
+# All combinations:
 # MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd - - - - 1 2 "t,100"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 16     satd def bin mindegdom desc   1         0     196.222      46311020    18509325    37018791    140  1
 # 16     satd def bin maxdegdom desc   1         0     188.177     195431200     7932326    15864740     93  1
 # 16     satd val bin    maxdom  asc   1         0     192.525      59043332    19033046    38066239    143  1
 # 16     satd dom bin    mindom  asc   1         0     151.684     110275376      650517     1301103     78  1
-# Remark:Here I'm only showing rows that have maximum or minimum ppc or flvs.
+# Here only showing rows that have maximum or minimum ppc or flvs.
+# In general max-ppc is a bad measure, since easily caused by a large number of leaves.
+# But for a given time-out and especially in the presense of threading, it is not possible to determine
+# what the above means.
 
-# Run max ppc.
+# Running max ppc:
 # MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd def bin maxdegdom desc 1 50 "t,100"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 16     satd def bin maxdegdom desc   1         0     822.851     447607900    18774951    37551115     96  1
 
-# Run max flvs.
+# Running max flvs:
 # MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd val bin maxdom  asc 1 50 "t,100"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 16     satd val bin    maxdom  asc   1         0     514.749      46953988    15762562    31528409    146  1
 
-# Run min flvs.
+# Running min flvs:
 # MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd dom bin mindom asc 1 50 "t,100"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 16     satd dom bin    mindom  asc   1         0    3369.381    1871033783    11181624    22364681     82  1
 
-# Remeark: So far nothing interesting found for N=16.
+# As the above shows, timing is extremely volatile, especially when using
+# such a high number of threads, and thus should be avoided for longer runs -- it is impossible
+# to say what the above data means.
+
 
 
 # rlaMols:
