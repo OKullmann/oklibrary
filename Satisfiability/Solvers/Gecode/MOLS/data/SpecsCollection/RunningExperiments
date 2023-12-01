@@ -1,7 +1,8 @@
-server:         4 running
+server:         5 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
+Queendiagonal/sudoku : gcMols (started 18:02 01/12/2023, max execution 60 hours)
 Pandiagonal/sudoku: gcMols (started 17:49 01/12/2023, max execution 60 hours)
 Pandiagonal/sudoku: gcMols (started 17:50 01/11/2023, max execution 60 hours)
 

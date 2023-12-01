@@ -134,6 +134,9 @@
 # such a high number of threads, and thus should be avoided for longer runs -- it is impossible
 # to say what the above data means.
 
+# Partial enumeration using all combination with more time:
+# MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum - - - - 1 24 "t,1928"
+# XXX Running on server XXX
 
 
 # rlaMols:
