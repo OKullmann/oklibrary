@@ -52,6 +52,12 @@
 # Displaying 2 more rows out of 112 rows, because they have the lowest ppc values.
 # It might be worthy to explore further these combinations.
 
+# MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count val,def bin maxdom asc 1 12 "t,108000"
+# XXX Running on server XXX
+
+# MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count bnd bin maxdom desc 1 12 "t,216000"
+# XXX Running on server XXX
+
 
 # Unsatisfiable cases only:
 
