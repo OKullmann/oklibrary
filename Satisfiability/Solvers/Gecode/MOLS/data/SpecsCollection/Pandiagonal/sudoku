@@ -44,7 +44,15 @@
 
 # Partial count for N=13 using all combinations:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count - - - - 1 24 "t,1542"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 13    count bnd bin    maxdom desc   1         1   27082.175   22414321237   427916167   855832611     41  1
+# 13    count val bin    maxdom  asc   1         0    8259.868     645873377   372606154   745212676     67  1
+# 13    count val bin    maxdom  asc   1         0    8259.868     645873377   372606154   745212676     67  1
+# 13    count def bin    maxdom  asc   1         0    8290.429     642682787   366529279   733058949     67  1
+# 13    count def bin    maxdom  asc   1         0    8290.429     642682787   366529279   733058949     67  1
+# Only one solution is found out of 112 runs.
+# Displaying 4 out of 112 rows, because they have lowest ppc values.
+# It might be worthy to explore further these combinations.
 
 
 # Unsatisfiable cases only:
@@ -81,7 +89,10 @@
 
 # Sat decision run-type for N=17 using all combinations without rred:
 # MOLS> time ./gcMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" satd - - - - 1 24 "t,1542"
-# XXX Running on server XXX
+# 17     satd val enu    maxdom desc   1         0    8155.216     995358399   255212484   382752977    209  1
+# 17     satd def enu    maxdom  asc   1         0    8233.277     997230492   255430730   383085393    209  1
+# No solutions are found.
+# Since we are not interesting in finding solutions without rred that much, stopping here.
 
 
 
