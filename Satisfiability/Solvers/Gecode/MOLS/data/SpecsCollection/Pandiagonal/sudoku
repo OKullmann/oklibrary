@@ -47,11 +47,9 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 13    count bnd bin    maxdom desc   1         1   27082.175   22414321237   427916167   855832611     41  1
 # 13    count val bin    maxdom  asc   1         0    8259.868     645873377   372606154   745212676     67  1
-# 13    count val bin    maxdom  asc   1         0    8259.868     645873377   372606154   745212676     67  1
-# 13    count def bin    maxdom  asc   1         0    8290.429     642682787   366529279   733058949     67  1
 # 13    count def bin    maxdom  asc   1         0    8290.429     642682787   366529279   733058949     67  1
 # Only one solution is found out of 112 runs.
-# Displaying 4 out of 112 rows, because they have lowest ppc values.
+# Displaying 2 more rows out of 112 rows, because they have the lowest ppc values.
 # It might be worthy to explore further these combinations.
 
 
