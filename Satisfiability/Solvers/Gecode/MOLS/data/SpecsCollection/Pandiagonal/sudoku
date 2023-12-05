@@ -53,10 +53,14 @@
 # It might be worthy to explore further these combinations.
 
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count val,def bin maxdom asc 1 12 "t,108000"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 13    count val bin    maxdom  asc   1         0  565302.484   46343759913 26047481812 52094963796     67  1
+# 13    count def bin    maxdom  asc   1         0  575872.973   50003000153 26938072115 53876144408     68  1
 
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count bnd bin maxdom desc 1 12 "t,216000"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 13    count bnd bin    maxdom desc   1        16 2318176.909 2221275718496 43294837512 86589675184     51  1
+# Maybe the next step is to try the same experiment with rlaMols and see if we get more or less satc=16.
 
 
 # Unsatisfiable cases only:
