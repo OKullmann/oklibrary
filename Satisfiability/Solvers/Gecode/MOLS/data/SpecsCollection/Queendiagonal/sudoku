@@ -136,7 +136,13 @@
 
 # Partial enumeration using all combination with more time:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum - - - - 1 24 "t,1928"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16    +enum def bin    maxdom desc   1         0   10347.960    1086044296   340362670   680725794    150  1
+# 16    +enum val bin    maxdom desc   1         0   10253.342    1085381094   341244064   682488629    150  1
+# Two rows with lowest ppc.
+# 16    +enum dom bin    maxdeg desc   1         0   42933.983   28459301770   174346981   348694502     73  1
+# 16    +enum dom bin maxdegdom desc   1         0   43344.145   30968039103   176328036   352656499     85  1
+# Two rows with lowest flvs.
 
 
 # rlaMols:
