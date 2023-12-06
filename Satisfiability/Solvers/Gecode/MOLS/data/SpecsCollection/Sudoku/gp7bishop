@@ -61,6 +61,10 @@
 # 2 15  5  4 10 11 12  1  6 14  8  7 13  0  3  9
 # 6 12 11  0 13 14  3  4 15  2  5  9  1 10  7  8
 
+# We want to partial count the number of solutions.
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 0 6 "t,172800"
+# XXX Running on server XXX
+
 
 
 squares A
