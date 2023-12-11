@@ -146,11 +146,15 @@
 
 # Running min ppc:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum val,def bin maxdom desc 1 12 "t,216000"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16    +enum def bin    maxdom desc   1         0 1313531.552  187265491907 59398651811 118797304125    149  1
+# 16    +enum val bin    maxdom desc   1         0 1178002.035  159486740169 52884261344 105768522962    149  1
 
 # Running min flvs:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg,maxdegdom desc 1 12 "t,216000"
-# XXX Running on server XXX
+  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+ 16    +enum dom bin    maxdeg desc   1         0 2539655.691 2065041957426 12781513073 25563026338     75  1
+ 16    +enum dom bin maxdegdom desc   1         0 2552097.770 2402834707766 13765420377 27530841029     88  1
 
 
 # rlaMols:
