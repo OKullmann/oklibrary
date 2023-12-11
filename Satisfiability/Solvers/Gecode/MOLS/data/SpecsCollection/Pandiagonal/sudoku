@@ -180,12 +180,12 @@
 # real    1466m49.135s user    18848m9.299s sys     2704m56.356s
 
 # Running with the same combinations used in gcMols N=13.
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc - 1 6 "" -tree
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc - 1 6 "lvs,10000" -tree
 # XXX Running on server XXX
 
 # Maybe la reduction type behaves differently for different combinations?
 # Running with all combinations, stopped after 120 hours then filtered out and run further more.
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum - - - - - 1 6 "" -tree
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum - - - - - 1 6 "lvs,10000" -tree
 # XXX Running on server XXX
 
 
