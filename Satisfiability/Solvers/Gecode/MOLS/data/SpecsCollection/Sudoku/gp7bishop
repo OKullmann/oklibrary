@@ -63,7 +63,8 @@
 
 # We want to partial count the number of solutions.
 # MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 0 6 "t,172800"
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16    count dom bin    maxdom  asc   0 5098880000  642037.222  975928628552 11643816252 33485392679    147  1
 
 
 
