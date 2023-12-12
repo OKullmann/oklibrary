@@ -179,6 +179,13 @@
 # So the "special magic" of maxdom seems lost here for N=11.
 
 
+# N=16:
+
+# Running with stop at lvs=12781513073, from gcMols N=16 experiment where flvs was lowest.
+# Each run should complete in approximately 60 hours with 12 threads or 120 hours with 6 threads.
+# MOLS> time ./rlaMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc - 1 6 "lvs,12781513073" -tree
+# XXX To run on server XXX
+
 
 # laMols with dL:
 
