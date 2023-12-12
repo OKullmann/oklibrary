@@ -181,10 +181,43 @@
 
 # Running with the same combinations used in gcMols N=13.
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc - 1 6 "lvs,10000" -tree
+# real    10m41.824s
+# user    43m54.506s
+# sys     0m22.316s
 # Results show that relaxed-pruning(relpr) and relaxed-nonpruning(relnpr) yield lowest two time(t).
 # Running with relnpr,relnpr with higher stop value lvs,100000:
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relpr,relnpr 1 6 "lvs,100000" -tree
-# XXX Running on server XXX
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 13    +enum bnd bin    maxdom desc  relpr   1        0    4875.081    7738090  1   200048   100002
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 677.309  0.352    0.735  116.206   157.199   1.518  0.000  0.195    0.390  28.102
+# 325.000  0.000    0.000   64.751    97.712   1.000  0.000  0.041    0.000   0.000
+#1380.000  7.000   16.327  125.765  1121.549  11.000  0.000  2.041   26.087  54.000
+#  72.159  0.501    1.093    3.855    80.208   0.903  0.000  0.113    1.370   5.786
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 630.100  1.908    0.321   18.091    74.072   1.357  0.000  0.092    3.616  30.106
+# 273.000  1.019    0.000    0.000     0.388   1.000  0.000  0.000    0.388   4.000
+#1252.000  7.000   33.333  118.238  1080.135  11.000  0.000  1.620   34.459  55.000
+#  77.523  0.773    0.698   20.345   100.102   0.826  0.000  0.128    2.936   5.602
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 13    +enum bnd bin    maxdom desc relnpr   1        0    4565.029    7788620  1   200060   100002
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 679.495  0.357    0.000    0.000   159.064   1.522  0.000  0.171    0.394  28.503
+# 325.000  0.000    0.000    0.000    97.712   1.000  0.000  0.012    0.000   0.000
+#1380.000  7.000    0.000    0.000  1152.189  11.000  0.000  1.880   26.087  49.000
+#  73.010  0.505    0.000    0.000    81.669   0.901  0.000  0.112    1.372   6.066
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 631.955  1.913    0.000    0.000    74.676   1.359  0.000  0.081    3.617  30.509
+# 241.000  1.019    0.000    0.000     0.388   1.000  0.000  0.000    0.388   4.000
+#1252.000  7.000    0.000    0.000  1271.519  12.000  0.000  2.117   33.723  50.000
+#  78.928  0.782    0.000    0.000   101.035   0.827  0.000  0.117    2.938   5.890
+#
+#real    31m19.999s
+#user    157m20.303s
+#sys     1m40.646s
+#
+# Remark: Both seems to perform almost same, however relaxed-nonpruning(relnpr) yielded less t.
+# Therefore, running relaxed-nonpruning(relnpr) might be interesting.
 
 # Maybe la reduction type behaves differently for different combinations?
 # Running with all combinations, stopped after 120 hours then filtered out and run further more.
