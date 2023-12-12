@@ -219,6 +219,10 @@
 # Remark: Both seems to perform almost same, however relaxed-nonpruning(relnpr) yielded less t.
 # Therefore, running relaxed-nonpruning(relnpr) might be interesting.
 
+# Since, we got satc=3 for N=13 using rlaMols with stop at 2907822 lvs, we can set stop at 2907822 lvs again and compare.
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relnpr 1 6 "lvs,2907822" -tree
+# XXX Running on server XXX
+
 # Maybe la reduction type behaves differently for different combinations?
 # Running with all combinations, stopped after 120 hours then filtered out and run further more.
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum - - - - - 1 6 "lvs,10000" -tree
