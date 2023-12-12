@@ -1,7 +1,8 @@
-server:         3 running
+server:         4 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
+Pandiagonal/sudoku: rlaMols (started 11:48 12/12/2023)
 Pandiagonal/sudoku: rlaMols (started 12:52 06/12/2023, max execution unlimited hours)
 
 server2:        1 running

@@ -182,6 +182,9 @@
 # Running with the same combinations used in gcMols N=13.
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc - 1 6 "lvs,10000" -tree
 # Results show that relaxed-pruning(relpr) and relaxed-nonpruning(relnpr) yield lowest two time(t).
+# Running with relnpr,relnpr with higher stop value lvs,100000:
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relpr,relnpr 1 6 "lvs,100000" -tree
+# XXX Running on server XXX
 
 # Maybe la reduction type behaves differently for different combinations?
 # Running with all combinations, stopped after 120 hours then filtered out and run further more.
