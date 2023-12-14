@@ -251,6 +251,10 @@
 # With the same logic, if we have lvs as a stop-type, we have to look for the highest t values.
 # We should try to run this experiment longer.
 
+# Running enumeration with newly found combination.
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum dom bin first asc eagnpr 1 6 "" -tree
+# XXX running on server XXX
+
 # laMols with wdL:
 
 # 2 <= N <= 11:
