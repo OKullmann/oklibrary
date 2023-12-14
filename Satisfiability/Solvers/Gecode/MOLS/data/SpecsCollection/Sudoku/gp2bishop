@@ -21,7 +21,8 @@
 
 # Running partial counting on N=16:
 # MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp2bishop "" count dom bin maxdom asc 0 6 "t,172800"
-# XXX running on server XXX
+#N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#16    count dom bin    maxdom  asc   0 8432367000  556004.865  677417739153  4543824204 25952382606    168  1
 
 
 
