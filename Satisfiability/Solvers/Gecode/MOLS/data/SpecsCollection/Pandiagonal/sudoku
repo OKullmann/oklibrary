@@ -221,14 +221,35 @@
 
 # Since, we got satc=3 for N=13 using rlaMols with stop at 2907822 lvs, we can set stop at 2907822 lvs again and compare.
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relnpr 1 6 "lvs,2907822" -tree
-# XXX Running on server XXX
+# N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 13    +enum bnd bin    maxdom desc relnpr   1        1  179214.696  232972167  1  5815699  2907825
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 665.067  0.370    0.000    0.000   161.534   1.550  0.000  0.252    0.446  35.690
+# 316.000  0.000    0.000    0.000    91.091   1.000  0.000  0.047    0.000   0.000
+#1380.000  8.000    0.000    0.000  1437.379  15.000  0.000  3.450   28.876  66.000
+#  77.834  0.510    0.000    0.000    84.980   0.932  0.000  0.165    1.465   6.704
+#     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
+# 615.356  1.922    0.000    0.000    75.932   1.370  0.000  0.117    3.758  37.690
+# 174.000  1.013    0.000    0.000     0.299   1.000  0.000  0.000    0.283   4.000
+#1254.000  8.000    0.000    0.000  1321.170  15.000  1.000  3.298   44.868  67.000
+#  83.182  0.794    0.000    0.000   102.393   0.838  0.001  0.168    3.069   6.552
+# real    502m8.524s user    2986m54.844s sys     23m1.345s
+# Remark: Resulting lvs and nds did not change much, however satc is 1 and time is much lower.
+# If we used 16 threads here as well, time could have been even smaller.
+# Real time spent on 1 thread would have been around 1466m49.135s * 16 threads = 391.151h,
+# while it is 508m8.524s * 6 threads = 50.214h here.
+# In conclusion, this result is not better because the same lvs is generated in 391.151h which is more than 50.214h.
 
 # Maybe la reduction type behaves differently for different combinations?
 # Running with all combinations, stopped after 120 hours then filtered out and run further more.
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum - - - - - 1 6 "lvs,10000" -tree
-# XXX Running on server XXX
-
-
+# real    2437m16.344s user    13038m1.502s sys     76m18.416s
+#   N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+# 13    +enum dom bin     first  asc eagnpr   1        0   15066.710    1112899  1    20070    10004
+# Remark: This combination of inputs had the highest t value.
+# When we had t as a stop-type in gcMols, we looked for the lowest lvs values.
+# With the same logic, if we have lvs as a stop-type, we have to look for the highest t values.
+# We should try to run this experiment longer.
 
 # laMols with wdL:
 
