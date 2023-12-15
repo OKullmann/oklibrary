@@ -25,6 +25,23 @@
 #  8    count dom bin    maxdom  asc   1         0       0.015         53433         881        1761      8  0
 #  9    count dom bin    maxdom  asc   1         0       0.149        465700        6862       13723     11  0
 
+# In order to compare gp7bishop, running queen sudoku condition without rred:
+# MOLS> ./gcMols 7 "@squares A\nls A\nbox A\nqueendiag A\nqueenantidiag A" "" count dom bin maxdom asc 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    maxdom  asc   1     20160       0.907       2182945       13639       67597     21  0
+# Running with gpbishop condition, meaning stays the same, just using different input parameter for gcMols solver.
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    maxdom  asc   1     20160       1.759       8412827       46687      133693     22  0
+# Satc is same in both cases, but gp7bishop is resulting in more t, ppc and flvs,
+# That concludes that using queens condition is better to count N=7 queen sudokus.
+# To make sure, all combinations for gp7bishop is checked and the best result was this:
+# MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/gp7bishop "" - - - - - 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom bin    maxdeg  asc   1     20160       1.830       8181843       43814      127947     22  0
+# Remark: This result is still worse than queen condition.
+# Conclusion holds true for N=7.
+
 
 # Best seems dom+bin+maxdom+desc; for N=10 asc in fact is somewhat better
 # (second runtime under high load):
