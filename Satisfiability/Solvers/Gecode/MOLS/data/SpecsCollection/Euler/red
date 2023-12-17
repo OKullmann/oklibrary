@@ -1458,7 +1458,9 @@
 # Kind of "final evaluation", to obtain a reasonable fine grid to compare
 # different heuristics; first setting X1=0:
 # LVS/red_6_newvdegm> time BBSample S0final ./Ssfinal "" 120 1 "lvs st nsel nsuel t aroundsi aroundsl apelvalsi apelvalsl adpi adpl aestlvs sddestlvs auestlvs sdduestlvs adm0 aw altausp aminp ameanp amaxp asddp minminp maxmaxp"
-# running on server2 XXX
+#BBS_S0final_2E2FSsfinal_1701377039809566517.R
+# real    4398m47.163s user    522909m13.557s sys     705m54.230s
+
 
 
 # MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" satd "" - newv "" "" 1 12 "O" "nds,7000" ""

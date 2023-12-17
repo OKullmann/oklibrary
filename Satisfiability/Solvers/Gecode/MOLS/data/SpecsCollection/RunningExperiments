@@ -4,9 +4,9 @@ Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
 
 
-server2:        1 running
+server2:        0 running
 
-LVS/red_6_newvdegm> BBSample
+
 
 
 server3:        0 running
