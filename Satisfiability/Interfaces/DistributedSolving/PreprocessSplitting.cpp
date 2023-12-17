@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.5.2011 (Swansea)
-/* Copyright 2011, 2020 Oliver Kullmann
+/* Copyright 2011, 2020, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,6 +44,7 @@ License, or any later version. */
 #include <cassert>
 #include <algorithm>
 #include <stdexcept>
+#include <limits>
 
 #include <cstdint>
 
@@ -61,7 +62,7 @@ namespace {
   const std::string program = "PreprocessSplitting";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.7";
+  const std::string version = "0.0.8";
 
   typedef std::uint64_t uint_type;
 
