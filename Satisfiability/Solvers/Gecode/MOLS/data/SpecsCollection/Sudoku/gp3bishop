@@ -45,6 +45,12 @@
 #  5    count dom enu    mindeg  asc   1       240       0.019        183069        1932        3788      7  0
 #  6    count dom enu    mindeg  asc   1         0       7.224      65002206      636336     1091680     14  0
 
+# Running partial counting on N=16:
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp3bishop "" count dom bin maxdom asc 0 6 "t,172800"
+#N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#16    count dom bin    maxdom  asc   0 8675648003  552949.290  685778313535  4282865820 25917027849    168  1
+
+
 
 squares A
 ls A
