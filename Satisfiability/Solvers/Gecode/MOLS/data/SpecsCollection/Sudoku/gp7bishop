@@ -1,5 +1,7 @@
 # Counts for N >= 2:
-# 0, 0, 0, 240, 0, 20160, 0, 80640
+# 0, 0, 0, 240, 0, 20160, 0, 80640, >= 1
+# >= 1, >= 2, >= 1, >= 1, >= 1, >= 5098880000, >= 1, >= 1, >= 1, >= 1
+# >= 1, >= 1, >= 1, ?
 
 #   hash=7706303330814783683
 
@@ -8,6 +10,8 @@
 
 
 # gcMols:
+
+# Open: finding best combination.
 
 # 2 <= N <= 8:
 
@@ -40,31 +44,63 @@
 #7 6 0 3 4 1 2 8 5
 # 7, 8 are indeed not bishops.
 
-# N=16:
-# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" sats dom bin maxdom asc 0 6 ""
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16     sats dom bin    maxdom  asc   0         1       0.018         67406         258         666    124  0
-# 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
-# 4  5  6  7  0  1  2  3 12 13 15 14  8  9 10 11
-# 8  9 10 11 12 13 15 14  0  1  2  3  4  5  6  7
-#12 13 14 15  8  9 10 11  4  5  7  6  0  1  2  3
-# 1  2  0  5  7  3  4  8  9 10 11 12 15 14 13  6
-# 3  7  8  9  1  2  0  6 13 15 14  4 10 11 12  5
-#10 11 12  6 14 15 13  5  1  7  0  8  9  3  4  2
-#15  4 13 14  9 10 11 12  2  3  6  5  7  8  0  1
-# 7  8  1 10 11  0  5  9 14 12 13  2  3  6 15  4
-# 9 14 15 12  6  7  8 10  3 11  4  0  5  2  1 13
-# 5  6  3  2 15  4 14 13  7  8  1 10 11 12  9  0
-#11  0  4 13  3 12  1  2  5  6  9 15 14  7  8 10
-#14 10  7  1  2  8  9  0 11  4  3 13  6 15  5 12
-#13  3  9  8  5  6  7 15 10  0 12  1  2  4 11 14
-# 2 15  5  4 10 11 12  1  6 14  8  7 13  0  3  9
-# 6 12 11  0 13 14  3  4 15  2  5  9  1 10  7  8
+# SAT decision for N >= 10:
 
-# We want to partial count the number of solutions.
-# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 0 6 "t,172800"
+# Quickly finding one solution:
+# MOLS> ./gcMols "10,15" data/SpecsCollection/Sudoku/gp7bishop "" satd dom bin maxdom "" 1 1 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 10     satd dom bin    maxdom  asc   1         1       0.440       1480609       13584       27195     30  0
+# 11     satd dom bin    maxdom  asc   1         1       0.010         30955         287         613     39  0
+# 12     satd dom bin    maxdom  asc   1         1       0.029         68716         490        1032     52  0
+# 13     satd dom bin    maxdom  asc   1         1       0.016         38972         289         639     62  0
+# 14     satd dom bin    maxdom  asc   1         1       0.038         90371         441         958     77  0
+# 15     satd dom bin    maxdom  asc   1         1       0.042        108991         472        1042     97  0
+
+# MOLS> ./gcMols "16,23" data/SpecsCollection/Sudoku/gp7bishop "" satd dom bin maxdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16     satd dom bin    maxdom  asc   1         1       0.078         81863         284         837    112  0
+# 17     satd dom bin    maxdom  asc   1         1       0.094        104766         589        1425    139  0
+# 18     satd dom bin    maxdom  asc   1         1       0.234        228906        2034        4768    158  0
+# 19     satd dom bin    maxdom  asc   1         1       0.743        809909        5415       11466    183  0
+# 20     satd dom bin    maxdom  asc   1         1       5.027       3859464       72045      145050    217  0
+# 21     satd dom bin    maxdom  asc   1         1       1.941       2046393        7040       14424    235  0
+# 22     satd dom bin    maxdom  asc   1         1       3.164       2626921       14652       30233    257  0
+# 23     satd dom bin    maxdom  asc   1         1      10.782       9587712       30130       60698    283  0
+
+
+# N=16:
+
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" sats dom bin maxdom asc 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16     sats dom bin    maxdom  asc   1         1       0.024         30829          73         290    113  0
+# 1  0  2  3  4  5  6  7  8  9 10 12 11 13 14 15
+# 4  5  6  7  0  1  2  3 11 13 15 14  8  9 10 12
+# 8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
+#12 13 15 14  8  9 10 11  4  5  6  7  0  1  2  3
+# 0  1  3  5  2  4  7  6  9  8 11 10 12 15 13 14
+# 2  7  8 12  1  3 15  0  5 14 13  4  9 10 11  6
+# 9 10 11  6  5 14 12 13  1  7  0 15  2  4  3  8
+#14 15 13  4  9  8 11 10  2  3 12  6  1  7  5  0
+# 7  3 12  8 10 11  0 14 13 15  4  2  5  6  1  9
+#10 11 14  1  7  2  4  8  6 12  5  9 15  3  0 13
+#15  2  4  9  3  6 13  5  7  0  8  1 10 14 12 11
+# 5  6  0 13 15 12  9  1  3 10 14 11  7  8  4  2
+# 3  4  7 10 13  0  5 12 14  2  9  8  6 11 15  1
+#11 12  1  2 14 10  8  4 15  6  7 13  3  0  9  5
+# 6 14  5 15 11  7  1  9 12  4  3  0 13  2  8 10
+#13  8  9  0  6 15  3  2 10 11  1  5 14 12  7  4
+
+# By mistake using 0 for the (internal) gcd-parameter:
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 0 6 "t,172800"
+#  N       rt  pl  bt        bv   bo gcd       satc           t           ppc        flvs        gnds     gd st
 # 16    count dom bin    maxdom  asc   0 5098880000  642037.222  975928628552 11643816252 33485392679    147  1
+
+
+# N=24:
+
+# MOLS> ./gcMols 24 data/SpecsCollection/Sudoku/gp7bishop "" satd "" bin maxdom "" 1 6 "t,60"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 24     satd dom bin    maxdom  asc   1         0     259.471     114612306     2430903     4862417    115  1
 
 
 

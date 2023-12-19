@@ -1,13 +1,15 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 3
+# >= 1, >= 1, >= 1, ?, ?, ?
 
 #   hash=10252590938149606178
 
 # So we obtained that for N=9, 6 Queens can be placed such that they occupy
 # the first 6 elements of the first row, but not 7.
 # (By gp7bishop we know that we can have 7 queens (at all), while by
-# Queendiagonal/gm1sudoku we know that 8 queens are not possible (at all).
+# Queendiagonal/gm1sudoku we know that 8 queens are not possible (at all)).
 # For N=10 we know that 7 Queens is possible (in this way), but not 9.
+
 
 
 # gcMols:
@@ -36,29 +38,39 @@
 
 # 2 <= N <= 20
 
-# ./gcMols 2,20 data/SpecsCollection/Sudoku/p7bishop "" satd bnd bin maxdom asc 1 8 "t,1"
+# MOLS> ./gcMols 2,20 data/SpecsCollection/Sudoku/p7bishop "" satd bnd bin maxdom asc 1 6 "t,1"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  2     satd bnd bin    maxdom  asc   1         0       0.177             2           1           0      0  0
-#  3     satd bnd bin    maxdom  asc   1         0       0.006            10           1           0      0  0
-#  4     satd bnd bin    maxdom  asc   1         0       0.006            66           1           0      0  0
+#  2     satd bnd bin    maxdom  asc   1         0       0.080             2           1           0      0  0
+#  3     satd bnd bin    maxdom  asc   1         0       0.017            10           1           0      0  0
+#  4     satd bnd bin    maxdom  asc   1         0       0.024            66           1           0      0  0
 #  5     satd bnd bin    maxdom  asc   1         1       0.001           513           2           7      1  0
-#  6     satd bnd bin    maxdom  asc   1         0       0.084          1735          15          29      4  0
-#  7     satd bnd bin    maxdom  asc   1         1       0.001          7443          35          75      4  0
-#  8     satd bnd bin    maxdom  asc   1         0       0.064        290199        2099        4197     16  0
-#  9     satd bnd bin    maxdom  asc   1         0       0.506       2070944       12377       24753     20  0
-# 10     satd bnd bin    maxdom  asc   1         0       3.305      10719748       71328      142707     20  1
-# 11     satd bnd bin    maxdom  asc   1         1       1.537       3566071       27564       55241     28  0
-# 12     satd bnd bin    maxdom  asc   1         1       0.422       1053841        9682       19448     39  0
-# 13     satd bnd bin    maxdom  asc   1         1       1.073       2793940       19644       39443     49  0
-# 14     satd bnd bin    maxdom  asc   1         0       4.167       7459972       70575      141345     42  1
-# 15     satd bnd bin    maxdom  asc   1         0       4.394       8759490       66286      132728     48  1
-# 16     satd bnd bin    maxdom  asc   1         0       3.855       4710190       75878      151920     60  1
-# 17     satd bnd bin    maxdom  asc   1         0       4.886      10472403       58571      117288     56  1
-# 18     satd bnd bin    maxdom  asc   1         0       4.767       5840410       64663      129531     76  1
-# 19     satd bnd bin    maxdom  asc   1         0       6.005      10396215       68393      136879     46  1
-# 20     satd bnd bin    maxdom  asc   1         0       5.711      11445900       56507      113119     55  1
+#  6     satd bnd bin    maxdom  asc   1         0       0.046          1735          15          29      4  0
+#  7     satd bnd bin    maxdom  asc   1         1       0.002          7276          34          73      4  0
+#  8     satd bnd bin    maxdom  asc   1         0       0.077        290199        2099        4197     13  0
+#  9     satd bnd bin    maxdom  asc   1         0       0.556       2070944       12377       24753     16  0
+# 10     satd bnd bin    maxdom  asc   1         0       4.380      14794619       98363      196753     24  1
+# 11     satd bnd bin    maxdom  asc   1         1       0.698       1938472       14458       28995     26  0
+# 12     satd bnd bin    maxdom  asc   1         1       1.131       2819367       23641       47392     39  0
+# 13     satd bnd bin    maxdom  asc   1         1       1.154       2862071       20578       41275     48  0
+# 14     satd bnd bin    maxdom  asc   1         0       4.503       8571820       89109      178411     47  1
+# 15     satd bnd bin    maxdom  asc   1         0       4.627       9277033       74715      149583     45  1
+# 16     satd bnd bin    maxdom  asc   1         0       4.093       5190322       83706      167601     63  1
+# 17     satd bnd bin    maxdom  asc   1         0       4.757      10638012       54977      110064     50  1
+# 18     satd bnd bin    maxdom  asc   1         0       4.274       6313397       54332      108800     66  1
+# 19     satd bnd bin    maxdom  asc   1         0       4.600       7634317       49720       99527     45  1
+# 20     satd bnd bin    maxdom  asc   1         0       4.945       9581679       45289       90632     27  1
 
 # We can see from above that bnd could find solutions for 11 <= N <= 13.
+
+# N=16:
+
+# From experiments with gp7bishop we know that is satisfiable.
+# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/p7bishop "" satd dom bin maxdom asc 1 6 "t,30"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 16     satd dom bin    maxdom  asc   1         0     130.913     118011448     2343040     4686300     64  1
+
+
+
 
 # rlaMols:
 
