@@ -30,6 +30,16 @@
 # Disabling "rred A" might help for sat-decision, but sometimes it is needed.
 # Sometimes maxdom helps.
 
+# Just asking for the main diagonal all-different, not the anti-diagonal:
+# MOLS> ./gcMols 7 "@squares A\nls A\nbox A\n" "@A\n0 * * * * * *\n* 1 * * * * *\n* * 2 * * * *\n* * * 3 * * *\n* * * * 4 * *\n* * * * * 5 *\n* * * * * * 6\n" count dom enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu maxdegdom  asc   1   4545664     143.993     139271327      791166    10645577     20  0
+# Checking:
+# MOLS> ./gcMols 7 "@squares A\nrred A\nls A\nbox A\ndiag A\n" "" count dom enu maxdegdom "" 1 6 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu maxdegdom  asc   1   4545664     127.751     139911555      791166    10645577     21  0
+
+
 
 
 # rlaMols:
