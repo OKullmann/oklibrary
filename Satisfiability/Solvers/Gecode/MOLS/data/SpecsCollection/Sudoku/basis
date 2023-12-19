@@ -49,6 +49,12 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count val bin maxdegdom  asc   1 715512576    4195.893   13549760464   122044638  1675114427     24  0
 
+# Proposing a diagonal reduction instead of row reduction:
+# MOLS> ./gcMols 7 "@squares A\nls A\nbox A" "@A\n0 * * * * * *\n* 1 * * * * *\n* * 2 * * * *\n* * * 3 * * *\n* * * * 4 * *\n* * * * * 5 *\n* * * * * * 6\n" count dom enu maxdegdom "" 1 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu maxdegdom  asc   1   4545664     143.993     139271327      791166    10645577     20  0
+# Remark: If this symmetry breaking is correct, is looks better than row reduction.
+
 
 # SAT decision:
 
