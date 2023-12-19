@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 4, >= 2
+# 4, >= 2, ?, ?, ?, ?
 
 #   hash=6630968238017515591
 
@@ -25,22 +25,21 @@
 #  8    count dom bin    maxdom  asc   1         0       0.015         53433         881        1761      8  0
 #  9    count dom bin    maxdom  asc   1         0       0.149        465700        6862       13723     11  0
 
-# In order to compare gp7bishop, running queen sudoku condition without rred:
+# For N=7, running queen-sudoku-condition without rred:
 # MOLS> ./gcMols 7 "@squares A\nls A\nbox A\nqueendiag A\nqueenantidiag A" "" count dom bin maxdom asc 1 6 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count dom bin    maxdom  asc   1     20160       0.907       2182945       13639       67597     21  0
-# Running with gpbishop condition, meaning stays the same, just using different input parameter for gcMols solver.
+# 20160 = 4 * 7! (where 4 is the number of solutions with rred).
+# Equivalently, with gp7bishop-condition, but with different conditions:
 # MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/gp7bishop "" count dom bin maxdom asc 1 6 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count dom bin    maxdom  asc   1     20160       1.759       8412827       46687      133693     22  0
-# Satc is same in both cases, but gp7bishop is resulting in more t, ppc and flvs,
-# That concludes that using queens condition is better to count N=7 queen sudokus.
-# To make sure, all combinations for gp7bishop is checked and the best result was this:
+# We see that (naturally) the queens-conditions yield better propagation, since using
+# all-different for complete diagaons (not broken into the different cases).
+# To make sure, all combinations for gp7bishop are checked, and the best result was this:
 # MOLS> ./gcMols 7 data/SpecsCollection/Sudoku/gp7bishop "" - - - - - 1 6 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count dom bin    maxdeg  asc   1     20160       1.830       8181843       43814      127947     22  0
-# Remark: This result is still worse than queen condition.
-# Conclusion holds true for N=7.
 
 
 # Best seems dom+bin+maxdom+desc; for N=10 asc in fact is somewhat better
@@ -118,6 +117,14 @@
 # For checking, "dom enumbr mindom" was run for nearly 60h wall-clock without finding a solution (with rred).
 
 
+# N >= 14:
+
+# MOLS> ./gcMols "13,15" data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 6 "t,10"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 13    count dom bin    maxdom  asc   1         0      44.727      48227379      714430     1428979     38  1
+# 14    count dom bin    maxdom  asc   1         0      45.488      46656899      650741     1301612     47  1
+# 15    count dom bin    maxdom  asc   1         0      45.449      30135232      523031     1046235     48  1
+
 # N=16:
 
 # All combinations:
@@ -176,6 +183,7 @@
 # Running maxdeg:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc 1 6 ""
 # XXX Running on server XXX
+
 
 
 # rlaMols:
