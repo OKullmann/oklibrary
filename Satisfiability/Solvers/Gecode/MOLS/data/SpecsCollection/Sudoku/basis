@@ -49,6 +49,19 @@
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 #  7    count val bin maxdegdom  asc   1 715512576    4195.893   13549760464   122044638  1675114427     24  0
 
+# N=9:
+
+# Counting sudoku families as mentioned in https://oeis.org/A109741, expected result is 5,472,730,538.
+# Now searching for better combination:
+# MOLS> ./gcMols 9 data/SpecsCollection/Sudoku/basis "" count - - - - 1 6 "t,1"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    count dom enu    maxdom desc   1    167888       3.853       5156392       24384      307121     32  1
+# Remark: This seems to be the best combination.
+#
+# Now counting with the best combination:
+# MOLS> time ./gcMols 9 data/SpecsCollection/Sudoku/basis "" +count - - - - 1 6 ""
+# XXX running on server
+
 
 # SAT decision:
 
