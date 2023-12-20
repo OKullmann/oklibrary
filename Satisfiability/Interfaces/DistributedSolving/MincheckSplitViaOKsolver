@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Oliver Kullmann, 18.12.2023 (Swansea)
+# Copyright 2023 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version. */
+
+# Running minimality-check on a directory created by SplitViaOKsolver,
+# creating "Instances_sb".
+
+set -o errexit
+set -o nounset
+
+program="MincheckSplitViaOKsolver"
+errorm="ERROR[${program}]:"
+version="0.0.8"
+
+if [[ $# -ne 2 ]]; then
+  echo "ERROR[${program}]: Exactly two parameters are needed, the number of vertices and the directory to be processed."
+  exit 1
+fi
+
+directory="$2"
+num_vertices=$1
+idir=${directory}/Instances
+idir_sb=${idir}_sb
+
+mkdir ${idir_sb}
+
+number_cubes=$(cat ${directory}/N)
+index2=1
+for ((index=1; index <= number_cubes; ++index)); do
+  inst=${idir}/${index}
+  inst_sb=${idir_sb}/${index2}
+  cat ${inst} | mincheck ${num_vertices} /dev/stdin /dev/stdout v > ${inst_sb}
+  if [ -s ${inst_sb} ]; then
+    ((++index2))
+  else
+    rm ${inst_sb}
+  fi
+  printf "\r%d" ${index}
+done
+echo
+
+((--index2))
+echo "${number_cubes} ${index2}"
