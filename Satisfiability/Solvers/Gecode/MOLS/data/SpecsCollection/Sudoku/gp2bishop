@@ -1,5 +1,5 @@
 # Counts for N >= 2:
-# 0, 0, 4, 624, 9120
+# 0, 0, 4, 624, 9120, ?
 
 #   hash=1480201237742621774
 
@@ -18,6 +18,9 @@
 #  4    count dom bin    maxdom  asc   1         4       0.005           520           8          23      3  0
 #  5    count dom bin    maxdom  asc   1       624       0.006         18764         166        1579      9  0
 #  6    count dom bin    maxdom  asc   1      9120       0.090        235484        2254       22747     17  0
+
+# N = 7:
+
 
 
 

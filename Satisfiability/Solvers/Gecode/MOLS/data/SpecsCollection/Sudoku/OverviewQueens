@@ -1,0 +1,163 @@
+Let MQ(N) be the maximal number of queens for an NxN Sudoku.
+Let CMQ(N) be the number of Sudokus with MQ(N) queens,
+while CQ(N,i) is the number of Sudokus with exactly i queens
+(thus CMQ(N) = CQ(N,MQ(N))).
+
+Furthermore let
+  SCQ(N,i) be the number of Sudokus with exactly the first i cells
+  in the first row being queens (there might be further queens, after
+  a gap).
+Remark: As the basis of efficient counting one needed (somehow) to consider
+  SCQ(N, S) for S any subset of the column-indices; but likely we don't
+  do such things (for now).
+
+And let C(N) be the number of Sudokus at all (in "basis").
+
+
+MQ(N) = N iff Queendiagonal/sudoku is solvable, and then
+CMQ(N) is the number of Sudokus recorded there.
+MQ(N) >= N-1 iff Queendiagonal/m1sudoku is solvable.
+
+For N <= 11 we have
+  MQ(N) = N iff N in {5, 7, 11}, where
+  CMQ(5) = 2 * 5! = 240
+  CMQ(7) = 4 * 7! = 20160
+  CMQ(11) = 4 * 11! = 159667200.
+
+-----------------------------------------------------
+
+N=1:
+
+  C(1) = 1
+  MQ(1) = 1
+  CMQ(1) = 1
+
+---
+
+N=2:
+
+  C(2) = 1 * 2! = 2
+  MQ(2) = 0
+
+---
+
+N=3:
+
+  C(3) = 2 * 3! = 12
+  MQ(3) = 0
+
+---
+
+N=4:
+
+  C(4) = 12 * 4! = 288
+  MQ(4) = 2
+  CMQ(4) = 4
+
+  36 Sudokus for >= 1 bishop in gp1bishop
+  4 Sudokus for >= 1 bishop2 in gp2bishop
+
+  CQ(4,0) = 288 - 36 = 252
+  CQ(4,1) = 36 - 4 = 32
+  CQ(4,2) = 4
+
+By p1bishop we have
+  0 * 4! = 0 Sudokus with >= 1 queen, where one queen sits
+  in the first cell (top-left corner).
+
+  SCQ(4,0) = 288 - 0 = 288
+  SCQ(4,1) = 0.
+
+---
+
+N=5:
+
+  C(5) = 240 * 5! = 28800
+  MQ(5) = 5
+  CMQ(5) = 240
+
+  3600 Sudokus for >= 1 bishop in gp1bishop
+  624 Sudokus for >= 2 bishops in gp2bishop
+  240 Sudokus for >= 3 bishops in gp3bishop
+
+  CQ(5,0) = 28800 - 3600 = 25200
+  CQ(5,1) = 3600 - 624 = 2976
+  CQ(5,2) = 624 - 240 = 384
+  CQ(5,3) = 0
+  CQ(5,4) = 0
+  CQ(5,5) = 240.
+
+By p1bishop we have
+  30 * 5! = 3600 Sudokus with >= 1 queen, where one queen sits
+  in the first cell.
+By p2bishop we have
+  6 * 5! = 720 Sudokus with >= 2 queens, where two queens sit
+  in the first two cells.
+All p3/4/5bishop all yield 2.
+So
+  SCQ(5,0) = 28800 - 3600 = 25200
+  SCQ(5,1) = 3600 - 720 = 2880
+  SCQ(5,2) = 720 - 240 = 480
+  SCQ(5,3) = 0
+  SCQ(5,4) = 0
+  SCQ(5,5) = 2 * 5! = 240.
+
+Is this coincidence: SCQ(5,0) = CQ(5,0) ?:
+  SCQ(5,0) includes Sudokus with 1 or 2 queens, iff they don't occupy
+  the first cell.
+  SCQ(5,1) includes Sudokus with 2 queens, iff they don't occupy the
+  second cell.
+
+---
+
+N=6:
+
+  C(6) = 43648 * 6! = 31426560
+  MQ(6) = 2
+  CMQ(6) = 9120
+
+  327360 Sudokus for >= 1 bishop in gp1bishop
+  9120 Sudokus for >= 2 bishop in gp2bishop
+
+  CQ(6,0) = 31426560 - 327360 = 31099200
+  CQ(6,1) = 327360 - 9120  = 318240
+  CQ(6,2) = 9120
+
+---
+
+N=7:
+
+  C(7) = 715512576 * 7! = 3606183383040
+  MQ(7) = 7
+  CMQ(7) = 20160
+
+  43918567200 Sudokus for >= 1 bishop in gp1bishop
+  ? Sudokus for >= 2 bishops in gp2bishop
+  XXX
+  20160 Sudokus for >= 6 bishops in gp6bishop
+
+  CQ(7,0) = 3606183383040 - 43918567200 = 3562264815840
+  CQ(5,1) = 43918567200 - ? = ?
+  CQ(5,2) = XXX
+
+  5911738 * 7! = 29795159520 Sudokus with >= 1 queen in p1bishop
+  62085 * 7! = 312908400 Sudokus with >= 2 queens in p2bishop
+  931 * 7! = 4692240 Sudokus with >= 3 queens in p3bishop
+  37 * 7! = 186480 Sudokus with >= 4 queens in p4bishop
+  4 * 7! = 20160 Sudokus with >= 5 queens in p5bishop
+
+  SCQ(7,0) = 3606183383040 - 29795159520 = 3576388223520
+  SCQ(7,1) = 29795159520 - 312908400 = 29482251120
+  SCQ(7,2) = 312908400 - 4692240 = 308216160
+  SCQ(7,3) = 4692240 - 186480 = 4505760
+  SCQ(7,4) = 186480 - 20160 = 166320
+  SCQ(7,5) = 0
+  SCQ(7,6) = 0
+  SCQ(7,7) = 20160
+
+Remark: The above information for SCQ(7,i) is better represented
+via multiples of 7!.
+
+---
+
+The current methods are not strong enough to investigate N=8 (fully).
