@@ -1,10 +1,11 @@
-server:         5 running
+server:         6 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
 Queendiagonal/sudoku : gcMols (started 16:13 12/12/2023)
 Queendiagonal/sudoku : rlaMols (started 12/12/2023)
 Pandiagonal/sudoku : rlaMols (started 16:10 14/12/2023)
+Sudoku/gp2bishop : gcMols (started 10:58 21/12/2023)
 
 server2:        0 running
 

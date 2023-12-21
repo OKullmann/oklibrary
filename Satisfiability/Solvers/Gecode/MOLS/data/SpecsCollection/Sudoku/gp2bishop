@@ -21,6 +21,8 @@
 
 # N = 7:
 
+# MOLS> time ./gcMols 7 data/SpecsCollection/Sudoku/gp2bishop "" count dom bin maxdom "" 1 6 ""
+# XXX Running on server
 
 
 
