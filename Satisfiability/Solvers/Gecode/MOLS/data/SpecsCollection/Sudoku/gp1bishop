@@ -64,6 +64,7 @@
 
 
 # SAT decision:
+
 # Let's repeat same experiments done in p1bishop.
 # Longer computation is expected, therefore increasing threads; previous experience is
 # that on unsatisfiable problems and for counting, a thread-numbers > 16 is inefficient
@@ -125,10 +126,6 @@
 #100     satd dom bin    maxdom  asc   0         0    3005.552      15229577      109428      229189   3061  1
 # We see that running more threads increases the likelihood of finding one solution.
 
-# Running partial counting on N=16:
-# MOLS> ./gcMols 16 data/SpecsCollection/Sudoku/gp1bishop "" count dom bin maxdom asc 0 6 "t,172800"
-# N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#16    count dom bin    maxdom  asc   0 8913454812  540086.394  589463478643  3175318254 24177546356    181  1
 
 
 
