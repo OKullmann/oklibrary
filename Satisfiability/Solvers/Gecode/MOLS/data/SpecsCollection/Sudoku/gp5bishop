@@ -17,6 +17,12 @@
 #  5    count dom enu    mindeg  asc   1       240       0.003         46578           0         446      5  0
 #  6    count dom enu    mindeg  asc   1         0       0.958       9359192       57840       99822      9  0
 
+# N = 7:
+
+# MOLS> time ./gcMols 7 data/SpecsCollection/Sudoku/gp5bishop "" count dom enu mindeg "" 1 6 ""
+# XXX running on server
+
+
 
 squares A
 ls A
