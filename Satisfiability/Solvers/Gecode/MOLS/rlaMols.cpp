@@ -23,9 +23,10 @@ Examples:
     - 2 threads,
     - and no stopping:
 
-MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" 1 2 "" ""
-# rlaMols 1.0.1 d262061724e5442f9da54da4e8a95c9be74a3902
-# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "1" "2" "" ""
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" 1 2 "" ""
+# rlaMols 1.0.2 c3f1c876e1928b57a1680bd17de6d0432daf4aa8
+# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "1" "2" "" ""
+
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
 #   num_uc=9 num_eq=0 num_peq=3
@@ -40,19 +41,20 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
 #   branching-type: enumerative-branching(enu)
 #   variable-heuristic: max-deg/dom-var(maxdegdom)
 #   order-heuristic: ascending-order(asc)
-#   la-reduction-type: relaxed-pruning(relpr)
+#   la-reduction-level: basic-lookahead(labsc)
+#   la-reduction-algorithm: relaxed-pruning(relpr)
 #   commit-distance: 1
-  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
-  5    count dom enu maxdegdom  asc  relpr   1       36       0.092        691  0       11        8
+  N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
+  5    count dom enu maxdegdom  asc  relpr   1       36       0.096        691  0       11        8
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.013    0.773  1.000
-302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.004    0.000  0.000
-320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.024    2.318  2.000
+310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.014    0.773  1.000
+302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.007    0.000  0.000
+320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.026    2.318  2.000
   9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.006    6.090  2.000
+289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.007    6.090  2.000
 251.000  1.154    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000
-309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000
+309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.017   11.650  3.000
  25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926
 
 */
@@ -111,15 +113,15 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.1",
-        "28.9.2023",
+        "1.0.2",
+        "25.11.2023",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 13;
+  constexpr int commandline_args = 14;
 
   using namespace Conditions;
   using namespace Encoding;
@@ -147,13 +149,14 @@ namespace {
       " 6.  branch-type  : " << Environment::WRPO<BRT>{} << "\n" <<
       " 7.  branch-var   : " << Environment::WRPO<BHV>{} << "\n" <<
       " 8.  branch-order : " << Environment::WRPO<GBO>{} << "\n" <<
-      " 9.  la-reduction : " << Environment::WRPO<LAR>{} << "\n" <<
-      " 10. gcd          : Gecode commit-distance; list as for N;"
+      " 9.  la-reduction : " << Environment::WRPO<RDL>{} << "\n" <<
+      " 10. la-algorithm : " << Environment::WRPO<LAR>{} << "\n" <<
+      " 11. gcd          : Gecode commit-distance; list as for N;"
       " default=" << default_comdist << "\n"
-      " 11. threads      : floating-point for number of threads;"
+      " 12. threads      : floating-point for number of threads;"
       " default=" << default_threads << "\n"
-      " 12. stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
-      " 13. tree-logging : " << Environment::WRPO<TREE>{} << "\n\n" <<
+      " 13. stop-type    : " << Environment::WRPO<LRST>{} << "\n" <<
+      " 14. tree-logging : " << Environment::WRPO<TREE>{} << "\n\n" <<
       "Here\n"
       "  - file_ps can be the empty string (no partial instantiation)\n"
       "   - in general, starting with the 3. argument, all arguments have"
@@ -176,7 +179,7 @@ namespace {
 
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
-    Environment::header_policies<RT, PropO, BRT, BHV, GBO, LAR>(out);
+    Environment::header_policies<RT, PropO, BRT, BHV, GBO, RDL, LAR>(out);
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
@@ -224,20 +227,22 @@ int main(const int argc, const char* const argv[]) {
                                         "gc-variable-heuristics");
   const list_gbo_t gbov = read_opt<GBO>(argc, argv, 8, "gbo",
                                         "gc-order-heuristics");
-  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+  const list_rdl_t rdlv = read_opt<RDL>(argc, argv, 9, "rdl",
                                         "lookahead-reduction");
-  const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 10, "lar",
+                                        "lookahead-algorithm");
+  const list_unsigned_t gcdv = read_comdist(argc, argv, 11);
   const size_t num_runs =
     list_N.size()*pov.size()*brtv.size()*bvarv.size()*gbov.size()
-    *larv.size()*gcdv.size();
+    *rdlv.size()*larv.size()*gcdv.size();
 
-  const double threads = read_threads(argc, argv, 11);
+  const double threads = read_threads(argc, argv, 12);
 
-  const auto stod = read_rlast(argc, argv, 12);
+  const auto stod = read_rlast(argc, argv, 13);
 
-  const auto to = Environment::read<TREE>(argv[13]);
+  const auto to = Environment::read<TREE>(argv[14]);
   if (not to) {
-    std::cerr << error << "Wrong item \"" << argv[13] << "\" for "
+    std::cerr << error << "Wrong item \"" << argv[14] << "\" for "
       "tree-logging.\n";
     return 1;
   }
@@ -283,7 +288,7 @@ int main(const int argc, const char* const argv[]) {
     st_output(out, stod);
     if (withfiles)
       treelogging_output(out, to.value(), treeloggingfile);
-    algo_output(out, std::make_tuple(pov, brtv, bvarv, gbov, larv));
+    algo_output(out, std::make_tuple(pov, brtv, bvarv, gbov, rdlv, larv));
     cd_output(out, gcdv);
     out.flush();
   };
@@ -310,10 +315,11 @@ int main(const int argc, const char* const argv[]) {
       for (const BRT brt : brtv)
         for (const BHV bvar : bvarv)
           for (const GBO gbo : gbov)
+            for (const RDL rdl : rdlv)
             for (const LAR lar : larv)
               for (unsigned gcd : gcdv) {
                 const rlaSR res =
-                  rlasolver(enc, rt, brt, bvar, gbo, lar,
+                  rlasolver(enc, rt, brt, bvar, gbo, rdl, lar,
                             gcd, threads, stod, log, tree_log);
                 if (with_log and
                     rt != RT::enumerate_with_log and

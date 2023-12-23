@@ -261,7 +261,7 @@ namespace LookaheadReduction {
   template <class SPA>
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
-                        const OP::LAR lar) noexcept {
+                        const OP::RDL rdl, const OP::LAR lar) noexcept {
     ReductionStatistics stats(m->V, m->nodedata().depth);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();

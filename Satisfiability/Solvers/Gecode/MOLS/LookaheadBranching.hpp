@@ -291,6 +291,7 @@ namespace LookaheadBranching {
 
   struct rlaParams {
     const OP::RT rt;
+    const OP::RDL rdl;
     const OP::LAR lar;
     const OP::BHV bv;
     const OP::BRT bt;
@@ -501,7 +502,7 @@ namespace LookaheadBranching {
 
     const GC::Choice* choice(GC::Space& s0) override {
       CT::GenericMols1& s = static_cast<CT::GenericMols1&>(s0);
-      auto stats = LR::lareduction(&s, P.rt, P.lar);
+      auto stats = LR::lareduction(&s, P.rt, P.rdl, P.lar);
       VVElim* const res = stats.leaf() ? new VVElim(*this, {}, {}) :
         [this,&s,&stats]{const int v = GV::gcbv(s.V, P.bv);
           return create_la(v, GV::values(s.V, v), P.bt, P.bo, *this,
@@ -568,6 +569,7 @@ namespace LookaheadBranching {
     const OP::LBRT bt;
     const OP::DIS d;
     const OP::LBRO bo;
+    const OP::RDL rdl;
     const OP::LAR lar;
     const bool parallel;
   };
@@ -800,7 +802,7 @@ namespace LookaheadBranching {
       const GV::domsizes_t V0 = GV::domsizes(s.V);
       const GV::degrees_t V0deg = GV::degrees(s.V);
 
-      auto stats0 = LR::lareduction(&s, P.rt, P.lar);
+      auto stats0 = LR::lareduction(&s, P.rt, P.rdl, P.lar);
       {MeasureStatistics mstats(s);
        mstats.set_nodetype(stats0.leaf() ? NodeType::leaf : // XXX
                            NodeType::inode);

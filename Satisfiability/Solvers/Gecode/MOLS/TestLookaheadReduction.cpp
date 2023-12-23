@@ -1,5 +1,5 @@
 // Oleg Zaikin, 29.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.0",
-        "27.6.2022",
+        "0.8.1",
+        "25.11.2023",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -274,55 +274,53 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(PT, {{0,1}, {1,0}, {1,2}, {2,1}, {7,0}, {7,2}}));
   }
 
-  {for (size_t N = 2; N <= 5; ++N) {
-     for (const LAR lar : ET::allvals<LAR>()) {
+  {for (size_t N = 2; N <= 5; ++N)
+     for (const RDL rdl : ET::allvals<RDL>())
+     for (const LAR lar : ET::allvals<LAR>())
        for (const RT rt : ET::allvals<RT>()) {
          const CS::Square A(N);
          const std::unique_ptr<CS::GenericMolsNB> m = A.space();
          const ReductionStatistics stats =
-           lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+           lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
          assert(eqwt(stats, A.laredstats(lar)));
        }
-     }
-   }
   }
 
   {const CS::Square A(3, "A\n0 * *\n* * *\n* * *\n");
-   for (const LAR lar : ET::allvals<LAR>()) {
+   for (const RDL rdl : ET::allvals<RDL>())
+   for (const LAR lar : ET::allvals<LAR>())
      for (const RT rt : ET::allvals<RT>()) {
        const std::unique_ptr<CS::GenericMolsNB> m = A.space();
        assert(sumdomsizes(m->V) == 27 - 2);
        const ReductionStatistics s =
-         lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+         lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
        assert(eqwt(s, A.laredstats(lar)));
      }
-   }
   }
 
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
-   for (const LAR lar : ET::allvals<LAR>()) {
+   for (const RDL rdl : ET::allvals<RDL>())
+   for (const LAR lar : ET::allvals<LAR>())
      for (const RT rt : ET::allvals<RT>()) {
        const std::unique_ptr<CS::GenericMolsNB> m = A.space();
        assert(sumdomsizes(m->V) == 27 - 2);
        const ReductionStatistics s =
-         lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+         lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
        assert(eqwt(s, A.laredstats(lar)));
      }
-   }
   }
 
-  {for (size_t N = 2; N <= 5; ++N) {
-     for (const LAR lar : ET::allvals<LAR>()) {
+  {for (size_t N = 2; N <= 5; ++N)
+     for (const RDL rdl : ET::allvals<RDL>())
+     for (const LAR lar : ET::allvals<LAR>())
        for (const RT rt : ET::allvals<RT>()) {
          if (test_sat(rt) or test_unique(rt)) continue;
          const CS::LaSq A(N);
          const std::unique_ptr<CS::GenericMolsNB> m = A.space();
          const ReductionStatistics stats =
-           lareduction<CS::GenericMolsNB>(m.get(), rt, lar);
+           lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
          assert(eqwt(stats, A.laredstats(lar, rt)));
        }
-     }
-   }
   }
 
   {const CS::LaSq A(3, "A\n0 * *\n* * *\n* * *\n");
@@ -330,7 +328,7 @@ int main(const int argc, const char* const argv[]) {
    assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::rel_npr);
+       RDL::basic, LAR::rel_npr);
    assert(s.vals() == (27-9) - 2 - 2*2); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 1);
@@ -353,7 +351,7 @@ int main(const int argc, const char* const argv[]) {
    assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::rel_pr);
+       RDL::basic, LAR::rel_pr);
    assert(s.vals() == (27-9) - 2 - 2*2); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 1);
@@ -376,7 +374,7 @@ int main(const int argc, const char* const argv[]) {
    assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::eag_npr);
+       RDL::basic, LAR::eag_npr);
    assert(s.vals() == (27-9) - 2 - 2*2);
    assert(s.props() == 2);
    assert(s.rounds() == 2);
@@ -399,7 +397,7 @@ int main(const int argc, const char* const argv[]) {
    assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
    const ReductionStatistics s =
      lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
-       LAR::eag_pr);
+       RDL::basic, LAR::eag_pr);
    assert(s.vals() == (27-9) - 2 - 2*2);
    assert(s.props() == 2);
    assert(s.rounds() == 2);
@@ -423,7 +421,7 @@ int main(const int argc, const char* const argv[]) {
      const std::unique_ptr<CS::GenericMolsNB> m = A.space();
      assert(sumdomsizes(m->V) == 27 - 2 - 2*2);
      const ReductionStatistics s =
-       lareduction<CS::GenericMolsNB>(m.get(), rt, LAR::rel_npr);
+       lareduction<CS::GenericMolsNB>(m.get(), rt, RDL::basic, LAR::rel_npr);
      assert(s.vals() == (27-9) - 2 - 2*2);
      assert(s.rounds() == 1);
      assert(s.prunes() == 0);
@@ -452,7 +450,8 @@ int main(const int argc, const char* const argv[]) {
    const std::unique_ptr<CS::GenericMolsNB> m = A.space();
    assert(sumdomsizes(m->V) == 64 - 3*6 - 2*8 - 2*1);
    const ReductionStatistics s =
-     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions, LAR::eag_npr);
+     lareduction<CS::GenericMolsNB>(m.get(), RT::enumerate_solutions,
+                                    RDL::basic, LAR::eag_npr);
    assert(s.vals() == (64-16) - 3*6 - 2*8 - 2*1); // = 12
    assert(s.props() == 2);
    assert(s.rounds() == 3);

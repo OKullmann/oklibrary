@@ -135,8 +135,8 @@ MOLS> ./laMols -v | grep "^ version"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "29.9.2023",
+        "0.9.2",
+        "25.11.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -149,11 +149,10 @@ namespace {
   namespace PSC = ParSysCalls;
   namespace LB = LookaheadBranching;
 
-  constexpr int commandline_args_transfer = 7;
+  constexpr int commandline_args_transfer = 8;
   constexpr int commandline_args_own = 3;
   constexpr int commandline_args =
     commandline_args_transfer  + commandline_args_own;
-  static_assert(commandline_args_laMols == 14);
   const std::string solver_call = "./laMols";
 
   const std::string
@@ -166,7 +165,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n\n"
-      " N file_cond file_ps branch-type distance init-seeds weights"
+      " N file_cond file_ps branch-type la-red distance init-seeds weights"
       "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to \"" << solver_call << "\":\n"
@@ -268,18 +267,22 @@ int main(const int argc, const char* const argv[]) {
   }
 
   using Environment::qu;
+  // the components of argument_list (below):
   const std::string
     Narg_1 = argv[1],
     filecondarg_2 = qu(argv[2]),
     filepsarg_3 = qu(argv[3]),
     runtypearg_4 = "count",
     proplevelarg_5 = "dom",
-    branchtypearg = que(argv[4]),
-    distancearg_7 = que(argv[5]),
-    initseedarg = argv[6],
-    latypearg_9 = "relpr",
-    weightsarg = argv[7];
-  const std::string Marg = argv[8], threadsarg = argv[9];
+    branchtypearg = que(argv[4]), // branchtypearg_6 see below
+    laredarg_7 = que(argv[5]),
+    distancearg_8 = que(argv[6]),
+    initseedarg = argv[7],
+    // branchorderarg_9 see below
+    latypearg_10 = "relpr",
+    weightsarg = argv[8];
+  // gcdarg_11,threadsarg_12,weightsarg_13,stoparg_14,formattingarg_15 below
+  const std::string Marg = argv[9], threadsarg = argv[10];
 
   const auto [branchtypearg_6, prefix_branchorder] =
     read_branchtype(branchtypearg);
@@ -289,34 +292,35 @@ int main(const int argc, const char* const argv[]) {
   const size_t
     M = read_M(Marg),
     threads = read_threads(threadsarg);
-  const auto select0 = Environment::read<STTS>(argv[10]);
+  const auto select0 = Environment::read<STTS>(argv[11]);
   if (not select0) {
-    std::cerr << error << "Unknown selection-option \"" << argv[10] <<
+    std::cerr << error << "Unknown selection-option \"" << argv[11] <<
       "\".\n";
     return 1;
   }
   const STTS select = select0.value();
 
   const std::string
-    gcdarg_10 = "1",
-    threadsarg_11 = "1",
-    weightsarg_12 = weights_arg(weightsarg), // cin has been read
+    gcdarg_11 = "1",
+    threadsarg_12 = "1",
+    weightsarg_13 = weights_arg(weightsarg), // cin has been read
     branchorderarg = // completed below; no spaces allowed here by laMols
       prefix_branchorder + seed_arg(initseedarg),
-    stoparg_13 = "lvs,0",
-    formattingarg_14 = valuesel + ",-info,-w,-stop";
+    stoparg_14 = "lvs,0",
+    formattingarg_15 = valuesel + ",-info,-w,-stop";
 
   PSC::vargs_t calls; calls.reserve(M);
   for (size_t seed = 0; seed < M; ++seed) {
-    const std::string branchorderarg_8 =
+    const std::string branchorderarg_9 =
       Environment::qu(branchorderarg + std::to_string(seed));
+    static_assert(commandline_args_laMols == 15);
     const std::string argument_list =
       Narg_1 + " " + filecondarg_2 + " " + filepsarg_3 + " " +
       runtypearg_4 + " " + proplevelarg_5 + " " +
-      branchtypearg_6 + " " + distancearg_7 + " " +
-      branchorderarg_8 + " " + latypearg_9 + " " + gcdarg_10 + " " +
-      threadsarg_11 + " " + weightsarg_12 + " " + stoparg_13 + " " +
-      formattingarg_14;
+      branchtypearg_6 + " " + laredarg_7 + " " + distancearg_8 + " " +
+      branchorderarg_9 + " " + latypearg_10 + " " + gcdarg_11 + " " +
+      threadsarg_12 + " " + weightsarg_13 + " " + stoparg_14 + " " +
+      formattingarg_15;
     calls.push_back({solver_call + " " + argument_list});
   }
   const auto res = PSC::run_parallel(calls, threads);

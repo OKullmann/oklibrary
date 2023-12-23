@@ -26,6 +26,7 @@ License, or any later version. */
 
     Lookahead-reduction for rlaMols and laMols:
      - LAR
+     - RDL
 
     Lookahead-branching for laMols:
      - LBRT branching-type (lookahead-brt) enu, bin; plus later binbal
@@ -305,6 +306,15 @@ namespace Options {
   constexpr bool eager(const LAR lar) noexcept { return int(lar) >= 2; }
   constexpr bool pruning(const LAR lar) noexcept { return int(lar) % 2 == 0; }
 
+  // Different reduction-levels:
+  enum class RDL {
+    basic = 0,
+    efv = 1, // eliminate formal variables
+    eaut = 2 // eliminate autarkies (includes efv)
+  };
+  constexpr int RDLsize = int(RDL::eaut) + 1;
+  constexpr bool efv(const RDL r) noexcept { return r != RDL::basic; }
+
 
   enum class DIS {
     wdeltaL = 0,
@@ -545,7 +555,7 @@ namespace Environment {
         "random-order", "tauprob-first"};
   };
   template <> struct RegistrationPolicies<Options::LAR> {
-    static constexpr const char* name = "la-reduction-type";
+    static constexpr const char* name = "la-reduction-algorithm";
     static constexpr const char* sname = "lar";
     static constexpr int size = Options::LARsize;
     static constexpr std::array<const char*, size>
@@ -553,6 +563,16 @@ namespace Environment {
     static constexpr std::array<const char*, size>
       estring {"relaxed-pruning", "relaxed-nonpruning",
         "eager-pruning", "eager-nonpruning"};
+  };
+  template <> struct RegistrationPolicies<Options::RDL> {
+    static constexpr const char* name = "la-reduction-level";
+    static constexpr const char* sname = "rdl";
+    static constexpr int size = Options::RDLsize;
+    static constexpr std::array<const char*, size>
+      string {"labsc", "laefv", "laeaut"};
+    static constexpr std::array<const char*, size>
+      estring {"basic-lookahead", "eliminate-formal-variables",
+        "eliminate-autarkies"};
   };
   template <> struct RegistrationPolicies<Options::DIS> {
     static constexpr const char* name = "distance-type";
@@ -705,6 +725,9 @@ namespace Options {
   }
   std::ostream& operator <<(std::ostream& out, const LAR lar) {
     return out << Environment::W2(lar);
+  }
+  std::ostream& operator <<(std::ostream& out, const RDL rdl) {
+    return out << Environment::W2(rdl);
   }
   std::ostream& operator <<(std::ostream& out, const DIS dis) {
     return out << Environment::W2(dis);

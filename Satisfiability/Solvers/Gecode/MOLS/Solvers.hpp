@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -502,7 +502,7 @@ namespace Solvers {
   rlaSR rlasolver(const EC::EncCond& enc,
                   const OP::RT rt,
                   const OP::BRT bt, const OP::BHV bv, const OP::GBO bo,
-                  const OP::LAR lar,
+                  const OP::RDL rdl, const OP::LAR lar,
                   const unsigned gcd,
                   const double threads,
                   LB::ListStoppingData st,
@@ -515,7 +515,7 @@ namespace Solvers {
     const Timing::Time_point t0 = timing();
     CT::GenericMols1* const m = new CT::GenericMols1(enc);
     const LB::rlaParams P{
-      rt, lar, bv, bt, bo, threads != 1, tree_logging != nullptr};
+      rt, rdl, lar, bv, bt, bo, threads != 1, tree_logging != nullptr};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::rlaStats> stats(
       new LB::rlaStats(log, tree_logging,
@@ -582,7 +582,7 @@ namespace Solvers {
   laSR lasolver(const EC::EncCond& enc,
                 const OP::RT rt,
                 const OP::LBRT bt, const OP::DIS dis, const OP::LBRO bo,
-                const OP::LAR lar,
+                const OP::RDL rdl, const OP::LAR lar,
                 const unsigned gcd,
                 const double threads,
                 const OP::weights_t* const weights,
@@ -597,7 +597,7 @@ namespace Solvers {
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     CT::GenericMols2* const m = new CT::GenericMols2(enc);
-    const LB::laParams P{rt, bt, dis, bo, lar, threads != 1};
+    const LB::laParams P{rt, bt, dis, bo, rdl, lar, threads != 1};
     if (with_stop(rt)) st += {OP::LRST::satc, with_stop(rt) - 1};
     std::unique_ptr<LB::laStats> stats(
       new LB::laStats(log, tree_logging,
