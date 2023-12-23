@@ -601,7 +601,20 @@
 
 # Rerunning with MAX_TIME 40000s, rep=1000:
 # TAU/basis_12_newvdegm_ave> nomad np
-# XXX running on server
+# XXX running on server (error)
+# ERROR[TAUscan]: A ./laMols-run resulted in an error: regular-exit, with error-message:
+# ERROR[laMols]: Exactly 14 command-line arguments needed, but the real number is 15:
+# command-line: "./laMols" "12" "../../basis" "" "count" "dom" "newvdegm" "" "" "tprob;hash,0" "relpr" "1" "1" "" "lvs,0" "estlvs,-info,-w,-stop"
+# Also, an error is recieved during compilation "make programs":
+# LookaheadReduction.hpp:264:39: warning: unused parameter ‘rdl’ [-Wunused-parameter]
+#  264 |                         const OP::RDL rdl, const OP::LAR lar) noexcept {
+#      |                         ~~~~~~~~~~~~~~^~~
+#LookaheadReduction.hpp: In instantiation of ‘LookaheadReduction::ReductionStatistics LookaheadReduction::lareduction(SPA*, Options::RT, Options::RDL, Options::LAR) [with SPA = Constraints::GenericMols2]’:
+#LookaheadBranching.hpp:805:36:   required from here
+#LookaheadReduction.hpp:264:39: warning: unused parameter ‘rdl’ [-Wunused-parameter]
+#make: *** [../../../../Buildsystem/OKlibBuilding/LocalMakefile:111: laMols] Error 1
+#make: *** Waiting for unfinished jobs....
+#make: *** [../../../../Buildsystem/OKlibBuilding/LocalMakefile:114: laMols_debug] Error 1
 
 
 squares A
