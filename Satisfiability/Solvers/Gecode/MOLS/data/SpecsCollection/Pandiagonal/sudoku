@@ -1,10 +1,11 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 4, 0, >= 5, 0, 0, 0
+# 4, 0, >= 16, 0, 0, 0, ?, ?, ?, ?
+# ?, ?, ?, ?, ?
 
 # For N <= 8 the box-condition is redundant.
 # N=11 is the first case where the box-condition means a restriction
-# (for counting; compare ./basis).
+# (for counting; compare ./basis, with a count of 8).
 # For N=12 there are queens-solutions (see "Queendiagonal/sudoku").
 # No case is known where the sudoku-conditions turns a satisfiable case
 # (i.e., gcd(N,6) = 1) into an unsatisfiable one.
@@ -49,18 +50,28 @@
 # 13    count val bin    maxdom  asc   1         0    8259.868     645873377   372606154   745212676     67  1
 # 13    count def bin    maxdom  asc   1         0    8290.429     642682787   366529279   733058949     67  1
 # Only one solution is found out of 112 runs.
-# Displaying 2 more rows out of 112 rows, because they have the lowest ppc values.
-# It might be worthy to explore further these combinations.
-
-# MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count val,def bin maxdom asc 1 12 "t,108000"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 13    count val bin    maxdom  asc   1         0  565302.484   46343759913 26047481812 52094963796     67  1
-# 13    count def bin    maxdom  asc   1         0  575872.973   50003000153 26938072115 53876144408     68  1
 
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/sudoku "" count bnd bin maxdom desc 1 12 "t,216000"
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
 # 13    count bnd bin    maxdom desc   1        16 2318176.909 2221275718496 43294837512 86589675184     51  1
-# Maybe the next step is to try the same experiment with rlaMols and see if we get more or less satc=16.
+
+# N <= 25:
+
+# Only considering the really unknown cases (that is, the satisfiable ones):
+# MOLS> ./gcMols "17;19;23;25" data/SpecsCollection/Pandiagonal/sudoku "" count dom bin maxdom "" 1 6 "t,100"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 17    count dom bin    maxdom  asc   1         0     570.942     321341652     5339480    10679057     33  1
+# 19    count dom bin    maxdom  asc   1         0     592.001     262036039     4267343     8534853     39  1
+# 23    count dom bin    maxdom  asc   1         0     573.602     178310430     2575592     5151354     65  1
+# 25    count dom bin    maxdom  asc   1         0     585.829     136264017     1781123     3562415     45  1
+# Trying the weaker reduction, for a higher throughput of nodes:
+# MOLS> ./gcMols "17;19;23;25" data/SpecsCollection/Pandiagonal/sudoku "" count bnd bin maxdom desc 1 6 "t,100"
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 17    count bnd bin    maxdom desc   1         0     596.857     618106928    11347248    22694601     40  1
+# 19    count bnd bin    maxdom desc   1         0     598.094     575687644     9109253    18218629     42  1
+# 23    count bnd bin    maxdom desc   1         0     599.061     467791758     7510445    15021158     70  1
+# 25    count bnd bin    maxdom desc   1         0     597.988     447145836     5855702    11711550     40  1
+
 
 
 # Unsatisfiable cases only:
@@ -95,14 +106,6 @@
 # For N=17 (same setting) aborted after 41h wall-clock (without finding a solution).
 
 
-# Sat decision run-type for N=17 using all combinations without rred:
-# MOLS> time ./gcMols 17 "@squares A\nls A\nmoddiag A\nmodantidiag A\nbox A\n" "" satd - - - - 1 24 "t,1542"
-# 17     satd val enu    maxdom desc   1         0    8155.216     995358399   255212484   382752977    209  1
-# 17     satd def enu    maxdom  asc   1         0    8233.277     997230492   255430730   383085393    209  1
-# No solutions are found.
-# Since we are not interesting in finding solutions without rred that much, stopping here.
-
-
 
 # rlaMols:
 
@@ -110,7 +113,7 @@
 
 # MOLS> ./rlaMols 11 data/SpecsCollection/Pandiagonal/sudoku "" count "" - - "" "" 1 12 "lvs,5000"
 # best are bin/enu + mindom/maxdegdom, with enu being faster.
-# maxdom here a bit slower, but for N=12 much faster.
+# maxdom here a bit slower, but for N=12 much faster (see below).
 
 # N=12:
 
@@ -143,6 +146,7 @@
 # 871.000  1.269    0.000    1.618    4.181   1.000  0.000  0.052    0.861   1.000
 #1000.000  8.000    0.229   98.100  290.452   3.000  0.000  5.165    4.057  19.000
 #  34.408  1.210    0.037   24.099   66.899   0.492  0.000  1.102    0.784   3.455
+
 
 # N=13:
 
@@ -178,14 +182,11 @@
 #1257.000  9.000   42.857  123.023  1313.469  14.000  1.000  51.574   36.678  74.000
 # 110.320  0.711    0.974   19.711   120.443   1.054  0.001   2.469    5.202   7.287
 # real    1466m49.135s user    18848m9.299s sys     2704m56.356s
+# We note the much lower pelvals-values here (compared to enu+maxdegdom above),
+# related to a higher number of rounds -- this is kind of expected, since
+# maxdegdom is a "natural" variable-heuristic.
 
-# Running with the same combinations used in gcMols N=13.
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc - 1 6 "lvs,10000" -tree
-# real    10m41.824s
-# user    43m54.506s
-# sys     0m22.316s
-# Results show that relaxed-pruning(relpr) and relaxed-nonpruning(relnpr) yield lowest two time(t).
-# Running with relnpr,relnpr with higher stop value lvs,100000:
+# Some further experiments:
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relpr,relnpr 1 6 "lvs,100000" -tree
 #  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
 # 13    +enum bnd bin    maxdom desc  relpr   1        0    4875.081    7738090  1   200048   100002
@@ -211,17 +212,12 @@
 # 241.000  1.019    0.000    0.000     0.388   1.000  0.000  0.000    0.388   4.000
 #1252.000  7.000    0.000    0.000  1271.519  12.000  0.000  2.117   33.723  50.000
 #  78.928  0.782    0.000    0.000   101.035   0.827  0.000  0.117    2.938   5.890
-#
-#real    31m19.999s
-#user    157m20.303s
-#sys     1m40.646s
-#
-# Remark: Both seems to perform almost same, however relaxed-nonpruning(relnpr) yielded less t.
-# Therefore, running relaxed-nonpruning(relnpr) might be interesting.
 
-# Since, we got satc=3 for N=13 using rlaMols with stop at 2907822 lvs, we can set stop at 2907822 lvs again and compare.
+# We see that bnd, as expected, has a lower yield for the reductions (pelvals) than dom.
+# No point in using such weaker forms of propagation.
+
 # MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum bnd bin maxdom desc relnpr 1 6 "lvs,2907822" -tree
-# N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
+#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
 # 13    +enum bnd bin    maxdom desc relnpr   1        1  179214.696  232972167  1  5815699  2907825
 #     mu0  qfppc  pprunes  pmprune   pprobes  rounds   solc     tr  pelvals      dp
 # 665.067  0.370    0.000    0.000   161.534   1.550  0.000  0.252    0.446  35.690
@@ -234,26 +230,10 @@
 #1254.000  8.000    0.000    0.000  1321.170  15.000  1.000  3.298   44.868  67.000
 #  83.182  0.794    0.000    0.000   102.393   0.838  0.001  0.168    3.069   6.552
 # real    502m8.524s user    2986m54.844s sys     23m1.345s
-# Remark: Resulting lvs and nds did not change much, however satc is 1 and time is much lower.
-# If we used 16 threads here as well, time could have been even smaller.
-# Real time spent on 1 thread would have been around 1466m49.135s * 16 threads = 391.151h,
-# while it is 508m8.524s * 6 threads = 50.214h here.
-# In conclusion, this result is not better because the same lvs is generated in 391.151h which is more than 50.214h.
-
-# Maybe la reduction type behaves differently for different combinations?
-# Running with all combinations, stopped after 120 hours then filtered out and run further more.
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum - - - - - 1 6 "lvs,10000" -tree
-# real    2437m16.344s user    13038m1.502s sys     76m18.416s
-#   N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
-# 13    +enum dom bin     first  asc eagnpr   1        0   15066.710    1112899  1    20070    10004
-# Remark: This combination of inputs had the highest t value.
-# When we had t as a stop-type in gcMols, we looked for the lowest lvs values.
-# With the same logic, if we have lvs as a stop-type, we have to look for the highest t values.
-# We should try to run this experiment longer.
-
-# Running enumeration with newly found combination.
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum dom bin first asc eagnpr 1 6 "" -tree
+# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum dom bin first asc eagnpr 1 6 "" ""
 # XXX running on server XXX
+
+
 
 # laMols with wdL:
 
