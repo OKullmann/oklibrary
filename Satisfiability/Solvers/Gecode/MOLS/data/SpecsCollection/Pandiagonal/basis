@@ -599,6 +599,10 @@
 # real    1m25.237s user    13m36.066s sys     0m13.163s
 # Doesn't look much better.
 
+# Rerunning with MAX_TIME 40000s, rep=1000:
+# TAU/basis_12_newvdegm_ave> nomad np
+# XXX running on server
+
 
 squares A
 rred A
