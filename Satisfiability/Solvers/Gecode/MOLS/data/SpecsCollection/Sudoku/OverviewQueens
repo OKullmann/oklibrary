@@ -133,6 +133,9 @@ N=7:
 
   43918567200 Sudokus for >= 1 bishop in gp1bishop
   450701280 Sudokus for >= 2 bishops in gp2bishop
+  ? Sudokus for >= 3 bishops in gp3bishop
+  ? Sudokus for >= 4 bishops in gp4bishop
+  ? Sudokus for >= 5 bishops in gp5bishop
   20160 Sudokus for >= 6 bishops in gp6bishop
 
   CQ(7,0) = 3606183383040 - 43918567200 = 3562264815840
