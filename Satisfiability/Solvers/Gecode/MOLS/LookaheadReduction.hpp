@@ -94,6 +94,8 @@ namespace LookaheadReduction {
     size_t rounds_ = 0; // number of rounds
     size_t prunes_ = 0; // number of successful prunings
     size_t maxprune_ = 0; // maximal size of pruning-set
+    size_t elimfv_ = 0; // number of formal variables
+
     size_t solc_ = 0; // number of solutions found
     bool leaf_ = false;
 
@@ -114,6 +116,8 @@ namespace LookaheadReduction {
     void inc_prunes() noexcept { ++prunes_; ;}
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
+    void inc_elimfv() noexcept { ++elimfv_; }
+
     void inc_solc() noexcept { ++solc_; }
     void set_leaf() noexcept { assert(!leaf_); leaf_ = true; }
 
@@ -125,6 +129,8 @@ namespace LookaheadReduction {
     size_t maxprune() const noexcept { return maxprune_; }
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
+    size_t elimfv() const noexcept { return elimfv_; }
+
     size_t solc() const noexcept { return solc_; }
     bool leaf() const noexcept { return leaf_; }
 
@@ -163,7 +169,7 @@ namespace LookaheadReduction {
       return 100 * float_t(elimvals_) / vals_;
     }
 
-    static constexpr size_t num_stats = 10;
+    static constexpr size_t num_stats = 11;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
@@ -171,12 +177,13 @@ namespace LookaheadReduction {
       res[3] = quotmaxprune(); res[4] = quotprobes(); res[5] = rounds_;
       res[6] = solc_; res[7] = time_; res[8] = quotelimvals();
       res[9] = depth_;
+      res[10] = elimfv_;
       return res;
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
       return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
-          "solc", "tr", "pelvals", "dp"};
+          "solc", "tr", "pelvals", "dp", "efv"};
       // leading "p": percentage, "q": quotient;
       // "f" in "qfppc" for "full".
     }
@@ -254,10 +261,11 @@ namespace LookaheadReduction {
   // Lookahead-reduction:
   // Consider a variable var and its domain {val1, ..., valk}.
   // For all i, the constraints (var!=vali), where var==vali leads to a
-  // decision (via propagation), are collected. After the loop over all i,
-  // these constraints are applied and the Gecode propagation is
-  // performed. So all immediate decisions of all variable are
-  // removed.
+  // decision (via propagation), are aoplied, until fixed point.
+  // "Decision" here means all constraints have been satisfied (via
+  // a total assignment), or a contradiction was found. So finding
+  // a satisfying assignment is treated as a failure, after storing
+  // the solution (appropriately).
   template <class SPA>
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
@@ -278,6 +286,25 @@ namespace LookaheadReduction {
         }
         const auto vsize = V[v].size();
         if (vsize == 1) continue;
+
+        const auto vdeg = V[v].degree();
+        if (vdeg == 0) {
+          stats.inc_elimfv();
+          if (efv(rdl)) {
+            const int val = GV::first_value(V,v);
+            GV::set_var(*m, V[v], val);
+            const auto status = m->status();
+            assert(status != GC::SS_FAILED);
+            if (status == GC::SS_SOLVED) {
+              stats.inc_solc();
+              if (with_solutions(rt)) stats.sollist(GV::extract(V));
+              stats.set_leaf();
+              goto END;
+            }
+            assert(status == GC::SS_BRANCH);
+            continue;
+          }
+        }
 
         const GV::values_t values = GV::values(V, v);
         GV::values_t elimvals;

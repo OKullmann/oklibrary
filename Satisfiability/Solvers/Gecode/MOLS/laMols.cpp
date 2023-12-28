@@ -48,9 +48,9 @@ argument, and making all values explicit):
 
 Inserted are basic explanations via "[ ]":
 
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc relpr 1 3 "0.1" "" ""
-# laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
-# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "relpr" "1" "3" "0.1" "" ""
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc "" relpr 1 3 "0.1" "" ""
+# laMols 0.104.1 c3f1c876e1928b57a1680bd17de6d0432daf4aa8
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
@@ -60,7 +60,6 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
   nor on the names of the squares, but does depend on the order of squares
   specified in the first line of specifications ]
 
-# no_ps
 # num_runs=1
 # threads=3
 # rt=count-solutions(count)
@@ -70,7 +69,8 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: ascending-order(asc)
-#   la-reduction-type: relaxed-pruning(relpr)
+#   la-reduction-level: basic-lookahead(labsc)
+#   la-reduction-algorithm: relaxed-pruning(relpr)
 #   commit-distance: 1
 
 [ Showing the real weights: ]
@@ -78,8 +78,8 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Input parameters and total counts / measures: ]
 
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  5    count dom enu  wdL   asc  relpr   1      432       0.391       5225  0      125       72  4.754312e-02  0.000000e+00
+  N       rt  pl lbt       dis   lbo    rdl    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  5    count dom enu       wdL   asc  labsc  relpr   1      432       0.349       5225  0      125       72  4.754312e-02  0.000000e+00
 
 [ satc : satisfying assignments
   t    : time (s)
@@ -93,10 +93,10 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 [ Statistics for inner nodes: ]
 
    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0   0.004566  0.62896    2.566
-   143        0        0   133.33   133.14        1     0   0.000853        0        0
-   180        1    16.35   138.46   200.69        2     0     0.0105   1.3793        3
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0019515  0.51141  0.72083
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0   0.002414  0.62896    2.566
+   143        0        0   133.33   133.14        1     0   0.001461        0        0
+   180        1    16.35   138.46   200.69        2     0   0.010403   1.3793        3
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0015302  0.51141  0.72083
 
 [ solc : solution-count (found at the node)
   tr   : time for reduction
@@ -105,11 +105,11 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics for leaves: ]
 
-    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp
- 129.67   1.4135     6.52   48.707   118.75      1.5     6  0.0036716   15.222   4
-    129     1.25   1.1628   23.077   64.615        1     6   0.000995   13.846   4
-    130   1.6667   12.308   88.462   176.15        2     6   0.008929   17.054   4
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0   0.001373  0.76313   0
+    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals  dp
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.0016251   15.222   4
+    129     1.25   1.1628   23.077   64.615        1     6    0.000938   13.846   4
+    130   1.6667   12.308   88.462   176.15        2     6    0.002627   17.054   4
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.00048878  0.76313   0
 
 [ Per leaf we have estlvs and uestlvs; these are the global statistics: ]
 
@@ -121,11 +121,11 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics on branchings (for inner nodes): ]
 
-    dm0        w  ltausp      minp     meanp      maxp       sddp         tb
-0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0033915
-      0        2  1.0456      0.25      0.25      0.25          0          0
-      2        4  3.4742       0.5       0.5       0.5   0.016098   0.006511
-0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016   0.001221
+    dm0        w  ltausp      minp     meanp      maxp       sddp          tb
+0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448   0.0017716
+      0        2  1.0456      0.25      0.25      0.25          0    0.001564
+      2        4  3.4742       0.5       0.5       0.5   0.016098     0.00202
+0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.00010747
 
 [ w : width (of chosen branching)
   dm0 : for the reduction (thus "0"): Delta of weighted sum of domain-sizes D,
@@ -141,7 +141,7 @@ So nsuel = 0.
 At each leaf there are 6 solutions.
 
 Just picking one random leaf:
-
+XXX
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" 1 1 0.1 lvs,0 ""
 # laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "1" "1" "0.1" "lvs,0" ""
@@ -341,7 +341,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -10. New reduction-types
    - After branch-order and before la-type comes "red-type".
-   - "elimfv" eliminates variables with degree 0 and dom>=2, by setting them
+   - "laefv" eliminates variables with degree 0 and dom>=2, by setting them
      to their first value.
    - this happens in function lareduction, right before the loops over
      variables v happens.
@@ -350,10 +350,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Later for this reduction the count can be corrected, and solutions
      can be made partial (so that all solutions are still enumerated).
      But for now solutions (and their count) maybe lost.
-   - "autfv" includes elimfv, and eliminates assignments found which have
+   - "laeaut" includes laefv, and eliminates assignments found which have
      all their variables set having degree 0 (at the end).
    - In the function(s) probe there is another succesful case: when
-     autfv is enabled, then after checking that status one needs to see
+     laeaut is enabled, then after checking that status one needs to see
      whether all newly-set variables have degree 0 (now, i.e., after
      the assignment), in which case an autarky was found.
    - Concerning forced assignments, we run through all (current) values
@@ -695,7 +695,8 @@ namespace {
       " - branch-type  : " << Environment::WRPO<LBRT>{} << "\n" <<
       " - distance     : " << Environment::WRPO<DIS>{} << "\n" <<
       " - branch-order : " << Environment::WRPO<LBRO>{} << "\n" <<
-      " - la-type      : " << Environment::WRPO<LAR>{} << "\n" <<
+      " - la-reduction : " << Environment::WRPO<RDL>{} << "\n" <<
+      " - la-algorithm : " << Environment::WRPO<LAR>{} << "\n" <<
       " - gcd          : Gecode commit-distance; list as for N\n"
       " - threads      : floating-point for number of threads\n"
       " - weights      : either comma-separated list of weights for distance,"
@@ -753,7 +754,7 @@ namespace {
   constexpr size_t wnsel = 13;
   void rh(std::ostream& out) {
     out.width(wN); out << "N" << " ";
-    Environment::header_policies<RT, PropO, LBRT, DIS, LBRO, LAR>(out);
+    Environment::header_policies<RT, PropO, LBRT, DIS, LBRO, RDL, LAR>(out);
     out.width(wgcd); out << "gcd" << " ";
     out << std::string(sep_spaces, ' ');
     rh_genstats(out);
@@ -931,11 +932,13 @@ int main(const int argc, const char* const argv[]) {
                                           "branching-type");
   const list_dis_t disv = read_opt<DIS>(argc, argv, 7, "dis",
                                         "distance");
-  const list_lar_t larv = read_opt<LAR>(argc, argv, 9, "lar",
+  const list_rdl_t rdlv = read_opt<RDL>(argc, argv, 9, "rdl",
                                         "lookahead-reduction");
-  const list_unsigned_t gcdv = read_comdist(argc, argv, 10);
+  const list_lar_t larv = read_opt<LAR>(argc, argv, 10, "lar",
+                                        "lookahead-algorithm");
+  const list_unsigned_t gcdv = read_comdist(argc, argv, 11);
 
-  const auto [wg, batch_mode] = read_weights(argc, argv, 12);
+  const auto [wg, batch_mode] = read_weights(argc, argv, 13);
   const std::vector<size_t> wg_hash = wg.hash();
   const std::vector<size_t> hash_seeds = [&N_hash,&ac_hash,&ps_hash,&wg_hash]{
     std::vector<size_t> res{N_hash, ac_hash, ps_hash};
@@ -943,7 +946,7 @@ int main(const int argc, const char* const argv[]) {
     return res;}();
   const auto [brov, randgen, seeds] = read_lbro(argc, argv, 8, hash_seeds);
 
-  const double threads = read_threads(argc, argv, 11);
+  const double threads = read_threads(argc, argv, 12);
   if (threads != 1 and randgen) {
     std::cerr << error << "In the presence of branching-order rand the"
       " number of threads must be 1, but is " << threads << ".\n";
@@ -951,7 +954,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const size_t num_runs =
-    mult(pov.size()*brov.size()*larv.size()*gcdv.size(),
+    mult(pov.size() * brov.size() * rdlv.size() * larv.size() * gcdv.size(),
          list_N, brtv, disv, wg);
   if (num_runs != 1 and batch_mode) {
     std::cerr << error << "In batch-mode the number of runs must be 1, but is "
@@ -959,10 +962,10 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto stod = read_rlast(argc, argv, 13);
+  const auto stod = read_rlast(argc, argv, 14);
 
   OutputOptions::set_def(batch_mode);
-  const auto outopt = read_output_options(argv[14]);
+  const auto outopt = read_output_options(argv[15]);
 
   /* Reading of command-line parameters completed. */
 
@@ -1003,7 +1006,7 @@ int main(const int argc, const char* const argv[]) {
                 hash_seeds);
     st_output(std::cout, stod);
     output_options(std::cout, outopt);
-    algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, larv));
+    algo_output(std::cout, std::make_tuple(pov, brtv, disv, brov, rdlv, larv));
     if (randgen) oseed_output(std::cout, seeds);
     cd_output(std::cout, gcdv);
     wseed_output(std::cout, wg);
@@ -1021,10 +1024,11 @@ int main(const int argc, const char* const argv[]) {
             if (outopt.with_weights()) weights_output(std::cout, weights0);
             const weights_t* const weights = &weights0.w;
             for (const LBRO bro : brov)
+              for (const RDL rdl : rdlv)
               for (const LAR lar : larv)
                 for (unsigned gcd : gcdv) {
                   const laSR res = outopt.with_computations() ?
-                    lasolver(enc, rt, brt, dis, bro, lar,
+                    lasolver(enc, rt, brt, dis, bro, rdl, lar,
                              gcd, threads, weights,
                              needs_randgen(bro) ? randgen.get() : nullptr,
                              stod, log, nullptr) :
@@ -1098,7 +1102,7 @@ int main(const int argc, const char* const argv[]) {
                     if (outopt.with_headers()) rh(std::cout);
                     std::cout.width(wN); std::cout << N << " ";
                     Environment::data_policies(std::cout,
-                      std::make_tuple(rt, po, brt, dis, bro, lar));
+                      std::make_tuple(rt, po, brt, dis, bro, rdl, lar));
                     std::cout.width(wgcd); std::cout << gcd << " ";
                     rs(std::cout, res, outopt.with_headers());
                     if (with_file_output)

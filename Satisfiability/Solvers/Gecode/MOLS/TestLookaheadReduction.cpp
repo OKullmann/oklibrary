@@ -41,8 +41,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.8.1",
-        "25.11.2023",
+        "0.8.2",
+        "23.12.2023",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestLookaheadReduction.cpp",
@@ -282,7 +282,7 @@ int main(const int argc, const char* const argv[]) {
          const std::unique_ptr<CS::GenericMolsNB> m = A.space();
          const ReductionStatistics stats =
            lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
-         assert(eqwt(stats, A.laredstats(lar)));
+         assert(eqwt(stats, A.laredstats(rdl,lar,rt)));
        }
   }
 
@@ -294,10 +294,9 @@ int main(const int argc, const char* const argv[]) {
        assert(sumdomsizes(m->V) == 27 - 2);
        const ReductionStatistics s =
          lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
-       assert(eqwt(s, A.laredstats(lar)));
+       assert(eqwt(s, A.laredstats(rdl,lar,rt)));
      }
   }
-
   {const CS::Square A(3, "A\n* * *\n* 1 *\n* * *\n");
    for (const RDL rdl : ET::allvals<RDL>())
    for (const LAR lar : ET::allvals<LAR>())
@@ -306,7 +305,18 @@ int main(const int argc, const char* const argv[]) {
        assert(sumdomsizes(m->V) == 27 - 2);
        const ReductionStatistics s =
          lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
-       assert(eqwt(s, A.laredstats(lar)));
+       assert(eqwt(s, A.laredstats(rdl,lar,rt)));
+     }
+  }
+  {const CS::Square A(3, "A\n0 * *\n* 1 *\n* * 2\n");
+   for (const RDL rdl : ET::allvals<RDL>())
+   for (const LAR lar : ET::allvals<LAR>())
+     for (const RT rt : ET::allvals<RT>()) {
+       const std::unique_ptr<CS::GenericMolsNB> m = A.space();
+       assert(sumdomsizes(m->V) == 27 - 6);
+       const ReductionStatistics s =
+         lareduction<CS::GenericMolsNB>(m.get(), rt, rdl, lar);
+       assert(eqwt(s, A.laredstats(rdl,lar,rt)));
      }
   }
 

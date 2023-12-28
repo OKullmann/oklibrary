@@ -61,8 +61,8 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.104.1";
-  const std::string date_laMols = "25.11.2023";
+  const std::string version_laMols = "0.104.2";
+  const std::string date_laMols = "28.12.2023";
   constexpr int commandline_args_laMols = 15;
 
   typedef std::vector<size_t> list_size_t;

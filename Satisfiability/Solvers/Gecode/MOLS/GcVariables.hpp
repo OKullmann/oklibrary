@@ -1,5 +1,5 @@
 // Oleg Zaikin, 11.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,7 @@ License, or any later version. */
     - empty(VarVec) -> bool
     - domsizes(VarVec) -> domsizes_t
     - sumdomsizes(VarVec) -> size_t
+    - first_value(VarVec V) -> int
     - values(VarVec V, int v) -> values_t
     - values(VarVec) -> std::vector<values_t>
     - extract(VarVec) -> solutions_t (assumes all variables are assigned)
@@ -145,6 +146,9 @@ namespace GcVariables {
     return sum;
   }
 
+  int first_value(const VarVec& V, const int v) {
+    return GC::IntVarValues(V[v]).val();
+  }
   typedef std::vector<int> values_t;
   values_t values(const VarVec& V, const int v) {
     assert(v >= 0 and v < V.size());

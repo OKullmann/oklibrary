@@ -123,6 +123,7 @@ namespace PartialSquares {
     bool consistent() const noexcept {
       return std::ranges::find(c, 0) != c.end();
     }
+    // testing for exactly one 0:
     bool unit() const noexcept {
       const auto first = std::ranges::find(c, 0);
       const auto end = c.end();
@@ -279,8 +280,18 @@ namespace PartialSquares {
       return seed;
     }
 
+    // inconsistent iff one cell has emtpy domain:
     bool consistent() const noexcept { return PartialSquares::consistent(ps); }
+    // whether all cells are set to one value:
     bool unit() const noexcept { return PartialSquares::unit(ps); }
+    // count the number of unit-cells (so unit() == true iff
+    // unit_count() == number of cells of ps):
+    size_t unit_count() const noexcept {
+      size_t count = 0;
+      for (const auto& row : ps)
+        for (const auto& c : row) count += c.unit();
+      return count;
+    }
     size_t elimvals() const noexcept {
       size_t sum = 0;
       for (const auto& row : ps)
@@ -380,6 +391,11 @@ namespace PartialSquares {
     bool unit() const noexcept {
       return std::ranges::all_of(psqs,
         [](const PSquare& ps){return ps.unit();});
+    }
+    size_t unit_count() const noexcept {
+      size_t sum = 0;
+      for (const auto& ps : psqs) sum += ps.unit_count();
+      return sum;
     }
     size_t elimvals() const noexcept {
       size_t sum = 0;

@@ -1,5 +1,5 @@
 // Oleg Zaikin, 23.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,8 +28,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
-        "1.6.2022",
+        "0.1.6",
+        "26.12.2023",
         __FILE__,
         "Oleg Zaikin and Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestCases.cpp",
@@ -54,7 +54,7 @@ int main(const int argc, const char* const argv[]) {
    assert(A.e.num_vars == 2 * 2);
    assert(A.numsol() == solver0(A.e, RT::count_solutions).sol_found);
    assert(A.space());
-   assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(2, 3));
+   assert(A.laredstats(RDL{}, LAR::eag_pr, RT{}).probes() == FP::pow(2, 3));
   }
   {Square A(2, "A\n0 *\n* *\n");
    assert(A.e.num_vars == 2 * 2);
@@ -67,7 +67,7 @@ int main(const int argc, const char* const argv[]) {
 
   {Square A(3);
    assert(A.e.num_vars == 3 * 3);
-   assert(A.laredstats(LAR::eag_pr).probes() == FP::pow(3, 3));
+   assert(A.laredstats(RDL{}, LAR::eag_pr, RT{}).probes() == FP::pow(3, 3));
    assert(A.numsol() == solver0(A.e, RT::count_solutions).sol_found);
   }
   {Square A(3, "A\n0 * *\n* * *\n* * *\n");

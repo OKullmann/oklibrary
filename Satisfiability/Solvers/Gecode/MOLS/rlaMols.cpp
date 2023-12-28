@@ -113,8 +113,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.2",
-        "25.11.2023",
+        "1.0.3",
+        "23.12.2023",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -328,7 +328,7 @@ int main(const int argc, const char* const argv[]) {
                 rh(std::cout);
                 std::cout.width(wN); std::cout << N << " ";
                 Environment::data_policies(std::cout,
-                  std::make_tuple(rt, po, brt, bvar, gbo, lar));
+                  std::make_tuple(rt, po, brt, bvar, gbo, rdl, lar));
                 std::cout.width(wgcd); std::cout << gcd << " ";
                 rs(std::cout, res);
                 if (with_file_output)

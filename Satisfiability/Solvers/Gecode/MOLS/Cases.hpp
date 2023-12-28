@@ -51,6 +51,7 @@ TODOS:
 #include "Constraints.hpp"
 #include "Options.hpp"
 #include "LookaheadReduction.hpp"
+#include "GcVariables.hpp"
 
 namespace Cases {
 
@@ -66,6 +67,7 @@ namespace Cases {
   namespace CT = Constraints;
   namespace OP = Options;
   namespace LR = LookaheadReduction;
+  namespace GV = GcVariables;
 
   using size_t = Conditions::size_t;
   using float_t = LR::float_t;
@@ -123,6 +125,8 @@ namespace Cases {
     }
     Square(const size_t N, const PS::PSquares ps) :
       N(N), e(encoding(cond, ps)) {
+      assert(ps.size() == 1);
+      assert(ps.consistent());
       assert(e.N == ps.N);
       assert(e.num_vars == n);
     }
@@ -141,18 +145,38 @@ namespace Cases {
       return prod;
     }
 
-    // 1 round of lookahead-reduction.
-    // If a square is empty, then N*N*N probes are done.
-    // Else if k cells are assigned, N*N*N - k*N probes are done.
-    // Maximal size of pruning-set is equal to the number of probes.
-    LR::ReductionStatistics laredstats(const OP::LAR lar) const noexcept {
-      const size_t ev = e.ps.elimvals();
-      assert(vals >= ev);
-      LR::ReductionStatistics s(vals - (ev + n), 0);
-      const size_t probes = ev==0 ? vals : vals - ev - 1;
+    // One round of lookahead-reduction:
+    LR::ReductionStatistics laredstats(const OP::RDL rdl,
+                                       const OP::LAR lar,
+                                       const OP::RT rt) const noexcept {
+      const size_t ev = e.ps.elimvals(), units = e.ps.unit_count();
+      assert(vals >= n+ev+units);
+      assert(n >= units);
+      const size_t mu0 = (vals - n) - ev, depth = 0;
+      LR::ReductionStatistics s(mu0, depth);
       s.inc_rounds();
-      for (size_t i = 0; i < probes; ++i) s.inc_probes();
-      if (pruning(lar)) s.maxprune(probes);
+      for (size_t i = 0; i < n-units; ++i) s.inc_elimfv();
+      switch (rdl) {
+      case OP::RDL::basic : {
+        const size_t probes = (vals - ev) - units;
+        for (size_t i = 0; i < probes; ++i) s.inc_probes();
+        if (pruning(lar)) s.maxprune(probes);
+        break;
+      }
+      case OP::RDL::eaut : [[fallthrough]];
+      case OP::RDL::efv : {
+        s.inc_solc(); s.set_leaf();
+        if (with_solutions(rt)) {
+          const std::unique_ptr<GenericMolsNB> m = space();
+          const GC::IntVarArray V = m->V;
+          for (int v = 0; v < V.size(); ++v)
+            if (V[v].size() != 1) GV::set_var(*m, V[v], 0);
+          const auto status = m->status();
+          assert(status == GC::SS_SOLVED);
+          s.sollist(GV::extract(V));
+        }
+        break;
+      }}
       return s;
     }
 
