@@ -48,7 +48,9 @@
 # N = 7:
 
 # MOLS> time ./gcMols 7 data/SpecsCollection/Sudoku/gp3bishop "" count dom enu mindeg "" 1 6 ""
-# XXX running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7    count dom enu    mindeg  asc   1   5996448  144586.093  637445221144  6144231888 10448603214     26  0
+# real    450m54.249s user    2409m46.094s sys     243m29.364s
 
 
 
