@@ -112,6 +112,8 @@
 # 81    count dom bin    maxdom  asc   0         0     160.825       3562584       49904      108682   2747  1
 #100    count dom bin    maxdom  asc   0         0     458.512       6045205       54966      122728   4460  1
 
+# MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin maxdom "" 1 6 "t,3600"
+# XXX Running on server
 
 
 
