@@ -115,6 +115,9 @@
 # MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin maxdom "" 1 6 "t,3600"
 # XXX Running on server
 
+# MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" count dom bin maxdom "" 1 6 "t,3600"
+# XXX Running on server
+
 
 
 squares A

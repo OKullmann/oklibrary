@@ -1,4 +1,4 @@
-server:         5 running
+server:         6 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
@@ -6,6 +6,7 @@ Queendiagonal/sudoku : gcMols (started 16:13 12/12/2023)
 Queendiagonal/sudoku : rlaMols (started 12/12/2023)
 # exited by error: Pandiagonal/TAU/basis_12_newvdegm_ave : nomad (started ...)
 Sudoku/p1bishop: gcMols (started 08/01/2024)
+Sudoku/p1bishop count: gcMols (started 08/01/2024)
 
 server2:        0 running
 
