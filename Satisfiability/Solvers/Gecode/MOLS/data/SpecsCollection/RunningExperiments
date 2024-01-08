@@ -1,4 +1,4 @@
-server:         7 running
+server:         8 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
@@ -8,6 +8,7 @@ Queendiagonal/sudoku : rlaMols (started 12/12/2023)
 Sudoku/p1bishop: gcMols (started 08/01/2024)
 Sudoku/p1bishop count: gcMols (started 08/01/2024)
 Sudoku/p2bishop: gcMols (started 08/01/2024)
+Sudoku/p3bishop: gcMols (started 08/01/2024)
 
 server2:        0 running
 
