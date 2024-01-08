@@ -26,6 +26,10 @@
 #  8     satd dom bin     first  asc   0         1      11.880      37076656      270703      541494     26  0
 #  9     satd dom bin     first  asc   0         1       0.613       1651763       10629       21325     26  0
 
+# MOLS$ ./gcMols 8,25 data/SpecsCollection/Sudoku/p4bishop "" satd dom enu mindeg "" 1 6 "t,3600"
+# XXX Running on server
+
+
 
 squares A
 rred A
