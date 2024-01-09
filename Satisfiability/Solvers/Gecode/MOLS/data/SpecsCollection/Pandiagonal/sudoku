@@ -230,9 +230,6 @@
 #1254.000  8.000    0.000    0.000  1321.170  15.000  1.000  3.298   44.868  67.000
 #  83.182  0.794    0.000    0.000   102.393   0.838  0.001  0.168    3.069   6.552
 # real    502m8.524s user    2986m54.844s sys     23m1.345s
-# MOLS> time ./rlaMols 13 data/SpecsCollection/Pandiagonal/sudoku "" +enum dom bin first asc eagnpr 1 6 "" ""
-# aborted, output was there when stopped, probably because stop signal was sent more than once.
-# real    13049m6.347s user    77752m31.721s sys     261m26.953s
 
 
 
