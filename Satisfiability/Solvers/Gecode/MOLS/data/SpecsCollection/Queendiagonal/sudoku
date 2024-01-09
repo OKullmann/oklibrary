@@ -139,46 +139,6 @@
 # But for a given time-out and especially in the presense of threading, it is not possible to determine
 # what the above means.
 
-# Running max ppc:
-# MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd def bin maxdegdom desc 1 50 "t,100"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16     satd def bin maxdegdom desc   1         0     822.851     447607900    18774951    37551115     96  1
-
-# Running max flvs:
-# MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd val bin maxdom  asc 1 50 "t,100"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16     satd val bin    maxdom  asc   1         0     514.749      46953988    15762562    31528409    146  1
-
-# Running min flvs:
-# MOLS> ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" satd dom bin mindom asc 1 50 "t,100"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16     satd dom bin    mindom  asc   1         0    3369.381    1871033783    11181624    22364681     82  1
-
-# As the above shows, timing is extremely volatile, especially when using
-# such a high number of threads, and thus should be avoided for longer runs -- it is impossible
-# to say what the above data means.
-
-# Partial enumeration using all combination with more time:
-# MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum - - - - 1 24 "t,1928"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16    +enum def bin    maxdom desc   1         0   10347.960    1086044296   340362670   680725794    150  1
-# 16    +enum val bin    maxdom desc   1         0   10253.342    1085381094   341244064   682488629    150  1
-# Two rows with lowest ppc.
-# 16    +enum dom bin    maxdeg desc   1         0   42933.983   28459301770   174346981   348694502     73  1
-# 16    +enum dom bin maxdegdom desc   1         0   43344.145   30968039103   176328036   352656499     85  1
-# Two rows with lowest flvs.
-
-# Running min ppc:
-# MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum val,def bin maxdom desc 1 12 "t,216000"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16    +enum def bin    maxdom desc   1         0 1313531.552  187265491907 59398651811 118797304125    149  1
-# 16    +enum val bin    maxdom desc   1         0 1178002.035  159486740169 52884261344 105768522962    149  1
-
-# Running min flvs:
-# MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg,maxdegdom desc 1 12 "t,216000"
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-# 16    +enum dom bin    maxdeg desc   1         0 2539655.691 2065041957426 12781513073 25563026338     75  1
-# 16    +enum dom bin maxdegdom desc   1         0 2552097.770 2402834707766 13765420377 27530841029     88  1
 
 # Running maxdeg:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc 1 6 ""
@@ -206,10 +166,9 @@
 
 # N=16:
 
-# Running with stop at lvs=12781513073, from gcMols N=16 experiment where flvs was lowest.
-# Each run should complete in approximately 60 hours with 12 threads or 120 hours with 6 threads.
+# Each run should complete in approximately 60 hours with 12 threads or 120 hours with 6 threads:
 # MOLS> time ./rlaMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc - 1 6 "lvs,12781513073" -tree
-# XXX To run on server XXX
+# XXX running on server XXX
 
 
 # laMols with dL:
