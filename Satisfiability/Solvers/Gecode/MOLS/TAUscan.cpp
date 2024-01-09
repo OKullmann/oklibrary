@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.7.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,15 +16,15 @@ Examples:
 With "all" we get all statistics, and the single results in a file
 (here 10 probes and 10 threads):
 
-MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL h 0.1 10 10 all
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu wdL h "" 0.1 10 10 all
 10 : 2.86182157749415107420e+31 1.96759786066486124029e+34 1.27797960477944986434e+35; 4.19209525125229165856e+34
-TS_10_10_1696012083070680529.R
-real	0m45.490s
-user	5m57.432s
-sys	0m23.539s
-MOLS> cat TS_10_10_1696012083070680529.R
-# TAUscan 0.9.1 8b6df47156c79c4f4e1e378fb260a04c3791fd21 laMols=0.102.3
-# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu" "wdL" "h" "0.1" "10" "10" "all"
+TS_10_10_1704825678221388097.R
+real	0m44.677s
+user	6m2.770s
+sys	0m27.688s
+MOLS> cat TS_10_10_1704825678221388097.R
+# TAUscan 0.9.3 b3407cb26bb47ce1782e64433c4c105094007306 laMols=0.104.2
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu" "wdL" "h" "" "0.1" "10" "10" "all"
  estlvs
 1 5.7559749953485999621e+34
 2 3.5061446370603864919e+33
@@ -40,15 +40,15 @@ MOLS> cat TS_10_10_1696012083070680529.R
 
 Above "tauprob" (tprob) was used, now "uniform random" (rand):
 
-MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL h 0.1 10 10 all
+MOLS> time ./TAUscan 10 data/SpecsCollection/3MOLS/symmb "" enu,rand wdL h "" 0.1 10 10 all
 10 : 2.34871484448138854400e+26 7.74379309173471536293e+33 3.55044512900560671082e+34; 1.38965740094092635693e+34
-TS_10_10_1696012202917905314.R
-real	0m40.298s
-user	5m30.395s
-sys	0m20.131s
-MOLS> cat TS_10_10_1696012202917905314.R
-# TAUscan 0.9.1 8b6df47156c79c4f4e1e378fb260a04c3791fd21 laMols=0.102.3
-# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu,rand" "wdL" "h" "0.1" "10" "10" "all"
+TS_10_10_1704825840320417278.R
+real	0m42.148s
+user	5m40.128s
+sys	0m24.947s
+MOLS> cat TS_10_10_1704825840320417278.R
+# TAUscan 0.9.3 b3407cb26bb47ce1782e64433c4c105094007306 laMols=0.104.2
+# "./TAUscan" "10" "data/SpecsCollection/3MOLS/symmb" "" "enu,rand" "wdL" "h" "" "0.1" "10" "10" "all"
  uestlvs
 1 7.0132249461839144902e+31
 2 3.8344807393260552475e+33
@@ -135,8 +135,8 @@ MOLS> ./laMols -v | grep "^ version"
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.2",
-        "25.11.2023",
+        "0.9.3",
+        "9.1.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TAUscan.cpp",
@@ -165,7 +165,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n\n"
-      " N file_cond file_ps branch-type la-red distance init-seeds weights"
+      " N file_cond file_ps branch-type distance init-seeds la-red weights"
       "  M threads selection\n\n"
       " - the first " << commandline_args_transfer << " arguments are"
       " transferred to \"" << solver_call << "\":\n"
@@ -275,10 +275,10 @@ int main(const int argc, const char* const argv[]) {
     runtypearg_4 = "count",
     proplevelarg_5 = "dom",
     branchtypearg = que(argv[4]), // branchtypearg_6 see below
-    laredarg_7 = que(argv[5]),
-    distancearg_8 = que(argv[6]),
-    initseedarg = argv[7],
-    // branchorderarg_9 see below
+    distancearg_7 = que(argv[5]),
+    initseedarg = argv[6],
+    // branchorderarg_8 see below
+    laredarg_9 = que(argv[7]),
     latypearg_10 = "relpr",
     weightsarg = argv[8];
   // gcdarg_11,threadsarg_12,weightsarg_13,stoparg_14,formattingarg_15 below
@@ -311,14 +311,14 @@ int main(const int argc, const char* const argv[]) {
 
   PSC::vargs_t calls; calls.reserve(M);
   for (size_t seed = 0; seed < M; ++seed) {
-    const std::string branchorderarg_9 =
+    const std::string branchorderarg_8 =
       Environment::qu(branchorderarg + std::to_string(seed));
     static_assert(commandline_args_laMols == 15);
     const std::string argument_list =
       Narg_1 + " " + filecondarg_2 + " " + filepsarg_3 + " " +
       runtypearg_4 + " " + proplevelarg_5 + " " +
-      branchtypearg_6 + " " + laredarg_7 + " " + distancearg_8 + " " +
-      branchorderarg_9 + " " + latypearg_10 + " " + gcdarg_11 + " " +
+      branchtypearg_6  + " " + distancearg_7 + " " + branchorderarg_8 + " " +
+      laredarg_9 + " " + latypearg_10 + " " + gcdarg_11 + " " +
       threadsarg_12 + " " + weightsarg_13 + " " + stoparg_14 + " " +
       formattingarg_15;
     calls.push_back({solver_call + " " + argument_list});
