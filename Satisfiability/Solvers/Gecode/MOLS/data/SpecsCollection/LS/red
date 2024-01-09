@@ -49,7 +49,7 @@
 
 # rlaMols:
 
-# Has a much worse performance fpr sat-decision(nearly no la-reductions);
+# Has a much worse performance for sat-decision (nearly no la-reductions);
 # best seems bnd+enu+first+asc+eagnpr for say N<=24 (taking around 34s).
 
 
