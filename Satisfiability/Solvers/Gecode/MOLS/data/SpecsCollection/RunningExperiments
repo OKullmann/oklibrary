@@ -3,6 +3,8 @@ server:         10 running
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
 
+Pandiagonal/TAU/basis_12_newvdegm_ave : nomad
+
 
 Queendiagonal/sudoku : gcMols (started 16:13 12/12/2023) --- should be aborted or concluded XXX
 
@@ -13,6 +15,9 @@ Sudoku/p2bishop: gcMols (started 08/01/2024)
 Sudoku/p3bishop: gcMols (started 08/01/2024)
 Sudoku/p4bishop: gcMols (started 08/01/2024)
 Sudoku/p5bishop: gcMols (started 08/01/2024)
+
+
+
 
 server2:        0 running
 
