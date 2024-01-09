@@ -1,18 +1,2 @@
 #!/bin/bash
 cat $1 | ./TAUscan 12 ../../basis "" "" newv-degm h "" 1000 10 ave
-
-# Let's try to define default parameters:
-# ./TAUscan -h
-#  - the first 8 arguments are transferred to "./laMols":
-# ...
-#  N file_cond file_ps branch-type la-red distance init-seeds weights  M threads selection
-# ...
-#
-# Let's define default parameters by looking at laMols and TAUscan help.
-# ./TAUscan 12 ../../basis "" enu labsc newv-degm h "" 10 10 ave
-# ERROR[TAUscan]: A ./laMols-run resulted in an error: regular-exit, with error-message:
-# terminate called after throwing an instance of 'std::runtime_error'
-#   what():  ERROR[CommandLine::read_dis]: distance-item "labsc" invalid.
-# Aborted (core dumped)
-#
-# Remark: TAUscan thinks labsc is a distance item, it had to be valid la-red item according to laMols.
