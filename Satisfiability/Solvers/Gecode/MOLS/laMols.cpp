@@ -49,7 +49,7 @@ argument, and making all values explicit):
 Inserted are basic explanations via "[ ]":
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc "" relpr 1 3 "0.1" "" ""
-# laMols 0.104.1 c3f1c876e1928b57a1680bd17de6d0432daf4aa8
+# laMols 0.104.3 b3407cb26bb47ce1782e64433c4c105094007306
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
@@ -60,6 +60,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
   nor on the names of the squares, but does depend on the order of squares
   specified in the first line of specifications ]
 
+# no_ps
 # num_runs=1
 # threads=3
 # rt=count-solutions(count)
@@ -685,7 +686,8 @@ namespace {
     "> " << proginfo.prg <<
       " has " << commandline_args << " command-line arguments:\n"
       " N  file_cond  file_ps  run-type\n"
-      "   prop-level  branch-type  distance  branch-order  la-type  gcd\n"
+      "   prop-level  branch-type  distance  branch-order\n"
+      "   la-reduction  la-algorithm  gcd\n"
       "   threads  weights  (stop-type,stop-value)*  formatting\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " - file_cond    : filename/string for conditions-specification\n"
