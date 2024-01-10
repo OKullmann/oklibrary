@@ -146,11 +146,11 @@ N=7:
   CQ(7,5) = 21120 - 20160 = 960
   CQ(7,6) = 20160 - 20160 = 0
 
-  5911738 * 7! = 29795159520 Sudokus with >= 1 queen in p1bishop
-  62085 * 7! = 312908400 Sudokus with >= 2 queens in p2bishop
-  931 * 7! = 4692240 Sudokus with >= 3 queens in p3bishop
-  37 * 7! = 186480 Sudokus with >= 4 queens in p4bishop
-  4 * 7! = 20160 Sudokus with >= 5 queens in p5bishop
+  5911738 * 7! = 29795159520 Sudokus with >= 1 special queen in p1bishop
+  62085 * 7! = 312908400 Sudokus with >= 2 special queens in p2bishop
+  931 * 7! = 4692240 Sudokus with >= 3 special queens in p3bishop
+  37 * 7! = 186480 Sudokus with >= 4 special queens in p4bishop
+  4 * 7! = 20160 Sudokus with >= 5 special queens in p5bishop
 
   SCQ(7,0) = 3606183383040 - 29795159520 = 3576388223520
   SCQ(7,1) = 29795159520 - 312908400 = 29482251120
