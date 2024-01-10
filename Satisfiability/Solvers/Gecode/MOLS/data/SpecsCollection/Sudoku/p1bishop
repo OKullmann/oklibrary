@@ -113,7 +113,16 @@
 #100    count dom bin    maxdom  asc   0         0     458.512       6045205       54966      122728   4460  1
 
 # MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" satd dom bin maxdom "" 1 6 "t,3600"
-# XXX Running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  4     satd dom bin    maxdom  asc   1         0       0.005           109           4           7      2  0
+#  9     satd dom bin    maxdom  asc   1         1       0.001           843           2          36     28  0
+# 16     satd dom bin    maxdom  asc   1         1       0.011          6175          29         331    127  0
+# 25     satd dom bin    maxdom  asc   1         1       0.085         26256         406        1553    366  0
+# 36     satd dom bin    maxdom  asc   1         1       1.067        201413        6909       15228    834  0
+# 49     satd dom bin    maxdom  asc   1         0   21122.613    2373352576    85534451   171070202    993  1
+# 64     satd dom bin    maxdom  asc   1         0   20881.735    1190568286    49706209    99418896   1858  1
+# 81     satd dom bin    maxdom  asc   1         0   21170.651     600274828    25915386    51833935   2356  1
+#100     satd dom bin    maxdom  asc   1         0   20873.180     365404808     8391605    16793936   3866  1
 
 # MOLS$ ./gcMols 4,9,16,25,36,49,64,81,100 data/SpecsCollection/Sudoku/p1bishop "" count dom bin maxdom "" 1 6 "t,3600"
 # XXX Running on server
