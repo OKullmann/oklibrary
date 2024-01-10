@@ -142,8 +142,8 @@
 
 # Running maxdeg:
 # MOLS> time ./gcMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc 1 6 ""
-# XXX Running on server XXX
-
+# No results were found. Aborted.
+# real    41547m32.362s user    246957m6.132s sys     507m44.134s
 
 
 # rlaMols:

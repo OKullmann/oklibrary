@@ -6,8 +6,6 @@ Queendiagonal/basis : gcMols
 Pandiagonal/TAU/basis_12_newvdegm_ave : nomad
 
 
-Queendiagonal/sudoku : gcMols (started 16:13 12/12/2023) --- should be aborted or concluded XXX
-
 Queendiagonal/sudoku : rlaMols (started 12/12/2023)
 Sudoku/p1bishop: gcMols (started 08/01/2024)
 Sudoku/p1bishop count: gcMols (started 08/01/2024)
