@@ -294,6 +294,10 @@
 # real    1252m59.240s user    17466m54.451s sys     1334m33.689s
 # So the A-weights are better than the L-weights (but far worse than rlaMols).
 
+# Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
+# TAU_sudoku_12_newv_ave$ nomad np
+# XXX running on server XXX
+
 
 
 squares A
