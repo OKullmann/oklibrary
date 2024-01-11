@@ -304,6 +304,10 @@
 # 1000 : 1.00165424435598583936e+01 5.00201306149757145256e+04 1.15698549473229014684e+07; 5.45053097615985434345e+05
 # real    1m26.875s user    12m52.088s sys     0m16.811s
 
+# laMols with newvars-degm:
+# TAU/sudoku_12_newv_ave$ nomad np
+# XXX running on server XXX
+
 
 
 squares A
