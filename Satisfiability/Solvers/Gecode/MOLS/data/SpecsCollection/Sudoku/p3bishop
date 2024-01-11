@@ -31,7 +31,7 @@
 #  9     satd dom bin     first  asc   0         1       0.010         25196         322         709     25  0
 # 10     satd dom bin     first  asc   0         1    1049.021    2385459600    19546703    39093542     45  0
 
-# MOLS$ ./gcMols 7,10 data/SpecsCollection/Sudoku/p3bishop "" satd dom enu mindeg "" 1 6 "t,3600"
+# MOLS$ ./gcMols 7,25 data/SpecsCollection/Sudoku/p3bishop "" satd dom enu mindeg "" 1 6 "t,3600" | tee p3bishop_8_25_satd_10_01_2024
 # XXX Running on server
 
 
