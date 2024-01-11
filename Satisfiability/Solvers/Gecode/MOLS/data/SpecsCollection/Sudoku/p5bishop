@@ -21,13 +21,26 @@
 
 # SAT decision:
 
-# MOLS$ ./gcMols 8,9 data/SpecsCollection/Sudoku/p5bishop "" satd dom bin first asc 0 12 ""
-#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
-#  8     satd dom bin     first  asc   0         1      13.651      53519696      294249      588551     27  0
-#  9     satd dom bin     first  asc   0         1       0.293        975523        4490        9055     25  0
-
 # MOLS$ ./gcMols 8,25 data/SpecsCollection/Sudoku/p5bishop "" satd dom enu mindeg "" 1 6 "t,3600" | tee p5bishop_8_25_satd_10_01_2024
-# XXX Running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  8     satd dom enu    mindeg  asc   1         1      51.223     254051580     1587230     2777400     20  0
+#  9     satd dom enu    mindeg  asc   1         1    3541.963   15967003528    96296099   163800016     27  0
+# 10     satd dom enu    mindeg  asc   1         0   14356.472   51489947301   279541735   456417196     37  1
+# 11     satd dom enu    mindeg  asc   1         0   12217.562   36451963096   195229398   328707920     50  1
+# 12     satd dom enu    mindeg  asc   1         0   12148.814   26493011352   206030903   312470382     63  1
+# 13     satd dom enu    mindeg  asc   1         0   12790.360   36882220987   193243240   316190586     77  1
+# 14     satd dom enu    mindeg  asc   1         0   12711.711   36637608957   173689470   288273511     92  1
+# 15     satd dom enu    mindeg  asc   1         0   12251.354   32991826732   149170707   249549529    110  1
+# 16     satd dom enu    mindeg  asc   1         0   12597.439   30353523122   136620216   223945756    121  1
+# 17     satd dom enu    mindeg  asc   1         0   12283.505   18922432328   114784421   160768260    138  1
+# 18     satd dom enu    mindeg  asc   1         0   11851.062   22422916300   120323140   173308527    157  1
+# 19     satd dom enu    mindeg  asc   1         0   12417.920   24612713958   104115450   149314395    185  1
+# 20     satd dom enu    mindeg  asc   1         0   16401.293   32989861408   158255853   240312177    210  1
+# 21     satd dom enu    mindeg  asc   1         0   15461.607   37705408186   162780627   246763419    234  1
+# 22     satd dom enu    mindeg  asc   1         0   18295.930   44502459186   234713810   345050509    261  1
+# 23     satd dom enu    mindeg  asc   1         0   15821.705   41729742793   205526798   293222097    294  1
+# 24     satd dom enu    mindeg  asc   1         0   11250.607   39386079063   124272326   192855058    321  1
+# 25     satd dom enu    mindeg  asc   1         0   16951.526   53747117527   166163014   263014430    350  1
 
 
 

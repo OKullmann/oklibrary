@@ -261,6 +261,10 @@
 
 # N=10 looks promising.
 
+# Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
+# TAU/sudoku_12_newv_ave$ nomad np
+# XXX running on server XXX
+
 
 # Really interesting cases are N=16, 25.
 
