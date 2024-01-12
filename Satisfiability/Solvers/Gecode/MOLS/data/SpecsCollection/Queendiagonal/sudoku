@@ -25,6 +25,32 @@
 #  8    count dom bin    maxdom  asc   1         0       0.015         53433         881        1761      8  0
 #  9    count dom bin    maxdom  asc   1         0       0.149        465700        6862       13723     11  0
 
+# Comparison test is performed between gcd=0 and gcd=1 for queen sudoku N=9.
+# For such test several runs are better.
+# "time" command in unix only gives execution information for a run.
+# Therefore, multitime package comes handy for our case:
+# https://packages.debian.org/source/stable/multitime
+
+# gcd=1
+# MOLS> multitime -n 30 ./gcMols 9 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 1 1 ""
+# ===> multitime results
+# 1: ./gcMols 9 data/SpecsCollection/Queendiagonal/sudoku  count dom bin maxdom asc 1 1
+#             Mean        Std.Dev.    Min         Median      Max
+# real        0.398       0.016       0.380       0.392       0.441
+# user        0.393       0.015       0.375       0.389       0.436
+# sys         0.004       0.004       0.000       0.004       0.012
+
+# gcd=0
+# multitime -n 30 ./gcMols 9 data/SpecsCollection/Queendiagonal/sudoku "" count dom bin maxdom asc 0 1 ""
+# ===> multitime results
+# 1: ./gcMols 9 data/SpecsCollection/Queendiagonal/sudoku  count dom bin maxdom asc 0 1
+#             Mean        Std.Dev.    Min         Median      Max
+# real        0.541       0.013       0.532       0.538       0.602
+# user        0.537       0.011       0.527       0.535       0.591
+# sys         0.002       0.003       0.000       0.001       0.008
+
+# Remark: It can be seen from our test that gcd=1 performs better than gcd=0.
+
 # For N=7, running queen-sudoku-condition without rred:
 # MOLS> ./gcMols 7 "@squares A\nls A\nbox A\nqueendiag A\nqueenantidiag A" "" count dom bin maxdom asc 1 6 ""
 #  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
