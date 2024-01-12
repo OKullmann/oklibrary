@@ -263,7 +263,13 @@
 
 # Optimising TAUscan on ave via Nomad (MAX_TIME 40000s, rep=1000):
 # TAU/sudoku_10_newv_ave$ nomad np
-# XXX running on server XXX
+# 83438   0.974141 -6.18741 6.41135 8.42732 -7.93461 6.33293 0.0335938 0.904315 8.81774
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo) No more points to evaluate
+# Blackbox evaluations: 1855 Total model evaluations: 58007 Cache hits: 353
+# Rerunning TAUscan:
+# TAU/sudoku_10_newv_ave$> time ./TAUscan 10 ../../sudoku "" "" newv h "" "0.974141,-6.18741,6.41135,8.42732,-7.93461,6.33293,0.0335938,0.904315,8.81774" 1000 10 all
+# 1000 : 9.55790938500813950889e+00 1.58929040150344335658e+03 2.54014031401236465314e+05; 1.09700500724977163198e+04
+# real    0m35.114s user    5m34.919s sys     0m1.691s
 
 
 # Really interesting cases are N=16, 25.
