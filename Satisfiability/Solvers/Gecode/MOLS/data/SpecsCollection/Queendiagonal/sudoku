@@ -271,6 +271,10 @@
 # 1000 : 9.55790938500813950889e+00 1.58929040150344335658e+03 2.54014031401236465314e+05; 1.09700500724977163198e+04
 # real    0m35.114s user    5m34.919s sys     0m1.691s
 
+# laMols with newvars-degm:
+# TAU/sudoku_10_newvdegm_ave$ nomad np
+# XXX running on server XXX
+
 
 # Really interesting cases are N=16, 25.
 
