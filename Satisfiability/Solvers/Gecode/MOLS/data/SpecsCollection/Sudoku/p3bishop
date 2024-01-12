@@ -32,7 +32,26 @@
 # 10     satd dom bin     first  asc   0         1    1049.021    2385459600    19546703    39093542     45  0
 
 # MOLS$ ./gcMols 7,25 data/SpecsCollection/Sudoku/p3bishop "" satd dom enu mindeg "" 1 6 "t,3600" | tee p3bishop_8_25_satd_10_01_2024
-# XXX Running on server
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  7     satd dom enu    mindeg  asc   1         1       0.128        429681        5149        8871     15  0
+#  8     satd dom enu    mindeg  asc   1         1      16.129      52162473      516059      878666     23  0
+#  9     satd dom enu    mindeg  asc   1         1     282.576     945924651     9292907    15874207     31  0
+# 10     satd dom enu    mindeg  asc   1         0   17085.727   56359104411   429134371   693499782     42  1
+# 11     satd dom enu    mindeg  asc   1         0    8326.739   22170206669   164620226   270802420     56  1
+# 12     satd dom enu    mindeg  asc   1         0    8255.780   19916892446   143091807   236990507     65  1
+# 13     satd dom enu    mindeg  asc   1         0    8424.970   19268414555   127213160   210829493     82  1
+# 14     satd dom enu    mindeg  asc   1         0    8289.681   20844248313   136990712   216002923     97  1
+# 15     satd dom enu    mindeg  asc   1         0    8407.939   20314616599   124191756   200309375    115  1
+# 16     satd dom enu    mindeg  asc   1         0    8994.020   19486312434   107605503   175146738    130  1
+# 17     satd dom enu    mindeg  asc   1         0    9079.598   12748141946    91051133   134865570    135  1
+# 18     satd dom enu    mindeg  asc   1         0    9056.193   16865866187    97676065   147214346    171  1
+# 19     satd dom enu    mindeg  asc   1         0    9139.316   16054504041    90932790   139397687    189  1
+# 20     satd dom enu    mindeg  asc   1         0    9182.976    6663013132    66448550    78535998    139  1
+# 21     satd dom enu    mindeg  asc   1         0   11337.171   11346941507    84897820   123133233    195  1
+# 22     satd dom enu    mindeg  asc   1         0   13171.245   20286216149   118470234   176065943    284  1
+# 23     satd dom enu    mindeg  asc   1         0   12582.925   15403544233   107690462   168384489    304  1
+# 24     satd dom enu    mindeg  asc   1         0   17416.810   13956987471    95824204   131280573    199  1
+# 25     satd dom enu    mindeg  asc   1         0   15208.166   39056919386   190832989   304995718    357  1
 
 
 
