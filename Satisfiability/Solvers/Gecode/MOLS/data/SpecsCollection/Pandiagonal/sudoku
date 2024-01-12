@@ -305,8 +305,14 @@
 # real    1m26.875s user    12m52.088s sys     0m16.811s
 
 # laMols with newvars-degm:
-# TAU/sudoku_12_newv_ave$ nomad np
-# XXX running on server XXX
+# TAU/sudoku_12_newvdegm_ave$ nomad np
+# 1074   -0.852626 2.1365 4.98554 -3.31891 -9.86795 -7.95272 4.1592 7.54958 4.8597 -1.08799 6.61717
+# A termination criterion is reached: Maximum allowed time reached (Base) No more points to evaluate
+# Blackbox evaluations: 1001
+# Rerunning TAUscan:
+# TAU/sudoku_12_newvdegm_ave$> time ./TAUscan 12 ../../sudoku "" "" newv-degm h "" "-0.852626,2.1365,4.98554,-3.31891,-9.86795,-7.95272,4.1592,7.54958,4.8597,-1.08799,6.61717" 1000 10 all
+# 1000 : 1.00162725676054862167e+01 2.55582769250360252649e+04 1.80357101206183859122e+07; 5.73638911738884408521e+05
+# real    1m18.013s user    11m51.037s sys     0m15.616s
 
 
 
