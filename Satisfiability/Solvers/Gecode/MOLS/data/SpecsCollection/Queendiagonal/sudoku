@@ -303,7 +303,7 @@
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo) No more points to evaluate
 # Blackbox evaluations: 2203 Total model evaluations: 74474 Cache hits: 443
 # Rerunning TAUscan:
-# TAU/sudoku_10_newv_ave$> time ./TAUscan 10 ../../sudoku "" "" newv h "" "-0.980707,1.08365,-6.34422,0.527803,-2.66881,-2.58342,6.22238,0.644076,-5.65567" 1000 10 all
+# TAU/sudoku_10_newvdegm_ave$> time ./TAUscan 10 ../../sudoku "" "" newv h "" "-0.980707,1.08365,-6.34422,0.527803,-2.66881,-2.58342,6.22238,0.644076,-5.65567" 1000 10 all
 # 1000 : 9.21705975005989982130e+00 3.28841514201483349744e+03 4.43266885503103212784e+05; 2.33189524571365613905e+04
 # real    0m32.424s user    5m0.015s sys     0m1.576s
 
