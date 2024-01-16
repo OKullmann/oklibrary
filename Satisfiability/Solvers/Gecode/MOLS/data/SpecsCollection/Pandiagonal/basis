@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 8, 0, >= 2490, 0, 0, 0
+# 8, 0, >= 2964, 0, 0, 0
 
 #   hash=7282994701214749140
 
@@ -59,8 +59,13 @@
 
 # Open solving-questions:
 # 1. Determine best gc-combinations (which might depend on N).
-# 2. Determine best rla-combinations (might depend on N).
-# 3. Determine best weights for the la-heuristics (for specific N).
+# 2. Determine best rla-combinations (might depend on N):
+#   - Is bin essential here?
+# 3. Determine best weights for the la-heuristics (for specific N):
+#   - Considering N=12, rlaMols can determine unsat in lvs=259,
+#     however the weights found via TAUscan predict lvs~10^6.
+#   - Are there (much) better weights?
+#   - Or is "bin" essential here?
 # 4. Can the solutions for N=13 be enumerated?
 # 5. Find a solution for N=17.
 
@@ -120,7 +125,7 @@
 # (see Pandiagonal/sudoku).
 # Rerunning:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
-# running on server XXX 1y290d
+# running on server XXX 1y362d
 
 
 # N=17:
@@ -237,19 +242,22 @@
 #1022.000  9.000    0.837  109.402  430.401   4.000  0.000  5.323    5.686  25.000
 #  32.854  1.419    0.092   18.888   81.562   0.669  0.000  1.055    0.819   3.991
 # Equivalent to mindegdom with asc, however with desc it's faster:
-# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/basis "" count dom bin mindegdom desc "" 1 12 "" ""
-#  N       rt  pl  bt        bv   bo    lar gcd     satc           t        ppc st      nds      lvs
-# 12    count dom bin mindegdom desc  relpr   1        0     334.386      12387  0      517      259
-#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-# 984.740  0.155    0.024  113.190  126.281   1.178  0.000  1.528    0.032   9.574
-# 938.000  0.000    0.000  110.979  112.253   1.000  0.000  0.131    0.000   0.000
-#1068.000  1.000    0.294  113.753  470.425   5.000  0.000  6.242    1.978  17.000
-#  32.435  0.363    0.054    0.383   38.951   0.466  0.000  0.717    0.139   3.698
-#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp
-# 952.062  2.551    0.049   19.334   61.335   1.220  0.000  0.720    1.908  11.529
-# 909.000  1.250    0.000    0.658    1.427   1.000  0.000  0.002    0.768   3.000
-#1023.000  9.000    0.476   78.513  369.663   4.000  0.000  4.750    4.481  18.000
-#  29.183  1.356    0.106   15.194   73.513   0.605  0.000  0.940    0.723   3.484
+# MOLS> ./rlaMols 12 data/SpecsCollection/Pandiagonal/basis "" count dom bin mindegdom desc "" "" 1 12 "" ""
+# rlaMols 1.0.3 79b04e445a2306243d8f767cae8eea0ad94625ba
+#  N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
+# 12    count dom bin mindegdom desc  labsc  relpr   1        0     326.931      12387  0      517      259
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp    efv
+# 984.740  0.155    0.024  113.190  126.281   1.178  0.000  1.594    0.032   9.574  0.000
+# 938.000  0.000    0.000  110.979  112.253   1.000  0.000  0.220    0.000   0.000  0.000
+#1068.000  1.000    0.294  113.753  470.425   5.000  0.000  6.209    1.978  17.000  0.000
+#  32.435  0.363    0.054    0.383   38.951   0.466  0.000  0.524    0.139   3.698  0.000
+#     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp    efv
+# 952.062  2.551    0.049   19.334   61.335   1.220  0.000  0.776    1.908  11.529  0.000
+# 909.000  1.250    0.000    0.658    1.427   1.000  0.000  0.003    0.768   3.000  0.000
+#1023.000  9.000    0.476   78.513  369.663   4.000  0.000  4.795    4.481  18.000  0.000
+#  29.183  1.356    0.106   15.194   73.513   0.605  0.000  0.962    0.723   3.484  0.000
+
+# Remark: "enu" aborted for maxdom/mindegdom, takes much longer.
 
 
 # N=13:
@@ -594,9 +602,10 @@
 # A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
 # Blackbox evaluations: 1916 Total model evaluations: 145560 Cache hits: 452 Total number of evaluations: 2368
 # Rerunning TAUscan:
-# TAU_basis_12_newv_ave$ time ./TAUscan 12 ../basis "" newv hash "0.610036,9.968559,9.610872,-7.963618,-9.990309,-9.9998,6.839984,-6.18007,3.838102,-5.817729,-7.540147" 1000 10 all
-# 1000 : 3.24800497534713611347e+02 1.07509225640980379228e+06 7.33020669327977931127e+08; 2.33193583370576683501e+07
-# real    1m25.237s user    13m36.066s sys     0m13.163s
+# TAU_basis_12_newv_ave$ time ./TAUscan 12 ../../basis "" "" newv h "" "0.610036,9.968559,9.610872,-7.963618,-9.990309,-9.9998,6.839984,-6.18007,3.838102,-5.817729,-7.540147" 1000 10 all
+# 1000 : 3.24800497534713611347e+02 6.71100427452619369944e+05 2.41206436528023369785e+08; 9.33013080448450456788e+06
+# TS_1000_10_1705418919991354627.R
+# real    1m56.147s user    18m25.615s sys     0m18.202s
 # Doesn't look much better.
 
 
@@ -607,7 +616,18 @@
 
 # MAX_TIME 40000s, rep=1000:
 # TAU/basis_12_newvdegm_ave> nomad np
-# XXX running on server XXX
+# 296  970160.875826  -0.406461   3.23723    9.06927    7.294035  -9.668806  -9.956762  -4.531512   8.981651   6.895917  -2.114276  -4.887435
+# A termination criterion is reached: No termination (all). Mesh minimum precision reached (Algo)
+# Blackbox evaluations: 1001
+# Rerunning TAUscan:
+# TAU/basis_12_newvdegm_ave> time ./TAUscan 12 ../../basis "" "" newv-degm h "" "-0.406461,3.23723,9.06927,7.294035,-9.668806,-9.956762,-4.531512,8.981651,6.895917,-2.114276,-4.887435" 1000 10 all
+# 1000 : 8.62026483262854727393e+01 1.31623090212892654586e+06 5.91771701890995430702e+08; 1.97587728575992922706e+07
+# TS_1000_10_1705418505765028588.R
+# real    1m42.298s user    16m32.089s sys     0m2.135s
+# Looks basically the same as newv above (however the TS-plot shows a much more
+# pronounced basic layer of extremely low values).
+
+# One needs to optimise the combinations bin + newv(-degm).
 
 
 
