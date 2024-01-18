@@ -1,4 +1,4 @@
-server:         5 running
+server:         6 running
 
 Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
@@ -9,6 +9,7 @@ Pandiagonal/TAU/basis_12_newvdegm_ave : nomad
 Queendiagonal/sudoku : rlaMols (started 12/12/2023)
 
 Pandiagonal/TAU/basis_12_bin_newv_ave : nomad (started 18/01/2024)
+Pandiagonal/TAU/basis_12_bin_newvdegm_ave : nomad (started 18/01/2024)
 
 
 server2:        0 running

@@ -633,6 +633,10 @@
 # TAU/basis_12_bin_newv_ave> nomad np
 # XXX running on server XXX
 
+# Optimising bin + newvdegm with MAX_TIME 40000s, rep=1000:
+# TAU/basis_12_bin_newvdegm_ave> nomad np
+# XXX running on server XXX
+
 
 
 squares A
