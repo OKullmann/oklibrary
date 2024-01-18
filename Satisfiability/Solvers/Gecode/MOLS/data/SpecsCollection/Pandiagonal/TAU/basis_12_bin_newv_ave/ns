@@ -1,0 +1,2 @@
+#!/bin/bash
+cat $1 | ./TAUscan 12 ../../basis "" bin newv h "" cin 1000 10 ave

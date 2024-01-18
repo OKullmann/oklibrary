@@ -629,6 +629,10 @@
 
 # One needs to optimise the combinations bin + newv(-degm).
 
+# Optimising bin + newv with MAX_TIME 40000s, rep=1000:
+# TAU/basis_12_bin_newv_ave> nomad np
+# XXX running on server XXX
+
 
 
 squares A
