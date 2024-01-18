@@ -27,6 +27,19 @@
 
 # gcMols:
 
+# MOLS> ./gcMols 2,10 data/SpecsCollection/Queendiagonal/basis "" count dom bin maxdom desc 1 12 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  2    count dom bin    maxdom desc   1         0       0.190             4           1           0      0  0
+#  3    count dom bin    maxdom desc   1         0       0.037             9           1           0      0  0
+#  4    count dom bin    maxdom desc   1         0       0.014            33           1           0      0  0
+#  5    count dom bin    maxdom desc   1         2       0.008           174           2           7      1  0
+#  6    count dom bin    maxdom desc   1         0       0.044           323           9          17      2  0
+#  7    count dom bin    maxdom desc   1         4       0.017          7227         144         295      6  0
+#  8    count dom bin    maxdom desc   1         0       0.030         30963         722        1443     13  0
+#  9    count dom bin    maxdom desc   1         0       4.796       7191966      146427      292853     23  0
+# 10    count dom bin    maxdom desc   1         0     242.933     304163560     6401731    12803461     40  0
+
+
 # N=11:
 
 # MOLS> ./gcMols 11 data/SpecsCollection/Queendiagonal "" +enum dom binbr maxdom desc 12
