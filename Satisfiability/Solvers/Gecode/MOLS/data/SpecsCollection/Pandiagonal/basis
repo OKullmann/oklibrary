@@ -215,7 +215,7 @@
 #   891.000     72.000     101.000     4.000     880.000     2095.000     4.000     1.000     2.086     0.134     0.011
 #    42.484     13.567      18.177     0.514     216.346      348.813     0.472     0.053     0.325     0.025     0.001
 # real	0m17.358s user	2m57.994s sys	0m0.972s
-# MOLS> time ./rlaMols 11 data/SpecsCollection/Pandiagonal "" count "" bin maxdom "" "" 1 12
+# MOLS> time ./rlaMols 11 data/SpecsCollection/Pandiagonal/basis "" count "" bin maxdom "" "" "" 1 12 "" ""
 #   N       rt  pl  bt        bv   bo    lar  gcd       satc           t        ppc     flvs     gnds    gd     larc      lvs
 #  11    count dom bin    maxdom  asc  relpr    1          8     151.897      19212      361     1082     9      721      361
 #      vals      props     elvals     prunes      mprune       probes    rounds      solc         t   qelvals   qprunes
@@ -224,7 +224,22 @@
 #   891.000     54.000     77.000     10.000     880.000     2565.000     4.000     1.000     2.323     0.137     0.016
 #   103.917      9.805     13.594      1.185     316.755      467.815     0.586     0.105     0.426     0.020     0.002
 # real	0m16.606s user	2m31.901s sys	0m0.036s
-# Seems to confirm that here bin+maxdom/mindegdom work well.
+# Seems to confirm that here bin+maxdom/mindegdom work well; mindegdom+desc is even better:
+# MOLS> time ./rlaMols 11 data/SpecsCollection/Pandiagonal/basis "" count "" bin mindegdom desc "" "" 1 12 "" ""
+#  N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
+# 11    count dom bin mindegdom desc  labsc  relpr   1        8     230.523      15398  0      555      278
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp    efv
+#622.527  0.221    0.082  114.703  132.298   1.256  0.000  0.866    0.272  11.653  0.000
+#384.000  0.000    0.000   72.180  105.812   1.000  0.000  0.329    0.000   0.000  0.000
+#770.000  1.625    1.389  120.833  370.984   4.000  0.000  2.926    8.133  30.000  0.000
+#100.463  0.434    0.206    6.359   38.238   0.541  0.000  0.382    0.945   6.275  0.000
+#    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals      dp    efv
+#571.561  2.233    0.030   23.327   83.015   1.414  0.029  0.542    3.514  13.604  0.000
+#359.000  1.194    0.000    0.780    1.716   1.000  0.000  0.001    0.936   4.000  0.000
+#731.000  8.000    0.797  101.227  528.226   6.000  1.000  3.599   19.758  31.000  0.000
+#103.328  1.194    0.094   19.066   91.073   0.759  0.167  0.675    2.737   6.157  0.000
+# real	0m21.120s user	3m50.528s sys	0m0.036s
+
 
 # N=12:
 
