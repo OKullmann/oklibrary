@@ -3,6 +3,21 @@
 # 4, 0, >= 16, 0, 0, 0, ?, ?, ?, ?
 # ?, ?, ?, ?, ?
 
+# For N = n^2 the existence-question is completely solved by
+#   Pandiagonal Sudokus, Klotz, Sander
+#   The electronic journal of combinatorics 19 (2012), #P18
+# namely the problem is satisfiable iff n = 6k+1 or n=6k-1.
+# Thus we know that N=4,9,16,36 are unsatisfiable (easily
+# confirmed for N <= 16), while N=25,49 are satisfiable.
+# The case N=25 (the smallest standard pandiagonal big Sudoku)
+# is shown at http://www.multimagie.com/English/SudokuPandiag.htm .
+# The construction produces cyclic squares; under additional
+# restrictions in Theorem 3.5 of
+#   Recursive construction of non-cyclic pandiagonal Latin squares
+#   Vahid Dabbaghian, Tiankuang Wu
+#   Discrete Mathematics 313 (2013) 2835-2840
+# the existence of noncyclic solutions is shown.
+
 # For N <= 8 the box-condition is redundant.
 # N=11 is the first case where the box-condition means a restriction
 # (for counting; compare ./basis, with a count of 8).
@@ -12,7 +27,9 @@
 
 # The first open case is N=17.
 
-# A really interesting case is N=25 (a normal Sudoku).
+# A really interesting case is N=25 (a normal Sudoku), known to be
+# satisfiable (by cyclic designs).
+
 
 
 # gcMols:
