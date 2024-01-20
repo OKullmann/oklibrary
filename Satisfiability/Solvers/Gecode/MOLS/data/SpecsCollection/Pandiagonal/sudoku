@@ -1,12 +1,16 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 4, 0, >= 16, 0, 0, 0, ?, ?, ?, ?
-# ?, ?, ?, ?, ?
+# 4, 0, >= 16, 0, 0, 0, ?, ?(0), ?, ?(0)
+# ?(0), ?(0), ?, ?(0), ?(>=1)
+
+# Above "(0)" means that unsatisfiability is known (but not
+# yet confirmed by our solvers).
 
 # For N = n^2 the existence-question is completely solved by
 #   Pandiagonal Sudokus, Klotz, Sander
 #   The electronic journal of combinatorics 19 (2012), #P18
-# namely the problem is satisfiable iff n = 6k+1 or n=6k-1.
+# namely the problem is satisfiable iff n = 6k+1 or n=6k-1
+# (that is, if n is not divisible by 2 or 3).
 # Thus we know that N=4,9,16,36 are unsatisfiable (easily
 # confirmed for N <= 16), while N=25,49 are satisfiable.
 # The case N=25 (the smallest standard pandiagonal big Sudoku)
@@ -23,7 +27,8 @@
 # (for counting; compare ./basis, with a count of 8).
 # For N=12 there are queens-solutions (see "Queendiagonal/sudoku").
 # No case is known where the sudoku-conditions turns a satisfiable case
-# (i.e., gcd(N,6) = 1) into an unsatisfiable one.
+# (i.e., gcd(N,6) = 1) into an unsatisfiable one; for N=n^2
+# this follows from the above characterisation.
 
 # The first open case is N=17.
 
