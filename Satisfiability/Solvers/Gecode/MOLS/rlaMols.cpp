@@ -115,8 +115,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.3",
-        "23.12.2023",
+        "1.0.4",
+        "21.1.2024",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -141,8 +141,8 @@ namespace {
       "> " << proginfo.prg << "\n"
       "   N  file_cond  file_ps  run-type\n"
       "   prop-level  branch-type  branch-var  branch-order\n"
-      "   la-type  gcd  threads\n"
-      "   (stop-type,stop-value)*  tree-logging\n\n"
+      "   la-reduction  la-algorithm  gcd\n"
+      "   threads  (stop-type,stop-value)*  tree-logging\n\n"
       " 1.  N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
       " 2.  file_cond    : filename/string for conditions-specification\n"
       " 3.  file_ps      : filename/string for partial-squares-specification\n"
