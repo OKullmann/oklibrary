@@ -343,12 +343,17 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -10. New reduction-types
-   - After branch-order and before la-type comes "red-type".
-   - "laefv" eliminates variables with degree 0 and dom>=2, by setting them
+   - DONE (we have now "la-reduction  la-algorithm")
+     After branch-order and before la-type comes "red-type".
+   - DONE
+     "laefv" eliminates variables with degree 0 and dom>=2, by setting them
      to their first value.
-   - this happens in function lareduction, right before the loops over
+   - DONE (done differently: inside the v-loop, eliminating one variable
+     at a time)
+     This happens in function lareduction, right before the loop over
      variables v happens.
-   - A new counter is created (like ReductionStatistics::props), counting
+   - DONE
+     A new counter is created (like ReductionStatistics::props), counting
      the number of eliminated formal variables.
    - Later for this reduction the count can be corrected, and solutions
      can be made partial (so that all solutions are still enumerated).
@@ -532,9 +537,6 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - Perhaps one should also provide a "strict" input-format, where the
      exact number of weights must be provided (no extension or cutting),
      in order to avoid input-errors.
-
--2. Complete the info:
-   - program-name, version-number
 
 -1. Controlling the output:
    - "+-cond": output of full conditions (+cond -> +info).
