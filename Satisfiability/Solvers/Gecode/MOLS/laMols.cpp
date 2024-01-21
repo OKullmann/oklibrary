@@ -1,5 +1,5 @@
 // Oleg Zaikin, 6.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -49,7 +49,7 @@ argument, and making all values explicit):
 Inserted are basic explanations via "[ ]":
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc "" relpr 1 3 "0.1" "" ""
-# laMols 0.104.3 b3407cb26bb47ce1782e64433c4c105094007306
+# laMols_debug 0.104.3 a6261a7904da21b25bc390638ba5ef7011977600
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
@@ -84,8 +84,8 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ satc : satisfying assignments
   t    : time (s)
-  ppc  : propagations
-  st   : 0 is false (no stopping)
+  ppc  : propagation-calls (reported by gecode)
+  st   : 0 means false (i.e., no stopping)
   nds  : nodes
   lvs  : leaves
   nsel  : normalised standard deviation of estlvs-measure
@@ -93,26 +93,29 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics for inner nodes: ]
 
-   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0   0.002414  0.62896    2.566
-   143        0        0   133.33   133.14        1     0   0.001461        0        0
-   180        1    16.35   138.46   200.69        2     0   0.010403   1.3793        3
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0015302  0.51141  0.72083
+   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp  efv
+148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0033162  0.62896    2.566    0
+   143        0        0   133.33   133.14        1     0   0.002095        0        0    0
+   180        1    16.35   138.46   200.69        2     0   0.011756   1.3793        3    0
+8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0016368  0.51141  0.72083    0
 
-[ solc : solution-count (found at the node)
-  tr   : time for reduction
-  dp   : depth (per node) ]
+[ mu0   : number of variables, weighted by domainsize-1, before reduction
+  qfppc : considering only la-variables (not inferred ones): quotient of eliminated values
+          and eliminated variables, or 0 iff no eliminated variables
+  solc  : solution-count (found at the node)
+  tr    : time for reduction
+  dp    : depth (per node) ]
 [ Per column: average, minimum, maximum, standard deviation (same below) ]
 
 [ Statistics for leaves: ]
 
-    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals  dp
- 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.0016251   15.222   4
-    129     1.25   1.1628   23.077   64.615        1     6    0.000938   13.846   4
-    130   1.6667   12.308   88.462   176.15        2     6    0.002627   17.054   4
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.00048878  0.76313   0
+    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals  dp  efv
+ 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.0022314   15.222   4    0
+    129     1.25   1.1628   23.077   64.615        1     6    0.001243   13.846   4    0
+    130   1.6667   12.308   88.462   176.15        2     6    0.003162   17.054   4    0
+0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.00070513  0.76313   0    0
 
-[ Per leaf we have estlvs and uestlvs; these are the global statistics: ]
+[ Per leaf we have estlvs and uestlvs, which yield the following statistics: ]
 
       estlvs       uestlvs
 7.216275e+01  7.200000e+01
@@ -129,8 +132,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.00010747
 
 [ w : width (of chosen branching)
-  dm0 : for the reduction (thus "0"): Delta of weighted sum of domain-sizes D,
-        using weight D-1
+  dm0 : for the reduction: Delta of m0 (before branching)
   ltausp :  quotient of worst / best logarithmic-tau of all branchings considered
   minp, meanp, maxp, sddp : tau-probabilities (of chosen branching)
   tb : time for branching ]

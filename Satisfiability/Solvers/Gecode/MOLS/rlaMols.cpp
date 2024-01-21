@@ -1,5 +1,5 @@
 // Oleg Zaikin, 13.4.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,9 @@ License, or any later version. */
 
 Examples:
 
-1. Counting all (reduced) 36 triples of MOLS for N=5
+For explanations on the statistics, see laMols.cpp.
+
+1. Counting all (reduced) 36 triples of 3-MOLS for N=5
     - for the propagation-level "domain"
     - enumerative branching-type
     - max-deg/dom-var variable-selection,
@@ -24,7 +26,7 @@ Examples:
     - and no stopping:
 
 MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" 1 2 "" ""
-# rlaMols 1.0.2 c3f1c876e1928b57a1680bd17de6d0432daf4aa8
+# rlaMols 1.0.3 a6261a7904da21b25bc390638ba5ef7011977600
 # command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "1" "2" "" ""
 
 # N: 5
@@ -45,17 +47,17 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
 #   la-reduction-algorithm: relaxed-pruning(relpr)
 #   commit-distance: 1
   N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
-  5    count dom enu maxdegdom  asc  relpr   1       36       0.096        691  0       11        8
-    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.014    0.773  1.000
-302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.007    0.000  0.000
-320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.026    2.318  2.000
-  9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000
-    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp
-289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.007    6.090  2.000
-251.000  1.154    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000
-309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.017   11.650  3.000
- 25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926
+  5    count dom enu maxdegdom  asc  labsc  relpr   1       36       0.091        691  0       11        8
+    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
+310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.012    0.773  1.000  0.000
+302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.006    0.000  0.000  0.000
+320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.023    2.318  2.000  0.000
+  9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000  0.000
+    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
+289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.006    6.090  2.000  0.000
+251.000  1.154    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000  0.000
+309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000  0.000
+ 25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926  0.000
 
 */
 
