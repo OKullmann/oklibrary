@@ -1,5 +1,5 @@
 // Oleg Zaikin, 23.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -153,7 +153,7 @@ namespace Cases {
       assert(vals >= n+ev+units);
       assert(n >= units);
       const size_t mu0 = (vals - n) - ev, depth = 0;
-      LR::ReductionStatistics s(mu0, depth);
+      LR::ReductionStatistics s(mu0, n-units, depth);
       s.inc_rounds();
       for (size_t i = 0; i < n-units; ++i) s.inc_elimfv();
       switch (rdl) {
@@ -222,7 +222,7 @@ namespace Cases {
     // Maximal size of pruning-set is N*N*N as well.
     LR::ReductionStatistics laredstats(const OP::LAR lar,
       const OP::RT rt) const noexcept {
-      LR::ReductionStatistics s(vals - n, 0);
+      LR::ReductionStatistics s(vals - n, n, 0);
       s.inc_rounds();
       if (N > 2) {
         for (size_t i = 0; i < vals; ++i) s.inc_probes();

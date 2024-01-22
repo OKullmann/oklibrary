@@ -1,5 +1,5 @@
 // Oleg Zaikin, 29.3.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -85,31 +85,39 @@ namespace LookaheadReduction {
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
     const size_t vals_; // measure mu0
+    const size_t vars_; // number of unassigned variables
     const size_t depth_;
     Timing::Time_point time_; // total time for the reduction
 
-    size_t props_ = 0; // propagation-call-counter
-    size_t elimvals_ = 0; // number of eliminated values
+    size_t props_ = 0; // status-call-counter (one per variable which has
+                       // some eliminated values per look-ahead
+    size_t elimvals_ = 0; // number of eliminated values for the la-variable
+    /* probs_ and elimvals_ only consider the la-variable, not further
+       inferred (via the status-call); the quotient elimvals_/props_ is
+       reported by quotprops().
+    */
     size_t probes_ = 0; // number of probings
     size_t rounds_ = 0; // number of rounds
     size_t prunes_ = 0; // number of successful prunings
     size_t maxprune_ = 0; // maximal size of pruning-set
     size_t elimfv_ = 0; // number of formal variables
+    size_t autarks_ = 0; // number of la-variables which yielded autarkies
 
     size_t solc_ = 0; // number of solutions found
     bool leaf_ = false;
 
     sollist_t sollist_; // list of solutions found
-    assignment_t elims_; // list of eliminations (where variable != value)
+    assignment_t elims_; // list of eliminations (pairs variable != value)
 
   public:
 
     ReductionStatistics(const GC::IntVarArray& x,
                         const size_t d) noexcept :
-      vals_(GV::sumdomsizes(x)-x.size()), depth_(d) { assert(vals_ > 0); }
-    ReductionStatistics(const size_t vals,
+      vals_(GV::sumdomsizes(x)-x.size()), vars_(GV::numopenvars(x)),
+      depth_(d) { assert(vals_ > 0); }
+    ReductionStatistics(const size_t vals, const size_t vars,
                         const size_t d) :
-      vals_(vals), depth_(d) { assert(vals_ > 0); }
+      vals_(vals), vars_(vars), depth_(d) { assert(vals_ > 0); }
 
     void inc_props() noexcept { ++props_; }
     void inc_elimvals() noexcept { ++elimvals_; }
@@ -130,6 +138,7 @@ namespace LookaheadReduction {
     size_t probes() const noexcept { return probes_; }
     size_t rounds() const noexcept { return rounds_; }
     size_t elimfv() const noexcept { return elimfv_; }
+    size_t autarks() const noexcept { return autarks_; }
 
     size_t solc() const noexcept { return solc_; }
     bool leaf() const noexcept { return leaf_; }
@@ -153,18 +162,26 @@ namespace LookaheadReduction {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
+    // qfppc:
     float_t quotprops() const noexcept {
+      assert(props_ != 0 or elimvals_ == 0);
+      assert(elimvals_ != 0 or props_ == 0);
+      assert(elimvals_ >= props_);
       return props_ == 0 ? 0 : float_t(elimvals_) / props_;
     }
+    // pprunes:
     float_t quotprune() const noexcept {
       return 100 * float_t(prunes_) / probes_;
     }
+    // pmprune:
     float_t quotmaxprune() const noexcept {
       return 100 * float_t(maxprune_) / vals_;
     }
+    // pprobes:
     float_t quotprobes() const noexcept {
       return 100 * float_t(probes_) / vals_;
     }
+    // pelvals:
     float_t quotelimvals() const noexcept {
       return 100 * float_t(elimvals_) / vals_;
     }
@@ -333,7 +350,7 @@ namespace LookaheadReduction {
             GV::unset_var(*m, V[v], val);
             stats.elim({v,val});
           }
-          const auto status = m->status();
+          const auto status = m->status(); // calling gecode-propagation
           assert(status != GC::SS_SOLVED);
           assert(status==GC::SS_FAILED or V[v].size() == vsize - esize);
           stats.inc_props();

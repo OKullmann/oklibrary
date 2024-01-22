@@ -1,5 +1,5 @@
 // Oleg Zaikin, 11.5.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -140,6 +140,11 @@ namespace GcVariables {
     return res;
   }
 
+  size_t numopenvars(const VarVec& V) noexcept {
+    size_t sum = 0;
+    for (int v = 0; v < V.size(); ++v) sum += not V[v].assigned();
+    return sum;
+  }
   size_t sumdomsizes(const VarVec& V) noexcept {
     size_t sum = 0;
     for (int v = 0; v < V.size(); ++v) sum += V[v].size();

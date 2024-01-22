@@ -1,5 +1,5 @@
 // Oleg Zaikin, 11.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -47,8 +47,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "29.7.2022",
+        "0.1.5",
+        "22.1.2024",
         __FILE__,
         "Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestGcVariables.cpp",
@@ -73,6 +73,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(domsizes(V), {1}));
    assert(sumdomsizes(V) == 1 * 1);
    assert(empty(V));
+   assert(numopenvars(V) == 0);
    assert(eqp(values(V, 0), {0}));
    assert(eqp(values(V), {{0}}));
   }
@@ -81,6 +82,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(domsizes(V), {2}));
    assert(sumdomsizes(V) == 1 * 2);
    assert(not empty(V));
+   assert(numopenvars(V) == 1);
    assert(eqp(values(V, 0), {0,1}));
    assert(eqp(values(V), {{0,1}}));
   }
@@ -89,6 +91,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(domsizes(V), {1,1}));
    assert(sumdomsizes(V) == 2 * 1);
    assert(empty(V));
+   assert(numopenvars(V) == 0);
    assert(eqp(values(V, 0), {0}));
    assert(eqp(values(V, 1), {0}));
    assert(eqp(values(V), {{0}, {0}}));
@@ -98,6 +101,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(domsizes(V), {2,2}));
    assert(sumdomsizes(V) == 2 * 2);
    assert(not empty(V));
+   assert(numopenvars(V) == 2);
    assert(eqp(values(V, 0), {0,1}));
    assert(eqp(values(V, 1), {0,1}));
    assert(eqp(values(V), {{0,1}, {0,1}}));
