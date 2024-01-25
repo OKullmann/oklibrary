@@ -646,7 +646,13 @@
 
 # Optimising bin + newv with MAX_TIME 40000s, rep=1000:
 # TAU/basis_12_bin_newv_ave> nomad np
-# XXX running on server XXX
+# 1832   0.663634 3.65003 -7.39978 -8.18331 -9.43122 -8.27276 2.8078 1.50585 4.31235 -9.57104 8.48179
+# Blackbox evaluations: 1001
+# Rerunning TAUscan:
+# TAU/basis_12_bin_newv_ave> time ./TAUscan 12 ../../basis "" bin newv h "" "0.663634,3.65003,-7.39978,-8.18331,-9.43122,-8.27276,2.8078,1.50585,4.31235,-9.57104,8.48179" 1000 10 all
+# 1000 : 1.00001634543943622967e+00 1.00001634543943622967e+00 1.00001634543943622967e+00; 0.00000000000000000000e+00
+# TS_1000_10_1706182435825641668.R
+# real    32m50.979s user    327m22.410s sys     0m4.603s
 
 # Optimising bin + newvdegm with MAX_TIME 40000s, rep=1000:
 # TAU/basis_12_bin_newvdegm_ave> nomad np
