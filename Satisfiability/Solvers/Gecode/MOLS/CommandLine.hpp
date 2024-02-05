@@ -61,7 +61,7 @@ namespace CommandLine {
   using size_t = CD::size_t;
   using weights_t = OP::weights_t;
 
-  const std::string version_laMols = "0.105.0";
+  const std::string version_laMols = "0.105.1";
   const std::string date_laMols = "5.2.2024";
   constexpr int commandline_args_laMols = 15;
 
@@ -242,7 +242,7 @@ namespace CommandLine {
     else return FloatingPoint::to_float64(x);
   }
 
-  constexpr unsigned default_comdist = 0;
+  constexpr unsigned default_comdist = 1;
   typedef std::vector<unsigned> list_unsigned_t;
   list_unsigned_t read_comdist([[maybe_unused]]const int argc,
                                const char* const argv[], const int pos) {

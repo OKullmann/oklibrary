@@ -20,14 +20,14 @@ For explanations on the statistics, see laMols.cpp.
     - enumerative branching-type
     - max-deg/dom-var variable-selection,
     - the default branching-order,
-    - default lookahead-reduction,
-    - commit-distance 1,
+    - default lookahead-level
+    - default lookahead-algorithm,
     - 2 threads,
     - and no stopping:
 
-MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" 1 2 "" ""
-# rlaMols 1.0.5 76183db9b0002f0b22116fb9fc66863ffaa5283e
-# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "1" "2" "" ""
+MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" "" 2 "" ""
+# rlaMols 1.0.6 d71ab137b3da877b6f33a73f642c0f4aa5723922
+# command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "" "2" "" ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
 #   num_uc=9 num_eq=0 num_peq=3
@@ -114,7 +114,7 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.5",
+        "1.0.6",
         "5.2.2024",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",

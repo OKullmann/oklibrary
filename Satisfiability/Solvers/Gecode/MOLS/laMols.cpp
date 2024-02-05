@@ -109,7 +109,7 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
   tr      : time for reduction
   pelvals : percentage of eliminated la-variable-values
   dp      : depth (per node)
-  efv     :   ]
+  efv     : number of eliminated formal (non-occurring) variables  ]
 [ Per column: average, minimum, maximum, standard deviation (same below) ]
 
 [ Statistics for leaves: ]
@@ -149,9 +149,9 @@ So nsuel = 0.
 At each leaf there are 6 solutions.
 
 Just picking one random leaf:
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" "" 1 1 0.1 lvs,0 ""
-# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
-# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "" "1" "1" "0.1" "lvs,0" ""
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" "" "" 1 0.1 lvs,0 ""
+# laMols 0.105.1 d71ab137b3da877b6f33a73f642c0f4aa5723922
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "" "" "1" "0.1" "lvs,0" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
@@ -651,7 +651,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      number of values (sum of domain-sizes of variables not set).
    - While mu0 should be another member.
 
-5. Set default for commit-distance to 1.
+5. DONE Set default for commit-distance to 1.
 
 */
 
