@@ -98,8 +98,7 @@ namespace LookaheadReduction {
                        // some eliminated values)
     size_t elimvals_ = 0; // number of eliminated values for the la-variable
     /* probs_ and elimvals_ only consider the la-variable, not further
-       inferred (via the status-call); the quotient elimvals_/props_ is
-       reported by quotprops(), which is named "qfppc" (or 0 iff props_ = 0).
+       inferred (via the status-call).
     */
     size_t probes_ = 0; // number of probings
     size_t rounds_ = 0; // number of rounds
@@ -173,7 +172,8 @@ namespace LookaheadReduction {
       assert(props_ != 0 or elimvals_ == 0);
       assert(elimvals_ != 0 or props_ == 0);
       assert(elimvals_ >= props_);
-      return props_ == 0 ? 0 : float_t(elimvals_) / props_;
+      assert(vars_ != 0);
+      return 100 * float_t(props_) / vars_;
     }
     // pprunes:
     float_t quotprune() const noexcept {
@@ -189,6 +189,8 @@ namespace LookaheadReduction {
     }
     // pelvals:
     float_t quotelimvals() const noexcept {
+      assert(vals_ != 0);
+      assert(elimvals_ <= vals_);
       return 100 * float_t(elimvals_) / vals_;
     }
 

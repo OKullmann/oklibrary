@@ -26,9 +26,8 @@ For explanations on the statistics, see laMols.cpp.
     - and no stopping:
 
 MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" 1 2 "" ""
-# rlaMols 1.0.3 a6261a7904da21b25bc390638ba5ef7011977600
+# rlaMols 1.0.5 76183db9b0002f0b22116fb9fc66863ffaa5283e
 # command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "1" "2" "" ""
-
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
 #   num_uc=9 num_eq=0 num_peq=3
@@ -49,15 +48,15 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
   N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
   5    count dom enu maxdegdom  asc  labsc  relpr   1       36       0.091        691  0       11        8
     mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
-310.667  0.333   19.423  135.707  166.465   1.667  0.000  0.012    0.773  1.000  0.000
+310.667  2.047   19.423  135.707  166.465   1.667  0.000  0.013    0.773  1.000  0.000
 302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.006    0.000  0.000  0.000
-320.000  1.000   38.808  137.097  250.000   3.000  0.000  0.023    2.318  2.000  0.000
-  9.018  0.577   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000  0.000
-    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
-289.250  1.556   78.423   44.998   53.249   1.250  4.500  0.006    6.090  2.000  0.000
-251.000  1.154    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000  0.000
-309.000  2.333  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000  0.000
- 25.104  0.366   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926  0.000
+320.000  6.140   38.808  137.097  250.000   3.000  0.000  0.024    2.318  2.000  0.000
+  9.018  3.545   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000  0.000
+    mu0   qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
+289.250  11.581   78.423   44.998   53.249   1.250  4.500  0.007    6.090  2.000  0.000
+251.000   2.632    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000  0.000
+309.000  26.087  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000  0.000
+ 25.104   8.837   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926  0.000
 
 */
 
@@ -115,8 +114,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.4",
-        "21.1.2024",
+        "1.0.5",
+        "5.2.2024",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

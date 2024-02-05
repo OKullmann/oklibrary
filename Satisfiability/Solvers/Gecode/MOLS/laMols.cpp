@@ -49,7 +49,7 @@ argument, and making all values explicit):
 Inserted are basic explanations via "[ ]":
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc "" relpr 1 3 "0.1" "" ""
-# laMols_debug 0.104.3 a6261a7904da21b25bc390638ba5ef7011977600
+# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
@@ -93,27 +93,32 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics for inner nodes: ]
 
-   mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp  efv
-148.38  0.67925   8.8165   137.55   173.45   1.6792     0  0.0033162  0.62896    2.566    0
-   143        0        0   133.33   133.14        1     0   0.002095        0        0    0
-   180        1    16.35   138.46   200.69        2     0   0.011756   1.3793        3    0
-8.5355  0.47123   6.3903   1.1415    26.46  0.47123     0  0.0016368  0.51141  0.72083    0
+   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp  efv
+148.38  1.6173   8.8165   137.55   173.45   1.6792     0  0.0073962  0.62896    2.566    0
+   143       0        0   133.33   133.14        1     0   0.001568        0        0    0
+   180  3.5714    16.35   138.46   200.69        2     0   0.011138   1.3793        3    0
+8.5355  1.3227   6.3903   1.1415    26.46  0.47123     0  0.0028758  0.51141  0.72083    0
 
-[ mu0   : number of variables, weighted by domainsize-1, before reduction
-  qfppc : considering only la-variables (not inferred ones): quotient of eliminated values
-          and eliminated variables, or 0 iff no eliminated variables
-  solc  : solution-count (found at the node)
-  tr    : time for reduction
-  dp    : depth (per node) ]
+[ mu0     : number of variables, weighted by domainsize-1, before reduction
+  qfppc   : percentage of reduced la-variables (not inferred ones)
+  pprunes : percentage of pruned values (i.e., didn't need testing)
+  pmprune : percentage of max-pruning-size relative to number of values
+  pprobes : percentage of probed values
+  rounds  : la-reduction rounds
+  solc    : solution-count (found at the node)
+  tr      : time for reduction
+  pelvals : percentage of eliminated la-variable-values
+  dp      : depth (per node)
+  efv     :   ]
 [ Per column: average, minimum, maximum, standard deviation (same below) ]
 
 [ Statistics for leaves: ]
 
-    mu0    qfppc  pprunes  pmprune  pprobes   rounds  solc          tr  pelvals  dp  efv
- 129.67   1.4135     6.52   48.707   118.75      1.5     6   0.0022314   15.222   4    0
-    129     1.25   1.1628   23.077   64.615        1     6    0.001243   13.846   4    0
-    130   1.6667   12.308   88.462   176.15        2     6    0.003162   17.054   4    0
-0.47471  0.10048   3.0145   18.665   40.289  0.50351     0  0.00070513  0.76313   0    0
+    mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp  efv
+ 129.67  26.003     6.52   48.707   118.75      1.5     6  0.0055951   15.222   4    0
+    129  22.222   1.1628   23.077   64.615        1     6   0.000952   13.846   4    0
+    130   29.63   12.308   88.462   176.15        2     6   0.010366   17.054   4    0
+0.47471  2.4163   3.0145   18.665   40.289  0.50351     0  0.0026203  0.76313   0    0
 
 [ Per leaf we have estlvs and uestlvs, which yield the following statistics: ]
 
@@ -144,10 +149,9 @@ So nsuel = 0.
 At each leaf there are 6 solutions.
 
 Just picking one random leaf:
-XXX
-MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" 1 1 0.1 lvs,0 ""
-# laMols 0.102.2 2bb2480c69433720ca3d41b3e51c375ef0d6ac4b
-# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "1" "1" "0.1" "lvs,0" ""
+MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" "" 1 1 0.1 lvs,0 ""
+# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
+# command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "" "1" "1" "0.1" "lvs,0" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
 #   num_uc=5 num_eq=0 num_peq=1
@@ -162,22 +166,23 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: random-order(rand)
-#   la-reduction-type: relaxed-pruning(relpr)
+#   la-reduction-level: basic-lookahead(labsc)
+#   la-reduction-algorithm: relaxed-pruning(relpr)
 #   order-seeds: (empty)
 #   commit-distance: 1
 #   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
   5    count dom enu  wdL  rand  relpr   1        6       0.017        166  1        5        1  8.148433e+00  8.426150e+00
-   mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc          tr  pelvals     dp
-161.75   0.25    2.511   135.69   150.41    1.25     0   0.0020478  0.34483    1.5
-   145      0        0   133.33   133.14       1     0    0.001643        0      0
-   180      1   8.7108   137.25   197.93       2     0    0.002949   1.3793      3
-15.735    0.5   4.1807   1.9162   31.735     0.5     0  0.00060831  0.68966  1.291
-mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
-129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
-129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
-129  1.4286   8.3333   46.512   102.33       1     6  0.001487   15.504   4
-  0       0        0        0        0       0     0         0        0   0
+   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc          tr  pelvals     dp  efv
+161.75  0.89286    2.511   135.69   150.41    1.25     0    0.001909  0.34483    1.5    0
+   145        0        0   133.33   133.14       1     0    0.001675        0      0    0
+   180   3.5714   8.7108   137.25   197.93       2     0    0.002404   1.3793      3    0
+15.735   1.7857   4.1807   1.9162   31.735     0.5     0  0.00033393  0.68966  1.291    0
+mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
+129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
+129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
+129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
+  0       0        0        0        0       0     0         0        0   0    0
       estlvs       uestlvs
 6.739697e+01  7.200000e+01
 6.739697e+01  7.200000e+01
@@ -194,7 +199,7 @@ dm0       w  ltausp     minp    meanp     maxp       sddp          tb
 
 Showing only the leaf-count and whether the run was stopped or not (no "info", showing the
 parameters, and not showing the weights):
-MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" "-info,-w,lvs"
 3072 0
 real	0m2.698s
 user	0m14.202s
@@ -203,7 +208,7 @@ sys	0m0.425s
 0 means no-stop, while 1 would mean stop.
 This used 6 threads.
 
-MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" 1 6 "0,4.9,-5.26,2.89,0" "" "-info,-w,lvs"
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" "" 1 6 "0,4.9,-5.26,2.89,0" "" "-info,-w,lvs"
 2424 0
 real	0m3.325s
 user	0m18.104s
@@ -214,9 +219,9 @@ sys	0m0.632s
 3. Randomly finding some solutions for N=7:
 
 Sampling 100 leaves, and outputting only the number of solutions found:
-MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;0" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
+MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;0" "" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
 1
-MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;2" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
+MOLS> ./laMols 7 data/SpecsCollection/Euler/red "" count "" "" wdL "rand;2" "" "" 1 1 "0.1" "lvs,99" -info,-w,-stop,satc
 0
 
 For branch-order "rand" (or "tprob"; see below) only 1 thread can be used (for reproducibility).
@@ -226,22 +231,22 @@ For branch-order "rand" (or "tprob"; see below) only 1 thread can be used (for r
 
 Probing one branch:
 
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
 30233088000
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;1" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;1" "" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
 15116544000
 
 (Note that is is always a natural number.)
 
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
 8072167675.1987981838
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;1" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;1" "" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
 15510712536.085001176
 
 Showing full information, and using hash-seeds plus a final 777:
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,777" "" 1 1 0.1 lvs,0 ""
-# laMols 0.102.3 d262061724e5442f9da54da4e8a95c9be74a3902
-# command-line: "./laMols" "6" "data/SpecsCollection/Euler/basis" "" "count" "" "" "wdL" "tprob;h,777" "" "1" "1" "0.1" "lvs,0" ""
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,777" "" "" 1 1 0.1 lvs,0 ""
+# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
+# command-line: "./laMols" "6" "data/SpecsCollection/Euler/basis" "" "count" "" "" "wdL" "tprob;h,777" "" "" "1" "1" "0.1" "lvs,0" ""
 # N: 6
 # k=3 total_num_sq=3: "data/SpecsCollection/Euler/basis"
 #   num_uc=3 num_eq=0 num_peq=1
@@ -252,11 +257,11 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,77
 # rt=count-solutions(count)
 # stopping: by-leaf-count(lvs),0
 # output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) without-tree-logging(-tree) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
-#   propagation-level: domain-prop(dom)
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: tauprob-first(tprob)
-#   la-reduction-type: relaxed-pruning(relpr)
+#   la-reduction-level: basic-lookahead(labsc)
+#   la-reduction-algorithm: relaxed-pruning(relpr)
 #   order-seeds: 8047511768777539459 12022445848885784817 0 14182395947665704810 0 0 0 777
 
 Explanation:
@@ -273,16 +278,16 @@ Then come 4 seeds for the weights:
 #   weights: 0.1 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843 1.3195079107728942591
   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
   6    count dom enu  wdL tprob  relpr   1        0       0.189        832  1       19        1  5.953027e+04  8.693832e+04
-   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp
-375.94  0.11111   2.4653   125.95   129.19  1.0556     0  0.0051263  0.06105     8.5
-   243        0        0      120    117.7       1     0   0.002945        0       0
-   540        2   12.587   132.51   234.89       2     0    0.00911   1.0989      17
-98.405   0.4714    3.593   4.2254   26.551  0.2357     0  0.0018848  0.25901  5.3385
-mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
-232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
-232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
-232  1.375        8    70.69   140.09       2     0  0.003782   9.4828  18
-  0      0        0        0        0       0     0         0        0   0
+   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp  efv
+375.94   0.1182   2.4653   125.95   129.19  1.0556     0  0.0050791  0.06105     8.5    0
+   243        0        0      120    117.7       1     0   0.002932        0       0    0
+   540   2.1277   12.587   132.51   234.89       2     0   0.009205   1.0989      17    0
+98.405  0.50149    3.593   4.2254   26.551  0.2357     0  0.0017781  0.25901  5.3385    0
+mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
+232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
+232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
+232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
+  0       0        0        0        0       0     0         0        0   0    0
       estlvs       uestlvs
 3.543853e+09  7.558272e+09
 3.543853e+09  7.558272e+09
@@ -295,30 +300,30 @@ mu0  qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp
 0.94281  1.2274  1.3984  0.098471  0.09756  0.12334  0.046361  0.0013853
 
 
-Remark: For branching-order rand one can consider estlvs: this is just
+Remark: For branching-order "rand" one can consider estlvs: this is just
 for one "random leaf" (as given by random branchings) the tau-estimation
 of the number of leaves (while using tprob we have that the expected value
 of this estimation is exactly the number of leaves).
 And for branching-order tprob one can use uestlvs (for comparison).
 
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" "" 1 1 0.1 lvs,0 estlvs,-info,-w,-stop
 6827808605.0310231736
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;0" "" "" 1 1 0.1 lvs,0 uestlvs,-info,-w,-stop
 6718464000
 
 Choosing the first two weights randomly (from a restricted pool), and showing the weights:
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 r,r lvs,0 estlvs,-info,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" "" 1 1 r,r lvs,0 estlvs,-info,-stop
 #   weights: 3.2 1.6 1.6 1.6 -> 0 0 1 9.1895868399762800551 27.857618025475972455 84.448506289465232612 256.00000000000000003
 87823146264.256520517
 
 Remark: these weights are proper random weights: the current timestamp
 is used as seed for them.
 So repeated runs yield different results:
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 r,r lvs,0 estlvs,-info,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" "" 1 1 r,r lvs,0 estlvs,-info,-stop
 #   weights: 2 0.60000000000000000002 0.60000000000000000002 0.60000000000000000002 -> 0 0 1 4 6.0628662660415923295 9.1895868399762800542 13.928809012737986226
 88609148990.883491397
 To repeat, use the same weights:
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" 1 1 2,0.6 lvs,0 estlvs,-info,-stop
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "rand;0" "" "" 1 1 2,0.6 lvs,0 estlvs,-info,-stop
 #   weights: 2 0.60000000000000000002 0.60000000000000000002 0.60000000000000000002 -> 0 0 1 4 6.0628662660415923295 9.1895868399762800542 13.928809012737986226
 88609148990.883491397
 
@@ -622,18 +627,31 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      is to be closed.
 
 3. Better values for qfppc
-   - Currently it is meant to be the quotient of eliminated values
+   - DONE
+     Currently it is meant to be the quotient of eliminated values
      per reduced la-variable (not considering inferred variables);
      that is elimvals_ / props_/
-   - The problem is that there are (many) cases with qfppc=0,
+   - DONE
+     The problem is that there are (many) cases with qfppc=0,
      which means that zero variables have been eliminated (props_ = 0).
-   - In that case, perhaps qfppc=1 is more appropriate?
-   - But elimvals_ is already reported via "pelvals", as
+   - DONE In that case, perhaps qfppc=1 is more appropriate?
+   - DONE
+     But elimvals_ is already reported via "pelvals", as
      100 * float_t(elimvals_) / vals_.
      That seems reasonable.
-   - While props_ is not reported otherwise.
+   - DONE
+     While props_ is not reported otherwise.
      And neither is vars_ reported.
      So one could report 100 * float_t(props_) / vars_ as qfppc.
+   - An analogy to "pelvals", perhaps renaming "qfppc" to "prvars",
+     and putting prvars directly before pelvals ?
+
+4. Correct vals_:
+   - As a basis for elimination-statistics, this should be the real
+     number of values (sum of domain-sizes of variables not set).
+   - While mu0 should be another member.
+
+5. Set default for commit-distance to 1.
 
 */
 
