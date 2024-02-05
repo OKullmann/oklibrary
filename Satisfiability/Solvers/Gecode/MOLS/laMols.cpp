@@ -343,18 +343,6 @@ BUGS:
 See Todos in rlaMols, gcMols and LookaheadBranching.
 
 -10. New reduction-types
-   - DONE (we have now "la-reduction  la-algorithm")
-     After branch-order and before la-type comes "red-type".
-   - DONE
-     "laefv" eliminates variables with degree 0 and dom>=2, by setting them
-     to their first value.
-   - DONE (done differently: inside the v-loop, eliminating one variable
-     at a time)
-     This happens in function lareduction, right before the loop over
-     variables v happens.
-   - DONE
-     A new counter is created (like ReductionStatistics::props), counting
-     the number of eliminated formal variables.
    - Later for this reduction the count can be corrected, and solutions
      can be made partial (so that all solutions are still enumerated).
      But for now solutions (and their count) maybe lost.
@@ -634,8 +622,18 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
      is to be closed.
 
 3. Better values for qfppc
-   - In case no values were eliminated, perhaps qfppc=1 is then
-     more appropriate.
+   - Currently it is meant to be the quotient of eliminated values
+     per reduced la-variable (not considering inferred variables);
+     that is elimvals_ / props_/
+   - The problem is that there are (many) cases with qfppc=0,
+     which means that zero variables have been eliminated (props_ = 0).
+   - In that case, perhaps qfppc=1 is more appropriate?
+   - But elimvals_ is already reported via "pelvals", as
+     100 * float_t(elimvals_) / vals_.
+     That seems reasonable.
+   - While props_ is not reported otherwise.
+     And neither is vars_ reported.
+     So one could report 100 * float_t(props_) / vars_ as qfppc.
 
 */
 

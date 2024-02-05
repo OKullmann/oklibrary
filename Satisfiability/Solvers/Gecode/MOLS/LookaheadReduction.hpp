@@ -11,12 +11,14 @@ License, or any later version. */
 
   Namespace LookaheadReduction, abbreviated "LR".
 
+   - using namespace-abbreviations FP, GC, OP, CD, GV
+
    - using size_t
 
    - typedefs:
     - float_t for float80
     - sollist_t for a vector of solutions from GV
-    - lit_t for a pair of int
+    - lit_t for a pair of int ("variable != value")
     - assignment_t for a vector of lit_t
     - pruning_table_t for a set of lit_t
 
@@ -28,7 +30,7 @@ License, or any later version. */
      returning the statistics in stats (including satisfying
      assignments)
      - version probe(m, v, val, PV, stats, with_sols) updates the
-       pruning table
+       pruning table PV
 
    - function lareduction(m, rt, lar) performs la-reduction for m,
      and returns ReductionStatistics.
@@ -82,6 +84,9 @@ namespace LookaheadReduction {
   typedef std::vector<lit_t> assignment_t;
 
 
+  /* Statistics */
+
+
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
     const size_t vals_; // measure mu0
@@ -90,11 +95,11 @@ namespace LookaheadReduction {
     Timing::Time_point time_; // total time for the reduction
 
     size_t props_ = 0; // status-call-counter (one per variable which has
-                       // some eliminated values per look-ahead
+                       // some eliminated values)
     size_t elimvals_ = 0; // number of eliminated values for the la-variable
     /* probs_ and elimvals_ only consider the la-variable, not further
        inferred (via the status-call); the quotient elimvals_/props_ is
-       reported by quotprops().
+       reported by quotprops(), which is named "qfppc" (or 0 iff props_ = 0).
     */
     size_t probes_ = 0; // number of probings
     size_t rounds_ = 0; // number of rounds
@@ -130,6 +135,7 @@ namespace LookaheadReduction {
     void set_leaf() noexcept { assert(!leaf_); leaf_ = true; }
 
     size_t vals() const noexcept { return vals_; }
+    size_t vars() const noexcept { return vars_; }
     size_t depth() const noexcept { return depth_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
@@ -225,6 +231,9 @@ namespace LookaheadReduction {
   }
 
 
+  /* Probing a single variable */
+
+
   // Make a copy of a given problem and assign var==val:
   template <class SPA>
   std::unique_ptr<SPA> child_node(SPA* const m,
@@ -275,14 +284,18 @@ namespace LookaheadReduction {
   }
 
 
-  // Lookahead-reduction:
-  // Consider a variable var and its domain {val1, ..., valk}.
-  // For all i, the constraints (var!=vali), where var==vali leads to a
-  // decision (via propagation), are aoplied, until fixed point.
-  // "Decision" here means all constraints have been satisfied (via
-  // a total assignment), or a contradiction was found. So finding
-  // a satisfying assignment is treated as a failure, after storing
-  // the solution (appropriately).
+  /* The reduction */
+
+
+  /* Running through all variables v with current domain {eps1, ..., epsk},
+     k >= 2, and all i, applying the constraint v!=epsi, where v=epsi leads to a
+     decision (via propagation), until fixed point.
+     "Decision" here either means all constraints have been satisfied (via
+     a total assignment), or a contradiction was found. So finding
+     a satisfying assignment is treated as a failure, after storing
+     the solution in the return-object:
+      - if rdl=laefv,  then for v having degree 0, v=eps1.
+  */
   template <class SPA>
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
