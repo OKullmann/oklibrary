@@ -649,9 +649,10 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
 4. Correct vals_:
    - As a basis for elimination-statistics, this should be the real
      number of values (sum of domain-sizes of variables not set).
-   - While mu0 should be another member.
-
-5. DONE Set default for commit-distance to 1.
+   - That is, equal to sumdomsizes() - sizes() + vars() = mu0 + vars_.
+   - While mu0 should be another member, "mu0_" and "mu0()".
+   - Perhaps renaming "vals()" to "numvals()", and "vals_" to "numvals_" ?
+   - Same with "vars()" and "vars_" ?
 
 */
 
