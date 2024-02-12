@@ -1,5 +1,5 @@
 // Oleg Zaikin, 31.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -575,7 +575,7 @@ namespace LookaheadBranching {
   };
 
   class BranchingStatistics {
-    float_t dm_; // delta of measures
+    float_t dn_; // delta of number of open variables
     size_t width_; // width of branching
     float_t ltauspan_;
     float_t minp_, meanp_, maxp_, sdd_; // the branch-probabilities
@@ -585,9 +585,7 @@ namespace LookaheadBranching {
 
     BranchingStatistics() noexcept = default;
 
-    void set_dm(const float_t dm) noexcept {
-      assert(dm >= 0); dm_ = dm;
-    }
+    void set_dn(const size_t dn) noexcept { dn_ = dn; }
     void set_width(const size_t w) noexcept {
       assert(w >= 2); width_ = w;
     }
@@ -610,14 +608,14 @@ namespace LookaheadBranching {
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = dm_; res[1] = width_; res[2] = ltauspan_;
+      res[0] = dn_; res[1] = width_; res[2] = ltauspan_;
       res[3] = minp_; res[4] = meanp_; res[5] = maxp_; res[6] = sdd_;
       res[num_stats-1] = time_;
       return res;
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
-      return {"dm0", "w", "ltausp",
+      return {"dn", "w", "ltausp",
           "minp", "meanp", "maxp", "sddp",
           "tb"};
     }
@@ -821,7 +819,7 @@ namespace LookaheadBranching {
       BranchingStatistics bstats;
 
       const auto& V = s.V;
-      bstats.set_dm(MS::muap(V0) - MS::muap(V));
+      bstats.set_dn(stats0.numvars() - stats0.finalnumvars());
       const auto n = V.size();
       int bestv = -1, bestval = -1;
       float_t opttau = FP::pinfinity, worsttau = FP::minfinity;

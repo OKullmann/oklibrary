@@ -26,7 +26,7 @@ For explanations on the statistics, see laMols.cpp.
     - and no stopping:
 
 MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom "" "" "" "" 2 "" ""
-# rlaMols 1.0.6 d71ab137b3da877b6f33a73f642c0f4aa5723922
+# rlaMols 1.0.7 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
 # command-line: "./rlaMols" "5" "data/SpecsCollection/3MOLS/basis" "" "count" "dom" "enu" "maxdegdom" "" "" "" "" "2" "" ""
 # N: 5
 # k=6 total_num_sq=6: "data/SpecsCollection/3MOLS/basis"
@@ -47,16 +47,16 @@ MOLS> ./rlaMols 5 data/SpecsCollection/3MOLS/basis "" count dom enu maxdegdom ""
 #   commit-distance: 1
   N       rt  pl  bt        bv   bo    rdl    lar gcd     satc           t        ppc st      nds      lvs
   5    count dom enu maxdegdom  asc  labsc  relpr   1       36       0.091        691  0       11        8
-    mu0  qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
-310.667  2.047   19.423  135.707  166.465   1.667  0.000  0.013    0.773  1.000  0.000
-302.000  0.000    5.825  133.775  120.645   1.000  0.000  0.006    0.000  0.000  0.000
-320.000  6.140   38.808  137.097  250.000   3.000  0.000  0.024    2.318  2.000  0.000
-  9.018  3.545   17.236    1.726   72.457   1.155  0.000  0.010    1.338  1.000  0.000
-    mu0   qfppc  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
-289.250  11.581   78.423   44.998   53.249   1.250  4.500  0.007    6.090  2.000  0.000
-251.000   2.632    3.226   21.262    9.541   1.000  0.000  0.001    1.993  1.000  0.000
-309.000  26.087  208.000   71.845  129.126   2.000  8.000  0.016   11.650  3.000  0.000
- 25.104   8.837   98.537   22.420   55.055   0.463  3.338  0.007    3.441  0.926  0.000
+    mu0    dmu0  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
+310.667   3.333   19.423   99.038  121.329   1.667  0.000  0.013    0.962  1.000  0.000
+302.000   0.000    5.825   97.115   88.000   1.000  0.000  0.005    0.000  0.000  0.000
+320.000  10.000   38.808  100.000  181.490   3.000  0.000  0.024    2.885  2.000  0.000
+  9.018   5.774   17.236    1.665   52.203   1.155  0.000  0.010    1.665  1.000  0.000
+    mu0     dmu0  pprunes  pmprune  pprobes  rounds   solc     tr  pelvals     dp    efv
+289.250   68.500   78.423   32.485   38.707   1.250  4.500  0.007   19.298  2.000  0.000
+251.000   34.000    3.226   15.422    6.853   1.000  0.000  0.001    9.398  1.000  0.000
+309.000  110.000  208.000   52.358   94.104   2.000  8.000  0.016   30.964  3.000  0.000
+ 25.104   25.752   98.537   16.510   40.208   0.463  3.338  0.007    7.829  0.926  0.000
 
 */
 
@@ -114,8 +114,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.6",
-        "5.2.2024",
+        "1.0.7",
+        "12.2.2024",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",

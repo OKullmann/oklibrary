@@ -55,9 +55,17 @@ License, or any later version. */
 
 TODOS
 
--1. Rename SIVA::mu1 to SIVA::dm0.
-    Rename SIVA::ltau to SIVA::ltausp.
-    Rename SIVA::sdd to SIVA::sddp.
+-2. Improve usage of SIVA
+    - In laMols.cpp, we have the large case-distinction on the
+      the values of SIVA.
+    - Starting from SIVA::mu0 there, the duplication of names should be
+      moved to a helper-function here; like SIVA -> string.
+    - Furthermore we have the output of essentials; perhaps also this
+      should be supported in this file.
+
+-1. DONE Rename SIVA::mu1 to SIVA::dm0.
+    DONE Rename SIVA::ltau to SIVA::ltausp.
+    DONE Rename SIVA::sdd to SIVA::sddp.
 
 0. Write documentation.
 
@@ -386,11 +394,11 @@ namespace Options {
   // Single values:
   enum class SIVA {
     all=0,satc=1,t=2,ppc=3,nds=4,inds=5,lvs=6,
-    mu0=7,qfppc=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
-      tr=14,pelvals=15,dp=16,
-    mu1=17,w=18,ltau=19,minp=20,meanp=21,maxp=22,sdd=23,tb=24,
-    estlvs=25, uestlvs=26,
-    ess=27
+    mu0=7,dmu0=8,pprunes=9,pmprune=10,pprobes=11,rounds=12,solc=13,
+      tr=14,pelvals=15,dp=16,efv=17,
+    dn=18,w=19,ltausp=20,minp=21,meanp=22,maxp=23,sddp=24,tb=25,
+    estlvs=26, uestlvs=27,
+    ess=28
   };
   constexpr int SIVAsize = int(SIVA::ess) + 1;
 
@@ -647,9 +655,9 @@ namespace Environment {
     static constexpr int size = Options::SIVAsize;
     static constexpr std::array<const char*, size>
       string {"all", "satc", "t", "ppc", "nds", "inds", "lvs",
-        "mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
-        "solc", "tr", "pelvals", "dp",
-        "mu1", "w", "ltau", "minp", "meanp", "maxp", "sdd", "tb",
+        "mu0", "dmu0", "pprunes", "pmprune", "pprobes", "rounds",
+        "solc", "tr", "pelvals", "dp","efv",
+        "dn", "w", "ltausp", "minp", "meanp", "maxp", "sddp", "tb",
         "estlvs", "uestlvs",
         "ess"};
   };

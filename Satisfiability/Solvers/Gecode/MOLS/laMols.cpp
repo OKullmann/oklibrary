@@ -49,7 +49,7 @@ argument, and making all values explicit):
 Inserted are basic explanations via "[ ]":
 
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count dom enu wdL asc "" relpr 1 3 "0.1" "" ""
-# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
+# laMols 0.105.2 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "dom" "enu" "wdL" "asc" "" "relpr" "1" "3" "0.1" "" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
@@ -91,34 +91,34 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
   nsel  : normalised standard deviation of estlvs-measure
   nsuel : normalised standard deviation of uestlvs-measure ]
 
-[ Statistics for inner nodes: ]
+[ Statistics for reductions at inner nodes: ]
 
-   mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp  efv
-148.38  1.6173   8.8165   137.55   173.45   1.6792     0  0.0073962  0.62896    2.566    0
-   143       0        0   133.33   133.14        1     0   0.001568        0        0    0
-   180  3.5714    16.35   138.46   200.69        2     0   0.011138   1.3793        3    0
-8.5355  1.3227   6.3903   1.1415    26.46  0.47123     0  0.0028758  0.51141  0.72083    0
+   mu0     dmu0  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals       dp  efv
+148.38  0.90566   8.8165   99.547   125.38   1.6792     0  0.0076145  0.45284    2.566    0
+   143        0        0   99.005   98.684        1     0   0.001478        0        0    0
+   180        2    16.35      100   144.78        2     0   0.013217  0.99502        3    0
+8.5355  0.74069   6.3903   0.3688    18.24  0.47123     0  0.0027152   0.3688  0.72083    0
 
 [ mu0     : number of variables, weighted by domainsize-1, before reduction
-  qfppc   : percentage of reduced la-variables (not inferred ones)
-  pprunes : percentage of pruned values (i.e., didn't need testing)
-  pmprune : percentage of max-pruning-size relative to number of values
-  pprobes : percentage of probed values
+  dmu0    : Delta of mu0 (before and after reduction)
+  pprunes : percentage of pruned values (i.e., didn't need testing) relative to probed values
+  pmprune : percentage of max-pruning-size amongst all open values
+  pprobes : percentage of probed values amongst all open values
   rounds  : la-reduction rounds
   solc    : solution-count (found at the node)
   tr      : time for reduction
-  pelvals : percentage of eliminated la-variable-values
+  pelvals : percentage of eliminated values amongst all open values
   dp      : depth (per node)
   efv     : number of eliminated formal (non-occurring) variables  ]
 [ Per column: average, minimum, maximum, standard deviation (same below) ]
 
 [ Statistics for leaves: ]
 
-    mu0   qfppc  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp  efv
- 129.67  26.003     6.52   48.707   118.75      1.5     6  0.0055951   15.222   4    0
-    129  22.222   1.1628   23.077   64.615        1     6   0.000952   13.846   4    0
-    130   29.63   12.308   88.462   176.15        2     6   0.010366   17.054   4    0
-0.47471  2.4163   3.0145   18.665   40.289  0.50351     0  0.0026203  0.76313   0    0
+    mu0   dmu0  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals  dp  efv
+ 129.67  40.25     6.52   34.388   83.838      1.5     6  0.0055236    25.16   4    0
+    129     20   1.1628   16.304   45.652        1     6   0.000931   12.022   4    0
+    130     63   12.308     62.5   124.46        2     6   0.011202   41.304   4    0
+0.47471  10.79   3.0145   13.191   28.464  0.50351     0  0.0026263   7.1985   0    0
 
 [ Per leaf we have estlvs and uestlvs, which yield the following statistics: ]
 
@@ -130,14 +130,14 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 
 [ Statistics on branchings (for inner nodes): ]
 
-    dm0        w  ltausp      minp     meanp      maxp       sddp          tb
-0.90566   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448   0.0017716
-      0        2  1.0456      0.25      0.25      0.25          0    0.001564
-      2        4  3.4742       0.5       0.5       0.5   0.016098     0.00202
-0.74069  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.00010747
+dn        w  ltausp      minp     meanp      maxp       sddp         tb
+ 0   2.3396  2.7476   0.44239   0.44497   0.45012  0.0036448  0.0055959
+ 0        2  1.0456      0.25      0.25      0.25          0   0.001676
+ 0        4  3.4742       0.5       0.5       0.5   0.016098   0.009875
+ 0  0.51677  0.8992  0.085275  0.081622  0.074711  0.0068016  0.0023966
 
-[ w : width (of chosen branching)
-  dm0 : for the reduction: Delta of m0 (before branching)
+[ dn : number of eliminated open variables by the reduction
+  w : width (of chosen branching)
   ltausp :  quotient of worst / best logarithmic-tau of all branchings considered
   minp, meanp, maxp, sddp : tau-probabilities (of chosen branching)
   tb : time for branching ]
@@ -150,7 +150,7 @@ At each leaf there are 6 solutions.
 
 Just picking one random leaf:
 MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" count "" "" wdL "rand" "" "" "" 1 0.1 lvs,0 ""
-# laMols 0.105.1 d71ab137b3da877b6f33a73f642c0f4aa5723922
+# laMols 0.105.2 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
 # command-line: "./laMols" "5" "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" "count" "" "" "wdL" "rand" "" "" "" "1" "0.1" "lvs,0" ""
 # N: 5
 # k=3 total_num_sq=3: "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n"
@@ -173,29 +173,58 @@ MOLS> ./laMols 5 "@squares A B aux\nls A B aux\nrred A B\nrprod B aux A\n" "" co
 #   weights: 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843
   N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
   5    count dom enu  wdL  rand  relpr   1        6       0.017        166  1        5        1  8.148433e+00  8.426150e+00
-   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc          tr  pelvals     dp  efv
-161.75  0.89286    2.511   135.69   150.41    1.25     0    0.001909  0.34483    1.5    0
-   145        0        0   133.33   133.14       1     0    0.001675        0      0    0
-   180   3.5714   8.7108   137.25   197.93       2     0    0.002404   1.3793      3    0
-15.735   1.7857   4.1807   1.9162   31.735     0.5     0  0.00033393  0.68966  1.291    0
-mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
-129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
-129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
-129  25.926   8.3333   46.512   102.33       1     6  0.001441   15.504   4    0
-  0       0        0        0        0       0     0         0        0   0    0
+   mu0  dmu0  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals     dp  efv
+161.75   0.5    2.511   99.751   110.37    1.25     0  0.0055485  0.24876    1.5    0
+   145     0        0   99.005   98.684       1     0   0.003437        0      0    0
+   180     2   8.7108      100   142.79       2     0   0.007642  0.99502      3    0
+15.735     1   4.1807  0.49751   21.621     0.5     0  0.0019999  0.49751  1.291    0
+mu0  dmu0  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
+129    60   8.3333   32.787   72.131       1     6  0.002237   38.251   4    0
+129    60   8.3333   32.787   72.131       1     6  0.002237   38.251   4    0
+129    60   8.3333   32.787   72.131       1     6  0.002237   38.251   4    0
+  0     0        0        0        0       0     0         0        0   0    0
       estlvs       uestlvs
 6.739697e+01  7.200000e+01
 6.739697e+01  7.200000e+01
 6.739697e+01  7.200000e+01
 0.000000e+00  0.000000e+00
-dm0       w  ltausp     minp    meanp     maxp       sddp          tb
-0.5       3  2.0283  0.35132  0.35417  0.35986  0.0040245   0.0018587
-  0       2  1.0456     0.25     0.25     0.25          0    0.001622
-  2       4  3.4742      0.5      0.5      0.5   0.016098    0.002045
-  1  0.8165  1.1092  0.10576  0.10486  0.10397  0.0080489  0.00019645
+dn       w  ltausp     minp    meanp     maxp       sddp         tb
+ 0       3  2.0283  0.35132  0.35417  0.35986  0.0040245  0.0030178
+ 0       2  1.0456     0.25     0.25     0.25          0   0.002933
+ 0       4  3.4742      0.5      0.5      0.5   0.016098    0.00313
+ 0  0.8165  1.1092  0.10576  0.10486  0.10397  0.0080489  9.901e-05
 
 
 2. There is no Euler-square for N=6:
+
+Good weights for wdl:
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" wdL "" "" "" 1 6 "2.5701,0.0201,0.87,5.19" "" ""
+# laMols 0.105.2 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
+  N       rt  pl lbt       dis   lbo    rdl    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu       wdL   asc  labsc  relpr   1        0      14.610     380593  0     5213     3072  9.973704e-01  1.731722e+00
+   mu0    dmu0  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp  efv
+ 131.1  30.644   143.14   86.481    74.69   1.6857     0  0.018482   17.017  7.1406    0
+    12       0        0    19.92   4.1667        1     0         0        0       0    0
+   310     171      900      100   242.86        5     0  0.091526   90.514      11    0
+82.725  54.223    174.1   23.867   52.466  0.87367     0  0.017686    30.98   1.641    0
+   mu0    dmu0  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp  efv
+73.322  25.831   1.3383   8.7889   20.589   1.0527     0  0.0038774   20.779   8.418    0
+     8       1        0        0   2.0725        1     0          0   1.9608       5    0
+   189     165   32.258   94.444    250.4        4     0    0.07706   94.167      12    0
+75.768  38.348   3.6615   14.905     30.6  0.30274     0  0.0096184    18.96  1.4619    0
+      estlvs       uestlvs
+6.127865e+03  1.228450e+04
+8.189471e+02  3.840000e+02
+3.809268e+04  1.474560e+05
+6.115190e+03  2.486265e+04
+    dn        w  ltausp      minp     meanp     maxp      sddp        tb
+7.7721   2.4344  3.1433   0.37837   0.44072  0.51722   0.06208  0.013654
+     0        2       1  0.053005      0.25     0.25         0         0
+    58        4  11.453       0.5       0.5  0.86316   0.36316  0.055639
+16.817  0.74884  2.5118   0.16297  0.098232  0.10367  0.094051   0.01352
+real	0m2.654s
+user	0m14.621s
+sys	0m0.446s
 
 Showing only the leaf-count and whether the run was stopped or not (no "info", showing the
 parameters, and not showing the weights):
@@ -208,11 +237,40 @@ sys	0m0.425s
 0 means no-stop, while 1 would mean stop.
 This used 6 threads.
 
-MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" "" 1 6 "0,4.9,-5.26,2.89,0" "" "-info,-w,lvs"
-2424 0
-real	0m3.325s
-user	0m18.104s
-sys	0m0.632s
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" "" "" 6 "0,4.9,-5.26,2.89,0" "" ""
+# laMols 0.105.2 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
+  N       rt  pl lbt       dis   lbo    rdl    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu      newv   asc  labsc  relpr   1        0      18.290     337822  0     4581     2424  1.041209e+00  1.125054e+00
+   mu0    dmu0  pprunes  pmprune  pprobes   rounds  solc        tr  pelvals      dp  efv
+162.92  42.448   105.71   82.938    81.41   1.8016     0  0.022124   28.263  6.9764    0
+    12       0        0   23.457   6.5217        1     0         0        0       0    0
+   310     173      900      100   246.96        4     0   0.11567   90.588      11    0
+58.966  61.402   166.45   23.754   50.307  0.76176     0   0.01646   37.672  1.6776    0
+   mu0    dmu0  pprunes  pmprune  pprobes   rounds  solc         tr  pelvals      dp  efv
+67.718   24.88   6.7254   15.539   30.195   1.1213     0  0.0066076   19.758  8.6188    0
+     8       1        0        0   2.7778        1     0          0   2.7778       5    0
+   189     178      400   78.968   206.45        3     0   0.068277    94.51      12    0
+78.508  37.997   32.183   23.975   38.251  0.36247     0   0.012322   17.136  1.4324    0
+      estlvs       uestlvs
+5.051897e+03  5.492172e+03
+5.769906e+02  5.120000e+02
+2.591588e+04  3.276800e+04
+5.085978e+03  5.145612e+03
+    dn        w  ltausp     minp     meanp      maxp      sddp        tb
+14.631   2.1233  10.671   0.4268   0.48289   0.53896  0.055158   0.01709
+     0        2       1  0.11284      0.25      0.25         0         0
+    59        4  34.585      0.5       0.5   0.80583   0.30583   0.05392
+22.232  0.43672  9.7284  0.10553  0.058487  0.082535  0.072658  0.013854
+real	0m3.356s
+user	0m18.296s
+sys	0m0.651s
+M
+
+MOLS> time ./laMols 6 data/SpecsCollection/Euler/red "" count "" "" newv "" "" "" 1 6 "0,4.9,-5.26,2.89,0" "" "-info,-w,pelvals"
+28.263448798762791129 0
+real	0m3.978s
+user	0m18.039s
+sys	0m0.560s
 
 
 
@@ -244,9 +302,9 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;1" "
 15510712536.085001176
 
 Showing full information, and using hash-seeds plus a final 777:
-MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,777" "" "" 1 1 0.1 lvs,0 ""
-# laMols 0.105.0 76183db9b0002f0b22116fb9fc66863ffaa5283e
-# command-line: "./laMols" "6" "data/SpecsCollection/Euler/basis" "" "count" "" "" "wdL" "tprob;h,777" "" "" "1" "1" "0.1" "lvs,0" ""
+MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,777" "" "" "" 1 0.1 lvs,0 ""
+# laMols 0.105.2 caed91f79f53d21da1d724ded7ca4ac70cfeb0d6
+# command-line: "./laMols" "6" "data/SpecsCollection/Euler/basis" "" "count" "" "" "wdL" "tprob;h,777" "" "" "" "1" "0.1" "lvs,0" ""
 # N: 6
 # k=3 total_num_sq=3: "data/SpecsCollection/Euler/basis"
 #   num_uc=3 num_eq=0 num_peq=1
@@ -257,6 +315,7 @@ MOLS> ./laMols 6 data/SpecsCollection/Euler/basis "" count "" "" wdL "tprob;h,77
 # rt=count-solutions(count)
 # stopping: by-leaf-count(lvs),0
 # output-options: show-info(+info) show-weights(+w) show-headers(+headers) perform_computations(+computations) without-tree-logging(-tree) all no-negation-sign(+sign) show-stopped(+stop) arithmetic-mean(ave) inner-node(inode)
+#   propagation-level: domain-prop(dom)
 #   la-branching-type: enumerative-branching(enu)
 #   distance-type: weighted-delta-literals(wdL)
 #   la-order-heuristic: tauprob-first(tprob)
@@ -276,28 +335,28 @@ Then come 4 seeds for the weights:
 
 #   commit-distance: 1
 #   weights: 0.1 0.1 0.1 0.1 -> 0 0 1 1.0717734625362931642 1.1486983549970350067 1.2311444133449162843 1.3195079107728942591
-  N       rt  pl lbt  dis   lbo    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
-  6    count dom enu  wdL tprob  relpr   1        0       0.189        832  1       19        1  5.953027e+04  8.693832e+04
-   mu0    qfppc  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp  efv
-375.94   0.1182   2.4653   125.95   129.19  1.0556     0  0.0050791  0.06105     8.5    0
-   243        0        0      120    117.7       1     0   0.002932        0       0    0
-   540   2.1277   12.587   132.51   234.89       2     0   0.009205   1.0989      17    0
-98.405  0.50149    3.593   4.2254   26.551  0.2357     0  0.0017781  0.25901  5.3385    0
-mu0   qfppc  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
-232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
-232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
-232  21.053        8    70.69   140.09       2     0  0.003957   9.4828  18    0
-  0       0        0        0        0       0     0         0        0   0    0
+  N       rt  pl lbt       dis   lbo    rdl    lar gcd     satc           t        ppc st      nds      lvs          nsel         nsuel
+  6    count dom enu       wdL tprob  labsc  relpr   1        0       0.228        832  1       19        1  5.953027e+04  8.693832e+04
+   mu0     dmu0  pprunes  pmprune  pprobes  rounds  solc         tr  pelvals      dp  efv
+375.94  0.22222   2.4653   99.951   102.61  1.0556     0  0.0067154  0.04852     8.5    0
+   243        0        0   99.127    88.82       1     0   0.002914        0       0    0
+   540        4   12.587      100   186.68       2     0   0.031728  0.87336      17    0
+98.405  0.94281    3.593  0.20585    21.23  0.2357     0   0.006557  0.20585  5.3385    0
+mu0  dmu0  pprunes  pmprune  pprobes  rounds  solc        tr  pelvals  dp  efv
+232    95        8   53.247   105.52       2     0  0.004186    40.26  18    0
+232    95        8   53.247   105.52       2     0  0.004186    40.26  18    0
+232    95        8   53.247   105.52       2     0  0.004186    40.26  18    0
+  0     0        0        0        0       0     0         0        0   0    0
       estlvs       uestlvs
 3.543853e+09  7.558272e+09
 3.543853e+09  7.558272e+09
 3.543853e+09  7.558272e+09
 0.000000e+00  0.000000e+00
-    dm0       w  ltausp      minp    meanp     maxp      sddp         tb
-0.22222  3.7222  2.3444   0.28312  0.29722  0.31652  0.015382  0.0051187
-      0       2       1   0.16667  0.16667  0.16667         0   0.003499
-      4       6  6.6612       0.5      0.5  0.60955   0.19532   0.007459
-0.94281  1.2274  1.3984  0.098471  0.09756  0.12334  0.046361  0.0013853
+dn       w  ltausp      minp    meanp     maxp      sddp         tb
+ 0  3.7222  2.3444   0.28312  0.29722  0.31652  0.015382  0.0056824
+ 0       2       1   0.16667  0.16667  0.16667         0   0.003584
+ 0       6  6.6612       0.5      0.5  0.60955   0.19532   0.013115
+ 0  1.2274  1.3984  0.098471  0.09756  0.12334  0.046361  0.0023419
 
 
 Remark: For branching-order "rand" one can consider estlvs: this is just
@@ -646,7 +705,7 @@ See Todos in rlaMols, gcMols and LookaheadBranching.
    - An analogy to "pelvals", perhaps renaming "qfppc" to "prvars",
      and putting prvars directly before pelvals ?
 
-4. Correct vals_:
+4. DONE Correct vals_:
    - As a basis for elimination-statistics, this should be the real
      number of values (sum of domain-sizes of variables not set).
    - That is, equal to sumdomsizes() - sizes() + vars() = mu0 + vars_.
@@ -885,7 +944,7 @@ namespace {
     case SIVA::lvs : out << res.S[1].N(); return;
 
     case SIVA::mu0 : out << val("mu0"); return;
-    case SIVA::qfppc : out << val("qfppc"); return;
+    case SIVA::dmu0 : out << val("dmu0"); return;
     case SIVA::pprunes : out << val("pprunes"); return;
     case SIVA::pmprune : out << val("pmprune"); return;
     case SIVA::pprobes : out << val("pprobes"); return;
@@ -894,14 +953,15 @@ namespace {
     case SIVA::tr : out << val("tr"); return;
     case SIVA::pelvals : out << val("pelvals"); return;
     case SIVA::dp : out << val("dp"); return;
+    case SIVA::efv : out << val("efv"); return;
 
-    case SIVA::mu1 : out << valb("dm0"); return;
+    case SIVA::dn : out << valb("dn"); return;
     case SIVA::w : out << valb("w"); return;
-    case SIVA::ltau : out << valb("ltausp"); return;
+    case SIVA::ltausp : out << valb("ltausp"); return;
     case SIVA::minp : out << valb("minp"); return;
     case SIVA::meanp : out << valb("meanp"); return;
     case SIVA::maxp : out << valb("maxp"); return;
-    case SIVA::sdd : out << valb("sddp"); return;
+    case SIVA::sddp : out << valb("sddp"); return;
     case SIVA::tb : out << valb("tb"); return;
 
     case SIVA::estlvs : out << valm("estlvs"); return;
@@ -1100,11 +1160,11 @@ int main(const int argc, const char* const argv[]) {
                     std::cout << " ";
                     select(std::cout,res, SIVA::uestlvs,STAT::stddev, {},{});
                     std::cout << " ";
-                    select(std::cout,res, SIVA::mu1, {},{},{});
+                    select(std::cout,res, SIVA::mu0, {},{},{});
                     std::cout << " ";
                     select(std::cout,res, SIVA::w, {},{},{});
                     std::cout << " ";
-                    select(std::cout,res, SIVA::ltau, {},{},{});
+                    select(std::cout,res, SIVA::ltausp, {},{},{});
                     std::cout << " ";
                     select(std::cout,res, SIVA::minp, {},{},{});
                     std::cout << " ";
@@ -1112,7 +1172,7 @@ int main(const int argc, const char* const argv[]) {
                     std::cout << " ";
                     select(std::cout,res, SIVA::maxp, {},{},{});
                     std::cout << " ";
-                    select(std::cout,res, SIVA::sdd, {},{},{});
+                    select(std::cout,res, SIVA::sddp, {},{},{});
                     std::cout << " ";
                     select(std::cout,res, SIVA::minp,STAT::min, {},{});
                     std::cout << " ";

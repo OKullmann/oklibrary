@@ -10,7 +10,8 @@ License, or any later version. */
 
   Namespace GcVariables, abbreviated "GV".
 
-    - using size_t
+    - using namespace  FP, OP, CD
+    - using size_t = CD::size_t
 
     - typdef VarVec = GC::IntVarArray
 
@@ -19,6 +20,7 @@ License, or any later version. */
     - typedef values_t = std::vector<int>
     - typedef solutions_t = std::vector<int>
     - typedef domsizes_t = std::vector<size_t
+    - typedef degrees_t = std::vector<size_t>
 
     - class GcIntArraySpace, derived from GC::Space,
       a wrapper around VarVec
@@ -29,6 +31,8 @@ License, or any later version. */
 
     - empty(VarVec) -> bool
     - domsizes(VarVec) -> domsizes_t
+    - degrees(VarVec) -> degrees_t
+    - numopenvars(VarVec) -> size_t
     - sumdomsizes(VarVec) -> size_t
     - first_value(VarVec V) -> int
     - values(VarVec V, int v) -> values_t

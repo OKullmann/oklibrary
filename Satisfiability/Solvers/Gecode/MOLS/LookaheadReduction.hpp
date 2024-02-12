@@ -67,6 +67,7 @@ TODOS:
 #include "Conditions.hpp"
 #include "Options.hpp"
 #include "GcVariables.hpp"
+#include "Measures.hpp" // XXX
 
 namespace LookaheadReduction {
 
@@ -89,16 +90,19 @@ namespace LookaheadReduction {
 
   // Statistics of the main lookahead-reduction actions:
   class ReductionStatistics {
-    const size_t vals_; // measure mu0
-    const size_t vars_; // number of unassigned variables
+    const size_t mu0_;
+    const size_t numvars_; // number of unassigned variables
+    const size_t numvals_; // number of values of unassigned variables
     const size_t depth_;
+
     Timing::Time_point time_; // total time for the reduction
 
     size_t props_ = 0; // status-call-counter (one per variable which has
                        // some eliminated values)
     size_t elimvals_ = 0; // number of eliminated values for the la-variable
-    /* probs_ and elimvals_ only consider the la-variable, not further
-       inferred (via the status-call).
+    /* props_ and elimvals_ only consider the la-variable, not further
+       inferred eliminated values (via the status-call).
+       While quotelimvals (for "pelvals") below considers all variables.
     */
     size_t probes_ = 0; // number of probings
     size_t rounds_ = 0; // number of rounds
@@ -106,6 +110,7 @@ namespace LookaheadReduction {
     size_t maxprune_ = 0; // maximal size of pruning-set
     size_t elimfv_ = 0; // number of formal variables
     size_t autarks_ = 0; // number of la-variables which yielded autarkies
+    size_t finalmu0_ = 0, finalnumvars_ = 0, finalnumvals_ = 0;
 
     size_t solc_ = 0; // number of solutions found
     bool leaf_ = false;
@@ -117,11 +122,14 @@ namespace LookaheadReduction {
 
     ReductionStatistics(const GC::IntVarArray& x,
                         const size_t d) noexcept :
-      vals_(GV::sumdomsizes(x)-x.size()), vars_(GV::numopenvars(x)),
-      depth_(d) { assert(vals_ > 0); }
-    ReductionStatistics(const size_t vals, const size_t vars,
+      mu0_(GV::sumdomsizes(x)-x.size()), numvars_(GV::numopenvars(x)),
+      numvals_(mu0_ + numvars_), depth_(d) { assert(numvals_ > 0); }
+    // For testing purposes:
+    ReductionStatistics(const size_t mu0, const size_t vars,
                         const size_t d) :
-      vals_(vals), vars_(vars), depth_(d) { assert(vals_ > 0); }
+      mu0_(mu0), numvars_(vars), numvals_(mu0_ + numvars_), depth_(d) {
+      assert(mu0_ > 0);
+    }
 
     void inc_props() noexcept { ++props_; }
     void inc_elimvals() noexcept { ++elimvals_; }
@@ -129,12 +137,23 @@ namespace LookaheadReduction {
     void inc_probes() noexcept { ++probes_; }
     void inc_rounds() noexcept { ++rounds_; }
     void inc_elimfv() noexcept { ++elimfv_; }
+    void set_final(const GC::IntVarArray& V) noexcept {
+      finalmu0_ = Measures::muap(V);
+      finalnumvars_ = GV::numopenvars(V);
+      finalnumvals_ = finalmu0_ + finalnumvars_;
+    }
+    void set_final(const size_t mu0, const size_t vars) noexcept {
+      finalmu0_ = mu0;
+      finalnumvars_ = vars;
+      finalnumvals_ = finalmu0_ + finalnumvars_;
+    }
 
     void inc_solc() noexcept { ++solc_; }
     void set_leaf() noexcept { assert(!leaf_); leaf_ = true; }
 
-    size_t vals() const noexcept { return vals_; }
-    size_t vars() const noexcept { return vars_; }
+    size_t mu0() const noexcept { return mu0_; }
+    size_t numvars() const noexcept { return numvars_; }
+    size_t numvals() const noexcept { return numvals_; }
     size_t depth() const noexcept { return depth_; }
     size_t props() const noexcept { return props_; }
     size_t elimvals() const noexcept { return elimvals_; }
@@ -144,6 +163,9 @@ namespace LookaheadReduction {
     size_t rounds() const noexcept { return rounds_; }
     size_t elimfv() const noexcept { return elimfv_; }
     size_t autarks() const noexcept { return autarks_; }
+    size_t finalmu0() const noexcept { return finalmu0_; }
+    size_t finalnumvars() const noexcept { return finalnumvars_; }
+    size_t finalnumvals() const noexcept { return finalnumvals_; }
 
     size_t solc() const noexcept { return solc_; }
     bool leaf() const noexcept { return leaf_; }
@@ -167,38 +189,42 @@ namespace LookaheadReduction {
     }
     Timing::Time_point time() const noexcept { return time_; }
 
-    // qfppc:
-    float_t quotprops() const noexcept {
+    // dmu0:
+    float_t dmu0() const noexcept {
       assert(props_ != 0 or elimvals_ == 0);
       assert(elimvals_ != 0 or props_ == 0);
       assert(elimvals_ >= props_);
-      assert(vars_ != 0);
-      return 100 * float_t(props_) / vars_;
+      assert(numvars_ != 0);
+      assert(rounds_ != 0);
+      //return 100 * float_t(props_) / numvars_;
+      return mu0_ - finalmu0_;
     }
     // pprunes:
     float_t quotprune() const noexcept {
+      assert(probes_ != 0);
       return 100 * float_t(prunes_) / probes_;
     }
     // pmprune:
     float_t quotmaxprune() const noexcept {
-      return 100 * float_t(maxprune_) / vals_;
+      return 100 * float_t(maxprune_) / numvals_;
     }
     // pprobes:
     float_t quotprobes() const noexcept {
-      return 100 * float_t(probes_) / vals_;
+      return 100 * float_t(probes_) / numvals_;
     }
     // pelvals:
     float_t quotelimvals() const noexcept {
-      assert(vals_ != 0);
-      assert(elimvals_ <= vals_);
-      return 100 * float_t(elimvals_) / vals_;
+      assert(numvals_ != 0);
+      assert(elimvals_ <= numvals_);
+      assert(finalnumvals_ <= numvals_);
+      return 100 * float_t(numvals_ - finalnumvals_) / numvals_;
     }
 
     static constexpr size_t num_stats = 11;
     typedef std::array<float_t, num_stats> export_t;
     export_t extract() const noexcept {
       export_t res;
-      res[0] = vals_; res[1] = quotprops(); res[2] = quotprune();
+      res[0] = mu0_; res[1] = dmu0(); res[2] = quotprune();
       res[3] = quotmaxprune(); res[4] = quotprobes(); res[5] = rounds_;
       res[6] = solc_; res[7] = time_; res[8] = quotelimvals();
       res[9] = depth_;
@@ -207,7 +233,7 @@ namespace LookaheadReduction {
     }
     typedef std::vector<std::string> header_t;
     static header_t stats_header() noexcept {
-      return {"mu0", "qfppc", "pprunes", "pmprune", "pprobes", "rounds",
+      return {"mu0", "dmu0", "pprunes", "pmprune", "pprobes", "rounds",
           "solc", "tr", "pelvals", "dp", "efv"};
       // leading "p": percentage, "q": quotient;
       // "f" in "qfppc" for "full".
@@ -302,7 +328,8 @@ namespace LookaheadReduction {
   ReductionStatistics lareduction(SPA* const m,
                         const OP::RT rt,
                         const OP::RDL rdl, const OP::LAR lar) noexcept {
-    ReductionStatistics stats(m->V, m->nodedata().depth);
+    const GC::IntVarArray V = m->V;
+    ReductionStatistics stats(V, m->nodedata().depth);
     Timing::UserTime timing;
     const Timing::Time_point t0 = timing();
     pruning_table_t PT;
@@ -310,7 +337,6 @@ namespace LookaheadReduction {
     {int last_red = -1;
     do {
       stats.inc_rounds();
-      const GC::IntVarArray V = m->V;
       for (int v = 0; v < V.size(); ++v) {
         if (v == last_red) {
           if (eager(lar)) {last_red = -1; continue;}
@@ -382,6 +408,7 @@ namespace LookaheadReduction {
 
   END:
     stats.maxprune(PT.size());
+    stats.set_final(V);
     assert(stats.elims().size() == stats.elimvals());
     return stats.time(timing() - t0);
   }

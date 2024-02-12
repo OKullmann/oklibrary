@@ -111,6 +111,7 @@ namespace Cases {
   }
 
 
+  // The "empty square", no constraints other than the partial square ps:
   struct Square {
     const size_t N;
     const size_t n = N*N;
@@ -161,6 +162,7 @@ namespace Cases {
         const size_t probes = (vals - ev) - units;
         for (size_t i = 0; i < probes; ++i) s.inc_probes();
         if (pruning(lar)) s.maxprune(probes);
+        s.set_final(mu0, n-units);
         break;
       }
       case OP::RDL::eaut : [[fallthrough]];
@@ -175,6 +177,7 @@ namespace Cases {
           assert(status == GC::SS_SOLVED);
           s.sollist(GV::extract(V));
         }
+        s.set_final(0, 0);
         break;
       }}
       return s;
@@ -182,6 +185,7 @@ namespace Cases {
 
     bool operator ==(const Square&) const noexcept = default;
   };
+
 
   struct LaSq {
     const size_t N;
@@ -213,7 +217,6 @@ namespace Cases {
       else return -1;
     }
 
-    // 1 round of lookahead-reduction.
     // If N==2, then 2 probes V[0]==0 and V[0]===1 are done,
     // each leads to one solution, so both values are eliminated,
     // and finally 1 propagation is done and a leaf is formed.
@@ -227,6 +230,7 @@ namespace Cases {
       if (N > 2) {
         for (size_t i = 0; i < vals; ++i) s.inc_probes();
         if (pruning(lar)) s.maxprune(vals);
+        s.set_final(vals-n,n);
       }
       else if (N == 2) {
         s.inc_probes();
@@ -243,6 +247,7 @@ namespace Cases {
           if (with_solutions(rt)) s.sollist({1,0,0,1});
           if (not (with_stop(rt))) s.inc_props();
         }
+        s.set_final(3, 3);
       }
       return s;
     }
