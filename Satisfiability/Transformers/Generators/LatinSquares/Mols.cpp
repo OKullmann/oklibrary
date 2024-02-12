@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2019 (Swansea)
-/* Copyright 2019, 2020, 2022 Oliver Kullmann
+/* Copyright 2019, 2020, 2022, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,15 @@ License, or any later version. */
 /*
 
   See subdirectory docus.
+
+Examples:
+
+LatinSquares> ./Mols 6 | sharpSAT /dev/stdin
+# solutions
+9408
+# END
+time: 0.168479s
+
 
 BUGS:
 
@@ -235,7 +244,8 @@ namespace {
     disj_impl(out, B, w);
     out << -w << " "; out << B; INCCLAUSE;
   }
-  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L) from CardinalityConstraints.mac:
+  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L)
+  // from CardinalityConstraints.mac:
   var_t amouep_seco(std::ostream& out, Clause C, const VarEncoding& enc) {
     var_t final_v = 0;
     Clause B(3);
@@ -559,7 +569,8 @@ namespace {
       assert(enc.symopt == SymP::reduced);
       for (dim_t q = 1; q < enc.k; ++q) {
         // p = 0:
-        [[maybe_unused]] const auto length0 = [](const dim_t x, const dim_t y, const var_t N) {
+        [[maybe_unused]] const auto length0 = [](const dim_t x, const dim_t y,
+                                                 const var_t N) {
           if (x == 0) return (N-2)*(N-1);
           else if (y == 0) return (N-2)*(N-2);
           else return (N-3)*(N-2) + 1;
@@ -580,7 +591,8 @@ namespace {
             else eo_seco(out, C, enc);
           }
         // p >= 1:
-        [[maybe_unused]] const auto length1 = [](const dim_t x, const dim_t y, const var_t N) {
+        [[maybe_unused]] const auto length1 = [](const dim_t x, const dim_t y,
+                                                 const var_t N) {
           return (N-2)*(N-1) - (x==0 or y==0 ? 0 : 2);
         };
         for (dim_t p = 1; p < q; ++p)
@@ -632,15 +644,18 @@ namespace {
     std::size_t converted;
     try { d = std::stoul(arg, &converted); }
     catch (const std::invalid_argument& e) {
-      std::cerr << error << "The argument \"" << arg << "\" is not a valid integer.\n";
+      std::cerr << error << "The argument \"" << arg
+                << "\" is not a valid integer.\n";
       std::exit(int(Error::conversion));
     }
     catch (const std::out_of_range& e) {
-      std::cerr << error << "The argument \"" << arg << "\" is too big for unsigned long.\n";
+      std::cerr << error << "The argument \"" << arg
+                << "\" is too big for unsigned long.\n";
       std::exit(int(Error::too_big));
     }
     if (converted != arg.size()) {
-      std::cerr << error << "The argument \"" << arg << "\" contains trailing characters: \""
+      std::cerr << error << "The argument \"" << arg
+                << "\" contains trailing characters: \""
         << arg.substr(converted) << "\".\n";
       std::exit(int(Error::conversion));
     }
@@ -650,7 +665,8 @@ namespace {
     }
     const dim_t cd = d;
     if (cd != d) {
-      std::cerr << error << "The argument \"" << arg << "\" is too big for dim_t (max 65535).\n";
+      std::cerr << error << "The argument \"" << arg
+                << "\" is too big for dim_t (max 65535).\n";
       std::exit(int(Error::too_big));
     }
     return cd;
@@ -672,9 +688,11 @@ int main(const int argc, const char* const argv[]) {
   const dim_t k = argc <= index ? k_default : read_dim(argv[index++]);
   const Param p{N,k};
 
-  const std::optional<SymP> rsymopt = argc <= index ? SymP{} : Environment::read<SymP>(argv[index++]);
+  const std::optional<SymP> rsymopt = argc <= index ? SymP{} :
+  Environment::read<SymP>(argv[index++]);
   if (not rsymopt) {
-    std::cerr << error << "Bad option-argument w.r.t. symmetry: \"" << argv[index-1] << "\".\n";
+    std::cerr << error << "Bad option-argument w.r.t. symmetry: \""
+              << argv[index-1] << "\".\n";
     return int(Error::sym_par);
   }
   const SymP symopt = rsymopt.value();
@@ -682,7 +700,8 @@ int main(const int argc, const char* const argv[]) {
   const std::optional<EAloP> realoopt = k==1 ? EAloP{-1} :
     argc <= index ? EAloP{} : Environment::read<EAloP>(argv[index++]);
   if (not realoopt) {
-    std::cerr << error << "Bad option-argument w.r.t. Euler-ALO: \"" << argv[index-1] << "\".\n";
+    std::cerr << error << "Bad option-argument w.r.t. Euler-ALO: \""
+              << argv[index-1] << "\".\n";
     return int(Error::ealo_par);
   }
   const EAloP ealoopt = realoopt.value();
@@ -690,14 +709,17 @@ int main(const int argc, const char* const argv[]) {
   const std::optional<EulP> reulopt = k==1 ? EulP{-1} :
     argc <= index ? EulP{} : Environment::read<EulP>(argv[index++]);
   if (not reulopt) {
-    std::cerr << error << "Bad option-argument w.r.t. Euler-form: \"" << argv[index-1] << "\".\n";
+    std::cerr << error << "Bad option-argument w.r.t. Euler-form: \""
+              << argv[index-1] << "\".\n";
     return int(Error::eul_par);
   }
   const EulP eulopt = reulopt.value();
 
-  const std::optional<PrimeP> rprimopt = argc <= index ? PrimeP{} : Environment::read<PrimeP>(argv[index++]);
+  const std::optional<PrimeP> rprimopt = argc <= index ? PrimeP{} :
+  Environment::read<PrimeP>(argv[index++]);
   if (not rprimopt) {
-    std::cerr << error << "Bad option-argument w.r.t. Prime-form: \"" << argv[index-1] << "\".\n";
+    std::cerr << error << "Bad option-argument w.r.t. Prime-form: \""
+              << argv[index-1] << "\".\n";
     return int(Error::p_par);
   }
   const PrimeP primopt = rprimopt.value();
