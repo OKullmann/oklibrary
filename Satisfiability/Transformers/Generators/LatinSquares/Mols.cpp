@@ -11,11 +11,49 @@ License, or any later version. */
 
 Examples:
 
+Reduced latin squares:
 LatinSquares> ./Mols 6 | sharpSAT /dev/stdin
 # solutions
 9408
 # END
 time: 0.168479s
+LatinSquares> ./Mols 6 1 "" mP | sharpSAT /dev/stdin
+# solutions
+9408
+# END
+time: 0.1856s
+
+Reduced Euler squares:
+LatinSquares> ./Mols 5 2 | sharpSAT /dev/stdin
+# solutions
+18
+# END
+time: 0.025637s
+LatinSquares> ./Mols 5 2 "" Lbu | sharpSAT /dev/stdin
+# solutions
+18
+# END
+time: 0.011442s
+LatinSquares> ./Mols 5 2 "" Lbu pE mP | sharpSAT /dev/stdin
+18
+# END
+time: 0.032252s
+
+LatinSquares> ./Mols 6 2 | sharpSAT /dev/stdin
+0
+# END
+time: 15.929s
+LatinSquares> ./Mols 6 2 "" Lbu | sharpSAT /dev/stdin
+# solutions
+0
+# END
+time: 11.866s
+LatinSquares> ./Mols 6 2 "" Lbu pE mP | sharpSAT /dev/stdin
+# solutions
+0
+# END
+time: 13.8488s
+
 
 
 BUGS:
@@ -140,6 +178,15 @@ TODOS:
 #include "Statistics.hpp"
 #include "Encoding.hpp"
 
+#ifndef NDEBUG
+   RandGen::var_t running_counter = 0;
+# define INCCLAUSE ++running_counter;
+#else
+# define INCCLAUSE
+#endif
+
+#include "AloAmo.hpp"
+
 namespace {
 
   using namespace ProgramInfo;
@@ -187,40 +234,11 @@ namespace {
   }
 
 
-
-
-
-
   /* Production of clauses */
-#ifndef NDEBUG
-  var_t running_counter = 0;
-# define INCCLAUSE ++running_counter;
-#else
-# define INCCLAUSE
-#endif
 
   using RandGen::Var;
   using RandGen::Lit;
   using RandGen::Clause;
-
-  void amo_primes(std::ostream& out, const Clause& C) {
-    if (C.size() >= 2) {
-      auto current_end = C.cbegin(); ++current_end;
-      do {
-        const Lit y = -*current_end;
-        for (auto i = C.cbegin(); i != current_end; ++i) {
-          out << Clause{-*i, y}; INCCLAUSE;
-        }
-      } while (++current_end != C.end());
-    }
-  }
-  void alo_primes(std::ostream& out, const Clause& C) {
-    out << C; INCCLAUSE;
-  }
-  void eo_primes(std::ostream& out, const Clause& C) {
-    amo_primes(out, C);
-    alo_primes(out, C);
-  }
 
   // The disjunction over B implies w:
   inline void disj_impl(std::ostream& out, const Clause& B, const Lit w) {
@@ -234,10 +252,10 @@ namespace {
       B.assign(C.end()-3, C.end());
       C.resize(C.size()-3);
       C.push_back(w);
-      amo_primes(out, B);
+      AloAmo::amo_primes(out, B);
       disj_impl(out, B, w);
     }
-    amo_primes(out, C);
+    AloAmo::amo_primes(out, C);
   }
   // The disjunction over B is equivalent to w:
   inline void disj_equiv(std::ostream& out, const Clause& B, const Lit w) {
@@ -255,10 +273,10 @@ namespace {
       B.assign(C.end()-3, C.end());
       C.resize(C.size()-3);
       C.push_back(w);
-      amo_primes(out, B);
+      AloAmo::amo_primes(out, B);
       disj_equiv(out, B, w);
     }
-    amo_primes(out, C);
+    AloAmo::amo_primes(out, C);
     return final_v;
   }
   void eo_seco(std::ostream& out, const Clause& C, const VarEncoding& enc) {
@@ -312,9 +330,9 @@ namespace {
             for (dim_t eps = 0; eps < enc.N; ++eps)
               C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              alo_primes(out, C);
+              AloAmo::alo_primes(out, C);
           }
         // EO(i,-,eps,p) :
         for (dim_t i = 0; i < enc.N; ++i)
@@ -323,9 +341,9 @@ namespace {
             for (dim_t j = 0; j < enc.N; ++j)
               C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              amo_primes(out, C);
+              AloAmo::amo_primes(out, C);
           }
         // EO(-,j,eps,p) :
         for (dim_t j = 0; j < enc.N; ++j)
@@ -334,9 +352,9 @@ namespace {
             for (dim_t i = 0; i < enc.N; ++i)
               C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              amo_primes(out, C);
+              AloAmo::amo_primes(out, C);
           }
       }
 
@@ -350,9 +368,9 @@ namespace {
             if (eps != i and eps != j)
               C.push_back({enc(i,j,eps,0),1});
           if (enc.primopt == PrimeP::full)
-            eo_primes(out, C);
+            AloAmo::eo_primes(out, C);
           else
-            alo_primes(out, C);
+            AloAmo::alo_primes(out, C);
         }
       // EO(i,-,eps,0) :
       for (dim_t i = 1; i < enc.N; ++i)
@@ -363,9 +381,9 @@ namespace {
             if (eps != j)
               C.push_back({enc(i,j,eps,0),1});
           if (enc.primopt == PrimeP::full)
-            eo_primes(out, C);
+            AloAmo::eo_primes(out, C);
           else
-            amo_primes(out, C);
+            AloAmo::amo_primes(out, C);
         }
       // EO(-,j,eps,0) :
       for (dim_t j = 1; j < enc.N; ++j)
@@ -376,9 +394,9 @@ namespace {
             if (eps != i)
               C.push_back({enc(i,j,eps,0),1});
           if (enc.primopt == PrimeP::full)
-            eo_primes(out, C);
+            AloAmo::eo_primes(out, C);
           else
-            amo_primes(out, C);
+            AloAmo::amo_primes(out, C);
         }
 
       for (dim_t p = 1; p < enc.k; ++p) {
@@ -390,9 +408,9 @@ namespace {
               if (eps != j and (j != 0 or eps != i))
                 C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              alo_primes(out, C);
+              AloAmo::alo_primes(out, C);
           }
         // EO(i,-,eps,p) :
         for (dim_t i = 1; i < enc.N; ++i)
@@ -402,9 +420,9 @@ namespace {
               if (eps != j and (j != 0 or eps != i))
                 C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              amo_primes(out, C);
+              AloAmo::amo_primes(out, C);
           }
         // EO(-,j,eps,p) :
         for (dim_t j = 0; j < enc.N; ++j)
@@ -415,9 +433,9 @@ namespace {
               if (j != 0 or eps != i)
                 C.push_back({enc(i,j,eps,p),1});
             if (enc.primopt == PrimeP::full)
-              eo_primes(out, C);
+              AloAmo::eo_primes(out, C);
             else
-              amo_primes(out, C);
+              AloAmo::amo_primes(out, C);
           }
       }
     }
