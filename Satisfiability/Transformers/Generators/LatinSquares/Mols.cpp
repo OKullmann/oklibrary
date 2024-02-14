@@ -240,10 +240,6 @@ namespace {
   using RandGen::Lit;
   using RandGen::Clause;
 
-  // The disjunction over B implies w:
-  inline void disj_impl(std::ostream& out, const Clause& B, const Lit w) {
-    for (const Lit x : B) { out << Clause{-x, w}; INCCLAUSE; }
-  }
   // As seco_amov2cl(L,V) in CardinalityConstraints.mac:
   void amo_seco(std::ostream& out, Clause C, const VarEncoding& enc) {
     Clause B(3);
@@ -253,13 +249,13 @@ namespace {
       C.resize(C.size()-3);
       C.push_back(w);
       AloAmo::amo_primes(out, B);
-      disj_impl(out, B, w);
+      AloAmo::disj_impl(out, B, w);
     }
     AloAmo::amo_primes(out, C);
   }
   // The disjunction over B is equivalent to w:
   inline void disj_equiv(std::ostream& out, const Clause& B, const Lit w) {
-    disj_impl(out, B, w);
+    AloAmo::disj_impl(out, B, w);
     out << -w << " "; out << B; INCCLAUSE;
   }
   // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L)

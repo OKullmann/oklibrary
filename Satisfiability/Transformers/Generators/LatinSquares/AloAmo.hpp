@@ -9,6 +9,12 @@ License, or any later version. */
 
   At-least-one, At-most-one and exactly-one in various forms
 
+   - amo_primes(ostream, Clause)
+   - alo_primes(ostream, Clause)
+   - eo_primes(ostream, Clause)
+
+   - disj_impl(ostream, Clause, Lit) (clause implies literal)
+
 */
 
 #ifndef ALOAMO_9gVdQiL7EV
@@ -45,6 +51,11 @@ namespace AloAmo {
   void eo_primes(std::ostream& out, const Clause& C) {
     amo_primes(out, C);
     alo_primes(out, C);
+  }
+
+  // The disjunction over B implies w:
+  inline void disj_impl(std::ostream& out, const Clause& B, const Lit w) {
+    for (const Lit& x : B) { out << Clause{-x, w}; INCCLAUSE; }
   }
 
 }
