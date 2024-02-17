@@ -114,8 +114,8 @@ BUGS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.0.7",
-        "12.2.2024",
+        "1.0.8",
+        "17.2.2024",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/rlaMols.cpp",
@@ -136,7 +136,7 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-      commandline_args << " arguments, for readabilit broken into 4 groups:\n"
+      commandline_args << " arguments, for readability broken into 4 groups:\n"
       "> " << proginfo.prg << "\n"
       "   N  file_cond  file_ps  run-type\n"
       "   prop-level  branch-type  branch-var  branch-order\n"
