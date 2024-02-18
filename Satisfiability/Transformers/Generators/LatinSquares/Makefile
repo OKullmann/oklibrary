@@ -7,8 +7,8 @@
 
 oklibloc = ../../../..
 
-opt_progs = Mols
-debug_progs = Mols_debug
+opt_progs = Mols PanQueens
+debug_progs = Mols_debug PanQueens_debug
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -18,3 +18,6 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 
 Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp AloAmo.hpp
 Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp AloAmo.hpp
+
+PanQueens : PanQueens.cpp
+PanQueens_debug : PanQueens.cpp
