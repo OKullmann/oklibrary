@@ -42,25 +42,21 @@ time: 0.032252s
 LatinSquares> ./Mols 6 2 | sharpSAT /dev/stdin
 0
 # END
-time: 15.929s
+time: 13.5281s
 LatinSquares> ./Mols 6 2 "" Lbu | sharpSAT /dev/stdin
 # solutions
 0
 # END
-time: 11.866s
+time: 9.9786s
 LatinSquares> ./Mols 6 2 "" Lbu pE mP | sharpSAT /dev/stdin
 # solutions
 0
 # END
-time: 13.8488s
+time: 11.813s
 
 
 
 BUGS:
-
-0. DONE Due to the proginfo-object located in file ProgramInfo.hpp, the macro
-   __FILE__ can no longer be used (since now the program-name is wrong).
-   - Doesn't seem a problem to hardcode the filename.
 
 1. Variables enc(i,0,i,p) -> false, i != 0, p != 0
   - Due to euler-amo for row 0 in ls 0, and row i in ls 0 having value i.
@@ -166,6 +162,7 @@ TODOS:
 #include <exception>
 #include <optional>
 
+#include <cassert>
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
@@ -240,60 +237,14 @@ namespace {
   using RandGen::Lit;
   using RandGen::Clause;
 
-  // As seco_amov2cl(L,V) in CardinalityConstraints.mac:
-  void amo_seco(std::ostream& out, Clause C, const VarEncoding& enc) {
-    Clause B(3);
-    while (C.size() > 4) {
-      const Lit w{enc(), 1};
-      B.assign(C.end()-3, C.end());
-      C.resize(C.size()-3);
-      C.push_back(w);
-      AloAmo::amo_primes(out, B);
-      AloAmo::disj_impl(out, B, w);
-    }
-    AloAmo::amo_primes(out, C);
-  }
-  // The disjunction over B is equivalent to w:
-  inline void disj_equiv(std::ostream& out, const Clause& B, const Lit w) {
-    AloAmo::disj_impl(out, B, w);
-    out << -w << " "; out << B; INCCLAUSE;
-  }
-  // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L)
-  // from CardinalityConstraints.mac:
-  var_t amouep_seco(std::ostream& out, Clause C, const VarEncoding& enc) {
-    var_t final_v = 0;
-    Clause B(3);
-    while (C.size() > 4) {
-      final_v = enc();
-      const Lit w{final_v, 1};
-      B.assign(C.end()-3, C.end());
-      C.resize(C.size()-3);
-      C.push_back(w);
-      AloAmo::amo_primes(out, B);
-      disj_equiv(out, B, w);
-    }
-    AloAmo::amo_primes(out, C);
-    return final_v;
-  }
-  void eo_seco(std::ostream& out, const Clause& C, const VarEncoding& enc) {
+  void call_eo_seco(std::ostream& out, const Clause& C,
+                    const VarEncoding& enc) {
     assert(has_pair(enc.ealoopt));
-    if (enc.ealoopt == EAloP::pair or enc.ealoopt == EAloP::both) {
-      amo_seco(out, C, enc);
-      out << C; INCCLAUSE;
-    }
+    if (enc.ealoopt == EAloP::pair or enc.ealoopt == EAloP::both)
+      AloAmo::eo_seco(out, C, enc);
     else {
       assert(enc.ealoopt == EAloP::pairuep or enc.ealoopt == EAloP::bothuep);
-      const var_t final_v = amouep_seco(out, C, enc);
-      if (final_v == 0) {
-        assert(C.size() <= 4);
-        out << C; INCCLAUSE;
-      }
-      else {
-        assert(C.size() >= 5);
-        const var_t missing = C.size()%2==1 ? 2 : 3;
-        out << Lit{final_v,1} << " " << Clause(C.begin(), C.begin()+missing);
-        INCCLAUSE;
-      }
+      AloAmo::eouep_seco(out, C, enc);
     }
   }
 
@@ -575,8 +526,8 @@ namespace {
               for (dim_t i = 0; i < enc.N; ++i)
                 for (dim_t j = 0; j < enc.N; ++j)
                   C.push_back({enc(i,j,{x,y},{p,q}),1});
-              if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
-              else eo_seco(out, C, enc);
+              if (not has_pair(enc.ealoopt)) AloAmo::amo_seco(out, C, enc);
+              else call_eo_seco(out, C, enc);
             }
     }
     else {
@@ -601,8 +552,8 @@ namespace {
               }
             }
             assert(C.size() == length0(x,y,enc.N));
-            if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
-            else eo_seco(out, C, enc);
+            if (not has_pair(enc.ealoopt)) AloAmo::amo_seco(out, C, enc);
+            else call_eo_seco(out, C, enc);
           }
         // p >= 1:
         [[maybe_unused]] const auto length1 = [](const dim_t x, const dim_t y,
@@ -621,8 +572,8 @@ namespace {
                     C.push_back({enc(i,j,{x,y},{p,q}),1});
               }
               assert(C.size() == length1(x,y,enc.N));
-              if (not has_pair(enc.ealoopt)) amo_seco(out, C, enc);
-              else eo_seco(out, C, enc);
+              if (not has_pair(enc.ealoopt)) AloAmo::amo_seco(out, C, enc);
+              else call_eo_seco(out, C, enc);
             }
       }
     }
