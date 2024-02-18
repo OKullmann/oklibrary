@@ -8,6 +8,9 @@ License, or any later version. */
 #ifndef PQOPTIONS_DV3Tssn5k6
 #define PQOPTIONS_DV3Tssn5k6
 
+#include <tuple>
+#include <ostream>
+
 #include <ProgramOptions/Environment.hpp>
 
 namespace PQOptions {
@@ -56,6 +59,50 @@ namespace PQOptions {
     return ct != CT::seco;
   }
 
+
+  typedef std::tuple<LT,CF,CT> ouput_options_t;
+}
+
+namespace Environment {
+  template <> struct RegistrationPolicies<PQOptions::LT> {
+    static constexpr const char* sname = "lt";
+    static constexpr int size = PQOptions::LTsize;
+    static constexpr std::array<const char*, size>
+      string {"r", "c", "pd", "pad", "qd", "qad"};
+    static constexpr std::array<const char*, size>
+      estring {"row", "column",
+        "pandiag", "panantidiag",
+        "queendiag", "queenantidiag"};
+  };
+  template <> struct RegistrationPolicies<PQOptions::CF> {
+    static constexpr const char* sname = "cf";
+    static constexpr int size = PQOptions::CFsize;
+    static constexpr std::array<const char*, size>
+      string {"amo", "alo", "eo"};
+    static constexpr std::array<const char*, size>
+      estring {"at-most-one", "at-least-one", "exactly-one"};
+  };
+  template <> struct RegistrationPolicies<PQOptions::CT> {
+    static constexpr const char* sname = "ct";
+    static constexpr int size = PQOptions::CTsize;
+    static constexpr std::array<const char*, size>
+      string {"prime", "seco", "secouep"};
+    static constexpr std::array<const char*, size>
+      estring {"prime-implicates", "sequential-counter",
+        "seq-counter-unique-extension-property"};
+  };
+}
+
+namespace PQOptions {
+  std::ostream& operator <<(std::ostream& out, const LT lt) {
+    return out << Environment::W2(lt);
+  }
+  std::ostream& operator <<(std::ostream& out, const CF cf) {
+    return out << Environment::W2(cf);
+  }
+  std::ostream& operator <<(std::ostream& out, const CT ct) {
+    return out << Environment::W2(ct);
+  }
 }
 
 #endif

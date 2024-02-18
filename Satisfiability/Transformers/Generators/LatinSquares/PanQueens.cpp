@@ -27,13 +27,18 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
+  using namespace PQOptions;
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg <<
       " N [line-type,constraint-form[,constraint-type]]*\n\n"
-      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n\n"
+      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
+      " - line-type    : " << Environment::WRPO<LT>{} << "\n" <<
+      " - constraint-form : " << Environment::WRPO<CF>{} << "\n" <<
+      " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
       "Here\n"
       "  - \n\n"
 ;
