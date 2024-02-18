@@ -50,7 +50,8 @@ namespace Encoding {
     return out << p.x << "," << p.y;
   }*/
 
-  constexpr Statistics::var_t index(const ValPair eps, const Statistics::dim_t N) noexcept {
+  constexpr Statistics::var_t index(const ValPair eps,
+                                    const Statistics::dim_t N) noexcept {
     assert(eps.x < N);
     assert(eps.y < N);
     return Statistics::var_t(eps.x) * N + eps.y;
@@ -91,7 +92,8 @@ namespace Encoding {
           out << Environment::DWW{"  nls=N3"} << nvc.nls << "\n";
       else
         if (k >= 2)
-          out << Environment::DWW{"  nls=kN3-(2k+2)N2+6N+k-4"} << nvc.nls << "\n";
+          out << Environment::DWW{"  nls=kN3-(2k+2)N2+6N+k-4"}
+      << nvc.nls << "\n";
         else
           out << Environment::DWW{"  nls=N3-4N2+6N-3"} << nvc.nls << "\n";
     }
@@ -100,7 +102,8 @@ namespace Encoding {
         out << Environment::DWW{"  npes=0.5k(k-1)N4"} << nvc.npes << "\n";
       else
         out << Environment::DWW{"  npes=0.5k(k-1)(N-1)(N-2)*"} << "\n"
-            << Environment::DWW{"       (N2-(1+4/k)N-2+10/k)"} << nvc.npes << "\n";
+            << Environment::DWW{"       (N2-(1+4/k)N-2+10/k)"} << nvc.npes
+            << "\n";
     }
     void naux(std::ostream& out) const {
       out << Environment::DWW{"  naux~0.5npes"} << nvc.naux << "\n";

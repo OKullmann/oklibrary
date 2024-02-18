@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.8.2020 (Swansea)
-/* Copyright 2020 Oliver Kullmann
+/* Copyright 2020, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,13 +46,17 @@ namespace Statistics {
     var_t cls, ces, c;
   };
   struct fNumVarsCls {
-    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, npes, n0, nbaux1, nbaux2, naux, n, cls, ces, c;
+    FloatingPoint::float80 nbls1, nbls2, nls, nbes1, nbes2, npes, n0, nbaux1,
+      nbaux2, naux, n, cls, ces, c;
     constexpr bool valid() const noexcept {
-      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, npes, n0, nbaux1, nbaux2, naux, n, cls, ces, c});
+      return FloatingPoint::isUInt({nbls1, nbls2, nls, nbes1, nbes2, npes,
+                                    n0, nbaux1, nbaux2, naux, n, cls, ces, c});
     }
     constexpr operator NumVarsCls() const noexcept {
       assert(valid());
-      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1), var_t(nbes2), var_t(npes), var_t(n0), var_t(nbaux1), var_t(nbaux2), var_t(naux), var_t(n), var_t(cls), var_t(ces), var_t(c)};
+      return {var_t(nbls1), var_t(nbls2), var_t(nls), var_t(nbes1),
+          var_t(nbes2), var_t(npes), var_t(n0), var_t(nbaux1), var_t(nbaux2),
+          var_t(naux), var_t(n), var_t(cls), var_t(ces), var_t(c)};
     }
   };
 
@@ -62,8 +66,11 @@ namespace Statistics {
   struct fdimacs_pars {
     FloatingPoint::float80 n, c;
     constexpr fdimacs_pars() noexcept : n(0), c(0) {}
-    constexpr fdimacs_pars(const var_t n, const var_t c) noexcept : n(n), c(c) {}
-    constexpr fdimacs_pars(const FloatingPoint::float80 n, const FloatingPoint::float80 c) noexcept : n(n), c(c) {}
+    constexpr fdimacs_pars(const var_t n, const var_t c) noexcept
+    : n(n), c(c) {}
+    constexpr fdimacs_pars(const FloatingPoint::float80 n,
+                           const FloatingPoint::float80 c) noexcept
+    : n(n), c(c) {}
     constexpr bool valid() const noexcept {
       return FloatingPoint::isUInt({n,c});
     }
@@ -88,7 +95,9 @@ namespace Statistics {
     if (m <= 2) return 0;
     return (m-1)/2-1L;
   }
-  constexpr FloatingPoint::float80 c_amo_seco(const var_t m, const Options::EAloP ealoopt) noexcept {
+  constexpr FloatingPoint::float80 c_amo_seco(const var_t m,
+                                              const Options::EAloP ealoopt)
+    noexcept {
     if (m <= 1) return 0;
     if (m == 2) return 1;
     const FloatingPoint::float80 c = 3L*m - 6;
@@ -97,7 +106,10 @@ namespace Statistics {
   }
 
 
-  constexpr NumVarsCls numvarscls(const Param p, const Options::SymP symopt, const Options::EAloP ealoopt, const Options::EulP eulopt, const Options::PrimeP primopt) noexcept {
+  constexpr NumVarsCls numvarscls(const Param p, const Options::SymP symopt,
+                                  const Options::EAloP ealoopt,
+                                  const Options::EulP eulopt,
+                                  const Options::PrimeP primopt) noexcept {
     const FloatingPoint::float80 N = p.N, k = p.k;
     const auto N2 = N*N;
     const auto N3 = N2*N;
@@ -117,11 +129,13 @@ namespace Statistics {
       r.naux = r.nbaux1 * fbinomial_coeff(p.k, 2);
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
-        std::cerr << Errors::error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
+        std::cerr << Errors::error << "Parameters " << p
+                  << " yield total number of variables >= 2^64.\n";
         std::exit(int(Errors::Error::too_big));
       }
 
-      const auto cbls = primopt==Options::PrimeP::full ? 3 * N2 * pars_eo_primes(N).c :
+      const auto cbls = primopt==Options::PrimeP::full ?
+        3 * N2 * pars_eo_primes(N).c :
         N2 * pars_alo_primes(N).c + 2 * N2 * pars_amo_primes(N).c;
       r.cls = cbls * k;
       const auto cbes = (eulopt==Options::EulP::full ? 3 : 1) * N4 +
@@ -133,7 +147,8 @@ namespace Statistics {
       r.ces += fbinomial_coeff(p.k, 2) * N2 * c_amo_seco(N2, ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
-        std::cerr << Errors::error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
+        std::cerr << Errors::error << "Parameters " << p
+                  << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Errors::Error::too_big));
       }
       return r;
@@ -157,7 +172,8 @@ namespace Statistics {
       r.naux = (k - 1) * r.nbaux1 + fbinomial_coeff(vk-1, 2) * r.nbaux2;
       r.n = r.n0 + r.naux;
       if (r.n >= FloatingPoint::P264) {
-        std::cerr << Errors::error << "Parameters " << p << " yield total number of variables >= 2^64.\n";
+        std::cerr << Errors::error << "Parameters " << p
+                  << " yield total number of variables >= 2^64.\n";
         std::exit(int(Errors::Error::too_big));
       }
 
@@ -186,10 +202,12 @@ namespace Statistics {
                 ((N-1) * c_amo_seco((N-2)*(N-1), ealoopt) +
                  (N-1) * c_amo_seco((N-2)*(N-2), ealoopt) +
                  (N-1)*(N-2) * c_amo_seco((N-3)*(N-2) + 1, ealoopt));
-      r.ces += fbinomial_coeff(vk-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1), ealoopt);
+      r.ces += fbinomial_coeff(vk-1, 2) * (N2 - N) * c_amo_seco((N-2)*(N-1),
+                                                                ealoopt);
       r.c = r.cls + r.ces;
       if (r.c >= FloatingPoint::P264) {
-        std::cerr << Errors::error << "Parameters " << p << " yield total number of clauses >= 2^64.\n";
+        std::cerr << Errors::error << "Parameters " << p
+                  << " yield total number of clauses >= 2^64.\n";
         std::exit(int(Errors::Error::too_big));
       }
       return r;
