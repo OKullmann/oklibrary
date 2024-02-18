@@ -13,10 +13,12 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "PQOptions.hpp"
+
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "17.2.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -30,7 +32,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N\n\n"
+      " N [line-type,constraint-form[,constraint-type]]*\n\n"
       " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n\n"
       "Here\n"
       "  - \n\n"
