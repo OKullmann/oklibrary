@@ -19,5 +19,5 @@ include $(oklibloc)/Buildsystem/OKlibBuilding/LocalMakefile
 Mols : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp AloAmo.hpp
 Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramInfo.hpp Errors.hpp Options.hpp Statistics.hpp Encoding.hpp AloAmo.hpp
 
-PanQueens : PanQueens.cpp PQOptions.hpp
-PanQueens_debug : PanQueens.cpp PQOptions.hpp
+PanQueens : PanQueens.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp
+PanQueens_debug : PanQueens.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp
