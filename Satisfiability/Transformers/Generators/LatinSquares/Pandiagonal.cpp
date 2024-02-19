@@ -20,11 +20,11 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "17.2.2024",
+        "0.0.3",
+        "19.2.2024",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/PanQueens.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Pandiagonal.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
@@ -36,13 +36,12 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N [line-type,constraint-form[,constraint-type]]*\n\n"
-      " - N            : \";\"-separated list of \"a[,b][,c]\"-sequences\n"
-      " - line-type    : " << Environment::WRPO<LT>{} << "\n" <<
-      " - constraint-form : " << Environment::WRPO<CF>{} << "\n" <<
+      " N constraint-type\n\n"
+      " - N            : unsigned integer\n"
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
       "Here\n"
-      "  - \n\n"
+      "  - for options the first possibility is the default,\n"
+      "    triggered by the empty string.\n\n"
 ;
     return true;
   }
