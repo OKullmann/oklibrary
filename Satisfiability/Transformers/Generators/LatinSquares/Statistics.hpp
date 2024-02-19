@@ -5,6 +5,44 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+  Typedefs:
+
+   - dim_t (unsigned 16 bit)
+   - var_t (unsigned 64 bt)
+
+  Constants:
+
+   - N_default (dimension of squares)
+   - k_default (number of primary squares)
+
+  Classes:
+
+   - Param (wrapper for N, k)
+   - NumVarsCls (wrapper for various statistics, using var_t)
+   - fNumVarsCls (same, but using float80)
+   - fdimacs_pars (wrapper for n,c of type float80)
+
+  Functions:
+
+   - c_alo_primes(var_t) -> float80
+   - c_amo_primes(var_t) -> float80
+   - c_eo_primes(var_t) -> float80
+   - pars_eo_primes(var_t) -> fdimacs_pars pars
+   - pars_amo_primes(var_t) -> fdimacs_pars
+   - pars_alo_primes(var_t) -> fdimacs_pars
+
+   - n_amo_seco(var_t) -> float80
+   - c_amo_seco(var_t) -> float80
+   - c_amo_secouep(var_t) -> float80
+   - c_amo_seco(var_t, Options::EAloP) -> float80
+
+   - numvarscls(Param, Options::SymP, Options::EAloP, Options::EulP,
+       Options::PrimeP) -> NumVarsCls
+
+*/
+
 #ifndef STATISTICS_U6pYV2w4jk
 #define STATISTICS_U6pYV2w4jk
 
@@ -81,28 +119,42 @@ namespace Statistics {
   };
 
 
+  constexpr FloatingPoint::float80 c_alo_primes(const var_t) noexcept {
+    return 1;
+  }
+  constexpr FloatingPoint::float80 c_amo_primes(const var_t m) noexcept {
+    return FloatingPoint::fbinomial_coeff(m,2);
+  }
+  constexpr FloatingPoint::float80 c_eo_primes(const var_t m) noexcept {
+    return c_alo_primes(m) + c_amo_primes(m);
+  }
   constexpr fdimacs_pars pars_eo_primes(const var_t m) noexcept {
-    return {0, 1 + FloatingPoint::fbinomial_coeff(m,2)};
+    return {0, c_eo_primes(m)};
   }
   constexpr fdimacs_pars pars_amo_primes(const var_t m) noexcept {
-    return {0, FloatingPoint::fbinomial_coeff(m,2)};
+    return {0, c_amo_primes(m)};
   }
   constexpr fdimacs_pars pars_alo_primes(const var_t) noexcept {
-    return {0, 1.0L};
+    return {0, c_alo_primes(0)};
   }
 
   constexpr FloatingPoint::float80 n_amo_seco(const var_t m) noexcept {
     if (m <= 2) return 0;
-    return (m-1)/2-1L;
+    return (m-1)/2-1;
+  }
+  constexpr FloatingPoint::float80 c_amo_seco(const var_t m) noexcept {
+    if (m <= 1) return 0;
+    if (m == 2) return 1;
+    return 3L * m - 6;
+  }
+  constexpr FloatingPoint::float80 c_amo_secouep(const var_t m) {
+    return c_amo_seco(m) + n_amo_seco(m);
   }
   constexpr FloatingPoint::float80 c_amo_seco(const var_t m,
                                               const Options::EAloP ealoopt)
     noexcept {
-    if (m <= 1) return 0;
-    if (m == 2) return 1;
-    const FloatingPoint::float80 c = 3L*m - 6;
-    if (not has_uep(ealoopt)) return c;
-    else return c + n_amo_seco(m);
+    if (not has_uep(ealoopt)) return c_amo_seco(m);
+    else return c_amo_secouep(m);
   }
 
 
