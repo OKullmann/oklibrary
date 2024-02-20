@@ -36,6 +36,8 @@ License, or any later version. */
    - n_amo_seco(var_t) -> float80
    - c_amo_seco(var_t) -> float80
    - c_amo_secouep(var_t) -> float80
+   - c_eo_seco(var_t) -> float80
+   - c_eo_secouep(var_t) -> float80
    - c_amo_seco(var_t, Options::EAloP) -> float80
 
    - numvarscls(Param, Options::SymP, Options::EAloP, Options::EulP,
@@ -150,6 +152,13 @@ namespace Statistics {
   constexpr FloatingPoint::float80 c_amo_secouep(const var_t m) {
     return c_amo_seco(m) + n_amo_seco(m);
   }
+  constexpr FloatingPoint::float80 c_eo_seco(const var_t m) noexcept {
+    return c_amo_seco(m) + 1;
+  }
+  constexpr FloatingPoint::float80 c_eo_secouep(const var_t m) noexcept {
+    return c_amo_secouep(m) + 1;
+  }
+
   constexpr FloatingPoint::float80 c_amo_seco(const var_t m,
                                               const Options::EAloP ealoopt)
     noexcept {
