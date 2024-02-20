@@ -244,7 +244,7 @@ namespace {
       AloAmo::eo_seco(out, C, enc);
     else {
       assert(enc.ealoopt == EAloP::pairuep or enc.ealoopt == EAloP::bothuep);
-      AloAmo::eouep_seco(out, C, enc);
+      AloAmo::eo_secouep(out, C, enc);
     }
   }
 

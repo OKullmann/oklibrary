@@ -106,7 +106,7 @@ namespace AloAmo {
   }
 
   template <class NVAR>
-  void eouep_seco(std::ostream& out, const Clause& C, const NVAR& enc) {
+  void eo_secouep(std::ostream& out, const Clause& C, const NVAR& enc) {
     const RandGen::var_t final_v = amouep_seco(out, C, enc);
     if (final_v == 0) {
       assert(C.size() <= 4);
