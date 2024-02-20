@@ -170,7 +170,12 @@
 
 # Each run should complete in approximately 60 hours with 12 threads or 120 hours with 6 threads:
 # MOLS> time ./rlaMols 16 data/SpecsCollection/Queendiagonal/sudoku "" +enum dom bin maxdeg desc - 1 6 "lvs,12781513073" -tree
-# XXX running on server XXX
+# ^C
+# real    99486m13.402s
+# user    557904m21.121s
+# sys     3701m22.636s
+# Aborted after a long run, nothing was found.
+# Details of the computation was not printed after abortion.
 
 
 
