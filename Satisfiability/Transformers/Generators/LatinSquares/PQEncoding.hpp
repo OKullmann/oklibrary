@@ -27,8 +27,7 @@ namespace PQEncoding {
 
   struct PEncoding {
     const dim_t N;
-    const var_t N2 = var_t(N)*N;
-    const var_t N3 = N2 * N;
+    const var_t N2 = var_t(N) * N, N3 = N2 * N;
     const PQOptions::CT ct;
     const Statistics::fdimacs_pars p;
   private :
@@ -38,27 +37,30 @@ namespace PQEncoding {
     constexpr PEncoding(const dim_t N, const PQOptions::CT ct) noexcept :
     N(N), ct(ct), p(pars(N,N2,N3,ct)) { assert(p.valid()); }
 
-    constexpr Statistics::fdimacs_pars pars(const dim_t N,
-                                            const var_t N2, const var_t N3,
+    constexpr Statistics::fdimacs_pars pars(const dim_t N0,
+                                            const var_t N02, const var_t N03,
                                             const PQOptions::CT ct) noexcept {
-       const var_t num_cells = N2;
+      // to control overflow (float80 strictly includes var_t):
+      using float_t = Statistics::fdimacs_pars::float_t;
+      float_t N(N0), N2(N02), N3(N03);
+      const float_t num_cells = N2;
       // rows, columns, diagonals, antidiagonals:
-      const var_t num_all_different = 4 * N;
-      const var_t num_eos = num_cells + N * num_all_different;
+      const float_t num_all_different = 4 * N;
+      const float_t num_eos = num_cells + N * num_all_different;
 
-      const var_t num_vars_square = N3; // direct encoding
-      const var_t num_var_eo = ct==PQOptions::CT::prime ? 0 :
+      const float_t num_vars_square = N3; // direct encoding
+      const float_t num_var_eo = ct==PQOptions::CT::prime ? 0 :
         Statistics::n_amo_seco(N);
-      const var_t num_var_alleos = num_eos * num_var_eo;
-      const var_t n = num_vars_square + num_var_alleos;
+      const float_t num_var_alleos = num_eos * num_var_eo;
+      const float_t n = num_vars_square + num_var_alleos;
 
-      const var_t num_clauses_rred = N;
-      const var_t num_clauses_eo = ct==PQOptions::CT::prime ?
+      const float_t num_clauses_rred = N;
+      const float_t num_clauses_eo = ct==PQOptions::CT::prime ?
        Statistics::c_eo_primes(N) :
        ct==PQOptions::CT::seco ? Statistics::c_eo_seco(N) :
         Statistics::c_eo_secouep(N);
-      const var_t num_clauses_alleos = num_eos * num_clauses_eo;
-      const var_t c = num_clauses_rred + num_clauses_alleos;
+      const float_t num_clauses_alleos = num_eos * num_clauses_eo;
+      const float_t c = num_clauses_rred + num_clauses_alleos;
 
       return {n,c};
     }

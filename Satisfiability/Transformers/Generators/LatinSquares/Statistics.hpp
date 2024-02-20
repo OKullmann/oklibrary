@@ -104,12 +104,12 @@ namespace Statistics {
   // FloatingPoint::float80
   using RandGen::dimacs_pars;
   struct fdimacs_pars {
-    FloatingPoint::float80 n, c;
+    typedef FloatingPoint::float80 float_t;
+    float_t n, c;
     constexpr fdimacs_pars() noexcept : n(0), c(0) {}
     constexpr fdimacs_pars(const var_t n, const var_t c) noexcept
     : n(n), c(c) {}
-    constexpr fdimacs_pars(const FloatingPoint::float80 n,
-                           const FloatingPoint::float80 c) noexcept
+    constexpr fdimacs_pars(const float_t n, const float_t c) noexcept
     : n(n), c(c) {}
     constexpr bool valid() const noexcept {
       return FloatingPoint::isUInt({n,c});
