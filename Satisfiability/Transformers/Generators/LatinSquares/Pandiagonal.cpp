@@ -14,7 +14,6 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "PQOptions.hpp"
-#include "AloAmo.hpp"
 #include "PQEncoding.hpp"
 
 namespace {

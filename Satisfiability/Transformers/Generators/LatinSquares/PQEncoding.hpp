@@ -8,9 +8,20 @@ License, or any later version. */
 #ifndef PQENCODING_eK42F6xZuv
 #define PQENCODING_eK42F6xZuv
 
+#include <ostream>
+
 #include <cassert>
 
 #include "Statistics.hpp"
+#include "PQOptions.hpp"
+
+#ifndef NDEBUG
+   Statistics::var_t running_counter = 0;
+# define INCCLAUSE ++running_counter;
+#else
+# define INCCLAUSE
+#endif
+#include "AloAmo.hpp"
 
 namespace PQEncoding {
 
@@ -75,6 +86,75 @@ namespace PQEncoding {
     }
 
   };
+
+
+  template <class NVAR>
+  void eo(std::ostream& out, const AloAmo::Clause& C, const NVAR& enc) {
+    switch(enc.ct) {
+      case PQOptions::CT::prime : AloAmo::eo_primes(out, C); return;
+      case PQOptions::CT::seco : AloAmo::eo_seco(out, C, enc); return;
+      case PQOptions::CT::secouep : AloAmo::eo_secouep(out, C, enc); return;
+    }
+  }
+
+
+  void pandiagonal(std::ostream& out, const PEncoding& enc) {
+    out << Statistics::dimacs_pars(enc.p);
+    const auto N = enc.N;
+    using Clause = AloAmo::Clause;
+    using Lit = AloAmo::Lit;
+
+    for (dim_t i = 0; i < N; ++i)
+      for (dim_t j = 0; j < N; ++j)
+        out << Clause{Lit(enc({i,j},j))};
+
+    for (dim_t i = 0; i < N; ++i)
+      for (dim_t j = 0; j < N; ++j) {
+        Clause C;
+        for (dim_t k = 0; k < N; ++k)
+          C.push_back(Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+
+    for (dim_t i = 0; i < N; ++i)
+      for (dim_t k = 0; k < N; ++k) {
+        Clause C;
+        for (dim_t j = 0; j < N; ++j)
+          C.push_back(Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+    for (dim_t j = 0; j < N; ++j)
+      for (dim_t k = 0; k < N; ++k) {
+        Clause C;
+        for (dim_t i = 0; i < N; ++i)
+          C.push_back(Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+
+    for (dim_t diff = 0; diff < N; ++diff)
+      for (dim_t k = 0; k < N; ++k) {
+        Clause C;
+        for (dim_t i = 0; i < N; ++i) {
+          const dim_t j = (var_t(diff) + i) % N;
+          C.push_back(Lit(enc({i,j},k)));
+        }
+        eo(out, C, enc);
+      }
+    for (var_t sum = N; sum < 2*var_t(N); ++sum)
+      for (dim_t k = 0; k < N; ++k) {
+        Clause C;
+        for (dim_t i = 0; i < N; ++i) {
+          const dim_t j = (sum - i) % N;
+          C.push_back(Lit(enc({i,j},k)));
+        }
+        eo(out, C, enc);
+      }
+
+#ifndef NDEBUG
+    assert(running_counter == enc.p.c);
+#endif
+
+  }
 
 }
 

@@ -51,6 +51,8 @@ License, or any later version. */
 #include <cstdint>
 #include <cassert>
 
+#include "../Random/ClauseSets.hpp"
+
 #include "Errors.hpp"
 #include "Options.hpp"
 
