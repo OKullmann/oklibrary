@@ -82,7 +82,9 @@ namespace PQEncoding {
     var_t operator()(const cell_t& c, const dim_t k) const noexcept {
       assert(valid(c, N));
       assert(k < N);
-      return c.i * N2 + c.j * N + k;
+      const var_t code = c.i * N2 + c.j * N + k;
+      assert(code < N3);
+      return 1 + code;
     }
 
   };
@@ -104,9 +106,11 @@ namespace PQEncoding {
     using Clause = AloAmo::Clause;
     using Lit = AloAmo::Lit;
 
-    for (dim_t i = 0; i < N; ++i)
-      for (dim_t j = 0; j < N; ++j)
-        out << Clause{Lit(enc({i,j},j))};
+    for (dim_t j = 0; j < N; ++j)
+      out << Clause{Lit(enc({0,j},j))};
+#ifndef NDEBUG
+    running_counter += N;
+#endif
 
     for (dim_t i = 0; i < N; ++i)
       for (dim_t j = 0; j < N; ++j) {
