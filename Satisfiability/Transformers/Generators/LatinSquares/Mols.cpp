@@ -145,7 +145,8 @@ TODOS:
 2. Move functionality to own modules
  - Perhaps Options.hpp DONE
  - Statistics.hpp DONE
- - And Encoding.hpp.
+ - Encoding.hpp (in process).
+ - AloAmo.hpp (in process)
  - GeneralRepresentations.hpp.
  - LSRepresentations.hpp.
  - InputOutput.hpp.
@@ -153,6 +154,8 @@ TODOS:
 3. Establish relation to Random/LatinSquares.
 
 4. Establish relation to Gecode/MOLS.
+
+5. Potentially unify with Pandiagonal.cpp.
 
 */
 
