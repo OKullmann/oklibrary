@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 8, 0, >= 3785, 0, 0, 0
+# 8, 0, >= 4449, 0, 0, 0
 
 #   hash=7282994701214749140
 
@@ -125,7 +125,7 @@
 # (see Pandiagonal/sudoku).
 # Rerunning:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
-# running on server XXX 2y251d
+# running on server XXX 3y3d
 
 
 # N=17:
