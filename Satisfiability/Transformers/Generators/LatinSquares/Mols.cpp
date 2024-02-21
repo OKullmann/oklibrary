@@ -174,6 +174,7 @@ TODOS:
 #include "Options.hpp"
 #include "Statistics.hpp"
 #include "Encoding.hpp"
+#include "Commandline.hpp"
 
 #ifndef NDEBUG
    RandGen::var_t running_counter = 0;
@@ -191,6 +192,7 @@ namespace {
   using namespace Options;
   using namespace Statistics;
   using namespace Encoding;
+  using namespace Commandline;
 
   std::string default_filestem() {
     return "MOLS2SAT_BASIC";
@@ -604,38 +606,6 @@ namespace {
   }
 
 
-  dim_t read_dim(const std::string arg) {
-    unsigned long d;
-    std::size_t converted;
-    try { d = std::stoul(arg, &converted); }
-    catch (const std::invalid_argument& e) {
-      std::cerr << error << "The argument \"" << arg
-                << "\" is not a valid integer.\n";
-      std::exit(int(Error::conversion));
-    }
-    catch (const std::out_of_range& e) {
-      std::cerr << error << "The argument \"" << arg
-                << "\" is too big for unsigned long.\n";
-      std::exit(int(Error::too_big));
-    }
-    if (converted != arg.size()) {
-      std::cerr << error << "The argument \"" << arg
-                << "\" contains trailing characters: \""
-        << arg.substr(converted) << "\".\n";
-      std::exit(int(Error::conversion));
-    }
-    if (d == 0) {
-      std::cerr << error << "An argument is 0.\n";
-      std::exit(int(Error::too_small));
-    }
-    const dim_t cd = d;
-    if (cd != d) {
-      std::cerr << error << "The argument \"" << arg
-                << "\" is too big for dim_t (max 65535).\n";
-      std::exit(int(Error::too_big));
-    }
-    return cd;
-  }
 
   bool special(const std::string_view s) noexcept {
     return s == "-cout" or s == "-nil";
@@ -649,8 +619,8 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
-  const dim_t N = argc <= index ? N_default : read_dim(argv[index++]);
-  const dim_t k = argc <= index ? k_default : read_dim(argv[index++]);
+  const dim_t N = argc <= index ? N_default : read_dim(argv[index++], error);
+  const dim_t k = argc <= index ? k_default : read_dim(argv[index++], error);
   const Param p{N,k};
 
   const std::optional<SymP> rsymopt = argc <= index ? SymP{} :
