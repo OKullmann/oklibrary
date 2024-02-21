@@ -6,7 +6,8 @@ Finding one satisfiable assignment is very easy for all solvers.
 
 A) Running SplitViaOKsolver:
 
-> SplittingViaOKsolver -D50 MOLS2SAT_BASIC_10_1_f_fP.dimacs SplittingViaOKsolver in version 0.1.15 started.
+> SplittingViaOKsolver -D50 MOLS2SAT_BASIC_10_1_f_fP.dimacs
+SplittingViaOKsolver in version 0.1.15 started.
 Created directory
   SplitViaOKsolver_D50MOLS2SAT_BASIC_10_1_f_fPdimacs_2021-01-21-181433.
 > cat SplitViaOKsolver_D50MOLS2SAT_BASIC_10_1_f_fPdimacs_2021-01-21-181433/Result
