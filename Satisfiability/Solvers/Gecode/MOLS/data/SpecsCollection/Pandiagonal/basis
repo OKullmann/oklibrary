@@ -495,7 +495,7 @@
 
 
 
-# N = 12:
+# N=12:
 
 # Trying to extend that weight-tuple, by extending the 0.2-middle-part:
 # MOLS> time ./laMols 12 data/SpecsCollection/Pandiagonal "" satd "" enu wdL "" relpr 1 12 "0.1,0.2,0.2,0.2,0.2,0.2,1,1,1,1"
@@ -536,7 +536,7 @@
 
 # laMols with wdL for bin
 
-# N = 12:
+# N=12:
 
 # Optimising on sd with MAX_TIME=40000 and rep=1000:
 # TAU_basis_12_bin_wdL_sd$ nomad np
@@ -622,6 +622,9 @@
 # TS_1000_10_1705418919991354627.R
 # real    1m56.147s user    18m25.615s sys     0m18.202s
 # Doesn't look much better.
+
+
+# N=13:
 
 
 
