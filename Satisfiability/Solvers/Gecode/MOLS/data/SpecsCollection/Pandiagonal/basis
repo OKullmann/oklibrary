@@ -1,11 +1,12 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0,
-# 8, 0, >= 4449, 0, 0, 0
+# 8, 0, >= 4556, 0, 0, 0
 
 #   hash=7282994701214749140
 
-# This is https://oeis.org/A338620 (which has N=2n+1, where
-# their n = 0,1,2, ... 7).
+# This is https://oeis.org/A338620
+# 1, 0, 2, 4, 0, 8, 12386, 0
+# (which has N=2n+1, where heir n = 0,1,2, ... 7).
 # While https://oeis.org/A342306 is the total number, which is
 # the above times N!.
 
@@ -125,7 +126,9 @@
 # (see Pandiagonal/sudoku).
 # Rerunning:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
-# running on server XXX 3y3d
+# running on server XXX 3y39d
+# Aborted after 4556 solutions found:
+# real    146502m37.496s user    1463907m32.027s sys     169763m3.333s
 
 
 # N=17:
