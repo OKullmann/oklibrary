@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.9.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011, 2012, 2013, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -366,10 +366,11 @@ CFLAGS="-UMACHINE_BITS_OKL"
      (see above). </li>
      <li> The directory must already exist and must be writable. </li>
      <li> The file will be created if needed. </li>
-     <li> Uses the depth-parameter "-D=d" as above for monitoring. </li>
+     <li> Uses the depth-parameter "-D=d" (as above for monitoring). </li>
      <li> Stores the partial assignments leading to
      the (reduced) nodes with at least d assignments (decisions and enforced)
-     of the splitting tree, from left to right. </li>
+     of the splitting tree, from left to right (excluding initial UCP
+     in this count). </li>
      <li> The main usage is for splitting a hard problem into (at most) 2^d
      many subproblems; see below for helper scripts. </li>
      <li> The partial assignments yielding the sub-problems are stored either
