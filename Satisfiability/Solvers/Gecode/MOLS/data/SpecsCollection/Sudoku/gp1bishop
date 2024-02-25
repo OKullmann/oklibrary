@@ -25,6 +25,30 @@
 # . . 3 2 . 7 5 . .
 # 5 . 2 . . . . . .
 
+# Solving it (first renaming to 0-based, and with 0 as the queen):
+# * * * * * * 2 * 8
+# * * 3 6 * 7 0 * *
+# * 8 * * 2 * * 1 *
+# * 0 * * 5 * * 3 *
+# * * 4 3 * 1 8 * *
+# * 1 * * 7 * * 6 *
+# * 6 * * 4 * * 8 *
+# * * 2 1 * 6 4 * *
+# 4 * 1 * * * * * *
+# MOLS> ./gcMols 9 data/SpecsCollection/Sudoku/gp1bishop "@A\n* * * * * * 2 * 8\n* * 3 6 * 7 0 * *\n * 8 * * 2 * * 1 *\n* 0 * * 5 * * 3 *\n* * 4 3 * 1 8 * *\n* 1 * * 7 * * 6 *\n* 6 * * 4 * * 8 *\n* * 2 1 * 6 4 * *\n4 * 1 * * * * * *\n" +enum dom enu mindeg "" "" 1 ""
+#   hash=12904076807008619803
+#6 4 0 5 1 3 2 7 8
+#1 2 3 6 8 7 0 4 5
+#5 8 7 0 2 4 3 1 6
+#2 0 6 4 5 8 7 3 1
+#7 5 4 3 6 1 8 2 0
+#3 1 8 2 7 0 5 6 4
+#0 6 5 7 4 2 1 8 3
+#8 3 2 1 0 6 4 5 7
+#4 7 1 8 3 5 6 0 2
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    +enum dom enu    mindeg  asc   1         1       0.001           234           0           1      0  0
+
 
 # https://puzzling.stackexchange.com/questions/91988/queens-of-the-square-sudoku-table
 
@@ -40,6 +64,21 @@
 # 5  4  . | .  8  . | .  .  7
 # .  .  . | 5  .  . | .  .  .
 # .  9  7 | 3  .  . | .  .  .
+
+# * 5 * 7 * 2 * 6 *
+# * * 1 * * * * 5 8
+# 6 * * * * * * * 4
+# * * * 8 * * * 1 *
+# * * * * * * * * 3
+# * * 4 * 1 * * * *
+# 4 3 * * 7 * * * 6
+# * * * 4 * * * * *
+# * 8 6 2 * * * * *
+
+#MOLS> ./gcMols 9 data/SpecsCollection/Sudoku/gp1bishop "@A\n* 5 * 7 * 2 * 6 *\n* * 1 * * * * 5 8\n6 * * * * * * * 4\n* * * 8 * * * 1 *\n* * * * * * * * 3\n* * 4 * 1 * * * *\n4 3 * * 7 * * * 6\n* * * 4 * * * * *\n* 8 6 2 * * * * *" count "" "" maxdeg "" "" 1 ""
+#   hash=2192095522299609502
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+#  9    count dom bin    maxdeg  asc   1        25       0.000          2903          26         101      8  0
 
 
 
