@@ -3,7 +3,7 @@ c program_name                          tawSolver(_debug)?
 c   version_number                      \d\.\d+\.\d
 c   options                             ""
 c   weights                             4\.8499999999999996,1,0\.35399999999999998,0\.11,0\.069400000000000003;1\.46
-c file_name                             Triv_001\.cnf
+c file_name                             "Triv_001\.cnf"
 c   p_param_variables                   0
 c   p_param_clauses                     0
 c   number_tautologies                  0

@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015, 2016, 2017, 2018, 2020, 2021, 2022 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2024 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -242,8 +242,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.20.2";
-const std::string date = "16.4.2022";
+const std::string version = "2.20.3";
+const std::string date = "25.2.2024";
 
 #if defined WEIGHT_2 | defined WEIGHT_4 | defined WEIGHT_5 | defined WEIGHT_6 | defined WEIGHT_BASIS_OPEN | defined TWEIGHT_2 | defined TWEIGHT_4 | defined TWEIGHT_5 | defined TWEIGHT_6 | defined TWEIGHT_BASIS_OPEN
 # define WEIGHT_DEFINED
@@ -1893,7 +1893,7 @@ if (logout.active()) {
          "c   weights                             ";
   output_weights(logout);
   logout << "\n"
-         "c file_name                             " << filename << "\n"
+         "c file_name                             \"" << filename << "\"\n"
          "c   p_param_variables                   " << n_vars << "\n"
          "c   p_param_clauses                     " << n_header_clauses << "\n"
          "c   number_tautologies                  " << n_taut << "\n"
