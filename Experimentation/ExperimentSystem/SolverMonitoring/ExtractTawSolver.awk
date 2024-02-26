@@ -5,10 +5,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Version 1.1.2
+# Version 1.2
 
-#TODOS:
-
+# TODOS:
 # DONE 1. New system for n, c, l and variants
 # (a) As in the input: pn (<-parn), pc (<- parc), taut (<=nt).
 # (b) After elimination of tautological clauses and repeated literals:
@@ -16,7 +15,7 @@
 # (c) Other parameters:
 #   ptime -> parsetime (?)
 #   nsol -> sol.
-# This should be consolidated with the data for the OKsolver and minisat.
+# 2. This should be consolidated with the data for the OKsolver and minisat.
 
 
 # Extracts the numerical data from output of (c)(t)(m)tawSolver,
@@ -90,5 +89,5 @@ BEGIN {
 /^c   elapsed/ { wptime=$3 }
 
 END { 
-  print maxn " " c " " l " " mcl " " t " " st " " wt " " maxmb " " sat " " nds " " bnds " " scnds " " lvs " " inds " " inps " " r1 " " r1ps " " r1pn " " pls " " he " " prj " " avprj " " onez " " fonez " " bothz " " fbothz " " withf " " fwithf " " nof " " fnof " " minf " " meanf " " maxf " " sdf " " withs " " fwiths " " nos " " fnos " " mins " " means " " maxs " " sds " " wtc " " awtc " " ti " " ati " " alph " " lmbd " " sol " " ptime " " sptime " " wptime " " pn " " pc " " taut " \"" prog "\"" " \"" vers "\"" " " opt " \"" wghts "\"" " " file
+  print maxn " " c " " t " " sat " " l " " st " " wt " " maxmb " " mcl " " nds " " bnds " " scnds " " lvs " " inds " " inps " " r1 " " r1ps " " r1pn " " pls " " he " " prj " " avprj " " onez " " fonez " " bothz " " fbothz " " withf " " fwithf " " nof " " fnof " " minf " " meanf " " maxf " " sdf " " withs " " fwiths " " nos " " fnos " " mins " " means " " maxs " " sds " " wtc " " awtc " " ti " " ati " " alph " " lmbd " " sol " " ptime " " sptime " " wptime " " pn " " pc " " taut " \"" prog "\"" " \"" vers "\"" " " opt " \"" wghts "\"" " " file
 }
