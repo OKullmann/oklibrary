@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "21.8.2023",
+        "0.3.5",
+        "26.2.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -69,9 +69,24 @@ int main(const int argc, const char* const argv[]) {
   {std::stringstream ss;
    ss.str("0\n");
    assert(eqp(read_strict_clause(ss), {}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+  {std::stringstream ss;
    ss.str("3 -4 5 -6 0\n");
-   assert(eqp(read_strict_clause(ss), {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
-   assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+   assert(eqp(read_strict_clause(ss),
+              {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+  {std::stringstream ss;
+   ss.str("0\n");
+   assert(eqp(read_strict_clause_withouteol(ss), {}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == '\n');
+  }
+  {std::stringstream ss;
+   ss.str("3 -4 5 -6 0\n");
+   assert(eqp(read_strict_clause_withouteol(ss),
+              {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == '\n');
   }
 
   {std::stringstream ss;
@@ -96,6 +111,38 @@ int main(const int argc, const char* const argv[]) {
    ss.str("p cnf 5 1\n1 2 3 0\n");
    assert(eqp(read_strict_Dimacs(ss), {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
    assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+  }
+
+  {const auto elap = AllowancesStrictDimacs::empty_lines_after_pline;
+   {std::stringstream ss;
+    ss.str("p cnf 0 0\n");
+    assert(eqp(read_strict_Dimacs(ss, elap), {{0,0},{}}));
+    assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
+   }
+   {std::stringstream ss;
+    ss.str("p cnf 0 0\n\n");
+    assert(eqp(read_strict_Dimacs(ss, elap), {{0,0},{}}));
+    assert(ss.good()); assert(not ss.eof()); assert(ss.get() == '\n');
+    assert(ss.peek() == -1);
+   }
+   {std::stringstream ss;
+    ss.str("p cnf 5 1\n1 2 3 0\n");
+    assert(eqp(read_strict_Dimacs(ss, elap),
+               {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
+    assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+   }
+   {std::stringstream ss;
+    ss.str("p cnf 5 1\n\n1 2 3 0\n");
+    assert(eqp(read_strict_Dimacs(ss, elap),
+               {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
+    assert(ss); assert(not ss.eof()); assert(ss.peek() == -1);
+   }
+   {std::stringstream ss;
+    ss.str("p cnf 5 1\n\n\n1 2 3 0\nX");
+    assert(eqp(read_strict_Dimacs(ss, elap),
+               {{5,1},{{Lit{1,1}, Lit{2,1}, Lit{3,1}}}}));
+    assert(ss); assert(not ss.eof()); assert(ss.peek() == 'X');
+   }
   }
 
   {GslicedCNF F;

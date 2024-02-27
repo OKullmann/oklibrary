@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -89,18 +89,22 @@ License, or any later version. */
     Pure variables (occurring in exactly one sign) and trivial variables
     (not occurring at all) are allowed.
 
-    - read_strict_dimacs_pars -> dimacs_pars :
+    - read_strict_dimacs_pars(istream) -> dimacs_pars :
         skipping lines starting with "c", then expecting a line exactly
         starting with "p cnf ", and then reading two var_t's.
-    - read_strict_literal -> Lit :
+    - read_strict_literal(istream) -> Lit :
         reading a string (in the normal way), extracting a possible leading
         "-", and then reading one ull.
-    - read_strict_clause -> Clause :
+    - read_strict_clause(istream) -> Clause :
         via read_string_literal, literals are read, and pushed into the
-        vector, until 0 is read; end-of-line then asserted.
+        vector, until 0 is read; end-of-line then read and asserted.
       Remark: all clause-reading-functions read including the end-of-line
       character.
-    - read_strict_Dimacs -> DimacsClauseList :
+    - read_strict_clause_withouteol(istream) -> Clause :
+        now without reading the end-of-line-symbol.
+    - scoped enum AllowancesStrictDimacs : none, empty_lines_after_pline
+    - read_strict_Dimacs(istream, AllowancesStrictDimacs=none)
+      -> DimacsClauseList :
         first read_strict_dimacs_pars, establishing c, then reading exactly
         c clauses via read_strict_clause.
 
@@ -244,6 +248,9 @@ License, or any later version. */
       does not create a file, but uses a pipe to stdin of minisat.
       Via DimacsClauseListref_put(F) one can wrap a DimacsClauseList.
 
+TODOS:
+
+1. In read_strict_Dimacs : remove the special handling of c==0.
 
 See plans/general.txt.
 
@@ -464,12 +471,36 @@ namespace DimacsTools {
     [[maybe_unused]]const char eol = in.get(); assert(eol == '\n');
     return res;
   }
-  DimacsClauseList read_strict_Dimacs(std::istream& in) {
+  Clause read_strict_clause_withouteol(std::istream& in) {
+    assert(in);
+    Clause res;
+    for (Lit x; (x = read_strict_literal(in)).v != Var{0}; res.push_back(x));
+    return res;
+  }
+  enum class AllowancesStrictDimacs {
+    none,
+    empty_lines_after_pline
+  };
+  // In case of empty_lines_after_pline, consumes all empty lines after the
+  // p-line except of case c=0 (here only the eol of the p-line is removed):
+  DimacsClauseList read_strict_Dimacs(std::istream& in,
+                                      const AllowancesStrictDimacs allow =
+                                      AllowancesStrictDimacs::none) {
     assert(in);
     DimacsClauseList res;
     res.first = read_strict_dimacs_pars(in); assert(in);
     var_t c = res.first.c;
+    if (c == 0) return res;
     res.second.reserve(c);
+    if (allow == AllowancesStrictDimacs::empty_lines_after_pline) {
+      std::string line;
+      do {
+        std::getline(in, line); assert(in);
+      } while (line.empty());
+      std::istringstream ss(line);
+      res.second.push_back(read_strict_clause_withouteol(ss));
+      --c;
+    }
     for (; c != 0; --c) res.second.push_back(read_strict_clause(in));
     return res;
   }
