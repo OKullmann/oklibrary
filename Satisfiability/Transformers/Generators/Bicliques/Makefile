@@ -1,5 +1,5 @@
 # Oliver Kullman, 20.2.2022 (Swansea
-# Copyright 2022, 2023 Oliver Kullmann
+# Copyright 2022, 2023, 2024 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation RemoveVarGaps
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -119,6 +119,10 @@ DirEbccom2_debug : DirEbccom2.cpp DirStatistics.hpp DimacsTools.hpp ConflictGrap
 
 TotalPermutation : TotalPermutation.cpp DimacsTools.hpp
 TotalPermutation_debug : TotalPermutation.cpp DimacsTools.hpp
+
+RemoveVarGaps : RemoveVarGaps.cpp DimacsTools.hpp
+RemoveVarGaps_debug : RemoveVarGaps.cpp DimacsTools.hpp
+
 
 # -------------------------
 
