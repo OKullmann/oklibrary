@@ -25,7 +25,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "27.2.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -61,4 +61,16 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  const std::string filename = argv[1];
+  std::ifstream in(filename);
+  if (not in) {
+    std::cerr << error <<
+      "Can not open file \"" << filename << "\" for reading.\n";
+    return 1;
+  }
+
+  const auto F = read_strict_Dimacs(in,
+                             AllowancesStrictDimacs::empty_lines_after_pline);
+  in.close();
+  
 }
