@@ -11,6 +11,25 @@ License, or any later version. */
   F is assumed to be strict Dimacs, however empty lines after the
   p-line are allowed (so that files produced by ApplyPass-O3-DNDEBUG
   can be used).
+
+   - Except for the renaming, the literals in the clauses stay as they
+     are (same order as before), but the spacing is cleaned up.
+   - Empty lines are the p-line are removed.
+   - Any lines after the final clause are removed.
+
+TODOS:
+
+1. Output the renaming-map.
+    - Via an option-argument.
+    - Which has the following possibilities to state the map:
+     - old -> new or new -> old or both
+     - as comments, or as additional files.
+
+2. Enable reading from standard input
+    - Then output goes to standard output.
+    - What to do with the renaming-info? Perhaps here only
+      putting it into the comments is allowed.
+
 */
 
 #include <iostream>
@@ -19,13 +38,14 @@ License, or any later version. */
 #include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Transformers/Generators/Random/ClauseSets.hpp>
 
 #include "DimacsTools.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
+        "0.0.9",
         "27.2.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -60,8 +80,8 @@ int main(const int argc, const char* const argv[]) {
               << argc-1 << " provided.\n";
     return 1;
   }
-
   const std::string filename = argv[1];
+
   std::ifstream in(filename);
   if (not in) {
     std::cerr << error <<
@@ -69,8 +89,18 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto F = read_strict_Dimacs(in,
-                             AllowancesStrictDimacs::empty_lines_after_pline);
+  auto F = read_strict_Dimacs(in,
+                              AllowancesStrictDimacs::empty_lines_after_pline);
   in.close();
-  
+
+  const auto info = RandGen::rename_clauselist(F.second);
+  F.first.n = info.first;
+
+  std::ofstream out(filename);
+  if (not out) {
+    std::cerr << error <<
+      "Can not open file \"" << filename << "\" for writing.\n";
+    return 1;
+  }
+  out << F;
 }
