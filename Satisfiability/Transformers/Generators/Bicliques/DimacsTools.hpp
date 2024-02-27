@@ -144,6 +144,9 @@ License, or any later version. */
         other_ealines_t = vector<string>
       now also returning the other e/a-lines as is (and returning a set)
 
+
+   Functions for renaming (further functions in Random/ClauseSets.hpp):
+
     - varmap_t : typedef for map from Var to Var
     - list2map(varlist_t V) -> varmap_t :
         maps the variables in V to 1, ..., V.size() (asserting that all
@@ -166,6 +169,9 @@ License, or any later version. */
         using a var-set, like read_strict_clause, also reading until
         Lit(0) found, and splitting into two clauses according to var-set.
 
+
+   Functions for slices:
+
     - extract_apart_strict2qcnf -> void, sice-effect -> ostream :
         reads a whole strict 2QCNF, and puts the extracted global slice
         to the out-stream (see application 2QCNF2aCNF)
@@ -173,7 +179,7 @@ License, or any later version. */
         more general, read strict QCNF (see application QCNF2gCNF).
 
 
-   - Sliced clause-sets (-lists)
+    Sliced clause-sets (-lists)
 
     - valid_slicedcnf(F) : defines the concepts of a "sliced CNF"
         true iff all members are valid DimacsClauseList's
@@ -192,7 +198,7 @@ License, or any later version. */
    - read_strict_GslicedCNF(istream) -> GslicedCNF
 
 
-   - Using external SAT solvers:
+    Using external SAT solvers:
 
     - typedef Lit_filter (function from Lit to bool)
     - scoped enum SolverR (unknown=0, sat=1, unsat=2, aborted=3)
