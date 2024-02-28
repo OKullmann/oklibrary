@@ -8,7 +8,7 @@ N=ORIGINALN
 command=ORIGINALCOMMAND
 extcommand=$(command) > Results/MEINDEX 2>&1
 
-# Version 0.0.3
+# Version 0.0.4
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -46,4 +46,4 @@ endrun :
 
 
 Results/% :
-	com="$(extcommand)"; finalcom="$${com//MEINDEX/$*}"; eval $${finalcom}
+	@com="$(extcommand)"; finalcom="$${com//MEINDEX/$*}"; eval $${finalcom}
