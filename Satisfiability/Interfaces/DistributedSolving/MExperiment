@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 script_name="MExperiment"
-version_number=0.0.8
+version_number=0.0.9
 
 if [[ $# -ne 2 ]]; then
   echo "ERROR[${script_name}]: Exactly two parameter are needed, N and command."
@@ -69,3 +69,4 @@ free -m >> Environment
 
 sed -i "s/ORIGINALN/$N/" Makefile
 sed -i "s!ORIGINALCOMMAND!${command}!" Makefile
+sed -i "s/EXPDIRECTORY/${directory}/" Makefile
