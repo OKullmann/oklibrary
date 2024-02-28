@@ -6,8 +6,44 @@
 
 N=ORIGINALN
 command=ORIGINALCOMMAND
+extcommand=$(command) > Results/MEINDEX 2>&1
 
-# Version 0.0.1
+# Version 0.0.3
 
 SHELL := /bin/bash
 .SUFFIXES :
+.PHONY : all run beginrun runjobs endrun
+
+MAKE_PID := $(shell echo $$PPID)
+JOB_FLAG := $(filter -j%, $(subst -j ,-j,$(shell ps T | grep "^\s*$(MAKE_PID).*$(MAKE)")))
+ifeq ($(JOB_FLAG),)
+  JOBS := 1
+else ifeq ($(JOB_FLAG),-j)
+  JOBS := INF
+else
+  JOBS := $(subst -j,,$(JOB_FLAG))
+endif
+
+joblist := $(shell for (( i=1; i<=$(N); ++i )); do echo $$i; done)
+extjoblist := $(addprefix Results/,$(joblist))
+
+all : run
+run : beginrun runjobs endrun
+
+beginrun :
+	echo -e "\nBegin run, PID=$(MAKE_PID)" >> Log
+	@date -Ins >> Log
+	echo "Parallel: j=$(JOBS)" >> Log
+
+runjobs : | beginrun
+runjobs : $(extjoblist)
+
+endrun : | runjobs
+endrun :
+	@ps -o "%t" --pid $(MAKE_PID) | tee -a Log
+	@echo "End run, PID=$(MAKE_PID)" >> Log
+	@date -Ins >> Log
+
+
+Results/% :
+	com="$(extcommand)"; finalcom="$${com//MEINDEX/$*}"; eval $${finalcom}
