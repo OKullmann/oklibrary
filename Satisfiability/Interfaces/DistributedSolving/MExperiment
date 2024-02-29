@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 script_name="MExperiment"
-version_number=0.0.10
+version_number=0.0.11
 
 if [[ $# -ne 2 ]]; then
   echo "ERROR[${script_name}]: Exactly two parameter are needed, N and command."
