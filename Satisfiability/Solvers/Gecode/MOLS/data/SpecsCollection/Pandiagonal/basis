@@ -42,6 +42,7 @@
 
 # The two examples for N=5:
 # ./gcMols 5 data/SpecsCollection/Pandiagonal/basis "" enum dom bin mindegdom "" 1 12 ""
+
 #0 1 2 3 4
 #2 3 4 0 1
 #4 0 1 2 3
@@ -53,6 +54,25 @@
 #1 2 3 4 0
 #4 0 1 2 3
 #2 3 4 0 1
+
+# One of the four examples for N=11 which is not a Sudoku
+# the other four are Sudokus):
+# ./gcMols 11 data/SpecsCollection/Pandiagonal/basis "" enum dom bin mindegdom "" "" 1 ""
+#  N       rt  pl  bt        bv   bo gcd      satc           t           ppc        flvs        gnds     gd st
+# 11     enum dom bin mindegdom  asc   1         8       3.011       3996237      110267      220549     15  0
+
+# 0  1  2  3  4  5  6  7  8  9 10
+# 5  6  7  8  9 10  0  1  2  3  4
+#10  0  1  2  3  4  5  6  7  8  9
+# 4  5  6  7  8  9 10  0  1  2  3
+# 9 10  0  1  2  3  4  5  6  7  8
+# 3  4  5  6  7  8  9 10  0  1  2
+# 8  9 10  0  1  2  3  4  5  6  7
+# 2  3  4  5  6  7  8  9 10  0  1
+# 7  8  9 10  0  1  2  3  4  5  6
+# 1  2  3  4  5  6  7  8  9 10  0
+# 6  7  8  9 10  0  1  2  3  4  5
+
 
 # Open combinatorial questions:
 # 1. Can the special structure used by [Atkin, Hay, Larson]
