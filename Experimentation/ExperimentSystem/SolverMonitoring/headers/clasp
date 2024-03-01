@@ -1,0 +1,4 @@
+# interrupted : 1 iff an interrupt occurred
+# wt : wallclock-time
+# complete : 1 iff asserted complete, 0 if asserted incomplete, 2 otherwise
+interrupted wt t sat sol complete vers file
