@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "20.2.2024",
+        "0.1.0",
+        "2.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Pandiagonal.cpp",
@@ -61,7 +61,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const dim_t N = read_dim(argv[1], error);
+  const auto [N, sudoku] = read_dim(argv[1], error);
   const auto ct0 = Environment::read<CT>(argv[2]);
   if (not ct0) {
     std::cerr << error << "The constraint-type could not be read from"
@@ -69,6 +69,8 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   const CT ct = ct0.value();
+
+  const PEncoding enc(N, ct, sudoku);
 
   std::cout << Environment::Wrap(proginfo, Environment::OP::dimacs);
   using Environment::DHW;
@@ -78,8 +80,15 @@ int main(const int argc, const char* const argv[]) {
   Environment::args_output(std::cout, argc, argv);
   std::cout << "\n"
             << DWW{"N"} << N << "\n"
-            << DWW{"Constraint_type"} << ct << "\n";
+            << DWW{"Constraint_type"} << ct << "\n"
+            << DWW{"box-constraint"} << sudoku << "\n";
+  if (sudoku) {
+    std::cout << DWW{"  b,q,r"} << enc.b << " " << enc.q << " "
+              << enc.r << "\n"
+              << DWW{"  main,sides,corner"};
+    PEncoding::output(std::cout, enc.boxes);
+    std::cout << std::endl;
+  }
 
-  const PEncoding enc(N, ct);
   pandiagonal(std::cout, enc);
 }

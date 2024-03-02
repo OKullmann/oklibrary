@@ -9,6 +9,8 @@ License, or any later version. */
 #define PQENCODING_eK42F6xZuv
 
 #include <ostream>
+#include <array>
+#include <vector>
 
 #include <cassert>
 
@@ -40,20 +42,69 @@ namespace PQEncoding {
     const dim_t N;
     const var_t N2 = var_t(N) * N, N3 = N2 * N;
     const PQOptions::CT ct;
+
+    const bool sudoku;
+    // box-size, number of boxes horizontally and vertically, remainder:
+    const dim_t b, q, r;
+    // Remark: rectangles 2x2 or smaller are ignored.
+    // Volume and count:
+    typedef std::array<var_t, 2> box_count_vol_t;
+    // Main boxes, side boxes, corner box:
+    typedef std::array<box_count_vol_t, 3> total_counts_vol_t;
+    const total_counts_vol_t boxes;
+
     const Statistics::fdimacs_pars p;
   private :
     mutable var_t next = N3;
   public :
 
-    constexpr PEncoding(const dim_t N, const PQOptions::CT ct) noexcept :
-    N(N), ct(ct), p(pars(N,N2,N3,ct)) { assert(p.valid()); }
+    constexpr PEncoding(const dim_t N, const PQOptions::CT ct,
+                        const bool sudoku) noexcept :
+    N(N), ct(ct), sudoku(sudoku), b(std::sqrt(N)), q(N/b), r(N%b),
+    boxes(box_count(b,q,r)), p(pars(N,N2,N3,ct,sudoku)) {
+      assert(N >= 1);
+      assert(p.valid());
+    }
 
-    constexpr Statistics::fdimacs_pars pars(const dim_t N0,
-                                            const var_t N02, const var_t N03,
-                                            const PQOptions::CT ct) noexcept {
+    var_t operator()() const noexcept {
+      return ++next;
+    }
+    var_t operator()(const cell_t& c, const dim_t k) const noexcept {
+      assert(valid(c, N));
+      assert(k < N);
+      const var_t code = c.i * N2 + c.j * N + k;
+      assert(code < N3);
+      return 1 + code;
+    }
+
+    static constexpr total_counts_vol_t
+    box_count(const dim_t b0, const dim_t q0, const dim_t r0)
+      noexcept {
+      const var_t b(b0), q(q0), r(r0);
+      total_counts_vol_t res{};
+      res[0][1] = b*b; res[1][1] = b*r; res[2][1] = r*r;
+      if (b <= 2) return res;
+      assert(q >= 3);
+      res[0][0] = q*q;
+      if (r >= 2) res[1][0] = 2 * q;
+      if (r >= 3) res[2][0] = 1;
+      return res;
+    }
+    static void output(std::ostream& out, const total_counts_vol_t& tc) {
+      const auto o = [&out](const box_count_vol_t& c)->std::ostream&{
+        return out << c[0] << "*" << c[1];
+      };
+      o(tc[0]) << " "; o(tc[1]) << " "; o(tc[2]);
+    }
+    static constexpr Statistics::fdimacs_pars
+    pars(const dim_t N0,
+         const var_t N02, const var_t N03,
+         const PQOptions::CT ct,
+         const bool sudoku) noexcept {
       // to control overflow (float80 strictly includes var_t):
       using float_t = Statistics::fdimacs_pars::float_t;
-      float_t N(N0), N2(N02), N3(N03);
+
+      const float_t N(N0), N2(N02), N3(N03);
       const float_t num_cells = N2;
       // rows, columns, diagonals, antidiagonals:
       const float_t num_all_different = 4 * N;
@@ -73,18 +124,10 @@ namespace PQEncoding {
       const float_t num_clauses_alleos = num_eos * num_clauses_eo;
       const float_t c = num_clauses_rred + num_clauses_alleos;
 
-      return {n,c};
-    }
-
-    var_t operator()() const noexcept {
-      return ++next;
-    }
-    var_t operator()(const cell_t& c, const dim_t k) const noexcept {
-      assert(valid(c, N));
-      assert(k < N);
-      const var_t code = c.i * N2 + c.j * N + k;
-      assert(code < N3);
-      return 1 + code;
+      if (not sudoku) return {n,c};
+      float_t nsud = 0, csud = 0;
+      
+      return {n + nsud, c + csud};
     }
 
   };

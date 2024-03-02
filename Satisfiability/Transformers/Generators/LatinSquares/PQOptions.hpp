@@ -60,7 +60,7 @@ namespace PQOptions {
   }
 
 
-  typedef std::tuple<LT,CF,CT> ouput_options_t;
+  typedef std::tuple<LT,CF,CT> line_options_t;
 }
 
 namespace Environment {

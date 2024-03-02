@@ -622,8 +622,10 @@ int main(const int argc, const char* const argv[]) {
 
   Environment::Index index;
 
-  const dim_t N = argc <= index ? N_default : read_dim(argv[index++], error);
-  const dim_t k = argc <= index ? k_default : read_dim(argv[index++], error);
+  const dim_t N = argc <= index ? N_default :
+    read_dim(argv[index++], error).first;
+  const dim_t k = argc <= index ? k_default :
+    read_dim(argv[index++], error).first;
   const Param p{N,k};
 
   const std::optional<SymP> rsymopt = argc <= index ? SymP{} :

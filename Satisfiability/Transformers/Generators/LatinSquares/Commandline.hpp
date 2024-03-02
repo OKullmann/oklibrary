@@ -11,6 +11,7 @@ License, or any later version. */
 #include <string>
 #include <iostream>
 #include <exception>
+#include <utility>
 
 #include <cstdlib>
 
@@ -20,9 +21,16 @@ License, or any later version. */
 namespace Commandline {
 
   using dim_t = Statistics::dim_t;
+  typedef std::pair<dim_t, bool> dim_plus_info_t;
 
-  dim_t read_dim(const std::string arg, const std::string error) {
+  // Boolean is true iff leading plus:
+  dim_plus_info_t read_dim(const std::string arg, const std::string error) {
     using Errors::Error;
+    if (arg.empty()) {
+      std::cerr << error << "N-argument is empty.\n";
+      std::exit(int(Error::conversion));
+    }
+    const bool leading_plus = arg[0] == '+';
     unsigned long d;
     std::size_t converted;
     try { d = std::stoul(arg, &converted); }
@@ -52,7 +60,7 @@ namespace Commandline {
                 << "\" is too big for dim_t (max 65535).\n";
       std::exit(int(Error::too_big));
     }
-    return cd;
+    return {cd, leading_plus};
   }
 
 }
