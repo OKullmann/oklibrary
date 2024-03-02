@@ -29,7 +29,7 @@ License, or any later version. */
    - c_alo_primes(var_t) -> float80
    - c_amo_primes(var_t) -> float80
    - c_eo_primes(var_t) -> float80
-   - pars_eo_primes(var_t) -> fdimacs_pars pars
+   - pars_eo_primes(var_t) -> fdimacs_pars
    - pars_amo_primes(var_t) -> fdimacs_pars
    - pars_alo_primes(var_t) -> fdimacs_pars
 

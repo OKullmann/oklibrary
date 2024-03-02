@@ -30,6 +30,21 @@ namespace PQEncoding {
   using dim_t = Statistics::dim_t;
   using var_t = Statistics::var_t;
 
+  // to control overflow (float80 strictly includes var_t):
+  using float_t = Statistics::fdimacs_pars::float_t;
+
+
+  constexpr float_t n_eo(const var_t N, const PQOptions::CT ct) noexcept {
+    return ct == PQOptions::CT::prime ? 0 : Statistics::n_amo_seco(N);
+  }
+  constexpr float_t c_eo(const var_t N, const PQOptions::CT ct) noexcept {
+    switch(ct) {
+    case PQOptions::CT::prime : return Statistics::c_eo_primes(N);
+    case PQOptions::CT::seco : return Statistics::c_eo_seco(N);
+    case PQOptions::CT::secouep : return Statistics::c_eo_secouep(N);
+    default : assert(false); return 0; }
+  }
+
   struct cell_t {
     dim_t i, j;
   };
@@ -39,13 +54,13 @@ namespace PQEncoding {
 
 
   struct PEncoding {
-    const dim_t N;
+    const var_t N;
     const var_t N2 = var_t(N) * N, N3 = N2 * N;
     const PQOptions::CT ct;
 
     const bool sudoku;
     // box-size, number of boxes horizontally and vertically, remainder:
-    const dim_t b, q, r;
+    const var_t b, q, r;
     // Remark: rectangles 2x2 or smaller are ignored.
     // Volume and count:
     typedef std::array<var_t, 2> box_count_vol_t;
@@ -61,7 +76,7 @@ namespace PQEncoding {
     constexpr PEncoding(const dim_t N, const PQOptions::CT ct,
                         const bool sudoku) noexcept :
     N(N), ct(ct), sudoku(sudoku), b(std::sqrt(N)), q(N/b), r(N%b),
-    boxes(box_count(b,q,r)), p(pars(N,N2,N3,ct,sudoku)) {
+    boxes(box_count()), p(pars()) {
       assert(N >= 1);
       assert(p.valid());
     }
@@ -77,10 +92,7 @@ namespace PQEncoding {
       return 1 + code;
     }
 
-    static constexpr total_counts_vol_t
-    box_count(const dim_t b0, const dim_t q0, const dim_t r0)
-      noexcept {
-      const var_t b(b0), q(q0), r(r0);
+    constexpr total_counts_vol_t box_count() const noexcept {
       total_counts_vol_t res{};
       res[0][1] = b*b; res[1][1] = b*r; res[2][1] = r*r;
       if (b <= 2) return res;
@@ -96,37 +108,35 @@ namespace PQEncoding {
       };
       o(tc[0]) << " "; o(tc[1]) << " "; o(tc[2]);
     }
-    static constexpr Statistics::fdimacs_pars
-    pars(const dim_t N0,
-         const var_t N02, const var_t N03,
-         const PQOptions::CT ct,
-         const bool sudoku) noexcept {
-      // to control overflow (float80 strictly includes var_t):
-      using float_t = Statistics::fdimacs_pars::float_t;
-
-      const float_t N(N0), N2(N02), N3(N03);
+    constexpr Statistics::fdimacs_pars pars() const noexcept {
       const float_t num_cells = N2;
+      const float_t num_vars_square = N3; // direct encoding
+
+      /* First pure pandiagonal conditions: */
+
       // rows, columns, diagonals, antidiagonals:
-      const float_t num_all_different = 4 * N;
+      const float_t num_all_different = 4 * float_t(N);
       const float_t num_eos = num_cells + N * num_all_different;
 
-      const float_t num_vars_square = N3; // direct encoding
-      const float_t num_var_eo = ct==PQOptions::CT::prime ? 0 :
-        Statistics::n_amo_seco(N);
+      const float_t num_var_eo = n_eo(N, ct);
       const float_t num_var_alleos = num_eos * num_var_eo;
       const float_t n = num_vars_square + num_var_alleos;
 
       const float_t num_clauses_rred = N;
-      const float_t num_clauses_eo = ct==PQOptions::CT::prime ?
-       Statistics::c_eo_primes(N) :
-       ct==PQOptions::CT::seco ? Statistics::c_eo_seco(N) :
-        Statistics::c_eo_secouep(N);
+      const float_t num_clauses_eo = c_eo(N, ct);
       const float_t num_clauses_alleos = num_eos * num_clauses_eo;
       const float_t c = num_clauses_rred + num_clauses_alleos;
 
       if (not sudoku) return {n,c};
-      float_t nsud = 0, csud = 0;
-      
+      /* Additional Sudoky conditions: */
+
+      const auto [nsud, csud] = [this](){
+        float_t nsud = 0, csud = 0;
+        for (const auto& [count, size] : boxes) {
+          nsud += count * n_eo(size, ct);
+          csud += count * c_eo(size, ct);
+        }
+        return std::array{nsud, csud};}();
       return {n + nsud, c + csud};
     }
 
