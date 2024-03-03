@@ -9,12 +9,24 @@ License, or any later version. */
 
   At-least-one, At-most-one and exactly-one in various forms
 
+   Imported types:
+    - Var, Lit Clause from RandGen
+
+   Functions:
+
    - amo_primes(ostream, Clause)
    - alo_primes(ostream, Clause)
    - eo_primes(ostream, Clause)
 
    - disj_impl(ostream, Clause, Lit) (clause implies literal)
    - disj_equiv(ostream, Clause, Lit) (clause equivalent literal)
+
+   - amo_seco(ostream, Clause NVAR enc) (enc() yields a new variable)
+   - amo_secouep(ostream, Clause NVAR) -> var_t (for alo the variable
+     equivalent to the disjunction of the clauses except some
+     initial ones)
+   - eo_seco(ostream, Clause, NVAR)
+   - eo_secouep(ostream, Clause, NVAR)
 
 */
 
@@ -84,7 +96,7 @@ namespace AloAmo {
   // Combining seco_amovuep2cl(L,V) and seco_amouep_co(L)
   // from CardinalityConstraints.mac:
   template <class NVAR>
-  RandGen::var_t amouep_seco(std::ostream& out, Clause C, const NVAR& enc) {
+  RandGen::var_t amo_secouep(std::ostream& out, Clause C, const NVAR& enc) {
     RandGen::var_t final_v = 0;
     Clause B(3);
     while (C.size() > 4) {
@@ -107,7 +119,7 @@ namespace AloAmo {
 
   template <class NVAR>
   void eo_secouep(std::ostream& out, const Clause& C, const NVAR& enc) {
-    const RandGen::var_t final_v = amouep_seco(out, C, enc);
+    const RandGen::var_t final_v = amo_secouep(out, C, enc);
     if (final_v == 0) {
       assert(C.size() <= 4);
       out << C; INCCLAUSE;
