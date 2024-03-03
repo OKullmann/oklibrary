@@ -6,7 +6,41 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  
+  Components related to encoding and translating pandiagional- and
+  queensdiagonal problems.
+
+  Imported types:
+
+   - dim_t, var_t, float_t from Statistics
+
+  Sizes of amo-alo-eo-translations:
+
+   - n_amoaloeo(N, ct, cf) -> float_t
+   - c_amoaloeo(N, ct, cf) -> float_t
+
+  Encoding of Pandiagonal:
+
+   - struct cell_t : wrapper for i, j : dim_t
+   - valid(cell_t, dim_t N) -> bool
+
+   - struct PEncoding
+    - data members
+        N, N2, N3, ct, sudoku, b, q, r,
+        boxes (information on sizes, counts and encodings of boxes)
+        p (dimacs-parameters)
+    - operator () -> var_t (next new variable)
+    - operator (cell_t c, dim_t k) -> var_t (index of variable for cell c
+      and value k)
+
+  Translation of Pandiagonal:
+
+   - eo(ostream&, Clause C, NVAR enc) :
+     output exactly-one for C, using enc.ct and enc();
+     more general:
+   - amoeo(ostream&, Clause C, NVAR enc, CF cf)
+     (not for alo)
+
+   - pandiagonal(ostream&, PEncoding enc, bool sudoku)
 
 */
 
