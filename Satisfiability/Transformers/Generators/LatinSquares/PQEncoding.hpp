@@ -40,6 +40,14 @@ License, or any later version. */
    - amoeo(ostream&, Clause C, NVAR enc, CF cf)
      (not for alo)
 
+   - rowreduced(out, enc)
+   - eovalues(out, enc)
+   - eorows(out, enc)
+   - eocolumns(out, enc)
+   - eodiagonals(out, enc)
+   - eoantidiagonals(out, enc)
+   - amoeosudoku(out, enc);
+
    - pandiagonal(ostream&, PEncoding enc, bool sudoku)
 
 */
@@ -217,134 +225,152 @@ namespace PQEncoding {
   }
 
 
-  void pandiagonal(std::ostream& out, const PEncoding& enc,
-                   const bool sudoku) {
-    out << Statistics::dimacs_pars(enc.p);
+  void rowreduced(std::ostream& out, const PEncoding& enc) {
+    for (dim_t j = 0; j < enc.N; ++j)
+      out << AloAmo::Clause{AloAmo::Lit(enc({0,j},j))};
+#ifndef NDEBUG
+    running_counter += enc.N;
+#endif
+  }
+  void eovalues(std::ostream& out, const PEncoding& enc) {
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (dim_t j = 0; j < enc.N; ++j) {
+        AloAmo::Clause C;
+        for (dim_t k = 0; k < enc.N; ++k)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+  }
+  void eorows(std::ostream& out, const PEncoding& enc) {
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t j = 0; j < enc.N; ++j)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+  }
+  void eocolumns(std::ostream& out, const PEncoding& enc) {
+    for (dim_t j = 0; j < enc.N; ++j)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        eo(out, C, enc);
+      }
+  }
+  void eodiagonals(std::ostream& out, const PEncoding& enc) {
+    for (dim_t diff = 0; diff < enc.N; ++diff)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i) {
+          const dim_t j = (var_t(diff) + i) % enc.N;
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        }
+        eo(out, C, enc);
+      }
+  }
+  void eoantidiagonals(std::ostream& out, const PEncoding& enc) {
+    for (var_t sum = enc.N; sum < 2*var_t(enc.N); ++sum)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i) {
+          const dim_t j = (sum - i) % enc.N;
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        }
+        eo(out, C, enc);
+      }
+  }
+  void amoeosudoku(std::ostream& out, const PEncoding& enc) {
     const auto N = enc.N;
     using Clause = AloAmo::Clause;
     using Lit = AloAmo::Lit;
+    const auto b = enc.b, q = enc.q, r = enc.r;
+    const auto cf = enc.allows_eo ? PQOptions::CF::eo : PQOptions::CF::amo;
 
-    for (dim_t j = 0; j < N; ++j)
-      out << Clause{Lit(enc({0,j},j))};
-#ifndef NDEBUG
-    running_counter += N;
-#endif
-
-    for (dim_t i = 0; i < N; ++i)
-      for (dim_t j = 0; j < N; ++j) {
-        Clause C;
-        for (dim_t k = 0; k < N; ++k)
-          C.push_back(Lit(enc({i,j},k)));
-        eo(out, C, enc);
-      }
-
-    for (dim_t i = 0; i < N; ++i)
-      for (dim_t k = 0; k < N; ++k) {
-        Clause C;
-        for (dim_t j = 0; j < N; ++j)
-          C.push_back(Lit(enc({i,j},k)));
-        eo(out, C, enc);
-      }
-    for (dim_t j = 0; j < N; ++j)
-      for (dim_t k = 0; k < N; ++k) {
-        Clause C;
-        for (dim_t i = 0; i < N; ++i)
-          C.push_back(Lit(enc({i,j},k)));
-        eo(out, C, enc);
-      }
-
-    for (dim_t diff = 0; diff < N; ++diff)
-      for (dim_t k = 0; k < N; ++k) {
-        Clause C;
-        for (dim_t i = 0; i < N; ++i) {
-          const dim_t j = (var_t(diff) + i) % N;
-          C.push_back(Lit(enc({i,j},k)));
+    for (dim_t i = 0; i < q; ++i) {
+      const dim_t x = i*b;
+      for (dim_t j = 0; j < q; ++j) {
+        const dim_t y = j*b;
+        for (dim_t k = 0; k < N; ++k) {
+          Clause C;
+          for (dim_t i1 = 0; i1 < b; ++i1) {
+            const dim_t x1 = x+i1;
+            for (dim_t j1 = 0; j1 < b; ++j1) {
+              const dim_t y1 = y+j1;
+              C.push_back(Lit(enc({x1,y1},k)));
+            }
+          }
+          assert(C.size() == b*b);
+          amoeo(out, C, enc, cf);
         }
-        eo(out, C, enc);
       }
-    for (var_t sum = N; sum < 2*var_t(N); ++sum)
-      for (dim_t k = 0; k < N; ++k) {
-        Clause C;
-        for (dim_t i = 0; i < N; ++i) {
-          const dim_t j = (sum - i) % N;
-          C.push_back(Lit(enc({i,j},k)));
-        }
-        eo(out, C, enc);
-      }
+    }
 
-    if (sudoku and N >= 9) {
-      const auto b = enc.b, q = enc.q, r = enc.r;
-      const auto cf = enc.allows_eo ? PQOptions::CF::eo : PQOptions::CF::amo;
+    if (r >= 2) {
+      // right edge:
       for (dim_t i = 0; i < q; ++i) {
-        const dim_t x = i*b;
-        for (dim_t j = 0; j < q; ++j) {
-          const dim_t y = j*b;
-          for (dim_t k = 0; k < N; ++k) {
-            Clause C;
-            for (dim_t i1 = 0; i1 < b; ++i1) {
-              const dim_t x1 = x+i1;
-              for (dim_t j1 = 0; j1 < b; ++j1) {
-                const dim_t y1 = y+j1;
-                C.push_back(Lit(enc({x1,y1},k)));
-              }
+        const dim_t x = i*b, y = q*b; // top-left
+        for (dim_t k = 0; k < N; ++k) {
+          Clause C;
+          for (dim_t i1 = 0; i1 < b; ++i1) {
+            const dim_t x1 = x+i1;
+            for (dim_t j1 = 0; j1 < r; ++j1) {
+              const dim_t y1 = y+j1;
+              C.push_back(Lit(enc({x1,y1},k)));
             }
-            assert(C.size() == b*b);
-            amoeo(out, C, enc, cf);
           }
+          assert(C.size() == b*r);
+          amoeo(out, C, enc, PQOptions::CF::amo);
         }
       }
-
-      if (r >= 2) {
-        // right edge:
-        for (dim_t i = 0; i < q; ++i) {
-          const dim_t x = i*b, y = q*b; // top-left
-          for (dim_t k = 0; k < N; ++k) {
-            Clause C;
-            for (dim_t i1 = 0; i1 < b; ++i1) {
-              const dim_t x1 = x+i1;
-              for (dim_t j1 = 0; j1 < r; ++j1) {
-                const dim_t y1 = y+j1;
-                C.push_back(Lit(enc({x1,y1},k)));
-              }
-            }
-            assert(C.size() == b*r);
-            amoeo(out, C, enc, PQOptions::CF::amo);
-          }
-        }
-        // bottom edge:
-        for (dim_t j = 0; j < q; ++j) {
-          const dim_t x = q*b, y = j*b; // bottom-left
-          for (dim_t k = 0; k < N; ++k) {
-            Clause C;
-            for (dim_t i1 = 0; i1 < r; ++i1) {
-              const dim_t x1 = x+i1;
-              for (dim_t j1 = 0; j1 < b; ++j1) {
-                const dim_t y1 = y+j1;
-                C.push_back(Lit(enc({x1,y1},k)));
-              }
-            }
-            assert(C.size() == b*r);
-            amoeo(out, C, enc, PQOptions::CF::amo);
-          }
-        }
-      }
-
-      if (r >= 3) { // bottom corner
-        const dim_t x = q*b, y = q*b; // top-left
+      // bottom edge:
+      for (dim_t j = 0; j < q; ++j) {
+        const dim_t x = q*b, y = j*b; // bottom-left
         for (dim_t k = 0; k < N; ++k) {
           Clause C;
           for (dim_t i1 = 0; i1 < r; ++i1) {
-              const dim_t x1 = x+i1;
-              for (dim_t j1 = 0; j1 < r; ++j1) {
-                const dim_t y1 = y+j1;
-                C.push_back(Lit(enc({x1,y1},k)));
-              }
+            const dim_t x1 = x+i1;
+            for (dim_t j1 = 0; j1 < b; ++j1) {
+              const dim_t y1 = y+j1;
+              C.push_back(Lit(enc({x1,y1},k)));
             }
-          assert(C.size() == r*r);
+          }
+          assert(C.size() == b*r);
           amoeo(out, C, enc, PQOptions::CF::amo);
         }
       }
     }
+
+    if (r >= 3) { // bottom corner
+      const dim_t x = q*b, y = q*b; // top-left
+      for (dim_t k = 0; k < N; ++k) {
+        Clause C;
+        for (dim_t i1 = 0; i1 < r; ++i1) {
+          const dim_t x1 = x+i1;
+          for (dim_t j1 = 0; j1 < r; ++j1) {
+            const dim_t y1 = y+j1;
+            C.push_back(Lit(enc({x1,y1},k)));
+          }
+        }
+        assert(C.size() == r*r);
+        amoeo(out, C, enc, PQOptions::CF::amo);
+      }
+    }
+  }
+
+  void pandiagonal(std::ostream& out, const PEncoding& enc,
+                   const bool sudoku) {
+    out << Statistics::dimacs_pars(enc.p);
+
+    rowreduced(out, enc);
+    eovalues(out, enc);
+    eorows(out, enc);
+    eocolumns(out, enc);
+    eodiagonals(out, enc);
+    eoantidiagonals(out, enc);
+
+    if (sudoku and enc.N >= 9) amoeosudoku(out, enc);
 
 #ifndef NDEBUG
     assert(running_counter == enc.p.c);

@@ -90,9 +90,9 @@ c   main,sides,corner                   10000*10000:exactly-one(eo) 0*0:at-most-
 p cnf 1000000000000 29997000600010000
 
 
-The list of sizes for 1 <= N <= 25:
+The list of sizes for 1 <= N <= 25 (with debugging-version):
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal $i prime | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug $i prime | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -119,7 +119,7 @@ p cnf 12167 671853
 p cnf 13824 797784
 p cnf 15625 940650
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal $i seco | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug $i seco | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -146,7 +146,7 @@ p cnf 38617 169303
 p cnf 42624 192984
 p cnf 50000 218775
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal $i secouep | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug $i secouep | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -173,7 +173,7 @@ p cnf 38617 195753
 p cnf 42624 221784
 p cnf 50000 253150
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal +$i prime | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug +$i prime | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -200,7 +200,7 @@ p cnf 12167 756861
 p cnf 13824 901464
 p cnf 15625 1128775
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal +$i seco | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug +$i seco | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -227,7 +227,7 @@ p cnf 43056 200836
 p cnf 47808 229272
 p cnf 56875 262525
 
-LatinSquares> for (( i=1; i <= 25; ++i )); do Pandiagonal +$i secouep | awk '/^p cnf/'; done
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./Pandiagonal_debug +$i secouep | awk '/^p cnf/'; done
 p cnf 1 6
 p cnf 8 42
 p cnf 27 183
@@ -267,7 +267,7 @@ p cnf 56875 303775
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
+        "0.2.1",
         "3.3.2024",
         __FILE__,
         "Oliver Kullmann",
