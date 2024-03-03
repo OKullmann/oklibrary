@@ -5,6 +5,11 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+  
+
+*/
+
 #ifndef PQENCODING_eK42F6xZuv
 #define PQENCODING_eK42F6xZuv
 
@@ -116,7 +121,7 @@ namespace PQEncoding {
     }
     static void output(std::ostream& out, const total_counts_vol_t& tc) {
       const auto o = [&out](const box_desc_t& c)->std::ostream&{
-        return out << c.first[0] << "*" << c.first[1] << ":" << int(c.second);
+        return out << c.first[0] << "*" << c.first[1] << ":" << c.second;
       };
       o(tc[0]) << " "; o(tc[1]) << " "; o(tc[2]);
     }
