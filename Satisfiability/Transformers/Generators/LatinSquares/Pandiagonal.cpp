@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "2.3.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -90,5 +90,5 @@ int main(const int argc, const char* const argv[]) {
     std::cout << std::endl;
   }
 
-  pandiagonal(std::cout, enc);
+  pandiagonal(std::cout, enc, sudoku);
 }

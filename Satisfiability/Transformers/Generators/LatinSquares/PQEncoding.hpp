@@ -11,6 +11,7 @@ License, or any later version. */
 #include <ostream>
 #include <array>
 #include <vector>
+#include <utility>
 
 #include <cassert>
 
@@ -34,14 +35,21 @@ namespace PQEncoding {
   using float_t = Statistics::fdimacs_pars::float_t;
 
 
-  constexpr float_t n_eo(const var_t N, const PQOptions::CT ct) noexcept {
-    return ct == PQOptions::CT::prime ? 0 : Statistics::n_amo_seco(N);
+  constexpr float_t n_amoaloeo(const var_t N, const PQOptions::CT ct,
+                            const PQOptions::CF cf) noexcept {
+    if (ct == PQOptions::CT::prime or cf == PQOptions::CF::alo)
+      return 0;
+    else
+      return Statistics::n_amo_seco(N);
   }
-  constexpr float_t c_eo(const var_t N, const PQOptions::CT ct) noexcept {
+  constexpr float_t c_amoaloeo(const var_t N, const PQOptions::CT ct,
+                            const PQOptions::CF cf) noexcept {
+    if (cf == PQOptions::CF::alo) return 1;
+    const float_t not_eo = cf != PQOptions::CF::eo;
     switch(ct) {
-    case PQOptions::CT::prime : return Statistics::c_eo_primes(N);
-    case PQOptions::CT::seco : return Statistics::c_eo_seco(N);
-    case PQOptions::CT::secouep : return Statistics::c_eo_secouep(N);
+    case PQOptions::CT::prime : return Statistics::c_eo_primes(N) - not_eo;
+    case PQOptions::CT::seco : return Statistics::c_eo_seco(N) - not_eo;
+    case PQOptions::CT::secouep : return Statistics::c_eo_secouep(N) - not_eo;
     default : assert(false); return 0; }
   }
 
@@ -62,13 +70,16 @@ namespace PQEncoding {
     // box-size, number of boxes horizontally and vertically, remainder:
     const var_t b, q, r;
     // Remark: rectangles 2x2 or smaller are ignored.
+    const bool allows_eo = b*b == N;
     // Volume and count:
     typedef std::array<var_t, 2> box_count_vol_t;
+    typedef std::pair<box_count_vol_t, PQOptions::CF> box_desc_t;
     // Main boxes, side boxes, corner box:
-    typedef std::array<box_count_vol_t, 3> total_counts_vol_t;
+    typedef std::array<box_desc_t, 3> total_counts_vol_t;
     const total_counts_vol_t boxes;
 
     const Statistics::fdimacs_pars p;
+
   private :
     mutable var_t next = N3;
   public :
@@ -94,17 +105,18 @@ namespace PQEncoding {
 
     constexpr total_counts_vol_t box_count() const noexcept {
       total_counts_vol_t res{};
-      res[0][1] = b*b; res[1][1] = b*r; res[2][1] = r*r;
+      res[0].first[1] = b*b; res[1].first[1] = b*r; res[2].first[1] = r*r;
+      if (allows_eo) res[0].second = PQOptions::CF::eo;
       if (b <= 2) return res;
       assert(q >= 3);
-      res[0][0] = q*q;
-      if (r >= 2) res[1][0] = 2 * q;
-      if (r >= 3) res[2][0] = 1;
+      res[0].first[0] = q*q;
+      if (r >= 2) res[1].first[0] = 2 * q;
+      if (r >= 3) res[2].first[0] = 1;
       return res;
     }
     static void output(std::ostream& out, const total_counts_vol_t& tc) {
-      const auto o = [&out](const box_count_vol_t& c)->std::ostream&{
-        return out << c[0] << "*" << c[1];
+      const auto o = [&out](const box_desc_t& c)->std::ostream&{
+        return out << c.first[0] << "*" << c.first[1] << ":" << int(c.second);
       };
       o(tc[0]) << " "; o(tc[1]) << " "; o(tc[2]);
     }
@@ -118,12 +130,12 @@ namespace PQEncoding {
       const float_t num_all_different = 4 * float_t(N);
       const float_t num_eos = num_cells + N * num_all_different;
 
-      const float_t num_var_eo = n_eo(N, ct);
+      const float_t num_var_eo = n_amoaloeo(N, ct, PQOptions::CF::eo);
       const float_t num_var_alleos = num_eos * num_var_eo;
       const float_t n = num_vars_square + num_var_alleos;
 
       const float_t num_clauses_rred = N;
-      const float_t num_clauses_eo = c_eo(N, ct);
+      const float_t num_clauses_eo = c_amoaloeo(N, ct, PQOptions::CF::eo);
       const float_t num_clauses_alleos = num_eos * num_clauses_eo;
       const float_t c = num_clauses_rred + num_clauses_alleos;
 
@@ -132,9 +144,10 @@ namespace PQEncoding {
 
       const auto [nsud, csud] = [this](){
         float_t nsud = 0, csud = 0;
-        for (const auto& [count, size] : boxes) {
-          nsud += count * n_eo(size, ct);
-          csud += count * c_eo(size, ct);
+        for (const auto& [p, cf] : boxes) {
+          const auto& [count, size] = p;
+          nsud += count * n_amoaloeo(size, ct, cf) * N;
+          csud += count * c_amoaloeo(size, ct, cf) * N;
         }
         return std::array{nsud, csud};}();
       return {n + nsud, c + csud};
@@ -151,9 +164,22 @@ namespace PQEncoding {
       case PQOptions::CT::secouep : AloAmo::eo_secouep(out, C, enc); return;
     }
   }
+  // Only amo or eo (controlled by cf):
+  template <class NVAR>
+  void amoeo(std::ostream& out, const AloAmo::Clause& C, const NVAR& enc,
+             const PQOptions::CF cf) {
+    assert(cf != PQOptions::CF::alo);
+    if (cf == PQOptions::CF::eo) { eo(out, C, enc); return; }
+    switch(enc.ct) {
+      case PQOptions::CT::prime : AloAmo::amo_primes(out, C); return;
+      case PQOptions::CT::seco : AloAmo::amo_seco(out, C, enc); return;
+      case PQOptions::CT::secouep : AloAmo::amo_secouep(out, C, enc); return;
+    }
+  }
 
 
-  void pandiagonal(std::ostream& out, const PEncoding& enc) {
+  void pandiagonal(std::ostream& out, const PEncoding& enc,
+                   const bool sudoku) {
     out << Statistics::dimacs_pars(enc.p);
     const auto N = enc.N;
     using Clause = AloAmo::Clause;
@@ -206,6 +232,80 @@ namespace PQEncoding {
         }
         eo(out, C, enc);
       }
+
+    if (sudoku and N >= 9) {
+      const auto b = enc.b, q = enc.q, r = enc.r;
+      const auto cf = enc.allows_eo ? PQOptions::CF::eo : PQOptions::CF::amo;
+      for (dim_t i = 0; i < q; ++i) {
+        const dim_t x = i*b;
+        for (dim_t j = 0; j < q; ++j) {
+          const dim_t y = j*b;
+          for (dim_t k = 0; k < N; ++k) {
+            Clause C;
+            for (dim_t i1 = 0; i1 < b; ++i1) {
+              const dim_t x1 = x+i1;
+              for (dim_t j1 = 0; j1 < b; ++j1) {
+                const dim_t y1 = y+j1;
+                C.push_back(Lit(enc({x1,y1},k)));
+              }
+            }
+            assert(C.size() == b*b);
+            amoeo(out, C, enc, cf);
+          }
+        }
+      }
+
+      if (r >= 2) {
+        // right edge:
+        for (dim_t i = 0; i < q; ++i) {
+          const dim_t x = i*b, y = q*b; // top-left
+          for (dim_t k = 0; k < N; ++k) {
+            Clause C;
+            for (dim_t i1 = 0; i1 < b; ++i1) {
+              const dim_t x1 = x+i1;
+              for (dim_t j1 = 0; j1 < r; ++j1) {
+                const dim_t y1 = y+j1;
+                C.push_back(Lit(enc({x1,y1},k)));
+              }
+            }
+            assert(C.size() == b*r);
+            amoeo(out, C, enc, PQOptions::CF::amo);
+          }
+        }
+        // bottom edge:
+        for (dim_t j = 0; j < q; ++j) {
+          const dim_t x = q*b, y = j*b; // bottom-left
+          for (dim_t k = 0; k < N; ++k) {
+            Clause C;
+            for (dim_t i1 = 0; i1 < r; ++i1) {
+              const dim_t x1 = x+i1;
+              for (dim_t j1 = 0; j1 < b; ++j1) {
+                const dim_t y1 = y+j1;
+                C.push_back(Lit(enc({x1,y1},k)));
+              }
+            }
+            assert(C.size() == b*r);
+            amoeo(out, C, enc, PQOptions::CF::amo);
+          }
+        }
+      }
+
+      if (r >= 3) { // bottom corner
+        const dim_t x = q*b, y = q*b; // top-left
+        for (dim_t k = 0; k < N; ++k) {
+          Clause C;
+          for (dim_t i1 = 0; i1 < r; ++i1) {
+              const dim_t x1 = x+i1;
+              for (dim_t j1 = 0; j1 < r; ++j1) {
+                const dim_t y1 = y+j1;
+                C.push_back(Lit(enc({x1,y1},k)));
+              }
+            }
+          assert(C.size() == r*r);
+          amoeo(out, C, enc, PQOptions::CF::amo);
+        }
+      }
+    }
 
 #ifndef NDEBUG
     assert(running_counter == enc.p.c);
