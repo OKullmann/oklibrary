@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "2.3.2024",
+        "0.1.3",
+        "3.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/Pandiagonal.cpp",
@@ -39,12 +39,13 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N constraint-type\n\n"
+      " [+]N constraint-type\n\n"
       " - N               : unsigned integer\n"
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
       "Here\n"
-      "  - for options the first possibility is the default,\n"
-      "    triggered by the empty string.\n\n"
+      "  - \"+\" adds the (generalised) Sudoku-conditions\n"
+      "  - for options the first possibility is the default, "
+        "triggered by the empty string.\n\n"
 ;
     return true;
   }
