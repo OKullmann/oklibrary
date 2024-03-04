@@ -233,16 +233,20 @@ namespace PQEncoding {
   }
 
 
-  void rowreduced(std::ostream& out, const PEncoding& enc) {
-    for (dim_t j = 0; j < enc.N; ++j)
+  template <class ENC>
+  void rowreduced(std::ostream& out, const ENC& enc, const var_t bound = 0) {
+    const var_t B = bound == 0 ? enc.N : bound;
+    for (dim_t j = 0; j < B; ++j)
       out << AloAmo::Clause{AloAmo::Lit(enc({0,j},j))};
 #ifndef NDEBUG
-    running_counter += enc.N;
+    running_counter += B;
 #endif
   }
-  void eovalues(std::ostream& out, const PEncoding& enc) {
-    for (dim_t i = 0; i < enc.N; ++i)
-      for (dim_t j = 0; j < enc.N; ++j) {
+  template <class ENC>
+  void eovalues(std::ostream& out, const ENC& enc, const var_t bound = 0) {
+    const var_t B = bound == 0 ? enc.N : bound;
+    for (dim_t j = 0; j < B; ++j)
+      for (dim_t i = 0; i < enc.N; ++i) {
         AloAmo::Clause C;
         for (dim_t k = 0; k < enc.N; ++k)
           C.push_back(AloAmo::Lit(enc({i,j},k)));
@@ -258,8 +262,10 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
-  void eocolumns(std::ostream& out, const PEncoding& enc) {
-    for (dim_t j = 0; j < enc.N; ++j)
+  template <class ENC>
+  void eocolumns(std::ostream& out, const ENC& enc, const var_t bound = 0) {
+    const var_t B = bound == 0 ? enc.N : bound;
+    for (dim_t j = 0; j < B; ++j)
       for (dim_t k = 0; k < enc.N; ++k) {
         AloAmo::Clause C;
         for (dim_t i = 0; i < enc.N; ++i)
@@ -449,26 +455,9 @@ namespace PQEncoding {
                     const bool sudoku) {
     out << Statistics::dimacs_pars(enc.pc);
 
-    // Row-reduced (only first cell set):
-    out << AloAmo::Clause{AloAmo::Lit(enc({0,0},0))};
-#ifndef NDEBUG
-    ++running_counter;
-#endif
-    // Proper values for first column:
-    for (dim_t i = 0; i < enc.N; ++i) {
-      AloAmo::Clause C;
-      for (dim_t k = 0; k < enc.N; ++k)
-        C.push_back(AloAmo::Lit(enc({i,0},k)));
-      eo(out, C, enc);
-    }
-    // Latin square (only all-different for first column):
-    for (dim_t k = 0; k < enc.N; ++k) {
-      AloAmo::Clause C;
-      for (dim_t i = 0; i < enc.N; ++i)
-        C.push_back(AloAmo::Lit(enc({i,0},k)));
-      eo(out, C, enc);
-    }
-    // Pandiagonal:
+    rowreduced(out, enc, 1);
+    eovalues(out, enc, 1);
+    eocolumns(out, enc, 1);
     eodiagonals(out, enc);
     eoantidiagonals(out, enc);
 
