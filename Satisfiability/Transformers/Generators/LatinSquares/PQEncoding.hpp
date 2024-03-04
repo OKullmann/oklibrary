@@ -127,14 +127,22 @@ namespace PQEncoding {
 
     const Statistics::fdimacs_pars p;
 
-  private :
-    mutable var_t next = N3;
+  protected :
+    mutable var_t next;
   public :
 
     constexpr PEncoding(const dim_t N, const PQOptions::CT ct,
+                        const bool sudoku, const var_t next) noexcept :
+    N(N), ct(ct), sudoku(sudoku), b(std::sqrt(N)), q(N/b), r(N%b),
+    boxes(box_count()), p(pars()), next(next) {
+      assert(N >= 1);
+      assert(p.valid());
+      assert(next <= p.n);
+    }
+    constexpr PEncoding(const dim_t N, const PQOptions::CT ct,
                         const bool sudoku) noexcept :
     N(N), ct(ct), sudoku(sudoku), b(std::sqrt(N)), q(N/b), r(N%b),
-    boxes(box_count()), p(pars()) {
+    boxes(box_count()), p(pars()), next(N3) {
       assert(N >= 1);
       assert(p.valid());
     }
@@ -142,7 +150,7 @@ namespace PQEncoding {
     var_t operator()() const noexcept {
       return ++next;
     }
-    var_t operator()(const cell_t& c, const dim_t k) const noexcept {
+    constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
       assert(valid(c, N));
       assert(k < N);
       const var_t code = c.i * N2 + c.j * N + k;
@@ -259,7 +267,8 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
-  void eodiagonals(std::ostream& out, const PEncoding& enc) {
+  template <class ENC>
+  void eodiagonals(std::ostream& out, const ENC& enc) {
     for (dim_t diff = 0; diff < enc.N; ++diff)
       for (dim_t k = 0; k < enc.N; ++k) {
         AloAmo::Clause C;
@@ -270,7 +279,8 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
-  void eoantidiagonals(std::ostream& out, const PEncoding& enc) {
+  template <class ENC>
+  void eoantidiagonals(std::ostream& out, const ENC& enc) {
     for (var_t sum = enc.N; sum < 2*var_t(enc.N); ++sum)
       for (dim_t k = 0; k < enc.N; ++k) {
         AloAmo::Clause C;
@@ -281,7 +291,8 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
-  void amoeosudoku(std::ostream& out, const PEncoding& enc) {
+  template <class ENC>
+  void amoeosudoku(std::ostream& out, const ENC& enc) {
     const auto N = enc.N;
     using Clause = AloAmo::Clause;
     using Lit = AloAmo::Lit;
@@ -374,6 +385,97 @@ namespace PQEncoding {
 
 #ifndef NDEBUG
     assert(running_counter == enc.p.c);
+#endif
+
+  }
+
+
+  struct CEncoding : PEncoding {
+    const Statistics::fdimacs_pars pc;
+    constexpr CEncoding(const dim_t N, const PQOptions::CT ct,
+                        const bool sudoku) noexcept :
+    PEncoding(N, ct, sudoku, 0), pc(parsc()) {
+      next = N2; assert(next <= p.n);
+    }
+
+   var_t operator()() const noexcept {
+      return PEncoding::operator()();
+    }
+    // The real variables are those of the first column:
+    constexpr var_t index(const dim_t i, const dim_t k) const noexcept {
+      assert(i < N); assert(k < N);
+      return 1 + i*N + k;
+    }
+    constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
+      assert(valid(c, N)); assert(k < N);
+      const var_t k2 = ((N - var_t(c.j)) + var_t(k)) % N; // ???
+      return index(c.i, k2);
+    }
+
+    constexpr Statistics::fdimacs_pars parsc() const noexcept {
+      const float_t num_cells = N;
+      const float_t num_vars_square = N2; // direct encoding
+
+      /* Pure pandiagonal conditions: */
+      const float_t num_all_different = 1 + 2 * float_t(N);
+      const float_t num_eos = num_cells + N * num_all_different;
+
+      const float_t num_var_eo = n_amoaloeo(N, ct, PQOptions::CF::eo);
+      const float_t num_var_alleos = num_eos * num_var_eo;
+      const float_t n = num_vars_square + num_var_alleos;
+
+      const float_t num_clauses_rred = 1;
+      const float_t num_clauses_eo = c_amoaloeo(N, ct, PQOptions::CF::eo);
+      const float_t num_clauses_alleos = num_eos * num_clauses_eo;
+      const float_t c = num_clauses_rred + num_clauses_alleos;
+
+      if (not sudoku) return {n,c};
+      /* Additional Sudoky conditions: */
+
+      const auto [nsud, csud] = [this](){
+        float_t nsud = 0, csud = 0;
+        for (const auto& [p, cf] : boxes) {
+          const auto& [count, size] = p;
+          nsud += count * n_amoaloeo(size, ct, cf) * N;
+          csud += count * c_amoaloeo(size, ct, cf) * N;
+        }
+        return std::array{nsud, csud};}();
+      return {n + nsud, c + csud};
+    }
+
+  };
+
+  void cpandiagonal(std::ostream& out, const CEncoding& enc,
+                    const bool sudoku) {
+    out << Statistics::dimacs_pars(enc.pc);
+
+    // Row-reduced (only first cell set):
+    out << AloAmo::Clause{AloAmo::Lit(enc({0,0},0))};
+#ifndef NDEBUG
+    ++running_counter;
+#endif
+    // Proper values for first column:
+    for (dim_t i = 0; i < enc.N; ++i) {
+      AloAmo::Clause C;
+      for (dim_t k = 0; k < enc.N; ++k)
+        C.push_back(AloAmo::Lit(enc({i,0},k)));
+      eo(out, C, enc);
+    }
+    // Latin square (only all-different for first column):
+    for (dim_t k = 0; k < enc.N; ++k) {
+      AloAmo::Clause C;
+      for (dim_t i = 0; i < enc.N; ++i)
+        C.push_back(AloAmo::Lit(enc({i,0},k)));
+      eo(out, C, enc);
+    }
+    // Pandiagonal:
+    eodiagonals(out, enc);
+    eoantidiagonals(out, enc);
+
+    if (sudoku and enc.N >= 9) amoeosudoku(out, enc);
+
+#ifndef NDEBUG
+    assert(running_counter == enc.pc.c);
 #endif
 
   }

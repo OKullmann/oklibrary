@@ -7,8 +7,8 @@
 
 oklibloc = ../../../..
 
-opt_progs = Mols Pandiagonal
-debug_progs = Mols_debug Pandiagonal_debug
+opt_progs = Mols Pandiagonal CPandiagonal
+debug_progs = Mols_debug Pandiagonal_debug CPandiagonal_debug
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -21,3 +21,6 @@ Mols_debug : Mols.cpp $(programmingloc)/ProgramOptions/Environment.hpp ProgramIn
 
 Pandiagonal : Pandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp Commandline.hpp Errors.hpp
 Pandiagonal_debug : Pandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp Commandline.hpp Errors.hpp
+
+CPandiagonal : CPandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp Commandline.hpp Errors.hpp
+CPandiagonal_debug : CPandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hpp Statistics.hpp Commandline.hpp Errors.hpp
