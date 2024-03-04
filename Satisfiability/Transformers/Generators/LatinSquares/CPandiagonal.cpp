@@ -404,6 +404,60 @@ p cnf 529 108377
 p cnf 576 130273
 p cnf 625 218226
 
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./CPandiagonal_debug +$i seco | awk '/^p cnf/'; done
+p cnf 1 5
+p cnf 4 17
+p cnf 9 49
+p cnf 16 113
+p cnf 45 201
+p cnf 60 313
+p cnf 105 449
+p cnf 128 609
+p cnf 432 2575
+p cnf 490 2891
+p cnf 660 4104
+p cnf 912 5521
+p cnf 1053 6137
+p cnf 1260 8121
+p cnf 1710 10276
+p cnf 2176 13761
+p cnf 2397 14553
+p cnf 2844 18217
+p cnf 3458 21680
+p cnf 4040 25401
+p cnf 4347 26923
+p cnf 5016 32429
+p cnf 5888 37422
+p cnf 6720 42721
+p cnf 8600 50751
+
+LatinSquares> for (( i=1; i <= 25; ++i )); do ./CPandiagonal_debug +$i secouep | awk '/^p cnf/'; done
+p cnf 1 5
+p cnf 4 17
+p cnf 9 49
+p cnf 16 113
+p cnf 45 221
+p cnf 60 337
+p cnf 105 505
+p cnf 128 673
+p cnf 432 2926
+p cnf 490 3281
+p cnf 660 4643
+p cnf 912 6289
+p cnf 1053 7021
+p cnf 1260 9185
+p cnf 1710 11761
+p cnf 2176 15681
+p cnf 2397 16661
+p cnf 2844 20737
+p cnf 3458 24777
+p cnf 4040 29041
+p cnf 4347 30829
+p cnf 5016 36961
+p cnf 5888 42781
+p cnf 6720 48865
+p cnf 8600 58726
+
 
 */
 
