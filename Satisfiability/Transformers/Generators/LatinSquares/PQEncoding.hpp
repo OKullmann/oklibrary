@@ -274,8 +274,9 @@ namespace PQEncoding {
       }
   }
   template <class ENC>
-  void eodiagonals(std::ostream& out, const ENC& enc) {
-    for (dim_t diff = 0; diff < enc.N; ++diff)
+  void eodiagonals(std::ostream& out, const ENC& enc, const var_t bound = 0) {
+    const var_t B = bound == 0 ? enc.N : bound;
+    for (dim_t diff = 0; diff < B; ++diff)
       for (dim_t k = 0; k < enc.N; ++k) {
         AloAmo::Clause C;
         for (dim_t i = 0; i < enc.N; ++i) {
@@ -286,8 +287,10 @@ namespace PQEncoding {
       }
   }
   template <class ENC>
-  void eoantidiagonals(std::ostream& out, const ENC& enc) {
-    for (var_t sum = enc.N; sum < 2*var_t(enc.N); ++sum)
+  void eoantidiagonals(std::ostream& out, const ENC& enc,
+                       const var_t bound = 0) {
+    const var_t B = bound == 0 ? enc.N : bound;
+    for (var_t sum = enc.N; sum < enc.N+B; ++sum)
       for (dim_t k = 0; k < enc.N; ++k) {
         AloAmo::Clause C;
         for (dim_t i = 0; i < enc.N; ++i) {
@@ -423,7 +426,7 @@ namespace PQEncoding {
       const float_t num_vars_square = N2; // direct encoding
 
       /* Pure pandiagonal conditions: */
-      const float_t num_all_different = 1 + 2 * float_t(N);
+      const float_t num_all_different = 3;
       const float_t num_eos = num_cells + N * num_all_different;
 
       const float_t num_var_eo = n_amoaloeo(N, ct, PQOptions::CF::eo);
@@ -458,8 +461,8 @@ namespace PQEncoding {
     rowreduced(out, enc, 1);
     eovalues(out, enc, 1);
     eocolumns(out, enc, 1);
-    eodiagonals(out, enc);
-    eoantidiagonals(out, enc);
+    eodiagonals(out, enc, 1);
+    eoantidiagonals(out, enc, 1);
 
     if (sudoku and enc.N >= 9) amoeosudoku(out, enc);
 
