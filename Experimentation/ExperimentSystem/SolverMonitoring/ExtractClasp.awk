@@ -5,10 +5,10 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1
+# Version 0.1.1
 
 BEGIN {
-  interrupted=0; wt=0; t=0; sat=2; sol="NA"; complete=2; vers=""; file=""
+  interrupted=0; wt="NA"; t="NA"; sat=2; sol="NA"; complete="NA"; vers=""; file=""
 }
 
 /^s UNSATISFIABLE/ { sat=0 }
