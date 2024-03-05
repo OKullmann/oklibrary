@@ -72,6 +72,20 @@
 #   e.g. for minisat-2.2.0: ExtractMinisat
 # program ApplyPass-O3-DNDEBUG (in Makefile).
 
+# TODOS:
+# 1. Target "extract", for counting the instances, should skip
+#    initial comments and the header-line.
+# 2. An option is needed to ignore the return-code of the solver.
+# 3. An option is needed to run RemoveVarGaps on the instance
+#    before solving:
+#     - Via another option the renaming is stored.
+# 4. An option is needed to just store the output in the Results-file,
+#    without using an extraction-tool.
+#     - Then something needs to be done to target "transfer" (which currently
+#       is automatically invoked, and runs the extraction-tool.
+#     - Perhaps extraction-tool is then the empty string, and in this
+#       case it is not used.
+
 
 set -o errexit
 set -o nounset
