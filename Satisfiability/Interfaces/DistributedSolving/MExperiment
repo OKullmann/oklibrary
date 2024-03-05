@@ -21,45 +21,14 @@
 #    in Results/MEINDEX
 #  - the calling-place of the command is within the experiment-directory.
 
-# EXAMPLES:
-
-# Just waiting 20s, and then printing the running index:
-# > MExperiment 60 "sleep 20; echo MEINDEX > Results/MEINDEX"
-# MExperiment in version 0.1.0 started.
-# Created new processing-directory "MEProcess_2024-02-29-161329"
-# > cd MEProcess_2024-02-29-161329
-# MEProcess_2024-02-29-161329> make -j 20
-#     ELAPSED
-#      01:00
-# MEProcess_2024-02-29-161329> cat Results/1 Results/60
-# 1
-# 60
-# Note that the special variable MEINDEX is just used as is (without
-# something like "$").
-
-# Running a SAT-solver and storing the output:
-# > MExperiment 3815 "clasp -n 0 -q ../SAT_instances/MEINDEX > Results/MEINDEX 2>&1 || true"
-# In the calling-directory there is the directory SAT_instances, containing
-# the Dimacs-files "1", ..., "3815". Run clasp in counting-mode, and store the
-# complete output (including error-messages).
-# Note that SAT-solvers (and related solvers) use the exit-code in a
-# non-standard way --- usually an exit-code different from 0 indicates failure,
-# but not for these solvers. Easiest to just ignore the exit-code, as
-# done here (via "|| true").
-
-# Running a SAT-solver, storing the solutions:
-# > MExperiment 3815 "ctawSolver ../SAT_instances/MEINDEX Results/MEINDEX.sol > Results/MEINDEX || true"
-# Same place for the Dimacs-instances as above; here we just store the
-# standard-output in the result-file (not standard-error), while storing the
-# solutions (the second argument to the tawSolver) in the (additional) files
-# Results/1.sol etc. (belonging to Results/1 etc.).
+# EXAMPLES: See docus/MExperiment.
 
 
 set -o errexit
 set -o nounset
 
 script_name="MExperiment"
-version_number=0.1.0
+version_number=0.1.1
 
 if [[ $# -ne 2 ]]; then
   echo "ERROR[${script_name}]: Exactly two parameter are needed, N and command."

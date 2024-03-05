@@ -4,7 +4,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 0.1.0
+# Version 0.1.1
 
 N=ORIGINALN
 command=ORIGINALCOMMAND
@@ -46,4 +46,4 @@ endrun :
 
 
 Results/% :
-	@com="$(command)"; finalcom="$${com//MEINDEX/$*}"; eval $${finalcom}
+	@com='$(command)'; finalcom="$${com//MEINDEX/$*}"; eval $${finalcom}
