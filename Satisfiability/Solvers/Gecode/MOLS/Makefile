@@ -22,7 +22,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan
+opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan Pass2PSquares
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables Cases Options Measures
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -94,6 +94,9 @@ TAUscan : Optimisation_plus = -fwhole-program
 TAUscan : TAUscan.cpp CommandLine.hpp Options.hpp
 TAUscan_debug : LDFLAGS += -pthread -lgecodesearch -lgecodeint -lgecodekernel -lgecodesupport
 TAUscan_debug : TAUscan.cpp CommandLine.hpp Options.hpp
+
+Pass2PSquares : Pass2PSquares.cpp PartialSquares.hpp
+Pass2PSquares_debug : Pass2PSquares.cpp PartialSquares.hpp
 
 # -------------------------
 
