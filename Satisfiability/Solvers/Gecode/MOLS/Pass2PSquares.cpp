@@ -10,16 +10,18 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <fstream>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Bicliques/DimacsTools.hpp>
+#include <Transformers/Generators/LatinSquares/Commandline.hpp>
 
 #include "PartialSquares.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.6",
         "6.3.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -29,6 +31,7 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
   using namespace PartialSquares;
+  using namespace Commandline;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -53,4 +56,17 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  const auto [N, with_plus] = read_dim(argv[1], error);
+  DimacsTools::LitSet C;
+  for (int i = 2; i < argc; ++i) {
+    const std::string filename = argv[i];
+    std::ifstream file(filename);
+    if (not file) {
+      std::cerr << error << "Can not open file \"" << filename << "\".\n";
+      return 1;
+    }
+    DimacsTools::read_pass(file, C);
+  }
+  const auto S = proto_pass2psquare(C, N);
+  std::cout << S;
 }

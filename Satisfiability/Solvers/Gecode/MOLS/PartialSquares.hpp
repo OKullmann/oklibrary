@@ -83,6 +83,7 @@ B m
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
 #include <Numerics/NumBasicFunctions.hpp>
+#include <Transformers/Generators/Bicliques/DimacsTools.hpp>
 
 #include "Conditions.hpp"
 
@@ -252,9 +253,11 @@ namespace PartialSquares {
 
   struct coord {
     size_t x, y;
-    bool operator ==(const coord&) const noexcept = default;
     auto operator <=>(const coord&) const noexcept = default;
   };
+  std::ostream& operator <<(std::ostream& out, const coord& c) {
+    return out << "(" << c.x << "," << c.y << ")";
+  }
 
   typedef std::map<coord, Cell> ps_map_t;
   psquare_t map2ps(const ps_map_t& m, const size_t N) {
@@ -526,6 +529,83 @@ namespace PartialSquares {
 
   bool valid(const PSquares& ps, const CD::AConditions& ac) noexcept {
     return included(ps, ac) and ps.consistent();
+  }
+
+
+  /* First prototype of the translation from a partial assignment,
+     in Dimacs-format, to a partial square
+
+      - For now only considering a single square.
+      - The variable-indices 1, ..., N^3 are assumed to be the
+        direct encoding.
+
+  */
+
+  constexpr bool valid_bv(const size_t v, const size_t N) noexcept {
+    assert(N <= 2642245ULL); // N^3 <= 2^64-1
+    const size_t N2 = N*N, N3 = N2*N;
+    return v >= 1 and v <= N3;
+  }
+  static_assert(not valid_bv(1,0));
+  static_assert(valid_bv(1,1));
+  static_assert(valid_bv(8,2));
+  static_assert(not valid_bv(9,2));
+  struct bcoord {
+    coord c; size_t k;
+    auto operator <=>(const bcoord&) const noexcept = default;
+  };
+  std::ostream& operator <<(std::ostream& out, const bcoord& bc) {
+    return out << "(" << bc.c << ":" << bc.k;
+  }
+  constexpr bcoord bvtrans(const size_t v, const size_t N) noexcept {
+    assert(valid_bv(v, N));
+    const size_t N2 = N*N;
+    const size_t i = (v-1) / N2, j = ((v-1) % N2) / N, k = ((v-1) % N2) % N;
+    return {{i,j},k};
+  }
+  static_assert(bvtrans(1,1) == bcoord{{0,0},0});
+  static_assert(bvtrans(1,2) == bcoord{{0,0},0});
+  static_assert(bvtrans(2,2) == bcoord{{0,0},1});
+  static_assert(bvtrans(3,2) == bcoord{{0,1},0});
+  static_assert(bvtrans(4,2) == bcoord{{0,1},1});
+  static_assert(bvtrans(5,2) == bcoord{{1,0},0});
+  static_assert(bvtrans(6,2) == bcoord{{1,0},1});
+  static_assert(bvtrans(7,2) == bcoord{{1,1},0});
+  static_assert(bvtrans(8,2) == bcoord{{1,1},1});
+
+  PSquare proto_pass2psquare(const DimacsTools::LitSet& C, const size_t N) {
+    PSquare res(N);
+    if (N == 0) return res;
+    for (const auto& x : C) {
+      const size_t v = x.v.v; const bool pos = x.s;
+      if (not valid_bv(v, N)) continue;
+      const auto [co,k] = bvtrans(v, N);
+      const auto& [i,j] = co;
+      Cell& c = res.ps[i][j];
+      if (pos) {
+        if (c.c[k]) {
+          std::ostringstream s;
+          s << "ERROR[PartialSquares::proto_pass2psquare: literal " << x
+            << " means for N=" << N << " setting value " << k << " in cell "
+            << co << ", but this value was removed before.";
+          throw std::runtime_error(s.str());
+        }
+        else c = set_val(N, k);
+      }
+      else {
+        if (not c.c[k]) {
+          c.c[k] = true;
+          if (not c.consistent()) {
+            std::ostringstream s;
+            s << "ERROR[PartialSquares::proto_pass2psquare: literal " << x
+              << " means for N=" << N << " removing value " << k << " in cell "
+              << co << ", making the cell empty.";
+            throw std::runtime_error(s.str());
+          }
+        }
+      }
+    }
+    return res;
   }
 
 }
