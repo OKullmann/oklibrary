@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "26.2.2024",
+        "0.3.6",
+        "6.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestDimacsTools.cpp",
@@ -87,6 +87,23 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_strict_clause_withouteol(ss),
               {Lit{3,1}, Lit{4,-1}, Lit{5,1}, Lit{6,-1}}));
    assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == '\n');
+  }
+
+  {std::stringstream ss;
+   LitSet C;
+   ss.str("v 3 2 1 -3 -1 0\n");
+   assert(read_pass(ss, C) == 5);
+   assert(eqp(C, {Lit(-1),Lit(1),Lit(2),Lit(-3),Lit(3)}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
+   ss.clear(); ss.str("XYZ -2 4 5 -4 1 0\n");
+   assert(read_pass(ss, C) == 5);
+   assert(eqp(C,
+     {Lit(-1),Lit(1),Lit(-2),Lit(2),Lit(-3),Lit(3),Lit(-4),Lit(4),Lit(5)}));
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
+   ss.clear(); ss.str("7 0\n"); const LitSet Old = C;
+   assert(read_pass(ss, C) == 0);
+   assert(C == Old);
+   assert(ss.good()); assert(not ss.eof()); assert(ss.peek() == -1);
   }
 
   {std::stringstream ss;

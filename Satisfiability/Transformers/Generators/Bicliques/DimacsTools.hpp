@@ -24,6 +24,8 @@ License, or any later version. */
    - General tools:
 
       - VarSet : typedef for set of Var
+      - LitSet : typedef for set of Lit
+
       - var(Clause) -> VarSet
       - var(ClauseList) -> VarSet
       - var(DimacsClauseList) -> VarSet
@@ -95,6 +97,7 @@ License, or any later version. */
     - read_strict_literal(istream) -> Lit :
         reading a string (in the normal way), extracting a possible leading
         "-", and then reading one ull.
+
     - read_strict_clause(istream) -> Clause :
         via read_string_literal, literals are read, and pushed into the
         vector, until 0 is read; end-of-line then read and asserted.
@@ -102,6 +105,11 @@ License, or any later version. */
       character.
     - read_strict_clause_withouteol(istream) -> Clause :
         now without reading the end-of-line-symbol.
+
+    - read_pass(istream, LitSet& C) -> var_t (reads a partial assignment,
+      as a clause with an ignored first symbol, adds it to C, and returns
+      the number of literals read)
+
     - scoped enum AllowancesStrictDimacs : none, empty_lines_after_pline
     - read_strict_Dimacs(istream, AllowancesStrictDimacs=none)
       -> DimacsClauseList :
@@ -308,6 +316,8 @@ namespace DimacsTools {
 
 
   typedef std::set<Var> VarSet;
+  typedef std::set<Lit> LitSet;
+
   VarSet var(const Clause& C) {
     VarSet res;
     for (const Lit x : C) res.insert(var(x));
@@ -483,6 +493,17 @@ namespace DimacsTools {
     for (Lit x; (x = read_strict_literal(in)).v != Var{0}; res.push_back(x));
     return res;
   }
+
+  // Ignores the leading word, returns the number of literals in the
+  // clause D read:
+  var_t read_pass(std::istream& in, LitSet& C) {
+    // skip initial symbol:
+    {std::string initial; in >> initial;}
+    const Clause D = read_strict_clause(in);
+    C.insert(D.begin(), D.end());
+    return D.size();
+  }
+
   enum class AllowancesStrictDimacs {
     none,
     empty_lines_after_pline
