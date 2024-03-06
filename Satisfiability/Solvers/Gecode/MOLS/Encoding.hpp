@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -181,7 +181,7 @@ Indeed quite obvious that
 5. Provide SAT-encoding
 
     - With a global option for using the linear-size AMO-condition (see
-      module LatinSquares, there in Mols.cpp).
+      module LatinSquares, there in AloAmo.hpp).
     - Compare with NQueens.cpp and LatinSquares/Encoding.hpp.
 
 */
