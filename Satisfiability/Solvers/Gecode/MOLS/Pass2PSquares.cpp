@@ -17,12 +17,13 @@ License, or any later version. */
 #include <Transformers/Generators/LatinSquares/Commandline.hpp>
 
 #include "PartialSquares.hpp"
+#include "Conditions.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "6.3.2024",
+        "0.0.7",
+        "7.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/Pass2PSquares.cpp",
@@ -68,5 +69,7 @@ int main(const int argc, const char* const argv[]) {
     DimacsTools::read_pass(file, C);
   }
   const auto S = proto_pass2psquare(C, N);
+  // Registration of name "A":
+  Conditions::Square::is = Environment::indexing_strings(std::vector<std::string>{"A"});
   std::cout << S;
 }
