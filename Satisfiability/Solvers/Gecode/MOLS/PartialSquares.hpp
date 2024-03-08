@@ -608,6 +608,49 @@ namespace PartialSquares {
     return res;
   }
 
+
+  /* First prototype of the translation from a partial squares
+     to a list of Minizinc-constraints
+
+      - For now only considering a single square.
+      - The name of the square is taken as the Minizinc-variable.
+
+  */
+
+  // V is a string like "A[i,j]":
+  void cell2minizinc(std::ostream& out, const Cell& c,
+                     const std::string& V) {
+    assert(c.consistent());
+    if (not c.restricted()) return;
+    else if (c.unit()) {
+      const size_t val = c.first();
+      out << V << "=" << val << "\n";
+    }
+    else {
+      for (size_t i = 0; i < c.size(); ++i)
+        if (c.c[i]) out << V << "!=" << i << ";";
+      out << "\n";
+    }
+  }
+
+  void psquare2minizinc(std::ostream& out, const PSquare& ps) {
+    const size_t N = ps.ps.size();
+    if (not ps.consistent()) {
+      std::ostringstream s;
+      s << "ERROR[PartialSquares::psquare2minizinc: Square \""
+        << ps.s << "\" inconsistent.";
+      throw std::runtime_error(s.str());
+    }
+    for (size_t i = 0; i < N; ++i)
+      for (size_t j = 0; j < N; ++j) {
+        const std::string V = [&ps,i,j]{std::ostringstream ss;
+                                    ss << ps.s << "[" << i << "," << j << "]";
+                                    return ss.str();}();
+        cell2minizinc(out, ps.ps[i][j], V);
+      }
+  }
+
+
 }
 
 #endif

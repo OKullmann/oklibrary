@@ -6,6 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
+  Reads N and filenames of partial assignments from the command-line,
+  concatenates the partial assignments, interpreting as a partial square,
+  and outputting either in partial-square-format from OKlibrary, or in
+  Minizinc-format.
+
+TODOS:
+
+1. Remove leading spaces from the output.
+
+2. Use "*" in output for untouched cells.
 
 */
 
@@ -22,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
-        "7.3.2024",
+        "0.1.0",
+        "8.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/Pass2PSquares.cpp",
@@ -39,8 +49,8 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " N partial-assignment-files*\n\n"
-      " - N            : natural number\n"
+      " [+]N partial-assignment-files*\n\n"
+      " - N            : natural number, \"+\" means minizinc-output\n"
       " - pass-files   : DIMACS-like format.\n\n"
 ;
     return true;
@@ -69,7 +79,11 @@ int main(const int argc, const char* const argv[]) {
     DimacsTools::read_pass(file, C);
   }
   const auto S = proto_pass2psquare(C, N);
-  // Registration of name "A":
-  Conditions::Square::is = Environment::indexing_strings(std::vector<std::string>{"A"});
-  std::cout << S;
+    // Registration of name "A":
+  Conditions::Square::is =
+    Environment::indexing_strings(std::vector<std::string>{"A"});
+  if (with_plus)
+    psquare2minizinc(std::cout, S);
+  else
+    std::cout << S;
 }
