@@ -624,7 +624,7 @@ namespace PartialSquares {
     if (not c.restricted()) return;
     else if (c.unit()) {
       const size_t val = c.first();
-      out << "constraint " << V << "=" << val << "\n";
+      out << "constraint " << V << "=" << val << ";\n";
     }
     else {
       for (size_t i = 0; i < c.size(); ++i)
