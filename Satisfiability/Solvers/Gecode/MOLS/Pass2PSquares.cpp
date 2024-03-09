@@ -21,6 +21,7 @@ TODOS:
 
 #include <iostream>
 #include <fstream>
+#include <tuple>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Bicliques/DimacsTools.hpp>
@@ -32,8 +33,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "8.3.2024",
+        "0.1.2",
+        "9.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/Pass2PSquares.cpp",
@@ -49,11 +50,22 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg <<
-      " [+]N partial-assignment-files*\n\n"
-      " - N            : natural number, \"+\" means minizinc-output\n"
+      " [+][+]N partial-assignment-files*\n\n"
+      " - N            : natural number\n"
+      "                  \"+\" means Minizinc-output\n"
+      "                  \"++\" means reading initial Minizinc from standard input\n"
       " - pass-files   : DIMACS-like format.\n\n"
 ;
     return true;
+  }
+
+  // one or two initial plusses:
+  std::tuple<dim_t, bool, bool> readdim(std::string arg,
+                                        const std::string& error) {
+    const bool has_oneplus = arg.starts_with("+");
+    const auto [N,has_twoplus] = read_dim(has_oneplus ? arg.substr(1) : arg,
+                                          error);
+    return {N, has_oneplus, has_twoplus};
   }
 
 }
@@ -67,7 +79,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto [N, with_plus] = read_dim(argv[1], error);
+  const auto [N, oneplus, twoplus] = readdim(argv[1], error);
   DimacsTools::LitSet C;
   for (int i = 2; i < argc; ++i) {
     const std::string filename = argv[i];
@@ -82,8 +94,28 @@ int main(const int argc, const char* const argv[]) {
     // Registration of name "A":
   Conditions::Square::is =
     Environment::indexing_strings(std::vector<std::string>{"A"});
-  if (with_plus)
-    psquare2minizinc(std::cout, S);
+  if (oneplus) {
+    if (twoplus) {
+      // Assuming the Minizinc-input is small (so storing it for convenience):
+      const auto lines = Environment::split(std::cin, '\n');
+      bool found_solve = false;
+      for (const auto& line : lines)
+        if (not line.starts_with("solve ")) std::cout << line << "\n";
+        else {
+          if (found_solve) {
+            std::cerr << error << "Found a second leading \"solve \" in"
+              " standard input.\n";
+            return 1;
+          }
+          found_solve = true;
+          psquare2minizinc(std::cout, S);
+          std::cout << line << "\n";
+        }
+      if (not found_solve) psquare2minizinc(std::cout, S);;
+    }
+    else
+      psquare2minizinc(std::cout, S);
+  }
   else
     std::cout << S;
 }
