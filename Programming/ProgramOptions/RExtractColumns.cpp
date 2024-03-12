@@ -11,7 +11,49 @@ License, or any later version. */
 
   It is currently assumed:
    - There is a header.
-   - Every data-line starts with a running number.
+   - Every data-line starts with a running number (these items will
+     always be printed).
+   - If the named column occurs several times in the header of the input,
+     then the first occurrence is taken.
+   - All comments are removed.
+   - Spacing is standardised.
+
+EXAMPLES:
+
+ProgramOptions> cat Example.R
+# Comment
+ # also comment
+
+# now comes the header:
+  A  B  CD E FG   H  A
+#
+
+3  77  88 	99 # also allowed
+
+#
+88 a b c d e f g h i
+
+ProgramOptions> cat Example.R | ./RExtractColumns_debug
+ 3
+88
+ProgramOptions> cat Example.R | ./RExtractColumns_debug A CD
+    A CD
+ 3 77 99
+88  a  c
+ProgramOptions> cat Example.R | ./RExtractColumns_debug B A
+    B  A
+ 3 88 77
+88  b  a
+ProgramOptions> cat Example.R | ./RExtractColumns_debug E
+ERROR[RExtractColumns_debug]: Column 4 not found in line 1 = "3 77 88 99".
+
+
+TODOS:
+
+1. There should be an option to just take all columns from
+   the input:
+    - That means the input is formatted.
+    - Possibly just one input "*" ?
 
 */
 
@@ -25,7 +67,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "12.3.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -101,9 +143,12 @@ int main(const int argc, const char* const argv[]) {
     extraction.push_back(std::move(extract));
   }
 
-  {tokens_t print_header; print_header.reserve(names.size() + 1);
-   print_header.push_back(" ");
-   for (const auto& name : names) print_header.push_back(name);
+  {tokens_t print_header;
+   if (not names.empty()) {
+     print_header.reserve(names.size() + 1);
+     print_header.push_back(" ");
+     for (const auto& name : names) print_header.push_back(name);
+   }
    Environment::print2dformat(std::cout, extraction, 1, print_header);
   }
 
