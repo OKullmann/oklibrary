@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.11.2023 (Swansea)
-/* Copyright 2023 Oliver Kullmann
+/* Copyright 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,15 @@ Bicliques> echo -e "p cnf 6 3\n1 2 -3 0\n2 3 -5 -1 0\n-2 0\n" | ./TotalPermutati
 
 
 TODOS:
+
+1. For Exp_fybrakes/80000.cnf with
+  p cnf 160000 15999880000
+the reading via
+  DimacsClauseList F = read_strict_Dimacs(std::cin);
+fails on a 1TB-machine (this is a 2-CNF) --- having a variant which
+uses fixed-clause-length, that is, instead of a vector
+of vectors having a vector of arrays, would solve the
+problem here. This generalisation should be supported.
 
 2. This should go to Generators/Random.
     - Then generalise to non-strict inputs.
