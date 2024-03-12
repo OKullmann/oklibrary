@@ -12,6 +12,7 @@ License, or any later version. */
   p-line are allowed (so that files produced by ApplyPass-O3-DNDEBUG
   can be used).
 
+   - Removes comments.
    - Except for the renaming, the literals in the clauses stay as they
      are (same order as before), but the spacing is cleaned up.
    - Empty lines are the p-line are removed.
