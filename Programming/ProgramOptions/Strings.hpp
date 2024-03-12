@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2021, 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,6 @@ License, or any later version. */
 
     Splitting strings:
 
-    - typedef size_t
     - typedef tokens_t = vector<string>
 
     Exact splitting (splitting-symbols are just (single) characters):
@@ -103,7 +102,12 @@ License, or any later version. */
 
     Indexing strings:
 
-    - tyepdefs index_vec_t, index_map_t, indstr_t
+    - tyepdefs
+     - index_vec_t : vector of string
+         (translates from indices to strings)
+     - index_map_t : map from string to size_t
+         (translates from strings to indices)
+     - indstr_t : pair of index_vec_t, index_map_t
       for indexing strings
     - valid(indstr_t) checks whether an indexing is correct
     - indexing_strings(Iterator, Iterator, bool ignore_duplicates)
@@ -130,9 +134,10 @@ License, or any later version. */
         (for example std::map)
 
       Output of vectors and matrices:
-    - printsize(const ostream& S, X x) -> size_type:
+    - printsize(const ostream& S, X x) -> size_type :
         number of characters of x on s
-    - print2dformat(ostream&, VEC2d, seps): formated printing of ragged matrix.
+    - print2dformat(ostream&, VEC2d, seps, header) :
+        formated printing of ragged matrix.
 
 
 TODOS:
@@ -238,10 +243,10 @@ namespace Environment {
   // a final character sep, but otherwise possibly producing empty tokens):
   typedef std::vector<std::string> tokens_t;
   void out_tokens(std::ostream& out, const tokens_t& T) {
-    const size_t size = T.size();
+    const std::size_t size = T.size();
     if (size == 0) return;
     out << qu(T[0]);
-    for (size_t i = 1; i < size; ++i) out << " " << qu(T[i]);
+    for (std::size_t i = 1; i < size; ++i) out << " " << qu(T[i]);
   }
 
   inline tokens_t split(const std::string_view s, const char sep) {
@@ -656,10 +661,10 @@ namespace Environment {
 
   // Indexing strings
   typedef std::vector<std::string> index_vec_t;
-  typedef std::map<std::string, size_t> index_map_t;
+  typedef std::map<std::string, std::size_t> index_map_t;
   typedef std::pair<index_vec_t, index_map_t> indstr_t;
   bool valid(const indstr_t& is) noexcept {
-    const size_t N = is.first.size();
+    const std::size_t N = is.first.size();
     if (N != is.second.size()) return false;
     for (const auto& [s,i] : is.second)
       if (i >= N or is.first[i] != s) return false;
@@ -674,16 +679,19 @@ namespace Environment {
     {const auto& val = *begin;
      res.first.push_back(val); res.second.insert({val,0}); ++begin;
     }
-    for (size_t i = 1; begin != end; ++begin) {
+    for (std::size_t i = 1; begin != end; ++begin) {
       const auto& val = *begin;
       const auto f = res.second.find(val);
       if (f == res.second.end()) {
         res.first.push_back(val); res.second.insert({val,i}); ++i;
       }
       else {
-        if (not ignore_duplicates)
-          throw std::runtime_error("ERROR[Environment::indexing_strings]: "
-            " Duplication \"" + val + "\" at position " + std::to_string(i));
+        if (not ignore_duplicates) {
+          std::ostringstream ss;
+          ss << "ERROR[Environment::indexing_strings]: Duplication \""
+             << val << "\" at position " << i;
+          throw std::runtime_error(ss.str());
+        }
       }
     }
     assert(valid(res));
