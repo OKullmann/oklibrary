@@ -86,6 +86,7 @@
 #     - Perhaps extraction-tool is then the empty string, and in this
 #       case it is not used.
 # 5. Computing the md5sum's is taking too long.
+# 6. Possibly redirecting error-output to /dev/null.
 
 
 set -o errexit
