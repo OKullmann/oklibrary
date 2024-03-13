@@ -51,10 +51,12 @@ TODOS:
   p cnf 160000 15999880000
 the reading via
   DimacsClauseList F = read_strict_Dimacs(std::cin);
-fails on a 1TB-machine (this is a 2-CNF) --- having a variant which
-uses fixed-clause-length, that is, instead of a vector
-of vectors having a vector of arrays, would solve the
-problem here. This generalisation should be supported.
+fails on a 1TB-machine (this is a 2-CNF).
+   - Having a variant of clause-lists which uses fixed-clause-length,
+     that is, instead of a vector of vectors having a vector of arrays,
+     should solve the problem here. This generalisation should be supported.
+   - Another generalisation is to support literals as integers (this likely
+     would also solve the problem here).
 
 2. This should go to Generators/Random.
     - Then generalise to non-strict inputs.

@@ -266,6 +266,9 @@ TODOS:
 
 1. In read_strict_Dimacs : remove the special handling of c==0.
 
+2. See todos in TotalPermutation.cpp for a more generic handling
+   of clause-lists and literals (to save space).
+
 See plans/general.txt.
 
 */
