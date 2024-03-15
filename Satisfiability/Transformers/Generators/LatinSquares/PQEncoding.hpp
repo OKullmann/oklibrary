@@ -50,6 +50,20 @@ License, or any later version. */
 
    - pandiagonal(ostream&, PEncoding enc, bool sudoku)
 
+  Encoding of cyclic Pandiagonal:
+
+   - struct CEncoding
+    - publicly derived from PEncoding
+    - operator () -> var_t (next new variable)
+    - index(dim_t i, dim_t k) -> var_t
+    - operator (cell_t c, dim_t k) -> var_t
+    - parsc() -> Statistics::fdimacs_pars
+
+  Translation of cyclic Pandiagonal:
+
+   - cpandiagonal(ostream&, CEncoding enc, bool sudoku)
+
+
 */
 
 #ifndef PQENCODING_eK42F6xZuv
@@ -232,6 +246,17 @@ namespace PQEncoding {
     }
   }
 
+  struct CSP : cell_t {};
+  std::ostream& operator <<(std::ostream& out, const CSP& c) {
+    return out << "A_" << c.i << "_" << c.j;
+  }
+
+  void cspvars(std::ostream& out, const dim_t N) {
+    assert(N != 0);
+    for (dim_t i = 0; i < N; ++i)
+      for (dim_t j = 0; j < N; ++j)
+        out << "(int " << CSP{i,j} << " " << 0 << " " << N-1 << ")\n";
+  }
 
   template <class ENC>
   void rowreduced(std::ostream& out, const ENC& enc, const var_t bound = 0) {
@@ -242,6 +267,11 @@ namespace PQEncoding {
     running_counter += B;
 #endif
   }
+  void csp_rowreduced(std::ostream& out, const dim_t N) {
+    for (dim_t j = 0; j < N; ++j)
+      out << "(= " << CSP{0,j} << " " << j << ")\n";
+  }
+
   template <class ENC>
   void eovalues(std::ostream& out, const ENC& enc, const var_t bound = 0) {
     const var_t B = bound == 0 ? enc.N : bound;
@@ -253,6 +283,7 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
+
   void eorows(std::ostream& out, const PEncoding& enc) {
     for (dim_t i = 0; i < enc.N; ++i)
       for (dim_t k = 0; k < enc.N; ++k) {
@@ -262,6 +293,15 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
+  void csp_eorows(std::ostream& out, const dim_t N) {
+    for (dim_t i = 0; i < N; ++i) {
+      out << "(alldifferent";
+      for (dim_t j = 0; j < N; ++j)
+        out << " " << CSP{i,j};
+      out << ")\n";
+    }
+  }
+
   template <class ENC>
   void eocolumns(std::ostream& out, const ENC& enc, const var_t bound = 0) {
     const var_t B = bound == 0 ? enc.N : bound;
@@ -273,6 +313,15 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
+  void csp_eocolumns(std::ostream& out, const dim_t N) {
+    for (dim_t j = 0; j < N; ++j) {
+      out << "(alldifferent";
+      for (dim_t i = 0; i < N; ++i)
+        out << " " << CSP{i,j};
+      out << ")\n";
+    }
+  }
+
   template <class ENC>
   void eodiagonals(std::ostream& out, const ENC& enc, const var_t bound = 0) {
     const var_t B = bound == 0 ? enc.N : bound;
@@ -286,6 +335,17 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
+  void csp_eodiagonals(std::ostream& out, const dim_t N) {
+    for (dim_t diff = 0; diff < N; ++diff) {
+      out << "(alldifferent";
+      for (dim_t i = 0; i < N; ++i) {
+          const dim_t j = (var_t(diff) + i) % N;
+          out << " " << CSP{i,j};
+      }
+      out << ")\n";
+    }
+  }
+
   template <class ENC>
   void eoantidiagonals(std::ostream& out, const ENC& enc,
                        const var_t bound = 0) {
@@ -300,6 +360,17 @@ namespace PQEncoding {
         eo(out, C, enc);
       }
   }
+  void csp_eoantidiagonals(std::ostream& out, const dim_t N) {
+    for (var_t sum = N; sum < var_t(N)+N; ++sum) {
+      out << "(alldifferent";
+      for (dim_t i = 0; i < N; ++i) {
+          const dim_t j = (sum - i) % N;
+          out << " " << CSP{i,j};
+      }
+      out << ")\n";
+    }
+  }
+
   template <class ENC>
   void amoeosudoku(std::ostream& out, const ENC& enc) {
     const auto N = enc.N;
@@ -378,6 +449,65 @@ namespace PQEncoding {
       }
     }
   }
+  void csp_amoeosudoku(std::ostream& out, const dim_t N) {
+    const var_t b = std::sqrt(N), q = N/b, r = N%b;
+
+    for (dim_t i = 0; i < q; ++i) {
+      const dim_t x = i*b;
+      for (dim_t j = 0; j < q; ++j) {
+        const dim_t y = j*b;
+        out << "(alldifferent";
+        for (dim_t i1 = 0; i1 < b; ++i1) {
+          const dim_t x1 = x+i1;
+          for (dim_t j1 = 0; j1 < b; ++j1) {
+            const dim_t y1 = y+j1;
+            out << " " << CSP{x1,y1};
+          }
+        }
+        out << ")\n";
+      }
+    }
+
+    if (r >= 2) {
+      for (dim_t i = 0; i < q; ++i) {
+        const dim_t x = i*b, y = q*b;
+        out << "(alldifferent";
+        for (dim_t i1 = 0; i1 < b; ++i1) {
+          const dim_t x1 = x+i1;
+          for (dim_t j1 = 0; j1 < r; ++j1) {
+            const dim_t y1 = y+j1;
+            out << " " << CSP{x1,y1};
+          }
+        }
+        out << ")\n";
+      }
+      for (dim_t j = 0; j < q; ++j) {
+        const dim_t x = q*b, y = j*b;
+        out << "(alldifferent";
+        for (dim_t i1 = 0; i1 < r; ++i1) {
+          const dim_t x1 = x+i1;
+          for (dim_t j1 = 0; j1 < b; ++j1) {
+            const dim_t y1 = y+j1;
+            out << " " << CSP{x1,y1};
+          }
+        }
+        out << ")\n";
+      }
+    }
+
+    if (r >= 3) {
+      const dim_t x = q*b, y = q*b;
+      out << "(alldifferent";
+      for (dim_t i1 = 0; i1 < r; ++i1) {
+        const dim_t x1 = x+i1;
+        for (dim_t j1 = 0; j1 < r; ++j1) {
+          const dim_t y1 = y+j1;
+          out << " " << CSP{x1,y1};
+        }
+      }
+      out << ")\n";
+    }
+  }
 
   void pandiagonal(std::ostream& out, const PEncoding& enc,
                    const bool sudoku) {
@@ -396,6 +526,17 @@ namespace PQEncoding {
     assert(running_counter == enc.p.c);
 #endif
 
+  }
+  void csp_pandiagonal(std::ostream& out, const dim_t N, const bool sudoku) {
+    cspvars(out, N);
+
+    csp_rowreduced(out, N);
+    csp_eorows(out, N);
+    csp_eocolumns(out, N);
+    csp_eodiagonals(out, N);
+    csp_eoantidiagonals(out, N);
+
+    if (sudoku and N >= 9) csp_amoeosudoku(out, N);
   }
 
 
@@ -417,7 +558,7 @@ namespace PQEncoding {
     }
     constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
       assert(valid(c, N)); assert(k < N);
-      const var_t k2 = ((N - var_t(c.j)) + var_t(k)) % N; // ???
+      const var_t k2 = ((N - var_t(c.j)) + var_t(k)) % N;
       return index(c.i, k2);
     }
 
