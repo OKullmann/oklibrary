@@ -1,6 +1,6 @@
 # Counts for N >= 2:
 # 0, 0, 0, 2, 0, 4, 0, 0, 0
-# 8, >= 53
+# 8, >= 85
 
 #   hash=9368724460262524230
 
@@ -69,7 +69,7 @@
 # 4  0  6  9  8  1 10  3  2  5 11  7
 # 3  5  7  2 10  0 11  1  9  4  6  8
 # 9  4 11  6  1  8  3 10  5  0  7  2
-# running on server XXX 2y342d
+# running on server XXX 3y247d
 
 # As for Pandiagonal, sat-decision without rred might be easier.
 
