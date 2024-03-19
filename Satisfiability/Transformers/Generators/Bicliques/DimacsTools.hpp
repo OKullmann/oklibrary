@@ -19,9 +19,14 @@ License, or any later version. */
       - Clause : typedef for vector of Lit
       - ClauseList : typedef for vector of Clause
       - dimacs_pars : concrete type, wrapper around n, c : var_t
-      - DimacsClauseList : typedef for pair of dimacs_pars, ClauseList.
+      - DimacsClauseList : typedef for pair of dimacs_pars, ClauseList
 
    - General tools:
+
+      - fixed clause-length k:
+       - kClause<k> = array<Lit, k>
+       - kClauseList = vector<kClause<k>>
+       - kDimacsClauseList = pair<dimacs_pars, kClauseList<k>>
 
       - VarSet : typedef for set of Var
       - LitSet : typedef for set of Lit
@@ -105,6 +110,7 @@ License, or any later version. */
       character.
     - read_strict_clause_withouteol(istream) -> Clause :
         now without reading the end-of-line-symbol.
+    - read_strict_kclause(istream) -> kClause<k>
 
     - read_pass(istream, LitSet& C) -> var_t (reads a partial assignment,
       as a clause with an ignored first symbol, adds it to C, and returns
@@ -115,6 +121,7 @@ License, or any later version. */
       -> DimacsClauseList :
         first read_strict_dimacs_pars, establishing c, then reading exactly
         c clauses via read_strict_clause.
+    - read_strict_kDimacs<k>(istream) -> kDimacsClauseList<k>.
 
    - Reading strict Dimacs from istream into a multi-clause-set:
 
@@ -317,6 +324,14 @@ namespace DimacsTools {
   typedef RandGen::dimacs_pars dimacs_pars;
   typedef RandGen::DimacsClauseList DimacsClauseList;
 
+  // Clauses of fixed length k (non-existing literals are trailing 0's):
+  template <unsigned k>
+  using kClause = std::array<Lit, k>;
+  template <unsigned k>
+  using kClauseList = std::vector<kClause<k>>;
+  template <unsigned k>
+  using kDimacsClauseList = std::pair<dimacs_pars, kClauseList<k>>;
+
 
   typedef std::set<Var> VarSet;
   typedef std::set<Lit> LitSet;
@@ -496,6 +511,14 @@ namespace DimacsTools {
     for (Lit x; (x = read_strict_literal(in)).v != Var{0}; res.push_back(x));
     return res;
   }
+  template <unsigned k>
+  kClause<k> read_strict_kclause(std::istream& in) {
+    assert(in);
+    kClause<k> res{};
+    std::size_t i = 0;
+    for (Lit x; (x = read_strict_literal(in)).v != Var{0}; ++i) res[i] = x;
+    return res;
+  }
 
   // Ignores the leading word, returns the number of literals in the
   // clause D read:
@@ -532,6 +555,17 @@ namespace DimacsTools {
       --c;
     }
     for (; c != 0; --c) res.second.push_back(read_strict_clause(in));
+    return res;
+  }
+  template <unsigned k>
+  kDimacsClauseList<k> read_strict_kDimacs(std::istream& in) {
+    assert(in);
+    kDimacsClauseList<k> res;
+    res.first = read_strict_dimacs_pars(in); assert(in);
+    var_t c = res.first.c;
+    if (c == 0) return res;
+    res.second.reserve(c);
+    for (; c != 0; --c) res.second.push_back(read_strict_kclause<k>(in));
     return res;
   }
 
