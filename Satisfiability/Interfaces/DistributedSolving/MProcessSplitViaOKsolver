@@ -73,8 +73,9 @@
 # program ApplyPass-O3-DNDEBUG (in Makefile).
 
 # TODOS:
-# 1. Target "extract", for counting the instances, should skip
-#    initial comments and the header-line.
+# 1. DONE Target "extract", for counting the instances, should skip
+#    initial comments and the header-line, in case not all cubes
+     have been evaluated.
 # 2. An option is needed to ignore the return-code of the solver.
 # 3. An option is needed to run RemoveVarGaps on the instance
 #    before solving:
@@ -93,7 +94,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.1.3
+version_number=0.1.4
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
