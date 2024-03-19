@@ -10,7 +10,7 @@
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.2.3
+# Version 0.2.4
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -69,8 +69,8 @@ transfer : | run
 
 extract :
 	$(extraction_tool) header-only >> $(resultfile)
-	@count=0; for (( i=1; i<=$(number_cubes); ++i )); do if [ -s Results/$$i ]; then ((++count)); echo -n "$$i " >> $(resultfile); cat Results/$$i >> $(resultfile); fi; done; echo "#cubes=$$count"
-	@tail -n $(number_cubes) $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$5==0) {++unsat; tunsat+=$$4} else if ($$5==1) {++sat; tsat+=$$4} else if ($$5==2) {++indet; tindet+=$$4}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
+	@count=0; for (( i=1; i<=$(number_cubes); ++i )); do if [ -s Results/$$i ]; then ((++count)); echo -n "$$i " >> $(resultfile); cat Results/$$i >> $(resultfile); fi; done; echo "#cubes=$$count";\
+	tail -n $${count} $(resultfile) | awk 'BEGIN {unsat=0; sat=0; indet=0; tunsat=0; tsat=0; tindet=0} {if ($$5==0) {++unsat; tunsat+=$$4} else if ($$5==1) {++sat; tsat+=$$4} else if ($$5==2) {++indet; tindet+=$$4}} END {print "unsat:" unsat ", " tunsat "s; sat:" sat ", " tsat "s; unknown:" indet ", " tindet "s"}' | tee -a Log
 
 
 
