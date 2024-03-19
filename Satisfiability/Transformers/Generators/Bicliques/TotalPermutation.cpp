@@ -53,7 +53,8 @@ TODOS:
 the reading via
   DimacsClauseList F = read_strict_Dimacs(std::cin);
 fails on a 1TB-machine (this is a 2-CNF).
-   - Having a variant of clause-lists which uses fixed-clause-length,
+   - DONE (available as TotalPermutation2.cpp)
+     Having a variant of clause-lists which uses fixed-clause-length,
      that is, instead of a vector of vectors having a vector of arrays,
      should solve the problem here. This generalisation should be supported.
    - Another generalisation is to support literals as integers (this likely

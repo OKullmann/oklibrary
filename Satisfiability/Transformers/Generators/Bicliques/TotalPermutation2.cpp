@@ -7,6 +7,13 @@ License, or any later version. */
 
 /*
 
+  2-CNF form of TotalPermutation.cpp
+
+   - All clauses must have length exactly two.
+   - Unit-clauses in the input or clauses with more than two literals
+     will lead to undefined behaviour (the debug-version should
+     create an error here).
+
 EXAMPLES:
 
 Bicliques> echo -e "p cnf 5 3\n1 2 0\n2 -5 0\n-2 -3 0\n" | ./TotalPermutation2
