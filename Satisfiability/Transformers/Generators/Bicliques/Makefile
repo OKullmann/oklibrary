@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation RemoveVarGaps
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -117,8 +117,10 @@ DirEbccom2 : DirEbccom2.cpp DirStatistics.hpp DimacsTools.hpp ConflictGraphs.hpp
 DirEbccom2_debug : LDFLAGS += -pthread
 DirEbccom2_debug : DirEbccom2.cpp DirStatistics.hpp DimacsTools.hpp ConflictGraphs.hpp Bicliques.hpp
 
-TotalPermutation : TotalPermutation.cpp DimacsTools.hpp
-TotalPermutation_debug : TotalPermutation.cpp DimacsTools.hpp
+TotalPermutation : TotalPermutation.cpp TotalPermutation.hpp DimacsTools.hpp
+TotalPermutation_debug : TotalPermutation.cpp TotalPermutation,hpp DimacsTools.hpp
+TotalPermutation2 : TotalPermutation2.cpp TotalPermutation.hpp DimacsTools.hpp
+TotalPermutation_debug : TotalPermutation2.cpp TotalPermutation,hpp DimacsTools.hpp
 
 RemoveVarGaps : RemoveVarGaps.cpp DimacsTools.hpp
 RemoveVarGaps_debug : RemoveVarGaps.cpp DimacsTools.hpp
