@@ -118,9 +118,9 @@ DirEbccom2_debug : LDFLAGS += -pthread
 DirEbccom2_debug : DirEbccom2.cpp DirStatistics.hpp DimacsTools.hpp ConflictGraphs.hpp Bicliques.hpp
 
 TotalPermutation : TotalPermutation.cpp TotalPermutation.hpp DimacsTools.hpp
-TotalPermutation_debug : TotalPermutation.cpp TotalPermutation,hpp DimacsTools.hpp
+TotalPermutation_debug : TotalPermutation.cpp TotalPermutation.hpp DimacsTools.hpp
 TotalPermutation2 : TotalPermutation2.cpp TotalPermutation.hpp DimacsTools.hpp
-TotalPermutation_debug : TotalPermutation2.cpp TotalPermutation,hpp DimacsTools.hpp
+TotalPermutation2_debug : TotalPermutation2.cpp TotalPermutation.hpp DimacsTools.hpp
 
 RemoveVarGaps : RemoveVarGaps.cpp DimacsTools.hpp
 RemoveVarGaps_debug : RemoveVarGaps.cpp DimacsTools.hpp
