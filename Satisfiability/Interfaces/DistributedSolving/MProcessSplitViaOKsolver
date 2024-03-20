@@ -68,6 +68,19 @@
 #   make -j M
 # for M parallel processes (just "make -j" uses unrestricted parallelism).
 
+# Variables which influence the Makefile:
+#
+#  - exit_handling : default behaviour is to assume exit-codes 0, 10, 20;
+#      if set to empty string, then the exit-code is ignored.
+#   - error_output : default is that the error-output of the program-call
+#      goes to standard output (where the makefile has been called);
+#      if set to "" (with exit_handling=""), then error-output is ignored.
+# For example clasp has non-standard exit-codes, and prints to standard-error
+# in case of timeout; easiest to ignore all of that:
+# > solver=clasp solver_args="--time-limit 1" MProcessSplitViaOKsolver SplitXXX
+# inside the MProcess-directory then
+#   > make -j 6 exit_handling="" error_output=""
+
 
 # Used tools from the OKlibrary:
 # script SelectExtractionTool
@@ -78,7 +91,7 @@
 # 1. DONE Target "extract", for counting the instances, should skip
 #    initial comments and the header-line, in case not all cubes
 #    have been evaluated.
-# 2. An option is needed to ignore the return-code of the solver.
+# 2. DONE An option is needed to ignore the return-code of the solver.
 # 3. An option is needed to run RemoveVarGaps on the instance
 #    before solving:
 #     - Via another option the renaming is stored.
@@ -89,14 +102,14 @@
 #     - Perhaps extraction-tool is then the empty string, and in this
 #       case it is not used.
 # 5. Computing the md5sum's is taking too long.
-# 6. Possibly redirecting error-output to /dev/null.
+# 6. DONE Possibly redirecting error-output to /dev/null.
 
 
 set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.1.5
+version_number=0.2.0
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."

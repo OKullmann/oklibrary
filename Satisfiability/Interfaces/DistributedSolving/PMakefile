@@ -4,13 +4,16 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Assume for extraction, that the Extract-script-output has sat-status in
+# Assumes for extraction, that the Extract-script-output has sat-status in
 # column 4, and runtime in column 3.
 
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.2.4
+# Version 0.3.0
+
+exit_handling?=test-exit
+error_output?=let-through
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -57,7 +60,15 @@ endrun :
 
 Results/% :
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
-	@$(solver_call) Temp$*.cnf > Temp$*.out; if [[  $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
+ifeq ($(exit_handling),test-exit)
+	@$(solver_call) Temp$*.cnf > Temp$*.out; if [[ $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
+else
+  ifeq ($(error_output),let-through)
+	@$(solver_call) Temp$*.cnf > Temp$*.out; true
+  else
+	@$(solver_call) Temp$*.cnf > Temp$*.out 2> /dev/null; true
+  endif
+endif
 	@cat Temp$*.out | $(extraction_tool) data-only > $@
 	@rm Temp$*.cnf Temp$*.out
 
