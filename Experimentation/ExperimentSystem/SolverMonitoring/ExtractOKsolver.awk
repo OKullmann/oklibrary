@@ -1,11 +1,11 @@
 # Matthew Gwynne, 20.5.2011 (Swansea)
-# Copyright 2011, 2012, 2021 Oliver Kullmann
+# Copyright 2011, 2012, 2021, 2024 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Version 1.0.1
+# Version 1.0.2
 
 # DONE BUG: The initial number of variables is not "maxn", but n.
 # In general, it needs always to be checked by experiments, what the precise meaning of any measurement is.
@@ -52,7 +52,7 @@ BEGIN {
 
 END {
   if (spd != "NA") spd = "\"" spd "\""
-  print n " " c " " l " " mcl " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
+  print n " " c " " t " " sat " " l " " mcl " " nds " " r1 " " r2 " " pls " " ats " " \
     h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " \
     qnds " " mnds " " pa " " ps " " tp " " tel " " oats " " n2cs " " m2cs " " \
     spd " " spc
