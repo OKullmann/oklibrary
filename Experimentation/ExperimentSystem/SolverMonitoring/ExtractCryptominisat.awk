@@ -8,6 +8,8 @@
 # Converts the output of "cryptominisat" to a single line.
 # TODOS: Update to handle cryptominisat5.
 
+# version 0.1.1
+
 BEGIN {
   rn=0; rc=0; n=0; c=0; t=0; sat=2; cfs=0; dec=0; rts=0; mem=0; ptime=0
   file=""; rlc=0; rxc=0; threads=0; drts=0; srts=0; frts=0; stime=0
@@ -36,7 +38,7 @@ BEGIN {
 /^c +decisions +: +[0-9]+/ { dec=$4 }
 /^c +conflict literals +: +[0-9]+/ { cfl=$5; cfld=$6; sub(/\(/,"",cfld) }
 /^c +Memory used +: +[0-9]+/ { mem=$5 }
-/^c +CPU time +: +[0-9]+\.[0-9]+/ { t=$5 }
+/^c Total time/ { t=$7; next }
 /^c +bogo-props +: +[0-9]+/ { bogp=$4 }
 /^c +filedLit time +: +[0-9]+\.[0-9]+/ { flt=$5 }
 /^c +v-elim SatELite +: +[0-9]+/ { vesel=$5 }
