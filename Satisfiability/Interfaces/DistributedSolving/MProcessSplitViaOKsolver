@@ -109,7 +109,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.2.0
+version_number=0.2.1
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
@@ -170,7 +170,7 @@ cat /proc/cpuinfo >> Environment
 echo >> Environment
 free -m >> Environment
 
-sed -i "s/SOLVERCALL/${solver_call}/" Makefile
-sed -i "s/EXTRACT/${extraction_tool}/" Makefile
-sed -i "s/INSTANCE/${instance_name}/" Makefile
+sed -i "s@SOLVERCALL@${solver_call}@" Makefile
+sed -i "s@EXTRACT@${extraction_tool}@" Makefile
+sed -i "s@INSTANCE@${instance_name}@" Makefile
 sed -i "s/CUBES/${number_cubes}/" Makefile
