@@ -27,7 +27,99 @@ EXAMPLES:
 
 Viewing the four (cyclic) pandiagonal Sudokus for N=11:
 
-LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk -v N=$N
+First only showing the relevant first column:
+LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N
+ 0 4 8 1 5 9 2 6 10 3 7
+ 0 7 3 10 6 2 9 5 1 8 4
+ 0 8 5 2 10 7 4 1 9 6 3
+ 0 3 6 9 1 4 7 10 2 5 8
+
+
+Sorting and formatting (here the 8 pandiagonal solutions):
+LatinSquares> N=11; ./CPandiagonal $N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./Sort
+0 2  4  6  8 10  1  3  5  7 9
+0 3  6  9  1  4  7 10  2  5 8
+0 4  8  1  5  9  2  6 10  3 7
+0 5 10  4  9  3  8  2  7  1 6
+0 6  1  7  2  8  3  9  4 10 5
+0 7  3 10  6  2  9  5  1  8 4
+0 8  5  2 10  7  4  1  9  6 3
+0 9  7  5  3  1 10  8  6  4 2
+Or as SAT-cubes for the (full) pandiagonal case:
+LatinSquares> N=11; ./CPandiagonal $N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_cubes.awk | ./Sort
+v 1 144 287 430 573 716 738 881 1024 1167 1310 0
+v 1 155 309 463 496 650 804 958  991 1145 1299 0
+v 1 166 331 375 540 705 749 914 1079 1123 1288 0
+v 1 177 353 408 584 639 815 870 1046 1101 1277 0
+v 1 188 254 441 507 694 760 947 1013 1200 1266 0
+v 1 199 276 474 551 628 826 903  980 1178 1255 0
+v 1 210 298 386 595 683 771 859 1068 1156 1244 0
+v 1 221 320 419 518 617 837 936 1035 1134 1233 0
+Or as Minizinc-cubes:
+LatinSquares> N=11; ./CPandiagonal $N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./Sort | ./CP_clasp_minizinc.awk
+constraint A[0,0]=0;constraint A[1,2]=0;constraint A[2,4]=0;constraint A[3,6]=0;constraint A[4,8]=0;constraint A[5,10]=0;constraint A[6,1]=0;constraint A[7,3]=0;constraint A[8,5]=0;constraint A[9,7]=0;constraint A[10,9]=0;
+constraint A[0,0]=0;constraint A[1,3]=0;constraint A[2,6]=0;constraint A[3,9]=0;constraint A[4,1]=0;constraint A[5,4]=0;constraint A[6,7]=0;constraint A[7,10]=0;constraint A[8,2]=0;constraint A[9,5]=0;constraint A[10,8]=0;
+constraint A[0,0]=0;constraint A[1,4]=0;constraint A[2,8]=0;constraint A[3,1]=0;constraint A[4,5]=0;constraint A[5,9]=0;constraint A[6,2]=0;constraint A[7,6]=0;constraint A[8,10]=0;constraint A[9,3]=0;constraint A[10,7]=0;
+constraint A[0,0]=0;constraint A[1,5]=0;constraint A[2,10]=0;constraint A[3,4]=0;constraint A[4,9]=0;constraint A[5,3]=0;constraint A[6,8]=0;constraint A[7,2]=0;constraint A[8,7]=0;constraint A[9,1]=0;constraint A[10,6]=0;
+constraint A[0,0]=0;constraint A[1,6]=0;constraint A[2,1]=0;constraint A[3,7]=0;constraint A[4,2]=0;constraint A[5,8]=0;constraint A[6,3]=0;constraint A[7,9]=0;constraint A[8,4]=0;constraint A[9,10]=0;constraint A[10,5]=0;
+constraint A[0,0]=0;constraint A[1,7]=0;constraint A[2,3]=0;constraint A[3,10]=0;constraint A[4,6]=0;constraint A[5,2]=0;constraint A[6,9]=0;constraint A[7,5]=0;constraint A[8,1]=0;constraint A[9,8]=0;constraint A[10,4]=0;
+constraint A[0,0]=0;constraint A[1,8]=0;constraint A[2,5]=0;constraint A[3,2]=0;constraint A[4,10]=0;constraint A[5,7]=0;constraint A[6,4]=0;constraint A[7,1]=0;constraint A[8,9]=0;constraint A[9,6]=0;constraint A[10,3]=0;
+constraint A[0,0]=0;constraint A[1,9]=0;constraint A[2,7]=0;constraint A[3,5]=0;constraint A[4,3]=0;constraint A[5,1]=0;constraint A[6,10]=0;constraint A[7,8]=0;constraint A[8,6]=0;constraint A[9,4]=0;constraint A[10,2]=0;
+
+All the examples above and below also work for "secouep".
+
+Showing the Sudokus as toroidalN-queens solutions:
+LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_queens.awk
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+
+Now expanding these 4 columns into row-cyclic pandiagonal squares:
+LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
   0  1  2  3  4  5  6  7  8  9 10
   4  5  6  7  8  9 10  0  1  2  3
   8  9 10  0  1  2  3  4  5  6  7
@@ -78,7 +170,7 @@ LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.a
 
 
 One pandiagonal Sudoku for N=25:
-LatinSquares> N=25; ./CPandiagonal +$N "" | clasp -t 1 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk -v N=$N
+LatinSquares> N=25; ./CPandiagonal +$N "" | clasp -t 1 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
  15 16 17 18 19 20 21 22 23 24  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  0  1  2  3  4  5  6  7  8  9
@@ -107,7 +199,7 @@ LatinSquares> N=25; ./CPandiagonal +$N "" | clasp -t 1 | ./CP_clasp_first_column
 
 Remark: the same chain of scripts works also for cadical (then only one
 solution is extracted; also for OKsolver), e.g.
-LatinSquares> N=29; ./CPandiagonal +$N "" | cadical | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk -v N=$N
+LatinSquares> N=29; ./CPandiagonal +$N "" | cadical | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
  11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28  0  1  2  3  4  5  6  7  8  9 10
   5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28  0  1  2  3  4
@@ -139,7 +231,7 @@ LatinSquares> N=29; ./CPandiagonal +$N "" | cadical | ./CP_clasp_first_columns.a
   6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28  0  1  2  3  4  5
 
 Indeed seems OKsolver more effective than Cadical; for example in rather short time:
-LatinSquares> N=37; ./CPandiagonal $N "" > TEMP$N; OKsolver2002 -O TEMP$N | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk -v N=$N; rm TEMP$N
+LatinSquares> N=37; ./CPandiagonal $N "" > TEMP$N; OKsolver2002 -O TEMP$N | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk; rm TEMP$N
   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
   2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  0  1
  15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
@@ -179,7 +271,7 @@ LatinSquares> N=37; ./CPandiagonal $N "" > TEMP$N; OKsolver2002 -O TEMP$N | ./CP
   7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  0  1  2  3  4  5  6
 
 A pandiagonal Sudoku for N=37 is harder to find; clasp with 12 threads found a solution rather quickly:
-LatinSquares> N=37; ./CPandiagonal +$N "" > TEMP$N; clasp -t 12 TEMP$N | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk -v N=$N; rm TEMP$N
+LatinSquares> N=37; ./CPandiagonal +$N "" > TEMP$N; clasp -t 12 TEMP$N | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk; rm TEMP$N
   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
  18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
  12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36  0  1  2  3  4  5  6  7  8  9 10 11
@@ -218,8 +310,8 @@ LatinSquares> N=37; ./CPandiagonal +$N "" > TEMP$N; clasp -t 12 TEMP$N | ./CP_cl
  36  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
  31 32 33 34 35 36  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
 
-Remark: a quick success is not guaranteed (which and how the threads are executed is not determined);
-a manual restart might help.
+Remark: a quick success is not guaranteed (which and how the threads are
+executed is not determined); a manual restart might help.
 
 
 Only counting:
