@@ -146,7 +146,6 @@
 # (see Pandiagonal/sudoku).
 # Rerunning:
 # MOLS> time ./gcMols 13 data/SpecsCollection/Pandiagonal/basis "" +enum "" bin maxdom desc 1 12 ""
-# running on server XXX 3y39d
 # Aborted after 4556 solutions found:
 # real    146502m37.496s user    1463907m32.027s sys     169763m3.333s
 

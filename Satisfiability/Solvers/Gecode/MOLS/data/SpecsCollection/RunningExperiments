@@ -1,9 +1,7 @@
-server:         3 running
+server:         2 running
 
-Pandiagonal/basis : gcMols
 Queendiagonal/basis : gcMols
-
-Pandiagonal/TAU/basis_12_newvdegm_ave : nomad
+clasp on Pandiagonal/basis_sat_prime/13.cnf.
 
 
 
@@ -14,7 +12,8 @@ server2:        0 running
 
 
 
-server3:        0 running
+server3:        1 running
 
+ctawSolver on Pandiagonal/basis_sat_prime/13.cnf.
 
 -------------------------------------------
