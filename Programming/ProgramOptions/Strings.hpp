@@ -98,7 +98,9 @@ License, or any later version. */
       string, which either are all-digit or none-digit
     - class DecompStr contains the decomposition of a string into these
       components
-    - comparator-class AlphaNum for alphanumerical comparison of strings.
+    - comparator-classes:
+     - AlphaNum for alphanumerical comparison of strings
+     - LexAlphaNum for lexicographical comparison of ranges of strings
 
     Indexing strings:
 
@@ -655,6 +657,12 @@ namespace Environment {
   struct AlphaNum {
     bool operator()(const std::string& lhs, const std::string& rhs) const {
       return DecompStr(lhs) < DecompStr(rhs);
+    }
+  };
+  template <class RAN>
+  struct LexAlphaNum {
+    bool operator()(const RAN& lhs, const RAN& rhs) const {
+      return std::ranges::lexicographical_compare(lhs, rhs, AlphaNum{});
     }
   };
 
