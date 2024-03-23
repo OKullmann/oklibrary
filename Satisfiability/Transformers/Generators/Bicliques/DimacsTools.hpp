@@ -276,6 +276,8 @@ TODOS:
 2. See todos in TotalPermutation.cpp for a more generic handling
    of clause-lists and literals (to save space).
 
+3. Unify with the tools in Generators/Bicliques and Generators/LatinSquares.
+
 See plans/general.txt.
 
 */
