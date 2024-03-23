@@ -2,7 +2,7 @@
 
 # Translate the output of CP_clasp_first_columns.awk
 # to partial assignments (the queens-placements),
-# uses the number of columns for N.
+# using the number of columns for N.
 
 { printf "v"
   for (i=1; i<=NF; ++i) {
