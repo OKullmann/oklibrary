@@ -1,0 +1,88 @@
+#!/bin/bash
+# Oliver Kullmann, 23.3.2024 (Swansea)
+# Copyright 2024 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Expand a given set of partial assignments (read from standard input)
+# and a CNF to a Splitting-directory ready to be processed
+# by MProcessSplitViaOKsolver.
+
+set -o errexit
+set -o nounset
+
+script_name=$(basename "$0")
+version_number=0.0.8
+
+if [[ $# -eq 0 ]]; then
+  echo "ERROR[${script_name}]: At least one parameter needed, the Dimacs-file."
+  exit 1
+fi
+
+
+threads=${threads-1}
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+echo "${script_name} in version ${version_number} started; threads=${threads}."
+
+filename="$1"
+special="${2-_ES_}"
+
+directory="Splitting${special}${timestamp}"
+
+mkdir ${directory}
+echo -e "Created directory\n  ${directory}"
+cd ${directory}
+
+echo -n "Begin: " > Log
+date >> Log
+echo "Process id = $$" >> Log
+echo -e "Filename = \"${filename}\"" >> Log
+echo -e "SpecialName = \"${special}\"" >> Log
+
+echo "${script_name} ${version_number}" > Version
+
+uname -a > Environment
+echo >> Environment
+cat /proc/cpuinfo >> Environment
+echo >> Environment
+free -m >> Environment
+
+cp ../$filename F
+
+mkdir Instances
+ExtractOKsolver header-only > ReductionStatistics
+
+i=0
+while IFS=$'\n' read -r line; do
+  ((++i))
+  tempfile="TEMP$i.cnf"
+  (
+   echo "$line" | cat - F | InsertPassAsUnit.awk > $tempfile
+   OKsolver2002 -S=Instances/$i -D0 -SF -SD $tempfile | ExtractOKsolver data-only > Instances/$i.R
+   rm $tempfile
+   rm Instances/${i}_decisions
+  ) &
+  if [[ $(jobs -r -p | wc -l) -ge $threads ]]; then
+    wait -n
+  fi
+done
+wait
+
+unsat=0
+for (( j=1; j <= i; ++j )); do
+  if [ ! -s Instances/$j ]; then
+     ((++unsat))
+     rm Instances/$j
+  fi
+done
+echo "Total=$i UNSAT=$unsat"
+
+for (( j=1; j <= i; ++j )); do
+  echo -n "$j " >> ReductionStatistics
+  cat Instances/$j.R >> ReductionStatistics
+  rm Instances/$j.R
+done
