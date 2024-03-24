@@ -401,11 +401,18 @@ CFLAGS="-UMACHINE_BITS_OKL"
        to the default value, and so on. </li>
       </ol>
      </li>
-     <li> A special case is "-D0": Here now in file <code>directory/1</code>
-     (or in the single line of the output-file) one finds the partial
-     assignment for the fully reduced input --- not just cleaning-up and
-     unit-clause-propagation (as "-P" above), but also r_2-reduction and the
-     associated autarky-reduction. </li>
+     <li> A special case is "-D0":
+      <ol>
+       <li> Here now in file <code>directory/1</code> (or in the single line
+        of the output-file) one finds the partial assignment for the fully
+        reduced input --- not just cleaning-up and unit-clause-propagation
+        (as "-P" above), but also r_2-reduction and the associated
+        autarky-reduction. </li>
+       <li> Thus via <code>OKsolver2002 -S=OUT -D0 -SF -SD F.cnf</code>
+       r_2-reduction is performed on F.cnf, and the resulting partial
+       assignment stored in file OUT. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> To be completed. </li>
