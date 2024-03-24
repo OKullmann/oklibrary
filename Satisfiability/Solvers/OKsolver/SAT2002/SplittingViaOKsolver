@@ -40,6 +40,12 @@
 # with v, followed by literals set to true, concluded by "0") yielding the
 # corresponding sub-instance.
 
+# TODOS:
+# 1. Computing the md5sum's is taking too long.
+#   - So perhaps making it an option (by default off).
+# 2. Likely F itself should be the instance, not the name.
+
+
 set -o errexit
 set -o nounset
 
