@@ -10,17 +10,38 @@
 # and a CNF to a Splitting-directory ready to be processed
 # by MProcessSplitViaOKsolver.
 
+# USAGE: > ExpandSplitting F.cnf [special-name]
+# reads the partial assignments from standard input (one per line),
+# creates an experiment-directory using special-name, to be used by
+# MProcessSPlitViaOKsolver, with the partial assignments completed by
+# r2-reduction (full failed-literal elimination).
+
+# EXAMPLE: splitting the Pandiagonal_N=13 problem into the 348 problems given
+# by the possibly placement of "queen 0" (sorting the cubes):
+# First creating the initial partial assignments:
+# LatinSquares> ./CPandiagonal 13 "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=13 | ./Sort | ./CP_clasp_cubes.awk > SPLIT13
+# Then expanding this splitting (performing r2-reduction), using 6 threads
+# (default is 1):
+# DistributedSolving> time cat SPLIT13 | threads=6 ExpandSplitting P13.cnf
+# where P13.cnf has been created by 'Pandiagonal 13 ""'.
+
+# Programs assumed:
+#  - ExtractOKsolver
+#  - InsertPassAsUnit.awk
+#  - OKsolver2002
+#  - CountSatResults.awk.
+
+
 set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number=0.0.8
+version_number=0.1.0
 
 if [[ $# -eq 0 ]]; then
   echo "ERROR[${script_name}]: At least one parameter needed, the Dimacs-file."
   exit 1
 fi
-
 
 threads=${threads-1}
 
@@ -39,9 +60,11 @@ cd ${directory}
 
 echo -n "Begin: " > Log
 date >> Log
+echo "${script_name} in version ${version_number}" >> Log
 echo "Process id = $$" >> Log
 echo -e "Filename = \"${filename}\"" >> Log
 echo -e "SpecialName = \"${special}\"" >> Log
+echo "threads=$threads" >> Log
 
 echo "${script_name} ${version_number}" > Version
 
@@ -72,6 +95,10 @@ while IFS=$'\n' read -r line; do
 done
 wait
 
+echo -n "Completed creation of cubes: " >> Log
+date >> Log
+echo "$i$" > N
+
 unsat=0
 for (( j=1; j <= i; ++j )); do
   if [ ! -s Instances/$j ]; then
@@ -79,10 +106,16 @@ for (( j=1; j <= i; ++j )); do
      rm Instances/$j
   fi
 done
-echo "Total=$i UNSAT=$unsat"
+echo "Total=$i UNSAT=$unsat" | tee -a Log
 
 for (( j=1; j <= i; ++j )); do
   echo -n "$j " >> ReductionStatistics
   cat Instances/$j.R >> ReductionStatistics
   rm Instances/$j.R
 done
+
+CountSatResults.awk ReductionStatistics | tee -a Log
+
+# For compatibility with current version of MProcessSplitViaOKsolver:
+mv F $filename
+echo "$filename" > F
