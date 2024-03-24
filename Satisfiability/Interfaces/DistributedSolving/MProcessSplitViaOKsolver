@@ -6,8 +6,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Preparing processing of a directory produced by SplitViaOKsolver,
-# producing a Makefile.
+# Preparing processing of a directory produced by SplitViaOKsolver or
+# ExpandSplitting, producing a Makefile in an experiment-directory.
+# (To just run an experiment in parallel, using MExperiment.)
 
 # USAGE:
 # MProcessSplitViaOKsolver SplitViaOKsolver_dir
@@ -88,21 +89,21 @@
 # program ApplyPass-O3-DNDEBUG (in Makefile).
 
 # TODOS:
-# 1. DONE Target "extract", for counting the instances, should skip
+# 1. Target "extract", for counting the instances, should skip
 #    initial comments and the header-line, in case not all cubes
 #    have been evaluated.
-# 2. DONE An option is needed to ignore the return-code of the solver.
-# 3. An option is needed to run RemoveVarGaps on the instance
+#      Use new script CountSatResults.awk.
+# 2. An option is needed to run RemoveVarGaps on the instance
 #    before solving:
 #     - Via another option the renaming is stored.
-# 4. An option is needed to just store the output in the Results-file,
+# 3. An option is needed to just store the output in the Results-file,
 #    without using an extraction-tool.
 #     - Then something needs to be done to target "transfer" (which currently
 #       is automatically invoked, and runs the extraction-tool.
 #     - Perhaps extraction-tool is then the empty string, and in this
 #       case it is not used.
-# 5. Computing the md5sum's is taking too long.
-# 6. DONE Possibly redirecting error-output to /dev/null.
+# 4. The new standard of splitting-directories should likely be that
+#    F itself is the instance (not the name of it).
 
 
 set -o errexit
