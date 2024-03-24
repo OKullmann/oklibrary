@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number=0.1.1
+version_number=0.1.2
 
 if [[ $# -eq 0 ]]; then
   echo "ERROR[${script_name}]: At least one parameter needed, the Dimacs-file."
@@ -97,7 +97,7 @@ wait
 
 echo -n "Completed creation of cubes: " >> Log
 date >> Log
-echo "$i$" > N
+echo "$i" > N
 
 unsat=0
 for (( j=1; j <= i; ++j )); do
