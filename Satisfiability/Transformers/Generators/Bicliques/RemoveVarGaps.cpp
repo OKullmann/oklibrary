@@ -15,7 +15,7 @@ License, or any later version. */
    - Removes comments.
    - Except for the renaming, the literals in the clauses stay as they
      are (same order as before), but the spacing is cleaned up.
-   - Empty lines are the p-line are removed.
+   - Empty lines after the p-line are removed.
    - Any lines after the final clause are removed.
 
 TODOS:
