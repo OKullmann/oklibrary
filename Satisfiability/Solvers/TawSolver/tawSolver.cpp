@@ -208,12 +208,16 @@ c options                               "A19"
   they do not occur in the input), and since there are no clauses, there
   are no restrictions on them.
 
-  A time-out is currently not provided by the solver, but can be achieved
-  with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
+  For a timeout T, with T as supported by the timeout-utility (a
+  floating-point number, with suffixes s (the default), m (minutes),
+  h (hours), d (days)), prefix the solver-call (can also be any
+  version of tawSolver) with T, and call ./tosigint with this
+  list of parameters, for example for a timeout of 0.1s, counting
+  solutions, and just extracting the count, using the random-CNF
+  generator BRG (400 3-clauses, 100 variables):
 
-> timeout --signal=SIGINT 0.7 tawSolver [options]
-or
-> timeout -s SIGINT 0.7 tawSolver [options]
+TawSolver> BRG "400*100,3" | ./tosigint 0.1 ctawSolver -cin -nil | awk '/^c number_of_sol/'
+c number_of_solutions                   1408
 
 */
 

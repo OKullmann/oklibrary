@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# "time out via SIGINT"
+
+# Calling any version of tawSolver with a timeout in seconds as first parameter
+# Can be used in fact with any command and arguments:
+#  - sends SIGINT to abort after timeout
+#  - preserves the exit-value
+#  - runs in the foreground (so the timeout does not apply to children).
+
+# EXAMPLE:
+# TawSolver> BRG "1200*300,3" | ./tosigint 9.5 ctawSolver -cin -nil
+# Remarks: floating-point numbers like "1e2" are permitted, and also
+# suffixes s (default), m (minutes), h (hours), d (days).
+# For example 0.1m = 6s.
+
+set -o errexit
+set -o nounset
+
+script_name=$(basename "$0")
+version_number=0.1.0
+
+timeout --signal=SIGINT --preserve-status --foreground "$@"
