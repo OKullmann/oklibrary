@@ -113,7 +113,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   Output to file means appending.
 
-  Empty clauses or unit-clauses in the input are errors.
+  Empty clauses or unit-clauses in the input are errors (see below for
+  options on how to eliminate unit-clauses).
   The parameters in the p-line are considered as upper bounds (so not reaching
   them is not considered an error), where tautological clauses are ignored.
 
@@ -218,6 +219,42 @@ c options                               "A19"
 
 TawSolver> BRG "400*100,3" | ./tosigint 0.1 ctawSolver -cin -nil | awk '/^c number_of_sol/'
 c number_of_solutions                   1408
+
+  For eliminating unit-clauses, the OKlibrary-program
+  UnitClausePropagation-O3-DNDEBUG can be used (which doesn't perform
+  any renaming, and updates n- and c-values from the p-line):
+
+TawSolver> Pandiagonal 13 "" | UnitClausePropagation-O3-DNDEBUG | tawSolver -cin -nil | awk '/^s/'
+s SATISFIABLE
+TawSolver> Pandiagonal 14 "" | UnitClausePropagation-O3-DNDEBUG | tawSolver -cin -nil | awk '/^s/'
+s UNSATISFIABLE
+
+  Remark: the above can (naturally) be combined with tosigint.
+
+  Currently the corresponding partial assignment is not available.
+  Using the OKsolver for performing full r_2-reduction (not just r_1)
+  makes the assignment available.
+
+  Final remark: When using ctawSolver, then gaps in the variable-indices
+  matter (as for example created by UnitClausePropagation-O3-DNDEBUG).
+  The program RemoveVarGaps removes these.
+  Consider:
+TawSolver> Pandiagonal 5 "" | UnitClausePropagation-O3-DNDEBUG | ctawSolver -cin -nil | awk '/solutions/'
+c number_of_solutions                   0
+  This result comes from the gaps, creating a factor of at least 2^64 here,
+  that is, 0 (64-bit unsigned ints are used for counting).
+  Correct counting can be done as follows:
+
+TawSolver> for N in {5..13}; do echo -n "$N: "; Pandiagonal $N "" | UnitClausePropagation-O3-DNDEBUG > TEMP.cnf; RemoveVarGaps TEMP.cnf; tosigint 2m ctawSolver TEMP.cnf -nil | awk '/solutions/'; rm TEMP.cnf; done
+5: c number_of_solutions                   2
+6: c number_of_solutions                   0
+7: c number_of_solutions                   4
+8: c number_of_solutions                   0
+9: c number_of_solutions                   0
+10: c number_of_solutions                   0
+11: c number_of_solutions                   8
+12: c number_of_solutions                   0
+13: c number_of_solutions                   1
 
 */
 
