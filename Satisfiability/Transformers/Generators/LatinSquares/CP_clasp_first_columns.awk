@@ -12,6 +12,15 @@
 # of the solution-square (as one row).
 # Needs N predefined; ignores auxiliary variables (with index
 # > N^2).
+# For mode==0 (the default), just gives the first column; for
+# mode==1 gives the positions of 0's.
+
+# version 0.1.1
+
+function t(n) {
+  if (mode == 0) return n
+  return (N - n) % N
+}
 
 /^v/ {
   N2=N*N
@@ -21,7 +30,7 @@
         x=$i - 1
         if (x < N2) {
           k=x % N
-          printf " %d", k
+          printf " %d", t(k)
         }
       }
     }

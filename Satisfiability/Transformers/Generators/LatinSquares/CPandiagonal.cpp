@@ -69,6 +69,11 @@ constraint A[0,0]=0;constraint A[1,9]=0;constraint A[2,7]=0;constraint A[3,5]=0;
 All the examples above and below also work for "secouep".
 
 Showing the Sudokus as toroidalN-queens solutions:
+LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N
+ 0 4 8 1 5 9 2 6 10 3 7
+ 0 7 3 10 6 2 9 5 1 8 4
+ 0 8 5 2 10 7 4 1 9 6 3
+ 0 3 6 9 1 4 7 10 2 5 8
 LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_queens.awk
   0  *  *  *  *  *  *  *  *  *  *
   *  *  *  *  0  *  *  *  *  *  *
@@ -117,6 +122,59 @@ LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.a
   *  *  0  *  *  *  *  *  *  *  *
   *  *  *  *  *  0  *  *  *  *  *
   *  *  *  *  *  *  *  *  0  *  *
+
+We note that the queens-solutions interprete the values as the positions
+of the zeros; for the set of all solutions this yields the same as
+the direct interpretations, but for single solutions that is different,
+and can be turned off via mode=1:
+LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./CP_clasp_queens.awk
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+
+  0  *  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  0  *  *
+  *  *  *  *  *  0  *  *  *  *  *
+  *  *  0  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  *  0
+  *  *  *  *  *  *  *  0  *  *  *
+  *  *  *  *  0  *  *  *  *  *  *
+  *  0  *  *  *  *  *  *  *  *  *
+  *  *  *  *  *  *  *  *  *  0  *
+  *  *  *  *  *  *  0  *  *  *  *
+  *  *  *  0  *  *  *  *  *  *  *
 
 Now expanding these 4 columns into row-cyclic pandiagonal squares:
 LatinSquares> N=11; ./CPandiagonal +$N "" | clasp 0 | ./CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
