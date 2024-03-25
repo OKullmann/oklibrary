@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.3.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,13 +14,19 @@ License, or any later version. */
   <ul>
    <li> Compare Satisfiability/Quantification/MAUT/Counting.hpp . </li>
    <li> Boost seems here the best source for us. </li>
-   <li> It seems that we can use the fixed-sze integer- (and floating-point)
+   <li> It seems that we can use their fixed-sze integer- (and floating-point)
         types. </li>
+   <li> But perhaps first just supporting 128-bit from gcc:
+        https://gcc.gnu.org/onlinedocs/gcc/extensions-to-the-c-language-family/128-bit-integers.html . </li>
+   <li> One one can check whether std::int128_t etc. is available. </li>
    <li> Signed integral types are needed for general literal-weights
         (i.e., with possible negative values). </li>
    <li> The output should report on the used type for counting. </li>
-   <li> We also support float64 and float80 for counting. </li>
+   <li> We should also support float64 and float80 for counting. </li>
    <li> For arbitrary precision we use GMP (see below). </li>
+   <li> The only counts beyond 2^64 for ctawSolver can come from
+        partial solutions (otherwise ctawSolver enumerates all solutions).
+        Can we use this for a more efficient precise count? </li>
   </ul>
 
 
