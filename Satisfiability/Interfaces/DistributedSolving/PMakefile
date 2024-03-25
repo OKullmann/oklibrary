@@ -10,7 +10,7 @@
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.3.0
+# Version 0.3.1
 
 exit_handling?=test-exit
 error_output?=let-through
@@ -33,6 +33,7 @@ resultfile := SubinstanceStatistics
 apply_call := ApplyPass-O3-DNDEBUG
 
 solver_call := SOLVERCALL
+solver_suffix := SOLVERSUFFIX
 extraction_tool := EXTRACT
 number_cubes := CUBES
 
@@ -61,12 +62,12 @@ endrun :
 Results/% :
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
 ifeq ($(exit_handling),test-exit)
-	@$(solver_call) Temp$*.cnf > Temp$*.out; if [[ $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
+	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out; if [[ $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
 else
   ifeq ($(error_output),let-through)
-	@$(solver_call) Temp$*.cnf > Temp$*.out; true
+	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out; true
   else
-	@$(solver_call) Temp$*.cnf > Temp$*.out 2> /dev/null; true
+	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out 2> /dev/null; true
   endif
 endif
 	@cat Temp$*.out | $(extraction_tool) data-only > $@

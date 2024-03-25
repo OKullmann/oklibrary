@@ -34,12 +34,20 @@
 
 # By default the solver is minisat-2.2.0. To use a different solver, set
 # variable "solver", for example
-
-# solver="OKsolver_2002-O3-DNDEBUG" solver_args="-M -D10" ProcessSplitViaOKsolver XXX
+#   solver="OKsolver_2002-O3-DNDEBUG" solver_args="-M -D10" ProcessSplitViaOKsolver Input.cnf
 
 # To run the default-solver with just additional parameters, for example a
 # time-limit, use e.g. (here a time-limit of 20s is set)
-#   solver_args="-cpu-lim=20" ProcessSplitViaOKsolver XXX
+#   solver_args="-cpu-lim=20" ProcessSplitViaOKsolver Input.cnf
+
+# The complete calling-syntax is
+#   prefix_solver  solver  solver_args  TEMP$i.cnf  suffix_solver
+# where is the current index of the cube (the file in Instances), and
+# TEMP$i.cnf is created by applying the cube to the base-instance.
+# For example for the tawSolver, which has Input.cnf as first argument,
+# and the assignment-output as second, in order to eliminate output of
+# the satisfying assignment one would use (also using a timeout of 60s):
+#   solver=tawSolver prefix_solver="tosigint 60" solver_prefix="-nil".
 
 # Expected return-values of the solver are 0 (return without a result),
 # 10 (sat) and 20 (unsat).
@@ -110,7 +118,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.2.1
+version_number=0.2.2
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
@@ -128,8 +136,10 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 solver="${solver:=minisat-2.2.0}"
-solver_args="${solver_args:=}"
-solver_call="${solver} ${solver_args}"
+solver_args="${solver_args-}"
+solver_prefix="${solver_prefix-}"
+solver_call="${solver_prefix} ${solver} ${solver_args}"
+solver_suffix="${solver_suffix-}"
 
 extraction_tool=$(SelectExtractionTool ${solver})
 if [[ ${extraction_tool} == "UNKNOWN" ]]; then
@@ -142,7 +152,7 @@ pmakefile="${DIR}/PMakefile"
 directory1=$1
 
 echo "${script_name} in version ${version_number} started."
-echo -e "Using solver-call \"${solver_call}\"."
+echo -e "Using solver-call \"${solver_call} FILE ${solver_suffix}\"."
 
 instance_name="$(cat ${directory1}/F)"
 number_cubes=$(cat ${directory1}/N)
@@ -172,6 +182,7 @@ echo >> Environment
 free -m >> Environment
 
 sed -i "s@SOLVERCALL@${solver_call}@" Makefile
+sed -i "s@SOLVERSUFFIX@${solver_suffix}@" Makefile
 sed -i "s@EXTRACT@${extraction_tool}@" Makefile
 sed -i "s@INSTANCE@${instance_name}@" Makefile
 sed -i "s/CUBES/${number_cubes}/" Makefile
