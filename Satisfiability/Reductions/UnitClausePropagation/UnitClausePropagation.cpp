@@ -9,19 +9,32 @@ License, or any later version. */
   \file OKlib/Satisfiability/Reductions/UnitClausePropagation/UnitClausePropagation.cpp
   \brief Application for performing UCP on Dimacs input
 
+  Reading from standard input, output to standard output.
+
   The full clause-literal graph is used here. If a command-line value is used
   of value "set", then the implementation uses (std::)sets for implementing
   clauses.
 
   TODOS:
 
+  0. Make the partial assignment corresponding to the propagation available:
+      - Perhaps a file-parameter.
+      - Then we need to change the current handling of "set".
+      - Using the standard: first argument is an enumeration for algorithmic
+        options; value "" means "vector".
+      - Second argument the filename for the output of the partial assignment;
+        "" means no output.
+
   1. Write application tests.
 
   2. Specify input and output.
+      - Parameter-line:
+       - the n-value seems the actual max-n
+       - the c-value seems the actual c.
 
-  3. We need an option for precise handling of the n-value in the p-cnf line:
+  3. We need an option for handling of the n-value in the p-cnf line:
       - Either keeping the original value
-      - or using max-n
+      - or using max-n (as now)
       - or performing renaming (squashing) and then using the exact n.
 
   4. We need an option to handle comments:
