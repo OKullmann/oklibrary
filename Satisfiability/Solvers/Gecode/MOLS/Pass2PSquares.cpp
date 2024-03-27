@@ -7,9 +7,12 @@ License, or any later version. */
 
 /*
   Reads N and filenames of partial assignments from the command-line,
-  concatenates the partial assignments, interpreting as a partial square,
+  concatenates the partial assignments, interpreting them as a partial square,
   and outputting either in partial-square-format from OKlibrary, or in
   Minizinc-format.
+
+  So this program outputs a single partial square.
+  A useful tool can be passextractpos.awk.
 
 TODOS:
 
