@@ -50,6 +50,9 @@ ERROR[RExtractColumns_debug]: Column 4 not found in line 1 = "3 77 88 99".
 
 TODOS:
 
+1. It should be possible to keep the comments.
+    - No formatting should be applied to the comments.
+
 */
 
 #include <iostream>
