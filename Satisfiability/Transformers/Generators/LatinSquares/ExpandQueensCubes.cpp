@@ -17,12 +17,16 @@ License, or any later version. */
 
 #include <iostream>
 
+#include <cstdint>
+
 #include <ProgramOptions/Environment.hpp>
+
+#include "Algorithms.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
+        "0.0.2",
         "28.3.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -47,5 +51,7 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+
+  
 
 }

@@ -31,5 +31,5 @@ CspPandiagonal_debug : CspPandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hp
 Sort : Sort.cpp
 Sort_debug : Sort.cpp
 
-ExpandQueensCubes : ExpandQueensCubes.cpp
-ExpandQueensCubes_debug : ExpandQueensCubes.cpp
+ExpandQueensCubes : ExpandQueensCubes.cpp Algorithms.hpp
+ExpandQueensCubes_debug : ExpandQueensCubes.cpp Algorithms.hpp
