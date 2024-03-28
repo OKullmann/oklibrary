@@ -1,5 +1,5 @@
 /* Copyright 2001 Chu Min Li
-Copyright 2009-2015 Oliver Kullmann
+Copyright 2009-2015, 2024 Oliver Kullmann
 Satz215 is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in the OKlibrary;
@@ -18,6 +18,7 @@ either version 3 of the License, or any later version. */
    <li> Updated output format. </li>
    <li> Improved C usage, and update to C99. </li>
    <li> Corrected time measurement. </li>
+   <li> Extended MAX_NUMBER_CLAUSES to 2e6. </li>
   </ul>
 */
 
@@ -73,7 +74,7 @@ typedef unsigned int my_unsigned_type;
 #endif
 
 #ifndef MAX_NUMBER_CLAUSES
-# define MAX_NUMBER_CLAUSES 800000
+# define MAX_NUMBER_CLAUSES 2000000
 #endif
 
 #ifndef MAX_CLAUSE_LENGTH
