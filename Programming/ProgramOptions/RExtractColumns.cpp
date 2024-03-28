@@ -50,15 +50,11 @@ ERROR[RExtractColumns_debug]: Column 4 not found in line 1 = "3 77 88 99".
 
 TODOS:
 
-1. There should be an option to just take all columns from
-   the input:
-    - That means the input is formatted.
-    - Possibly just one input "*" ?
-
 */
 
 #include <iostream>
 #include <vector>
+#include <ranges>
 
 #include <cstdlib>
 
@@ -67,8 +63,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "12.3.2024",
+        "0.1.2",
+        "28.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/ProgramOptions/RExtractColumns.cpp",
@@ -82,6 +78,10 @@ namespace {
     std::cout <<
     "> " << proginfo.prg <<
       " [column-name]*\n\n"
+      "  - column-names are strings selected from the header\n"
+      "  - if there is exactly one column-name \"*\", then use"
+      " complete header\n\n"
+      "reads from standard input, and outputs to standard output.\n\n"
 ;
     return true;
   }
@@ -117,6 +117,19 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+
+  if (argc == 2 and std::string(argv[1]) == "*") {
+    const auto datafile = Environment::split2_cutoff(std::cin, '\n', '#');
+    if (not datafile.empty()) {
+      tokens_t print_header;
+      print_header.reserve(datafile[0].size() + 1);
+      print_header.push_back(" ");
+      for (const auto& name : datafile[0]) print_header.push_back(name);
+      Environment::print2dformat(std::cout,
+        std::ranges::drop_view{datafile,1}, 1, print_header);
+    }
+    return 0;
+  }
 
   const std::vector<std::string> names(argv+1, argv+argc);
 
