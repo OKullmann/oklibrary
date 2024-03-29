@@ -13,6 +13,14 @@ License, or any later version. */
      sitting top-left (coming from standard input).
    - Represented as vectors of size N of elements from {0, ..., N-1}.
 
+EXAMPLES:
+
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
+13 348: 1
+LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
+17 28: 1
+
+
 */
 
 #include <iostream>
@@ -21,6 +29,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "Commandline.hpp"
 #include "Algorithms.hpp"
 
 namespace {
@@ -34,14 +43,17 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
+  constexpr int commandline_args = 1;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " k""\n\n"
-      "reads from standard input, and outputs to standard output.\n\n"
+      " [+]k""\n\n"
+      "reads from standard input, and outputs to standard output:\n"
+      "  - default is to output only statistics\n"
+      "  - \"+\" means to output instead the expanded cubing.\n\n"
  ;
     return true;
   }
@@ -52,6 +64,22 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  
+  if (argc != commandline_args + 1) {
+    std::cerr << error << "Exactly " << commandline_args << " command-line"
+      " arguments needed (k), but the real number is " << argc-1 << ".\n";
+    return 1;
+  }
 
+  const auto [k, output] = Commandline::read_dim(argv[1], error);
+  const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
+
+  if (not output) {
+    std::cout << init_cubes.N << " " << init_cubes.m <<
+      ": " << k << std::endl;
+    if (k == 1) return 0;
+    // XXX
+  }
+  else {
+    // XXX
+  }
 }
