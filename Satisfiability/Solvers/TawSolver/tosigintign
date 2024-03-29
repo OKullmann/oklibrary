@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# "time out via SIGINT, ignoring exit-code"
+
+# As tosigint, but ignoring exit-code.
+
+set -o errexit
+set -o nounset
+
+script_name=$(basename "$0")
+version_number=0.0.9
+
+timeout --signal=SIGINT --preserve-status --foreground "$@" || true
