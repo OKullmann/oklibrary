@@ -30,10 +30,15 @@ License, or any later version. */
     - to_vec_float80(string s, char sep) returns a vector of float80
     - to_vec_float80ai(string, char, UInt_t i) returns a pair of
       vector and F80ai (for index i)
+      All the above uses the corresponding to_-functions.
 
     - typedef table_t = std::vector<std::vector<float80>>
     - read_table(tokens_t), read_table(istream&), read_table(filesystem::path)
         all -> table_t
+      All allow comment-lines (starting with "#") and empty lines, and space-
+      symbols are handled liberally.
+    - read_gentable<UInt>(istream&) -> vector<vector<UInt>>
+      using to_vec_unsigned and getline
 
     - typedef table_wai_t =
       std::vector<std::pair<std::vector<float80>, F80ai>>
@@ -359,6 +364,16 @@ namespace FloatingPoint {
       throw std::runtime_error(ss.str());
     }
     return read_table(std::move(lines));
+  }
+  template <typename UInt>
+  std::vector<std::vector<UInt>> read_gentable(std::istream& in) {
+    assert(in);
+    std::vector<std::vector<UInt>> res;
+    for (std::string line; std::getline(in,line); ) {
+      auto vec = to_vec_unsigned<UInt>(line, ' ');
+      res.push_back(std::move(vec));
+    }
+    return res;
   }
 
   typedef std::vector<std::pair<std::vector<float80>, F80ai>> table_wai_t;

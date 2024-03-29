@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,8 +44,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.8",
-        "19.9.2023",
+        "0.13.9",
+        "28.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1549,6 +1549,10 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(read_table(ss), {{1,2,3},{4},{5,6},{8,9,10}}));
    assert(read_table(ss).empty());
    assert(ss.str() == s);
+  }
+  {std::istringstream ss(" 1 2 \t3\n4 \n 5 6\n8 9  10 \n-1\n");
+   assert(eqp(read_gentable<UInt_t>(ss),
+              {{1,2,3},{4},{5,6},{8,9,10},{P264m1}}));
   }
 
   {using tt = Environment::tokens_t;
