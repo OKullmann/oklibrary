@@ -15,11 +15,63 @@ License, or any later version. */
 
 EXAMPLES:
 
+Trivial mode:
+
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
 13 348: 1
 LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
 17 28: 1
 
+Complete solution mode for pandiagonal problems:
+
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+0 0 0 0 0
+1 1 1 1 1
+LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+Empty input.
+LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+0 0 0 0 0 0 0
+1 1 1 1 1 1 1
+2 2 2 2 2 2 2
+3 3 3 3 3 3 3
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+0 0 0 0 0 0 0 0 0 0 0
+1 1 1 1 1 1 1 1 1 1 1
+2 2 2 2 2 2 2 2 2 2 2
+3 3 3 3 3 3 3 3 3 3 3
+4 4 4 4 4 4 4 4 4 4 4
+5 5 5 5 5 5 5 5 5 5 5
+6 6 6 6 6 6 6 6 6 6 6
+7 7 7 7 7 7 7 7 7 7 7
+
+Complete solution mode for pandiagonal strong Sudoku problems ("strong":
+every digit can be arbitrarily shifted and still fulfills the Sudoku
+condition):
+
+LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N | wc -l
+346
+real	13m15.241s
+user	13m15.153s
+sys	0m0.030s
+
+(Compared to 398 ordinary Pandiagonal Sudokus.)
+
+Splitting on columns in order:
+
+LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$k | wc -l; done
+1: 28
+2: 372
+3: 2972
+4: 11624
+5: 20474
+6: 17894
+7: 7076
+8: 2122
+9: 714
+10: 152
+11: 50
+12: 30
+13: 28
 
 */
 
@@ -72,6 +124,10 @@ int main(const int argc, const char* const argv[]) {
 
   const auto [k, output] = Commandline::read_dim(argv[1], error);
   const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
+  if (init_cubes.m == 0) {
+    std::cout << "Empty input.\n";
+    return 0;
+  }
 
   if (not output) {
     std::cout << init_cubes.N << " " << init_cubes.m <<
@@ -80,6 +136,10 @@ int main(const int argc, const char* const argv[]) {
     // XXX
   }
   else {
-    // XXX
+    if (k >=  init_cubes.N) {
+      Algorithms::all_solutions(init_cubes, std::cout);
+      return 0;
+    }
+    Algorithms::all_solutions(init_cubes, k, {}, std::cout);
   }
 }
