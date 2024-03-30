@@ -46,8 +46,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "27.2.2024",
+        "0.0.10",
+        "27.3.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/RemoveVarGaps.cpp",
@@ -63,7 +63,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " dimacs-file\n\n"
-    " renames the variables in the strict Dimacs-file.\n\n"
+    " renames the variables in the strict Dimacs-file (in-place).\n\n"
 ;
     return true;
   }
