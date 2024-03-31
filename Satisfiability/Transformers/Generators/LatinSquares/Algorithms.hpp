@@ -25,6 +25,8 @@ License, or any later version. */
 #include <Transformers/Generators/Bicliques/Algorithms.hpp>
 #include <Solvers/Gecode/MOLS/OrthogonalArrays.hpp> // subsets(N, k)
 
+#include "EQOptions.hpp"
+
 namespace Algorithms {
 
   typedef FloatingPoint::UInt_t UInt_t;

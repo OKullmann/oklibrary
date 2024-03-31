@@ -86,11 +86,12 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 
 #include "Commandline.hpp"
 #include "Algorithms.hpp"
+#include "EQOptions.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.10",
+        "0.0.11",
         "1.4.2024",
         __FILE__,
         "Oliver Kullmann",
