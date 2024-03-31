@@ -44,6 +44,9 @@ LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v
 6 6 6 6 6 6 6 6 6 6 6
 7 7 7 7 7 7 7 7 7 7 7
 
+LatinSquares> N=13; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N > PAN13
+XXX running server2 XXX
+
 Complete solution mode for pandiagonal strong Sudoku problems ("strong":
 every digit can be arbitrarily shifted and still fulfills the Sudoku
 condition):
@@ -87,25 +90,50 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.2",
-        "28.3.2024",
+        "0.0.10",
+        "1.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExpandQueensCubes.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 1;
+  constexpr int commandline_args = 2;
+
+  // Output-type:
+  enum class OT {
+    dimacs = 0,
+    cube_index = 1
+  };
+  constexpr int OTsize = int(OT::cube_index) + 1;
+}
+namespace Environment {
+  template <> struct RegistrationPolicies<OT> {
+    static constexpr const char* sname = "ot";
+    static constexpr int size = OTsize;
+    static constexpr std::array<const char*, size>
+      string {"d", "ci"};
+    static constexpr std::array<const char*, size>
+      estring {"dimacs", "cube-index"};
+  };
+}
+namespace {
+    std::ostream& operator <<(std::ostream& out, const OT ot) {
+    return out << Environment::W2(ot);
+  }
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " [+]k""\n\n"
+      " [+]k output-form\n\n"
+      " - [+]k            : unsigned integer\n"
+      " - output-form     : " << Environment::WRPO<OT>{} << "\n\n" <<
       "reads from standard input, and outputs to standard output:\n"
       "  - default is to output only statistics\n"
-      "  - \"+\" means to output instead the expanded cubing.\n\n"
+      "    - \"+\" means to output instead the expanded cubing\n"
+      "  - the first option-value is used for the empty string \"\".\n\n"
  ;
     return true;
   }
@@ -118,11 +146,19 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != commandline_args + 1) {
     std::cerr << error << "Exactly " << commandline_args << " command-line"
-      " arguments needed (k), but the real number is " << argc-1 << ".\n";
+      " arguments needed (k, of), but the real number is " << argc-1 << ".\n";
     return 1;
   }
 
   const auto [k, output] = Commandline::read_dim(argv[1], error);
+  const auto ot0 = Environment::read<OT>(argv[2]);
+  if (not ot0) {
+    std::cerr << error << "The output-form could not be read from"
+        " string \"" << argv[2] << "\".\n";
+    return 1;
+  }
+  const OT ot = ot0.value();
+
   const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
     std::cout << "Empty input.\n";
