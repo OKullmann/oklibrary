@@ -125,23 +125,29 @@ namespace Algorithms {
 
   // Trivial algorithm for finding all solutions:
   void all_solutions(const Cubing_t& C, const UInt_t d, vector_t init,
-                     std::ostream& out) {
+                     std::ostream& out, const EQOptions::OT ot) {
     const UInt_t co = init.size();
     if (d == 0 or co >= C.N) {
-      Environment::out_line(out, init); out << std::endl; return;
+      if (ot == EQOptions::OT::cube_index)
+        Environment::out_line(out, init);
+      else {
+        // XXX
+      }
+      out << std::endl; return;
     }
     for (UInt_t i = 0; i < C.m; ++i) {
       const qplaces p{co,i};
       for (UInt_t co0 = 0; co0 < co; ++co0)
         if (not C.disjoint(p, {co0, init[co0]})) goto END;
       {vector_t ext(init); ext.push_back(i);
-       all_solutions(C, d-1, std::move(ext), out);
+       all_solutions(C, d-1, std::move(ext), out, ot);
       }
       END:;
     }
   }
-  void all_solutions(const Cubing_t& C, std::ostream& out) {
-    all_solutions(C, C.N, {}, out);
+  void all_solutions(const Cubing_t& C, std::ostream& out,
+                     const EQOptions::OT ot) {
+    all_solutions(C, C.N, {}, out, ot);
   }
   
 }

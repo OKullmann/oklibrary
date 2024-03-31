@@ -17,24 +17,24 @@ EXAMPLES:
 
 Trivial mode:
 
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 ""
 13 348: 1
-LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1
+LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 ""
 17 28: 1
 
 Complete solution mode for pandiagonal problems:
 
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
 0 0 0 0 0
 1 1 1 1 1
-LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
 Empty input.
-LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
 0 0 0 0 0 0 0
 1 1 1 1 1 1 1
 2 2 2 2 2 2 2
 3 3 3 3 3 3 3
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
 0 0 0 0 0 0 0 0 0 0 0
 1 1 1 1 1 1 1 1 1 1 1
 2 2 2 2 2 2 2 2 2 2 2
@@ -51,7 +51,7 @@ Complete solution mode for pandiagonal strong Sudoku problems ("strong":
 every digit can be arbitrarily shifted and still fulfills the Sudoku
 condition):
 
-LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N | wc -l
+LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N ci | wc -l
 346
 real	13m15.241s
 user	13m15.153s
@@ -61,7 +61,7 @@ sys	0m0.030s
 
 Splitting on columns in order:
 
-LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$k | wc -l; done
+LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$k ci | wc -l; done
 1: 28
 2: 372
 3: 2972
@@ -91,7 +91,7 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.11",
+        "0.0.12",
         "1.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -101,27 +101,7 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr int commandline_args = 2;
 
-  // Output-type:
-  enum class OT {
-    dimacs = 0,
-    cube_index = 1
-  };
-  constexpr int OTsize = int(OT::cube_index) + 1;
-}
-namespace Environment {
-  template <> struct RegistrationPolicies<OT> {
-    static constexpr const char* sname = "ot";
-    static constexpr int size = OTsize;
-    static constexpr std::array<const char*, size>
-      string {"d", "ci"};
-    static constexpr std::array<const char*, size>
-      estring {"dimacs", "cube-index"};
-  };
-}
-namespace {
-    std::ostream& operator <<(std::ostream& out, const OT ot) {
-    return out << Environment::W2(ot);
-  }
+  using namespace EQOptions;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -174,9 +154,9 @@ int main(const int argc, const char* const argv[]) {
   }
   else {
     if (k >=  init_cubes.N) {
-      Algorithms::all_solutions(init_cubes, std::cout);
+      Algorithms::all_solutions(init_cubes, std::cout, ot);
       return 0;
     }
-    Algorithms::all_solutions(init_cubes, k, {}, std::cout);
+    Algorithms::all_solutions(init_cubes, k, {}, std::cout, ot);
   }
 }
