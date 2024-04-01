@@ -26,6 +26,7 @@ License, or any later version. */
 #include <Solvers/Gecode/MOLS/OrthogonalArrays.hpp> // subsets(N, k)
 
 #include "EQOptions.hpp"
+#include "PQEncoding.hpp"
 
 namespace Algorithms {
 
@@ -64,6 +65,11 @@ namespace Algorithms {
 
     UInt_t queen(const qplaces& p, const UInt_t i) const noexcept {
       return (A[p.cu][i] + p.co) % N;
+    }
+    vector_t queens(const qplaces& p) const noexcept {
+      vector_t res(A[p.cu]);
+      for (UInt_t i = 0; i < N; ++i) res[i] = (res[i] + p.co) % N;
+      return res;
     }
 
     bool disjoint(const qplaces& p1, const qplaces& p2) const noexcept {
@@ -131,7 +137,18 @@ namespace Algorithms {
       if (ot == EQOptions::OT::cube_index)
         Environment::out_line(out, init);
       else {
-        // XXX
+        using dim_t = PQEncoding::dim_t;
+        assert(C.N <= 65535U);
+        out << "v";
+        for (dim_t q = 0; q < co; ++q) {
+          const vector_t Q = C.queens({q,init[q]});
+          for (dim_t i = 0; i < C.N; ++i) {
+            const dim_t j = Q[i]; // at (i,j) place Queen q
+            const UInt_t v = PQEncoding::PEncoding::index({i,j}, q, C.N);
+            out << " " << v;
+          }
+        }
+        out << " 0";
       }
       out << std::endl; return;
     }

@@ -164,11 +164,20 @@ namespace PQEncoding {
     var_t operator()() const noexcept {
       return ++next;
     }
+    // Set queen k in cell c:
     constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
       assert(valid(c, N));
       assert(k < N);
       const var_t code = c.i * N2 + c.j * N + k;
       assert(code < N3);
+      return 1 + code;
+    }
+    static constexpr var_t index(const cell_t& c, const dim_t k,
+                                 const dim_t N0) noexcept {
+      assert(valid(c, N0));
+      assert(k < N0);
+      const var_t N = N0, N2 = N * N;
+      const var_t code = c.i * N2 + c.j * N + k;
       return 1 + code;
     }
 

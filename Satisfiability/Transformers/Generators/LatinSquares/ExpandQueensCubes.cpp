@@ -91,7 +91,7 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.12",
+        "0.0.13",
         "1.4.2024",
         __FILE__,
         "Oliver Kullmann",
