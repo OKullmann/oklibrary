@@ -45,7 +45,12 @@ LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v
 7 7 7 7 7 7 7 7 7 7 7
 
 LatinSquares> N=13; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N > PAN13
-XXX running server2 XXX
+real    4651m57.218s
+user    4651m33.554s
+sys     0m0.547s
+(on server2)
+LatinSquares$ wc -l PAN13
+12386 PAN13
 
 Complete solution mode for pandiagonal strong Sudoku problems ("strong":
 every digit can be arbitrarily shifted and still fulfills the Sudoku
