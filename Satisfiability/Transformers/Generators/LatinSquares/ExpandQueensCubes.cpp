@@ -85,8 +85,6 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 
 #include <iostream>
 
-#include <cstdint>
-
 #include <ProgramOptions/Environment.hpp>
 
 #include "Commandline.hpp"
