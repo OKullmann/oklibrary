@@ -7,8 +7,8 @@
 
 oklibloc = ../../../..
 
-opt_progs = Mols Pandiagonal CPandiagonal CspPandiagonal Sort ExpandQueensCubes
-debug_progs = Mols_debug Pandiagonal_debug CPandiagonal_debug CspPandiagonal_debug Sort_debug ExpandQueensCubes_debug
+opt_progs = Mols Pandiagonal CPandiagonal CspPandiagonal Sort ExpandQueensCubes ExactCoverQueensCubes
+debug_progs = Mols_debug Pandiagonal_debug CPandiagonal_debug CspPandiagonal_debug Sort_debug ExpandQueensCubes_debug ExactCoverQueensCubes_debug
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -33,3 +33,6 @@ Sort_debug : Sort.cpp
 
 ExpandQueensCubes : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp
 ExpandQueensCubes_debug : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp
+
+ExactCoverQueensCubes : ExactCoverQueensCubes.cpp Algorithms.hpp
+ExactCoverQueensCubes_debug : ExactCoverQueensCubes.cpp Algorithms.hpp
