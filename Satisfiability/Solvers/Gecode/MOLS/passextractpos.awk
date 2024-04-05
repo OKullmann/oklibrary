@@ -13,7 +13,9 @@
 #  0
 
 
-# version 0.0.9
+# version 0.1.0
+
+BEGIN { PROCINFO["sorted_in"] = "@ind_num_asc" }
 
 /^v/ {
   for (i=2; i<=NF; ++i) {
