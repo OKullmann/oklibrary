@@ -30,22 +30,62 @@ LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v 
  0 3 1 4 2
  0 2 4 1 3
 > N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExactCoverQueensCubes
-XXX
+Main block of QC_5_2.c:
+dlx_set(d,0,0);dlx_set(d,0,8);dlx_set(d,0,11);dlx_set(d,0,19);dlx_set(d,0,22);
+dlx_set(d,1,0);dlx_set(d,1,7);dlx_set(d,1,14);dlx_set(d,1,16);dlx_set(d,1,23);
+dlx_set(d,2,1);dlx_set(d,2,9);dlx_set(d,2,12);dlx_set(d,2,15);dlx_set(d,2,23);
+dlx_set(d,3,1);dlx_set(d,3,8);dlx_set(d,3,10);dlx_set(d,3,17);dlx_set(d,3,24);
+dlx_set(d,4,2);dlx_set(d,4,5);dlx_set(d,4,13);dlx_set(d,4,16);dlx_set(d,4,24);
+dlx_set(d,5,2);dlx_set(d,5,9);dlx_set(d,5,11);dlx_set(d,5,18);dlx_set(d,5,20);
+dlx_set(d,6,3);dlx_set(d,6,6);dlx_set(d,6,14);dlx_set(d,6,17);dlx_set(d,6,20);
+dlx_set(d,7,3);dlx_set(d,7,5);dlx_set(d,7,12);dlx_set(d,7,19);dlx_set(d,7,21);
+dlx_set(d,8,4);dlx_set(d,8,7);dlx_set(d,8,10);dlx_set(d,8,18);dlx_set(d,8,21);
+dlx_set(d,9,4);dlx_set(d,9,6);dlx_set(d,9,13);dlx_set(d,9,15);dlx_set(d,9,22);
+LatinSquares> ./EC_QC_5_2
+ 0 2 4 6 8
+ 1 3 5 7 9
+
 
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExactCoverQueensCubes
 LatinSquares> time gcc -O3 -Wall -o EC_QC_13_348 EC_QC_13_348.c dlx.c
 real	0m8.201s
 user	0m7.897s
 sys	0m0.304s
-LatinSquares> time ./EC_QC_13_348 > AUS13
-real	7m49.270s
-user	7m49.219s
-sys	0m0.008s
-LatinSquares> wc -l AUS13
-12386 AUS13
+LatinSquares> time ./EC_QC_13_348 > OUT13
+real	7m33.318s
+user	7m33.131s
+sys	0m0.176s
+LatinSquares> wc -l OUT13
+12386 OUT13
 
-N=17: XXX
+On a machien with larger memory (~ 27GB needed):
+LatinSquares> N=17; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExactCoverQueensCubes
+/usr/bin/ld: warning: /tmp/ccrF7UBT.o: requires executable stack (because the .note.GNU-stack section is executable)
+real    8m25.847s
+user    8m5.052s
+sys     0m20.759s
+LatinSquares> ulimit -s unlimited
+LatinSquares> ls -l EC_QC_17_8276*
+-rwxr-xr-x 1 oliver users 43045072 Apr  4 05:35 EC_QC_17_8276
+-rw-r--r-- 1 oliver users 49960512 Apr  4 05:26 EC_QC_17_8276.c
+LatinSquares> time ./EC_QC_17_8276
+XXX
 
+TODOS:
+
+0. Provide for translating the output:
+  - Another program could do the translation (given the same input).
+  - Or the created C-program prints the squares.
+
+1. Interpretation of the queens in the example:
+  - Since CP_clasp_first_columns.awk uses the default mode=0,
+    the original output is the first column of the cyclic pandiagonal square.
+  - This then gets re-interpreted as the positions of the queens.
+  - So using mode=1 would be more appropriate.
+
+2. Replace dlx.h|c by a native program:
+  - Only needing the same input as ExactCoverQueensCubes.
+  - One thread for each of the m possibilities for the first "queen" (digit).
 
 */
 
@@ -59,7 +99,7 @@ N=17: XXX
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "4.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -87,6 +127,7 @@ namespace {
 R"(#include <stdio.h>
 #include "dlx.h"
 int main() {
+  setbuf(stdout, NULL);
   dlx_t d = dlx_new();
 
 )";
