@@ -15,9 +15,10 @@ namespace EQOptions {
   // Output-type:
   enum class OT {
     dimacs = 0,
-    cube_index = 1
+    cube_index = 1,
+    count_only = 2
   };
-  constexpr int OTsize = int(OT::cube_index) + 1;
+  constexpr int OTsize = int(OT::count_only) + 1;
 }
 
 namespace Environment {
@@ -25,9 +26,9 @@ namespace Environment {
     static constexpr const char* sname = "ot";
     static constexpr int size = EQOptions::OTsize;
     static constexpr std::array<const char*, size>
-      string {"d", "ci"};
+      string {"d", "ci", "count"};
     static constexpr std::array<const char*, size>
-      estring {"dimacs", "cube-index"};
+      estring {"dimacs", "cube-index", "count-only"};
   };
 }
 

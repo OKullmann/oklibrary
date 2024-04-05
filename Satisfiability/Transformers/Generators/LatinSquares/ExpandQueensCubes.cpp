@@ -17,24 +17,38 @@ EXAMPLES:
 
 Trivial mode:
 
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 ""
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
 13 348: 1
-LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 ""
+LatinSquares> N=17; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
+17 8276: 1
+LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
 17 28: 1
 
-Complete solution mode for pandiagonal problems:
+Considering deeper splitting (but still only coutning):
 
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 2 count
+13 348: 2
+54116
+LatinSquares> N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes 2 count
+17 8276: 2
+29296454
+real	0m15.698s
+user	0m16.405s
+sys	0m0.086s
+
+Complete solution mode for pandiagonal problems (with abbreviated output):
+
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 0 0 0 0 0
 1 1 1 1 1
-LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
+LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 Empty input.
-LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
+LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 0 0 0 0 0 0 0
 1 1 1 1 1 1 1
 2 2 2 2 2 2 2
 3 3 3 3 3 3 3
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug +$N ci
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 0 0 0 0 0 0 0 0 0 0 0
 1 1 1 1 1 1 1 1 1 1 1
 2 2 2 2 2 2 2 2 2 2 2
@@ -44,7 +58,8 @@ LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v
 6 6 6 6 6 6 6 6 6 6 6
 7 7 7 7 7 7 7 7 7 7 7
 
-LatinSquares> N=13; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N > PAN13
+A longer experiment:
+LatinSquares> N=13; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N ci > PAN13
 real    4651m57.218s
 user    4651m33.554s
 sys     0m0.547s
@@ -54,19 +69,27 @@ LatinSquares$ wc -l PAN13
 
 Complete solution mode for pandiagonal strong Sudoku problems ("strong":
 every digit can be arbitrarily shifted and still fulfills the Sudoku
-condition):
+condition); still just abbreviated output:
 
-LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$N ci | wc -l
+LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N ci | wc -l
 346
 real	13m15.241s
 user	13m15.153s
 sys	0m0.030s
+LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N count
+13 112: 13
+346
+real	12m25.041s
+user	12m24.854s
+sys	0m0.089s
+
 
 (Compared to 398 ordinary Pandiagonal Sudokus.)
 
-Splitting on columns in order:
 
-LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes +$k ci | wc -l; done
+Running through all splittings on columns in order (strong Sudokus):
+
+LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $k count | sed 1d; done
 1: 28
 2: 372
 3: 2972
@@ -94,8 +117,8 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.13",
-        "1.4.2024",
+        "0.1.0",
+        "5.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExpandQueensCubes.cpp",
@@ -111,12 +134,10 @@ namespace {
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " [+]k output-form\n\n"
-      " - [+]k            : unsigned integer\n"
+      " k output-form\n\n"
+      " - k            : unsigned integer\n"
       " - output-form     : " << Environment::WRPO<OT>{} << "\n\n" <<
       "reads from standard input, and outputs to standard output:\n"
-      "  - default is to output only statistics\n"
-      "    - \"+\" means to output instead the expanded cubing\n"
       "  - the first option-value is used for the empty string \"\".\n\n"
  ;
     return true;
@@ -134,7 +155,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto [k, output] = Commandline::read_dim(argv[1], error);
+  const auto [k, dummy] = Commandline::read_dim(argv[1], error);
   const auto ot0 = Environment::read<OT>(argv[2]);
   if (not ot0) {
     std::cerr << error << "The output-form could not be read from"
@@ -142,6 +163,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   const OT ot = ot0.value();
+  const bool output = ot != OT::count_only;
 
   const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
@@ -152,8 +174,8 @@ int main(const int argc, const char* const argv[]) {
   if (not output) {
     std::cout << init_cubes.N << " " << init_cubes.m <<
       ": " << k << std::endl;
-    if (k == 1) return 0;
-    // XXX
+    Algorithms::all_solutions(init_cubes, k, {}, std::cout, ot);
+    std::cout << Algorithms::expand_total_count << "\n";
   }
   else {
     if (k >=  init_cubes.N) {

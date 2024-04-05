@@ -38,7 +38,7 @@ namespace Algorithms {
   typedef std::vector<vector_t> cubing_t;
 
   struct qplaces {
-    UInt_t co; // column
+    UInt_t co; // column (or "digit")
     UInt_t cu; // index of cube (Queens-solutions)
   };
   typedef std::vector<qplaces> qp_selection_t;
@@ -129,11 +129,13 @@ namespace Algorithms {
     return res;
   }
 
+  UInt_t expand_total_count = 0;
   // Trivial algorithm for finding all solutions:
   void all_solutions(const Cubing_t& C, const UInt_t d, vector_t init,
                      std::ostream& out, const EQOptions::OT ot) {
     const UInt_t co = init.size();
     if (d == 0 or co >= C.N) {
+      if (ot == EQOptions::OT::count_only) { ++expand_total_count; return; }
       if (ot == EQOptions::OT::cube_index)
         Environment::out_line(out, init);
       else {
