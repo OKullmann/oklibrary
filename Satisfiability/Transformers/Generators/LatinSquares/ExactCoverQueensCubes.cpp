@@ -106,8 +106,8 @@ awk -v m=M 'BEGIN{PROCINFO["sorted_in"]="@ind_num_asc"}{delete A;for (i=1;i<=NF;
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "4.4.2024",
+        "0.1.2",
+        "5.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExactCoverQueensCubes.cpp",
@@ -124,7 +124,7 @@ namespace {
     std::cout <<
       "> " << proginfo.prg <<
       "\n\n"
-      "reads from standard input, established N, m, and creates file\n"
+      "reads from standard input, establishes N, m, and creates file\n"
       "  " << prefix << "N_m" << suffix << " .\n\n"
  ;
     return true;
