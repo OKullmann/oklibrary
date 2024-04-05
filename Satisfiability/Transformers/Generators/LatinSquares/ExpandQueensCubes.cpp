@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Epanding a cubing for "Queen 0" to k dimensions, by translation.
+  Expanding a cubing for "Queen 0" to k dimensions, by translation.
 
    - The dimension N is the (constant) size of the initial "cubing".
    - The initial "cubing" are the N-Pan-Queens solutions with one queen
