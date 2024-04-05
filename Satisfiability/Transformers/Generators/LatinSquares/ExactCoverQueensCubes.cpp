@@ -76,6 +76,13 @@ TODOS:
 0. Provide for translating the output:
   - Another program could do the translation (given the same input).
   - Or the created C-program prints the squares.
+   - Perhaps this is indicated by passing N, M as the two parameters of
+     the program.
+  - Likely the following output-format "d,r" (division, remainder) is always
+    better: it shows for the "digits" 0,...,N-1 the choice of queens-solutions
+    (appropriately shifted); the current output (the raw indices of the "rows")
+    is translated as follows, using m=M:
+awk -v m=M 'BEGIN{PROCINFO["sorted_in"]="@ind_num_asc"}{delete A;for (i=1;i<=NF;++i) A[$i]="";for (i in A) {d=int(i/m);r=i%m;printf " %d,%d",d,r}printf "\n"}' OUTPUT
 
 1. Interpretation of the queens in the example:
   - Since CP_clasp_first_columns.awk uses the default mode=0,
