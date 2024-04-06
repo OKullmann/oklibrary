@@ -37,5 +37,5 @@ ExpandQueensCubes_debug : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp
 ExactCoverQueensCubes : ExactCoverQueensCubes.cpp Algorithms.hpp
 ExactCoverQueensCubes_debug : ExactCoverQueensCubes.cpp Algorithms.hpp
 
-ECSAT0_QueensCubes : ECSAT0_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp
-ECSAT0_QueensCubes_debug : ECSAT0_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp
+ECSAT0_QueensCubes : ECSAT0_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp
+ECSAT0_QueensCubes_debug : ECSAT0_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp

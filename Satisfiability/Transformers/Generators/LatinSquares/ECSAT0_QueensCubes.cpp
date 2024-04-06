@@ -12,15 +12,18 @@ License, or any later version. */
 
 #include <iostream>
 
+#include <cstdlib>
+
 #include <ProgramOptions/Environment.hpp>
 
+#include "PQOptions.hpp"
 #include "Algorithms.hpp"
 #include "ECEncoding.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
+        "0.0.6",
         "6.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -28,18 +31,23 @@ namespace {
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 0;
+  constexpr int commandline_args = 1;
 
   const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
+
+  using CT = PQOptions::CT;
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      "\n\n"
+      " constraint-type\n\n"
+      " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
       "reads from standard input, establishes N, m, and creates file\n"
-      "  " << prefix << "N_m" << suffix << " .\n\n"
+      "  " << prefix << "N_m" << suffix << " :\n\n"
+      "  - for options the first possibility is the default, "
+        "triggered by the empty string.\n\n"
  ;
     return true;
   }
@@ -52,15 +60,25 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != commandline_args + 1) {
     std::cerr << error << "Exactly " << commandline_args << " command-line"
-      " arguments needed (k, of), but the real number is " << argc-1 << ".\n";
+      " arguments needed (constraint-type), but the real number is "
+              << argc-1 << ".\n";
     return 1;
   }
+
+  const CT ct = [&argv]{const auto ct0 = Environment::read<CT>(argv[1]);
+    if (not ct0) {
+      std::cerr << error << "The constraint-type could not be read from"
+        " string \"" << argv[1] << "\".\n";
+      std::exit(1);
+    }
+    return ct0.value();}();
 
   const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
     std::cout << "Empty input.\n";
     return 0;
   }
+  const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct);
 
   const std::string filename = prefix + std::to_string(init_cubes.N) +
     "_" + std::to_string(init_cubes.m) + suffix;

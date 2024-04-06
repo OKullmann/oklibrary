@@ -17,8 +17,39 @@ License, or any later version. */
 #include <cassert>
 
 #include "Statistics.hpp"
+#include "PQEncoding.hpp"
+#include "Algorithms.hpp"
 
 namespace ECEncoding {
+
+  using dim_t = Statistics::dim_t;
+  using var_t = Statistics::var_t;
+
+  using float_t = Statistics::fdimacs_pars::float_t;
+
+  struct EC0Encoding {
+    const Algorithms::Cubing_t& C;
+    const PQOptions::CT ct;
+    const var_t N;
+    const var_t m;
+    const var_t n0 = N * m; // primary variables
+    const Statistics::fdimacs_pars p;
+
+  protected :
+    mutable var_t next = n0;
+  public :
+
+    EC0Encoding(const Algorithms::Cubing_t& C,
+                const PQOptions::CT ct) noexcept :
+    C(C), ct(ct), N(C.N), m(C.m) {
+      // XXX
+    }
+
+    var_t operator()() const noexcept {
+      return ++next;
+    }
+
+  };
 
 }
 
