@@ -15,12 +15,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "Algorithms.hpp"
+#include "ECEncoding.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "5.4.2024",
+        "0.0.5",
+        "6.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
@@ -70,4 +71,5 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
+  
 }
