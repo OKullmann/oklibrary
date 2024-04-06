@@ -7,7 +7,41 @@ License, or any later version. */
 
 /*
 
-  General algorithms (tools)
+  Algorithms (tools) related to "queens cubings"
+
+   - typedef UInt_t : imported from FloatingPoint
+
+   - typedef vector_t : vector of UInt_t
+   - typedef cubing_t : vector of vector_t
+
+   - struct qplaces : wrapper for co, cu : UInt_t
+     ("co" for "column" is the queens-value, "cu" like "cube" is the
+     index of the queens-cube)
+   - typedef qp_selection_t : vector of qplaces (a form of partial square)
+
+   - struct Cubing_t :
+      - N, m : UIint_t
+      - A : cubing_t
+      - valid(qplaces) -> bool
+      - valid() -> bool
+      - queen(qplaces, i) -> UInt_t
+      - queens(qplaces) -> vector_t
+      - disjoint(qplaces, qplaces) -> bool
+      - valid_selection(qp_selection_t) -> bool
+      - disjoint(qp_selection_t) -> bool
+      - valid_initial_selection(vector_t) -> bool
+      - initial_selection(vector_t) -> qp_selection_t
+      - solution(vector_t) -> true
+
+    - read_queens_cubing(istream) -> Cubing_t
+
+    - global variable: expand_total_count : UInt_t
+    - all_solutions(Cubing_t, UInt_t depth, vector_t init, ostream,
+        EQOptions::OT) : if EQOptions::OT::count_only, then
+        set expand_total_count. otherwise output solutions of the given
+        depth to ostream
+    - all_solutions(Cubing_t, ostream, EQOptions::OT) : calling above
+      form of all solutions with full depth and empty init.
 
 */
 
@@ -44,7 +78,7 @@ namespace Algorithms {
   typedef std::vector<qplaces> qp_selection_t;
 
   struct Cubing_t {
-    UInt_t N;
+    UInt_t N; // order of the square
     UInt_t m; // size of A
     cubing_t A;
 
@@ -79,6 +113,7 @@ namespace Algorithms {
       return true;
     }
 
+    // A valid selection has different (valid) columns:
     bool valid_selection(const qp_selection_t& S) const noexcept {
       for (const qplaces& p : S) if (not valid(p)) return false;
       const auto size = S.size();
@@ -102,6 +137,7 @@ namespace Algorithms {
       return true;
     }
 
+    // "Initial selections" select for columns 0, 1, ... :
     bool valid_initial_selection(const vector_t& S) const noexcept {
       for (const auto& x : S) if (x >= m) return false;
       return true;
