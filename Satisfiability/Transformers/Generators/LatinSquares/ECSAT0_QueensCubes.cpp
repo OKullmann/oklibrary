@@ -26,6 +26,7 @@ sys	0m0.123s
 */
 
 #include <iostream>
+#include <utility>
 
 #include <cstdlib>
 
@@ -38,7 +39,7 @@ sys	0m0.123s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.0.9",
         "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -57,14 +58,28 @@ namespace {
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " constraint-type\n\n"
+      " [+]constraint-type\n\n"
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
-      "reads from standard input, establishes N, m, and creates file\n"
-      "  " << prefix << "N_m" << suffix << " :\n\n"
-      "  - for options the first possibility is the default, "
+      "reads from standard input and establishes N, m:\n\n"
+      "  - if \"+\" used, creates file " << prefix << "N_m" << suffix << "\n"
+      "    (otherwise just statistics are output)\n"
+      "  - for the option the first possibility is the default, "
         "triggered by the empty string.\n\n"
  ;
     return true;
+  }
+
+  std::pair<CT,bool> read_ct(const std::string& s) {
+    if (s.empty()) return {};
+    bool output = s.starts_with("+");
+    const std::string s2 = output ? s.substr(1) : s;
+    const auto ct0 = Environment::read<CT>(s2);
+    if (not ct0) {
+      std::cerr << error << "The constraint-type could not be read from"
+        " string \"" << s2 << "\".\n";
+      std::exit(1);
+    }
+    return {ct0.value(), output};
   }
 
 }
@@ -80,13 +95,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const CT ct = [&argv]{const auto ct0 = Environment::read<CT>(argv[1]);
-    if (not ct0) {
-      std::cerr << error << "The constraint-type could not be read from"
-        " string \"" << argv[1] << "\".\n";
-      std::exit(1);
-    }
-    return ct0.value();}();
+  const auto [ct, output] = read_ct(argv[1]);
 
   const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
@@ -104,5 +113,10 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  std::cout << encoding.dp; std::cout.flush();
+  if (not output) {
+    std::cout << encoding.dp; std::cout.flush();
+  }
+  else {
+    // XXX
+  }
 }
