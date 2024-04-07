@@ -6,7 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Expanding a cubing for "Queen 0" to k dimensions, by translation.
+  Expanding a cubing for "Queen 0" to k dimensions, by translation (to be
+  used in C&C)
 
    - The dimension N is the (constant) size of the initial "cubing".
    - The initial "cubing" are the N-Pan-Queens solutions with one queen
@@ -117,8 +118,8 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "5.4.2024",
+        "0.1.1",
+        "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExpandQueensCubes.cpp",
@@ -136,7 +137,7 @@ namespace {
       "> " << proginfo.prg <<
       " k output-form\n\n"
       " - k            : unsigned integer\n"
-      " - output-form     : " << Environment::WRPO<OT>{} << "\n\n" <<
+      " - output-form  : " << Environment::WRPO<OT>{} << "\n\n" <<
       "reads from standard input, and outputs to standard output:\n"
       "  - the first option-value is used for the empty string \"\".\n\n"
  ;
