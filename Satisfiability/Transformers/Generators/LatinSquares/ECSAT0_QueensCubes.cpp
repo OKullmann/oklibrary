@@ -11,22 +11,25 @@ License, or any later version. */
 
 EXAMPLES:
 
-LatinSquares> N=13; for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F; done
-p cnf 4524 3349722
-p cnf 6760 2578302
-p cnf 6760 2580538
-LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F; done
-p cnf 140692 3218145051
-p cnf 211004 2636453875
-p cnf 211004 2636524187
-real	29m31.500s
-user	29m33.576s
-sys	0m0.123s
+Statistics only:
+
+LatinSquares> N=13; for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
+"prime" 4524 3349722
+"seco" 6760 2578302
+"secouep" 6760 2580538
+LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
+"prime" 140692 3218145051
+"seco" 211004 2636453875
+"secouep" 211004 2636524187
+real	29m0.715s
+user	29m2.754s
+sys	0m0.129s
 
 */
 
 #include <iostream>
 #include <utility>
+#include <ostream>
 
 #include <cstdlib>
 
@@ -39,7 +42,7 @@ sys	0m0.123s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
+        "0.1.0",
         "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -82,6 +85,29 @@ namespace {
     return {ct0.value(), output};
   }
 
+  void statistics(std::ostream& out, const ECEncoding::EC0Encoding& enc,
+                  const CT ct, const int argc, const char* const argv[],
+                  const bool full = false) {
+    using Environment::DHW;
+    using Environment::DWW;
+    if (full) {
+      out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+      out << DHW{"Parameters"};
+    }
+    out << DWW{"command-line"};
+    Environment::args_output(out, argc, argv);
+    out << "\n"
+        << DWW{"N"} << enc.N << "\n"
+        << DWW{"m"} << enc.m << "\n"
+        << DWW{"Constraint_type"} << ct << "\n"
+        << DWW{"  Primary-n"} << enc.n0 << "\n"
+        << DWW{"  Auxilliary-n"} << enc.naux << "\n"
+        << DWW{"n"} << enc.n << "\n"
+        << DWW{"  Exactly-One-clauses"} << enc.ceo << "\n"
+        << DWW{"  Non-disjointness-clauses"} << enc.cbin << "\n"
+        << DWW{"c"} << enc.c << "\n";
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -104,19 +130,21 @@ int main(const int argc, const char* const argv[]) {
   }
   const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct);
 
-  const std::string filename = prefix + std::to_string(init_cubes.N) +
-    "_" + std::to_string(init_cubes.m) + suffix;
-  std::ofstream file(filename);
-  if (not file) {
-    std::cerr << error << "Can not open file \"" << filename << "\" for"
-      " writing.\n";
-    return 1;
-  }
-
   if (not output) {
-    std::cout << encoding.dp; std::cout.flush();
+    statistics(std::cout, encoding, ct, argc, argv);
   }
   else {
+    const std::string filename = prefix + std::to_string(init_cubes.N) +
+      "_" + std::to_string(init_cubes.m) + suffix;
+    std::cout << filename << std::endl;
+    std::ofstream file(filename);
+    if (not file) {
+      std::cerr << error << "Can not open file \"" << filename << "\" for"
+        " writing.\n";
+      return 1;
+    }
+    statistics(file, encoding, ct, argc, argv, true);
+    file << encoding.dp; std::cout.flush();
     // XXX
   }
 }
