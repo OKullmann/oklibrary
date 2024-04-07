@@ -164,7 +164,8 @@ namespace PQEncoding {
     var_t operator()() const noexcept {
       return ++next;
     }
-    // Set queen k in cell c:
+
+    // The primary variables (Set queen k in cell c):
     constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
       assert(valid(c, N));
       assert(k < N);
@@ -172,6 +173,7 @@ namespace PQEncoding {
       assert(code < N3);
       return 1 + code;
     }
+    // Without access to N:
     static constexpr var_t index(const cell_t& c, const dim_t k,
                                  const dim_t N0) noexcept {
       assert(valid(c, N0));
