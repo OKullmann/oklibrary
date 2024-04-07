@@ -536,7 +536,6 @@ namespace PQEncoding {
 #ifndef NDEBUG
     assert(running_counter == enc.p.c);
 #endif
-
   }
   void csp_pandiagonal(std::ostream& out, const dim_t N, const bool sudoku) {
     cspvars(out, N);
