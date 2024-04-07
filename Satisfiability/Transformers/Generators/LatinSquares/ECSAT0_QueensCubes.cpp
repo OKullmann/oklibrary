@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
-        "6.4.2024",
+        "0.0.7",
+        "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
@@ -89,5 +89,5 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  
+  std::cout << encoding.dp; std::cout.flush();
 }
