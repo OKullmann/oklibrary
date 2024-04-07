@@ -74,6 +74,7 @@ namespace Algorithms {
   struct qplaces {
     UInt_t co; // column (or "digit")
     UInt_t cu; // index of cube (Queens-solutions)
+    constexpr auto operator <=>(const qplaces& rhs) const noexcept = default;
   };
   typedef std::vector<qplaces> qp_selection_t;
 
