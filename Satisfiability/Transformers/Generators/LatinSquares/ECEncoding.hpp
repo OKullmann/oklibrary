@@ -22,6 +22,7 @@ License, or any later version. */
 #include "Statistics.hpp"
 #include "PQEncoding.hpp"
 #include "Algorithms.hpp"
+#include "AloAmo.hpp"
 
 namespace ECEncoding {
 
@@ -66,10 +67,12 @@ namespace ECEncoding {
       if (C.N <= 1 or C.m <= 1) return 0;
       Statistics::fdimacs_pars::float_t res = 0;
       for (var_t i = 0; i < C.N-1; ++i)
-        for (var_t j = i+1; j < C.N; ++j)
-          for (var_t cui = 0; cui < C.m-1; ++cui)
-            for (var_t cuj = cui+1; cuj < C.m; ++cuj)
-              if (not C.disjoint({i,cui}, {j,cuj})) ++res;
+        for (var_t cui = 0; cui < C.m; ++cui) {
+          const qplaces p1{i,cui};
+          for (var_t j = i+1; j < C.N; ++j)
+            for (var_t cuj = 0; cuj < C.m; ++cuj)
+              res += (cui != cuj) and not C.disjoint(p1, {j,cuj});
+        }
       assert(res <= FloatingPoint::P264m1);
       return res;
     }
@@ -81,10 +84,50 @@ namespace ECEncoding {
     // The primary variables (choose solution p.cu for digit p.co):
     var_t operator()(const qplaces& p) const noexcept {
       assert(C.valid(p));
-      return m*p.co + p.cu;
+      return 1 + m*p.co + p.cu;
     }
 
   };
+
+
+  template <class ENC>
+  void eocubes(std::ostream& out, const ENC& enc) {
+    for (var_t i = 0; i < enc.N; ++i) {
+      AloAmo::Clause C; C.reserve(enc.m);
+      for (var_t j = 0; j < enc.m; ++j)
+        C.push_back(enc({i,j}));
+      PQEncoding::eo(out, C, enc);
+    }
+  }
+  template <class ENC>
+  void clashes(std::ostream& out, const ENC& enc) {
+    if (enc.N <= 1 or enc.m <= 1) return;
+    for (var_t i = 0; i < enc.N-1; ++i)
+      for (var_t cui = 0; cui < enc.m; ++cui) {
+        const qplaces p1{i,cui};
+        for (var_t j = i+1; j < enc.N; ++j)
+          for (var_t cuj = 0; cuj < enc.m; ++cuj) {
+            if (cui == cuj) continue;
+            const qplaces p2{j,cuj};
+            if (not enc.C.disjoint(p1,p2)) {
+              using AloAmo::Lit;
+              out << AloAmo::Clause{-Lit(enc(p1)),-Lit(enc(p2))};
+#ifndef NDEBUG
+              ++running_counter;
+#endif
+            }
+          }
+      }
+  }
+
+  void ecsat0(std::ostream& out, const EC0Encoding& enc) {
+    out << enc.dp;
+    eocubes(out, enc);
+    clashes(out, enc);
+#ifndef NDEBUG
+    assert(running_counter == enc.c);
+#endif
+  }
 
 }
 

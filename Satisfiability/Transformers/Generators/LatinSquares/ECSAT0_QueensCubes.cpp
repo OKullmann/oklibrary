@@ -13,10 +13,20 @@ EXAMPLES:
 
 Statistics only:
 
-LatinSquares> N=13; for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
-"prime" 4524 3349722
-"seco" 6760 2578302
-"secouep" 6760 2580538
+LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
+"prime" 5 10 30
+"seco" 5 10 30
+"secouep" 5 10 30
+"prime" 7 28 301
+"seco" 7 28 301
+"secouep" 7 28 301
+"prime" 11 88 3399
+"seco" 11 110 3289
+"secouep" 11 110 3311
+"prime" 13 4524 6009991
+"seco" 13 6760 5238571
+"secouep" 13 6760 5240807
+
 LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
 "prime" 140692 3218145051
 "seco" 211004 2636453875
@@ -24,6 +34,31 @@ LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | cl
 real	29m0.715s
 user	29m2.754s
 sys	0m0.129s
+
+Counting the solutions via ctawSolver:
+
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
+ECSAT0_QC_5_2.cnf
+p cnf 10 30
+LatinSquares> ctawSolver ECSAT0_QC_5_2.cnf | awk '/solutions/'
+c number_of_solutions                   2
+LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
+ECSAT0_QC_7_4.cnf
+p cnf 28 301
+LatinSquares> ctawSolver ECSAT0_QC_7_4.cnf | awk '/solutions/'
+c number_of_solutions                   4
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
+ECSAT0_QC_11_8.cnf
+p cnf 88 3399
+LatinSquares> ctawSolver ECSAT0_QC_11_8.cnf | awk '/solutions/'
+c number_of_solutions                   8
+
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
+ECSAT0_QC_13_348.cnf
+p cnf 4524 6009991
+LatinSquares> ctawSolver ECSAT0_QC_13_348.cnf EC13OUT
+XXX running server2 XXX
+
 
 */
 
@@ -42,7 +77,7 @@ sys	0m0.129s
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -144,7 +179,7 @@ int main(const int argc, const char* const argv[]) {
       return 1;
     }
     statistics(file, encoding, ct, argc, argv, true);
-    file << encoding.dp; std::cout.flush();
-    // XXX
+    std::cout << encoding.dp; std::cout.flush();
+    ECEncoding::ecsat0(file, encoding);
   }
 }
