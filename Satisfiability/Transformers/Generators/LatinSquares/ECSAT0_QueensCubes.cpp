@@ -28,12 +28,12 @@ LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagona
 "secouep" 13 6760 5240807
 
 LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
-"prime" 140692 3218145051
-"seco" 211004 2636453875
-"secouep" 211004 2636524187
-real	29m0.715s
-user	29m2.754s
-sys	0m0.129s
+"prime" 140692 5912731359
+"seco" 211004 5331040183
+"secouep" 211004 5331110495
+real	59m50.848s
+user	59m52.904s
+sys	0m0.170s
 
 Counting the solutions via ctawSolver:
 
@@ -58,7 +58,20 @@ ECSAT0_QC_13_348.cnf
 p cnf 4524 6009991
 LatinSquares> ctawSolver ECSAT0_QC_13_348.cnf EC13OUT
 XXX running server2 XXX
+LatinSquares$ clasp 0 -q ECSAT0_QC_13_348.cnf
+XXX running server2 XXX
+LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348.cnf > OUTCR
+XXX running server2 XXX
 
+
+TODOS:
+
+1. More efficient determination of non-disjointness
+    - Currently a brute-force approach is taken, only
+      using that cubes with the same cube-index but
+      different column-indices are disjoint.
+    - At least only half of the work should be needed (two disjointness-
+      clauses should be created at the same time).
 
 */
 
