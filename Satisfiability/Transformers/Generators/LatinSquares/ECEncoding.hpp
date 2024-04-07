@@ -39,10 +39,10 @@ namespace ECEncoding {
 
     const var_t n0 = N * m; // primary variables
     const var_t naux = N *
-      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(N, ct, PQOptions::CF::eo));
+      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(m, ct, PQOptions::CF::eo));
     const var_t n = n0 + naux;
     const var_t ceo =  N *
-      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(N, ct, PQOptions::CF::eo));
+      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo));
     const var_t cbin = count_clashes(C);
     const var_t c = ceo + cbin;
     const Statistics::dimacs_pars dp{n,c};
@@ -56,9 +56,9 @@ namespace ECEncoding {
       assert(C.valid());
 #ifndef NDEBUG
       const FloatingPoint::float80 Nf = N;
-      assert(Nf * m + Nf * PQEncoding::n_amoaloeo(N, ct, PQOptions::CF::eo)
+      assert(Nf * m + Nf * PQEncoding::n_amoaloeo(m, ct, PQOptions::CF::eo)
              == n);
-      assert(Nf * PQEncoding::c_amoaloeo(N, ct, PQOptions::CF::eo) + cbin
+      assert(Nf * PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo) + cbin
              == c);
 #endif
     }

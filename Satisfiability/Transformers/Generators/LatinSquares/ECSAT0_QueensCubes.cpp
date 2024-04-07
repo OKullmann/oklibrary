@@ -8,6 +8,21 @@ License, or any later version. */
 /*
   Reads m "queens cubes" of order N, and creates the SAT-instance with
   N*m variables directly representing the corresponding exact-cover problem.
+
+EXAMPLES:
+
+LatinSquares> N=13; for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F; done
+p cnf 4524 3349722
+p cnf 6760 2578302
+p cnf 6760 2580538
+LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F; done
+p cnf 140692 3218145051
+p cnf 211004 2636453875
+p cnf 211004 2636524187
+real	29m31.500s
+user	29m33.576s
+sys	0m0.123s
+
 */
 
 #include <iostream>
@@ -23,7 +38,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.0.8",
         "7.4.2024",
         __FILE__,
         "Oliver Kullmann",
