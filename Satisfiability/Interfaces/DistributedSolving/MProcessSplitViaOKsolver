@@ -84,17 +84,25 @@
 #   - error_output : default is that the error-output of the program-call
 #      goes to standard output (where the makefile has been called);
 #      if set to "" (with exit_handling=""), then error-output is ignored.
+#   - post_process : default is "none"; if set to "" then RemoveVarGaps
+#      is applied after the application of the partial assignment.
 # For example clasp has non-standard exit-codes, and prints to standard-error
 # in case of timeout; easiest to ignore all of that:
 # > solver=clasp solver_args="--time-limit 1" MProcessSplitViaOKsolver SplitXXX
-# inside the MProcess-directory then
+# inside the MProcess-directory then e.g.
 #   > make -j 6 exit_handling="" error_output=""
+# Or to run clasp in counting-mode:
+# > solver=clasp solver_args="0 -q" MProcessSplitViaOKsolver SplitXXX
+# inside the MProcess-directory then e.g.
+#   > make -j 6 exit_handling="" error_output="" post_process=""
+
 
 
 # Used tools from the OKlibrary:
 # script SelectExtractionTool
 #   e.g. for minisat-2.2.0: ExtractMinisat
-# program ApplyPass-O3-DNDEBUG (in Makefile).
+# program ApplyPass-O3-DNDEBUG (in Makefile)
+# program RemoveVarGaps (in Makefile, if post_process="").
 
 # TODOS:
 # 1. Target "extract", for counting the instances, should skip
@@ -104,6 +112,10 @@
 # 2. An option is needed to run RemoveVarGaps on the instance
 #    before solving:
 #     - Via another option the renaming is stored.
+#     - DONE Just add "; RemoveVarGaps Temp$*.cnf"
+#       to the first line of the Results-rule.
+#     - DONE This can be handled by just another make-variable "post_process",
+#       with default-value "none", and otherwise "".
 # 3. An option is needed to just store the output in the Results-file,
 #    without using an extraction-tool.
 #     - Then something needs to be done to target "transfer" (which currently
@@ -118,7 +130,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.2.2
+version_number=0.2.3
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."

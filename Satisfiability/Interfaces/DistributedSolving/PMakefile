@@ -10,10 +10,11 @@
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.3.1
+# Version 0.3.2
 
 exit_handling?=test-exit
 error_output?=let-through
+post_process?=none
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -60,7 +61,11 @@ endrun :
 
 
 Results/% :
+ifeq $(post_process),none)
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
+else
+	@cat instance | $(apply_call) Instances/$* Temp$*.cnf; RemoveVarGaps Temp$*.cnf
+endif
 ifeq ($(exit_handling),test-exit)
 	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out; if [[ $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
 else
