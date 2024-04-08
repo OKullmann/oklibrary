@@ -60,8 +60,13 @@ LatinSquares> ctawSolver ECSAT0_QC_13_348.cnf EC13OUT
 XXX running server2 XXX
 LatinSquares$ clasp 0 -q ECSAT0_QC_13_348.cnf
 XXX running server2 XXX
+
 LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348.cnf > OUTCR
-XXX running server2 XXX
+^C*** INTERRUPTED ***
+real    274m14.815s
+user    10890m9.738s
+sys     128m7.439s
+Found 1711 solutions
 
 
 TODOS:
@@ -78,6 +83,7 @@ TODOS:
 #include <iostream>
 #include <utility>
 #include <ostream>
+#include <sstream>
 
 #include <cstdlib>
 
@@ -90,8 +96,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "7.4.2024",
+        "0.1.2",
+        "8.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
@@ -100,9 +106,15 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr int commandline_args = 1;
 
-  const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
-
   using CT = PQOptions::CT;
+  using Algorithms::Cubing_t;
+
+  const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
+  std::string output_filename(const Cubing_t& C, const CT ct) noexcept {
+    std::stringstream res(prefix);
+    res << C.N << "_" << C.m << "_" << Environment::W0(ct) << suffix;
+    return res.str();
+  }
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
@@ -112,7 +124,8 @@ namespace {
       " [+]constraint-type\n\n"
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - if \"+\" used, creates file " << prefix << "N_m" << suffix << "\n"
+      "  - if \"+\" used, creates file " << prefix << "N_m_ctype" <<
+        suffix << "\n"
       "    (otherwise just statistics are output)\n"
       "  - for the option the first possibility is the default, "
         "triggered by the empty string.\n\n"
@@ -120,7 +133,7 @@ namespace {
     return true;
   }
 
-  std::pair<CT,bool> read_ct(const std::string& s) {
+  std::pair<CT,bool> read_ct(const std::string& s) noexcept {
     if (s.empty()) return {};
     bool output = s.starts_with("+");
     const std::string s2 = output ? s.substr(1) : s;
@@ -171,7 +184,7 @@ int main(const int argc, const char* const argv[]) {
 
   const auto [ct, output] = read_ct(argv[1]);
 
-  const auto init_cubes = Algorithms::read_queens_cubing(std::cin);
+  const Cubing_t init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
     std::cout << "Empty input.\n";
     return 0;
@@ -182,8 +195,7 @@ int main(const int argc, const char* const argv[]) {
     statistics(std::cout, encoding, ct, argc, argv);
   }
   else {
-    const std::string filename = prefix + std::to_string(init_cubes.N) +
-      "_" + std::to_string(init_cubes.m) + suffix;
+    const std::string filename = output_filename(init_cubes, ct);
     std::cout << filename << std::endl;
     std::ofstream file(filename);
     if (not file) {
