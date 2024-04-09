@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  For the input-file F (the one command-line argument), rename the variables
+  For the input-file F (the single command-line argument), rename the variables
   (monotonically) so that there are no gaps anymore (no formal variables).
   F is assumed to be strict Dimacs, however empty lines after the
   p-line are allowed (so that files produced by ApplyPass-O3-DNDEBUG
