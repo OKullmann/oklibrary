@@ -41,13 +41,13 @@
 #   solver_args="-cpu-lim=20" ProcessSplitViaOKsolver Input.cnf
 
 # The complete calling-syntax is
-#   prefix_solver  solver  solver_args  TEMP$i.cnf  suffix_solver
+#   solver_prefix  solver  solver_args  TEMP$i.cnf  solver_suffix
 # where i is the current index of the cube (the file in Instances), and
 # TEMP$i.cnf is created by applying the cube to the base-instance.
 # For example for the tawSolver, which has Input.cnf as first argument,
 # and the assignment-output as second, in order to eliminate output of
 # the satisfying assignment one would use (also using a timeout of 60s):
-#   solver=tawSolver prefix_solver="tosigint 60" solver_prefix="-nil".
+#   solver=tawSolver solver_prefix="tosigint 60" solver_suffix="-nil".
 
 # Expected return-values of the solver are 0 (return without a result),
 # 10 (sat) and 20 (unsat).
