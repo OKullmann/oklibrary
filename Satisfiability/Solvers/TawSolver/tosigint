@@ -7,6 +7,7 @@
 #  - sends SIGINT to abort after timeout
 #  - preserves the exit-value
 #  - runs in the foreground (so the timeout does not apply to children).
+# To send a different signal, set variable signal.
 
 # EXAMPLE:
 # TawSolver> BRG "1200*300,3" | ./tosigint 9.5 ctawSolver -cin -nil
@@ -18,6 +19,8 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number=0.1.0
+version_number=0.1.1
 
-timeout --signal=SIGINT --preserve-status --foreground "$@"
+signal=${signal-SIGINT}
+
+timeout --signal=$signal --preserve-status --foreground "$@"

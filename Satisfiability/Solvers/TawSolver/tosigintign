@@ -8,6 +8,8 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number=0.0.9
+version_number=0.1.0
 
-timeout --signal=SIGINT --preserve-status --foreground "$@" || true
+signal=${signal-SIGINT}
+
+timeout --signal=$signal --preserve-status --foreground "$@" || true
