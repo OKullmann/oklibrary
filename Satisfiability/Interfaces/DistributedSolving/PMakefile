@@ -10,11 +10,11 @@
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.3.2
+# Version 0.3.3
 
 exit_handling?=test-exit
 error_output?=let-through
-post_process?=none
+removevargaps?=none
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -61,7 +61,7 @@ endrun :
 
 
 Results/% :
-ifeq $(post_process),none)
+ifeq ($(removevargaps),none)
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
 else
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf; RemoveVarGaps Temp$*.cnf
