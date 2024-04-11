@@ -15,9 +15,12 @@ License, or any later version. */
 
 EXAMPLES:
 
-Statistics only:
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" ""
 
 XXX
+
+Statistics only:
+
 LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
 "prime" 5 10 30
 "seco" 5 10 30
@@ -91,8 +94,8 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "9.4.2024",
+        "0.0.5",
+        "11.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT1_QueensCubes.cpp",
@@ -110,7 +113,7 @@ namespace {
   std::string output_filename(const UInt_t N, const UInt_t m,
                               const CF cf1, const CT ct1,
                               const CT ct2) noexcept {
-    std::stringstream res(prefix);
+    std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
         << W0(cf1) << W0(ct1) << W0(ct2)
@@ -157,26 +160,27 @@ namespace {
     return ct0.value();
   }
 
-  void statistics(std::ostream& out, const ECEncoding::EC0Encoding& enc,
-                  const CT ct, const int argc, const char* const argv[],
-                  const bool full = false) {
+  void statistics(std::ostream& out, const ECEncoding::EC1Encoding& enc,
+                  const int argc, const char* const argv[]) {
     using Environment::DHW;
     using Environment::DWW;
-    if (full) {
-      out << Environment::Wrap(proginfo, Environment::OP::dimacs);
-      out << DHW{"Parameters"};
-    }
+    out << Environment::Wrap(proginfo, Environment::OP::dimacs);
+    out << DHW{"Parameters"};
     out << DWW{"command-line"};
     Environment::args_output(out, argc, argv);
     out << "\n"
         << DWW{"N"} << enc.N << "\n"
         << DWW{"m"} << enc.m << "\n"
-        << DWW{"Constraint_type"} << ct << "\n"
+        << DWW{"Constraints_cells"} << enc.cf1 << " " << enc.ct1 << "\n"
+        << DWW{"Constraints_queens"} << enc.ct2 << "\n"
+        << DWW{"   Primary-n-cells"} << enc.N3 << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
-        << DWW{"  Auxilliary-n"} << enc.naux << "\n"
+        << DWW{"   Auxilliary-n-cells"} << enc.naux1 << "\n"
+        << DWW{"   Auxilliary-n-queens"} << enc.naux2 << "\n"
         << DWW{"n"} << enc.n << "\n"
-        << DWW{"  Exactly-One-clauses"} << enc.ceo << "\n"
-        << DWW{"  Non-disjointness-clauses"} << enc.cbin << "\n"
+        << DWW{"  Clauses-cells"} << enc.ceo1 << "\n"
+        << DWW{"  Clauses-queens"} << enc.ceo2 << "\n"
+        << DWW{"  Connecting-2-clauses"} << enc.cbin << "\n"
         << DWW{"c"} << enc.c << "\n";
   }
 
@@ -212,10 +216,10 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto encoding = ECEncoding::EC0Encoding(cubes, ct2);
+  const auto encoding = ECEncoding::EC1Encoding(cubes, cf1, ct1, ct2);
 
-  statistics(file, encoding, ct2, argc, argv, true);
+  statistics(file, encoding, argc,argv);
   std::cout << encoding.dp; std::cout.flush();
-  ECEncoding::ecsat0(file, encoding);
+  ECEncoding::ecsat1(file, encoding);
 
 }

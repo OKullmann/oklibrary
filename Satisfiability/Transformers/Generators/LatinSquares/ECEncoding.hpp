@@ -56,12 +56,13 @@ namespace ECEncoding {
     C(C), ct(ct) {
       assert(C.valid());
 #ifndef NDEBUG
-      const FloatingPoint::float80 Nf = N;
-      assert(Nf * m + Nf * PQEncoding::n_amoaloeo(m, ct, PQOptions::CF::eo)
-             == n);
-      assert(Nf * PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo) + cbin
-             == c);
+      using float80 = FloatingPoint::float80;
 #endif
+      assert(n0 == float80(N) * m);
+      assert(n0 + N * PQEncoding::n_amoaloeo(m, ct, PQOptions::CF::eo)
+             == n);
+      assert(N * PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo) + cbin
+             == c);
     }
     static var_t count_clashes(const Cubing_t& C) noexcept {
       if (C.N <= 1 or C.m <= 1) return 0;
@@ -128,6 +129,84 @@ namespace ECEncoding {
     assert(running_counter == enc.c);
 #endif
   }
+
+
+  struct EC1Encoding {
+    using CF = PQOptions::CF;
+    using CT = PQOptions::CT;
+    using cell_t = PQEncoding::cell_t;
+
+    const Cubing_t& C;
+    const CF cf1;
+    const CT ct1, ct2;
+
+    const var_t N = C.N, m = C.m;
+
+    const var_t N2 = N*N, N3 = N2*N;
+    const var_t n0 = N3 + N * m; // primary variables
+    const var_t naux1 = N2 *
+      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(N, ct1, cf1));
+    const var_t naux2 = N *
+      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+    const var_t n = n0 + naux1 + naux2;
+    const var_t ceo1 =  N2 *
+      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(N, ct1, cf1));
+    const var_t ceo2 =  N *
+      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+    const var_t cbin = m * N2;
+    const var_t c = ceo1 + ceo2 + cbin;
+    const Statistics::dimacs_pars dp{n,c};
+
+  protected :
+    mutable var_t next = n0;
+  public :
+
+    EC1Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
+                const CT ct2) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2) {
+      assert(C.valid());
+#ifndef NDEBUG
+      using float80 = FloatingPoint::float80;
+#endif
+      assert(N2 == float80(N) * N); assert(N3 == float80(N) * N2);
+      assert(n0 == N3 + float80(N) * m);
+      assert(naux1 == N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
+      assert(naux2 == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+      assert(n == float80(n0) + float80(naux1) + naux2);
+      assert(ceo1 == N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
+      assert(ceo2 == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+      assert(cbin == float80(m) * N2);
+      assert(c == float80(ceo1) + float80(ceo2) + cbin);
+    }
+
+    var_t operator()() const noexcept {
+      return ++next;
+    }
+
+    // The primary variables first part (set digit k in cell c):
+    constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
+      assert(valid(c, N));
+      assert(k < N);
+      const var_t code = c.i * N2 + c.j * N + k;
+      return 1 + code;
+    }
+    // The primary variables second part (choose solution p.cu for digit p.co):
+    var_t operator()(const qplaces& p) const noexcept {
+      assert(C.valid(p));
+      return 1 + N3 + m*p.co + p.cu;
+    }
+
+  };
+
+
+  void ecsat1(std::ostream& out, const EC1Encoding& enc) {
+    out << enc.dp;
+    // XXX
+#ifndef NDEBUG
+    assert(running_counter == enc.c);
+#endif
+  }
+
 
 }
 
