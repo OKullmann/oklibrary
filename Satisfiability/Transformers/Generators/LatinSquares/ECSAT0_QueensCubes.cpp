@@ -13,7 +13,7 @@ EXAMPLES:
 
 Statistics only:
 
-LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
+LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
 "prime" 5 10 30
 "seco" 5 10 30
 "secouep" 5 10 30
@@ -38,27 +38,27 @@ sys	0m0.170s
 Counting the solutions via ctawSolver:
 
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_5_2.cnf
+ECSAT0_QC_5_2_prime.cnf
 p cnf 10 30
-LatinSquares> ctawSolver ECSAT0_QC_5_2.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_5_2_prime.cnf | awk '/solutions/'
 c number_of_solutions                   2
 LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_7_4.cnf
+ECSAT0_QC_7_4_prime.cnf
 p cnf 28 301
-LatinSquares> ctawSolver ECSAT0_QC_7_4.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_7_4_prime.cnf | awk '/solutions/'
 c number_of_solutions                   4
 LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_11_8.cnf
+ECSAT0_QC_11_8_prime.cnf
 p cnf 88 3399
-LatinSquares> ctawSolver ECSAT0_QC_11_8.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_11_8_prime.cnf | awk '/solutions/'
 c number_of_solutions                   8
 
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_13_348.cnf
+ECSAT0_QC_13_348_prime.cnf
 p cnf 4524 6009991
-LatinSquares> ctawSolver ECSAT0_QC_13_348.cnf EC13OUT
+LatinSquares> ctawSolver ECSAT0_QC_13_348_prime.cnf EC13OUT
 XXX running server2 XXX
-LatinSquares$ clasp 0 -q ECSAT0_QC_13_348.cnf
+LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime.cnf
 XXX running server2 XXX
 
 LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348.cnf > OUTCR
@@ -96,8 +96,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "8.4.2024",
+        "0.1.3",
+        "11.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
@@ -111,8 +111,8 @@ namespace {
 
   const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
   std::string output_filename(const Cubing_t& C, const CT ct) noexcept {
-    std::stringstream res(prefix);
-    res << C.N << "_" << C.m << "_" << Environment::W0(ct) << suffix;
+    std::stringstream res;
+    res << prefix << C.N << "_" << C.m << "_" << Environment::W0(ct) << suffix;
     return res.str();
   }
 
@@ -147,7 +147,7 @@ namespace {
   }
 
   void statistics(std::ostream& out, const ECEncoding::EC0Encoding& enc,
-                  const CT ct, const int argc, const char* const argv[],
+                  const int argc, const char* const argv[],
                   const bool full = false) {
     using Environment::DHW;
     using Environment::DWW;
@@ -160,7 +160,7 @@ namespace {
     out << "\n"
         << DWW{"N"} << enc.N << "\n"
         << DWW{"m"} << enc.m << "\n"
-        << DWW{"Constraint_type"} << ct << "\n"
+        << DWW{"Constraint_type"} << enc.ct << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
         << DWW{"  Auxilliary-n"} << enc.naux << "\n"
         << DWW{"n"} << enc.n << "\n"
@@ -192,7 +192,7 @@ int main(const int argc, const char* const argv[]) {
   const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct);
 
   if (not output) {
-    statistics(std::cout, encoding, ct, argc, argv);
+    statistics(std::cout, encoding, argc, argv);
   }
   else {
     const std::string filename = output_filename(init_cubes, ct);
@@ -203,7 +203,7 @@ int main(const int argc, const char* const argv[]) {
         " writing.\n";
       return 1;
     }
-    statistics(file, encoding, ct, argc, argv, true);
+    statistics(file, encoding, argc, argv, true);
     std::cout << encoding.dp; std::cout.flush();
     ECEncoding::ecsat0(file, encoding);
   }
