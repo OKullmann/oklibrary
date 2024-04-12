@@ -10,11 +10,12 @@
 # TODOS:
 # 1. Compare with DQCNF/ExpMakefile
 
-# Version 0.3.3
+# Version 0.3.4
 
 exit_handling?=test-exit
 error_output?=let-through
 removevargaps?=none
+apply_form?=apply-call
 
 SHELL := /bin/bash
 .SUFFIXES :
@@ -61,22 +62,26 @@ endrun :
 
 
 Results/% :
-ifeq ($(removevargaps),none)
+ifeq ($(apply_form),apply-call)
+  ifeq ($(removevargaps),none)
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf
-else
+  else
 	@cat instance | $(apply_call) Instances/$* Temp$*.cnf; RemoveVarGaps Temp$*.cnf
-endif
-ifeq ($(exit_handling),test-exit)
+  endif
+  ifeq ($(exit_handling),test-exit)
 	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out; if [[ $$? != 0 && $$? != 10 && $$? != 20 ]]; then exit 1; fi
 else
-  ifeq ($(error_output),let-through)
+    ifeq ($(error_output),let-through)
 	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out; true
-  else
+    else
 	@$(solver_call) Temp$*.cnf $(solver_suffix) > Temp$*.out 2> /dev/null; true
+    endif
   endif
-endif
 	@cat Temp$*.out | $(extraction_tool) data-only > $@
 	@rm Temp$*.cnf Temp$*.out
+else
+	@cat Instances/$* instance | InsertPassAsUnit.awk | @$(solver_call) /dev/stdin $(solver_suffix) | $(extraction_tool) data-only > $@
+endif
 
 
 transfer : | run

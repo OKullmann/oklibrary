@@ -41,9 +41,9 @@
 #   solver_args="-cpu-lim=20" ProcessSplitViaOKsolver Input.cnf
 
 # The complete calling-syntax is
-#   solver_prefix  solver  solver_args  TEMP$i.cnf  solver_suffix
+#   solver_prefix  solver  solver_args  Temp$i.cnf  solver_suffix
 # where i is the current index of the cube (the file in Instances), and
-# TEMP$i.cnf is created by applying the cube to the base-instance.
+# Temp$i.cnf is created by applying the cube to the base-instance.
 # For example for the tawSolver, which has Input.cnf as first argument,
 # and the assignment-output as second, in order to eliminate output of
 # the satisfying assignment one would use (also using a timeout of 60s):
@@ -84,7 +84,7 @@
 #   - error_output : default is that the error-output of the program-call
 #      goes to standard output (where the makefile has been called);
 #      if set to "" (with exit_handling=""), then error-output is ignored.
-#   - removevargaps : default is "none"; if set to "" then RemoveVarGaps
+#  - removevargaps : default is "none"; if set to "" then RemoveVarGaps
 #      is applied after the application of the partial assignment.
 # For example clasp has non-standard exit-codes, and prints to standard-error
 # in case of timeout; easiest to ignore all of that:
@@ -96,13 +96,41 @@
 # inside the MProcess-directory then e.g.
 #   > make -j 6 exit_handling="" error_output="" removevargaps=""
 
+# The above is the standard approach:
+# 1. Apply the partial assignments, store the result in a
+#    temporary file Temp$i.cnf.
+# 2. Run the solver on Temp$i.cnf, store the output in Temp$i.out.
+# 3. Run the extraction-tool on Temp$i.out, store the result in Instances/$i,
+# 4. Delete Temp$i.cnf and Temp$i.out.
+# This can be costly for large instances --- if using the make-variable
+#  - apply_form=""
+# then the partial assignment (the "cube") is just appended to the (base-)
+# instance, and the result is piped to the solver, whose output is piped
+# to the extraction-tool, whose output is stored in Instances/$i.
+# The solver-input "Temp$i" is replaced by "/dev/stdin".
+# No temporary files are created.
+
+
 # Used tools from the OKlibrary:
-# script SelectExtractionTool
+# - script SelectExtractionTool
 #   e.g. for minisat-2.2.0: ExtractMinisat
-# program ApplyPass-O3-DNDEBUG (in Makefile)
-# program RemoveVarGaps (in Makefile, if removevargaps="").
+# - program ApplyPass-O3-DNDEBUG (in Makefile)
+# - program RemoveVarGaps (in Makefile, if removevargaps="")
+# - script InsertPassAsUnit.awk for apply_form="".
 
 # TODOS:
+# -1. DONE Provide a mode where the partial assignment is just added
+#     as unit-clauses to the input.
+#     - LatinSquares/InsertPassAsUnit.awk can be used here.
+#     - Two modes: store as Temp-file, or pipe into standard-input.
+#       Just using "/dev/stdin" for the filename.
+# 0. Provide a mode where solver-output is not stored on file,
+#    but is directly piped (via extraction) to the Results-file.
+#     - If possible, an interruption of the solver should then
+#       lead to removal of that file.
+#     - If hard to do then not -- the motivation is using solvers like
+#       cadical with their massive output.
+#    PARTIALLY DONE: the make-mode "reduction=0" is using a simple pipe.
 # 1. Target "extract", for counting the instances, should skip
 #    initial comments and the header-line, in case not all cubes
 #    have been evaluated.
@@ -128,7 +156,7 @@ set -o errexit
 set -o nounset
 
 script_name="MProcessSplitViaOKsolver"
-version_number=0.2.4
+version_number=0.2.5
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
