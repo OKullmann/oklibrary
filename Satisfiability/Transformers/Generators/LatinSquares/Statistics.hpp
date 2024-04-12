@@ -60,6 +60,9 @@ namespace Statistics {
 
   typedef std::uint16_t dim_t;
   typedef std::uint64_t var_t;
+  constexpr bool fits_dim_t(const var_t x) noexcept {
+    return x <= 65535U;
+  }
 
 
   constexpr dim_t N_default = 3;
