@@ -177,6 +177,8 @@ namespace ECEncoding {
       assert(ceo2 == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
       assert(cbin == float80(m) * N2);
       assert(c == float80(ceo1) + float80(ceo2) + cbin);
+
+      assert(Statistics::fits_dim_t(N));
     }
 
     var_t operator()() const noexcept {
@@ -199,9 +201,64 @@ namespace ECEncoding {
   };
 
 
+  template <class NVAR>
+  void amoaloeo(std::ostream& out, const AloAmo::Clause& C, const NVAR& enc,
+                const PQOptions::CF cf, const PQOptions::CT ct) {
+    if (cf == PQOptions::CF::alo) { AloAmo::alo_primes(out, C); return; }
+    else if (cf == PQOptions::CF::eo) {
+      switch (ct) {
+      case PQOptions::CT::prime : AloAmo::eo_primes(out, C); return;
+      case PQOptions::CT::seco : AloAmo::eo_seco(out, C, enc); return;
+      case PQOptions::CT::secouep : AloAmo::eo_secouep(out, C, enc); return;}
+    }
+    switch(ct) {
+    case PQOptions::CT::prime : AloAmo::amo_primes(out, C); return;
+    case PQOptions::CT::seco : AloAmo::amo_seco(out, C, enc); return;
+    case PQOptions::CT::secouep : AloAmo::amo_secouep(out, C, enc); return;}
+  }
+
+  template <class ENC>
+  void values(std::ostream& out, const ENC& enc) {
+    for (dim_t j = 0; j < enc.N; ++j)
+      for (dim_t i = 0; i < enc.N; ++i) {
+        AloAmo::Clause C;
+        for (dim_t k = 0; k < enc.N; ++k)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        amoaloeo(out, C, enc, enc.cf1, enc.ct1);
+      }
+  }
+  template <class ENC>
+  void cubes(std::ostream& out, const ENC& enc) {
+    for (var_t i = 0; i < enc.N; ++i) {
+      AloAmo::Clause C; C.reserve(enc.m);
+      for (var_t j = 0; j < enc.m; ++j)
+        C.push_back(enc({i,j}));
+      amoaloeo(out, C, enc, PQOptions::CF::eo, enc.ct2);
+    }
+  }
+  template <class ENC>
+  void connections(std::ostream& out, const ENC& enc) {
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (var_t j = 0; j < enc.m; ++j) {
+        const Algorithms::qplaces p{i,j};
+        const auto Q = enc.C.queens(p);
+        assert(Q.size() == enc.N);
+        for (dim_t k = 0; k < enc.N; ++k) {
+          const PQEncoding::cell_t cell{k,dim_t(Q[k])};
+          using AloAmo::Lit;
+          out << AloAmo::Clause{-Lit(enc(p)), Lit(enc(cell, i))};
+#ifndef NDEBUG
+          ++running_counter;
+#endif
+        }
+      }
+  }
+
   void ecsat1(std::ostream& out, const EC1Encoding& enc) {
     out << enc.dp;
-    // XXX
+    values(out, enc);
+    cubes(out, enc);
+    connections(out, enc);
 #ifndef NDEBUG
     assert(running_counter == enc.c);
 #endif

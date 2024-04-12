@@ -16,6 +16,10 @@ License, or any later version. */
 EXAMPLES:
 
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" ""
+ECSAT1_QC_5_2_amoprimeprime.cnf
+p cnf 135 310
+LatinSquares> ctawSolver ECSAT1_QC_5_2_amoprimeprime.cnf | awk '/solutions/'
+c number_of_solutions                   2
 
 XXX
 
@@ -94,8 +98,8 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
-        "11.4.2024",
+        "0.1.0",
+        "12.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT1_QueensCubes.cpp",
