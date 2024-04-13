@@ -20,6 +20,7 @@ License, or any later version. */
 #include <Numerics/Conversions.hpp>
 
 #include "PQOptions.hpp"
+#include "ECOptions.hpp"
 #include "Statistics.hpp"
 #include "PQEncoding.hpp"
 #include "Algorithms.hpp"
