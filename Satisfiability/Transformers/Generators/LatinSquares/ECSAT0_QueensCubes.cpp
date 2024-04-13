@@ -13,7 +13,7 @@ EXAMPLES:
 
 Statistics only:
 
-LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
+LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F "" | awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
 "prime" 5 10 30
 "seco" 5 10 30
 "secouep" 5 10 30
@@ -27,7 +27,7 @@ LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagona
 "seco" 13 6760 5238571
 "secouep" 13 6760 5240807
 
-LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
+LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F "" | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
 "prime" 140692 5912731359
 "seco" 211004 5331040183
 "secouep" 211004 5331110495
@@ -37,31 +37,31 @@ sys	0m0.170s
 
 Counting the solutions via ctawSolver:
 
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_5_2_prime.cnf
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
+ECSAT0_QC_5_2_prime0.cnf
 p cnf 10 30
-LatinSquares> ctawSolver ECSAT0_QC_5_2_prime.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_5_2_prime0.cnf | awk '/solutions/'
 c number_of_solutions                   2
-LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_7_4_prime.cnf
+LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + ""
+ECSAT0_QC_7_4_prime0.cnf
 p cnf 28 301
-LatinSquares> ctawSolver ECSAT0_QC_7_4_prime.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_7_4_prime0.cnf | awk '/solutions/'
 c number_of_solutions                   4
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_11_8_prime.cnf
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
+ECSAT0_QC_11_8_prime0.cnf
 p cnf 88 3399
-LatinSquares> ctawSolver ECSAT0_QC_11_8_prime.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_11_8_prime0.cnf | awk '/solutions/'
 c number_of_solutions                   8
 
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_13_348_prime.cnf
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
+ECSAT0_QC_13_348_prime0.cnf
 p cnf 4524 6009991
-LatinSquares> ctawSolver ECSAT0_QC_13_348_prime.cnf EC13OUT
+LatinSquares> ctawSolver ECSAT0_QC_13_348_prime0.cnf EC13OUT
 XXX running server2 XXX
-LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime.cnf
+LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime0.cnf
 XXX running server2 XXX
 
-LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348.cnf > OUTCR
+LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348_prime0.cnf > OUTCR
 ^C*** INTERRUPTED ***
 real    274m14.815s
 user    10890m9.738s
@@ -96,23 +96,26 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "11.4.2024",
+        "0.1.4",
+        "13.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 1;
+  constexpr int commandline_args = 2;
 
   using CT = PQOptions::CT;
+  using AC = ECOptions::AC;
   using Algorithms::Cubing_t;
 
   const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
-  std::string output_filename(const Cubing_t& C, const CT ct) noexcept {
+  std::string output_filename(const Cubing_t& C, const CT ct,
+                              const AC ac) noexcept {
     std::stringstream res;
-    res << prefix << C.N << "_" << C.m << "_" << Environment::W0(ct) << suffix;
+    res << prefix << C.N << "_" << C.m << "_" << Environment::W0(ct) <<
+      Environment::W0(ac) << suffix;
     return res.str();
   }
 
@@ -121,13 +124,14 @@ namespace {
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " [+]constraint-type\n\n"
-      " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
+      " [+]constraint-type add-constraints\n\n"
+      " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
+      " - add-constraint  : " << Environment::WRPO<AC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - if \"+\" used, creates file " << prefix << "N_m_ctype" <<
+      "  - if \"+\" used, creates file " << prefix << "N_m_ctypeatype" <<
         suffix << "\n"
       "    (otherwise just statistics are output)\n"
-      "  - for the option the first possibility is the default, "
+      "  - for the options the first possibility is the default, "
         "triggered by the empty string.\n\n"
  ;
     return true;
@@ -183,19 +187,26 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto [ct, output] = read_ct(argv[1]);
+  const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[2]);
+    if (not ac0) {
+      std::cerr << error << "The additional constraint could not be read from"
+        " string \"" << argv[2] << "\".\n";
+      std::exit(1);
+    }
+    return ac0.value();}();
 
   const Cubing_t init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
     std::cout << "Empty input.\n";
     return 0;
   }
-  const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct);
+  const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct, ac);
 
   if (not output) {
     statistics(std::cout, encoding, argc, argv);
   }
   else {
-    const std::string filename = output_filename(init_cubes, ct);
+    const std::string filename = output_filename(init_cubes, ct, ac);
     std::cout << filename << std::endl;
     std::ofstream file(filename);
     if (not file) {

@@ -37,7 +37,8 @@ namespace ECEncoding {
   struct EC0Encoding {
     const Cubing_t& C;
     const PQOptions::CT ct;
-    // For convenience:
+    const ECOptions::AC ac;
+
     const var_t N = C.N, m = C.m;
 
     const var_t n0 = N * m; // primary variables
@@ -54,8 +55,9 @@ namespace ECEncoding {
     mutable var_t next = n0;
   public :
 
-    EC0Encoding(const Cubing_t& C, const PQOptions::CT ct) noexcept :
-    C(C), ct(ct) {
+    EC0Encoding(const Cubing_t& C, const PQOptions::CT ct,
+                const ECOptions::AC ac) noexcept :
+    C(C), ct(ct), ac(ac) {
       assert(C.valid());
 #ifndef NDEBUG
       using float80 = FloatingPoint::float80;
