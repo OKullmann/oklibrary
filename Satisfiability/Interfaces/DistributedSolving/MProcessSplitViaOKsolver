@@ -119,11 +119,9 @@
 # - script InsertPassAsUnit.awk for apply_form="".
 
 # TODOS:
-# -1. DONE Provide a mode where the partial assignment is just added
-#     as unit-clauses to the input.
-#     - LatinSquares/InsertPassAsUnit.awk can be used here.
-#     - Two modes: store as Temp-file, or pipe into standard-input.
-#       Just using "/dev/stdin" for the filename.
+# -1. The new mode apply_form="" leads to oversubscription of
+#     the number of threads, having InsertPassAsUnit.awk running
+#     in parallel with the solver.
 # 0. Provide a mode where solver-output is not stored on file,
 #    but is directly piped (via extraction) to the Results-file.
 #     - If possible, an interruption of the solver should then
