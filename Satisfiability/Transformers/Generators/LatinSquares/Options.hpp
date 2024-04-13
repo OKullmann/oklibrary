@@ -8,6 +8,15 @@ License, or any later version. */
 /*
   See docus/Representation/Options for documentation.
 
+  - enum class SymP (reduced, full)
+
+  - enum class EAloP (inactive, none, val, pair, pairuep, both, bothuep)
+   - has_pair(EAloP) -> bool
+   - has_val(EAloP) -> bool
+   - has_uep(EAloP) -> bool
+
+  - enum class PrimeP (full, min)
+
 */
 
 #ifndef OPTIONS_3R4etWCIqM

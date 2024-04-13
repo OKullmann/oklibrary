@@ -5,6 +5,12 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+  - enum class OT (dimacs, cube_index, count_only)
+
+*/
+
 #ifndef EQOPTIONS_REO5LOHe6f
 #define EQOPTIONS_REO5LOHe6f
 

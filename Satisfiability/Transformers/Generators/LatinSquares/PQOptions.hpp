@@ -5,6 +5,23 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*
+
+  - enum class LT (row, column, pdiag, padiag, qdiag, qadiag)
+   - rc(LT) -> bool
+   - pandiagonal(LT) -> bool
+   - queendiagonal(LT) -> bool
+
+  - enum class CF (amo, alo, eo)
+   - allows_type(CF) -> bool
+
+  - enum class CT (prime, seco, secoeup)
+   - has_uep(CT) -> bool
+
+  - line_options_t = tuple<LT,CF,CT>
+
+*/
+
 #ifndef PQOPTIONS_DV3Tssn5k6
 #define PQOPTIONS_DV3Tssn5k6
 
