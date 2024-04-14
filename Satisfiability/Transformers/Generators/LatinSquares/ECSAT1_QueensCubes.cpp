@@ -15,11 +15,125 @@ License, or any later version. */
 
 EXAMPLES:
 
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" ""
-ECSAT1_QC_5_2_amoprimeprime.cnf
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" "" ""
+ECSAT1_QC_5_2_amoprimeprime0.cnf
 p cnf 135 310
-LatinSquares> ctawSolver ECSAT1_QC_5_2_amoprimeprime.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT1_QC_5_2_amoprimeprime0.cnf | awk '/solutions/'
 c number_of_solutions                   2
+
+LatinSquares$ N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" ""
+ECSAT1_QC_13_348_amoprimeprime.cnf
+p cnf 6721 856921
+LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimeprime.cnf
+XXX running server2 XXX
+LatinSquares$ N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" secouep
+ECSAT1_QC_13_348_amoprimesecouep.cnf
+p cnf 8957 87737
+LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimesecouep.cnf
+XXX running server2 XXX
+
+On server3:
+LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" ""
+ECSAT1_QC_17_8276_amoprimeprime.cnf
+p cnf 145605 584544235
+real    1m17.329s
+user    1m6.445s
+sys     0m11.247s
+LatinSquares$ ls -l ECSAT1_QC_17_8276_amoprimeprime.cnf
+9684161982
+LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeprime.cnf
+s SATISFIABLE
+real    1m49.018s
+user    1m17.416s
+sys     0m31.554s
+
+LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco
+ECSAT1_QC_17_8276_amoprimeseco.cnf
+p cnf 215917 2853059
+real    0m5.069s
+user    0m5.377s
+sys     0m0.110s
+LatinSquares$ time cadical -q ECSAT1_QC_17_8276_amoprimeseco.cnf
+s SATISFIABLE
+real    0m0.661s
+user    0m0.480s
+sys     0m0.180s
+With solution:
+LatinSquares$ cadical -q ECSAT1_QC_17_8276_amoprimeseco.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+ 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+ 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+ 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+ 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12
+ 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11
+ 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10
+ 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9
+  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8
+  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7
+  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6
+  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5
+  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4
+  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3
+  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2
+  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5
+  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4
+  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3
+  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2
+
+
+LatinSquares$ N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco
+ECSAT1_QC_19_43184_amoprimeseco.cnf
+p cnf 1237565 18112548
+real    2m15.017s
+user    2m17.128s
+sys     0m0.780s
+LatinSquares$ time cadical -q -n ECSAT1_QC_19_43184_amoprimeseco.cnf
+s SATISFIABLE
+real    0m4.047s
+user    0m3.008s
+sys     0m1.037s
+With solution:
+LatinSquares$ cadical -q ECSAT1_QC_19_43184_amoprimeseco.cnf  | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
+  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0
+  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1
+  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2
+  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3
+  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4
+  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5
+  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6
+  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7
+  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8
+ 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9
+ 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10
+ 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11
+ 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12
+ 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+ 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+ 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+ 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+
+On server:
+LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo "" secouep
+ECSAT1_QC_19_43184_eoprimesecouep.cnf
+p cnf 1237565 18523119
+real    3m2.071s
+user    3m5.514s
+sys     0m0.704s
+LatinSquares$ cadical -q ECSAT1_QC_19_43184_eoprimesecouep.cnf  | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+Same solution as above.
+LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo secouep secouep
+ECSAT1_QC_19_43184_eosecouepsecouep.cnf
+p cnf 1240453 18482687
+real    3m6.959s
+user    3m10.467s
+sys     0m0.917s
+LatinSquares$ cadical -q ECSAT1_QC_19_43184_eosecouepsecouep.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+Same solution as above.
+
 
 XXX
 
@@ -98,29 +212,30 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "12.4.2024",
+        "0.1.1",
+        "14.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT1_QueensCubes.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 3;
+  constexpr int commandline_args = 4;
 
   using CF = PQOptions::CF;
   using CT = PQOptions::CT;
+  using AC = ECOptions::AC;
   using Algorithms::UInt_t;
   using Algorithms::Cubing_t;
 
   const std::string prefix = "ECSAT1_QC_", suffix = ".cnf";
   std::string output_filename(const UInt_t N, const UInt_t m,
                               const CF cf1, const CT ct1,
-                              const CT ct2) noexcept {
+                              const CT ct2, const AC ac) noexcept {
     std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
-        << W0(cf1) << W0(ct1) << W0(ct2)
+        << W0(cf1) << W0(ct1) << W0(ct2) << W0(ac)
         << suffix;
     return res.str();
   }
@@ -130,12 +245,13 @@ namespace {
       return false;
     std::cout <<
       "> " << proginfo.prg <<
-      " c-form1 c-type1 c-type2\n\n"
+      " c-form1 c-type1 c-type2 add-constraints\n\n"
       " - constraint-form : " << Environment::WRPO<CF>{} << "\n" <<
 
-      " - constraint-type : " << Environment::WRPO<CT>{} << "\n\n" <<
+      " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
+      " - add-constraint  : " << Environment::WRPO<AC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - creates file " << prefix << "N_m_cform1ctype1ctype2" <<
+      "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
         suffix << "\n"
       "  - for the options the first possibility is the default, "
         "triggered by the empty string.\n\n"
@@ -177,6 +293,7 @@ namespace {
         << DWW{"m"} << enc.m << "\n"
         << DWW{"Constraints_cells"} << enc.cf1 << " " << enc.ct1 << "\n"
         << DWW{"Constraints_queens"} << enc.ct2 << "\n"
+        << DWW{"Additional_Constraint"} << enc.ac << "\n"
         << DWW{"   Primary-n-cells"} << enc.N3 << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
         << DWW{"   Auxilliary-n-cells"} << enc.naux1 << "\n"
@@ -185,6 +302,7 @@ namespace {
         << DWW{"  Clauses-cells"} << enc.ceo1 << "\n"
         << DWW{"  Clauses-queens"} << enc.ceo2 << "\n"
         << DWW{"  Connecting-2-clauses"} << enc.cbin << "\n"
+        << DWW{"  Non-cyclic-clauses"} << enc.cnoncyclic << "\n"
         << DWW{"c"} << enc.c << "\n";
   }
 
@@ -204,6 +322,13 @@ int main(const int argc, const char* const argv[]) {
   const CF cf1 = read_cf(argv[1]);
   const CT ct1 = read_ct(argv[2]);
   const CT ct2 = read_ct(argv[3]);
+  const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[4]);
+    if (not ac0) {
+      std::cerr << error << "The additional constraint could not be read from"
+        " string \"" << argv[4] << "\".\n";
+      std::exit(1);
+    }
+    return ac0.value();}();
 
   const Cubing_t cubes = Algorithms::read_queens_cubing(std::cin);
   if (cubes.m == 0) {
@@ -211,7 +336,7 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  const std::string filename = output_filename(cubes.N,cubes.m, cf1,ct1, ct2);
+  const std::string filename = output_filename(cubes.N,cubes.m,cf1,ct1,ct2,ac);
   std::cout << filename << std::endl;
   std::ofstream file(filename);
   if (not file) {
@@ -220,7 +345,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto encoding = ECEncoding::EC1Encoding(cubes, cf1, ct1, ct2);
+  const auto encoding = ECEncoding::EC1Encoding(cubes, cf1, ct1, ct2, ac);
 
   statistics(file, encoding, argc,argv);
   std::cout << encoding.dp; std::cout.flush();
