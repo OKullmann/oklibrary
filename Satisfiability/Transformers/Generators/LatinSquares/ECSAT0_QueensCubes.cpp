@@ -13,6 +13,7 @@ EXAMPLES:
 
 Statistics only:
 
+Standard version:
 LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F "" | awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
 "prime" 5 10 30
 "seco" 5 10 30
@@ -26,6 +27,20 @@ LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagona
 "prime" 13 4524 6009991
 "seco" 13 6760 5238571
 "secouep" 13 6760 5240807
+Excluding cylcic solutions:
+LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F nc | awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
+"prime" 5 10 32
+"seco" 5 10 32
+"secouep" 5 10 32
+"prime" 7 28 305
+"seco" 7 28 305
+"secouep" 7 28 305
+"prime" 11 88 3407
+"seco" 11 110 3297
+"secouep" 11 110 3319
+"prime" 13 4524 6010339
+"seco" 13 6760 5238919
+"secouep" 13 6760 5241155
 
 LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F "" | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
 "prime" 140692 5912731359
@@ -68,6 +83,16 @@ user    10890m9.738s
 sys     128m7.439s
 Found 1711 solutions
 
+Finding a noncyclic solution:
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +secouep nc
+ECSAT0_QC_13_348_secouepnc.cnf
+p cnf 6760 5241155
+LatinSquares> time cadical -q -n ECSAT0_QC_13_348_secouepnc.cnf
+s SATISFIABLE
+real	0m3.870s
+user	0m3.525s
+sys	0m0.344s
+
 
 TODOS:
 
@@ -96,7 +121,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "13.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -165,11 +190,13 @@ namespace {
         << DWW{"N"} << enc.N << "\n"
         << DWW{"m"} << enc.m << "\n"
         << DWW{"Constraint_type"} << enc.ct << "\n"
+        << DWW{"Additional_Constraint"} << enc.ac << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
         << DWW{"  Auxilliary-n"} << enc.naux << "\n"
         << DWW{"n"} << enc.n << "\n"
         << DWW{"  Exactly-One-clauses"} << enc.ceo << "\n"
         << DWW{"  Non-disjointness-clauses"} << enc.cbin << "\n"
+        << DWW{"  Non-cyclic-clauses"} << enc.cnoncyclic << "\n"
         << DWW{"c"} << enc.c << "\n";
   }
 

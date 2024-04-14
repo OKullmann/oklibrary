@@ -48,7 +48,8 @@ namespace ECEncoding {
     const var_t ceo =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo));
     const var_t cbin = count_clashes(C);
-    const var_t c = ceo + cbin;
+    const var_t cnoncyclic = ac == ECOptions::AC:: none ? 0 : m;
+    const var_t c = ceo + cbin + cnoncyclic;
     const Statistics::dimacs_pars dp{n,c};
 
   protected :
@@ -60,12 +61,13 @@ namespace ECEncoding {
     C(C), ct(ct), ac(ac) {
       assert(C.valid());
 #ifndef NDEBUG
-      using float80 = FloatingPoint::float80;
+      using f80 = FloatingPoint::float80;
 #endif
-      assert(n0 == float80(N) * m);
+      assert(n0 == f80(N) * m);
       assert(n0 + N * PQEncoding::n_amoaloeo(m, ct, PQOptions::CF::eo)
              == n);
-      assert(N * PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo) + cbin
+      assert(N * PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo) + f80(cbin)
+             + cnoncyclic
              == c);
     }
     static var_t count_clashes(const Cubing_t& C) noexcept {
@@ -124,11 +126,27 @@ namespace ECEncoding {
           }
       }
   }
+  template <class ENC>
+  void noncyclic(std::ostream& out, const ENC& enc) {
+    if (enc.ac != ECOptions::AC::noncyclic) return;
+    for (var_t i = 0; i < enc.m; ++i) {
+      AloAmo::Clause C; C.reserve(enc.N);
+      for (var_t j = 0; j < enc.N; ++j) {
+        const qplaces p{j,i};
+        C.push_back(-AloAmo::Lit(enc(p)));
+      }
+      out << C;
+#ifndef NDEBUG
+      ++running_counter;
+#endif
+    }
+  }
 
   void ecsat0(std::ostream& out, const EC0Encoding& enc) {
     out << enc.dp;
     eocubes(out, enc);
     clashes(out, enc);
+    noncyclic(out, enc);
 #ifndef NDEBUG
     assert(running_counter == enc.c);
 #endif
