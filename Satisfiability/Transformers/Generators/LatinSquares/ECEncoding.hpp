@@ -291,6 +291,141 @@ namespace ECEncoding {
   }
 
 
+  struct EC2Encoding {
+    using CF = PQOptions::CF;
+    using CT = PQOptions::CT;
+    using AC = ECOptions::AC;
+    using cell_t = PQEncoding::cell_t;
+
+    const Cubing_t& C;
+    const CF cf1;
+    const CT ct1, ct2;
+    const AC ac;
+
+    const var_t N = C.N, m = C.m;
+
+    const var_t N2 = N*N, N3 = N2*N;
+    const var_t n0 = N3 + N * m; // primary variables
+    const var_t naux1 = 5 * N2 *
+      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(N, ct1, cf1));
+    const var_t naux2 = N *
+      FloatingPoint::toUInt(PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+    const var_t n = n0 + naux1 + naux2;
+    const var_t crred = N;
+    const var_t ceo1 =  5 * N2 *
+      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(N, ct1, cf1));
+    const var_t ceo2 =  N *
+      FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+    const var_t cbin = m * N2;
+    const var_t cnoncyclic = ac == AC:: none ? 0 : m;
+    const var_t c = crred + ceo1 + ceo2 + cbin + cnoncyclic;
+    const Statistics::dimacs_pars dp{n,c};
+
+  protected :
+    mutable var_t next = n0;
+  public :
+
+    EC2Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
+                const CT ct2, const ECOptions::AC ac) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2), ac(ac) {
+      assert(C.valid());
+#ifndef NDEBUG
+      using f80 = FloatingPoint::float80;
+#endif
+      assert(N2 == f80(N) * N); assert(N3 == f80(N) * N2);
+      assert(n0 == N3 + f80(N) * m);
+      assert(naux1 == 5 * N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
+      assert(naux2 == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+      assert(n == f80(n0) + f80(naux1) + naux2);
+      assert(ceo1 == 5 * N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
+      assert(ceo2 == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+      assert(cbin == f80(m) * N2);
+      assert(c == f80(crred) + f80(ceo1) + f80(ceo2) + f80(cbin) + cnoncyclic);
+
+      assert(Statistics::fits_dim_t(N));
+    }
+
+    var_t operator()() const noexcept {
+      return ++next;
+    }
+
+    // The primary variables first part (set digit k in cell c):
+    constexpr var_t operator()(const cell_t& c, const dim_t k) const noexcept {
+      assert(valid(c, N));
+      assert(k < N);
+      const var_t code = c.i * N2 + c.j * N + k;
+      return 1 + code;
+    }
+    // The primary variables second part (choose solution p.cu for digit p.co):
+    var_t operator()(const qplaces& p) const noexcept {
+      assert(C.valid(p));
+      return 1 + N3 + m*p.co + p.cu;
+    }
+
+  };
+
+  void rreduced(std::ostream& out, const EC2Encoding& enc) {
+    for (dim_t j = 0; j < enc.N; ++j)
+      out << AloAmo::Clause{AloAmo::Lit(enc({0,j},j))};
+#ifndef NDEBUG
+    running_counter += enc.N;
+#endif
+  }
+  void rows(std::ostream& out, const EC2Encoding& enc) {
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t j = 0; j < enc.N; ++j)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        amoaloeo(out, C, enc, enc.cf1, enc.ct1);
+      }
+  }
+  void columns(std::ostream& out, const EC2Encoding& enc) {
+    for (dim_t j = 0; j < enc.N; ++j)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i)
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        amoaloeo(out, C, enc, enc.cf1, enc.ct1);
+      }
+  }
+  void diagonals(std::ostream& out, const EC2Encoding& enc) {
+    for (dim_t diff = 0; diff < enc.N; ++diff)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i) {
+          const dim_t j = (var_t(diff) + i) % enc.N;
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        }
+        amoaloeo(out, C, enc, enc.cf1, enc.ct1);
+      }
+  }
+  void antidiagonals(std::ostream& out, const EC2Encoding& enc) {
+    for (var_t sum = enc.N; sum < 2*enc.N; ++sum)
+      for (dim_t k = 0; k < enc.N; ++k) {
+        AloAmo::Clause C;
+        for (dim_t i = 0; i < enc.N; ++i) {
+          const dim_t j = (sum - i) % enc.N;
+          C.push_back(AloAmo::Lit(enc({i,j},k)));
+        }
+        amoaloeo(out, C, enc, enc.cf1, enc.ct1);
+      }
+  }
+
+  void ecsat2(std::ostream& out, const EC2Encoding& enc) {
+    out << enc.dp;
+    rreduced(out, enc);
+    values(out, enc);
+    rows(out, enc); columns(out, enc);
+    diagonals(out, enc); antidiagonals(out, enc);
+    cubes(out, enc);
+    connections(out, enc);
+    noncyclic(out, enc);
+#ifndef NDEBUG
+    assert(running_counter == enc.c);
+#endif
+  }
+
 }
 
 #endif

@@ -7,8 +7,8 @@
 
 oklibloc = ../../../..
 
-opt_progs = Mols Pandiagonal CPandiagonal CspPandiagonal Sort ExpandQueensCubes ExactCoverQueensCubes ECSAT0_QueensCubes ECSAT1_QueensCubes
-debug_progs = Mols_debug Pandiagonal_debug CPandiagonal_debug CspPandiagonal_debug Sort_debug ExpandQueensCubes_debug ExactCoverQueensCubes_debug ECSAT0_QueensCubes_debug ECSAT1_QueensCubes_debug
+opt_progs = Mols Pandiagonal CPandiagonal CspPandiagonal Sort ExpandQueensCubes ExactCoverQueensCubes ECSAT0_QueensCubes ECSAT1_QueensCubes ECSAT2_QueensCubes
+debug_progs = Mols_debug Pandiagonal_debug CPandiagonal_debug CspPandiagonal_debug Sort_debug ExpandQueensCubes_debug ExactCoverQueensCubes_debug ECSAT0_QueensCubes_debug ECSAT1_QueensCubes_debug ECSAT2_QueensCubes_debug
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -42,3 +42,6 @@ ECSAT0_QueensCubes_debug : ECSAT0_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp 
 
 ECSAT1_QueensCubes : ECSAT1_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp ECOptions.hpp
 ECSAT1_QueensCubes_debug : ECSAT1_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp ECOptions.hpp
+
+ECSAT2_QueensCubes : ECSAT2_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp ECOptions.hpp
+ECSAT2_QueensCubes_debug : ECSAT2_QueensCubes.cpp Algorithms.hpp ECEncoding.hpp PQOptions.hpp ECOptions.hpp
