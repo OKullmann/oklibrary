@@ -31,8 +31,8 @@ CspPandiagonal_debug : CspPandiagonal.cpp PQOptions.hpp AloAmo.hpp PQEncoding.hp
 Sort : Sort.cpp
 Sort_debug : Sort.cpp
 
-ExpandQueensCubes : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp
-ExpandQueensCubes_debug : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp
+ExpandQueensCubes : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp ECEncoding.hpp
+ExpandQueensCubes_debug : ExpandQueensCubes.cpp Algorithms.hpp EQOptions.hpp ECEncoding.hpp
 
 ExactCoverQueensCubes : ExactCoverQueensCubes.cpp Algorithms.hpp
 ExactCoverQueensCubes_debug : ExactCoverQueensCubes.cpp Algorithms.hpp

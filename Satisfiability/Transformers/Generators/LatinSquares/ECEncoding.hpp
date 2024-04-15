@@ -15,6 +15,7 @@ License, or any later version. */
 #define ECENCODING_0diQ1XZHGf
 
 #include <cassert>
+#include <ostream>
 
 #include <Numerics/NumTypes.hpp>
 #include <Numerics/Conversions.hpp>
@@ -25,6 +26,7 @@ License, or any later version. */
 #include "PQEncoding.hpp"
 #include "Algorithms.hpp"
 #include "AloAmo.hpp"
+#include "EQOptions.hpp"
 
 namespace ECEncoding {
 
@@ -93,6 +95,18 @@ namespace ECEncoding {
       assert(C.valid(p));
       return 1 + m*p.co + p.cu;
     }
+
+    struct DimacsEC0 {
+      std::ostream& out;
+      const var_t m;
+      using vector_t = Algorithms::vector_t;
+      void operator()(const vector_t& v) const {
+        out << "v";
+        for (var_t i = 0; i < v.size(); ++i)
+          out << " " << 1 + i*m + v[i];
+        out << " 0\n";
+      }
+    };
 
   };
 
@@ -425,6 +439,30 @@ namespace ECEncoding {
     assert(running_counter == enc.c);
 #endif
   }
+
+
+  void all_solutions(const Cubing_t& C, const var_t k,
+                     std::ostream& out, const EQOptions::OT ot) {
+    switch (ot) {
+    case EQOptions::OT::dimacs : {
+      Algorithms::DimacsPandiagonal dp{out,C};
+      all_solutions(C, k, {}, dp); return; }
+    case EQOptions::OT::dimacs_ec0 : {
+      EC0Encoding::DimacsEC0 dec0{out,C.m};
+      all_solutions(C, k, {}, dec0); return; }
+    case EQOptions::OT::cube_index : {
+      Algorithms::CubeIndices ci{out};
+      all_solutions(C, k, {}, ci); return; }
+    case EQOptions::OT::count_only : {
+      Algorithms::CountOnly co{Algorithms::expand_total_count};
+      all_solutions(C, k, {}, co); return; }
+    };
+  }
+  void all_solutions(const Cubing_t& C, std::ostream& out,
+                     const EQOptions::OT ot) {
+    all_solutions(C, C.N, out, ot);
+  }
+
 
 }
 

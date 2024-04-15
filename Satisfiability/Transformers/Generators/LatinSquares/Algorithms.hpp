@@ -223,21 +223,6 @@ namespace Algorithms {
     CountOnly co{expand_total_count};
     all_solutions(C, k, {}, co);
   }
-  void all_solutions(const Cubing_t& C, const UInt_t k,
-                     std::ostream& out, const EQOptions::OT ot) {
-    switch (ot) {
-    case EQOptions::OT::count_only : { CountOnly co{expand_total_count};
-        all_solutions(C, k, {}, co); return; }
-    case EQOptions::OT::cube_index : { CubeIndices ci{out};
-        all_solutions(C, k, {}, ci); return; }
-    case EQOptions::OT::dimacs : { DimacsPandiagonal dp{out,C};
-        all_solutions(C, k, {}, dp); return; }
-    };
-  }
-  void all_solutions(const Cubing_t& C, std::ostream& out,
-                     const EQOptions::OT ot) {
-    all_solutions(C, C.N, out, ot);
-  }
 
 }
 

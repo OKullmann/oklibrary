@@ -87,6 +87,12 @@ A
 4 0 1 2 3
 1 2 3 4 0
 3 4 0 1 2
+An alternative encoding of the cubes, to be used for ECSAT0_QueensCubes:
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N dec0
+v 1 3 5 7 9 0
+v 2 4 6 8 10 0
+Here 2 variables per digit are used to encode the cubes.
+
 
 
 LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
@@ -166,7 +172,7 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "15.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -227,10 +233,9 @@ int main(const int argc, const char* const argv[]) {
     std::cout << Algorithms::expand_total_count << "\n";
   }
   else {
-    if (k >=  init_cubes.N) {
-      Algorithms::all_solutions(init_cubes, std::cout, ot);
-      return 0;
-    }
-    Algorithms::all_solutions(init_cubes, k, std::cout, ot);
+    if (k >=  init_cubes.N)
+      ECEncoding::all_solutions(init_cubes, std::cout, ot);
+    else
+      ECEncoding::all_solutions(init_cubes, k, std::cout, ot);
   }
 }
