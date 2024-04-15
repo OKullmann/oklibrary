@@ -166,46 +166,78 @@ namespace Algorithms {
     return res;
   }
 
+
+  // Functors for obtaining the partial solutions (of type vector_t)
+  // as a function-call:
+  struct CountOnly {
+    UInt_t& count;
+    void operator()(const vector_t&) const {++count;}
+  };
+  struct CubeIndices {
+    std::ostream& out;
+    void operator()(const vector_t& v) const {
+      Environment::out_line(out, v);
+      out << "\n"; out.flush();
+    }
+  };
+  struct DimacsPandiagonal {
+    std::ostream& out;
+    const Cubing_t& C;
+    using dim_t = PQEncoding::dim_t;
+
+    void operator()(const vector_t& v) const {
+      assert(C.N <= 65535U);
+      const UInt_t co = v.size();
+      for (dim_t q = 0; q < co; ++q) {
+        const vector_t Q = C.queens({q,v[q]});
+        for (dim_t i = 0; i < C.N; ++i) {
+          const dim_t j = Q[i]; // at (i,j) place Queen q
+          const UInt_t v = PQEncoding::PEncoding::index({i,j}, q, C.N);
+          out << " " << v;
+        }
+      }
+      out << " 0\n"; out.flush();
+    }
+  };
+
+
   UInt_t expand_total_count = 0;
   // Trivial algorithm for finding all solutions:
+  template <class OUT>
   void all_solutions(const Cubing_t& C, const UInt_t d, vector_t init,
-                     std::ostream& out, const EQOptions::OT ot) {
+                     OUT& out) {
     const UInt_t co = init.size();
-    if (d == 0 or co >= C.N) {
-      if (ot == EQOptions::OT::count_only) { ++expand_total_count; return; }
-      if (ot == EQOptions::OT::cube_index)
-        Environment::out_line(out, init);
-      else {
-        using dim_t = PQEncoding::dim_t;
-        assert(C.N <= 65535U);
-        out << "v";
-        for (dim_t q = 0; q < co; ++q) {
-          const vector_t Q = C.queens({q,init[q]});
-          for (dim_t i = 0; i < C.N; ++i) {
-            const dim_t j = Q[i]; // at (i,j) place Queen q
-            const UInt_t v = PQEncoding::PEncoding::index({i,j}, q, C.N);
-            out << " " << v;
-          }
-        }
-        out << " 0";
-      }
-      out << std::endl; return;
-    }
+    if (d == 0 or co >= C.N) { out(init); return; }
     for (UInt_t i = 0; i < C.m; ++i) {
       const qplaces p{co,i};
       for (UInt_t co0 = 0; co0 < co; ++co0)
         if (not C.disjoint(p, {co0, init[co0]})) goto END;
       {vector_t ext(init); ext.push_back(i);
-       all_solutions(C, d-1, std::move(ext), out, ot);
+       all_solutions(C, d-1, std::move(ext), out);
       }
       END:;
     }
   }
+  void all_solutions(const Cubing_t& C, const UInt_t k) {
+    CountOnly co{expand_total_count};
+    all_solutions(C, k, {}, co);
+  }
+  void all_solutions(const Cubing_t& C, const UInt_t k,
+                     std::ostream& out, const EQOptions::OT ot) {
+    switch (ot) {
+    case EQOptions::OT::count_only : { CountOnly co{expand_total_count};
+        all_solutions(C, k, {}, co); return; }
+    case EQOptions::OT::cube_index : { CubeIndices ci{out};
+        all_solutions(C, k, {}, ci); return; }
+    case EQOptions::OT::dimacs : { DimacsPandiagonal dp{out,C};
+        all_solutions(C, k, {}, dp); return; }
+    };
+  }
   void all_solutions(const Cubing_t& C, std::ostream& out,
                      const EQOptions::OT ot) {
-    all_solutions(C, C.N, {}, out, ot);
+    all_solutions(C, C.N, out, ot);
   }
-  
+
 }
 
 #endif

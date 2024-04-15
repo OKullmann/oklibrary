@@ -20,12 +20,15 @@ Trivial mode:
 
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
 13 348: 1
+348
 LatinSquares> N=17; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
 17 8276: 1
+8276
 LatinSquares> N=17; CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 1 count
 17 28: 1
+28
 
-Considering deeper splitting (but still only coutning):
+Considering deeper splitting (but still only counting):
 
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug 2 count
 13 348: 2
@@ -42,6 +45,50 @@ Complete solution mode for pandiagonal problems (with abbreviated output):
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 0 0 0 0 0
 1 1 1 1 1
+
+Explanation:
+The "queens cubes" are:
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N
+ 0 3 1 4 2
+ 0 2 4 1 3
+This is interpreted here as two solutions to the "toroidal N-Queens problems",
+that is, "0 3 1 4 2" means
+LatinSquares> echo "0 3 1 4 2" | CP_clasp_queens.awk
+  0  *  *  *  *
+  *  *  *  0  *
+  *  0  *  *  *
+  *  *  *  *  0
+  *  *  0  *  *
+Actually, the solutions of CPandiagonal have a different direct interpretation,
+namely it gives the first column of the row-cyclic pandiagional solution,
+not the positions of the queens (the zeros). The correct per-solution
+interpretation is obtained by
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N -v mode=1
+ 0 2 4 1 3
+ 0 3 1 4 2
+but this gives the same total set of solutions, and thus we typically ignore
+this.
+Back to the explanation of the two solutions "0 0 0 0 0" and "1 1 1 1 1"
+in the cube-indices-interpretation: it gives the cubes-indices, appropriately
+shifting the solutions, in the original list of cubes. So we have only
+the two cyclic solutions, repeating the same pattern.
+In dimacs-output we get
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N d
+v 1 41 56 96 111 7 47 62 77 117 13 28 68 83 123 19 34 74 89 104 25 40 55 95 110 0
+v 1 36 71 81 116 7 42 52 87 122 13 48 58 93 103 19 29 64 99 109 25 35 70 80 115 0
+which gives the N^2 cells in the direct encoding, using N^3 variables
+(maintaining the original order, so the first five numbers are the five
+positive literals for digit 0, then digit 1, and so on).
+This can be interpreted as a "partial square" via
+MOLS> echo "v 1 41 56 96 111 7 47 62 77 117 13 28 68 83 123 19 34 74 89 104 25 40 55 95 110 0" | Pass2PSquares 5 /dev/stdin
+A
+0 1 2 3 4
+2 3 4 0 1
+4 0 1 2 3
+1 2 3 4 0
+3 4 0 1 2
+
+
 LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
 Empty input.
 LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
@@ -74,15 +121,15 @@ condition); still just abbreviated output:
 
 LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N ci | wc -l
 346
-real	13m15.241s
-user	13m15.153s
-sys	0m0.030s
+real	12m39.064s
+user	12m39.062s
+sys	0m0.021s
 LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N count
 13 112: 13
 346
-real	12m25.041s
-user	12m24.854s
-sys	0m0.089s
+real	12m30.450s
+user	12m30.436s
+sys	0m0.013s
 
 
 (Compared to 398 ordinary Pandiagonal Sudokus.)
@@ -118,8 +165,8 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "7.4.2024",
+        "0.1.2",
+        "15.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExpandQueensCubes.cpp",
@@ -175,7 +222,7 @@ int main(const int argc, const char* const argv[]) {
   if (not output) {
     std::cout << init_cubes.N << " " << init_cubes.m <<
       ": " << k << std::endl;
-    Algorithms::all_solutions(init_cubes, k, {}, std::cout, ot);
+    Algorithms::all_solutions(init_cubes, k);
     std::cout << Algorithms::expand_total_count << "\n";
   }
   else {
@@ -183,6 +230,6 @@ int main(const int argc, const char* const argv[]) {
       Algorithms::all_solutions(init_cubes, std::cout, ot);
       return 0;
     }
-    Algorithms::all_solutions(init_cubes, k, {}, std::cout, ot);
+    Algorithms::all_solutions(init_cubes, k, std::cout, ot);
   }
 }
