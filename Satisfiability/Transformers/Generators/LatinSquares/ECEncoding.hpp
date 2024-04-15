@@ -237,6 +237,18 @@ namespace ECEncoding {
       return 1 + N3 + m*p.co + p.cu;
     }
 
+    struct DimacsEC1 {
+      std::ostream& out;
+      const var_t N, m, N3 = N*N*N;
+      using vector_t = Algorithms::vector_t;
+      void operator()(const vector_t& v) const {
+        out << "v";
+        for (var_t i = 0; i < v.size(); ++i)
+          out << " " << 1 + N3 + i*m + v[i];
+        out << " 0\n";
+      }
+    };
+
   };
 
 
@@ -450,6 +462,9 @@ namespace ECEncoding {
     case EQOptions::OT::dimacs_ec0 : {
       EC0Encoding::DimacsEC0 dec0{out,C.m};
       all_solutions(C, k, {}, dec0); return; }
+    case EQOptions::OT::dimacs_ec1 : {
+      EC1Encoding::DimacsEC1 dec1{out,C.N,C.m};
+      all_solutions(C, k, {}, dec1); return; }
     case EQOptions::OT::cube_index : {
       Algorithms::CubeIndices ci{out};
       all_solutions(C, k, {}, ci); return; }

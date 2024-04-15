@@ -92,7 +92,12 @@ LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v 
 v 1 3 5 7 9 0
 v 2 4 6 8 10 0
 Here 2 variables per digit are used to encode the cubes.
-
+For ECSAT1/2_QueensCubes use dec1:
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N dec1
+v 126 128 130 132 134 0
+v 127 129 131 133 135 0
+Here we have the initial block of N^3 = 125 variables encoding the cells
+of the square.
 
 
 LatinSquares> N=6; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes_debug $N ci
@@ -172,7 +177,7 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
+        "0.2.0",
         "15.4.2024",
         __FILE__,
         "Oliver Kullmann",
