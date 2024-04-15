@@ -188,6 +188,7 @@ namespace Algorithms {
     void operator()(const vector_t& v) const {
       assert(C.N <= 65535U);
       const UInt_t co = v.size();
+      out << "v";
       for (dim_t q = 0; q < co; ++q) {
         const vector_t Q = C.queens({q,v[q]});
         for (dim_t i = 0; i < C.N; ++i) {
