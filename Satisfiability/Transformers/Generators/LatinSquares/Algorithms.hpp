@@ -171,7 +171,7 @@ namespace Algorithms {
   // as a function-call:
   struct CountOnly {
     UInt_t& count;
-    void operator()(const vector_t&) const {++count;}
+    void operator()(const vector_t&) const noexcept {++count;}
   };
   struct CubeIndices {
     std::ostream& out;
@@ -205,15 +205,15 @@ namespace Algorithms {
   UInt_t expand_total_count = 0;
   // Trivial algorithm for finding all solutions:
   template <class OUT>
-  void all_solutions(const Cubing_t& C, const UInt_t d, vector_t init,
+  void all_solutions(const Cubing_t& C, const UInt_t d, const vector_t init,
                      OUT& out) {
     const UInt_t co = init.size();
     if (d == 0 or co >= C.N) { out(init); return; }
-    for (UInt_t i = 0; i < C.m; ++i) {
-      const qplaces p{co,i};
+    for (UInt_t cu = 0; cu < C.m; ++cu) {
+      const qplaces p{co,cu};
       for (UInt_t co0 = 0; co0 < co; ++co0)
         if (not C.disjoint(p, {co0, init[co0]})) goto END;
-      {vector_t ext(init); ext.push_back(i);
+      {vector_t ext(init); ext.push_back(cu);
        all_solutions(C, d-1, std::move(ext), out);
       }
       END:;

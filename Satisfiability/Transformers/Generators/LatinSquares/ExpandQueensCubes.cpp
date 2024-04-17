@@ -132,15 +132,15 @@ condition); still just abbreviated output:
 
 LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N ci | wc -l
 346
-real	12m39.064s
-user	12m39.062s
-sys	0m0.021s
+real	11m41.836s
+user	11m41.823s
+sys	0m0.017s
 LatinSquares> N=13; time CPandiagonal +$N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ExpandQueensCubes $N count
 13 112: 13
 346
-real	12m30.450s
-user	12m30.436s
-sys	0m0.013s
+real	11m39.894s
+user	11m39.897s
+sys	0m0.001s
 
 
 (Compared to 398 ordinary Pandiagonal Sudokus.)
@@ -177,8 +177,8 @@ LatinSquares> N=17; for k in {1..13}; do echo -n "$k: "; CPandiagonal +$N "" | c
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "15.4.2024",
+        "0.2.1",
+        "17.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ExpandQueensCubes.cpp",
