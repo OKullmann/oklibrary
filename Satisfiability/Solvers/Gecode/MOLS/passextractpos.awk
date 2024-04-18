@@ -8,12 +8,12 @@
 # EXAMPLE:
 
 # > echo -e "c dh\nv 5 -3 3 \nv 12 -1 0\nc\nv 55 33 -1 0\nv 0" | ./passextractpos.awk
-#  3 5 12 0
-#  33 55 0
-#  0
+# v 3 5 12 0
+# v 33 55 0
+# v 0
 
 
-# version 0.1.0
+# version 0.1.1
 
 BEGIN { PROCINFO["sorted_in"] = "@ind_num_asc" }
 
@@ -23,6 +23,7 @@ BEGIN { PROCINFO["sorted_in"] = "@ind_num_asc" }
     if (x !~ /^-/ && x != "0") phi[x] = ""
   }
   if ($NF == "0") {
+    printf "v"
     for (x in phi) printf " %s", x
     printf " 0\n"
     delete phi
