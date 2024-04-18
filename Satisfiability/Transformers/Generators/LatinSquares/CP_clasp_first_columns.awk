@@ -1,6 +1,6 @@
 #! /usr/bin/awk -f
 
-# For clasp-output of (possibly many) satisfying assignments:
+# For clasp-like-output of (possibly many) satisfying assignments:
 #  - combine different v-lines into one (when belonging together)
 #  - extract the positive literals
 #  - interprete them as values of the first column of
