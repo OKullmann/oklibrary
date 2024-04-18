@@ -32,7 +32,7 @@ namespace Environment {
     static constexpr const char* sname = "ac";
     static constexpr int size = ECOptions::NCsize;
     static constexpr std::array<const char*, size>
-      string {"0", "nc"};
+      string {"nc0", "nc1"};
     static constexpr std::array<const char*, size>
       estring {"none", "noncyclic"};
   };

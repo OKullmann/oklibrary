@@ -17,38 +17,52 @@ License, or any later version. */
 EXAMPLES:
 
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes_debug "" "" "" ""
-ECSAT2_QC_5_2_amoprimeprime0.cnf
+ECSAT2_QC_5_2_amoprimeprime_nc0.cnf
 p cnf 135 1315
-LatinSquares> clasp 0 -q ECSAT2_QC_5_2_amoprimeprime0.cnf | awk '/Models/'
+LatinSquares> clasp 0 -q ECSAT2_QC_5_2_amoprimeprime_nc0.cnf | awk '/Models/'
 c Models         : 2
 
 LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes_debug "" "" "" ""
-ECSAT2_QC_7_4_amoprimeprime0.cnf
+ECSAT2_QC_7_4_amoprimeprime_nc0.cnf
 p cnf 371 5397
-LatinSquares> clasp 0 -q ECSAT2_QC_7_4_amoprimeprime0.cnf | awk '/Models/'
+LatinSquares> clasp 0 -q ECSAT2_QC_7_4_amoprimeprime_nc0.cnf | awk '/Models/'
 c Models         : 4
 
 LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes_debug "" "" "" ""
-ECSAT2_QC_11_8_amoprimeprime0.cnf
+ECSAT2_QC_11_8_amoprimeprime_nc0.cnf
 p cnf 1419 34573
-LatinSquares> clasp 0 -q ECSAT2_QC_11_8_amoprimeprime0.cnf | awk '/Models/'
+LatinSquares> clasp 0 -q ECSAT2_QC_11_8_amoprimeprime_nc0.cnf | awk '/Models/'
 c Models         : 8
 
 LatinSquares$ N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes_debug eo "" secouep nc
-ECSAT2_QC_13_348_eoprimesecouepnc.cnf
+ECSAT2_QC_13_348_eoprimesecouep_nc1.cnf
 p cnf 8957 141671
-LatinSquares> time cadical -q -n ECSAT2_QC_13_348_eoprimesecouepnc.cnf
+LatinSquares> time cadical -q -n ECSAT2_QC_13_348_eoprimesecouep_nc1.cnf
 s SATISFIABLE
 real	0m1.531s
 user	0m1.526s
 sys	0m0.005s
+LatinSquares> time cadical -q ECSAT2_QC_13_348_eoprimesecouep_nc1.cnf | passextractpos.awk | Pass2PSquares $N /dev/stdin
+ 0  1  2  3  4  5  6  7  8  9 10 11 12
+ 2  6  0  1 11 12  8  5 10  7  4  3  9
+ 4  7  5 12  8  9 10 11  1  3  0  2  6
+ 5 12  8  9 10 11  1  3  0  2  6  4  7
+ 8  9  7  4  2  3  0 12  6  1 11  5 10
+ 3 10  1  6  0  4  2  9  7  5 12  8 11
+ 1 11  3  2  5  6  7  4 12  8  9 10  0
+12  0  6 11  7 10  5  8  9  4  2  1  3
+ 9  4 12  5  1  8  3 10 11  6  7  0  2
+ 7  2  9  8 12  0 11  1  3 10  5  6  4
+ 6  8  4 10  9  1 12  0  2 11  3  7  5
+10  5 11  7  3  2  9  6  4  0  1 12  8
+11  3 10  0  6  7  4  2  5 12  8  9  1
 
-LatinSquares$ N=17; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes eo "" secouep nc
-ECSAT2_QC_17_8276_eoprimesecouepnc.cnf
+
+LatinSquares$ N=17; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT2_QueensCubes eo "" secouep nc1
+ECSAT2_QC_17_8276_eoprimesecouep_nc1.cnf
 p cnf 215917 3090325
-LatinSquares> time cadical -q -n ECSAT2_QC_17_8276_eoprimesecouepnc.cnf
-aborted
-
+LatinSquares> time cadical -q -n ECSAT2_QC_17_8276_eoprimesecouep_nc1.cnf
+aborted after 4 min
 
 
 */
@@ -68,7 +82,7 @@ aborted
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -92,7 +106,7 @@ namespace {
     std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
-        << W0(cf1) << W0(ct1) << W0(ct2) << W0(nc)
+        << W0(cf1) << W0(ct1) << W0(ct2) << "_" << W0(nc)
         << suffix;
     return res.str();
   }
@@ -108,7 +122,7 @@ namespace {
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
       " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
+      "  - creates file " << prefix << "N_m_cform1ctype1ctype2_atype" <<
         suffix << "\n"
       "   - except for disallowed combination, where it prints \"" <<
         no_output << "\" and the reason\n"

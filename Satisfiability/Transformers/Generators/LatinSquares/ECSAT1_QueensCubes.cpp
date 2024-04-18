@@ -16,195 +16,166 @@ License, or any later version. */
 EXAMPLES:
 
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" "" ""
-ECSAT1_QC_5_2_amoprimeprime0.cnf
+ECSAT1_QC_5_2_amoprimeprime_nc0.cnf
 p cnf 135 310
-LatinSquares> ctawSolver ECSAT1_QC_5_2_amoprimeprime0.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT1_QC_5_2_amoprimeprime_nc0.cnf | awk '/solutions/'
 c number_of_solutions                   2
 
-LatinSquares$ N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" ""
-ECSAT1_QC_13_348_amoprimeprime.cnf
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" "" ""
+ECSAT1_QC_13_348_amoprimeprime_nc0.cnf
 p cnf 6721 856921
-LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimeprime.cnf
+LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimeprime_nc0.cnf
 XXX running server2 XXX
-LatinSquares$ N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" secouep
-ECSAT1_QC_13_348_amoprimesecouep.cnf
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes_debug "" "" secouep ""
+ECSAT1_QC_13_348_amoprimesecouep_nc0.cnf
 p cnf 8957 87737
-LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimesecouep.cnf
+LatinSquares> time clasp 0 -q ECSAT1_QC_13_348_amoprimesecouep_nc0.cnf
 XXX running server2 XXX
 
 On server3:
-LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" ""
-ECSAT1_QC_17_8276_amoprimeprime.cnf
+LatinSquares> N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" "" ""
+ECSAT1_QC_17_8276_amoprimeprime_nc0.cnf
 p cnf 145605 584544235
 real    1m17.329s
 user    1m6.445s
 sys     0m11.247s
-LatinSquares$ ls -l ECSAT1_QC_17_8276_amoprimeprime.cnf
-9684161982
-LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeprime.cnf
+LatinSquares> ls -l ECSAT1_QC_17_8276_amoprimeprime_nc0.cnf
+9684162076
+LatinSquares> time cadical -q -n ECSAT1_QC_17_8276_amoprimeprime_nc0.cnf
 s SATISFIABLE
 real    1m49.018s
 user    1m17.416s
 sys     0m31.554s
 
-LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco ""
-ECSAT1_QC_17_8276_amoprimeseco0.cnf
+LatinSquares> N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco ""
+ECSAT1_QC_17_8276_amoprimeseco_nc0.cnf
 p cnf 215917 2853059
 real    0m5.069s
 user    0m5.377s
 sys     0m0.110s
-LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeseco0.cnf
+LatinSquares> time cadical -q -n ECSAT1_QC_17_8276_amoprimeseco_nc0.cnf
 s SATISFIABLE
 real    0m0.661s
 user    0m0.480s
 sys     0m0.180s
 With solution:
-LatinSquares$ cadical -q ECSAT1_QC_17_8276_amoprimeseco0.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
-  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
- 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
- 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
- 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
- 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13
- 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12
- 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11
- 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9 10
- 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8  9
-  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7  8
-  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6  7
-  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5  6
-  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5
-  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4
-  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3
-  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2
-  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4  5
-  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4
-  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3
-  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2
+LatinSquares> N=17; cadical -q ECSAT1_QC_17_8276_amoprimeseco_nc0.cnf | passextractpos.awk | Pass2PSquares $N /dev/stdin
+ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16  0  1
+ 8  9 10 11 12 13 14 15 16  0  1  2  3  4  5  6  7
+ 6  7  8  9 10 11 12 13 14 15 16  0  1  2  3  4  5
+ 9 10 11 12 13 14 15 16  0  1  2  3  4  5  6  7  8
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16  0
+10 11 12 13 14 15 16  0  1  2  3  4  5  6  7  8  9
+14 15 16  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+16  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16  0  1  2
+12 13 14 15 16  0  1  2  3  4  5  6  7  8  9 10 11
+ 4  5  6  7  8  9 10 11 12 13 14 15 16  0  1  2  3
+ 7  8  9 10 11 12 13 14 15 16  0  1  2  3  4  5  6
+ 5  6  7  8  9 10 11 12 13 14 15 16  0  1  2  3  4
+11 12 13 14 15 16  0  1  2  3  4  5  6  7  8  9 10
+13 14 15 16  0  1  2  3  4  5  6  7  8  9 10 11 12
+15 16  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
 
 Non-cyclic:
-LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco nc
-ECSAT1_QC_17_8276_amoprimeseconc.cnf
+LatinSquares> N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco nc1
+ECSAT1_QC_17_8276_amoprimeseco_nc1.cnf
 p cnf 215917 2861335
 real    0m5.418s
 user    0m5.980s
 sys     0m0.059s
-LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeseconc.cnf
-aborted after 4min
+LatinSquares> time cadical -q -n ECSAT1_QC_17_8276_amoprimeseco_nc1.cnf
+aborted after 5min
 
 
-
-LatinSquares$ N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco
-ECSAT1_QC_19_43184_amoprimeseco.cnf
+LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco ""
+ECSAT1_QC_19_43184_amoprimeseco_nc0.cnf
 p cnf 1237565 18112548
 real    2m15.017s
 user    2m17.128s
 sys     0m0.780s
-LatinSquares$ time cadical -q -n ECSAT1_QC_19_43184_amoprimeseco.cnf
+LatinSquares> time cadical -q -n ECSAT1_QC_19_43184_amoprimeseco_nc0.cnf
 s SATISFIABLE
 real    0m4.047s
 user    0m3.008s
 sys     0m1.037s
 With solution:
-LatinSquares$ cadical -q ECSAT1_QC_19_43184_amoprimeseco.cnf  | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
-  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
-  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0
-  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1
-  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2
-  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3
-  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4
-  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5
-  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6
-  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7
-  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8
- 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9
- 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10
- 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11
- 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12
- 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13
- 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
- 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
- 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
- 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+LatinSquares> N=19; cadical -q ECSAT1_QC_19_43184_amoprimeseco_nc0.cnf | passextractpos.awk | Pass2PSquares $N /dev/stdin
+ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
+ 4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3
+ 7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4
+ 8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7
+12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11
+14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1
+11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2
+ 6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5
+ 9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0
+10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9
+13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12
+15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
 
-On server:
-LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo "" secouep
-ECSAT1_QC_19_43184_eoprimesecouep.cnf
+LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo "" secouep ""
+ECSAT1_QC_19_43184_eoprimesecouep_nc0.cnf
 p cnf 1237565 18523119
-real    3m2.071s
-user    3m5.514s
-sys     0m0.704s
-LatinSquares$ cadical -q ECSAT1_QC_19_43184_eoprimesecouep.cnf  | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+real	2m32.375s
+user	2m36.948s
+sys	0m0.510s
+LatinSquares> N=19; cadical -q  ECSAT1_QC_19_43184_eoprimesecouep_nc0.cnf | passextractpos.awk | Pass2PSquares $N /dev/stdin
 Same solution as above.
-LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo secouep secouep
-ECSAT1_QC_19_43184_eosecouepsecouep.cnf
+LatinSquares> N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes eo secouep secouep ""
+ECSAT1_QC_19_43184_eosecouepsecouep_nc0.cnf
 p cnf 1240453 18482687
-real    3m6.959s
-user    3m10.467s
-sys     0m0.917s
-LatinSquares$ cadical -q ECSAT1_QC_19_43184_eosecouepsecouep.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
-Same solution as above.
+real	2m27.191s
+user	2m31.396s
+sys	0m0.554s
+LatinSquares> N=19; cadical -q ECSAT1_QC_19_43184_eosecouepsecouep_nc0.cnf | passextractpos.awk | Pass2PSquares $N /dev/stdin
+ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
+17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+ 8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7
+13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12
+18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0
+11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4
+ 7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6
+12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2
+15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1
+14 15 16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+16 17 18  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ 9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8
+ 4  5  6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3
+ 6  7  8  9 10 11 12 13 14 15 16 17 18  0  1  2  3  4  5
+10 11 12 13 14 15 16 17 18  0  1  2  3  4  5  6  7  8  9
 
-
-XXX
 
 Statistics only:
 
-LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F| awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
-"prime" 5 10 30
-"seco" 5 10 30
-"secouep" 5 10 30
-"prime" 7 28 301
-"seco" 7 28 301
-"secouep" 7 28 301
-"prime" 11 88 3399
-"seco" 11 110 3289
-"secouep" 11 110 3311
-"prime" 13 4524 6009991
-"seco" 13 6760 5238571
-"secouep" 13 6760 5240807
-
-LatinSquares> N=17; time for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes $F | awk '/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done
-"prime" 140692 5912731359
-"seco" 211004 5331040183
-"secouep" 211004 5331110495
-real	59m50.848s
-user	59m52.904s
-sys	0m0.170s
-
-Counting the solutions via ctawSolver:
-
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_5_2.cnf
-p cnf 10 30
-LatinSquares> ctawSolver ECSAT0_QC_5_2.cnf | awk '/solutions/'
-c number_of_solutions                   2
-LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_7_4.cnf
-p cnf 28 301
-LatinSquares> ctawSolver ECSAT0_QC_7_4.cnf | awk '/solutions/'
-c number_of_solutions                   4
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_11_8.cnf
-p cnf 88 3399
-LatinSquares> ctawSolver ECSAT0_QC_11_8.cnf | awk '/solutions/'
-c number_of_solutions                   8
-
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +
-ECSAT0_QC_13_348.cnf
-p cnf 4524 6009991
-LatinSquares> ctawSolver ECSAT0_QC_13_348.cnf EC13OUT
-XXX running server2 XXX
-LatinSquares$ clasp 0 -q ECSAT0_QC_13_348.cnf
-XXX running server2 XXX
-
-LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348.cnf > OUTCR
-^C*** INTERRUPTED ***
-real    274m14.815s
-user    10890m9.738s
-sys     128m7.439s
-Found 1711 solutions
-
+LatinSquares> for N in 5 7 11 13 17; do for F in prime seco secouep; do printf "%d %s " $N $F; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" $F "" | awk '/^p/{print; exit 0}'; done; done
+5 prime p cnf 135 310
+5 seco p cnf 135 310
+5 secouep p cnf 135 310
+7 prime p cnf 371 1274
+7 seco p cnf 371 1274
+7 secouep p cnf 371 1274
+11 prime p cnf 1419 7942
+11 seco p cnf 1441 7832
+11 secouep p cnf 1441 7854
+13 prime p cnf 6721 856921
+13 seco p cnf 8957 85501
+13 secouep p cnf 8957 87737
+17 prime p cnf 145605 584544235
+17 seco p cnf 215917 2853059
+17 secouep p cnf 215917 2923371
 
 */
 
@@ -223,7 +194,7 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -247,7 +218,7 @@ namespace {
     std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
-        << W0(cf1) << W0(ct1) << W0(ct2) << W0(nc)
+        << W0(cf1) << W0(ct1) << W0(ct2) << "_" << W0(nc)
         << suffix;
     return res.str();
   }
@@ -263,7 +234,7 @@ namespace {
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
       " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
+      "  - creates file " << prefix << "N_m_cform1ctype1ctype2_atype" <<
         suffix << "\n"
       "   - except for disallowed combination, where it prints \"" <<
         no_output << "\" and the reason\n"

@@ -28,7 +28,7 @@ LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagona
 "seco" 13 6760 5238571
 "secouep" 13 6760 5240807
 Excluding cylcic solutions:
-LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F nc | awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
+LatinSquares> for N in 5 7 11 13; do for F in prime seco secouep; do CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug $F nc1 | awk '/^c N/{printf "%d ", $3}/^c co/{printf "%s ", $4}/^c n/{printf "%d ", $3}/^c c /{print $3}'; done; done
 "prime" 5 10 32
 "seco" 5 10 32
 "secouep" 5 10 32
@@ -52,31 +52,31 @@ sys	0m0.170s
 
 Counting the solutions via ctawSolver:
 
-LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
-ECSAT0_QC_5_2_prime0.cnf
+LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + nc0
+ECSAT0_QC_5_2_prime_nc0.cnf
 p cnf 10 30
-LatinSquares> ctawSolver ECSAT0_QC_5_2_prime0.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_5_2_prime_nc0.cnf | awk '/solutions/'
 c number_of_solutions                   2
 LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + ""
-ECSAT0_QC_7_4_prime0.cnf
+ECSAT0_QC_7_4_prime_nc0.cnf
 p cnf 28 301
-LatinSquares> ctawSolver ECSAT0_QC_7_4_prime0.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_7_4_prime_nc0.cnf | awk '/solutions/'
 c number_of_solutions                   4
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
-ECSAT0_QC_11_8_prime0.cnf
+LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + nc0
+ECSAT0_QC_11_8_prime_nc0.cnf
 p cnf 88 3399
-LatinSquares> ctawSolver ECSAT0_QC_11_8_prime0.cnf | awk '/solutions/'
+LatinSquares> ctawSolver ECSAT0_QC_11_8_prime_nc0.cnf | awk '/solutions/'
 c number_of_solutions                   8
 
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + 0
-ECSAT0_QC_13_348_prime0.cnf
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug + nc0
+ECSAT0_QC_13_348_prime_nc0.cnf
 p cnf 4524 6009991
-LatinSquares> ctawSolver ECSAT0_QC_13_348_prime0.cnf EC13OUT
+LatinSquares> ctawSolver ECSAT0_QC_13_348_prime_nc0.cnf EC13OUT
 XXX running server2 XXX
-LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime0.cnf
+LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime_nc0.cnf
 XXX running server2 XXX
 
-LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348_prime0.cnf > OUTCR
+LatinSquares$ LatinSquares$ time cryptominisat5 --verb=0 --printsol,s 0 --maxsol 20000 --threads 100 ECSAT0_QC_13_348_prime_nc0.cnf > OUTCR
 ^C*** INTERRUPTED ***
 real    274m14.815s
 user    10890m9.738s
@@ -84,10 +84,10 @@ sys     128m7.439s
 Found 1711 solutions
 
 Finding a noncyclic solution:
-LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +secouep nc
-ECSAT0_QC_13_348_secouepnc.cnf
+LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT0_QueensCubes_debug +secouep nc1
+ECSAT0_QC_13_348_secouep_nc1.cnf
 p cnf 6760 5241155
-LatinSquares> time cadical -q -n ECSAT0_QC_13_348_secouepnc.cnf
+LatinSquares> time cadical -q -n ECSAT0_QC_13_348_secouep_nc1.cnf
 s SATISFIABLE
 real	0m3.870s
 user	0m3.525s
@@ -121,7 +121,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
+        "0.2.2",
         "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -140,7 +140,7 @@ namespace {
                               const NC nc) noexcept {
     std::stringstream res;
     res << prefix << C.N << "_" << C.m << "_" << Environment::W0(ct) <<
-      Environment::W0(nc) << suffix;
+      "_" << Environment::W0(nc) << suffix;
     return res.str();
   }
 
@@ -153,7 +153,7 @@ namespace {
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
       " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
-      "  - if \"+\" used, creates file " << prefix << "N_m_ctypeatype" <<
+      "  - if \"+\" used, creates file " << prefix << "N_m_ctype_atype" <<
         suffix << "\n"
       "    (otherwise just statistics are output)\n"
       "  - for the options the first possibility is the default, "
