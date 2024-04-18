@@ -39,7 +39,7 @@ namespace ECEncoding {
   struct EC0Encoding {
     const Cubing_t& C;
     const PQOptions::CT ct;
-    const ECOptions::AC ac;
+    const ECOptions::NC nc;
 
     const var_t N = C.N, m = C.m;
 
@@ -50,7 +50,7 @@ namespace ECEncoding {
     const var_t ceo =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct, PQOptions::CF::eo));
     const var_t cbin = count_clashes(C);
-    const var_t cnoncyclic = ac == ECOptions::AC:: none ? 0 : m;
+    const var_t cnoncyclic = nc == ECOptions::NC:: none ? 0 : m;
     const var_t c = ceo + cbin + cnoncyclic;
     const Statistics::dimacs_pars dp{n,c};
 
@@ -59,8 +59,8 @@ namespace ECEncoding {
   public :
 
     EC0Encoding(const Cubing_t& C, const PQOptions::CT ct,
-                const ECOptions::AC ac) noexcept :
-    C(C), ct(ct), ac(ac) {
+                const ECOptions::NC nc) noexcept :
+    C(C), ct(ct), nc(nc) {
       assert(C.valid());
 #ifndef NDEBUG
       using f80 = FloatingPoint::float80;
@@ -142,7 +142,7 @@ namespace ECEncoding {
   }
   template <class ENC>
   void noncyclic(std::ostream& out, const ENC& enc) {
-    if (enc.ac != ECOptions::AC::noncyclic) return;
+    if (enc.nc != ECOptions::NC::noncyclic) return;
     for (var_t i = 0; i < enc.m; ++i) {
       AloAmo::Clause C; C.reserve(enc.N);
       for (var_t j = 0; j < enc.N; ++j) {
@@ -170,13 +170,13 @@ namespace ECEncoding {
   struct EC1Encoding {
     using CF = PQOptions::CF;
     using CT = PQOptions::CT;
-    using AC = ECOptions::AC;
+    using NC = ECOptions::NC;
     using cell_t = PQEncoding::cell_t;
 
     const Cubing_t& C;
     const CF cf1;
     const CT ct1, ct2;
-    const AC ac;
+    const NC nc;
 
     const var_t N = C.N, m = C.m;
 
@@ -192,7 +192,7 @@ namespace ECEncoding {
     const var_t ceo2 =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
     const var_t cbin = m * N2;
-    const var_t cnoncyclic = ac == AC:: none ? 0 : m;
+    const var_t cnoncyclic = nc == NC:: none ? 0 : m;
     const var_t c = ceo1 + ceo2 + cbin + cnoncyclic;
     const Statistics::dimacs_pars dp{n,c};
 
@@ -201,8 +201,8 @@ namespace ECEncoding {
   public :
 
     EC1Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
-                const CT ct2, const ECOptions::AC ac) noexcept :
-    C(C), cf1(cf1), ct1(ct1), ct2(ct2), ac(ac) {
+                const CT ct2, const ECOptions::NC nc) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc) {
       assert(C.valid());
 #ifndef NDEBUG
       using float80 = FloatingPoint::float80;
@@ -320,13 +320,13 @@ namespace ECEncoding {
   struct EC2Encoding {
     using CF = PQOptions::CF;
     using CT = PQOptions::CT;
-    using AC = ECOptions::AC;
+    using NC = ECOptions::NC;
     using cell_t = PQEncoding::cell_t;
 
     const Cubing_t& C;
     const CF cf1;
     const CT ct1, ct2;
-    const AC ac;
+    const NC nc;
 
     const var_t N = C.N, m = C.m;
 
@@ -343,7 +343,7 @@ namespace ECEncoding {
     const var_t ceo2 =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
     const var_t cbin = m * N2;
-    const var_t cnoncyclic = ac == AC:: none ? 0 : m;
+    const var_t cnoncyclic = nc == NC:: none ? 0 : m;
     const var_t c = crred + ceo1 + ceo2 + cbin + cnoncyclic;
     const Statistics::dimacs_pars dp{n,c};
 
@@ -352,8 +352,8 @@ namespace ECEncoding {
   public :
 
     EC2Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
-                const CT ct2, const ECOptions::AC ac) noexcept :
-    C(C), cf1(cf1), ct1(ct1), ct2(ct2), ac(ac) {
+                const CT ct2, const ECOptions::NC nc) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc) {
       assert(C.valid());
 #ifndef NDEBUG
       using f80 = FloatingPoint::float80;

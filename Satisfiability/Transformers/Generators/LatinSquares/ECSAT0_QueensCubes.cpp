@@ -121,8 +121,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "13.4.2024",
+        "0.2.1",
+        "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT0_QueensCubes.cpp",
@@ -132,15 +132,15 @@ namespace {
   constexpr int commandline_args = 2;
 
   using CT = PQOptions::CT;
-  using AC = ECOptions::AC;
+  using NC = ECOptions::NC;
   using Algorithms::Cubing_t;
 
   const std::string prefix = "ECSAT0_QC_", suffix = ".cnf";
   std::string output_filename(const Cubing_t& C, const CT ct,
-                              const AC ac) noexcept {
+                              const NC nc) noexcept {
     std::stringstream res;
     res << prefix << C.N << "_" << C.m << "_" << Environment::W0(ct) <<
-      Environment::W0(ac) << suffix;
+      Environment::W0(nc) << suffix;
     return res.str();
   }
 
@@ -151,7 +151,7 @@ namespace {
       "> " << proginfo.prg <<
       " [+]constraint-type add-constraints\n\n"
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
-      " - add-constraint  : " << Environment::WRPO<AC>{} << "\n\n" <<
+      " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
       "  - if \"+\" used, creates file " << prefix << "N_m_ctypeatype" <<
         suffix << "\n"
@@ -190,7 +190,7 @@ namespace {
         << DWW{"N"} << enc.N << "\n"
         << DWW{"m"} << enc.m << "\n"
         << DWW{"Constraint_type"} << enc.ct << "\n"
-        << DWW{"Additional_Constraint"} << enc.ac << "\n"
+        << DWW{"Additional_Constraint"} << enc.nc << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
         << DWW{"  Auxilliary-n"} << enc.naux << "\n"
         << DWW{"n"} << enc.n << "\n"
@@ -214,26 +214,26 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto [ct, output] = read_ct(argv[1]);
-  const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[2]);
-    if (not ac0) {
+  const NC nc = [&argv]{const auto nc0 = Environment::read<NC>(argv[2]);
+    if (not nc0) {
       std::cerr << error << "The additional constraint could not be read from"
         " string \"" << argv[2] << "\".\n";
       std::exit(1);
     }
-    return ac0.value();}();
+    return nc0.value();}();
 
   const Cubing_t init_cubes = Algorithms::read_queens_cubing(std::cin);
   if (init_cubes.m == 0) {
     std::cout << "Empty input.\n";
     return 0;
   }
-  const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct, ac);
+  const auto encoding = ECEncoding::EC0Encoding(init_cubes, ct, nc);
 
   if (not output) {
     statistics(std::cout, encoding, argc, argv);
   }
   else {
-    const std::string filename = output_filename(init_cubes, ct, ac);
+    const std::string filename = output_filename(init_cubes, ct, nc);
     std::cout << filename << std::endl;
     std::ofstream file(filename);
     if (not file) {

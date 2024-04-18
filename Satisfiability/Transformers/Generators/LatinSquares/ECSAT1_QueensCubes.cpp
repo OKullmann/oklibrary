@@ -223,7 +223,7 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -235,7 +235,7 @@ namespace {
 
   using CF = PQOptions::CF;
   using CT = PQOptions::CT;
-  using AC = ECOptions::AC;
+  using NC = ECOptions::NC;
   using PQOptions::no_output;
   using Algorithms::UInt_t;
   using Algorithms::Cubing_t;
@@ -243,11 +243,11 @@ namespace {
   const std::string prefix = "ECSAT1_QC_", suffix = ".cnf";
   std::string output_filename(const UInt_t N, const UInt_t m,
                               const CF cf1, const CT ct1,
-                              const CT ct2, const AC ac) noexcept {
+                              const CT ct2, const NC nc) noexcept {
     std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
-        << W0(cf1) << W0(ct1) << W0(ct2) << W0(ac)
+        << W0(cf1) << W0(ct1) << W0(ct2) << W0(nc)
         << suffix;
     return res.str();
   }
@@ -261,7 +261,7 @@ namespace {
       " - constraint-form : " << Environment::WRPO<CF>{} << "\n" <<
 
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
-      " - add-constraint  : " << Environment::WRPO<AC>{} << "\n\n" <<
+      " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
       "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
         suffix << "\n"
@@ -307,7 +307,7 @@ namespace {
         << DWW{"m"} << enc.m << "\n"
         << DWW{"Constraints_cells"} << enc.cf1 << " " << enc.ct1 << "\n"
         << DWW{"Constraints_queens"} << enc.ct2 << "\n"
-        << DWW{"Additional_Constraint"} << enc.ac << "\n"
+        << DWW{"Additional_Constraint"} << enc.nc << "\n"
         << DWW{"   Primary-n-cells"} << enc.N3 << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
         << DWW{"   Auxilliary-n-cells"} << enc.naux1 << "\n"
@@ -341,13 +341,13 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
   const CT ct2 = read_ct(argv[3]);
-  const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[4]);
-    if (not ac0) {
+  const NC nc = [&argv]{const auto nc0 = Environment::read<NC>(argv[4]);
+    if (not nc0) {
       std::cerr << error << "The additional constraint could not be read from"
         " string \"" << argv[4] << "\".\n";
       std::exit(1);
     }
-    return ac0.value();}();
+    return nc0.value();}();
 
   const Cubing_t cubes = Algorithms::read_queens_cubing(std::cin);
   if (cubes.m == 0) {
@@ -355,7 +355,7 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  const std::string filename = output_filename(cubes.N,cubes.m,cf1,ct1,ct2,ac);
+  const std::string filename = output_filename(cubes.N,cubes.m,cf1,ct1,ct2,nc);
   std::cout << filename << std::endl;
   std::ofstream file(filename);
   if (not file) {
@@ -364,7 +364,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto encoding = ECEncoding::EC1Encoding(cubes, cf1, ct1, ct2, ac);
+  const auto encoding = ECEncoding::EC1Encoding(cubes, cf1, ct1, ct2, nc);
 
   statistics(file, encoding, argc,argv);
   std::cout << encoding.dp; std::cout.flush();
