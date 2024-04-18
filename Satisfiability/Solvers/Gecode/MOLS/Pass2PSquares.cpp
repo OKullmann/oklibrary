@@ -12,9 +12,17 @@ License, or any later version. */
   Minizinc-format.
 
   So this program outputs a single partial square.
-  A useful tool can be passextractpos.awk.
+  A useful tool can be passextractpos.awk (combining several v-lines into
+  one, and removing the negative literals).
 
 TODOS:
+
+0. Mix-in partial assignments which contain initial assignments,
+   and where the other assignments then were run on the result of
+   RemoveVarGaps.
+   - This assumes the initial assignments cover all variables which
+     disappeared (which should be given in our context).
+   - Having prefix "@" for the filenames indicating the initial assignments.
 
 1. Remove leading spaces from the output.
 
