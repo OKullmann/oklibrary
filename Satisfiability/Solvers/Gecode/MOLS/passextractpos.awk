@@ -7,15 +7,19 @@
 
 # EXAMPLE:
 
-# > echo -e "c dh\nv 5 -3 3 \nv 12 -1 0\nc\nv 55 33 -1 0\nv 0" | ./passextractpos.awk
+# > echo -e "c dh\nv 5 -3 3 \nv 12 -1 0\nc\nv 55 33 -1 0\nv 0" | passextractpos.awk
 # v 3 5 12 0
 # v 33 55 0
 # v 0
 
 
-# version 0.1.1
+# version 0.1.2
 
-BEGIN { PROCINFO["sorted_in"] = "@ind_num_asc" }
+BEGIN {
+  if ("sorted_in" in PROCINFO)
+    save_sorted = PROCINFO["sorted_in"]
+  PROCINFO["sorted_in"] = "@ind_num_asc"
+}
 
 /^v/ {
   for (i=2; i<=NF; ++i) {
@@ -29,3 +33,5 @@ BEGIN { PROCINFO["sorted_in"] = "@ind_num_asc" }
     delete phi
   }
 }
+
+END{ PROCINFO["sorted_in"] = save_sorted }
