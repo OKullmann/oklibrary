@@ -47,19 +47,19 @@ real    1m49.018s
 user    1m17.416s
 sys     0m31.554s
 
-LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco
-ECSAT1_QC_17_8276_amoprimeseco.cnf
+LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco ""
+ECSAT1_QC_17_8276_amoprimeseco0.cnf
 p cnf 215917 2853059
 real    0m5.069s
 user    0m5.377s
 sys     0m0.110s
-LatinSquares$ time cadical -q ECSAT1_QC_17_8276_amoprimeseco.cnf
+LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeseco0.cnf
 s SATISFIABLE
 real    0m0.661s
 user    0m0.480s
 sys     0m0.180s
 With solution:
-LatinSquares$ cadical -q ECSAT1_QC_17_8276_amoprimeseco.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
+LatinSquares$ cadical -q ECSAT1_QC_17_8276_amoprimeseco0.cnf | CP_clasp_first_columns.awk -v N=$N | ./CP_clasp_expand.awk
   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
  18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
  17 18 19 20  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
@@ -81,6 +81,17 @@ LatinSquares$ cadical -q ECSAT1_QC_17_8276_amoprimeseco.cnf | CP_clasp_first_col
   5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3  4
   4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2  3
   3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20  0  1  2
+
+Non-cyclic:
+LatinSquares$ N=17; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco nc
+ECSAT1_QC_17_8276_amoprimeseconc.cnf
+p cnf 215917 2861335
+real    0m5.418s
+user    0m5.980s
+sys     0m0.059s
+LatinSquares$ time cadical -q -n ECSAT1_QC_17_8276_amoprimeseconc.cnf
+aborted after 4min
+
 
 
 LatinSquares$ N=19; time CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v N=$N | ./ECSAT1_QueensCubes "" "" seco
@@ -212,8 +223,8 @@ Found 1711 solutions
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "14.4.2024",
+        "0.1.2",
+        "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT1_QueensCubes.cpp",
@@ -225,6 +236,7 @@ namespace {
   using CF = PQOptions::CF;
   using CT = PQOptions::CT;
   using AC = ECOptions::AC;
+  using PQOptions::no_output;
   using Algorithms::UInt_t;
   using Algorithms::Cubing_t;
 
@@ -253,6 +265,8 @@ namespace {
       "reads from standard input and establishes N, m:\n\n"
       "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
         suffix << "\n"
+      "   - except for disallowed combination, where it prints \"" <<
+        no_output << "\" and the reason\n"
       "  - for the options the first possibility is the default, "
         "triggered by the empty string.\n\n"
  ;
@@ -321,6 +335,11 @@ int main(const int argc, const char* const argv[]) {
 
   const CF cf1 = read_cf(argv[1]);
   const CT ct1 = read_ct(argv[2]);
+  if (not allowed(cf1, ct1)) {
+    std::cout << no_output << "For cf1=" << cf1
+              << " one can not have ct1=" << ct1 << ".\n";
+    return 0;
+  }
   const CT ct2 = read_ct(argv[3]);
   const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[4]);
     if (not ac0) {

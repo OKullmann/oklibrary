@@ -68,8 +68,8 @@ aborted
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "14.4.2024",
+        "0.1.1",
+        "18.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT2_QueensCubes.cpp",
@@ -81,6 +81,7 @@ namespace {
   using CF = PQOptions::CF;
   using CT = PQOptions::CT;
   using AC = ECOptions::AC;
+  using PQOptions::no_output;
   using Algorithms::UInt_t;
   using Algorithms::Cubing_t;
 
@@ -109,6 +110,8 @@ namespace {
       "reads from standard input and establishes N, m:\n\n"
       "  - creates file " << prefix << "N_m_cform1ctype1ctype2atype" <<
         suffix << "\n"
+      "   - except for disallowed combination, where it prints \"" <<
+        no_output << "\" and the reason\n"
       "  - for the options the first possibility is the default, "
         "triggered by the empty string.\n\n"
  ;
@@ -177,6 +180,11 @@ int main(const int argc, const char* const argv[]) {
 
   const CF cf1 = read_cf(argv[1]);
   const CT ct1 = read_ct(argv[2]);
+  if (not allowed(cf1, ct1)) {
+    std::cout << no_output << "For cf1=" << cf1
+              << " one can not have ct1=" << ct1 << ".\n";
+    return 0;
+  }
   const CT ct2 = read_ct(argv[3]);
   const AC ac = [&argv]{const auto ac0 = Environment::read<AC>(argv[4]);
     if (not ac0) {

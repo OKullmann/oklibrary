@@ -72,6 +72,10 @@ namespace PQOptions {
     secouep = 2
   };
   constexpr int CTsize = int(CT::secouep) + 1;
+  const std::string no_output = "NO OUTPUT: ";
+  constexpr bool allowed(const CF cf, const CT ct) noexcept {
+    return ct == CT::prime or allows_type(cf);
+  }
   constexpr bool has_uep(const CT ct) noexcept {
     return ct != CT::seco;
   }
