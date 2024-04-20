@@ -78,12 +78,13 @@ aborted after 4 min
 #include "PQOptions.hpp"
 #include "Algorithms.hpp"
 #include "ECEncoding.hpp"
+#include "ECOptions.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "18.4.2024",
+        "0.2.0",
+        "20.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/LatinSquares/ECSAT2_QueensCubes.cpp",
@@ -92,21 +93,21 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   constexpr int commandline_args = 4;
 
-  using CF = PQOptions::CF;
-  using CT = PQOptions::CT;
-  using NC = ECOptions::NC;
+  using CF = PQOptions::CF; using CT = PQOptions::CT;
+  using NC = ECOptions::NC; using CC = ECOptions::CC; using DQ = ECOptions::DQ;
   using PQOptions::no_output;
   using Algorithms::UInt_t;
   using Algorithms::Cubing_t;
 
   const std::string prefix = "ECSAT2_QC_", suffix = ".cnf";
   std::string output_filename(const UInt_t N, const UInt_t m,
-                              const CF cf1, const CT ct1,
-                              const CT ct2, const NC nc) noexcept {
+                              const CF cf1, const CT ct1, const CT ct2,
+                              const NC nc, const CC cc, const DQ dq) noexcept {
     std::ostringstream res(prefix, std::ios::ate);
     using Environment::W0;
     res << N << "_" << m << "_"
-        << W0(cf1) << W0(ct1) << W0(ct2) << "_" << W0(nc)
+        << W0(cf1) << W0(ct1) << W0(ct2) << "_"
+        << W0(nc) << W0(cc) << W0(dq)
         << suffix;
     return res.str();
   }
@@ -118,9 +119,11 @@ namespace {
       "> " << proginfo.prg <<
       " c-form1 c-type1 c-type2 add-constraints\n\n"
       " - constraint-form : " << Environment::WRPO<CF>{} << "\n" <<
-
       " - constraint-type : " << Environment::WRPO<CT>{} << "\n" <<
-      " - add-constraint  : " << Environment::WRPO<NC>{} << "\n\n" <<
+      " - add-constraints  : comma-separated list of:\n"
+      "                    :  - " << Environment::WRPO<NC>{} << "\n" <<
+      "                    :  - " << Environment::WRPO<CC>{} << "\n" <<
+      "                    :  - " << Environment::WRPO<DQ>{} << "\n\n" <<
       "reads from standard input and establishes N, m:\n\n"
       "  - creates file " << prefix << "N_m_cform1ctype1ctype2_atype" <<
         suffix << "\n"
@@ -166,16 +169,24 @@ namespace {
         << DWW{"m"} << enc.m << "\n"
         << DWW{"Constraints_cells"} << enc.cf1 << " " << enc.ct1 << "\n"
         << DWW{"Constraints_queens"} << enc.ct2 << "\n"
-        << DWW{"Additional_Constraint"} << enc.nc << "\n"
-        << DWW{"   Primary-n-cells"} << enc.N3 << "\n"
+        << DWW{"Additional_constraints"} << "\n"
+        << DWW{"  cyclicity"} << enc.nc << "\n"
+        << DWW{"  conjunctions->queens"} << enc.cc << "\n"
+        << DWW{"  cells->disjunctions"} << enc.dq << "\n"
+        << DWW{"Variables"} << "\n"
+        << DWW{"   Primary-n-cells"} << enc.nprimecells << "\n"
+        << DWW{"   Primary-n-queens"} << enc.nprimequeens << "\n"
         << DWW{"  Primary-n"} << enc.n0 << "\n"
-        << DWW{"   Auxilliary-n-cells"} << enc.naux1 << "\n"
-        << DWW{"   Auxilliary-n-queens"} << enc.naux2 << "\n"
+        << DWW{"   Auxilliary-n-cells"} << enc.nauxcells << "\n"
+        << DWW{"   Auxilliary-n-queens"} << enc.nauxqueens << "\n"
         << DWW{"n"} << enc.n << "\n"
-        << DWW{"  Clauses-cells"} << enc.ceo1 << "\n"
-        << DWW{"  Clauses-queens"} << enc.ceo2 << "\n"
+        << DWW{"Clauses"} << "\n"
+        << DWW{"  Clauses-cells"} << enc.ceocells << "\n"
+        << DWW{"  Clauses-queens"} << enc.ceoqueens << "\n"
         << DWW{"  Connecting-2-clauses"} << enc.cbin << "\n"
         << DWW{"  Non-cyclic-clauses"} << enc.cnoncyclic << "\n"
+        << DWW{"  Cell-conjunctions"} << enc.cconjcells << "\n"
+        << DWW{"  Queens-disjunctions"} << enc.cdisjqc << "\n"
         << DWW{"c"} << enc.c << "\n";
   }
 
@@ -187,8 +198,8 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != commandline_args + 1) {
     std::cerr << error << "Exactly " << commandline_args << " command-line"
-      " arguments needed (constraint-type), but the real number is "
-              << argc-1 << ".\n";
+      " arguments needed (c-form1, c-type1, c-type2, add-constraints),"
+      " but the real number is " << argc-1 << ".\n";
     return 1;
   }
 
@@ -200,13 +211,13 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
   const CT ct2 = read_ct(argv[3]);
-  const NC nc = [&argv]{const auto nc0 = Environment::read<NC>(argv[4]);
-    if (not nc0) {
-      std::cerr << error << "The additional constraint could not be read from"
-        " string \"" << argv[4] << "\".\n";
-      std::exit(1);
-    }
-    return nc0.value();}();
+  const auto [nc,cc,dq] =
+    Environment::translate<ECOptions::full_ac_t>()(argv[4],',');
+  if (not ECEncoding::valid(cf1,ct1,dq)) {
+    std::cout << no_output << "For cf1=" << cf1
+              << " one can not have dq=" << dq << ".\n";
+    return 0;
+  }
 
   const Cubing_t cubes = Algorithms::read_queens_cubing(std::cin);
   if (cubes.m == 0) {
@@ -214,7 +225,9 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  const std::string filename = output_filename(cubes.N,cubes.m,cf1,ct1,ct2,nc);
+  const std::string filename = output_filename(cubes.N,cubes.m,
+                                               cf1,ct1,ct2,
+                                               nc,cc,dq);
   std::cout << filename << std::endl;
   std::ofstream file(filename);
   if (not file) {
@@ -223,7 +236,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto encoding = ECEncoding::EC2Encoding(cubes, cf1, ct1, ct2, nc);
+  const auto encoding = ECEncoding::EC2Encoding(cubes, cf1,ct1,ct2, nc,cc,dq);
 
   statistics(file, encoding, argc,argv);
   std::cout << encoding.dp; std::cout.flush();

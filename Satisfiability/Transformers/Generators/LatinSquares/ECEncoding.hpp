@@ -167,55 +167,67 @@ namespace ECEncoding {
   }
 
 
+  constexpr bool valid(const PQOptions::CF cf1, const PQOptions::CT ct1,
+                       const ECOptions::DQ dq) {
+    return cf1 != PQOptions::CF::alo or
+      (ct1 == PQOptions::CT::prime and dq != ECOptions::DQ::none);
+  }
+
   struct EC1Encoding {
-    using CF = PQOptions::CF;
-    using CT = PQOptions::CT;
-    using NC = ECOptions::NC;
+    using CF = PQOptions::CF; using CT = PQOptions::CT;
+    using NC = ECOptions::NC;using CC = ECOptions::CC;using DQ = ECOptions::DQ;
     using cell_t = PQEncoding::cell_t;
 
     const Cubing_t& C;
     const CF cf1;
     const CT ct1, ct2;
-    const NC nc;
+    const NC nc; const CC cc; const DQ dq;
 
     const var_t N = C.N, m = C.m;
 
     const var_t N2 = N*N, N3 = N2*N;
-    const var_t n0 = N3 + N * m; // primary variables
-    const var_t naux1 = N2 *
+    const var_t nprimecells = N3;
+    const var_t nprimequeens = N * m;
+    const var_t n0 = nprimecells + nprimequeens; // primary variables
+    const var_t nauxcells = N2 *
       FloatingPoint::toUInt(PQEncoding::n_amoaloeo(N, ct1, cf1));
-    const var_t naux2 = N *
+    const var_t nauxqueens = N *
       FloatingPoint::toUInt(PQEncoding::n_amoaloeo(m, ct2, CF::eo));
-    const var_t n = n0 + naux1 + naux2;
-    const var_t ceo1 =  N2 *
+    const var_t n = n0 + nauxcells + nauxqueens;
+    const var_t ceocells =  N2 *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(N, ct1, cf1));
-    const var_t ceo2 =  N *
+    const var_t ceoqueens =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
     const var_t cbin = m * N2;
     const var_t cnoncyclic = nc == NC:: none ? 0 : m;
-    const var_t c = ceo1 + ceo2 + cbin + cnoncyclic;
+    const var_t cconjcells = cc == CC:: none ? 0 : N * m;
+    const var_t cdisjqc = dq == DQ:: none ? 0 : N3;
+    const var_t c = ceocells + ceoqueens + cbin +
+      cnoncyclic + cconjcells + cdisjqc;
     const Statistics::dimacs_pars dp{n,c};
 
   protected :
     mutable var_t next = n0;
   public :
 
-    EC1Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
-                const CT ct2, const ECOptions::NC nc) noexcept :
-    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc) {
+    EC1Encoding(const Cubing_t& C, const CF cf1, const CT ct1, const CT ct2,
+                const NC nc, const CC cc, const DQ dq) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc), cc(cc), dq(dq) {
       assert(C.valid());
+      assert(valid(cf1, ct1, dq));
 #ifndef NDEBUG
-      using float80 = FloatingPoint::float80;
+      using f80 = FloatingPoint::float80;
 #endif
-      assert(N2 == float80(N) * N); assert(N3 == float80(N) * N2);
-      assert(n0 == N3 + float80(N) * m);
-      assert(naux1 == N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
-      assert(naux2 == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
-      assert(n == float80(n0) + float80(naux1) + naux2);
-      assert(ceo1 == N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
-      assert(ceo2 == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
-      assert(cbin == float80(m) * N2);
-      assert(c == float80(ceo1) + float80(ceo2) + float80(cbin) + cnoncyclic);
+      assert(N2 == f80(N) * N); assert(N3 == f80(N) * N2);
+      assert(n0 == N3 + f80(N) * m);
+      assert(nauxcells == N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
+      assert(nauxqueens == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+      assert(n == f80(n0) + f80(nauxcells) + nauxqueens);
+      assert(ceocells == N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
+      assert(ceoqueens == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+      assert(cbin == f80(m) * N2);
+      assert(c == f80(ceocells) + f80(ceoqueens) + f80(cbin)
+             + f80(cnoncyclic) + f80(cconjcells) + f80(cdisjqc));
 
       assert(Statistics::fits_dim_t(N));
     }
@@ -304,6 +316,47 @@ namespace ECEncoding {
         }
       }
   }
+  // The reverse of connections(out, enc):
+  template <class ENC>
+  void cell_conjunctions(std::ostream& out, const ENC& enc) {
+    if (enc.cc != ECOptions::CC::cell_conjunctions) return;
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (var_t j = 0; j < enc.m; ++j) {
+        const Algorithms::qplaces p{i,j};
+        const auto Q = enc.C.queens(p);
+        assert(Q.size() == enc.N);
+        AloAmo::Clause C; C.reserve(enc.N+1);
+        using AloAmo::Lit;
+        for (dim_t k = 0; k < enc.N; ++k) {
+          const PQEncoding::cell_t cell{k,dim_t(Q[k])};
+          C.push_back(-Lit(enc(cell, i)));
+        }
+        C.push_back(Lit(enc(p)));
+        out << C;
+#ifndef NDEBUG
+        ++running_counter;
+#endif
+      }
+  }
+  template <class ENC>
+  void qc_disjunctions(std::ostream& out, const ENC& enc) {
+    if (enc.dq != ECOptions::DQ::qc_disjunctions) return;
+    for (dim_t i = 0; i < enc.N; ++i)
+      for (dim_t j = 0; j < enc.N; ++j)
+        for (dim_t k = 0; k < enc.N; ++k) {
+          const PQEncoding::cell_t cell{i,j};
+          using AloAmo::Lit;
+          AloAmo::Clause C({-Lit(enc(cell,k))});
+          for (var_t cu = 0; cu < enc.m; ++cu) {
+            const Algorithms::qplaces p{k,cu};
+            if (enc.C.queen(p, i) == j) C.push_back(Lit(enc(p)));
+          }
+          out << C;
+#ifndef NDEBUG
+          ++running_counter;
+#endif
+        }
+  }
 
   void ecsat1(std::ostream& out, const EC1Encoding& enc) {
     out << enc.dp;
@@ -311,6 +364,8 @@ namespace ECEncoding {
     cubes(out, enc);
     connections(out, enc);
     noncyclic(out, enc);
+    cell_conjunctions(out, enc);
+    qc_disjunctions(out, enc);
 #ifndef NDEBUG
     assert(running_counter == enc.c);
 #endif
@@ -318,55 +373,61 @@ namespace ECEncoding {
 
 
   struct EC2Encoding {
-    using CF = PQOptions::CF;
-    using CT = PQOptions::CT;
-    using NC = ECOptions::NC;
+    using CF = PQOptions::CF; using CT = PQOptions::CT;
+    using NC = ECOptions::NC;using CC = ECOptions::CC;using DQ = ECOptions::DQ;
     using cell_t = PQEncoding::cell_t;
 
     const Cubing_t& C;
     const CF cf1;
     const CT ct1, ct2;
-    const NC nc;
+    const NC nc; const CC cc; const DQ dq;
 
     const var_t N = C.N, m = C.m;
 
     const var_t N2 = N*N, N3 = N2*N;
-    const var_t n0 = N3 + N * m; // primary variables
-    const var_t naux1 = 5 * N2 *
+    const var_t nprimecells = N3;
+    const var_t nprimequeens = N * m;
+    const var_t n0 = nprimecells + nprimequeens; // primary variables
+    const var_t nauxcells = 5 * N2 *
       FloatingPoint::toUInt(PQEncoding::n_amoaloeo(N, ct1, cf1));
-    const var_t naux2 = N *
+    const var_t nauxqueens = N *
       FloatingPoint::toUInt(PQEncoding::n_amoaloeo(m, ct2, CF::eo));
-    const var_t n = n0 + naux1 + naux2;
+    const var_t n = n0 + nauxcells + nauxqueens;
     const var_t crred = N;
-    const var_t ceo1 =  5 * N2 *
+    const var_t ceocells =  5 * N2 *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(N, ct1, cf1));
-    const var_t ceo2 =  N *
+    const var_t ceoqueens =  N *
       FloatingPoint::toUInt(PQEncoding::c_amoaloeo(m, ct2, CF::eo));
     const var_t cbin = m * N2;
     const var_t cnoncyclic = nc == NC:: none ? 0 : m;
-    const var_t c = crred + ceo1 + ceo2 + cbin + cnoncyclic;
+    const var_t cconjcells = cc == CC:: none ? 0 : N * m;
+    const var_t cdisjqc = dq == DQ:: none ? 0 : N3;
+    const var_t c = crred + ceocells + ceoqueens + cbin +
+      cnoncyclic + cconjcells + cdisjqc;
     const Statistics::dimacs_pars dp{n,c};
 
   protected :
     mutable var_t next = n0;
   public :
 
-    EC2Encoding(const Cubing_t& C, const CF cf1, const CT ct1,
-                const CT ct2, const ECOptions::NC nc) noexcept :
-    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc) {
+    EC2Encoding(const Cubing_t& C, const CF cf1, const CT ct1, const CT ct2,
+                const ECOptions::NC nc, const CC cc, const DQ dq) noexcept :
+    C(C), cf1(cf1), ct1(ct1), ct2(ct2), nc(nc), cc(cc), dq(dq) {
       assert(C.valid());
+      assert(valid(cf1, ct1, dq));
 #ifndef NDEBUG
       using f80 = FloatingPoint::float80;
 #endif
       assert(N2 == f80(N) * N); assert(N3 == f80(N) * N2);
       assert(n0 == N3 + f80(N) * m);
-      assert(naux1 == 5 * N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
-      assert(naux2 == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
-      assert(n == f80(n0) + f80(naux1) + naux2);
-      assert(ceo1 == 5 * N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
-      assert(ceo2 == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
+      assert(nauxcells == 5 * N2 * PQEncoding::n_amoaloeo(N, ct1, cf1));
+      assert(nauxqueens == N * PQEncoding::n_amoaloeo(m, ct2, CF::eo));
+      assert(n == f80(n0) + f80(nauxcells) + nauxqueens);
+      assert(ceocells == 5 * N2 * PQEncoding::c_amoaloeo(N, ct1, cf1));
+      assert(ceoqueens == N * PQEncoding::c_amoaloeo(m, ct2, CF::eo));
       assert(cbin == f80(m) * N2);
-      assert(c == f80(crred) + f80(ceo1) + f80(ceo2) + f80(cbin) + cnoncyclic);
+      assert(c == f80(crred) + f80(ceocells) + f80(ceoqueens) + f80(cbin)
+             + f80(cnoncyclic) + f80(cconjcells) + f80(cdisjqc));
 
       assert(Statistics::fits_dim_t(N));
     }
@@ -447,6 +508,8 @@ namespace ECEncoding {
     cubes(out, enc);
     connections(out, enc);
     noncyclic(out, enc);
+    cell_conjunctions(out, enc);
+    qc_disjunctions(out, enc);
 #ifndef NDEBUG
     assert(running_counter == enc.c);
 #endif
