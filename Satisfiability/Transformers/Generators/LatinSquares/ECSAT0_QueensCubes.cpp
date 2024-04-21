@@ -72,7 +72,58 @@ LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | CP_clasp_first_columns.awk -v
 ECSAT0_QC_13_348_prime_nc0.cnf
 p cnf 4524 6009991
 LatinSquares> ctawSolver ECSAT0_QC_13_348_prime_nc0.cnf EC13OUT
-XXX running server2 XXX
+c   p_param_variables                   4524
+c   p_param_clauses                     6009991
+c   number_tautologies                  0
+c   max_occurring_variable              4524
+c   number_of_clauses                   6009991
+c   maximal_clause_length               348
+c   number_of_literal_occurrences       12024480
+c running_time(sec)                     1041950.3108
+c   system_time                         4.8313
+c   elapsed_wall_clock                  1042288.7864
+c   max_memory(MB)                      531.0792
+c number_of_nodes                       424236619
+c   number_of_binary_nodes              212118309
+c   number_of_single_child_nodes        0
+c   number_of_leaves                    212118310
+c   number_of_internal_nodes            212118309
+c     inodes_per_second                 2.0358e+02
+c number_of_1-reductions                14998319591
+c   1-reductions_per_second             1.4394e+04
+c   1-reductions_per_node               35.3537
+c heuristics_evaluations                212118309
+c   number_projections                  23640075263
+c     average_projections               111.4475944
+c     number_onezero                    0
+c       freq_onezero                    0.0000000
+c     number_bothzero                   0
+c       freq_bothzero                   0.0000000
+c   number_withfirst                    212118309
+c     freq_withfirst                    1.0000000
+c   number_nofirst                      0
+c     freq_nofirst                      0.0000000
+c   min_first                           0.0000000
+c     mean_first                        450.7362353
+c     max_first                         46598.0725000
+c     sd_first                          569.1521784
+c   number_withsecond                   212118309
+c     freq_withsecond                   1.0000000
+c   number_nosecond                     0
+c     freq_nosecond                     0.0000000
+c   min_second                          33.9500000
+c     mean_second                       369.5827560
+c     max_second                        14312.3500000
+c     sd_second                         296.4700057
+c number_of_solutions                   12386
+c reading-and-set-up_time(sec)          0.762333
+c   system                              0.110215
+c   elapsed                             0.879643
+
+This is the best enumeration-time for a SAT-solver yet.
+
+XXX show how to use use output EC13OUT
+
 LatinSquares$ clasp 0 -q ECSAT0_QC_13_348_prime_nc0.cnf
 XXX running server2 XXX
 
