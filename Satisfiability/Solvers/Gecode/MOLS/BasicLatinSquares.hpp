@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,13 +76,28 @@ License, or any later version. */
    - sqval(const ls_t& S): whether all values are < N, where N is (again)
      the number of rows.
    - sqprop(const ls_t& S): both conditions together.
-     All found tests make no assumptions on S.
+
+   - rcyclic(const ls_t& S) : whether all rows can be obtained by cyclic shifts
+     of the first row, using the first possible match of the first row
+     in the other rows.
+
+     All these tests make no assumptions on S.
+
+   - ccylcic(const ls_t& S) : translating columns into rows via gtransposition
+     (below, assuming rcshape(S)), and applying rcyclic
+   - dcyclic(const ls_t& S) : cyclic on the diagonals (assuming sqshape(S))
+   - adcyclic(const ls_t& S) : cyclic on the antidiagonals
+     (assuming sqshape(S))
+   - typedef cyclicity_t = array of 4 bools (for r/c/d/ad-cyclicity)
+   - cyclicity(const ls_t& S) -> cyclicity_t.
 
   Three versions of latin squares, where without sqprop(S) false is returned:
 
    - rls: all rows are permutations
    - cls: all columns are permutations
-   - ls: rls and cls.
+   - ls: rls and cls
+   - pandiagonal: ls, and also all modular diagonals and antidiagonals are
+     permutations.
 
   Coordinate handling:
 
@@ -100,6 +115,10 @@ License, or any later version. */
     - gtransposition(ls_t) -> ls_t, assuming only rcshape(S)
     - antitranspositionm(ls_t&) for sqshape(S)
     - antitransposition(ls_t) -> ls_t for sqshape(S).
+
+    - moddiags2rows(ls_t) -> ls_t (writing the diagonals into the rows)
+    - modantidiags2rows(ls_t) -> ls_t (writing the antidiagonals into
+      the rows).
 
    Algebra:
 
@@ -404,9 +423,79 @@ namespace BasicLatinSquares {
     return S;
   }
 
-
   ls_t random_cls(const size_t N, RG::RandGen_t& g) {
     return transposition(random_rls(N,g));
+  }
+
+  ls_t moddiags2rows(const ls_t& S) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t d = 0; d < N; ++d) {
+      ls_row_t& R = res[d]; // diagonal d -> R
+      for (size_t i = 0; i < N; ++i) { // j - i = d mod N
+        const size_t j = (d + i) % N;
+        R[i] = S[i][j];
+      }
+    }
+    return res;
+  }
+  ls_t modantidiags2rows(const ls_t& S) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t s = 0; s < N; ++s) {
+      ls_row_t& R = res[s]; // antidiagonal s -> R
+      for (size_t i = 0; i < N; ++i) { // i + j = s mod N
+        const size_t j = (s + (N - i)) % N;
+        R[i] = S[i][j];
+      }
+    }
+    return res;
+  }
+
+
+  bool pandiagonal(const ls_t& S) noexcept {
+    return ls(S) and
+      rls(moddiags2rows(S)) and rls(modantidiags2rows(S));
+  }
+
+
+  bool rcyclic(const ls_t& S) noexcept {
+    const size_t N = S.size();
+    if (N <= 1) return true;
+    const ls_row_t& R0 = S[0];
+    const size_t N0 = R0.size();
+    const auto next = S.begin()+1, end = S.end();
+    if (N0 == 0)
+      return std::all_of(next, end, [](const auto& r){return r.empty();});
+    const size_t val0 = R0[0];
+    for (auto it = next; it != end; ++it) {
+      const ls_row_t& R1 = *it;
+      const size_t N1 = R1.size();
+      if (N1 == 0) continue;
+      size_t i = 0;
+      while (i < N1 and R1[i] != val0) ++i;
+      if (i == N1) return false;
+      size_t count = N1 - 1; i = (i+1) % N1; size_t j = 1 % N0;
+      while (count != 0)
+        if (R1[i] != R0[j]) return false;
+        else { i = (i+1) % N1; j = (j+1) % N0; --count; }
+    }
+    return true;
+  }
+  bool ccyclic(const ls_t& S) noexcept {
+    return rcyclic(gtransposition(S));
+  }
+  bool dcyclic(const ls_t& S) noexcept {
+    return rcyclic(moddiags2rows(S));
+  }
+  bool adcyclic(const ls_t& S) noexcept {
+    return rcyclic(modantidiags2rows(S));
+  }
+  typedef std::array<bool, 4> cyclicity_t;
+  cyclicity_t cyclicity(const ls_t& S) noexcept {
+    return {rcyclic(S), ccyclic(S), dcyclic(S), adcyclic(S)};
   }
 
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.5.2022 (Swansea)
-/* Copyright 2022 Oliver Kullmann
+/* Copyright 2022, 2024 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "2.5.2022",
+        "0.1.2",
+        "22.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestBasicLatinSquares.cpp",
@@ -106,6 +106,50 @@ int main(const int argc, const char* const argv[]) {
    assert(sqprop({{0,0},{1,1}}));
   }
 
+  {assert(rcyclic({}));
+   assert(rcyclic({{}}));
+   assert(rcyclic({{},{}}));
+   assert(rcyclic({{0},{}}));
+   assert(not rcyclic({{},{0}}));
+   assert(rcyclic({{0},{},{0,0},{}}));
+   assert(not rcyclic({{0},{1}}));
+   assert(rcyclic({{0,1},{1,0},{0}}));
+   assert(rcyclic({{0,0},{},{0},{0,0},{0,0,0}}));
+   assert(rcyclic({{0,1,2},{1,2,0},{0,1},{0},{1,0},{1,2,0}}));
+   assert(not rcyclic({{0,1,2},{1,2,1}}));
+   assert(rcyclic({{0,0,1},{1,0,0},{0},{0,0}}));
+   assert(not rcyclic({{0,0,1},{0,1}}));
+  }
+  {assert(ccyclic({}));
+   assert(ccyclic({{}}));
+   assert(ccyclic({{},{}}));
+   assert(ccyclic({{0,1},{1,0}}));
+   assert(not ccyclic({{0,0},{1,0}}));
+   assert(ccyclic({{0,1,2,0},{1,2,0,1},{2,0,1,2}}));
+   assert(not ccyclic({{0,1,2},{1,2,0},{2,0,0}}));
+  }
+  {assert(dcyclic({}));
+   assert(dcyclic({{0}}));
+   assert(dcyclic({{0,0},{0,0}}));
+   assert(dcyclic({{0,0},{1,1}}));
+   assert(not dcyclic({{0,0},{1,0}}));
+  }
+  {assert(adcyclic({}));
+   assert(adcyclic({{0}}));
+   assert(adcyclic({{0,0},{0,0}}));
+   assert(adcyclic({{0,0},{1,1}}));
+   assert(not adcyclic({{0,0},{1,0}}));
+  }
+  {assert(eqp(cyclicity({{0,1,2},{2,0,1},{0,1,2}}), {1,0,0,0}));
+   assert(eqp(cyclicity({{0,1,1},{1,2,2},{2,0,0}}), {0,1,0,0}));
+   assert(eqp(cyclicity({{0,1,0},{1,1,2},{0,2,2}}), {0,0,1,0}));
+   assert(eqp(cyclicity({{1,1,2},{0,1,0},{0,2,2}}), {0,0,0,1}));
+   assert(eqp(cyclicity({{0,0,0},{1,1,1},{2,2,2}}), {0,1,1,1}));
+   assert(eqp(cyclicity({{0,1,2},{0,1,2},{0,1,2}}), {1,0,1,1}));
+   assert(eqp(cyclicity({{0,1,2},{1,2,0},{2,0,1}}), {1,1,1,0}));
+   assert(eqp(cyclicity({{0,0,2},{0,2,1},{2,1,1}}), {0,0,0,0}));
+  }
+
   {assert(apply({{7}},{0,0}) == 7);
    assert(apply({{7,8,9},{0,1}},{1,1}) == 1);
   }
@@ -140,6 +184,13 @@ int main(const int argc, const char* const argv[]) {
    assert(not ls({{0,1},{1,1}}));
    assert(not ls({{0,1},{0,1}}));
   }
+  {assert(pandiagonal({}));
+   assert(pandiagonal({{0}}));
+   assert(not pandiagonal({{0,1},{1,0}}));
+   assert(not pandiagonal({{0,1},{1,1}}));
+   assert(not pandiagonal({{0,1},{0,1}}));
+   assert(pandiagonal({{0,1,2,3,4},{2,3,4,0,1},{4,0,1,2,3},{1,2,3,4,0},{3,4,0,1,2}}));
+  }
 
   {ls_t S;
    transpositionm(S);
@@ -170,6 +221,19 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(gtransposition({{0,1,2}}), {{0},{1},{2}}));
    assert(eqp(gtransposition({{0},{5},{7}}), {{0,5,7}}));
   }
+
+  {assert(eqp(moddiags2rows({}), {}));
+   assert(eqp(moddiags2rows({{0}}), {{0}}));
+   assert(eqp(moddiags2rows({{0,1},{2,3}}), {{0,3},{1,2}}));
+   assert(eqp(moddiags2rows({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
+              {{0,4,8},{1,5,6},{2,3,7}}));              // 3 4 5
+  }                                                     // 6 7 8
+  {assert(eqp(modantidiags2rows({}), {}));
+    assert(eqp(modantidiags2rows({{0}}), {{0}}));
+    assert(eqp(modantidiags2rows({{0,1},{2,3}}), {{0,3},{1,2}}));
+    assert(eqp(modantidiags2rows({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
+               {{0,5,7},{1,3,8},{2,4,6}}));                  // 3 4 5
+  }                                                          // 6 7 8
 
   {assert(eqp(rproduct({}, {}), {}));
    assert(eqp(cproduct({}, {}), {}));
