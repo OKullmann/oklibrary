@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
+        "0.0.10",
         "23.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -77,6 +77,11 @@ int main(const int argc, const char* const argv[]) {
     }
     if (not sqshape(S)) {
       std::cerr << error << "Square not square-shaped.\n count " << count
+                << "\n";
+      return 1;
+    }
+    if (not sqval(S)) {
+      std::cerr << error << "Square not square-valued.\n count " << count
                 << "\n";
       return 1;
     }
