@@ -167,7 +167,7 @@ namespace BasicLatinSquares {
   using coord = PS::coord;
 
   typedef std::vector<size_t> ls_row_t;
-   typedef std::vector<ls_row_t> ls_t;
+  typedef std::vector<ls_row_t> ls_t;
 
 
   void out(std::ostream& out, const ls_row_t& r, const std::string& sep=" ") {
