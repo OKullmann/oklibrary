@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "23.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -261,11 +261,21 @@ int main(const int argc, const char* const argv[]) {
               {{0,4,8},{1,5,6},{2,3,7}}));              // 3 4 5
   }                                                     // 6 7 8
   {assert(eqp(modantidiags2rows({}), {}));
-    assert(eqp(modantidiags2rows({{0}}), {{0}}));
-    assert(eqp(modantidiags2rows({{0,1},{2,3}}), {{0,3},{1,2}}));
-    assert(eqp(modantidiags2rows({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
-               {{0,5,7},{1,3,8},{2,4,6}}));                  // 3 4 5
-  }                                                          // 6 7 8
+   assert(eqp(modantidiags2rows({{0}}), {{0}}));
+   assert(eqp(modantidiags2rows({{0,1},{2,3}}), {{0,3},{1,2}}));
+   assert(eqp(modantidiags2rows({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
+              {{0,5,7},{1,3,8},{2,4,6}}));                  // 3 4 5
+  }                                                         // 6 7 8
+
+  {assert(eqp(rstandardise({}), {}));
+   assert(eqp(rstandardise({{0}}), {{0}}));
+   assert(eqp(rstandardise({{0,0},{0,0}}), {{1,1},{1,1}}));
+   assert(eqp(rstandardise({{1,0},{1,0}}), {{0,1},{0,1}}));
+   assert(eqp(rstandardise({{2,1,0},{1,0,2},{0,2,1}}),
+              {{0,1,2},{1,2,0},{2,0,1}}));
+   assert(eqp(rstandardise({{0,0,0},{1,1,0},{2,2,0}}),
+              {{2,2,2},{0,0,2},{0,0,2}}));
+  }
 
   {assert(eqp(rproduct({}, {}), {}));
    assert(eqp(cproduct({}, {}), {}));

@@ -124,12 +124,22 @@ License, or any later version. */
     - modantidiags2rows(ls_t) -> ls_t (writing the antidiagonals into
       the rows).
 
+    - rstandardisem(ls_t& S) for sqval(S)
+    - rstandardise(ls_t) -> ls_t.
+
    Algebra:
 
     - rproduct(ls_t, ls_t) : row-product; assumes sqprop(A, B)
     - cproduct(ls_t, ls_t) : column-product; assumes sqprop(A, B)
     - rinverse(ls_t): row-inverse; assumes rls(A)
     - cinverse(ls_t): column-inverse; assumes cls(A).
+
+TODOS:
+
+1. modantidiags2rows ?
+MOLS> echo -e "1 2\n3 4" | ./LSrotation_debug ad
+1 4
+2 3
 
 */
 
@@ -522,6 +532,24 @@ namespace BasicLatinSquares {
   typedef std::array<bool, 4> cyclicity_t;
   cyclicity_t cyclicity(const ls_t& S) noexcept {
     return {rcyclic(S), ccyclic(S), dcyclic(S), adcyclic(S)};
+  }
+
+
+  void rstandardisem(ls_t& S) noexcept {
+    assert(sqval(S));
+    const size_t N = S.size();
+    if (N <= 1) return;
+    const ls_row_t r =
+      [N, &S]{ls_row_t r(N);
+              for (size_t i = 0; i < N; ++i) r[S[0][i]] = i;
+              return r;}();
+    for (ls_row_t& R : S)
+      for (size_t& x : R)
+        x = r[x];
+  }
+  ls_t rstandardise(ls_t S) {
+    rstandardisem(S);
+    return S;
   }
 
 
