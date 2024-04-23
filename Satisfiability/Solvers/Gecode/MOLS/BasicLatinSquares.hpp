@@ -25,9 +25,13 @@ License, or any later version. */
   further conditions: "ls" just announces the most important application.
 
   Via
-   - out(ostream&, ls_row_t, sep)
-   - out(ostream&, ls_t, sep)
+   - out(ostream&, ls_row_t,string  sep)
+   - out(ostream&, ls_t, string sep)
   one has simple line-oriented output, with "sep" separating the row-entries.
+  Also out for vector<ls_t> and vector<vector<ls_t>>
+  Via
+   - in_strictls(istream&, char sep) -> ls_t
+  one has simple line-oriented input, with empty lines result in ls_t{}.
 
   Conversions:
 
@@ -137,8 +141,10 @@ License, or any later version. */
 #include <string>
 #include <algorithm>
 #include <utility>
+#include <istream>
 
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include <Transformers/Generators/Random/Numbers.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
@@ -177,6 +183,26 @@ namespace BasicLatinSquares {
   void out(std::ostream& o, const std::vector<std::vector<ls_t>>& V,
            const std::string& sep = " ") {
     for (const auto& S : V) {out(o, S, sep); o << "\n";}
+  }
+
+  // Assuming each row on its own line, but allowing for a spaces-only line
+  // (possibly empty, also possibly without eol), which results in
+  // the empty ls_t; in.eof() at end iff last line not concluded by eol;
+  // the number of rows is equal to the number of entries on the first line:
+  ls_t in_strictls(std::istream& in, const char sep = ' ') {
+    assert(in.good());
+    std::string line;
+    std::getline(in, line);
+    ls_t res;
+    res.push_back(FloatingPoint::to_vec_unsigned<size_t>(line, sep));
+    size_t N = res[0].size();
+    if (N == 0) return {};
+    res.reserve(N);
+    while (--N != 0) {
+      std::getline(in, line);
+      res.push_back(FloatingPoint::to_vec_unsigned<size_t>(line, sep));
+    }
+    return res;
   }
 
 

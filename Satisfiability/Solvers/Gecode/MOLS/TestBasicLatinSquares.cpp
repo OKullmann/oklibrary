@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "22.4.2024",
+        "0.1.3",
+        "23.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestBasicLatinSquares.cpp",
@@ -37,6 +37,38 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {std::istringstream ss("");
+   assert(eqp(in_strictls(ss), {}));
+   assert(ss.eof());
+  }
+  {std::istringstream ss("  \t ");
+   assert(eqp(in_strictls(ss), {}));
+   assert(ss.eof());
+  }
+  {std::istringstream ss("  \t \n");
+   assert(eqp(in_strictls(ss), {}));
+   assert(ss.good());
+  }
+  {std::istringstream ss(" \t 77 \n");
+    assert(eqp(in_strictls(ss), {{77}}));
+   assert(ss.good());
+  }
+  {std::istringstream ss(" \t 77 ");
+    assert(eqp(in_strictls(ss), {{77}}));
+   assert(ss.eof());
+  }
+  {std::istringstream ss(" \t 77 \n  \n 88 99 \n 111 222 \t 333\n");
+   assert(eqp(in_strictls(ss), {{77}}));
+   assert(eqp(in_strictls(ss), {}));
+   assert(eqp(in_strictls(ss), {{88,99},{111,222,333}}));
+   assert(ss.good());
+  }
+  {std::istringstream ss("1 2 3\n4 5 6\n7 8 9\n10 11 12\n13 14 15\n16 17 18\n");
+    assert(eqp(in_strictls(ss), {{1,2,3},{4,5,6},{7,8,9}}));
+    assert(eqp(in_strictls(ss), {{10,11,12},{13,14,15},{16,17,18}}));
+    assert(ss.good());
+  }
 
   {assert(eqp(sls2bls({}), {}));
    assert(eqp(sls2bls({{0}}), {{0}}));
