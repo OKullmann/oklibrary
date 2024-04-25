@@ -39,6 +39,18 @@ Antidiagonals:
 2 5 12 15
 1 8 11 14
 
+Transposition (reflection at the main diagonal):
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -t
+1 5 9 13
+2 6 10 14
+3 7 11 15
+4 8 12 16
+Antiransposition (reflection at the main antidiagonal):
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -at
+16 12 8 4
+15 11 7 3
+14 10 6 2
+13 9 5 1
 
 Moving the diagonals into the rows:
 MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -d
@@ -47,13 +59,6 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 3 8 9 14
 4 5 10 15
 
-Moving the rows into the diagonals:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -id
-1 6 11 16
-13 2 7 12
-9 14 3 8
-5 10 15 4
-
 Moving the antidiagonals into the rows:
 MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -ad
 4 7 10 13
@@ -61,44 +66,33 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 2 5 12 15
 1 8 11 14
 
+Keeping the first column, and otherwise reverse the direction of
+every row:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -n2
+1 4 3 2
+5 8 7 6
+9 12 11 10
+13 16 15 14
+
+Move the rows into the diagonals and the columns into the antidiagonals
+(replace (i,j) by (i+j,j-i) mod N):
+Not a permutation for even N:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sd
+11 0 14 0
+0 12 0 15
+16 0 9 0
+0 13 0 10
+MOLS> echo -e "1 2 3\n4 5 6\n7 8 9" | ./LSrotation_debug -sd
+1 6 8
+9 2 4
+5 7 3
+
 
 BUGS:
 
-1. iad - moving the rows into the antidiagonals:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -iad
-16 11 6 1
-12 7 2 13
-8 3 14 9
-4 15 10 5
-
-Shouldn't the result be
-13 9 5 1
-10 6 2 14
-7 3 15 11
-4 16 12 8
-
-?
-
 TODOS:
 
-1. Inversion d - id ?
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -id | ./LSrotation_debug -d
-1 2 3 4
-6 7 8 5
-11 12 9 10
-16 13 14 15
-
-2. Inversion ad - iad ?
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -iad | ./LSrotation_debug -ad
-1 2 3 4
-6 7 8 5
-11 12 9 10
-16 13 14 15
-
-A proper understanding is needed; the algebra here seems to be more
-complicated.
-
-3. Perhaps one should just reproduce the empty lines as found
+1. Perhaps one should just reproduce the empty lines as found
    in the input?
 
 */
@@ -115,7 +109,7 @@ complicated.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "25.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -180,9 +174,9 @@ int main(const int argc, const char* const argv[]) {
     case SR::t : transpositionm(S); break;
     case SR::at : antitranspositionm(S); break;
     case SR::d : S = moddiags2rows(S); break;
-    case SR::id : S = rows2moddiags(S); break;
     case SR::ad : S = modantidiags2rows(S); break;
-    case SR::iad : S = rows2modantidiags(S); break;
+    case SR::n2 : S = negatej(S); break;
+    case SR::sd : S = sumdiff(S); break;
     }
     if (not without_stand) {
       if (not sqval(S)) {

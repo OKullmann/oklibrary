@@ -21,22 +21,22 @@ namespace LSOptions {
     t = 0, // transposition
     at = 1, // antitransposition
     d = 2, // moving diagonals to rows
-    id = 3, // moving rows to diagonals,
-    ad = 4, // moving antidiagonals to rows
-    iad = 5, // moving rows to antidiagonals
+    ad = 3, // moving antidiagonals to rows
+    n2 = 4, // (i,j) -> (i,-j)
+    sd = 5 // (i,j -> (i+j,j-i)
   };
-  constexpr int SRsize = int(SR::iad) + 1;
+  constexpr int SRsize = int(SR::sd) + 1;
 }
 namespace Environment {
   template <> struct RegistrationPolicies<LSOptions::SR> {
     static constexpr const char* sname = "sr";
     static constexpr int size = LSOptions::SRsize;
     static constexpr std::array<const char*, size>
-      string {"t", "at", "d", "id", "ad", "iad"};
+      string {"t", "at", "d", "ad", "n2", "sd"};
     static constexpr std::array<const char*, size>
       estring {"transposition", "antitransposition",
-        "diags2rows", "rows2diags",
-        "antidiags2rows", "rows2antidiags"};
+        "diags2rows", "antidiags2rows",
+        "negate-j", "sum-difference"};
   };
 }
 namespace LSOptions {
