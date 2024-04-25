@@ -54,34 +54,51 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 9 14 3 8
 5 10 15 4
 
+Moving the antidiagonals into the rows:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -ad
+4 7 10 13
+3 6 9 16
+2 5 12 15
+1 8 11 14
 
 
 BUGS:
 
-1. Moving the antidiagonals into the rows:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -ad
-1 8 11 14
-2 5 12 15
-3 6 9 16
-4 7 10 13
-
-The first row should be the main antidiagonal.
-
-2. iad - moving the rows into the antidiagonals:
+1. iad - moving the rows into the antidiagonals:
 MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -iad
-1 6 11 16
-5 10 15 4
-9 14 3 8
-13 2 7 12
+16 11 6 1
+12 7 2 13
+8 3 14 9
+4 15 10 5
 
-The main diagonal should be in the main antidiagonal.
+Shouldn't the result be
+13 9 5 1
+10 6 2 14
+7 3 15 11
+4 16 12 8
 
+?
 
 TODOS:
 
-1. Is id natural?
+1. Inversion d - id ?
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -id | ./LSrotation_debug -d
+1 2 3 4
+6 7 8 5
+11 12 9 10
+16 13 14 15
 
-2. Perhaps one should just reproduce the empty lines as found
+2. Inversion ad - iad ?
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -iad | ./LSrotation_debug -ad
+1 2 3 4
+6 7 8 5
+11 12 9 10
+16 13 14 15
+
+A proper understanding is needed; the algebra here seems to be more
+complicated.
+
+3. Perhaps one should just reproduce the empty lines as found
    in the input?
 
 */
@@ -98,7 +115,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "25.4.2024",
         __FILE__,
         "Oliver Kullmann",

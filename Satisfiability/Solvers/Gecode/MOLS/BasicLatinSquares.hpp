@@ -502,7 +502,7 @@ namespace BasicLatinSquares {
     const size_t N = S.size();
     ls_t res(N, ls_row_t(N));
     for (size_t s = 0; s < N; ++s) {
-      ls_row_t& R = res[s]; // antidiagonal s -> R
+      ls_row_t& R = res[(N-1) - s]; // antidiagonal s -> R
       for (size_t i = 0; i < N; ++i) { // i + j = s mod N
         const size_t j = (s + (N - i)) % N;
         R[i] = S[i][j];
@@ -514,11 +514,12 @@ namespace BasicLatinSquares {
     assert(sqshape(S));
     const size_t N = S.size();
     ls_t res(N, ls_row_t(N));
-    for (size_t i = 0; i < N; ++i) { // also the target-antidiagonal
+    for (size_t i = 0; i < N; ++i) { // the target-antidiagonal is (N-1) - i
       const ls_row_t& R = S[i];
-      for (size_t j = 0; j < N; ++j) {
-        const size_t i2 = (i + (N - j)) % N;
-        res[i2][j] = R[j];
+      for (size_t j0 = 0; j0 < N; ++j0) {
+        const size_t j = (N-1) - j0;
+        const size_t i2 = (((N-1) - i) + (N - j)) % N;
+        res[i2][j] = R[j0];
       }
     }
     return res;
