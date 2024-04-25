@@ -120,11 +120,13 @@ License, or any later version. */
    - antitranspositionm(ls_t&) for sqshape(S)
    - antitransposition(ls_t) -> ls_t for sqshape(S).
 
-   - moddiags2rows(ls_t) -> ls_t (writing the diagonals into the rows)
-   - rows2moddiags(ls_t) -> ls_t (reverse direction)
-   - modantidiags2rows(ls_t) -> ls_t (writing the antidiagonals into
+     The following four transformations assume sqshape(S).
+   - moddiags2rows(ls_t) -> ls_t (writing the broken diagonals into the rows)
+   - modantidiags2rows(ls_t) -> ls_t (writing the broken antidiagonals into
      the rows)
-   - rows2modantidiags(ls_t) -> ls_t (reverse direction).
+   - negatej(ls_t) -> ls_t (reflection at the first column)
+   - sumdiff(ls_t) -> ls_t (swapping rows with diagonals, and columns with
+     antidiagonals).
 
    - rstandardisem(ls_t& S) for sqval(S)
    - rstandardise(ls_t) -> ls_t.
@@ -137,17 +139,6 @@ License, or any later version. */
     - cinverse(ls_t): column-inverse; assumes cls(A).
 
 TODOS:
-
-1. modantidiags2rows ?
-MOLS> echo -e "1 2\n3 4" | ./LSrotation_debug ad
-1 4
-2 3
-
-2. Can moddiags2rows and rows2moddiags be made exact inverses?
-
-3. Can modantidiags2rows and rows2modantidiags be made exact inverses?
-
-4. What is the algebra of the six operations t, at, d, id, ad, iad ?
 
 */
 
@@ -484,19 +475,6 @@ namespace BasicLatinSquares {
     }
     return res;
   }
-  ls_t rows2moddiags(const ls_t& S) {
-    assert(sqshape(S));
-    const size_t N = S.size();
-    ls_t res(N, ls_row_t(N));
-    for (size_t i = 0; i < N; ++i) { // also the target-diagonal
-      const ls_row_t& R = S[i];
-      for (size_t j = 0; j < N; ++j) {
-        const size_t i2 = (j + (N- i)) % N;
-        res[i2][j] = R[j];
-      }
-    }
-    return res;
-  }
   ls_t modantidiags2rows(const ls_t& S) {
     assert(sqshape(S));
     const size_t N = S.size();
@@ -510,16 +488,31 @@ namespace BasicLatinSquares {
     }
     return res;
   }
-  ls_t rows2modantidiags(const ls_t& S) {
+  ls_t negatej(const ls_t& S) {
     assert(sqshape(S));
     const size_t N = S.size();
     ls_t res(N, ls_row_t(N));
-    for (size_t i = 0; i < N; ++i) { // the target-antidiagonal is (N-1) - i
-      const ls_row_t& R = S[i];
-      for (size_t j0 = 0; j0 < N; ++j0) {
-        const size_t j = (N-1) - j0;
-        const size_t i2 = (((N-1) - i) + (N - j)) % N;
-        res[i2][j] = R[j0];
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& R0 = S[i];
+      ls_row_t& R = res[i];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t nj = (N - j) % N;
+        R[nj] = R0[j];
+      }
+    }
+    return res;
+  }
+  // A permutation only for odd S:
+  ls_t sumdiff(const ls_t& S) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& R0 = S[i];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t sum = (i + j) % N;
+        const size_t diff = ((N+j) - i) % N;
+        res[sum][diff] = R0[j];
       }
     }
     return res;
