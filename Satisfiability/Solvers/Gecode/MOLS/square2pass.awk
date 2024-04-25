@@ -5,7 +5,7 @@
 # literals in the direct encoding (using N^3 variables).
 
 BEGIN {
-  row = 0; N = 0; 
+  row = 0; N = 0;
   printf "v"
 }
 

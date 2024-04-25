@@ -12,6 +12,8 @@ License, or any later version. */
   Minizinc-format.
 
   So this program outputs a single partial square.
+  A kind of reverse is provided by square2pass.awk.
+
   A useful tool can be passextractpos.awk (combining several v-lines into
   one, and removing the negative literals).
 
