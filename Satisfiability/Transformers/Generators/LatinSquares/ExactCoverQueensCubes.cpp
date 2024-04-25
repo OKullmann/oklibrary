@@ -26,6 +26,8 @@ LatinSquares> gcc -O3 -Wall -o EC_QC_N_m EC_QC_N_m.c dlx.c
 
 EXAMPLES:
 
+1. N=5
+
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1
  0 3 1 4 2
  0 2 4 1 3
@@ -57,19 +59,22 @@ digit 1 ... ; thus we get
 1 2 3 4 0
 3 4 0 1 2
 
-LatinSquares> N=7; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./ExactCoverQueensCubes
-Compile with:
-gcc -O3 -Wall -o EC_QC_7_4 EC_QC_7_4.c dlx.c
-LatinSquares> ./EC_QC_7_4
+Remark: The above standard call of ExactCoverQueensCubes, with the order
+of input-cubes as used in the OKlibrary (so that one can consistently refer
+to them via indices), plus the compilation, executation, and deletion of
+the two created files (c-file, executable), is put into a script:
+LatinSquares> ./ExactCoverQueensCubes.bash 5
+ 0 0 0 0 0
+ 1 1 1 1 1
+
+
+LatinSquares> ./ExactCoverQueensCubes.bash 7
  0 0 0 0 0 0 0
  1 1 1 1 1 1 1
  2 2 2 2 2 2 2
  3 3 3 3 3 3 3
 
-LatinSquares> N=11; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./ExactCoverQueensCubes
-Compile with:
-gcc -O3 -Wall -o EC_QC_11_8 EC_QC_11_8.c dlx.c
-LatinSquares> ./EC_QC_11_8
+LatinSquares> ./ExactCoverQueensCubes.bash 11
  0 0 0 0 0 0 0 0 0 0 0
  1 1 1 1 1 1 1 1 1 1 1
  2 2 2 2 2 2 2 2 2 2 2
@@ -78,6 +83,8 @@ LatinSquares> ./EC_QC_11_8
  5 5 5 5 5 5 5 5 5 5 5
  6 6 6 6 6 6 6 6 6 6 6
  7 7 7 7 7 7 7 7 7 7 7
+
+N=13 is the first harder computation:
 
 LatinSquares> N=13; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./ExactCoverQueensCubes
 LatinSquares> time gcc -O3 -Wall -o EC_QC_13_348 EC_QC_13_348.c dlx.c
@@ -93,6 +100,10 @@ LatinSquares> wc -l OUT13
 LatinSquares> head -2 OUT13
   0   0   0   0   0   0   0   0   0   0   0   0   0
   0   4  10  26  28   2   1  10   2  26  28   1  20
+
+Reminder: The same output into file OUT13 can be achieved by
+LatinSquares> time ./ExactCoverQueensCubes.bash 13 > OUT13
+
 
 OLD output-format (just the raw row-indices):
 On a machien with larger memory (~ 27GB needed):
