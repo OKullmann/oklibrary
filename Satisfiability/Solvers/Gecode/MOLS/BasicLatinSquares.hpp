@@ -581,6 +581,37 @@ namespace BasicLatinSquares {
   }
 
 
+  // "Modular directions:
+  struct ModDir {
+    size_t a, b;
+    auto operator <=>(const ModDir&) const noexcept = default;
+  };
+
+  // Expanding the queens-solution pi into direction d, returning
+  // {} if pi is empty or the expansion doesn't cover the square
+  // (based on [Atkins, Hay, Larson; 1983, Comp. & Maths. with Appls. 9(2)]):
+  ls_t expand_queenssols(const ls_row_t& pi, const ModDir& d) {
+    const size_t N = pi.size();
+    if (N == 0) return {};
+    ls_t res(N, ls_row_t(N));
+    for (size_t x = 0; x < N; ++x) {
+      const size_t a = (x * d.a) % N, b = (x * d.b) % N;
+      for (size_t i = 0; i < N; ++i) {
+        const size_t i2 = (i + (N - a))% N;
+        const size_t j = (pi[i2] + b) % N;
+        size_t& oldval = res[i][j];
+        if (oldval != 0) return {};
+        else oldval = x+1;
+      }
+    }
+    for (size_t i = 0; i < N; ++i) {
+      ls_row_t& R = res[i];
+      for (size_t j = 0; j < N; ++j) --R[j];
+    }
+    return res;
+  }
+
+
   // A * B row-wise (first B, then A):
   ls_t rproduct(const ls_t& A, const ls_t& B) {
     assert(sqprop(A) and sqprop(B));
