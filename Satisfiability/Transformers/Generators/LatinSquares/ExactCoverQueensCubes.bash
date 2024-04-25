@@ -11,7 +11,7 @@ set -o nounset
 
 program=$(basename "$0")
 errorm="ERROR[${program}]:"
-version=0.1.1
+version=0.1.2
 
 if (( $# != 1 )); then
   >&2 echo "$errorm Exactly one parameter (N) needed, but $# provided."
@@ -25,7 +25,7 @@ if ! [ "$N" -gt 0 ] 2>/dev/null; then
   exit 1
 fi
 
-output=$(CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./ExactCoverQueensCubes | tail -1)
+output=$(CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ExactCoverQueensCubes | tail -1)
 outputarr=($output)
 if [ "${outputarr[0]}" == "Empty" ]; then
   >&2 echo -e "$errorm N=$N has no pandiagonal solutions."
