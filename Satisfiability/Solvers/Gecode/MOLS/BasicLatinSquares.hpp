@@ -112,20 +112,22 @@ License, or any later version. */
    - refl_d(v) : reflection at diagonal for coordinate-vector v
    - refl_ad(v, N) : reflection at antidiagonal.
 
-   Transformations:
+  Transformations:
 
-    - transpositionm(ls_t& S) for sqshape(S)
-    - transposition(ls_t) -> ls_t (using transpositionm)
-    - gtransposition(ls_t) -> ls_t, assuming only rcshape(S)
-    - antitranspositionm(ls_t&) for sqshape(S)
-    - antitransposition(ls_t) -> ls_t for sqshape(S).
+   - transpositionm(ls_t& S) for sqshape(S)
+   - transposition(ls_t) -> ls_t (using transpositionm)
+   - gtransposition(ls_t) -> ls_t, assuming only rcshape(S)
+   - antitranspositionm(ls_t&) for sqshape(S)
+   - antitransposition(ls_t) -> ls_t for sqshape(S).
 
-    - moddiags2rows(ls_t) -> ls_t (writing the diagonals into the rows)
-    - modantidiags2rows(ls_t) -> ls_t (writing the antidiagonals into
-      the rows).
+   - moddiags2rows(ls_t) -> ls_t (writing the diagonals into the rows)
+   - rows2moddiags(ls_t) -> ls_t (reverse direction)
+   - modantidiags2rows(ls_t) -> ls_t (writing the antidiagonals into
+     the rows)
+   - rows2modantidiags(ls_t) -> ls_t (reverse direction).
 
-    - rstandardisem(ls_t& S) for sqval(S)
-    - rstandardise(ls_t) -> ls_t.
+   - rstandardisem(ls_t& S) for sqval(S)
+   - rstandardise(ls_t) -> ls_t.
 
    Algebra:
 
@@ -140,6 +142,12 @@ TODOS:
 MOLS> echo -e "1 2\n3 4" | ./LSrotation_debug ad
 1 4
 2 3
+
+2. Can moddiags2rows and rows2moddiags be made exact inverses?
+
+3. Can modantidiags2rows and rows2modantidiags be made exact inverses?
+
+4. What is the algebra of the six operations t, at, d, id, ad, iad ?
 
 */
 
@@ -476,6 +484,19 @@ namespace BasicLatinSquares {
     }
     return res;
   }
+  ls_t rows2moddiags(const ls_t& S) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) { // also the target-diagonal
+      const ls_row_t& R = S[i];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t i2 = (j + (N- i)) % N;
+        res[i2][j] = R[j];
+      }
+    }
+    return res;
+  }
   ls_t modantidiags2rows(const ls_t& S) {
     assert(sqshape(S));
     const size_t N = S.size();
@@ -485,6 +506,19 @@ namespace BasicLatinSquares {
       for (size_t i = 0; i < N; ++i) { // i + j = s mod N
         const size_t j = (s + (N - i)) % N;
         R[i] = S[i][j];
+      }
+    }
+    return res;
+  }
+  ls_t rows2modantidiags(const ls_t& S) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) { // also the target-antidiagonal
+      const ls_row_t& R = S[i];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t i2 = (i + (N - j)) % N;
+        res[i2][j] = R[j];
       }
     }
     return res;
