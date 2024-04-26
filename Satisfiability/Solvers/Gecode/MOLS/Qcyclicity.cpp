@@ -49,6 +49,13 @@ real	2m54.183s
 user	2m59.265s
 sys	0m0.427s
 
+The sequence of numbers of pandiagonal squares which are cyclic at least
+in some direction for N = 5, 7, 11, 13, 17, 19:
+2 4 8 1570 34014 175120
+After subtraction of N-3 and with interspersed 0's this is
+https://oeis.org/A343867 ("semicyclic"):
+0, 0, 0, 0, 0, 0, 1560, 0, 34000, 175104, 0, 22417824, 313235960, 0, 83574857328, 1729671003296
+
 */
 
 #include <iostream>
