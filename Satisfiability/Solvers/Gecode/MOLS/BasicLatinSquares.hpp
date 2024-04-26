@@ -151,6 +151,7 @@ TODOS:
 #include <algorithm>
 #include <utility>
 #include <istream>
+#include <map>
 
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/NumInOut.hpp>
@@ -585,6 +586,9 @@ namespace BasicLatinSquares {
   struct ModDir {
     size_t a, b;
     auto operator <=>(const ModDir&) const noexcept = default;
+    friend std::ostream& operator <<(std::ostream& out, const ModDir& d) {
+      return out << "(" << d.a << "," << d.b << ")";
+    }
   };
 
   // Expanding the queens-solution pi into direction d, returning
@@ -608,6 +612,25 @@ namespace BasicLatinSquares {
       ls_row_t& R = res[i];
       for (size_t j = 0; j < N; ++j) --R[j];
     }
+    return res;
+  }
+
+  typedef std::map<ls_t, ModDir> expansions_t;
+  // For each equivalence-class of an expansion (with representative
+  // the row-standardised element) the lexicographical smallest direction:
+  expansions_t all_expansions(const ls_row_t& pi) {
+    const size_t N = pi.size();
+    if (N == 0) return {};
+    expansions_t res;
+    for (size_t a = 0; a < N; ++a)
+      for (size_t b = 0; b < N; ++b) {
+        const ModDir d{a,b};
+        ls_t L = rstandardise(expand_queenssols(pi, d));
+        if (L.empty()) continue;
+        const auto find = res.find(L);
+        if (find == res.end()) res.insert({std::move(L), d});
+        else if (d < find->second) find->second = d;
+      }
     return res;
   }
 

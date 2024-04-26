@@ -18,6 +18,8 @@
 /LScyclicity_debug
 /LSrotation
 /LSrotation_debug
+/Qcyclicity
+/Qcyclicity_debug
 /TestParsing_debug
 /TestConditions_debug
 /TestEncoding_debug

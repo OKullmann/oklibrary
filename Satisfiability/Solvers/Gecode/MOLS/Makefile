@@ -22,7 +22,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan Pass2PSquares LScyclicity LSrotation
+opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan Pass2PSquares LScyclicity LSrotation Qcyclicity
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables Cases Options Measures
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -103,6 +103,9 @@ LScyclicity_debug : LScyclicity.cpp BasicLatinSquares.hpp
 
 LSrotation : LSrotation.cpp BasicLatinSquares.hpp LSOptions.hpp
 LSrotation_debug : LSrotation.cpp BasicLatinSquares.hpp LSOptions.hpp
+
+Qcyclicity : Qcyclicity.cpp BasicLatinSquares.hpp
+Qcyclicity_debug : Qcyclicity.cpp BasicLatinSquares.hpp
 
 # -------------------------
 
