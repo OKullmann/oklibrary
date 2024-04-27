@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.2",
+        "0.2.3",
         "27.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -266,18 +266,30 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(modantidiags2rows({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
               {{2,4,6},{1,3,8},{0,5,7}}));                  // 3 4 5
   }                                                         // 6 7 8
-  {assert(eqp(negatej({}), {}));
-   assert(eqp(negatej({{0}}), {{0}}));
-   assert(eqp(negatej({{0,1},{2,3}}), {{0,1},{2,3}}));
-   assert(eqp(negatej({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
-              {{0,2,1},{3,5,4},{6,8,7}}));        // 3 4 5
-  }                                               // 6 7 8
+  {assert(eqp(negationj({}), {}));
+   assert(eqp(negationj({{0}}), {{0}}));
+   assert(eqp(negationj({{0,1},{2,3}}), {{0,1},{2,3}}));
+   assert(eqp(negationj({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
+              {{0,2,1},{3,5,4},{6,8,7}}));          // 3 4 5
+  }                                                 // 6 7 8
   {assert(eqp(sumdiff({}), {}));
    assert(eqp(sumdiff({{0}}), {{0}}));
    assert(eqp(sumdiff({{0,1},{2,3}}), {{3,0},{0,2}}));
    assert(eqp(sumdiff({{0,1,2},{3,4,5},{6,7,8}}), // 0 1 2
               {{0,5,7},{8,1,3},{4,6,2}}));        // 3 4 5
   }                                               // 6 7 8
+  {assert(eqp(shift({},77,99), {}));
+   assert(eqp(shift({{3}},77,99), {{3}}));
+   assert(eqp(shift({{0,1,2},{3,4,5},{6,7,8}}, 1, 1), // 0 1 2
+              {{8,6,7},{2,0,1},{5,3,4}}));            // 3 4 5
+  }                                                   // 6 7 8
+  {assert(eqp(scaling({},77), {}));
+   assert(eqp(scaling({{4}},77), {{4}}));
+   assert(eqp(scaling({{1,2},{3,4}},0), {{4,0},{0,0}}));
+   assert(eqp(scaling({{1,2},{3,4}},1), {{1,2},{3,4}}));
+   assert(eqp(scaling({{0,1,2},{3,4,5},{6,7,8}},2), // 0 1 2
+              {{0,2,1},{6,8,7},{3,5,4}}));          // 3 4 5
+  }                                                 // 6 7 8
 
   {assert(eqp(rstandardise({}), {}));
    assert(eqp(rstandardise({{0}}), {{0}}));

@@ -120,13 +120,21 @@ License, or any later version. */
    - antitranspositionm(ls_t&) for sqshape(S)
    - antitransposition(ls_t) -> ls_t for sqshape(S).
 
-     The following four transformations assume sqshape(S).
+     The following six transformations assume sqshape(S):
+
+     Two helper transformations to reduce the problem of being cyclic in
+     the diagonals or antidiagonals to the cyclicity of rows:
    - moddiags2rows(ls_t) -> ls_t (writing the broken diagonals into the rows)
    - modantidiags2rows(ls_t) -> ls_t (writing the broken antidiagonals into
      the rows)
-   - negatej(ls_t) -> ls_t (reflection at the first column)
+
+     The symmetries lf the square which map {rows,columns,diagonals,
+     antidiagonals} to itself:
+   - shift(ls_t, size_t, size_t) -> ls_t
+   - negationj(ls_t) -> ls_t (reflection at the first column)
    - sumdiff(ls_t) -> ls_t (swapping rows with diagonals, and columns with
-     antidiagonals).
+     antidiagonals)
+   - scaling(ls_t, size_t) -> ls_t.
 
    - rstandardisem(ls_t& S) for sqval(S)
    - rstandardise(ls_t) -> ls_t.
@@ -489,7 +497,23 @@ namespace BasicLatinSquares {
     }
     return res;
   }
-  ls_t negatej(const ls_t& S) {
+
+  ls_t shift(const ls_t& S, const size_t x, const size_t y) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& R0 = S[i];
+      const size_t i2 = (i + x) % N;
+      ls_row_t& R = res[i2];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t j2 = (j + y) % N;
+        R[j2] = R0[j];
+      }
+    }
+    return res;
+  }
+  ls_t negationj(const ls_t& S) {
     assert(sqshape(S));
     const size_t N = S.size();
     ls_t res(N, ls_row_t(N));
@@ -503,7 +527,9 @@ namespace BasicLatinSquares {
     }
     return res;
   }
-  // A permutation only for odd S:
+  // Remark: For transposition we have transposition(ls_t).
+  // A coordinate-permutation only for odd N; with "second-first"
+  // (to obtain "first-second" combine with negationj):
   ls_t sumdiff(const ls_t& S) {
     assert(sqshape(S));
     const size_t N = S.size();
@@ -514,6 +540,22 @@ namespace BasicLatinSquares {
         const size_t sum = (i + j) % N;
         const size_t diff = ((N+j) - i) % N;
         res[sum][diff] = R0[j];
+      }
+    }
+    return res;
+  }
+  // A coordinate-permutation only for gcd(k,N) = 1:
+  ls_t scaling(const ls_t& S, const size_t k) {
+    assert(sqshape(S));
+    const size_t N = S.size();
+    ls_t res(N, ls_row_t(N));
+    for (size_t i = 0; i < N; ++i) {
+      const ls_row_t& R0 = S[i];
+      const size_t i2 = (i * k) % N;
+      ls_row_t& R = res[i2];
+      for (size_t j = 0; j < N; ++j) {
+        const size_t j2 = (j * k) % N;
+        R[j2] = R0[j];
       }
     }
     return res;
@@ -582,7 +624,7 @@ namespace BasicLatinSquares {
   }
 
 
-  // "Modular directions:
+  // "Modular directions":
   struct ModDir {
     size_t a, b;
     auto operator <=>(const ModDir&) const noexcept = default;

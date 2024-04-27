@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Moving rows into columns, diagonals, antidiagonals, and vice versa
+  Application of symmetries and related transformations to squares
 
 EXAMPLES:
 
@@ -66,7 +66,7 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 2 5 12 15
 1 8 11 14
 
-Keeping the first column, and otherwise reverse the direction of
+Keeping the first column, and otherwise reversing the direction of
 every row:
 MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -n2
 1 4 3 2
@@ -87,8 +87,27 @@ MOLS> echo -e "1 2 3\n4 5 6\n7 8 9" | ./LSrotation_debug -sd
 9 2 4
 5 7 3
 
+Vertical and horizontal shift:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sh 1 2
+15 16 13 14
+3 4 1 2
+7 8 5 6
+11 12 9 10
 
-BUGS:
+Scaling the coordinates with factor 3:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sc 3
+1 4 3 2
+13 16 15 14
+9 12 11 10
+5 8 7 6
+Not a permutation iff the factor and N have a nontrivial common factor:
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sc 2
+11 0 12 0
+0 0 0 0
+15 0 16 0
+0 0 0 0
+
+
 
 TODOS:
 
@@ -102,6 +121,7 @@ TODOS:
 #include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "BasicLatinSquares.hpp"
 #include "LSOptions.hpp"
@@ -109,15 +129,14 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "25.4.2024",
+        "0.1.4",
+        "27.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/LSrotation.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
-  constexpr int commandline_args = 1;
 
   using namespace BasicLatinSquares;
   using namespace LSOptions;
@@ -135,7 +154,14 @@ namespace {
     return true;
   }
 
-  std::pair<SR, bool> read_rot(std::string s) noexcept {
+  std::tuple<SR, bool, size_t, size_t>
+  read_rot(const int argc, const char* const argv[]) noexcept {
+    if (argc == 1) {
+      std::cerr << error << "At least one command-line arguments needed"
+        " (rot).\n";
+      std::exit(1);
+    }
+    std::string s(argv[1]);
     const bool without_stand = s.starts_with("-");
     if (without_stand) s = s.substr(1);
     const auto sr0 = Environment::read<SR>(s);
@@ -144,7 +170,24 @@ namespace {
                 << s << "\".\n";
       std::exit(1);
     }
-    return {sr0.value(), without_stand};
+    const SR sr = sr0.value();
+    const auto numargs = args(sr);
+    if (numargs == 0) return {sr, without_stand, 0, 0};
+    if (argc == 2) {
+      std::cerr << error << "At least one numerical argument needed for \""
+                << s << "\".\n";
+      std::exit(1);
+    }
+    const size_t x = FloatingPoint::toUInt(argv[2]);
+    if (numargs == 1) return {sr, without_stand, x, 0};
+    assert(numargs == 2);
+    if (argc == 3) {
+      std::cerr << error << "At least two numerical arguments needed for \""
+                << s << "\".\n";
+      std::exit(1);
+    }
+    const size_t y = FloatingPoint::toUInt(argv[3]);
+    return {sr, without_stand, x, y};
   }
 
 }
@@ -153,13 +196,8 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != commandline_args + 1) {
-    std::cerr << error << "Exactly " << commandline_args << " command-line"
-      " arguments needed (rot), but the real number is " << argc-1 << ".\n";
-    return 1;
-  }
+  const auto [sr, without_stand, x, y] = read_rot(argc, argv);
 
-  const auto [sr, without_stand] = read_rot(argv[1]);
   bool first = true;
   do {
     ls_t S;
@@ -175,8 +213,10 @@ int main(const int argc, const char* const argv[]) {
     case SR::at : antitranspositionm(S); break;
     case SR::d : S = moddiags2rows(S); break;
     case SR::ad : S = modantidiags2rows(S); break;
-    case SR::n2 : S = negatej(S); break;
+    case SR::n2 : S = negationj(S); break;
     case SR::sd : S = sumdiff(S); break;
+    case SR::sh : S = shift(S,x,y); break;
+    case SR::sc : S = scaling(S,x); break;
     }
     if (not without_stand) {
       if (not sqval(S)) {

@@ -23,20 +23,28 @@ namespace LSOptions {
     d = 2, // moving diagonals to rows
     ad = 3, // moving antidiagonals to rows
     n2 = 4, // (i,j) -> (i,-j)
-    sd = 5 // (i,j -> (i+j,j-i)
+    sd = 5, // (i,j) -> (i+j,j-i)
+    sh = 6, // shift
+    sc = 7, // scaling
   };
-  constexpr int SRsize = int(SR::sd) + 1;
+  constexpr int SRsize = int(SR::sc) + 1;
+  unsigned args(const SR sr) noexcept {
+    // using enum SR; not with g++ 10.3.0
+    if (sr == SR::sh) return 2;
+    else if (sr == SR::sc) return 1;
+    else return 0;
+  }
 }
 namespace Environment {
   template <> struct RegistrationPolicies<LSOptions::SR> {
     static constexpr const char* sname = "sr";
     static constexpr int size = LSOptions::SRsize;
     static constexpr std::array<const char*, size>
-      string {"t", "at", "d", "ad", "n2", "sd"};
+      string {"t", "at", "d", "ad", "n2", "sd", "sh", "sc"};
     static constexpr std::array<const char*, size>
       estring {"transposition", "antitransposition",
         "diags2rows", "antidiags2rows",
-        "negate-j", "sum-difference"};
+        "negate-j", "sum-difference", "shift", "scaling"};
   };
 }
 namespace LSOptions {
