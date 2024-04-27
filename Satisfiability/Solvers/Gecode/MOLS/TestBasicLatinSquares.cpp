@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.1",
-        "25.4.2024",
+        "0.2.2",
+        "27.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/TestBasicLatinSquares.cpp",
@@ -306,6 +306,12 @@ int main(const int argc, const char* const argv[]) {
               {{0,2,4,1,3},{1,3,0,2,4},{2,4,1,3,0},{3,0,2,4,1},{4,1,3,0,2}}));
    assert(eqp(expand_queenssols({0,2,4,1,3}, {1,1}),
               {{0,4,3,2,1},{2,1,0,4,3},{4,3,2,1,0},{1,0,4,3,2},{3,2,1,0,4}}));
+  }
+
+  {assert(eqp(all_expansions({}), {}));
+   assert(eqp(all_expansions({0,2,4,1,3}),
+            { { {{0,1,2,3,4},{3,4,0,1,2},{1,2,3,4,0},{4,0,1,2,3},{2,3,4,0,1}},
+                {0,1}}}));
   }
 
   {assert(eqp(rproduct({}, {}), {}));
