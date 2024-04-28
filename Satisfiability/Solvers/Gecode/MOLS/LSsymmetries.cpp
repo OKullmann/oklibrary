@@ -40,27 +40,27 @@ Antidiagonals:
 1 8 11 14
 
 Transposition (reflection at the main diagonal):
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -t
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -t
 1 5 9 13
 2 6 10 14
 3 7 11 15
 4 8 12 16
 Antiransposition (reflection at the main antidiagonal):
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -at
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -at
 16 12 8 4
 15 11 7 3
 14 10 6 2
 13 9 5 1
 
 Moving the diagonals into the rows:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -d
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -d
 1 6 11 16
 2 7 12 13
 3 8 9 14
 4 5 10 15
 
 Moving the antidiagonals into the rows:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -ad
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -ad
 4 7 10 13
 3 6 9 16
 2 5 12 15
@@ -68,7 +68,7 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 
 Keeping the first column, and otherwise reversing the direction of
 every row:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -n2
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -n2
 1 4 3 2
 5 8 7 6
 9 12 11 10
@@ -77,31 +77,31 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -
 Move the rows into the diagonals and the columns into the antidiagonals
 (replace (i,j) by (i+j,j-i) mod N):
 Not a permutation for even N:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sd
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -sd
 11 0 14 0
 0 12 0 15
 16 0 9 0
 0 13 0 10
-MOLS> echo -e "1 2 3\n4 5 6\n7 8 9" | ./LSrotation_debug -sd
+MOLS> echo -e "1 2 3\n4 5 6\n7 8 9" | ./LSsymmetries_debug -sd
 1 6 8
 9 2 4
 5 7 3
 
 Vertical and horizontal shift:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sh 1 2
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -sh 1 2
 15 16 13 14
 3 4 1 2
 7 8 5 6
 11 12 9 10
 
 Scaling the coordinates with factor 3:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sc 3
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -sc 3
 1 4 3 2
 13 16 15 14
 9 12 11 10
 5 8 7 6
 Not a permutation iff the factor and N have a nontrivial common factor:
-MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSrotation_debug -sc 2
+MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug -sc 2
 11 0 12 0
 0 0 0 0
 15 0 16 0
@@ -129,11 +129,11 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "27.4.2024",
+        "0.1.5",
+        "28.4.2024",
         __FILE__,
         "Oliver Kullmann",
-        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/LSrotation.cpp",
+        "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/LSsymmetries.cpp",
         "GPL v3"};
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
@@ -166,7 +166,7 @@ namespace {
     if (without_stand) s = s.substr(1);
     const auto sr0 = Environment::read<SR>(s);
     if (not sr0) {
-      std::cerr << error << "rotation not readable from \""
+      std::cerr << error << "symmetry-type not readable from \""
                 << s << "\".\n";
       std::exit(1);
     }
