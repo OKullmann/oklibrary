@@ -16,8 +16,10 @@ License, or any later version. */
 
 namespace LSOptions {
 
-  // Square rotations:
-  enum class SR {
+  // Square permutations (symmetries of pandiagonal latin squares,
+  // except for d, ad, which are just intuitive helper-functions
+  // to move diagonals/antidiagonals into the rows):
+  enum class SP {
     t = 0, // transposition
     at = 1, // antitransposition
     d = 2, // moving diagonals to rows
@@ -27,18 +29,18 @@ namespace LSOptions {
     sh = 6, // shift
     sc = 7, // scaling
   };
-  constexpr int SRsize = int(SR::sc) + 1;
-  unsigned args(const SR sr) noexcept {
-    using enum SR;
-    if (sr == sh) return 2;
-    else if (sr == sc) return 1;
+  constexpr int SPsize = int(SP::sc) + 1;
+  unsigned args(const SP sp) noexcept {
+    using enum SP;
+    if (sp == sh) return 2;
+    else if (sp == sc) return 1;
     else return 0;
   }
 }
 namespace Environment {
-  template <> struct RegistrationPolicies<LSOptions::SR> {
-    static constexpr const char* sname = "sr";
-    static constexpr int size = LSOptions::SRsize;
+  template <> struct RegistrationPolicies<LSOptions::SP> {
+    static constexpr const char* sname = "sp";
+    static constexpr int size = LSOptions::SPsize;
     static constexpr std::array<const char*, size>
       string {"t", "at", "d", "ad", "n2", "sd", "sh", "sc"};
     static constexpr std::array<const char*, size>
@@ -48,8 +50,8 @@ namespace Environment {
   };
 }
 namespace LSOptions {
-  std::ostream& operator <<(std::ostream& out, const SR sr) {
-    return out << Environment::W2(sr);
+  std::ostream& operator <<(std::ostream& out, const SP sp) {
+    return out << Environment::W2(sp);
   }
 }
 

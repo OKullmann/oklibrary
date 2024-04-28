@@ -129,7 +129,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.5",
+        "0.1.6",
         "28.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -146,7 +146,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg << " [-]rot\n\n"
-      " - rot            : " << Environment::WRPO<SR>{} << "\n\n"
+      " - rot            : " << Environment::WRPO<SP>{} << "\n\n"
       "reads squares from standard input, and applies the transformation"
       " to standard output:\n"
       " - \"-\" means without row-standardisation.\n\n"
@@ -154,7 +154,7 @@ namespace {
     return true;
   }
 
-  std::tuple<SR, bool, size_t, size_t>
+  std::tuple<SP, bool, size_t, size_t>
   read_rot(const int argc, const char* const argv[]) noexcept {
     if (argc == 1) {
       std::cerr << error << "At least one command-line arguments needed"
@@ -164,22 +164,22 @@ namespace {
     std::string s(argv[1]);
     const bool without_stand = s.starts_with("-");
     if (without_stand) s = s.substr(1);
-    const auto sr0 = Environment::read<SR>(s);
-    if (not sr0) {
+    const auto sp0 = Environment::read<SP>(s);
+    if (not sp0) {
       std::cerr << error << "symmetry-type not readable from \""
                 << s << "\".\n";
       std::exit(1);
     }
-    const SR sr = sr0.value();
-    const auto numargs = args(sr);
-    if (numargs == 0) return {sr, without_stand, 0, 0};
+    const SP sp = sp0.value();
+    const auto numargs = args(sp);
+    if (numargs == 0) return {sp, without_stand, 0, 0};
     if (argc == 2) {
       std::cerr << error << "At least one numerical argument needed for \""
                 << s << "\".\n";
       std::exit(1);
     }
     const size_t x = FloatingPoint::toUInt(argv[2]);
-    if (numargs == 1) return {sr, without_stand, x, 0};
+    if (numargs == 1) return {sp, without_stand, x, 0};
     assert(numargs == 2);
     if (argc == 3) {
       std::cerr << error << "At least two numerical arguments needed for \""
@@ -187,7 +187,7 @@ namespace {
       std::exit(1);
     }
     const size_t y = FloatingPoint::toUInt(argv[3]);
-    return {sr, without_stand, x, y};
+    return {sp, without_stand, x, y};
   }
 
 }
@@ -196,7 +196,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const auto [sr, without_stand, x, y] = read_rot(argc, argv);
+  const auto [sp, without_stand, x, y] = read_rot(argc, argv);
 
   bool first = true;
   do {
@@ -208,15 +208,15 @@ int main(const int argc, const char* const argv[]) {
       out(std::cerr, S);
       return 1;
     }
-    switch (sr) {
-    case SR::t : transpositionm(S); break;
-    case SR::at : antitranspositionm(S); break;
-    case SR::d : S = moddiags2rows(S); break;
-    case SR::ad : S = modantidiags2rows(S); break;
-    case SR::n2 : S = negationj(S); break;
-    case SR::sd : S = sumdiff(S); break;
-    case SR::sh : S = shift(S,x,y); break;
-    case SR::sc : S = scaling(S,x); break;
+    switch (sp) {
+    case SP::t : transpositionm(S); break;
+    case SP::at : antitranspositionm(S); break;
+    case SP::d : S = moddiags2rows(S); break;
+    case SP::ad : S = modantidiags2rows(S); break;
+    case SP::n2 : S = negationj(S); break;
+    case SP::sd : S = sumdiff(S); break;
+    case SP::sh : S = shift(S,x,y); break;
+    case SP::sc : S = scaling(S,x); break;
     }
     if (not without_stand) {
       if (not sqval(S)) {
