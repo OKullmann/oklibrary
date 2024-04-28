@@ -527,7 +527,7 @@ namespace BasicLatinSquares {
     }
     return res;
   }
-  // Remark: For transposition we have transposition(ls_t).
+  // Remark: For transposition we have transposition(ls_t) above.
   // A coordinate-permutation only for odd N; with "second-first"
   // (to obtain "first-second" combine with negationj):
   ls_t sumdiff(const ls_t& S) {
@@ -557,6 +557,46 @@ namespace BasicLatinSquares {
         const size_t j2 = (j * k) % N;
         R[j2] = R0[j];
       }
+    }
+    return res;
+  }
+
+  bool qsqshape(const ls_row_t& Q) noexcept  {
+    const size_t N = Q.size();
+    for (const size_t& x : Q) if (x >= N) return false;
+    return true;
+  }
+  // The above permutations of the square now for queens-solutions,
+  // which are vectors Q of length N, with Q(i) being the column of
+  // the queen in row i:
+  ls_row_t qtransposition(const ls_row_t& Q) {
+    assert(qsqshape(Q));
+    const size_t N = Q.size();
+    ls_row_t res(N);
+    for (size_t i = 0; i < N; ++i) res[Q[i]] = i;
+    return res;
+  }
+  ls_row_t qnegationj(const ls_row_t& Q) {
+    const size_t N = Q.size();
+    ls_row_t res(N);
+    for (size_t i = 0; i < N; ++i) res[i] = (N - Q[i]) % N;
+    return res;
+  }
+  ls_row_t qsumdiff(const ls_row_t& Q) {
+    const size_t N = Q.size();
+    ls_row_t res(N);
+    for (size_t i = 0; i < N; ++i) {
+      const size_t j = Q[i], sum = (i + j) % N, diff = ((N+j) - i) % N;
+      res[sum] = diff;
+    }
+    return res;
+  }
+  ls_row_t qscaling(const ls_row_t& Q, const size_t k) {
+    const size_t N = Q.size();
+    ls_row_t res(N);
+    for (size_t i = 0; i < N; ++i) {
+      const size_t i2 = (i * k) % N, j = Q[i], j2 = (j * k) % N;
+      res[i2] = j2;
     }
     return res;
   }

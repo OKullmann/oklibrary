@@ -7,13 +7,18 @@ License, or any later version. */
 
 /*
   Application of symmetries and related transformations to squares
+  and queens-solutions (toroidal)
 
 EXAMPLES:
+
+First considering the square
 
 1  2  3  4
 5  6  7  8
 9  10 11 12
 13 14 15 16
+
+with
 
 Rows:
 1 2 3 4
@@ -112,7 +117,7 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug
 TODOS:
 
 1. Perhaps one should just reproduce the empty lines as found
-   in the input?
+   in the input (for handling squares)?
 
 */
 
@@ -129,7 +134,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.6",
+        "0.2.0",
         "28.4.2024",
         __FILE__,
         "Oliver Kullmann",
@@ -145,16 +150,24 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [-]rot\n\n"
+    "> " << proginfo.prg << " [-+]rot\n\n"
       " - rot            : " << Environment::WRPO<SP>{} << "\n\n"
       "reads squares from standard input, and applies the transformation"
       " to standard output:\n"
-      " - \"-\" means without row-standardisation.\n\n"
+      " - \"-\" means without row-standardisation\n"
+      " - \"+\" means input is not squares, but queens-solutions.\n\n"
 ;
     return true;
   }
 
-  std::tuple<SP, bool, size_t, size_t>
+  // Variations:
+  enum class VR { square = 0, s_no_renaming = 1, queens = 2 };
+  VR get_variation(const std::string& s) noexcept {
+    if (s.starts_with("-")) return VR::s_no_renaming;
+    else if (s.starts_with("+")) return VR::queens;
+    else return VR::square;
+  }
+  std::tuple<SP, VR, size_t, size_t>
   read_rot(const int argc, const char* const argv[]) noexcept {
     if (argc == 1) {
       std::cerr << error << "At least one command-line arguments needed"
@@ -162,8 +175,8 @@ namespace {
       std::exit(1);
     }
     std::string s(argv[1]);
-    const bool without_stand = s.starts_with("-");
-    if (without_stand) s = s.substr(1);
+    const VR vr = get_variation(s);
+    if (vr != VR::square) s = s.substr(1);
     const auto sp0 = Environment::read<SP>(s);
     if (not sp0) {
       std::cerr << error << "symmetry-type not readable from \""
@@ -172,14 +185,14 @@ namespace {
     }
     const SP sp = sp0.value();
     const auto numargs = args(sp);
-    if (numargs == 0) return {sp, without_stand, 0, 0};
+    if (numargs == 0) return {sp, vr, 0, 0};
     if (argc == 2) {
       std::cerr << error << "At least one numerical argument needed for \""
                 << s << "\".\n";
       std::exit(1);
     }
     const size_t x = FloatingPoint::toUInt(argv[2]);
-    if (numargs == 1) return {sp, without_stand, x, 0};
+    if (numargs == 1) return {sp, vr, x, 0};
     assert(numargs == 2);
     if (argc == 3) {
       std::cerr << error << "At least two numerical arguments needed for \""
@@ -187,7 +200,7 @@ namespace {
       std::exit(1);
     }
     const size_t y = FloatingPoint::toUInt(argv[3]);
-    return {sp, without_stand, x, y};
+    return {sp, vr, x, y};
   }
 
 }
@@ -196,38 +209,58 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const auto [sp, without_stand, x, y] = read_rot(argc, argv);
+  const auto [sp, vr, x, y] = read_rot(argc, argv);
 
   bool first = true;
   do {
-    ls_t S;
-    do S = in_strictls(std::cin); while (S.empty() and std::cin);
-    if (S.empty()) return 0;
-    if (not sqshape(S)) {
-      std::cerr << error << "Square not square-shaped:\n";
-      out(std::cerr, S);
-      return 1;
-    }
-    switch (sp) {
-    case SP::t : transpositionm(S); break;
-    case SP::at : antitranspositionm(S); break;
-    case SP::d : S = moddiags2rows(S); break;
-    case SP::ad : S = modantidiags2rows(S); break;
-    case SP::n2 : S = negationj(S); break;
-    case SP::sd : S = sumdiff(S); break;
-    case SP::sh : S = shift(S,x,y); break;
-    case SP::sc : S = scaling(S,x); break;
-    }
-    if (not without_stand) {
-      if (not sqval(S)) {
-        std::cerr << error << "Square not square-valued:\n";
+    if (vr != VR::queens) {
+      ls_t S;
+      do S = in_strictls(std::cin); while (S.empty() and std::cin);
+      if (S.empty()) return 0;
+      if (not sqshape(S)) {
+        std::cerr << error << "Square not square-shaped:\n";
         out(std::cerr, S);
         return 1;
       }
-      rstandardisem(S);
+      switch (sp) {
+      case SP::t : transpositionm(S); break;
+      case SP::at : antitranspositionm(S); break;
+      case SP::d : S = moddiags2rows(S); break;
+      case SP::ad : S = modantidiags2rows(S); break;
+      case SP::n2 : S = negationj(S); break;
+      case SP::sd : S = sumdiff(S); break;
+      case SP::sh : S = shift(S,x,y); break;
+      case SP::sc : S = scaling(S,x); break;
+      }
+      if (vr != VR::s_no_renaming) {
+        if (not sqval(S)) {
+          std::cerr << error << "Square not square-valued:\n";
+          out(std::cerr, S);
+          return 1;
+        }
+        rstandardisem(S);
+      }
+      if (not first) std::cout << "\n";
+      else first = false;
+      out(std::cout, S);
     }
-    if (not first) std::cout << "\n";
-    else first = false;
-    out(std::cout, S);
+    else {
+      std::string line;
+      std::getline(std::cin, line);
+      ls_row_t Q = FloatingPoint::to_vec_unsigned<size_t>(line, ' ');
+      switch (sp) {
+      case SP::t : Q = qtransposition(Q); break;
+      case SP::at : [[fallthrough]];
+      case SP::d : [[fallthrough]];
+      case SP::sh : [[fallthrough]];
+      case SP::ad : std::cerr << error
+                              << "Transformation not allowed for queens.\n";
+        return 1;
+      case SP::n2 : Q = qnegationj(Q); break;
+      case SP::sd : Q = qsumdiff(Q); break;
+      case SP::sc : Q = qscaling(Q,x); break;
+      }
+      Environment::out_line(std::cout, Q); std::cout << "\n";
+    }
   } while (std::cin);
 }
