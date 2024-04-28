@@ -1,5 +1,5 @@
 # Oleg Zaikin, 20.5.2021 (Irkutsk)
-# Copyright 2021, 2022 Oliver Kullmann
+# Copyright 2021, 2022, 2024 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -22,7 +22,7 @@
 
 oklibloc = ../../../..
 
-opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan Pass2PSquares LScyclicity LSrotation Qcyclicity
+opt_progs = Euler Euler_BBOpt laMols gcMols sgcMols rlaMols TAUscan Pass2PSquares LScyclicity LSsymmetries Qcyclicity
 
 test_progs_stem = Parsing Conditions Encoding Constraints Solvers PartialSquares CommandLine LookaheadReduction LookaheadBranching Verification OrthogonalArrays BasicLatinSquares GcVariables Cases Options Measures
 test_progs = $(addprefix Test,$(test_progs_stem))
@@ -101,8 +101,8 @@ Pass2PSquares_debug : Pass2PSquares.cpp PartialSquares.hpp
 LScyclicity : LScyclicity.cpp BasicLatinSquares.hpp
 LScyclicity_debug : LScyclicity.cpp BasicLatinSquares.hpp
 
-LSrotation : LSrotation.cpp BasicLatinSquares.hpp LSOptions.hpp
-LSrotation_debug : LSrotation.cpp BasicLatinSquares.hpp LSOptions.hpp
+LSsymmetries : LSsymmetries.cpp BasicLatinSquares.hpp LSOptions.hpp
+LSsymmetries_debug : LSsymmetries.cpp BasicLatinSquares.hpp LSOptions.hpp
 
 Qcyclicity : Qcyclicity.cpp BasicLatinSquares.hpp
 Qcyclicity_debug : Qcyclicity.cpp BasicLatinSquares.hpp
