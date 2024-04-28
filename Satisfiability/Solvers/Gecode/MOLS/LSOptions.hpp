@@ -29,7 +29,7 @@ namespace LSOptions {
   };
   constexpr int SRsize = int(SR::sc) + 1;
   unsigned args(const SR sr) noexcept {
-    // using enum SR; not with g++ 10.3.0
+    // using enum SR; not with g++ 10.5.0
     if (sr == SR::sh) return 2;
     else if (sr == SR::sc) return 1;
     else return 0;
