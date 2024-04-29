@@ -20,6 +20,8 @@
 /LSsymmetries_debug
 /Qcyclicity
 /Qcyclicity_debug
+/QueensSymmetries
+/QueensSymmetries_debug
 /TestParsing_debug
 /TestConditions_debug
 /TestEncoding_debug
