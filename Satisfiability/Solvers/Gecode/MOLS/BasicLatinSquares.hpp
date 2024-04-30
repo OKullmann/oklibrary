@@ -65,9 +65,11 @@ License, or any later version. */
    - random_ortho_rls(N, g) produces a pair of random orthogonal rls's
    - random_ortho_cls(N, g) produces a pair of random orthogonal cls's.
 
+   - is_euler_solution(N, d) -> bool.
+
   Helper functions (taking a range RAN):
 
-   - alldiffelement(RAN v) : whether all elements of v are different
+   - alldiffelem(RAN v) : whether all elements of v are different
 
   Basic properties:
 
@@ -98,13 +100,15 @@ License, or any later version. */
    - typedef cyclicity_t = array of 4 bools (for r/c/d/ad-cyclicity)
    - cyclicity(const ls_t& S) -> cyclicity_t.
 
-  Three versions of latin squares, where without sqprop(S) false is returned:
+  Four versions of latin squares, where without sqprop(S) false is returned:
 
    - rls: all rows are permutations
    - cls: all columns are permutations
    - ls: rls and cls
    - pandiagonal: ls, and also all modular diagonals and antidiagonals are
      permutations.
+     The queens-solutions (not necessarily standardised):
+   - toroidalqueens(ls_row_t).
 
   Coordinate handling:
 
@@ -694,6 +698,20 @@ namespace BasicLatinSquares {
     return ls(S) and
       rls(moddiags2rows(S)) and rls(modantidiags2rows(S));
   }
+  bool toroidalqueens(const ls_row_t& Q) noexcept {
+    if (not qsqshape(Q)) return false;
+    if (not alldiffelem(Q)) return false;
+    const size_t N = Q.size();
+    if (N == 0) return true;
+    ls_row_t test(N);
+    for (size_t i = 0; i < N; ++i)
+      test[i] = (i + (N - Q[i])) % N; // modular diagonals
+    if (not alldiffelem(test)) return false;
+    for (size_t i = 0; i < N; ++i)
+      test[i] = (i + Q[i]) % N; // modular antidiagonals
+    if (not alldiffelem(test)) return false;
+    return true;
+  }
 
 
   bool rcyclic(const ls_t& S) noexcept {
@@ -912,6 +930,31 @@ namespace BasicLatinSquares {
   std::pair<equivclasses_t, size_t>
   all_qorbits(const std::vector<ls_row_t>& V) {
     return all_orbits<QOrbit>(V);
+  }
+
+
+  // Is i -> d*x a pandiagonal square w.r.t N?
+  constexpr bool is_euler_solution(const size_t N, const size_t d) noexcept {
+    if (N <= 1) return true;
+    if (d <= 1) return false;
+    if (std::gcd(d, N) != 1) return false; // rook-property
+    if (std::gcd(d-1, N) != 1) return false; // diagonal-property
+    if (std::gcd(d+1, N) != 1) return false; // antidiagonal-property
+    return true;
+  }
+  static_assert(is_euler_solution(0,0));
+  static_assert(is_euler_solution(1,0));
+  static_assert(not is_euler_solution(2,1));
+  static_assert(not is_euler_solution(3,2));
+  static_assert(is_euler_solution(5,2));
+  static_assert(is_euler_solution(5,3));
+  ls_row_t euler_solution(const size_t N, const size_t d) {
+    if (N == 0) return {};
+    assert(is_euler_solution(N, d));
+    ls_row_t res(N);
+    for (size_t i = 0; i < N; ++i) res[i] = (d*i) % N;
+    assert(res[0] == 0 and toroidalqueens(res));
+    return res;
   }
 
 }
