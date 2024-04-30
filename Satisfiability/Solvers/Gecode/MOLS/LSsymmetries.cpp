@@ -9,6 +9,12 @@ License, or any later version. */
   Application of symmetries and related transformations to squares
   and queens-solutions (toroidal)
 
+   - The squares on standard input might be separated by empty lines,
+     but don't have to; the output will separate them in any case with
+     one empty line.
+   - Also queens-solutions can be input, then each on its own line (empty
+     lines finish the reading here).
+
 EXAMPLES:
 
 First considering the square
@@ -112,6 +118,23 @@ MOLS> echo -e "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16" | ./LSsymmetries_debug
 15 0 16 0
 0 0 0 0
 
+"Queens-shifting":
+MOLS> for x in {0..13}; do echo "0 11 9 7 2 4 1 8 10 12 6 3 5" | ./LSsymmetries_debug +sh $x; done
+0 11 9 7 2 4 1 8 10 12 6 3 5
+0 11 9 4 6 3 10 12 1 8 5 7 2
+0 11 6 8 5 12 1 3 10 7 9 4 2
+0 8 10 7 1 3 5 12 9 11 6 4 2
+0 2 12 6 8 10 4 1 3 11 9 7 5
+0 10 4 6 8 2 12 1 9 7 5 3 11
+0 7 9 11 5 2 4 12 10 8 6 1 3
+0 2 4 11 8 10 5 3 1 12 7 9 6
+0 2 9 6 8 3 1 12 10 5 7 4 11
+0 7 4 6 1 12 10 8 3 5 2 9 11
+0 10 12 7 5 3 1 9 11 8 2 4 6
+0 2 10 8 6 4 12 1 11 5 7 9 3
+0 8 6 4 2 10 12 9 3 5 7 1 11
+0 11 9 7 2 4 1 8 10 12 6 3 5
+
 
 
 TODOS:
@@ -134,8 +157,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "28.4.2024",
+        "0.2.1",
+        "30.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/LSsymmetries.cpp",
@@ -150,9 +173,10 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " [-+]rot\n\n"
-      " - rot            : " << Environment::WRPO<SP>{} << "\n\n"
-      "reads squares from standard input, and applies the transformation"
+    "> " << proginfo.prg << " [-+]perm [x] [y]\n\n"
+      " - perm          : " << Environment::WRPO<SP>{} << "\n"
+      " - x, y          : natural numbers (arguments for shift and scaling\n\n"
+      "reads squares from standard input, and applies the transformation,"
       " to standard output:\n"
       " - \"-\" means without row-standardisation\n"
       " - \"+\" means input is not squares, but queens-solutions.\n\n"
@@ -168,7 +192,8 @@ namespace {
     else return VR::square;
   }
   std::tuple<SP, VR, size_t, size_t>
-  read_rot(const int argc, const char* const argv[]) noexcept {
+  read_perm(const int argc, const char* const argv[]) noexcept {
+    assert(argc >= 1);
     if (argc == 1) {
       std::cerr << error << "At least one command-line arguments needed"
         " (rot).\n";
@@ -192,13 +217,8 @@ namespace {
       std::exit(1);
     }
     const size_t x = FloatingPoint::toUInt(argv[2]);
-    if (numargs == 1) return {sp, vr, x, 0};
+    if (numargs == 1 or argc == 3) return {sp, vr, x, 0};
     assert(numargs == 2);
-    if (argc == 3) {
-      std::cerr << error << "At least two numerical arguments needed for \""
-                << s << "\".\n";
-      std::exit(1);
-    }
     const size_t y = FloatingPoint::toUInt(argv[3]);
     return {sp, vr, x, y};
   }
@@ -209,7 +229,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const auto [sp, vr, x, y] = read_rot(argc, argv);
+  const auto [sp, vr, x, y] = read_perm(argc, argv);
 
   bool first = true;
   do {
@@ -248,11 +268,12 @@ int main(const int argc, const char* const argv[]) {
       std::string line;
       std::getline(std::cin, line);
       ls_row_t Q = FloatingPoint::to_vec_unsigned<size_t>(line, ' ');
+      if (Q.empty()) return 0;
       switch (sp) {
       case SP::t : Q = qtransposition(Q); break;
+      case SP::sh : Q = qshift(Q,x); break;
       case SP::at : [[fallthrough]];
       case SP::d : [[fallthrough]];
-      case SP::sh : [[fallthrough]];
       case SP::ad : std::cerr << error
                               << "Transformation not allowed for queens.\n";
         return 1;

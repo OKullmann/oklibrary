@@ -12,6 +12,7 @@ License, or any later version. */
    - The solutions are standardised (top-left cell is occupied).
    - The symmetry group is the group of order 8*phi(N) of pandiagonal
      symmetries fixing the top-left cell (i.e., (0,0)).
+   - If "shift" is enabled, then also the N queens-shifts are used.
 
 EXAMPLES:
 
@@ -49,6 +50,34 @@ MOLS> for N in 5 7 11 13 17 19; do CPandiagonal $N "" | clasp 0 | passextractpos
 # 307
 8 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 72 144 144 144 144 144 144 144 144 144 144 144 72 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 72 144 144 72 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 16 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 72 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 72 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 144 72 144 144 144 144 144 144 144 144 144 144 24 8
 
+A great reduction is achieved by enabling the queens-shifts:
+
+MOLS> for N in 5 7 11 13 17 19; do CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./QueensSymmetries_debug +; echo; done
++ 5 2
+# 1
+2
+
++ 7 4
+# 1
+4
+
++ 11 8
+# 1
+8
+
++ 13 348
+# 5
+8 104 156 78 2
+
++ 17 8276
+# 23
+8 136 2176 272 1088 544 544 272 272 544 272 544 544 34 272 136 136 272 68 68 68 2 4
+
++ 19 43184
+# 23
+8 1368 1368 2736 2736 304 2736 2736 1368 2736 1368 1368 2736 1368 2736 2736 1368 2736 2736 2736 2736 456 8
+
+
 */
 
 #include <iostream>
@@ -61,8 +90,8 @@ MOLS> for N in 5 7 11 13 17 19; do CPandiagonal $N "" | clasp 0 | passextractpos
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.9",
-        "29.4.2024",
+        "0.1.0",
+        "30.4.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/QueensSymmetries.cpp",
@@ -76,8 +105,9 @@ namespace {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-      "> " << proginfo.prg << "\n\n"
-      "reads from standard input and outputs statistics.\n\n"
+      "> " << proginfo.prg << " [+] \n\n"
+      "reads from standard input and outputs statistics:\n"
+      " - \"+\" means that also queens-shifts are applied.\n\n"
  ;
     return true;
   }
@@ -88,11 +118,19 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  const bool with_shift = argc == 2 and std::string(argv[1]) == "+";
+  if (argc >= 2 and not with_shift) {
+    std::cerr << error << "Only xactly one argument \"+\" possible.\n";
+    return 1;
+  }
+
   const Algorithms::Cubing_t cubes =
     Algorithms::read_queens_cubing(std::cin);
   if (cubes.m == 0) return 0;
+  if (with_shift) std::cout << "+ ";
   std::cout << cubes.N << " " << cubes.m << std::endl;
-  const auto [E, numcl] = all_qorbits(cubes.A);
+  const auto [E, numcl] = with_shift ? all_qorbitsS(cubes.A) :
+    all_qorbits(cubes.A);
   std::cout << "# " << numcl << "\n";
   std::vector<size_t> counts(numcl);
   for (const size_t c : E) ++counts[c-1];

@@ -150,10 +150,12 @@ License, or any later version. */
    - qtransposition(ls_row_t) -> ls_row_t
    - qnegationj(ls_row_t) -> ls_row_t
    - qsumdiff(ls_row_t) -> ls_row_t
-   - qscaling(ls_row_t) -> ls_row_t.
+   - qscaling(ls_row_t, size_t) -> ls_row_t
+   - qshift(ls_row_t, size_t) -> ls_row_t
      Producing the nontrivial orbit of these operations:
    - struct QOrbit (created by QOrbit(Q), which is the nontrivial orbit
-     as a range).
+     as a range)
+   - struct QOrbitS (includes the shifts).
 
    - rstandardisem(ls_t& S) for sqval(S)
    - rstandardise(ls_t) -> ls_t.
@@ -175,7 +177,8 @@ License, or any later version. */
       the objects on which the symmetries operate, and SYM(x) for some
       x = V[i] is the non-trivial orbit
     - all_qorbits: convenience-instantiation with X=ls_row_t and
-      SYM=QOrbit.
+      SYM=QOrbit
+    - all_qorbitsS: similarly, now with queens-shifts.
 
 TODOS:
 
@@ -648,6 +651,21 @@ namespace BasicLatinSquares {
     }
     return res;
   }
+  // Moving the queen in row x to the origin:
+  ls_row_t qshift(const ls_row_t& Q, const size_t x0) {
+    const size_t N = Q.size();
+    ls_row_t res(N);
+    if (N == 0) return res;
+    const size_t y0 = Q[x0 % N];
+    assert(y0 < N);
+    const size_t x = (N - x0) % N;
+    const size_t y = (N - y0) % N;
+    for (size_t i = 0; i < N; ++i) {
+      const size_t i2 = (i + x) % N;
+      res[i2] = (Q[i] + y) % N;
+    }
+    return res;
+  }
 
 
   // Producing the non-trivial orbit as the range QOrbit(Q) (not applying the
@@ -687,6 +705,50 @@ namespace BasicLatinSquares {
         if (tr) res = qtransposition(res);
         if (neg) res = qnegationj(res);
         if (sc != 1) res = qscaling(res, sc);
+        return res;
+      }
+    };
+    It begin() const noexcept { return It(Q); }
+    It end() const noexcept { return It(Q, true); }
+  };
+  // Now also applying queens-shifts:
+  struct QOrbitS {
+    const ls_row_t& Q;
+
+    QOrbitS(const ls_row_t& Q) noexcept : Q(Q) {
+      assert(Q.size() >= 3);
+      assert(Q.size() % 2 == 1);
+    }
+
+    struct It {
+      const ls_row_t& Q;
+
+      bool sd, tr = false, neg = false;
+      size_t sc = 1, sh;
+
+      It(const ls_row_t& Q, const bool end = false) noexcept
+      : Q(Q), sd(not end), sh(end ? Q.size() : 0) {}
+
+      bool operator !=(const It&) const noexcept { return sh != Q.size(); }
+      It& operator ++() noexcept {
+        if (not sd) { sd = true; return *this; }
+        sd = false;
+        if (not tr) { tr = true; return *this; }
+        tr = false;
+        if (not neg) { neg = true; return *this; }
+        neg = false;
+        do ++sc; while (sc != Q.size() and std::gcd(sc, Q.size()) != 1);
+        if (sc != Q.size()) return *this;
+        sc = 1; ++sh;
+        return *this;
+      }
+      ls_row_t operator *() const noexcept {
+        ls_row_t res(Q);
+        if (sd) res = qsumdiff(res);
+        if (tr) res = qtransposition(res);
+        if (neg) res = qnegationj(res);
+        if (sc != 1) res = qscaling(res, sc);
+        if (sh != 0) res = qshift(res, sh);
         return res;
       }
     };
@@ -931,6 +993,10 @@ namespace BasicLatinSquares {
   std::pair<equivclasses_t, size_t>
   all_qorbits(const std::vector<ls_row_t>& V) {
     return all_orbits<QOrbit>(V);
+  }
+  std::pair<equivclasses_t, size_t>
+  all_qorbitsS(const std::vector<ls_row_t>& V) {
+    return all_orbits<QOrbitS>(V);
   }
 
 
