@@ -65,7 +65,8 @@ License, or any later version. */
    - random_ortho_rls(N, g) produces a pair of random orthogonal rls's
    - random_ortho_cls(N, g) produces a pair of random orthogonal cls's.
 
-   - is_euler_solution(N, d) -> bool.
+   - is_euler_solution(N, d) -> bool
+   - euler_solution(N, d) -> ls_row_t.
 
   Helper functions (taking a range RAN):
 
