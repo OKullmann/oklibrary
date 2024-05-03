@@ -22,6 +22,8 @@
 /Qcyclicity_debug
 /QueensSymmetries
 /QueensSymmetries_debug
+/QueensOrbits
+/QueensOrbits_debug
 /QueensEuler
 /QueensEuler_debug
 /TestParsing_debug

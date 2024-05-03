@@ -940,9 +940,35 @@ namespace BasicLatinSquares {
 
 
   // Mapping the index of the object to the index of its class:
-  typedef std::vector<size_t> equivclasses_t;
+  struct Equivclasses {
+    typedef std::vector<size_t> eq_t;
+
+    eq_t classes; // classes[i] is the 1-based index of the class of i
+    size_t num_classes = 0;
+    bool closed = true;
+
+    Equivclasses(const size_t s = 0) : classes(s) {}
+
+    bool valid() const noexcept {
+      size_t next = 1;
+      for (const size_t& x : classes)
+        if (x > num_classes or x > next) return false;
+        else if (x == next) ++next;
+      return true;
+    }
+    template <class VEC>
+    void representatives(std::ostream& out, const VEC& V) const {
+      assert(V.size() == classes.size());
+      size_t next = 1;
+      for (size_t i = 0; i < classes.size(); ++i)
+        if (classes[i] == next) {
+          Environment::out_line(out, V[i]); out << "\n";
+          ++next;
+        }
+    }
+  };
   template <class SYM, class X>
-  std::pair<equivclasses_t, size_t> all_orbits(const std::vector<X>& V) {
+  Equivclasses all_orbits(const std::vector<X>& V) {
     const size_t size = V.size();
     if (size == 0) return {};
     const std::map<X, size_t> M = [size,&V]{
@@ -961,8 +987,8 @@ namespace BasicLatinSquares {
       }
       return res;
     }();
-    std::pair<equivclasses_t, size_t> res0{size,0};
-    auto& [res, class_index] = res0;
+    Equivclasses res0(size);
+    auto& [res, class_index, closed] = res0;
     for (size_t found = 0, next = 0;; ++next) {
       if (res[next] != 0) continue;
       const X& x = V[next]; ++found;
@@ -970,16 +996,7 @@ namespace BasicLatinSquares {
       if (found == size) return res0;
       for (const X& y : SYM(x)) {
         const auto find = M.find(y);
-        if (find == M.end()) {
-          std::ostringstream ss;
-          ss << "ERROR[BasicLatinSquares::all_orbits]: Transformed element"
-            " not found:\n  ";
-          Environment::out_line(ss, y);
-          ss << "\nbasis element:\n  ";
-          Environment::out_line(ss, x);
-          ss << "\n";
-          throw std::domain_error(ss.str());
-        }
+        if (find == M.end()) { closed = false; continue; }
         const size_t yi = find->second;
         if (res[yi] == 0) {
           res[yi] = class_index;
@@ -990,12 +1007,10 @@ namespace BasicLatinSquares {
       }
     }
   }
-  std::pair<equivclasses_t, size_t>
-  all_qorbits(const std::vector<ls_row_t>& V) {
+  Equivclasses all_qorbits(const std::vector<ls_row_t>& V) {
     return all_orbits<QOrbit>(V);
   }
-  std::pair<equivclasses_t, size_t>
-  all_qorbitsS(const std::vector<ls_row_t>& V) {
+  Equivclasses all_qorbitsS(const std::vector<ls_row_t>& V) {
     return all_orbits<QOrbitS>(V);
   }
 
