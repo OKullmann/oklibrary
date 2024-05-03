@@ -188,7 +188,7 @@ namespace GenStats {
 
     friend std::ostream& operator <<(std::ostream& out, const BStatsR& s) {
       return out << s.N << " : " << s.min << " " << s.amean << " " << s.max
-                 << "; " << s.sdc;
+                 << " ; " << s.sdc;
     }
   };
   template <typename OUT>
