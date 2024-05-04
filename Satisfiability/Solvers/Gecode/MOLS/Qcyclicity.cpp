@@ -13,41 +13,53 @@ EXAMPLES:
 
 MOLS> N=5; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./Qcyclicity_debug
 # 2
-Sizes and frequencies:
+1 sizes and their frequencies:
  1:2
 Sum: 2
-Directions and frequencies:
+1 directions and their frequencies:
  (0,1):2
 
 MOLS> N=13; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./Qcyclicity_debug
 # 348
-Sizes and frequencies:
+3 sizes and their frequencies:
  1:10 4:234 6:104
 Sum: 1570
-Directions and frequencies:
+12 directions and their frequencies:
  (0,1):348 (1,0):338 (1,1):338 (1,2):26 (1,3):26 (1,4):26 (1,6):26 (1,7):26 (1,9):26 (1,10):26 (1,11):26 (1,12):338
+
+Remark 1: 1*10 + 4*234 + 6*104 = 1570 = 348 + 3*338 + 8*26
+Remark 2: Using only some representatives, we get a subset of the directions:
+MOLS> N=13; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./QueensSymmetries S13 > /dev/null
+MOLS> cat S13 | ./Qcyclicity
+# 5
+Sizes and frequencies:
+ 1:2 4:2 6:1
+Sum: 16
+6 directions and their frequencies:
+ (0,1):5 (1,0):3 (1,1):3 (1,4):1 (1,9):1 (1,12):3
+
 
 MOLS> N=17; time CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./Qcyclicity
 # 8276
-Sizes and frequencies:
+3 sizes and their frequencies:
  1:14 4:8024 8:238
 Sum: 34014
-Directions and frequencies:
+16 directions and their frequencies:
  (0,1):8276 (1,0):8262 (1,1):8262 (1,2):68 (1,3):68 (1,5):102 (1,6):68 (1,7):102 (1,8):68 (1,9):68 (1,10):102 (1,11):68 (1,12):102 (1,14):68 (1,15):68 (1,16):8262
-real	0m10.379s
-user	0m11.253s
-sys	0m0.080s
+real	0m9.774s
+user	0m10.615s
+sys	0m0.061s
 
 MOLS> N=19; time CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./Qcyclicity
 # 43184
-Sizes and frequencies:
+4 sizes and their frequencies:
  1:16 4:42408 6:456 9:304
 Sum: 175120
-Directions and frequencies:
+20 directions and their frequencies:
  (0,1):43184 (1,0):43168 (1,1):43168 (1,2):190 (1,3):190 (1,4):114 (1,5):114 (1,6):190 (1,7):114 (1,8):114 (1,9):190 (1,10):190 (1,11):114 (1,12):114 (1,13):190 (1,14):114 (1,15):114 (1,16):190 (1,17):190 (1,18):43168
-real	2m54.183s
-user	2m59.265s
-sys	0m0.427s
+real	2m59.097s
+user	3m4.322s
+sys	0m0.480s
 
 The sequence of numbers of pandiagonal squares which are cyclic at least
 in some direction for N = 5, 7, 11, 13, 17, 19:
@@ -71,8 +83,8 @@ https://oeis.org/A343867 ("semicyclic"):
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "26.4.2024",
+        "0.1.1",
+        "4.5.2024",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/Gecode/MOLS/Qcyclicity.cpp",
@@ -113,14 +125,15 @@ int main(const int argc, const char* const argv[]) {
       ++directions_counts[d];
   };
 
-  std::cout << "# " << count << "\n"
-            << "Sizes and frequencies:\n";
+  std::cout << "# " << count << "\n" << sizes_counts.size()
+            << " sizes and their frequencies:\n";
   size_t sum = 0;
   for (const auto& [s,c] : sizes_counts) {
     sum += s*c;
     std::cout << " " << s << ":" << c;
   }
-  std::cout << "\nSum: " << sum << "\nDirections and frequencies:\n";
+  std::cout << "\nSum: " << sum << "\n" << directions_counts.size()
+            << " directions and their frequencies:\n";
   for (const auto& [d,c] : directions_counts)
     std::cout << " " << d << ":" << c;
   std::cout << "\n";
