@@ -9,7 +9,7 @@ License, or any later version. */
   Same input as ExpandQueensCubes.cpp, but now creating a program
   to be compiled with the system
     Ben Lynn <blynn@cs.stanford.edu> https://github.com/blynn/dlx
-  for running the DLX-algorithms to compute all solutions
+  for running the DLX-algorithms to compute all solutions.
 
 USAGE:
 
@@ -24,18 +24,28 @@ To be compiled by
 
 LatinSquares> gcc -O3 -Wall -o EC_QC_N_m EC_QC_N_m.c dlx.c
 
+The whole chain of action is conveniently put into
+ExactCoverQueensCubes.bash.
+
+
 EXAMPLES:
 
 1. N=5
 
+First showing the 2 modular Queens-solutions for N=5 (the various programs
+used need to be on the path, for example by putting a symbolic link to them
+into ~/bin):
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1
  0 3 1 4 2
  0 2 4 1 3
+Now piping these two solutions into ExactCoverQueensCubes (one could also
+input them directly on standard input), creating EC_QC_5_2.c; the output
+shows how to compile it together with dlx.c (in this directory):
 LatinSquares> N=5; CPandiagonal $N "" | clasp 0 | passextractpos.awk | Sort | CP_clasp_first_columns.awk -v N=$N -v mode=1 | ./ExactCoverQueensCubes
 Compile with:
-gcc -O3 -Wall -o EC_QC_5_2 EC_QC_5_2.c dlx.c
+gcc -O3 -Wall -o EC_QC_5_2 EC_QC_5_2.c
 
-Main block of QC_5_2.c:
+Showing the main block of QC_5_2.c:
 dlx_set(d,0,0);dlx_set(d,0,8);dlx_set(d,0,11);dlx_set(d,0,19);dlx_set(d,0,22);
 dlx_set(d,1,0);dlx_set(d,1,7);dlx_set(d,1,14);dlx_set(d,1,16);dlx_set(d,1,23);
 dlx_set(d,2,1);dlx_set(d,2,9);dlx_set(d,2,12);dlx_set(d,2,15);dlx_set(d,2,23);
@@ -100,6 +110,8 @@ LatinSquares> wc -l OUT13
 LatinSquares> head -2 OUT13
   0   0   0   0   0   0   0   0   0   0   0   0   0
   0   4  10  26  28   2   1  10   2  26  28   1  20
+
+We see that the first solution found is cyclic, while the second isn't.
 
 Reminder: The same output into file OUT13 can be achieved by
 LatinSquares> time ./ExactCoverQueensCubes.bash 13 > OUT13
