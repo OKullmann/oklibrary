@@ -1,5 +1,5 @@
 // Matthew Gwynne, 7.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -89,6 +89,9 @@ maxima> Mul2_min_F_hd_l : setify(create_list(hardness_wpi_cs(setify(Mul2_min_F_l
 
   \todo r_1-bases : mincl_r1 <= 22
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> Current minimum clause-count of an r_1-base: 22. </li>
    <li> For the mincl_rinf representations, see "Minimising using hypergraph
    transversal tools". </li>
