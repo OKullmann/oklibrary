@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -915,7 +915,7 @@ namespace Bicliques2SAT {
       case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
       case SB::sorteda : [[fallthrough]];
       case SB::sortedm : return max_bcincomp_sort(rounds, seeds, ss, sb);
-      case SB::sortedi : return max_bcincomp_greedy(rounds, seeds, ss);;
+      case SB::sortedi : return max_bcincomp_greedy(rounds, seeds, ss);
       default : assert(false); return {};}
     }
 

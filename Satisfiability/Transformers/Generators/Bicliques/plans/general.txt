@@ -16,7 +16,7 @@ This is a bash-script, creating the directory QBF2BCC:
  0. Logging-information on the two programs used (syntax-analysis,
     disassembly).
 
- 5. Collected statistiscs on runtime and memory-usage of Disassemble:
+ 5. Collected statistics on runtime and memory-usage of Disassemble:
      - max-memory observed is 71.2% (server), with time ~ 6 min
        (instance 23001)
      - An application is needed, where one can stream-in vectors of numbers
@@ -57,7 +57,7 @@ This is a bash-script, transforming the directory QBF2BCC:
 
 -6. RunKnownGraphs.cpp
 
-   - Reads the parameters of GrephGen plus the relevant parameters
+   - Reads the parameters of GraphGen plus the relevant parameters
      of BCCbySAT, plus "SAT/UNSAT", and runs the solving process
      either with the bcc-value or -1, checking whether the result
      is correct, and returning statistics.

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.3.2023 (Swansea)
-/* Copyright 2023 Oliver Kullmann
+/* Copyright 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -246,7 +246,7 @@ namespace Algorithms {
   }
 
   // Copying the elements of b to the output (in the given order),
-  // skipping the elemnts of a (in the given order); for efficiency,
+  // skipping the elements of a (in the given order); for efficiency,
   // assuming that the elements of a occur in b (in that order).
   template <class RAN1, class RAN2>
   std::vector<typename RAN2::value_type>
