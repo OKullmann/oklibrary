@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.8.2023 (Swansea)
-/* Copyright 2023 Oliver Kullmann
+/* Copyright 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "26.8.2023",
+        "0.3.6",
+        "29.3.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/DirEqual.cpp",
@@ -98,7 +98,7 @@ int main(const int argc, const char* const argv[]) {
        to_remove.push_back(it);
      }
    }
-   for (const auto it : to_remove) M0.erase(it);
+   for (const auto& it : to_remove) M0.erase(it);
   }
 
   count_t reduced = 0;
@@ -118,7 +118,7 @@ int main(const int argc, const char* const argv[]) {
        else { A.erase(a); A.erase(b); }
      }
    }
-   for (const auto it : to_remove) M0.erase(it);
+   for (const auto& it : to_remove) M0.erase(it);
   }
 
   for (const auto& [p, S] : M0) {
