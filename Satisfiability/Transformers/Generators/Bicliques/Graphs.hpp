@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -166,9 +166,18 @@ License, or any later version. */
      - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
        tuple<list_t, stats_vertexsets_t, size_t>
 
+     - independent2MaxSAT(AdjVecUInt) -> MaxSATClauseList
+     - independent2MaxSAT(std::ostream, AdjVecUInt)
+     - independent2MaxSAT(std::FILE*, AdjVecUInt)
+
     - bipartiteness:
 
      - bipart2SAT(AdjVecUInt) -> DimacsClauseList
+     - bipart2SAT(std::ostream, AdjVecUInt)
+     - bipart2SAT(std::FILE*, AdjVecUInt)
+
+     - struct Vector_2cols (a representation of a 2-colouring)
+     - bipart_0comp(AdjVecUInt) -> Vector_2cols
 
 
 TODOS:
@@ -1064,6 +1073,36 @@ namespace Graphs {
     }
   }
 
+  /* Maximum independent sets of G via MaxSAT:
+      - the variables are v+1 for the vertices v of G
+      - for every edge {u,v} we have the (negative binary) hard clause
+        {-(u+1), -(v+1)} (using process_alledges)
+      - for every vertex v we have the (positive unary) soft clause
+        {v+1}.
+  */
+  DimacsTools::MaxSATClauseList independent2MaxSAT(const AdjVecUInt& G) {
+    assert(G.type() == GT::und);
+    DimacsTools::MaxSATClauseList res{};
+    res.dp = {G.n(), G.n() + G.m()};
+    res.soft.reserve(G.n());
+    for (AdjVecUInt::id_t v = 0; v < G.n(); ++v)
+      res.soft.push_back(DimacsTools::Clause{DimacsTools::Var(v+1)});
+    res.hard.reserve(G.m());
+    struct transfer {
+      DimacsTools::ClauseList& res;
+      transfer(DimacsTools::MaxSATClauseList& res) noexcept : res(res.hard) {}
+      void operator()(const AdjVecUInt::edge_t& e) noexcept {
+        const auto& [v,w] = e;
+        const DimacsTools::Lit x(v+1), y(w+1);
+        res.push_back({-x, -y});
+      }
+    };
+    transfer T(res);
+    G.process_alledges(T);
+    assert(res.hard.size() == G.m());
+    return res;
+  }
+
 
   // ********************************************************************
 
@@ -1073,11 +1112,12 @@ namespace Graphs {
     DimacsTools::DimacsClauseList res{};
     res.first.n = G.n();
     res.first.c = 2*G.m();
+    res.second.reserve(res.first.c);
     struct transfer {
       DimacsTools::ClauseList& res;
       transfer(DimacsTools::DimacsClauseList& res) noexcept :
       res(res.second) {}
-      void operator()(const AdjVecUInt::edge_t& e) {
+      void operator()(const AdjVecUInt::edge_t& e) noexcept {
         const auto& [v,w] = e;
         const DimacsTools::Lit x(v+1), y(w+1);
         res.push_back({x, y});

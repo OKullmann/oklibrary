@@ -1,5 +1,5 @@
 # Oliver Kullman, 20.2.2022 (Swansea
-# Copyright 2022, 2023, 2024 Oliver Kullmann
+# Copyright 2022, 2023, 2024, 2025 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -125,6 +125,8 @@ TotalPermutation2_debug : TotalPermutation2.cpp TotalPermutation.hpp DimacsTools
 RemoveVarGaps : RemoveVarGaps.cpp DimacsTools.hpp
 RemoveVarGaps_debug : RemoveVarGaps.cpp DimacsTools.hpp
 
+MaxIndependent2MaxSAT : MaxIndependent2MaxSAT.cpp Graphs.hpp DimacsTools.hpp
+MaxIndependent2MaxSAT_debug : MaxIndependent2MaxSAT.cpp Graphs.hpp DimacsTools.hpp
 
 # -------------------------
 

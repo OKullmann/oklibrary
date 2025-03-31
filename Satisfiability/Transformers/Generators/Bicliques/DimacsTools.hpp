@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022, 2023, 2024 Oliver Kullmann
+/* Copyright 2022, 2023, 2024, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -208,9 +208,24 @@ License, or any later version. */
       - VarSet V
       - other : other_ealines_t
       - operator ==
-   - valid(GslicedCNF) : SF is valid and has sorted elements and V == var(G)
-   - operator << for GslicedCNF
-   - read_strict_GslicedCNF(istream) -> GslicedCNF
+    - valid(GslicedCNF) : SF is valid and has sorted elements and V == var(G)
+    - operator << for GslicedCNF
+    - read_strict_GslicedCNF(istream) -> GslicedCNF
+
+
+    MaxSAT problems:
+
+    - MaxSATClauseList: struct with
+     - dp: dimacs_pars
+     - hard: ClauseList
+     - soft: ClauseList
+     such that the number of clauses in dp is the sum of the lengths of
+     hard and soft
+    - output-streaming of MaxSATClauseList in the 2022-MaxSAT format:
+     - first the hard clauses, with leading "h "
+     - then the soft clauses, with leading "1 "
+    - valid_MaxSATClauseList(F): true if dp.c = hard.size()+soft.size() and
+      both hard and soft are valid DimacsClauseList's with dp.n.
 
 
     Using external SAT solvers:
@@ -893,6 +908,35 @@ namespace DimacsTools {
     assert(valid(res));
     return res;
   }
+
+
+  /*
+    MaxSAT
+  */
+
+  struct MaxSATClauseList {
+    dimacs_pars dp;
+    ClauseList hard, soft;
+    friend auto operator <=>(const MaxSATClauseList&,
+                             const MaxSATClauseList&) noexcept = default;
+  };
+  void output_hardclauses(std::ostream& out, const ClauseList& F) {
+    for (const auto& C : F) out << "h " << C;
+  }
+  void output_softclauses(std::ostream& out, const ClauseList& F) {
+    for (const auto& C : F) out << "1 " << C;
+  }
+  std::ostream& operator <<(std::ostream& out, const MaxSATClauseList& F) {
+    output_hardclauses(out, F.hard);
+    output_softclauses(out, F.soft);
+    return out;
+  }
+  bool valid_MaxSATClauseList(MaxSATClauseList& F) noexcept {
+    return F.dp.c == F.hard.size() + F.soft.size() and
+      RandGen::valid({{F.dp.n, F.hard.size()}, F.hard}) and
+      RandGen::valid({{F.dp.n, F.soft.size()}, F.soft});
+  }
+
 
 
   /*
