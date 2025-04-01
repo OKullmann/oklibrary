@@ -69,3 +69,5 @@
 /RemoveVarGaps_debug
 /MaxIndependent2MaxSAT
 /MaxIndependent2MaxSAT_debug
+/GraphConversion
+/GraphConversion_debug

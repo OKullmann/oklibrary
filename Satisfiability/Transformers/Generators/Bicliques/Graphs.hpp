@@ -11,7 +11,8 @@ License, or any later version. */
   parallel edges, but loops are possible)
 
 
-   - scoped enum GT ("dir" and "und")
+   - scoped enum GT ("dir", "und")
+   - scoped enum GrFo ("adjlistR", "dimacs", "metis")
    - valid(GT)
 
 
@@ -70,7 +71,10 @@ License, or any later version. */
     - the out-adjacency-list A is realised as a vector of vectors of uints
     - the vertices are exactly the natural numbers 0, ..., n()-1
     - const-access to A via graph()
-    - type and n is constant from construction
+    - type (GT) and n  (id_t) is constant from construction
+    - format-members:
+     - format (GrFo)
+     - names (bool) can be set or unset
 
     - typedefs:
      - id_t (uint64_t)
@@ -94,7 +98,9 @@ License, or any later version. */
      - n() -> size_t (number of vertices)
      - m() -> size_t (number of edges)
      - loops() -> size_t
-     - vertex_range : range over vertices
+     - format() -> GrFo
+       format(GrFo) sets the format
+     - const vertex_range : range over vertices
 
     - name-handling:
      - with_names() -> bool : whether names are active
@@ -127,17 +133,20 @@ License, or any later version. */
     - operators:
      - assignment assumes n and type from other is the same;
        only move-assignment
-     - == : ignores name-handling
+     - == : ignores name-handling and format
      - << :
       - comment-line (started with "# ") with n, m, type
-      - all adjacency-lists (either via indices, or, whith names activated,
-        via names).
+      - all adjacency-lists (space-separated, first the source; either
+        via indices, or, if names activated, then via names).
+      Helper-functions:
+       - output(std::ostream, list_t) for output of list of vertices
+       - output(std::ostream) for the output of the adjacency-list
 
 
    - Free-standing helper-functions:
 
     - make_AdjMapStr(std::istream, GT) -> AdjMapStr
-    - make_AdjVecUInt(std::istream, GT) -> AdjVecUInt
+    - make_AdjVecUInt(std::istream, GT, GrFo, bool) -> AdjVecUInt
       (just reading an AdjMapStr and converting to AdjVecUInt)
 
     - make_complete_AdjVecUInt(GT, bool, id_t) ->AdjVecUInt
@@ -156,28 +165,29 @@ License, or any later version. */
 
     - output_matrix(AdjVecUInt, ostream)
 
-    - independent sets:
 
-     - is_independent(RAN r, AdjVecUInt) -> bool
-       is_independent_sort(RAN r, AdjVecUInt) -> bool
+   - Independent sets:
 
-     - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
-     - typedef stats_vertexsets_t for statistics of vertex-set-sizes
-     - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
-       tuple<list_t, stats_vertexsets_t, size_t>
+    - is_independent(RAN r, AdjVecUInt) -> bool
+      is_independent_sort(RAN r, AdjVecUInt) -> bool
 
-     - independent2MaxSAT(AdjVecUInt) -> MaxSATClauseList
-     - independent2MaxSAT(std::ostream, AdjVecUInt)
-     - independent2MaxSAT(std::FILE*, AdjVecUInt)
+    - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
+    - typedef stats_vertexsets_t for statistics of vertex-set-sizes
+    - perform_trials(AdjVecUInt, vec_eseeds_t, size_t) ->
+      tuple<list_t, stats_vertexsets_t, size_t>
 
-    - bipartiteness:
+    - independent2MaxSAT(AdjVecUInt) -> MaxSATClauseList
+    - independent2MaxSAT(std::ostream, AdjVecUInt)
+    - independent2MaxSAT(std::FILE*, AdjVecUInt)
 
-     - bipart2SAT(AdjVecUInt) -> DimacsClauseList
-     - bipart2SAT(std::ostream, AdjVecUInt)
-     - bipart2SAT(std::FILE*, AdjVecUInt)
+   - Bipartiteness:
 
-     - struct Vector_2cols (a representation of a 2-colouring)
-     - bipart_0comp(AdjVecUInt) -> Vector_2cols
+    - bipart2SAT(AdjVecUInt) -> DimacsClauseList
+    - bipart2SAT(std::ostream, AdjVecUInt)
+    - bipart2SAT(std::FILE*, AdjVecUInt)
+
+    - struct Vector_2cols (a representation of a 2-colouring)
+    - bipart_0comp(AdjVecUInt) -> Vector_2cols
 
 
 TODOS:
@@ -204,6 +214,7 @@ TODOS:
 #include <cstdint>
 #include <cstdio>
 
+#include <ProgramOptions/Environment.hpp>
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/Statistics.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
@@ -220,6 +231,48 @@ namespace Graphs {
   }
   static_assert(valid(GT::und));
   static_assert(valid(GT::dir));
+
+  // Graph-formats:
+  enum class GrFo {
+    adjlistR = 0, // in R-style "#", and also "reduced" for undirected
+    dimacs = 1,
+    metis = 2
+  };
+  constexpr bool valid(const GrFo f) noexcept {
+    return f==GrFo::adjlistR or f==GrFo::dimacs or f==GrFo::metis;
+  }
+  static_assert(valid(GrFo::adjlistR));
+  static_assert(valid(GrFo::dimacs));
+  static_assert(valid(GrFo::metis));
+}
+namespace Environment {
+  template <>
+  struct RegistrationPolicies<Graphs::GT> {
+    static constexpr int size = int(Graphs::GT::und)+1;
+    static constexpr std::array<const char*, size> string
+    {"dir", "und"};
+  };
+  template <>
+  struct RegistrationPolicies<Graphs::GrFo> {
+    static constexpr int size = int(Graphs::GrFo::metis)+1;
+    static constexpr std::array<const char*, size> string
+    {"adjlistR", "dimacs", "metis"};
+  };
+}
+namespace Graphs {
+  std::ostream& operator <<(std::ostream& out, const GT t) {
+    switch (t) {
+    case GT::dir : return out << "directed";
+    case GT::und : return out << "undirected";
+    default : return out << "GT::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const GrFo f) {
+    switch (f) {
+    case GrFo::adjlistR : return out << "reduced-adjacency-list";
+    case GrFo::dimacs : return out << "dimacs";
+    case GrFo::metis : return out << "metis";
+    default : return out << "GrFo::UNKNOWN";}
+  }
 
 
   // ********************************************************************
@@ -481,7 +534,7 @@ namespace Graphs {
 
 
   // Adjacency-vector, with unsigned integers as vertex-ids, and underlying
-  // names:
+  // names (as strings):
   struct AdjVecUInt {
     typedef std::uint64_t id_t;
     typedef std::vector<id_t> list_t;
@@ -500,6 +553,8 @@ namespace Graphs {
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
 
+    GrFo format_ = GrFo::adjlistR;
+
     bool names_ = true;
     namesvec_t namesvec;
     namesmap_t namesmap;
@@ -512,8 +567,11 @@ namespace Graphs {
     AdjVecUInt(const GT t, adjlist_t A0) : type_(t), n_(A0.size()),
       A(std::move(A0)), names_(false) {
       assert(valid(A)); m_ = num_edges(); }
-    explicit AdjVecUInt(const AdjMapStr& G) noexcept
-      : type_(G.type()), n_(G.n()), m_(G.m()), A(n_), namesvec(n_) {
+    explicit AdjVecUInt(const AdjMapStr& G,
+                        const GrFo f = GrFo::adjlistR,
+                        const bool with_names = true) noexcept
+      : type_(G.type()), n_(G.n()), m_(G.m()), A(n_),
+        format_(f), names_(with_names), namesvec(n_) {
       typedef namesmap_t::const_iterator iterator;
       iterator hint = namesmap.begin();
       for (id_t i = 0; const auto& p : G.graph()) {
@@ -540,6 +598,7 @@ namespace Graphs {
       assert(rhs.n_ == n_);
       m_ = rhs.m_;
       A = std::move(rhs.A);
+      format_ = rhs.format_;
       names_ = rhs.names_;
       namesvec = std::move(rhs.namesvec);
       namesmap = std::move(rhs.namesmap);
@@ -559,6 +618,9 @@ namespace Graphs {
       for (id_t i = 0; i < n_; ++i) count += adjacent(i,i);
       return count;
     }
+
+    GrFo format() const noexcept { return format_; }
+    void format(const GrFo f) noexcept { format_ = f; }
 
     void unset_names() noexcept { names_ = false; }
     void set_names() noexcept {
@@ -647,7 +709,8 @@ namespace Graphs {
     typedef std::pair<id_t,id_t> edge_t; // sorted for undirected edges
     typedef std::vector<edge_t> vecedges_t;
 
-    // For undirected graphs only the edges in standard form:
+    // For undirected graphs only the edges in standard form (i.e., in
+    // ascending order); the order of edges as given by the adjacency lists:
     vecedges_t alledges() const noexcept {
       vecedges_t res; res.reserve(m_);
       for (id_t i = 0; i < n_; ++i)
@@ -814,8 +877,37 @@ namespace Graphs {
     }
 
     friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
-      out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
-      G.output(out);
+      switch (G.format_) {
+      case GrFo::adjlistR : {
+        out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
+        G.output(out);
+        break;
+      }
+      case GrFo::dimacs : {
+        out << "p ";
+        if (G.type_ == GT::dir) out << "arc"; else out << "edge";
+        out << " " << G.n_ << " " << G.m_ << "\n";
+        struct output {
+          std::ostream& o;
+          void operator()(const edge_t& e) {
+            o << "e " << e.first+1 << " " << e.second+1 << "\n";
+          }
+        };
+        output O(out);
+        G.process_alledges(O);
+        break;
+      }
+      case GrFo::metis : {
+        out << G.n_ << " " << G.m_ << "\n";
+        for (id_t v = 0; v < G.n_; ++v) {
+          const auto& a = G.A[v];
+          if (not a.empty()) {
+            out << a[0]+1;
+            for (id_t w = 1; w < a.size(); ++w) out << " " << a[w]+1;
+          }
+          out << "\n";
+        }
+      }}
       return out;
     }
 
@@ -830,8 +922,10 @@ namespace Graphs {
     G.insert(in);
     return G;
   }
-  AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t) {
-    return AdjVecUInt(make_AdjMapStr(in, t));
+  AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t,
+                             const GrFo f = GrFo::adjlistR,
+                             const bool with_names = true) {
+    return AdjVecUInt(make_AdjMapStr(in, t), f, with_names);
   }
   AdjVecUInt make_complete_AdjVecUInt(const GT t, const bool with_loops,
                                       const AdjVecUInt::id_t n) {

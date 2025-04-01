@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -127,6 +127,9 @@ RemoveVarGaps_debug : RemoveVarGaps.cpp DimacsTools.hpp
 
 MaxIndependent2MaxSAT : MaxIndependent2MaxSAT.cpp Graphs.hpp DimacsTools.hpp
 MaxIndependent2MaxSAT_debug : MaxIndependent2MaxSAT.cpp Graphs.hpp DimacsTools.hpp
+
+GraphConversion : GraphConversion.cpp Graphs.hpp
+GraphConversion_debug : GraphConversion.cpp Graphs.hpp
 
 # -------------------------
 
