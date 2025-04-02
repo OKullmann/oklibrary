@@ -8,6 +8,12 @@ License, or any later version. */
 /*
   Reading a graph (undirected, in the general library-format),
   and outputting the maximum-independent-set problem in MaxSAT-form.
+
+TODOS:
+
+1. Once independent2MaxSAT(std::ostream, AdjVecUInt) is available,
+   use this here (so that we don't need to store the graph (as clauses)).
+
 */
 
 #include <iostream>

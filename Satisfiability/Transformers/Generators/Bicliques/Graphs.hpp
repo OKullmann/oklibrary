@@ -12,7 +12,7 @@ License, or any later version. */
 
 
    - scoped enum GT ("dir", "und")
-   - scoped enum GrFo ("adjlistR", "dimacs", "metis")
+   - scoped enum GrFo ("libadjlist", "dimacs", "metis")
    - valid(GT)
 
 
@@ -177,8 +177,10 @@ License, or any later version. */
       tuple<list_t, stats_vertexsets_t, size_t>
 
     - independent2MaxSAT(AdjVecUInt) -> MaxSATClauseList
-    - independent2MaxSAT(std::ostream, AdjVecUInt)
-    - independent2MaxSAT(std::FILE*, AdjVecUInt)
+    - TODO: independent2MaxSAT(std::ostream, AdjVecUInt)
+    - TODO: independent2MaxSAT(std::FILE*, AdjVecUInt)
+      (these two versions do "the same" as the first, however don't create
+       the clause-lists (in memory), but directly output the clauses).
 
    - Bipartiteness:
 
@@ -234,16 +236,23 @@ namespace Graphs {
 
   // Graph-formats:
   enum class GrFo {
-    adjlistR = 0, // in R-style "#", and also "reduced" for undirected
+    fulladjlist = 0, // "full adjency lists"
     dimacs = 1,
     metis = 2
   };
   constexpr bool valid(const GrFo f) noexcept {
-    return f==GrFo::adjlistR or f==GrFo::dimacs or f==GrFo::metis;
+    return f==GrFo::fulladjlist or f==GrFo::dimacs or f==GrFo::metis;
   }
-  static_assert(valid(GrFo::adjlistR));
+  static_assert(valid(GrFo::fulladjlist));
   static_assert(valid(GrFo::dimacs));
   static_assert(valid(GrFo::metis));
+  constexpr char comment_symbol(const GrFo f) noexcept {
+    switch (f) {
+    case GrFo::fulladjlist : return '#';
+    case GrFo::dimacs : return 'c';
+    case GrFo::metis : return '%';
+    default : return 0; }
+  }
 }
 namespace Environment {
   template <>
@@ -256,7 +265,7 @@ namespace Environment {
   struct RegistrationPolicies<Graphs::GrFo> {
     static constexpr int size = int(Graphs::GrFo::metis)+1;
     static constexpr std::array<const char*, size> string
-    {"adjlistR", "dimacs", "metis"};
+    {"fulladjlist", "dimacs", "metis"};
   };
 }
 namespace Graphs {
@@ -268,9 +277,9 @@ namespace Graphs {
   }
   std::ostream& operator <<(std::ostream& out, const GrFo f) {
     switch (f) {
-    case GrFo::adjlistR : return out << "reduced-adjacency-list";
-    case GrFo::dimacs : return out << "dimacs";
-    case GrFo::metis : return out << "metis";
+    case GrFo::fulladjlist : return out << "full-adjacency-list";
+    case GrFo::dimacs : return out << "Dimacs";
+    case GrFo::metis : return out << "METIS";
     default : return out << "GrFo::UNKNOWN";}
   }
 
@@ -553,7 +562,7 @@ namespace Graphs {
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
 
-    GrFo format_ = GrFo::adjlistR;
+    GrFo format_ = GrFo::fulladjlist;
 
     bool names_ = true;
     namesvec_t namesvec;
@@ -568,7 +577,7 @@ namespace Graphs {
       A(std::move(A0)), names_(false) {
       assert(valid(A)); m_ = num_edges(); }
     explicit AdjVecUInt(const AdjMapStr& G,
-                        const GrFo f = GrFo::adjlistR,
+                        const GrFo f = GrFo::fulladjlist,
                         const bool with_names = true) noexcept
       : type_(G.type()), n_(G.n()), m_(G.m()), A(n_),
         format_(f), names_(with_names), namesvec(n_) {
@@ -878,7 +887,7 @@ namespace Graphs {
 
     friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
       switch (G.format_) {
-      case GrFo::adjlistR : {
+      case GrFo::fulladjlist : {
         out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
         G.output(out);
         break;
@@ -923,7 +932,7 @@ namespace Graphs {
     return G;
   }
   AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t,
-                             const GrFo f = GrFo::adjlistR,
+                             const GrFo f = GrFo::fulladjlist,
                              const bool with_names = true) {
     return AdjVecUInt(make_AdjMapStr(in, t), f, with_names);
   }
