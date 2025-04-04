@@ -20,6 +20,15 @@ The input-format is "liberal adjacency lists", that is,
 The output is "full-adjacency-lists" (with sorted lists).
 
 
+TODOS:
+
+1. A more comprehensive approach to graph-output is needed,
+   incorporating at least the format-options of
+   BCC2SAT:
+    - We need a handling of comments (+-com).
+    - Parameters can always be included or left out (+-dp).
+
+
 EXAMPLES:
 
 Consider the undirected path of length 3:

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.5.2023 (Swansea)
-/* Copyright 2023 Oliver Kullmann
+/* Copyright 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,6 +7,12 @@ License, or any later version. */
 
 /*
   Computing the biclique-compatibility graph of a graph
+
+
+TODOS:
+
+1. Enable output in dimacs- or metis-format (as in GraphConversion).
+
 
 EXAMPLES:
 

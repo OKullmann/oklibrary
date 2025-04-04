@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,6 +9,10 @@ License, or any later version. */
   Translating biclique-covering problems into SAT-problems
   (see BCCbySAT for the complete packaging of repeated SAT-solving
    for computing bcc(G) of the input-graph G)
+
+TODOS:
+
+1. Enable output in dimacs- or metis-format (as in GraphConversion).
 
 
 EXAMPLES:
