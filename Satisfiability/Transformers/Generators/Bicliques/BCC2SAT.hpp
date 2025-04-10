@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,9 @@ License, or any later version. */
     - class Log for a pointer to an ofstream
     - read_log(string name, string error) -> Log
     - read_stats(name, infix, error) -> <Log,string>
+
+    - commandline_output<FORMOPT> for output of command-line arguments and
+      a format-type to an output-stream.
 
 TODOS:
 

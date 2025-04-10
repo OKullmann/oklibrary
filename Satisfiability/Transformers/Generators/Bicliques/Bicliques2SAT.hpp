@@ -70,7 +70,8 @@ License, or any later version. */
 
     - input and output control:
      - const char sep
-     - typedefs alg_options_t, format_options_t
+     - typedefs alg_options_t, format_options_t, format2_options_t
+
      - constant default_sb_rounds
 
     - scoped enum ResultType
