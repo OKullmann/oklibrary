@@ -12,6 +12,34 @@ License, or any later version. */
 
 TODOS:
 
+0. Enable computation of symmetry-breaking by external tools:
+    - For now supporting "use_redumis" is enough.
+    - A new option: "sb-redumis".
+    - sb-rounds perhaps is then generalised to "sb-resources", and
+      used for the timeout.
+      - The special handling of sb-rounds=1 needed to be reconsidered.
+      - Also the default-value for redumis should be 10.
+    - Also the seeds could be passed (somehow) to the tool.
+    - Class BC2SAT (Bicliques2SAT.hpp) is central:
+     - Type symmbreak_res_t in there needed to be generalised:
+      - v and sv still are usable.
+      - But s, i make no sense then.
+      - Member-function max_bcincomp needs to be generalised.
+     - Perhaps easier to create a new class "BCCIN2SAT", which just
+       provides external computation of independent sets of the
+       biclique-incompatibility-graph.
+      - The class BC2SAT was a first approach, and is likely not a solid
+        (general) foundation.
+      - In order to re-use BC2SAT::sat_translate, only the setting of variable
+        sbr needed to be generalised.
+    - What we basically need first is a class organising, given a graph,
+      computing an independent set for it.
+     - That inside Graphs.hpp?
+     - Or in DimacsTools.hpp? Additional to "Using external SAT solvers".
+    - Another class, given a graph, computes with that a set of bc-independent
+      edges.
+    - For now turning off secondary symmetry-breaking.
+
 1. Enable output in dimacs- or metis-format (as in GraphConversion).
 
 
