@@ -13,21 +13,21 @@ TODOS:
 
 - Functor-class Redumis_call organising, given a graph, computing an
   independent set for it.
-   - Constructed with AdjVecUInt.
-   - Predefined string for path to use_redumis (can be changed).
-   - Operator(Unsigned) -> vector of vertices (independent sets).
+   - DONE Constructed with AdjVecUInt.
+   - DONE Predefined string for path to use_redumis (can be changed).
+   - Operator() -> vector of vertices (independent sets).
      Uses Popen; in case of error returns the empty vector.
-     The input is the timeout (seconds).
-   - Also the seeds need to be handled.
+   - DONE Also the seeds need to be handled.
     - redumis allows
       --seed=<int>                             Seed to use for the PRNG.
-    - Unclear what "int" means.
-   - And possibly some options for redumis.
+    - "int" is the C++-type.
+   - DONE And possibly some options for redumis.
     - There are "config, kahip-mode, kernelization, red_thres"
     - Perhaps these are just strings, and when empty then nothing is done.
     - Simplest to collect all that into one string.
-   - For this internal deployment "--disable_checks" should be used.
-   - So use_redumis needs to be extended, to allow for additional arguments,
+   - DONE For this internal deployment "--disable_checks" should be used.
+   - DONE
+     So use_redumis needs to be extended, to allow for additional arguments,
      to be passed to redumis.
    - check(vertex-vector) -> bool checks whether the vector is independent.
      Returns also false if a vertex is invalid.
@@ -37,6 +37,9 @@ TODOS:
 
 #ifndef GRAPHTOOLS_UOmMwSdFsy
 #define GRAPHTOOLS_UOmMwSdFsy
+
+#include <string>
+#include <sstream>
 
 #include <cassert>
 #include <cstdio> // for std::FILE, std::fputs
@@ -48,7 +51,25 @@ TODOS:
 
 namespace GraphTools {
 
+  constexpr int default_seed = 0;
+  constexpr double default_timeout = 10;
+
   struct Redumis_call {
+    std::string path_use_redumis = "use_redumis";
+    std::string additional_options = "--disable_checks";
+    int seed = default_seed;
+    double timeout = default_timeout;
+
+    std::string command() const {
+      std::stringstream out;
+      out << "timelimit=" << timeout << " " << path_use_redumis
+          << " --seed=" << seed << " " << additional_options;
+      return out.str();
+    }
+
+    const Graphs::AdjVecUInt& G;
+
+    Redumis_call(const Graphs::AdjVecUInt& G) noexcept : G(G) {}
 
   };
 

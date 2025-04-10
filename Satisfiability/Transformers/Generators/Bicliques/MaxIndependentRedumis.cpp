@@ -40,20 +40,21 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   const std::string comment = "# ";
 
-  const int default_seed = 0;
-  const double default_timeout = 10;
+  const std::string default_use_redumis = "use_redumis";
 
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
-    "> " << proginfo.prg << " format-options seed t \n\n"
+    "> " << proginfo.prg << " format-options seed t path \n\n"
     " format-options : " << Environment::WRP<Bicliques2SAT::DC>{} << "\n"
     "                : " << Environment::WRP<Bicliques2SAT::BC>{} << "\n"
     " seed           : " << "integer (int), or \"r\"; default=" 
-                         << default_seed << "\n"
+                         << GraphTools::default_seed << "\n"
     " t              : " << "timeout (seconds), of type double > 0; default="
-                         << default_timeout << "\n\n"
+                         << GraphTools::default_timeout << "\n"
+    " path           : " << "the use_redumis tool; default=\""
+                         << default_use_redumis << "\"\n\n"
     " reads a graph from standard input, and prints an independent set to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n\n"
 ;
@@ -67,9 +68,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 4) {
+  if (argc != 5) {
     std::cerr << error <<
-      "Exactly three arguments (form-opt, seeds, t)"
+      "Exactly four arguments (form-opt, seeds, t, path)"
       " needed, but " << argc-1 << " provided.\n";
     return int(argc > 4 ? BCC2SAT::Error::too_many_parameters :
                           BCC2SAT::Error::missing_parameters);
@@ -78,11 +79,14 @@ int main(const int argc, const char* const argv[]) {
   const Bicliques2SAT::format2_options_t formopt =
     Environment::translate<Bicliques2SAT::format2_options_t>()(argv[1], Bicliques2SAT::sep);
   const std::string sstring = argv[2];
-  const int seed = sstring.empty() ? default_seed :
+  const int seed = sstring.empty() ? GraphTools::default_seed :
     sstring=="r" ? RandGen::device_to_eseed() : std::stoi(sstring);
   const std::string tstring = argv[3];
-  const double timeout = tstring.empty() ? default_timeout :
+  const double timeout = tstring.empty() ? GraphTools::default_timeout :
     std::stod(tstring);
+  const std::string pstring = argv[4];
+  const std::string path_use_redumis = pstring.empty() ? default_use_redumis :
+    pstring;
 
   const bool with_comments =
     std::get<Bicliques2SAT::DC>(formopt) == Bicliques2SAT::DC::with;
@@ -102,6 +106,12 @@ int main(const int argc, const char* const argv[]) {
   if (with_comments) {
     std::cout << comment << " V " << G.n() << "\n"
               << comment << " E " << G.m() << std::endl;
+  }
+
+  GraphTools::Redumis_call R(G);
+  R.seed = seed; R.timeout = timeout; R.path_use_redumis = path_use_redumis;
+  if (with_comments) {
+    std::cout << comment << R.command() << std::endl;
   }
 
 }
