@@ -40,6 +40,7 @@ TODOS:
 
 #include <string>
 #include <sstream>
+#include <utility>
 
 #include <cassert>
 #include <cstdio> // for std::FILE, std::fputs
@@ -55,10 +56,12 @@ namespace GraphTools {
   constexpr double default_timeout = 10;
 
   struct Redumis_call {
-    std::string path_use_redumis = "use_redumis";
-    std::string additional_options = "--disable_checks";
+    const Graphs::AdjVecUInt& G;
+
     int seed = default_seed;
     double timeout = default_timeout;
+    std::string path_use_redumis = "use_redumis";
+    std::string additional_options = "--disable_checks";
 
     std::string command() const {
       std::stringstream out;
@@ -67,9 +70,17 @@ namespace GraphTools {
       return out.str();
     }
 
-    const Graphs::AdjVecUInt& G;
-
     Redumis_call(const Graphs::AdjVecUInt& G) noexcept : G(G) {}
+    Redumis_call(const Graphs::AdjVecUInt& G,
+                 const int seed, const double timeout,
+                 std::string path, std::string options) noexcept :
+    G(G), seed(seed), timeout(timeout),
+    path_use_redumis(std::move(path)), additional_options(std::move(options))
+    {}
+    Redumis_call(const Graphs::AdjVecUInt& G,
+                 const int seed, const double timeout,
+                 std::string path) noexcept :
+    G(G), seed(seed), timeout(timeout), path_use_redumis(std::move(path)) {}
 
   };
 

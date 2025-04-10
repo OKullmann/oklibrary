@@ -30,8 +30,8 @@ TODO:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "10.4.2025",
+        "0.0.7",
+        "11.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentRedumis.cpp",
@@ -108,8 +108,7 @@ int main(const int argc, const char* const argv[]) {
               << comment << " E " << G.m() << std::endl;
   }
 
-  GraphTools::Redumis_call R(G);
-  R.seed = seed; R.timeout = timeout; R.path_use_redumis = path_use_redumis;
+  const GraphTools::Redumis_call R(G,seed,timeout,path_use_redumis);
   if (with_comments) {
     std::cout << comment << R.command() << std::endl;
   }
