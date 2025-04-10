@@ -34,8 +34,7 @@ TODOS:
         sbr needed to be generalised.
     - What we basically need first is a class organising, given a graph,
       computing an independent set for it.
-     - That inside Graphs.hpp?
-     - Or in DimacsTools.hpp? Additional to "Using external SAT solvers".
+      Done in GraphTools.hpp.
     - Another class, given a graph, computes with that a set of bc-independent
       edges.
     - For now turning off secondary symmetry-breaking.

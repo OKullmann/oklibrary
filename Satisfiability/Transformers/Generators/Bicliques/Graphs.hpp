@@ -168,6 +168,8 @@ License, or any later version. */
 
    - Independent sets:
 
+    - See also GraphTools.hpp.
+
     - is_independent(RAN r, AdjVecUInt) -> bool
       is_independent_sort(RAN r, AdjVecUInt) -> bool
 
