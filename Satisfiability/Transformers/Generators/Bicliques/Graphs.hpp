@@ -878,50 +878,62 @@ namespace Graphs {
       else Environment::out_line(out, L);
     }
 
-    // Output of only the adjacency-information (format GrFo::fulladjlist):
-    void output_body(std::ostream& out) const {
-      for (id_t v = 0; v < n_; ++v) {
-        if (names_) out << namesvec[v]; else out << v;
-        for (const id_t w : A[v]) {
-          out << " ";
-          if (names_) out << namesvec[w]; else out << w;
-        }
-        out << "\n";
-      }
-    }
-
-    friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
-      switch (G.format_) {
+    void output_header(std::ostream& out) const {
+      switch (format_) {
       case GrFo::fulladjlist : {
-        out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
-        G.output_body(out);
+        out << "# " << n_ << " " << m_ << " " << int(type_) << "\n";
         break;
       }
       case GrFo::dimacs : {
         out << "p ";
-        if (G.type_ == GT::dir) out << "arc"; else out << "edge";
-        out << " " << G.n_ << " " << G.m_ << "\n";
+        if (type_ == GT::dir) out << "arc"; else out << "edge";
+        out << " " << n_ << " " << m_ << "\n";
+        break;
+      }
+      case GrFo::metis : {
+        out << n_ << " " << m_ << "\n";
+        break;
+      }}
+    }
+
+    // Output of only the adjacency-information:
+    void output_body(std::ostream& out) const {
+      switch (format_) {
+      case GrFo::fulladjlist : {
+        for (id_t v = 0; v < n_; ++v) {
+          if (names_) out << namesvec[v]; else out << v;
+          for (const id_t w : A[v]) {
+            out << " "; if (names_) out << namesvec[w]; else out << w;
+          }
+          out << "\n";
+        }
+        break;
+      }
+      case GrFo::dimacs : {
         struct output {
           std::ostream& o;
           void operator()(const edge_t& e) {
             o << "e " << e.first+1 << " " << e.second+1 << "\n";
           }
         };
-        output O(out);
-        G.process_alledges(O);
+        output O(out); process_alledges(O);
         break;
       }
       case GrFo::metis : {
-        out << G.n_ << " " << G.m_ << "\n";
-        for (id_t v = 0; v < G.n_; ++v) {
-          const auto& a = G.A[v];
+        for (id_t v = 0; v < n_; ++v) {
+          const auto& a = A[v];
           if (not a.empty()) {
             out << a[0]+1;
-            for (id_t w = 1; w < a.size(); ++w) out << " " << a[w]+1;
+            for (id_t j = 1; j < a.size(); ++j) out << " " << a[j]+1;
           }
           out << "\n";
         }
+        break;
       }}
+    }
+
+    friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
+      G.output_header(out); G.output_body(out);
       return out;
     }
 
