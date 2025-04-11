@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.5.2023 (Swansea)
-/* Copyright 2023 Oliver Kullmann
+/* Copyright 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -139,8 +139,8 @@ key-sequences "T,i" for this series.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "31.5.2023",
+        "0.4.1",
+        "11.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentGreedy.cpp",
@@ -225,7 +225,7 @@ int main(const int argc, const char* const argv[]) {
   std::cout.flush();
 
   if (with_result) {
-    G.output(std::cout, I);
+    G.output_vertices(std::cout, I);
     std::cout << "\n";
   }
 

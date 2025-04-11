@@ -112,8 +112,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.2",
-        "14.8.2023",
+        "0.4.3",
+        "11.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/Graph2BCcompGraph.cpp",
@@ -175,7 +175,7 @@ int main(const int argc, const char* const argv[]) {
       std::cout << Bicliques::bccomp_graph<3>(G, sep);
     else {
       const auto BG = Bicliques::bccomp_graph<3>(G, sep);
-      BG.output(std::cout);
+      BG.output_body(std::cout);
     }
   }
   else {

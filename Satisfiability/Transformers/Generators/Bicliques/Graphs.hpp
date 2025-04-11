@@ -139,8 +139,8 @@ License, or any later version. */
       - all adjacency-lists (space-separated, first the source; either
         via indices, or, if names activated, then via names).
       Helper-functions:
-       - output(std::ostream, list_t) for output of list of vertices
-       - output(std::ostream) for the output of the adjacency-list
+       - output_vertices(std::ostream, list_t) for output of list of vertices
+       - output_body(std::ostream) for the output of the adjacency-list
 
 
    - Free-standing helper-functions:
@@ -867,7 +867,8 @@ namespace Graphs {
         and A == rhs.A;
     }
 
-    void output(std::ostream& out, const list_t& L) const {
+    // Output of a list of vertices (space-separated):
+    void output_vertices(std::ostream& out, const list_t& L) const {
       if (names_) {
         if (L.empty()) return;
         auto it = L.begin(); const auto end = L.end();
@@ -876,7 +877,9 @@ namespace Graphs {
       }
       else Environment::out_line(out, L);
     }
-    void output(std::ostream& out) const {
+
+    // Output of only the adjacency-information (format GrFo::fulladjlist):
+    void output_body(std::ostream& out) const {
       for (id_t v = 0; v < n_; ++v) {
         if (names_) out << namesvec[v]; else out << v;
         for (const id_t w : A[v]) {
@@ -891,7 +894,7 @@ namespace Graphs {
       switch (G.format_) {
       case GrFo::fulladjlist : {
         out << "# " << G.n_ << " " << G.m_ << " " << int(G.type_) << "\n";
-        G.output(out);
+        G.output_body(out);
         break;
       }
       case GrFo::dimacs : {
