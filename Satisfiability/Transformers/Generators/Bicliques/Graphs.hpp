@@ -66,21 +66,32 @@ License, or any later version. */
     - operator <<(ostream&) (just outputs the map, one map-entry per line).
 
 
-   - class AdjVecUInt: a more efficient class for algorithms on fixed graphs
+   - class AdjVecUInt: a more efficient class for algorithms on fixed graphs.
+     It fixes the vertices of a graph G as the natural numbers
+     0, ..., G.n(n)-1, using this order for the adjacency-lists, and it fixes
+     the representation of (undirected) edges {u,v} as the pair (u',v') with
+     u' <= v'. Thus there is a natural order on the edges/arcs, given by
+     lexicographical order.
 
-    - the out-adjacency-list A is realised as a vector of vectors of uints
+     Additionally there is the possibility to uses names (strings) for
+     vertices, but this is not part of the "identity" of the graph (==
+     only considers the type and the adjacency-matrix, and thus, besides
+     being "type-safe", realised the mathematical equality of (di)graphs).
+
+    - The out-adjacency-list A is realised as a vector of vectors of uints
+      (sorted)
     - the vertices are exactly the natural numbers 0, ..., n()-1
     - const-access to A via graph()
     - type (GT) and n  (id_t) is constant from construction
-    - format-members:
-     - format (GrFo)
-     - names (bool) can be set or unset
+    - format-members (not concisdered by ==):
+     - format (GrFo); mutable
+     - names (bool) can be set or unset.
 
     - typedefs:
      - id_t (uint64_t)
      - list_t (vector of id_t)
      - adjlist_t (vector of list_t)
-     - namesvec_t (vector os string)
+     - namesvec_t (vector of string)
      - namesmap_t (map string -> id_t)
      - size_t = id_t
      - edge_t (std::pair of id_t)
@@ -99,7 +110,7 @@ License, or any later version. */
      - m() -> size_t (number of edges)
      - loops() -> size_t
      - format() -> GrFo
-       format(GrFo) sets the format
+       format(GrFo) sets the format (and is constant)
      - const vertex_range : range over vertices
 
     - name-handling:
@@ -127,23 +138,36 @@ License, or any later version. */
      - neighbours(id) -> const list_t&
      - graph() -> const adjlist_t&
      - alledges() -> vecedges_t
-       process_alledges(FUN& F) (calls F(e) for all edges)
+     - process_alledges(FUN& F) (calls F(e) for all edges, without creating
+       them))
      - allnonedges(bool withloops) -> vecedges_t
 
     - operators:
-     - assignment assumes n and type from other is the same;
-       only move-assignment
+     - default copy-constructor
+     - assignment assumes n and type from other is the same (these are
+       the const-data-members); only move-assignment provided
      - == : ignores name-handling and format
-     - << :
+
+    - output:
+     - output_vertices(std::ostream, list_t) for output of a list of vertices
+     - << : output in the format as given by the format-member, with
+       a header specifying (at least) number of vertices and edges/arcs,
+       and the body given the adjacency-information.
+       The native (default) format GrFo::fulladjlist has:
       - comment-line (started with "# ") with n, m, type
       - all adjacency-lists (space-separated, first the source; either
-        via indices, or, if names activated, then via names).
-      Helper-functions:
-       - output_vertices(std::ostream, list_t) for output of list of vertices
-       - output_body(std::ostream) for the output of the adjacency-list
+        via indices, or, if names activated, then via names_.
+     - Besides this default-format also GrFo::dimacs and GrFo::metis
+       are evailable.
+     - Helper-output-functions:
+       - output_header(std::ostream)
+       - output_body(std::ostream) for the output of the adjacency-list.
+     - The above three output-functions are available also for FILE*.
 
 
    - Free-standing helper-functions:
+
+    - struct AdjVecUIntref_put (for usage with SystemCalls::Popen)
 
     - make_AdjMapStr(std::istream, GT) -> AdjMapStr
     - make_AdjVecUInt(std::istream, GT, GrFo, bool) -> AdjVecUInt
@@ -196,7 +220,11 @@ License, or any later version. */
 
 TODOS:
 
-1. Provide derived form of AdjVecUInt with access to indexed edges
+1. Provide derived form of AdjVecUInt with access to indexed edges.
+    - AdjVecUInt itself should get member-functions
+     - edge2index(edge_t) -> id_t
+     - index2edge(it_t) -> edge_t
+     using summation over the sizes of the adjacency-lists.
 
 */
 
@@ -216,7 +244,8 @@ TODOS:
 
 #include <cassert>
 #include <cstdint>
-#include <cstdio>
+#include <cstdio> // (also) for std::FILE, std::fputs
+#include <cinttypes> // for PRIu64
 
 #include <ProgramOptions/Environment.hpp>
 #include <ProgramOptions/Strings.hpp>
@@ -564,7 +593,7 @@ namespace Graphs {
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
 
-    GrFo format_ = GrFo::fulladjlist;
+    mutable GrFo format_ = GrFo::fulladjlist;
 
     bool names_ = true;
     namesvec_t namesvec;
@@ -631,7 +660,7 @@ namespace Graphs {
     }
 
     GrFo format() const noexcept { return format_; }
-    void format(const GrFo f) noexcept { format_ = f; }
+    void format(const GrFo f) const noexcept { format_ = f; }
 
     void unset_names() noexcept { names_ = false; }
     void set_names() noexcept {
@@ -895,8 +924,26 @@ namespace Graphs {
         break;
       }}
     }
+    void output_header(std::FILE* const fp) const {
+      switch (format_) {
+      case GrFo::fulladjlist : {
+        std::fprintf(fp, "# %" PRIu64 " %" PRIu64 " %d\n", n_,m_,int(type_));
+        break;
+      }
+      case GrFo::dimacs : {
+        if (type_ == GT::dir)
+          std::fprintf(fp, "p arc %" PRIu64 " %" PRIu64 "\n", n_,m_);
+        else
+          std::fprintf(fp, "p edge %" PRIu64 " %" PRIu64 "\n", n_,m_);
+        break;
+      }
+      case GrFo::metis : {
+        std::fprintf(fp, "%" PRIu64 " %" PRIu64 "\n", n_,m_);
+        break;
+      }}
+    }
 
-    // Output of only the adjacency-information:
+    // Output of (only) the adjacency-information:
     void output_body(std::ostream& out) const {
       switch (format_) {
       case GrFo::fulladjlist : {
@@ -931,16 +978,68 @@ namespace Graphs {
         break;
       }}
     }
+    void output_body(std::FILE* const fp) const {
+      switch (format_) {
+      case GrFo::fulladjlist : {
+        if (names_)
+          for (id_t v = 0; v < n_; ++v) {
+            std::fprintf(fp, "%s", namesvec[v].c_str());
+            for (const id_t w : A[v])
+              std::fprintf(fp, " %s", namesvec[w].c_str());
+            std::fprintf(fp, "\n");
+          }
+        else
+          for (id_t v = 0; v < n_; ++v) {
+            std::fprintf(fp, "%" PRIu64, v);
+            for (const id_t w : A[v]) std::fprintf(fp, " %" PRIu64, w);
+            std::fprintf(fp, "\n");
+          }
+        break;
+      }
+      case GrFo::dimacs : {
+        struct output {
+          std::FILE* const o;
+          void operator()(const edge_t& e) const {
+            std::fprintf(o, "e %" PRIu64 " %" PRIu64 "\n", e.first+1,e.second+1);
+          }
+        };
+        output O(fp); process_alledges(O);
+        break;
+      }
+      case GrFo::metis : {
+        for (id_t v = 0; v < n_; ++v) {
+          const auto& a = A[v];
+          if (not a.empty()) {
+            std::fprintf(fp, "%" PRIu64, a[0]+1);
+            for (id_t j = 1; j < a.size(); ++j)
+              std::fprintf(fp, " %" PRIu64, a[j]+1);
+          }
+          std::fprintf(fp, "\n");
+        }
+        break;
+      }}
+    }
 
     friend std::ostream& operator <<(std::ostream& out, const AdjVecUInt& G) {
       G.output_header(out); G.output_body(out);
       return out;
+    }
+    friend std::FILE* operator <<(std::FILE* const fp, const AdjVecUInt& G) {
+      G.output_header(fp); G.output_body(fp);
+      return fp;
     }
 
   };
 
 
   // ********************************************************************
+
+  // Wrapper for FILE*-output:
+  struct AdjVecUIntref_put {
+    const AdjVecUInt& G;
+    AdjVecUIntref_put(const AdjVecUInt& G) noexcept : G(G) {}
+    void operator ()(std::FILE* const fp) const { fp << G; }
+  };
 
 
   AdjMapStr make_AdjMapStr(std::istream& in, const GT t) {
