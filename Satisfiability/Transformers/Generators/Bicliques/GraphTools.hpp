@@ -15,7 +15,7 @@ TODOS:
   independent set for it.
    - DONE Constructed with AdjVecUInt.
    - DONE Predefined string for path to use_redumis (can be changed).
-   - Operator() -> vector of vertices (independent sets).
+   - DONE Operator() -> vector of vertices (independent sets).
      Uses Popen; in case of error returns the empty vector.
    - DONE Also the seeds need to be handled.
     - redumis allows
@@ -29,8 +29,8 @@ TODOS:
    - DONE
      So use_redumis needs to be extended, to allow for additional arguments,
      to be passed to redumis.
-   - check(vertex-vector) -> bool checks whether the vector is independent.
-     Returns also false if a vertex is invalid.
+   - DONE check(vertex-vector) -> bool checks whether the vector is
+     independent.
 
 
 */
@@ -47,6 +47,7 @@ TODOS:
 #include <cinttypes> // for PRIu64
 
 #include <SystemSpecifics/SystemCalls.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "Graphs.hpp"
 
@@ -56,7 +57,11 @@ namespace GraphTools {
   constexpr double default_timeout = 10;
 
   struct Redumis_call {
-    const Graphs::AdjVecUInt& G;
+    typedef Graphs::AdjVecUInt graph_type;
+    typedef Graphs::AdjVecUInt::list_t vertex_list;
+    typedef graph_type::id_t id_t;
+
+    const graph_type& G;
 
     int seed = default_seed;
     double timeout = default_timeout;
@@ -70,17 +75,42 @@ namespace GraphTools {
       return out.str();
     }
 
-    Redumis_call(const Graphs::AdjVecUInt& G) noexcept : G(G) {}
-    Redumis_call(const Graphs::AdjVecUInt& G,
+    Redumis_call(const graph_type& G) noexcept : G(G) {}
+    Redumis_call(const graph_type& G,
                  const int seed, const double timeout,
                  std::string path, std::string options) noexcept :
     G(G), seed(seed), timeout(timeout),
     path_use_redumis(std::move(path)), additional_options(std::move(options))
     {}
-    Redumis_call(const Graphs::AdjVecUInt& G,
+    Redumis_call(const graph_type& G,
                  const int seed, const double timeout,
                  std::string path) noexcept :
     G(G), seed(seed), timeout(timeout), path_use_redumis(std::move(path)) {}
+
+    bool check_independence(const vertex_list& V) const noexcept {
+      return Graphs::is_independent(V, G);
+    }
+
+    // Returning the empty list in case of error:
+    vertex_list operator()() const {
+      const std::string com = command();
+      SystemCalls::Popen po(com);
+      struct handle_format { // set and reset the graph-format
+        const Graphs::AdjVecUInt& G;
+        const Graphs::GrFo old;
+        handle_format(const Graphs::AdjVecUInt& G) noexcept
+        : G(G), old(G.format()) { G.format(Graphs::GrFo::metis); }
+        ~handle_format() noexcept { G.format(old); }
+      };
+      const handle_format H(G);
+      const auto res = po.etransfer(Graphs::AdjVecUIntref_put(G));
+      if (res.rv.error() or not res.err.empty()) return {};
+      vertex_list ind = FloatingPoint::to_vec_unsigned<id_t>(res.out, ' ');
+      for (id_t& v : ind)
+        if (v == 0 or v > G.n()) return {};
+        else --v;
+      return ind;
+    }
 
   };
 

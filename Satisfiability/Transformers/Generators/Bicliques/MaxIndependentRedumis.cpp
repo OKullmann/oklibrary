@@ -30,7 +30,7 @@ TODO:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
+        "0.1.0",
         "11.4.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -103,9 +103,13 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
 
-  if (with_comments) {
-    std::cout << comment << " V " << G.n() << "\n"
-              << comment << " E " << G.m() << std::endl;
+  if (G.n() == 0) {
+    std::cout << comment << " ZERO VERTICES.\n";
+    return 0;
+  }
+  if (has_loops(G)) {
+    std::cerr << "ERROR: LOOPS not allowed.\n";
+    return 1;
   }
 
   const GraphTools::Redumis_call R(G,seed,timeout,path_use_redumis);
@@ -113,4 +117,24 @@ int main(const int argc, const char* const argv[]) {
     std::cout << comment << R.command() << std::endl;
   }
 
+  if (with_comments) {
+    std::cout << comment << " V " << G.n() << "\n"
+              << comment << " E " << G.m() << std::endl;
+  }
+
+  const auto result = R();
+  if (result.empty()) {
+    std::cerr << "ERROR: EMPTY independent set.\n";
+    return 1;
+  }
+  if (not R.check_independence(result)) {
+    std::cerr << "ERROR: INDEPENDENCY CHECK failed.\n";
+    return 1;
+  }
+  if (with_comments)
+    std::cout << comment << " result-size " << result.size() << "\n";
+  if (with_result) {
+    G.output_vertices(std::cout, result);
+    std::cout << std::endl;
+  }
 }
