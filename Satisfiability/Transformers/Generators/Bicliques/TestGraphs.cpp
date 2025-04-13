@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,12 +18,13 @@ License, or any later version. */
 #include "Graphs.hpp"
 #include "Generators.hpp"
 #include "RandomGraphs.hpp"
+#include "Algorithms.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
-        "17.8.2023",
+        "0.5.0",
+        "13.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -34,6 +35,50 @@ namespace {
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
     return lhs == rhs;
+  }
+
+  void test_edgefunctions(const AdjVecUInt& G) {
+    assert(G.valid(G.graph()));
+    const bool loops = has_loops(G);
+    const auto E = G.alledges();
+    assert(E.size() == G.m());
+    assert(std::ranges::is_sorted(E));
+    assert(std::ranges::adjacent_find(E) == E.end());
+    using size_t = AdjVecUInt::size_t;
+    if (G.type() == GT::und) {
+      size_t sum = 0;
+      for (size_t v = 0; v < G.n(); ++v) sum += G.proper_size(v);
+      assert(G.m() == sum);
+    }
+    for (size_t i = 0; i < E.size(); ++i) {
+      const auto& e = E[i];
+      const auto [v,w] = e;
+      assert(v < G.n()); assert(w < G.n());
+      if (G.type() == GT::und)
+        if (loops) assert(v <= w); else assert(v < w);
+      assert(G.adjacent(v,w));
+      if (G.index2edge(i) != e) {
+        std::cerr << G;
+        std::cerr << "i=" << i << "; E:\n";
+        Environment::out_pairs(std::cerr, E);
+        std::cerr << "e="; Environment::out_pair(std::cerr, e);
+        std::cerr << "\nindex2edge="; Environment::out_pair(std::cerr, G.index2edge(i));
+        std::cerr << "\n";
+      }
+      assert(G.index2edge(i) == e);
+      assert(G.edge2index(e) == i);
+    }
+    struct PrEd {
+      size_t i = 0;
+      const AdjVecUInt::vecedges_t& E;
+      PrEd(const AdjVecUInt::vecedges_t& E) noexcept : E(E) {}
+      void operator()(const AdjVecUInt::edge_t& e) noexcept {
+        assert(E[i++] == e);
+      }
+    };
+    PrEd pe(E);
+    G.process_alledges(pe);
+    assert(pe.i == G.m());
   }
 }
 
@@ -764,19 +809,44 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {using size_t = Generators::size_t;
-    for (size_t n = 1; n <= 6; ++n)
-      for (size_t m = 1; m <= 6; ++m) {
-        const AdjVecUInt G(Generators::grid(n,m));
-        const auto res = bipart_0comp(G);
-        assert(res.n == G.n());
-        assert(res.size() == G.n());
+   for (size_t n = 1; n <= 6; ++n)
+     for (size_t m = 1; m <= 6; ++m) {
+       const AdjVecUInt G(Generators::grid(n,m));
+       const auto res = bipart_0comp(G);
+       assert(res.n == G.n());
+       assert(res.size() == G.n());
+     }
+   for (size_t n = 1; n <= 6; ++n) {
+     const AdjVecUInt G(Generators::clique(n));
+     const auto res = bipart_0comp(G);
+     assert(res.n == G.n());
+     assert(res.size() == (n <= 2 ? n : 0));
+   }
+  }
+
+  {using size_t = Generators::size_t;
+   {RandGen::RandGen_t g;
+    for (size_t n = 0; n < 51; ++n)
+      for (const size_t d : {2,5,10}) {
+        auto G = RandomGraphs::independent_edges(n, {1,d}, g, true);
+        test_edgefunctions(G);
+        G = RandomGraphs::independent_edges(n, {1,d}, g, false);
+        test_edgefunctions(G);
       }
-    for (size_t n = 1; n <= 6; ++n) {
-      const AdjVecUInt G(Generators::clique(n));
-      const auto res = bipart_0comp(G);
-      assert(res.n == G.n());
-      assert(res.size() == (n <= 2 ? n : 0));
-    }
+   }
+   for (const GT t : {GT::dir, GT::und})
+     for (const bool with_loops : {false, true})
+       for (size_t n = 0; n <= 6; ++n)
+         test_edgefunctions(make_complete_AdjVecUInt(t,with_loops,n));
+   for (size_t n = 0; n < 11; ++n)
+     test_edgefunctions(AdjVecUInt(Generators::biclique(n,n)));
+   for (size_t n = 0; n < 11; ++n)
+     for (size_t m = 0; m < 11; ++m)
+       test_edgefunctions(AdjVecUInt(Generators::grid(n,m)));
+   for (size_t n = 3; n < 11; ++n)
+     test_edgefunctions(AdjVecUInt(Generators::cycle(n)));
+   for (size_t n = 0; n < 11; ++n)
+     test_edgefunctions(AdjVecUInt(Generators::crown(n)));
   }
 
 }

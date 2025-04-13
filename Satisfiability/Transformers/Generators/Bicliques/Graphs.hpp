@@ -221,7 +221,9 @@ License, or any later version. */
 TODOS:
 
 1. Provide derived form of AdjVecUInt with access to indexed edges.
-    - AdjVecUInt itself should get member-functions
+    - This would come with alledges automatically, and would also allow
+      to compute quickly the index of an edge.
+    - DONE AdjVecUInt itself should get (slow) member-functions
      - edge2index(edge_t) -> id_t
      - index2edge(it_t) -> edge_t
      using summation over the sizes of the adjacency-lists.
@@ -669,7 +671,7 @@ namespace Graphs {
       if (namesvec.empty()) namesvec.resize(n_);
     }
 
-    bool valid(const adjlist_t& B) noexcept {
+    bool valid(const adjlist_t& B) const noexcept {
       if (B.size() != n_) return false;
       for (size_t i = 0; i < n_; ++i) {
         const auto& L = B[i];
@@ -764,6 +766,7 @@ namespace Graphs {
       assert(res.size() == m_);
       return res;
     }
+    // Not creating the edge-vector, but running through them in that order:
     template <class FUN>
     void process_alledges(FUN& F) const noexcept {
       for (id_t i = 0; i < n_; ++i)
@@ -775,6 +778,52 @@ namespace Graphs {
           for (auto it = first; it != end; ++it) F(edge_t{i,*it});
         }
     }
+
+    // The number of neighbours w with w >= v:
+    size_t proper_size(const id_t v) const noexcept {
+      assert(v < n_);
+      const auto& L = A[v];
+      const auto first = std::ranges::lower_bound(L, v);
+      return L.end() - first;
+    }
+
+    // The index of edge e in alledges():
+    size_t edge2index(const edge_t e) const noexcept {
+      const auto [v,w] = e;
+      assert(v < n_);
+      if (type_ == GT::dir) {
+        size_t prev = 0;
+        for (id_t i = 0; i < v; ++i) prev += A[i].size();
+        const auto& L = A[v];
+        return prev + (std::ranges::lower_bound(L, w) - L.begin());
+      }
+      else {
+        assert(v <= w);
+        size_t prev = 0;
+        for (id_t i = 0; i < v; ++i) prev += proper_size(i);
+        const auto& L = A[v];
+        const auto first = std::ranges::lower_bound(L, v);
+        return prev + (std::ranges::lower_bound(L, w) - first);
+      }
+    }
+    edge_t index2edge(const size_t i) const noexcept {
+      assert(i < m_);
+      if (type_ == GT::dir) {
+        id_t v = 0;
+        size_t sum = A[0].size();
+        while (sum <= i) sum += A[++v].size();
+        assert(v < n_);
+        return {v, A[v][i - sum + A[v].size()]};
+      }
+      else {
+        id_t v = 0;
+        size_t sum = proper_size(0);
+        while (sum <= i) sum += proper_size(++v);
+        assert(v < n_);
+        return {v, A[v][i - sum + A[v].size()]};
+      }
+    }
+
     // The complement-edges:
     vecedges_t allnonedges(const bool withloops = false) const noexcept {
       if (type_ == GT::dir) {
