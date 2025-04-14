@@ -13,7 +13,9 @@ License, or any later version. */
      - default_redumis_seed : int
      - default_redumis_timeout : double
 
-    Functor-class Redumis_call (deployed in MaxIndependentRedumis.cpp):
+
+    Functor-class Redumis_call for computing large independent sets
+    of a graph G (deployed in MaxIndependentRedumis.cpp):
 
       Data-members:
        - const reference G to graph_type = AdjVecUInt
@@ -38,13 +40,20 @@ License, or any later version. */
         check_independence(vertex_list) -> bool
       one can check the result.
 
+
+    Functor-class BC_incomp_by_redumis computes a large biclique-incompatible
+    set of edge-indices for a graph G and its edge-list E:
+
+     - Constructed with G, E, a Redumis_call-object RC is created, holding
+       the biclique-compatibility-graph.
+     - The function-call-operator then simple return RC().
+
 TODOS:
 
   - Functor class BC_incomp_by_redumis:
-   - Constructor by graph G : AdjVecUInt and its edge-list.
-   - Plus the arguments needed for Redumis_call.
-   - Operator ()() constructs the biclique-compatibility graph, and returns
-     the list of indices as computed by Redumis_call for this graph.
+   - Having the biclique-compatability-graph stored in RC can be useful for
+     inspection, but we also need a version, which does not store this graph,
+     but pipes it directly to standard-input of use_redumis.
 
 */
 
@@ -63,6 +72,7 @@ TODOS:
 #include <Numerics/NumInOut.hpp>
 
 #include "Graphs.hpp"
+#include "Bicliques.hpp"
 
 namespace GraphTools {
 
@@ -125,6 +135,31 @@ namespace GraphTools {
       return ind;
     }
 
+  };
+
+  struct BC_incomp_by_redumis {
+    using graph_type = Redumis_call::graph_type;
+    using vertex_list = Redumis_call::vertex_list;
+    typedef Graphs::AdjVecUInt::vecedges_t vecedges_t;
+
+    const Redumis_call RC;
+
+    BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E) :
+    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,"")) {}
+
+    BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E,
+                         const int seed, const double timeout,
+                         std::string path, std::string options) :
+    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,""),
+       seed,timeout,path,options) {}
+
+    BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E,
+                         const int seed, const double timeout,
+                         std::string path) :
+    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,""),
+       seed,timeout,path) {}
+
+    vertex_list operator()() const { return RC(); }
   };
 
 }
