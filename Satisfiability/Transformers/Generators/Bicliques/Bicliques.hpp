@@ -73,8 +73,10 @@ License, or any later version. */
    - bccomp(edge_t, edge_t, AdjVecUInt) -> bool
      (whether two edges can be in the same biclique)
 
-   - bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> AdjVecUInt
-     bccomp_graph_bydef(AdjVecUInt) -> AdjVecUInt
+   - bccomp_graph_bydef(AdjVecUInt, vecedges_t, sep) -> AdjVecUInt
+     bccomp_graph_bydef(AdjVecUInt, sep) -> AdjVecUInt
+     Here sep is a string used for creating the names of the new vertices
+     (as pairs of old vertices); if empty then no names are used.
    - num_edges_bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> idv_t
      num_edges_bccomp_graph_bydef(AdjVecUInt) -> idv_t
 
@@ -87,8 +89,8 @@ License, or any later version. */
 
      resulting more efficient versions of bccomp_graph:
 
-   - bccomp_graph<version>(AdjVecUInt, vecedges_t) -> AdjVecUInt
-     bccomp_graph<version>(AdjVecUInt) -> AdjVecUInt
+   - bccomp_graph<version>(AdjVecUInt, vecedges_t, sep) -> AdjVecUInt
+     bccomp_graph<version>(AdjVecUInt, sep) -> AdjVecUInt
      (as above 0 <= version <= 3, where 3 should be most efficient).
 
 
@@ -506,6 +508,8 @@ namespace Bicliques {
   list_t neighbours_bccomp_graph(const AdjVecUInt& G,
                                  const AdjVecUInt::vecedges_t& E,
                                  const edge_t e);
+
+  constexpr unsigned best_version_bccomp = 3;
 
   template <>
   list_t neighbours_bccomp_graph<0>(const AdjVecUInt& G,
