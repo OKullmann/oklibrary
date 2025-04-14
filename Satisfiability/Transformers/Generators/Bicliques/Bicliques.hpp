@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -70,8 +70,8 @@ License, or any later version. */
 
    The biclique-compatibility graph:
 
-   - bccomp(edge_t, edge_t, AdjVecUInt) (whether two edges can be in the same
-     biclique)
+   - bccomp(edge_t, edge_t, AdjVecUInt) -> bool
+     (whether two edges can be in the same biclique)
 
    - bccomp_graph_bydef(AdjVecUInt, vecedges_t) -> AdjVecUInt
      bccomp_graph_bydef(AdjVecUInt) -> AdjVecUInt
@@ -85,18 +85,20 @@ License, or any later version. */
      (versions 2, 3 use helper-class "*_push_back" for std::set_intersection
      and std::set_difference)
 
-     more efficient versions of bccomp_graph:
+     resulting more efficient versions of bccomp_graph:
 
    - bccomp_graph<version>(AdjVecUInt, vecedges_t) -> AdjVecUInt
      bccomp_graph<version>(AdjVecUInt) -> AdjVecUInt
+     (as above 0 <= version <= 3, where 3 should be most efficient).
 
-     computing the degree of edge e:
+
+     only computing the degree of edge e:
 
    - degree_bccomp_graph<version>(AdjVecUInt, edge_t e) -> idv_t
      (with 1 <= version <= 3; 3 should be most eficient)
      (versions 2, 3 use helper-class "*_push_back_count")
 
-     degree-statistics plus the number of edges:
+     resulting degree-statistics plus the number of edges:
 
    - bccom_degree_stats<version>(AdjVecUInt) ->
        std::pair<bccom_degree_stats_t, idv_t>
