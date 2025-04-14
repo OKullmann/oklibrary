@@ -54,6 +54,8 @@ tenchallenges_page_template ?= $(OKbuildsystem)/Html/Local/TenChallenges.html
 tenchallenges_page_output ?= $(local_html_dir)/TenChallenges.html
 ramseytheory_page_template ?= $(OKbuildsystem)/Html/Local/RamseyTheory.html
 ramseytheory_page_output ?= $(local_html_dir)/RamseyTheory.html
+hardness_page_template ?= $(OKbuildsystem)/Html/Local/Hardness.html
+hardness_page_output ?= $(local_html_dir)/Hardness.html
 
 
 tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_1ea18a24b3992f33b9d5066b2a2464fc.html
