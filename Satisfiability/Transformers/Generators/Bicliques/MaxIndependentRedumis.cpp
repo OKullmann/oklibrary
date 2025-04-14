@@ -30,8 +30,8 @@ TODO:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "11.4.2025",
+        "0.1.1",
+        "14.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/MaxIndependentRedumis.cpp",
@@ -50,9 +50,9 @@ namespace {
     " format-options : " << Environment::WRP<Bicliques2SAT::DC>{} << "\n"
     "                : " << Environment::WRP<Bicliques2SAT::BC>{} << "\n"
     " seed           : " << "integer (int), or \"r\"; default=" 
-                         << GraphTools::default_seed << "\n"
+                         << GraphTools::default_redumis_seed << "\n"
     " t              : " << "timeout (seconds), of type double > 0; default="
-                         << GraphTools::default_timeout << "\n"
+                         << GraphTools::default_redumis_timeout << "\n"
     " path           : " << "the use_redumis tool; default=\""
                          << default_use_redumis << "\"\n\n"
     " reads a graph from standard input, and prints an independent set to standard output:\n\n"
@@ -79,11 +79,11 @@ int main(const int argc, const char* const argv[]) {
   const Bicliques2SAT::format2_options_t formopt =
     Environment::translate<Bicliques2SAT::format2_options_t>()(argv[1], Bicliques2SAT::sep);
   const std::string sstring = argv[2];
-  const int seed = sstring.empty() ? GraphTools::default_seed :
+  const int seed = sstring.empty() ? GraphTools::default_redumis_seed :
     sstring=="r" ? RandGen::device_to_eseed() : std::stoi(sstring);
   const std::string tstring = argv[3];
-  const double timeout = tstring.empty() ? GraphTools::default_timeout :
-    std::stod(tstring);
+  const double timeout = tstring.empty() ?
+    GraphTools::default_redumis_timeout : std::stod(tstring);
   const std::string pstring = argv[4];
   const std::string path_use_redumis = pstring.empty() ? default_use_redumis :
     pstring;

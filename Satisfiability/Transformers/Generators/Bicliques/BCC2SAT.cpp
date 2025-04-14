@@ -23,7 +23,9 @@ TODOS:
     - Class BC2SAT (Bicliques2SAT.hpp) is central:
      - Type symmbreak_res_t in there needed to be generalised:
       - v and sv still are usable.
-      - But s, i make no sense then.
+      - But s, i make no sense then; but actually there could be
+        also several calls to redumis, and so for now we just zero-initialise
+        these variables.
       - Member-function max_bcincomp needs to be generalised.
      - Perhaps easier to create a new class "BCCIN2SAT", which just
        provides external computation of independent sets of the
@@ -32,11 +34,16 @@ TODOS:
         (general) foundation.
       - In order to re-use BC2SAT::sat_translate, only the setting of variable
         sbr needed to be generalised.
-    - What we basically need first is a class organising, given a graph,
+      - But actually supplying the call of GraphTools::BC_incomp_by_redumis
+        is easy enough for BC2SAT, and so for now we stick to this class.
+    - DONE (class Remis_call in GraphTools.hpp)
+      What we basically need first is a class organising, given a graph,
       computing an independent set for it.
-      Done in GraphTools.hpp.
-    - Another class, given a graph, computes with that a set of bc-independent
-      edges.
+    - Another functor-class, BC_incomp_by_redumis given a graph, computes
+      with that a set of bc-independent edges.
+       - Currently the (simple existing) computations are in class
+         Bicliques2SAT::BC2SAT.
+       - But GraphTools is right for BC_incomp_by_redumis.
     - For now turning off secondary symmetry-breaking.
 
 1. Enable output in dimacs- or metis-format (as in GraphConversion).

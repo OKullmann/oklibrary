@@ -9,29 +9,42 @@ License, or any later version. */
 
   Tools for using external graph-tools
 
+    Constants:
+     - default_redumis_seed : int
+     - default_redumis_timeout : double
+
+    Functor-class Redumis_call (deployed in MaxIndependentRedumis.cpp):
+
+      Data-members:
+       - const reference G to graph_type = AdjVecUInt
+       - int seeed, double timeout
+       - string path_use_redumis (path to the wrapper for redumis)
+       - string additional_options
+
+      Via member-function
+        command() -> string
+      one obtains the string for the system-(like-)command.
+
+      Constructors:
+       - Redumis_call(G)
+       - Redumis_call(G,seed,timeout,path,options)
+       - Redumis_call(G,seed,timeout,path) .
+
+      Operator ()() -> vertex_list
+        calls use_redumis (via a pipe to standard input), and returns
+        an independent set/list (empty in case of any error).
+
+      With
+        check_independence(vertex_list) -> bool
+      one can check the result.
+
 TODOS:
 
-- Functor-class Redumis_call organising, given a graph, computing an
-  independent set for it.
-   - DONE Constructed with AdjVecUInt.
-   - DONE Predefined string for path to use_redumis (can be changed).
-   - DONE Operator() -> vector of vertices (independent sets).
-     Uses Popen; in case of error returns the empty vector.
-   - DONE Also the seeds need to be handled.
-    - redumis allows
-      --seed=<int>                             Seed to use for the PRNG.
-    - "int" is the C++-type.
-   - DONE And possibly some options for redumis.
-    - There are "config, kahip-mode, kernelization, red_thres"
-    - Perhaps these are just strings, and when empty then nothing is done.
-    - Simplest to collect all that into one string.
-   - DONE For this internal deployment "--disable_checks" should be used.
-   - DONE
-     So use_redumis needs to be extended, to allow for additional arguments,
-     to be passed to redumis.
-   - DONE check(vertex-vector) -> bool checks whether the vector is
-     independent.
-
+  - Functor class BC_incomp_by_redumis:
+   - Constructor by graph G : AdjVecUInt and its edge-list.
+   - Plus the arguments needed for Redumis_call.
+   - Operator ()() constructs the biclique-compatibility graph, and returns
+     the list of indices as computed by Redumis_call for this graph.
 
 */
 
@@ -53,8 +66,8 @@ TODOS:
 
 namespace GraphTools {
 
-  constexpr int default_seed = 0;
-  constexpr double default_timeout = 10;
+  constexpr int default_redumis_seed = 0;
+  constexpr double default_redumis_timeout = 10;
 
   struct Redumis_call {
     typedef Graphs::AdjVecUInt graph_type;
@@ -63,8 +76,8 @@ namespace GraphTools {
 
     const graph_type& G;
 
-    int seed = default_seed;
-    double timeout = default_timeout;
+    int seed = default_redumis_seed;
+    double timeout = default_redumis_timeout;
     std::string path_use_redumis = "use_redumis";
     std::string additional_options = "--disable_checks";
 
