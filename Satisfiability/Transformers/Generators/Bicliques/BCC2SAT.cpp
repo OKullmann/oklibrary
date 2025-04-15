@@ -20,6 +20,7 @@ TODOS:
       - The special handling of sb-rounds=1 needed to be reconsidered.
       - Also the default-value for redumis should be 10.
     - Also the seeds could be passed (somehow) to the tool.
+    - But it would be cleaner to create a new program, say BCC2SATredumis.cpp.
     - Class BC2SAT (Bicliques2SAT.hpp) is central:
      - Type symmbreak_res_t in there needed to be generalised:
       - v and sv still are usable.
@@ -36,17 +37,7 @@ TODOS:
         sbr needed to be generalised.
       - But actually supplying the call of GraphTools::BC_incomp_by_redumis
         is easy enough for BC2SAT, and so for now we stick to this class.
-    - DONE (class Remis_call in GraphTools.hpp)
-      What we basically need first is a class organising, given a graph,
-      computing an independent set for it.
-    - Another functor-class, BC_incomp_by_redumis given a graph, computes
-      with that a set of bc-independent edges.
-       - Currently the (simple existing) computations are in class
-         Bicliques2SAT::BC2SAT.
-       - But GraphTools is right for BC_incomp_by_redumis.
     - For now turning off secondary symmetry-breaking.
-
-1. Enable output in dimacs- or metis-format (as in GraphConversion).
 
 
 EXAMPLES:
