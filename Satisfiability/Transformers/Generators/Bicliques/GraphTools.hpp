@@ -51,7 +51,7 @@ License, or any later version. */
 TODOS:
 
   - Functor class BC_incomp_by_redumis:
-   - Having the biclique-compatability-graph stored in RC can be useful for
+   - Having the biclique-compatability-graph stored in BG can be useful for
      inspection, but we also need a version, which does not store this graph,
      but pipes it directly to standard-input of use_redumis.
 
@@ -142,22 +142,23 @@ namespace GraphTools {
     using vertex_list = Redumis_call::vertex_list;
     typedef Graphs::AdjVecUInt::vecedges_t vecedges_t;
 
+    const graph_type BG;
     const Redumis_call RC;
 
-    BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E) :
-    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,"")) {}
+    static graph_type produce_BG(const graph_type& G, const vecedges_t& E) {
+      return Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,"");
+    }
 
+    BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E) :
+      BG(produce_BG(G,E)), RC(BG) {}
     BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E,
                          const int seed, const double timeout,
                          std::string path, std::string options) :
-    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,""),
-       seed,timeout,path,options) {}
-
+      BG(produce_BG(G,E)), RC(BG,seed,timeout,path,options) {}
     BC_incomp_by_redumis(const graph_type& G, const vecedges_t& E,
                          const int seed, const double timeout,
                          std::string path) :
-    RC(Bicliques::bccomp_graph<Bicliques::best_version_bccomp>(G,E,""),
-       seed,timeout,path) {}
+      BG(produce_BG(G,E)), RC(BG,seed,timeout,path) {}
 
     vertex_list operator()() const { return RC(); }
   };
