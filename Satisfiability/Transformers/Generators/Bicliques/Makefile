@@ -138,7 +138,7 @@ MaxIndependentRedumis_debug : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hp
 
 TestGraphs_debug : TestGraphs.cpp Graphs.hpp
 
-TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp Bicliques.hpp
+TestBicliques2SAT_debug : TestBicliques2SAT.cpp Bicliques2SAT.hpp Bicliques.hpp Graphs.hpp GraphTools.hpp
 
 TestGenerators_debug : TestGenerators.cpp Graphs.hpp Generators.hpp ConflictGraphs.hpp
 

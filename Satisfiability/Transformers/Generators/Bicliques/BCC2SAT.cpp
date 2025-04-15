@@ -13,22 +13,29 @@ License, or any later version. */
 TODOS:
 
 0. Enable computation of symmetry-breaking by external tools:
-    - For now supporting "use_redumis" is enough.
-    - A new option: "sb-redumis".
-    - sb-rounds perhaps is then generalised to "sb-resources", and
+    - DONE For now supporting "use_redumis" is enough.
+    - DONE A new option: "sb-redumis".
+    - DONE (no, but another parameter "timeout" introduced)
+      sb-rounds perhaps is then generalised to "sb-resources", and
       used for the timeout.
       - The special handling of sb-rounds=1 needed to be reconsidered.
       - Also the default-value for redumis should be 10.
-    - Also the seeds could be passed (somehow) to the tool.
-    - But it would be cleaner to create a new program, say BCC2SATredumis.cpp.
+    - DONE (the internal classes can handle the seed, but for now BCC2SAT
+      doesn't handle them)
+      Also the seeds could be passed (somehow) to the tool.
+    - DONE (not needed for now)
+      But it would be cleaner to create a new program, say BCC2SATredumis.cpp.
     - Class BC2SAT (Bicliques2SAT.hpp) is central:
-     - Type symmbreak_res_t in there needed to be generalised:
-      - v and sv still are usable.
-      - But s, i make no sense then; but actually there could be
+      - DONE (left unchanged)
+        Type symmbreak_res_t in there needed to be generalised:
+        - v and sv still are usable.
+        - But s, i make no sense then; but actually there could be
         also several calls to redumis, and so for now we just zero-initialise
         these variables.
-      - Member-function max_bcincomp needs to be generalised.
-     - Perhaps easier to create a new class "BCCIN2SAT", which just
+      - DONE (introduced new parameters)
+        Member-function max_bcincomp needs to be generalised.
+     - DONE (not created)
+       Perhaps easier to create a new class "BCCIN2SAT", which just
        provides external computation of independent sets of the
        biclique-incompatibility-graph.
       - The class BC2SAT was a first approach, and is likely not a solid
@@ -37,7 +44,8 @@ TODOS:
         sbr needed to be generalised.
       - But actually supplying the call of GraphTools::BC_incomp_by_redumis
         is easy enough for BC2SAT, and so for now we stick to this class.
-    - For now turning off secondary symmetry-breaking.
+    - DONE (introduced max_bcincomp_redumis).
+      For now turning off secondary symmetry-breaking.
 
 
 EXAMPLES:
@@ -402,12 +410,13 @@ See plans/general.txt.
 #include "Bicliques2SAT.hpp"
 
 #include "BCC2SAT.hpp"
+#include "GraphTools.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.3.1",
-        "21.6.2023",
+        "1.4.0",
+        "15.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -424,7 +433,7 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " B algo-options format-options sb-rounds seeds\n\n"
+         << " B algo-options format-options sb-rounds seeds [timeout]\n\n"
     " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<SS>{} << "\n"
@@ -433,13 +442,16 @@ namespace {
     "                : " << Environment::WRP<DP>{} << "\n"
     "                : " << Environment::WRP<CS>{} << "\n"
     " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"\n\n"
+    " seeds          : " << "sequence, can contain \"t\" or \"r\"\n"
+    " [timeout]      : " << "double, for redumis only; default=" <<
+      GraphTools::default_redumis_timeout << "\n\n"
     " reads a graph from standard input, and prints the SAT-translation"
     " to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
     "  - \"+\" for B means the increment from the symmetry-breaking result.\n"
-    "  - If rounds=1, then seeds are taken as given, otherwise a round-index"
+    "  - If sb-rounds=1, then seeds are taken as given, otherwise a round-index"
     " is appended.\n"
+    "    sb-rounds does not apply to redumis-symmetry-breaking.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -452,9 +464,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 6) {
+  if (argc != 6 and argc != 7) {
     std::cerr << error <<
-      "Exactly five arguments (B, algo-opt, form-opt, rounds, seeds)"
+      "Exactly five or six arguments (B, algo-opt, form-opt, rounds, seeds [,timeout])"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::faulty_parameters);
   }
@@ -467,6 +479,10 @@ int main(const int argc, const char* const argv[]) {
   const var_t sb_rounds =
     read_var_t(argv[4], default_sb_rounds);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
+  const std::string timeout_str = argc==7 ? std::string(argv[6])
+    : std::string();
+  const double redumis_timeout = timeout_str.empty() ?
+    GraphTools::default_redumis_timeout : std::stold(timeout_str);
 
   if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
     std::cerr << error <<
@@ -477,6 +493,7 @@ int main(const int argc, const char* const argv[]) {
   commandline_output(formopt, comment, std::cout, argc, argv);
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, Bounds(B));
-  T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds);
+  T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds,
+                  redumis_timeout);
 
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.9.1",
-        "23.5.2023",
+        "0.10.0",
+        "15.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -247,21 +247,21 @@ int main(const int argc, const char* const argv[]) {
 
   const auto test_downwards = [](const BC2SAT::graph_t& G, const size_t bcc,
                                  PT pt = PT::cover) {
-    //for full test level use "<=" :
-    for (int sb0 = 0; sb0 < int(SB::none); ++sb0) {
+    for (int sb0 = 0; sb0 <= int(SB::none); ++sb0) {
       const SB sb = SB(sb0);
       for (int ss0 = 0; ss0 <= int(SS::without); ++ ss0) {
         const SS ss = SS(ss0);
         for (size_t dist = 1; dist <= 4; ++dist) {
           const size_t B = bcc + dist;
 /*
-// for debugging
+// activate for debugging:
 std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
           << " " << dist << " " << B << "\n";
 */
           BC2SAT trans(G, {DI::downwards, Bounds::choose_u{}, {B,false}});
           const auto res = trans.sat_solve(nullptr, {sb,ss,pt,{},{}},
-                                           100, 1, {dist});
+                                           100, 1, {dist},
+                                           sb==SB::redumis?0.1:0);
           if (res.rt != ResultType::exact) {
             assert(res.rt == ResultType::other_timeout);
             assert(sb == SB::none);

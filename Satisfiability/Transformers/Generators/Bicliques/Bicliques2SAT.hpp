@@ -165,6 +165,14 @@ License, or any later version. */
         B until unsatisfiability reached.
 
 
+TODOS:
+
+1. Inconsistent handling of secondary symmetry-breaking:
+  - BC2SAT::max_bcincomp_greedy does not use add_sorted_secondary_edges
+    for rounds != 1 ?
+  - When activating add_sorted_secondary_edges in BC2SAT::max_bcincomp_redumis,
+    then we get some errors.
+
 See plans/general.txt.
 
 */
@@ -205,6 +213,7 @@ See plans/general.txt.
 #include "DimacsTools.hpp"
 #include "GraphTraversal.hpp"
 #include "ConflictGraphs.hpp"
+#include "GraphTools.hpp"
 
 namespace Bicliques2SAT {
 
@@ -397,9 +406,11 @@ namespace Bicliques2SAT {
   };
 
 
+  // Symmetry-breaking by edge-placement:
   enum class SB { basic=0,
                   sorteda=1, sortedm=2, sortedi=3,
-                  none=4 }; // symmetry-breaking by edge-placement
+                  redumis=4,
+                  none=5 }; // SB::none used in TestBicliques2SAT as loop-bound
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DI { downwards=0, upwards=1, binary_search=2,
@@ -428,7 +439,7 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::SB> {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
-    {"+sb", "+sba", "+sbm", "+sbi", "-sb"};
+    {"+sb", "+sba", "+sbm", "+sbi", "+sbred", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SS> {
@@ -486,6 +497,7 @@ namespace Bicliques2SAT {
     case SB::sorteda : return out << "sorted-sb-addition";
     case SB::sortedm : return out << "sorted-sb-multiplication";
     case SB::sortedi : return out << "greedy-sb";
+    case SB::redumis : return out << "redumis-sb";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
   }
@@ -886,7 +898,7 @@ namespace Bicliques2SAT {
       std::ranges::stable_sort(res, sort);
       return res;
     }
-    symmbreak_res_t max_bcincomp_greedy(const id_t rounds,
+     symmbreak_res_t max_bcincomp_greedy(const id_t rounds,
                                         const RandGen::vec_eseed_t& seeds,
                                         const SS ssb) const {
       assert(rounds < id_t(-1));
@@ -906,17 +918,38 @@ namespace Bicliques2SAT {
       res.v = std::move(vec); res.s = std::move(stats); res.i = index;
       return res;
     }
+    symmbreak_res_t
+    max_bcincomp_redumis(const RandGen::vec_eseed_t&, const SS,
+                         const double timeout,
+                         const int seed_redumis,
+                         const std::string path_use_redumis) const {
+      symmbreak_res_t res{};
+      const GraphTools::BC_incomp_by_redumis IR(G,edges,seed_redumis,timeout,
+                                                path_use_redumis);
+      res.v = IR();
+      res.s += res.v.size();
+/*
+      if (ssb == SS::with)
+          add_sorted_secondary_edges(res,greedy_order(IR.RC.G, seeds));
+*/
+      return res;
+    }
 
     symmbreak_res_t max_bcincomp(const id_t rounds,
                                  const RandGen::vec_eseed_t& seeds,
                                  const SB sb,
-                                 const SS ss) const {
+                                 const SS ss,
+                                 const double timeout = 0,
+                                 const int seed_redumis = 0,
+                                 const std::string path_redumis = "") const {
       switch (sb) {
       case SB::none : return {};
       case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
       case SB::sorteda : [[fallthrough]];
       case SB::sortedm : return max_bcincomp_sort(rounds, seeds, ss, sb);
       case SB::sortedi : return max_bcincomp_greedy(rounds, seeds, ss);
+      case SB::redumis : return max_bcincomp_redumis(seeds, ss,
+                                  timeout, seed_redumis, path_redumis);
       default : assert(false); return {};}
     }
 
@@ -1224,7 +1257,8 @@ namespace Bicliques2SAT {
     RandGen::dimacs_pars sat_translate(std::ostream& out,
         const alg_options_t ao, const format_options_t fo,
         const id_t sb_rounds,
-        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")}) {
+        const RandGen::vec_eseed_t& seeds = {RandGen::to_eseed("t")},
+        const double timeout_redumis = 0) {
       assert(bounds.di == DI::none);
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
@@ -1245,17 +1279,25 @@ namespace Bicliques2SAT {
           DWW{"dimacs-parameter-option"} << dp << "\n" <<
           DWW{"clauses-option"} << cs << "\n";
         if (sb != SB::none) {
-          out <<
-            DWW{"sb-rounds"} << sb_rounds << "\n" <<
-            DWW{"num_e-seeds"} << seeds.size() << "\n";
-          if (not seeds.empty())
+          if (sb != SB::redumis) {
             out <<
-              DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+              DWW{"sb-rounds"} << sb_rounds << "\n" <<
+              DWW{"num_e-seeds"} << seeds.size() << "\n";
+            if (not seeds.empty())
+              out <<
+                DWW{" e-seeds"} << RandGen::ESW{seeds} << "\n";
+          }
+          else {
+            out <<
+              DWW{"redumis-timeout"} << timeout_redumis << "\n" <<
+              DWW{"no-seeds,path,options-yet"} << "\n";
+          }
         }
         out.flush();
       }
 
-      const symmbreak_res_t sbr = max_bcincomp(sb_rounds, seeds, sb, ss);
+      const symmbreak_res_t sbr = max_bcincomp(sb_rounds, seeds, sb, ss,
+                                               timeout_redumis);
       const auto optsbs = sbr.v.size();
       bounds.update_by_sb(optsbs);
       assert(not bounds.inconsistent());
@@ -1264,9 +1306,12 @@ namespace Bicliques2SAT {
       if (dc == DC::with and sb != SB::none) {
         out <<
           DHW{"Symmetry Breaking"} <<
-          DWW{"planted-edges"} << optsbs << "\n" <<
-          DWW{"sb-stats"} << sbr.s << "\n" <<
-          DWW{"sb-seed"} << sbr.i << "\n";
+          DWW{"planted-edges"} << optsbs << "\n";
+        if (sb != SB::redumis) {
+          out <<
+            DWW{"sb-stats"} << sbr.s << "\n" <<
+            DWW{"sb-seed"} << sbr.i << "\n";
+        }
         if (ss == SS::with)
           out <<
             DWW{"restricted-edges"} << sbr.sv.size() << "\n";
@@ -1359,7 +1404,8 @@ namespace Bicliques2SAT {
         const alg2_options_t ao,
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
-        const RandGen::vec_eseed_t& seeds) {
+        const RandGen::vec_eseed_t& seeds,
+        const double timeout_redumis = 0) {
       const PT pt = std::get<PT>(ao);
       if (enc_.E == 0) {
         result_t res(0, pt, {});
@@ -1370,7 +1416,8 @@ namespace Bicliques2SAT {
 
       const SB sb = std::get<SB>(ao);
       const SS ss = std::get<SS>(ao);
-      const symmbreak_res_t sbr =  max_bcincomp(sb_rounds, seeds, sb, ss);
+      const symmbreak_res_t sbr =
+        max_bcincomp(sb_rounds, seeds, sb, ss, timeout_redumis);
       const auto optsbs = sbr.v.size();
       if (log) {
         *log << "Symmetry-breaking: index=" << sbr.i << ", stats= " << sbr.s
