@@ -30,7 +30,10 @@ License, or any later version. */
       Constructors:
        - Redumis_call(G)
        - Redumis_call(G,seed,timeout,path,options)
-       - Redumis_call(G,seed,timeout,path) .
+       - Redumis_call(G,seed,timeout,path).
+      If the path-argument is empty, then
+         default_path_use_redumis = "use_redumis"
+      is used.
 
       Operator ()() -> vertex_list
         calls use_redumis (via a pipe to standard input), and returns
@@ -45,8 +48,8 @@ License, or any later version. */
     set of edge-indices for a graph G and its edge-list E:
 
      - Constructed with G, E, a Redumis_call-object RC is created, holding
-       the biclique-compatibility-graph.
-     - The function-call-operator then simple return RC().
+       the biclique-compatibility-graph (stored as BG).
+     - The function-call-operator then simply returns RC().
 
 TODOS:
 
@@ -78,6 +81,8 @@ namespace GraphTools {
 
   constexpr int default_redumis_seed = 0;
   constexpr double default_redumis_timeout = 10;
+  const std::string default_path_use_redumis = "use_redumis";
+
 
   struct Redumis_call {
     typedef Graphs::AdjVecUInt graph_type;
@@ -88,7 +93,7 @@ namespace GraphTools {
 
     int seed = default_redumis_seed;
     double timeout = default_redumis_timeout;
-    std::string path_use_redumis = "use_redumis";
+    std::string path_use_redumis = default_path_use_redumis;
     std::string additional_options = "--disable_checks";
 
     std::string command() const {
@@ -103,12 +108,13 @@ namespace GraphTools {
                  const int seed, const double timeout,
                  std::string path, std::string options) noexcept :
     G(G), seed(seed), timeout(timeout),
-    path_use_redumis(std::move(path)), additional_options(std::move(options))
-    {}
+    path_use_redumis(path.empty()?default_path_use_redumis:std::move(path)),
+    additional_options(std::move(options)) {}
     Redumis_call(const graph_type& G,
                  const int seed, const double timeout,
                  std::string path) noexcept :
-    G(G), seed(seed), timeout(timeout), path_use_redumis(std::move(path)) {}
+    G(G), seed(seed), timeout(timeout),
+    path_use_redumis(path.empty()?default_path_use_redumis:std::move(path)) {}
 
     bool check_independence(const vertex_list& V) const noexcept {
       return Graphs::is_independent(V, G);
