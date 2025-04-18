@@ -12,40 +12,7 @@ License, or any later version. */
 
 TODOS:
 
-0. Enable computation of symmetry-breaking by external tools:
-    - DONE For now supporting "use_redumis" is enough.
-    - DONE A new option: "sb-redumis".
-    - DONE (no, but another parameter "timeout" introduced)
-      sb-rounds perhaps is then generalised to "sb-resources", and
-      used for the timeout.
-      - The special handling of sb-rounds=1 needed to be reconsidered.
-      - Also the default-value for redumis should be 10.
-    - DONE (the internal classes can handle the seed, but for now BCC2SAT
-      doesn't handle them)
-      Also the seeds could be passed (somehow) to the tool.
-    - DONE (not needed for now)
-      But it would be cleaner to create a new program, say BCC2SATredumis.cpp.
-    - Class BC2SAT (Bicliques2SAT.hpp) is central:
-      - DONE (left unchanged)
-        Type symmbreak_res_t in there needed to be generalised:
-        - v and sv still are usable.
-        - But s, i make no sense then; but actually there could be
-        also several calls to redumis, and so for now we just zero-initialise
-        these variables.
-      - DONE (introduced new parameters)
-        Member-function max_bcincomp needs to be generalised.
-     - DONE (not created)
-       Perhaps easier to create a new class "BCCIN2SAT", which just
-       provides external computation of independent sets of the
-       biclique-incompatibility-graph.
-      - The class BC2SAT was a first approach, and is likely not a solid
-        (general) foundation.
-      - In order to re-use BC2SAT::sat_translate, only the setting of variable
-        sbr needed to be generalised.
-      - But actually supplying the call of GraphTools::BC_incomp_by_redumis
-        is easy enough for BC2SAT, and so for now we stick to this class.
-    - DONE (introduced max_bcincomp_redumis).
-      For now turning off secondary symmetry-breaking.
+1. Update examples below.
 
 
 EXAMPLES:
@@ -415,8 +382,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.0",
-        "15.4.2025",
+        "1.4.1",
+        "18.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -484,7 +451,8 @@ int main(const int argc, const char* const argv[]) {
   const double redumis_timeout = timeout_str.empty() ?
     GraphTools::default_redumis_timeout : std::stold(timeout_str);
 
-  if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
+  if (std::get<SB>(algopt) != SB::none and
+      std::get<SB>(algopt) != SB::redumis and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
     return int(Error::bad_sb);
