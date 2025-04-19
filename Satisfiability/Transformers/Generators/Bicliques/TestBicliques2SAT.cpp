@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
-        "15.4.2025",
+        "0.10.1",
+        "19.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -309,7 +309,7 @@ std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
      std::stringstream out;
      const auto res =
        trans.sat_solve(nullptr, {{},SS::without,{},{},{}},
-                       31, 1, {});
+                       31, 1, {}, 0);
      assert(res.rt == ResultType::exact);
      assert(res.init_B == (n==0 ? 0 : n*n-1));
      assert(res.init_B != res.B or res.bcc.empty());

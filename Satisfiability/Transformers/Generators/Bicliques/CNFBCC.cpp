@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -179,6 +179,11 @@ Bicliques> BRG "20*15,3" | ./CNFBCC nopre "" "" "" "" +3
 yield the same as using "11" above.
 
 
+TODOS:
+
+1. Update to the use of redumis (see BCCbySAT.cpp).
+  - Currently T.sat_solve is just called with 0 for timeout_redumis.
+
 See plans/general.txt.
 
 */
@@ -199,8 +204,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.0",
-        "24.5.2023",
+        "0.10.1",
+        "19.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/CNFBCC.cpp",
@@ -278,7 +283,8 @@ int main(const int argc, const char* const argv[]) {
            {std::min(F.first.n, Bounds::simple_upper_bound(G)), false}} :
     extract_bounds(di, bounds0);
   BC2SAT T(G, bounds);
-  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
+  const auto res =
+    T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds, 0);
   assert(res.rt != ResultType::upper_unsat_sb and
          res.rt != ResultType::unknown);
   log.close();

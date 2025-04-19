@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -312,12 +312,13 @@ See plans/general.txt.
 #include "Bicliques2SAT.hpp"
 
 #include "BCC2SAT.hpp"
+#include "GraphTools.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.11.0",
-        "24.5.2023",
+        "0.12.0",
+        "15.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -335,20 +336,22 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options format-options"
-            " sb-rounds timeout seeds stats log\n\n"
-    " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
-    " algo-options   : " << Environment::WRP<SB>{} << "\n"
-    "                : " << Environment::WRP<SS>{} << "\n"
-    "                : " << Environment::WRP<PT>{} << "\n"
-    "                : " << Environment::WRP<DI>{} << "\n"
-    "                : " << Environment::WRP<SO>{} << "\n"
-    " format-options : " << Environment::WRP<DC>{} << "\n"
-    "                : " << Environment::WRP<BC>{} << "\n"
-    " timeout        : " << "in s, default is " << default_sec << "\n"
-    " sb-rounds      : " << "default is " << default_sb_rounds << "\n"
-    " seeds          : " << "sequence, can contain \"t\" or \"r\"" << "\n"
-    " stats          : " << "filename for solving-stats, default is null\n"
-    " log            : " << "filename for solving-log, default is null\n\n"
+            " sb-rounds timeout seeds stats log [redumis-timeout]\n\n"
+    " B                 : " << "[+]biclique-cover-size, default is \"+0\"\n"
+    " algo-options      : " << Environment::WRP<SB>{} << "\n"
+    "                   : " << Environment::WRP<SS>{} << "\n"
+    "                   : " << Environment::WRP<PT>{} << "\n"
+    "                   : " << Environment::WRP<DI>{} << "\n"
+    "                   : " << Environment::WRP<SO>{} << "\n"
+    " format-options    : " << Environment::WRP<DC>{} << "\n"
+    "                   : " << Environment::WRP<BC>{} << "\n"
+    " timeout           : " << "for SAT, in s, default is " << default_sec << "\n"
+    " sb-rounds         : " << "default is " << default_sb_rounds << "\n"
+    " seeds             : " << "sequence, can contain \"t\" or \"r\"" << "\n"
+    " stats             : " << "filename for solving-stats, default is null\n"
+    " log               : " << "filename for solving-log, default is null\n"
+    " [redumis-timeout] : " << "double, for redumis only; default=" <<
+      GraphTools::default_redumis_timeout << "\n\n"
     " reads a graph from standard input, and attempts to compute its"
     " bcc/bcp-number:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
@@ -367,9 +370,9 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  if (argc != 9) {
+  if (argc != 9 and argc != 10) {
     std::cerr << error <<
-      "Exactly eight arguments (B, algo-opt, form-opt, sb-rounds, timeout, seeds, stats, log)"
+      "Exactly eight or nine arguments (B, algo-opt, form-opt, sb-rounds, timeout, seeds, stats, log [,redumis-timeout])"
       " needed, but " << argc-1 << " provided.\n";
     return int(Error::missing_parameters);
   }
@@ -392,8 +395,13 @@ int main(const int argc, const char* const argv[]) {
   const auto [stats, statsname] = read_stats(argv[7], proginfo.prg, error);
   const std::string logname = argv[8];
   const auto log = read_log(logname, error);
+  const std::string timeout_str = argc==10 ? std::string(argv[6])
+    : std::string();
+  const double redumis_timeout = timeout_str.empty() ?
+    GraphTools::default_redumis_timeout : std::stold(timeout_str);
 
-  if (std::get<SB>(algopt) != SB::none and sb_rounds == 0) {
+  if (std::get<SB>(algopt) != SB::none and
+      std::get<SB>(algopt) != SB::redumis and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
     return int(Error::bad_sb);
@@ -432,13 +440,16 @@ int main(const int argc, const char* const argv[]) {
       DWW{"log-output"};
     print(std::cout, {log,logname});
     std::cout <<
+      DWW{"redumis-timeout(s)"} << redumis_timeout << "\n";
+    std::cout <<
       DHW{"Results"};
     std::cout.flush();
   }
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, bounds);
-  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds);
+  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds,
+                               redumis_timeout);
   log.close();
 
   res.output(dc == DC::with ? &std::cout : nullptr, bc, G, stats.pointer());

@@ -173,6 +173,9 @@ TODOS:
   - When activating add_sorted_secondary_edges in BC2SAT::max_bcincomp_redumis,
     then we get some errors.
 
+2. Update call of "sat_solve" (using redumis) in GlobRepl::solve_ntcc.
+  - Currently timeout_redumis just set to 0.
+
 See plans/general.txt.
 
 */
@@ -1290,7 +1293,7 @@ namespace Bicliques2SAT {
           else {
             out <<
               DWW{"redumis-timeout"} << timeout_redumis << "\n" <<
-              DWW{"no-seeds,path,options-yet"} << "\n";
+              DWW{"  no-seeds,path,options-yet"} << "\n";
           }
         }
         out.flush();
@@ -1405,7 +1408,7 @@ namespace Bicliques2SAT {
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds,
-        const double timeout_redumis = 0) {
+        const double timeout_redumis) {
       const PT pt = std::get<PT>(ao);
       if (enc_.E == 0) {
         result_t res(0, pt, {});
@@ -1658,7 +1661,7 @@ namespace Bicliques2SAT {
       const size_t upper_B = std::min(ntvar[i].size(), G.n()-1);
       const Bounds B{DI::downwards, Bounds::choose_u{}, {upper_B, false}};
       BC2SAT solver(G, B);
-      const auto res = solver.sat_solve(log, ao, sb_rounds, sec, seeds);
+      const auto res = solver.sat_solve(log, ao, sb_rounds, sec, seeds, 0);
       if (res.rt != ResultType::exact) {
         if (log)
           *log << "FAILURE to solve non-trivial component " << i << ": "
