@@ -12,7 +12,37 @@ License, or any later version. */
 
 TODOS:
 
-1. Update examples below.
+1. Provided variations specifically for the cover-representation:
+  - Bicliques2SAT::PT should get new members, after cover=0, and
+    before the partition-members.
+  - coverMaxR introduces for every variable/vertex v on the right-hand side of
+    a biclique the implications
+      (all non-neighbours of v set to false on the left-side) -> v.
+    This is a positive clause of length degree(v)+1.
+  - The reverse direction is already present.
+  - This makes the right-hand-side of the bicliques maximal (which is thus
+    determined by the left-hand-side).
+  - Similarly coverMaxL makes the left-hand-side maximal.
+  - And coverMaxLR is the union of both, and thus only maximal bicliques
+    will be used for covering.
+  - One needs also an option to turn off the trimming of edges (since
+    using only maximal bicliques might be interesting).
+  - Another option coverL has only (so to speak) the variables on the
+    left-hand-side of the bicliques, plus the edge-variables, and the
+    variables on the right-hand-side are determined by the lhs.
+  - Symmetry-breaking should be independent of all of this.
+
+2. Provide MaxSAT-translations
+  - This should work for all possibilities in Bicliques2SAT::PT.
+  - Adding biclique-indicator-variables for every biclique, being
+    true if any vertex is set (or only if no variable of say the
+    left side is set)>
+  - Maximise then the negative unit-clauses of these variables.
+
+
+3. Update examples below.
+
+See plans/general.txt.
 
 
 EXAMPLES:
@@ -361,9 +391,6 @@ Bicliques> ./GraphGen clique 4 | ./BCC2SAT 2 "" "" "" "" | minisat /dev/stdin
 SATISFIABLE
 Bicliques> ./GraphGen clique 4 | ./BCC2SAT 2 partition2 "" "" "" | minisat /dev/stdin
 UNSATISFIABLE
-
-
-See plans/general.txt.
 
 */
 
