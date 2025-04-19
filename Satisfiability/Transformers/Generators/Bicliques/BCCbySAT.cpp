@@ -298,6 +298,18 @@ in order to see the progress of the current run, in the calling directory
 the file SystemCalls_Popen_out_* can be inspected.
 
 
+TODOS:
+
+1. The bounds-handling needs an overhaul.
+  - If we start with the bccomp-lower-bound L, and prove all L <= B <= L'
+    unsat, while for L' we get a timeout, then the result should say
+      "bcc >= L'".
+
+2. Better log-messages
+  - No need to see the whole output, but one should get information about
+    the main steps (and their results).
+  - Also the statistics-output should be available as soon as possible.
+
 See plans/general.txt.
 
 */
