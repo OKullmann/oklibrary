@@ -190,12 +190,14 @@ License, or any later version. */
     - output_matrix(AdjVecUInt, ostream)
 
 
-   - Independent sets:
+   - Independent sets and vertex covers:
 
     - See also GraphTools.hpp.
 
     - is_independent(RAN r, AdjVecUInt) -> bool
       is_independent_sort(RAN r, AdjVecUInt) -> bool
+
+TODO is_vertexcover(RAN r, AdjVecUInt) -> bool
 
     - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
     - typedef stats_vertexsets_t for statistics of vertex-set-sizes
@@ -207,6 +209,8 @@ License, or any later version. */
     - TODO: independent2MaxSAT(std::FILE*, AdjVecUInt)
       (these two versions do "the same" as the first, however don't create
        the clause-lists (in memory), but directly output the clauses).
+
+TODO vertexcover2MaxSAT(AdjVecUInt) -> MaxSATClauseList
 
    - Bipartiteness:
 

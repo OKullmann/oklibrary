@@ -53,10 +53,12 @@ License, or any later version. */
 
 TODOS:
 
-  - Functor class BC_incomp_by_redumis:
-   - Having the biclique-compatability-graph stored in BG can be useful for
-     inspection, but we also need a version, which does not store this graph,
-     but pipes it directly to standard-input of use_redumis.
+1. Functor class FastVC_call for computing small vertex covers
+
+2. Functor class BC_incomp_by_redumis:
+  - Having the biclique-compatability-graph stored in BG can be useful for
+    inspection, but we also need a version, which does not store this graph,
+    but pipes it directly to standard-input of use_redumis.
 
 */
 

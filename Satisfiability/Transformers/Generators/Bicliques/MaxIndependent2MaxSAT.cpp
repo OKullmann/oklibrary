@@ -11,6 +11,13 @@ License, or any later version. */
 
 TODOS:
 
+0. Enable also "MinVertexCover2MaxSAT":
+  - The same clauses, but all element-wise complemented.
+  - As an awk-filter appended to the output of this program:
+awk '/^c/;!/^c/{printf "%s", $1; for (i=2; i<=NF; ++i) printf " %d", -$i; printf "\n"}'
+  - But better having an optional argument for the output-type.
+  - See TODOS in Graphs.hpp.
+
 1. Once independent2MaxSAT(std::ostream, AdjVecUInt) is available,
    use this here (so that we don't need to store the graph (as clauses)).
 

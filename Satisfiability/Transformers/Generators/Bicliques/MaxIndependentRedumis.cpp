@@ -11,7 +11,9 @@ License, or any later version. */
 
 TODO:
 
-1. DONE User-interface similar to MaxIndependentGreedy.cpp
+1. Write similar program MinVertexCoverFastVC.cpp.
+  - See TODOS in GraphTools.
+  - Also a wrapper "use_fastvc" is needed.
 
 */
 
