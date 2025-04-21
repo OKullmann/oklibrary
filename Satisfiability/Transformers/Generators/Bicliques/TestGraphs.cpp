@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "13.4.2025",
+        "0.5.1",
+        "21.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -68,17 +68,32 @@ namespace {
       assert(G.index2edge(i) == e);
       assert(G.edge2index(e) == i);
     }
-    struct PrEd {
-      size_t i = 0;
-      const AdjVecUInt::vecedges_t& E;
-      PrEd(const AdjVecUInt::vecedges_t& E) noexcept : E(E) {}
-      void operator()(const AdjVecUInt::edge_t& e) noexcept {
-        assert(E[i++] == e);
-      }
-    };
-    PrEd pe(E);
-    G.process_alledges(pe);
-    assert(pe.i == G.m());
+    {struct PrEd {
+       const AdjVecUInt::vecedges_t& E;
+       size_t i = 0;
+       void operator()(const AdjVecUInt::edge_t& e) noexcept {
+         assert(E[i++] == e);
+       }
+     };
+     PrEd pe{E};
+     G.process_alledges(pe);
+     assert(pe.i == G.m());
+    }
+    {struct PrEd2 {
+       const AdjVecUInt::vecedges_t& E;
+       const size_t size;
+       size_t i = 0;
+       void operator()(const AdjVecUInt::edge_t& e) noexcept {
+         assert(E[i++] == e);
+       }
+       bool abort() const noexcept { return i >= size; }
+     };
+     for (size_t size = 0; size <= G.m(); ++size) {
+       PrEd2 pe2{E,size};
+       G.process_alledges(pe2);
+       assert(pe2.i == size);
+     }
+    }
   }
 }
 
@@ -637,9 +652,12 @@ int main(const int argc, const char* const argv[]) {
        }
   }
 
-  {for (unsigned n = 0; n < 6; ++n)
-     assert(is_independent(std::ranges::iota_view(0u, n),
-                           AdjVecUInt(GT::und, n)));
+  {for (unsigned n = 0; n < 6; ++n) {
+      const AdjVecUInt G(GT::und, n);
+      assert(is_independent(std::ranges::iota_view(0u, n), G));
+      assert(is_vertexcover(AdjVecUInt::list_t{}, G));
+      assert(is_vertexcover(std::ranges::iota_view(0u, n), G));
+    }
   }
   {for (unsigned n = 0; n < 6; ++n) {
      const auto G = make_complete_AdjVecUInt(GT::und, false, n);
@@ -649,11 +667,40 @@ int main(const int argc, const char* const argv[]) {
      if (n == 0) continue;
      for (unsigned i = 0; i < n-1; ++i)
        assert(not is_independent(std::ranges::iota_view(i, i+2), G));
+     /* GCC 11.4 ERROR: The natural approach
+          using Set = std::set<AdjVecUInt::id_t>;
+          const Set V0(G.vertex_range.begin(), G.vertex_range.end());
+        yields a compilation-error, so this workaround:
+     */
+     using Set = std::set<unsigned>;
+     const auto R = std::views::iota(0u, n);
+     const Set V0(R.begin(), R.end());
+     assert(is_vertexcover(V0, G));
+     for (unsigned i = 0; i < n; ++i) {
+       const Set V([&V0,i]{Set V(V0); V.erase(i); return V;}());
+       assert(is_vertexcover(V, G));
+       for (const unsigned j : V) {
+         const Set V2([&V,j]{Set V2(V); V2.erase(j); return V2;}());
+         assert(not is_vertexcover(V2, G));
+       }
+     }
    }
   }
   {for (unsigned n = 0; n < 6; ++n) {
      const auto G = make_complete_AdjVecUInt(GT::und, true, n);
      assert(is_independent(std::ranges::iota_view(0u, 0u), G));
+     assert(is_vertexcover(G.vertex_range, G));
+     // see GCC 11.4 ERROR above:
+     {
+       using Set = std::set<unsigned>;
+       const auto R = std::views::iota(0u, n);
+       const Set V0(R.begin(), R.end());
+       assert(is_vertexcover(V0, G));
+       for (unsigned i = 0; i < n; ++i) {
+         const Set V([&V0,i]{Set V(V0); V.erase(i); return V;}());
+         assert(not is_vertexcover(V, G));
+       }
+     }
      for (unsigned i = 0; i < n; ++i)
        assert(not is_independent(std::ranges::iota_view(i, i+1), G));
      if (n == 0) continue;
@@ -663,8 +710,12 @@ int main(const int argc, const char* const argv[]) {
   }
   {for (unsigned n = 0; n < 6; ++n) {
      const auto G = AdjVecUInt(Generators::biclique(n,n));
-     assert(is_independent(std::ranges::iota_view(0u, n), G));
-     assert(is_independent(std::ranges::iota_view(n, 2*n), G));
+     const auto L = std::ranges::iota_view(0u, n);
+     const auto R = std::ranges::iota_view(n, 2*n);
+     assert(is_independent(L, G));
+     assert(is_vertexcover(L, G));
+     assert(is_independent(R, G));
+     assert(is_vertexcover(R, G));
      if (n == 0) continue;
      assert(not is_independent(std::ranges::iota_view(n-1, n+1), G));
    }

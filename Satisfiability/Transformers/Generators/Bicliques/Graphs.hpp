@@ -111,7 +111,9 @@ License, or any later version. */
      - loops() -> size_t
      - format() -> GrFo
        format(GrFo) sets the format (and is constant)
-     - const vertex_range : range over vertices
+     - const vertex_range : range over all vertices 0, ..., n()-1
+       (TODO: In TestGraphs.cpp we have a problem using this range,
+        which should be a GCC 11.4 issue.)
 
     - name-handling:
      - with_names() -> bool : whether names are active
@@ -139,7 +141,7 @@ License, or any later version. */
      - graph() -> const adjlist_t&
      - alledges() -> vecedges_t
      - process_alledges(FUN& F) (calls F(e) for all edges, without creating
-       them))
+       them; F.abort() is requested before that call, if available)
      - allnonedges(bool withloops) -> vecedges_t
 
     - operators:
@@ -197,7 +199,8 @@ License, or any later version. */
     - is_independent(RAN r, AdjVecUInt) -> bool
       is_independent_sort(RAN r, AdjVecUInt) -> bool
 
-TODO is_vertexcover(RAN r, AdjVecUInt) -> bool
+      is_vertexcover(RAN r, AdjVecUInt) -> bool
+      is_vertexcover_sort(RAN r, AdjVecUInt) -> bool
 
     - maximal_independent_greedy_simplest(AdjVecUInt, vec_eseeds_t) -> list_t
     - typedef stats_vertexsets_t for statistics of vertex-set-sizes
@@ -770,16 +773,24 @@ namespace Graphs {
       assert(res.size() == m_);
       return res;
     }
-    // Not creating the edge-vector, but running through them in that order:
+    // Not creating the edge-vector, but running through all edges/arcs e
+    // in that order, calling F(e); before doing so, calling always
+    // F.abort(), which if it returns true aborts the computation:
     template <class FUN>
     void process_alledges(FUN& F) const noexcept {
       for (id_t i = 0; i < n_; ++i)
         if (type_ == GT::dir)
-          for (const id_t v : A[i]) F(edge_t{i,v});
+          for (const id_t v : A[i]) {
+            if constexpr (requires { F.abort(); }) if (F.abort()) return;
+            F(edge_t{i,v});
+          }
         else {
           const auto& L = A[i];
           const auto first = std::ranges::lower_bound(L, i), end = L.end();
-          for (auto it = first; it != end; ++it) F(edge_t{i,*it});
+          for (auto it = first; it != end; ++it) {
+            if constexpr (requires { F.abort(); }) if (F.abort()) return;
+            F(edge_t{i,*it});
+          }
         }
     }
 
@@ -1249,6 +1260,30 @@ namespace Graphs {
     std::ranges::sort(r);
     return is_independent(r,G);
   }
+
+  template <class RAN>
+  bool is_vertexcover(const RAN& r, const AdjVecUInt& G) noexcept {
+    assert(G.type() == GT::und);
+    assert(std::ranges::is_sorted(r));
+    struct check {
+      const RAN& r;
+      bool is_vc = true;
+      bool abort() const noexcept { return not is_vc; }
+      void operator()(const AdjVecUInt::edge_t e) noexcept {
+        if (not std::ranges::binary_search(r,e.first) and
+            not std::ranges::binary_search(r,e.second))
+          is_vc = false;
+      }
+    };
+    check C{r}; G.process_alledges(C);
+    return C.is_vc;
+  }
+  template <class RAN>
+  bool is_vertexcover_sort(RAN r, const AdjVecUInt& G) noexcept {
+    std::ranges::sort(r);
+    return is_vertexcover(r,G);
+  }
+
 
   // Computing a maximal independent set of G by iteratively randomly
   // choosing a vertex of lowest degree (updated after selecting a
