@@ -8,12 +8,50 @@ License, or any later version. */
 /*
   Computing a "large" independent set of a graph by program Redumis
   (via "use_redumis").
+  A solution is always checked.
 
-TODO:
+EXAMPLES:
 
-1. Write similar program MinVertexCoverFastVC.cpp.
-  - See TODOS in GraphTools.
-  - DONE Also a wrapper "use_fastvc" is needed.
+Not printing the solution:
+Bicliques> time GraphGen grid 20 20 | ./MaxIndependentRedumis -sol "" "" ""
+# "./MaxIndependentRedumis" "-sol" "" "" ""
+# comments-result 1 0
+# seed 0
+# timeout 10
+# command: timelimit=10 use_redumis --seed=0 --disable_checks
+#  V 400
+#  E 760
+#  result-size 200
+real	0m5.672s user	0m6.289s sys	0m0.003s
+
+The last line of the comments contains the size of the independent set found.
+
+The time-limit can be set to 0 (or, equivalently, a negative number),
+running Redumis for the minimum time:
+Bicliques> time GraphGen grid 20 20 | ./MaxIndependentRedumis -sol "" 0 ""
+# "./MaxIndependentRedumis" "-sol" "" "0" ""
+# comments-result 1 0
+# seed 0
+# timeout 0
+# command: timelimit=0 use_redumis --seed=0 --disable_checks
+#  V 400
+#  E 760
+#  result-size 200
+real	0m0.209s user	0m0.834s sys	0m0.004s
+
+However giving at least 1s time to Redumis seems sensible, since with the
+minimum-run quite often the optimum is not reached (but it is with 1s).
+
+TODOS:
+
+1. As with MaxIndependentGreedy, we also need the possibility of
+   evaluating many rounds.
+    - Then naturally printing statistics in the comments.
+    - The solution found is the first smallest one.
+
+2. Provide Redumis with a better version of srand.
+    - So that we get platform/compiler-independence.
+
 
 */
 
@@ -32,7 +70,7 @@ TODO:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "22.4.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -53,7 +91,7 @@ namespace {
     "                : " << Environment::WRP<Bicliques2SAT::BC>{} << "\n"
     " seed           : " << "integer (int), or \"r\"; default=" 
                          << GraphTools::default_redumis_seed << "\n"
-    " t              : " << "timeout (seconds), of type double > 0; default="
+    " t              : " << "timeout (seconds), of type double; default="
                          << GraphTools::default_redumis_timeout << "\n"
     " path           : " << "the use_redumis tool; default=\""
                          << default_use_redumis << "\"\n\n"

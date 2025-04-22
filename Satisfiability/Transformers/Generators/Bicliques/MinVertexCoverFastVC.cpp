@@ -8,8 +8,65 @@ License, or any later version. */
 /*
   Computing a "small" vertex cover of a graph by program FastVC
   (via "use_fastvc").
+  A solution is always checked.
 
-TODO:
+EXAMPLES:
+
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC "" "" "" ""
+# "./MinVertexCoverFastVC" "" "" "" ""
+# seed 0
+# timeout 10
+# command: timelimit=10 seed=0 use_fastvc
+#  V 55576
+#  E 220798
+41676
+real	0m4.597s user	0m4.647s sys	0m0.070s
+
+Using minimum-time 0 (and no comments):
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com "" 0 ""
+41774
+real	0m2.487s user	0m2.561s sys	0m0.046s
+
+The time-limit introduces some non-determinism:
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com "" 1 ""
+41704
+real	0m3.471s user	0m3.529s sys	0m0.059s
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com "" 1 ""
+41705
+real	0m3.507s user	0m3.545s sys	0m0.077s
+
+Seeds can make a difference:
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com 2 1 ""
+41687
+real	0m3.510s user	0m3.610s sys	0m0.045s
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com 2 1 ""
+41686
+real	0m3.487s user	0m3.567s sys	0m0.044s
+
+The default time-limit of 10s seems reaching the optimum for smaller graphs.
+However e.g.
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com 3 "" ""
+41653
+real	0m5.431s user	0m5.439s sys	0m0.108s
+Bicliques> time GraphGen grid 277 101 | ./Graph2BCcompGraph -com "" | ./MinVertexCoverFastVC -com 5 "" ""
+41627
+real	0m7.120s user	0m7.170s sys	0m0.073s
+
+FastVC aborts as soon as progress stalls (no attempt of escaping this
+optimum). Thus for larger graphs performing many trials (with different seeds)
+can help.
+
+
+TODOS:
+
+1. As with MaxIndependentGreedy, we also need the possibility of
+   evaluating many rounds.
+    - Then naturally printing statistics in the comments.
+    - While the total result is then the minimum.
+
+2. Provide FastVC with a better version of srand.
+    - So that we get platform/compiler-independence.
+    - Since FastVC is a small program, which should be straight-forward.
 
 */
 
@@ -90,8 +147,9 @@ int main(const int argc, const char* const argv[]) {
                           BCC2SAT::Error::missing_parameters);
   }
 
-  const Bicliques2SAT::format2_options_t formopt =
-    Environment::translate<Bicliques2SAT::format2_options_t>()(argv[1], Bicliques2SAT::sep);
+  const Bicliques2SAT::format1_options_t formopt =
+    Environment::translate<Bicliques2SAT::format1_options_t>()
+    (argv[1], Bicliques2SAT::sep);
   const unsigned seed = read_seed(argv[2]);
   const std::string tstring = argv[3];
   const double timeout = tstring.empty() ?
@@ -105,7 +163,6 @@ int main(const int argc, const char* const argv[]) {
   if (with_comments) {
     BCC2SAT::commandline_output(std::make_tuple(Bicliques2SAT::DC::with),
                                 comment, std::cout, argc, argv);
-    std::cout << comment << "comments " << with_comments << "\n";
     std::cout << comment << "seed " << seed << "\n";
     std::cout << comment << "timeout " << timeout << std::endl;
   }

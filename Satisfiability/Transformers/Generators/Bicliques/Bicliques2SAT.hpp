@@ -434,6 +434,7 @@ namespace Bicliques2SAT {
   typedef std::tuple<SB,SS,PT,DI,SO> alg2_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
   typedef std::tuple<DC,BC> format2_options_t;
+  typedef std::tuple<DC,BC> format1_options_t;
 
   constexpr id_t default_sb_rounds = 100;
 }
