@@ -68,6 +68,7 @@ TODOS:
 #include <string>
 #include <sstream>
 #include <utility>
+#include <algorithm>
 
 #include <cassert>
 #include <cstdio> // for std::FILE, std::fputs
@@ -119,7 +120,7 @@ namespace GraphTools {
     path_use_redumis(path.empty()?default_path_use_redumis:std::move(path)) {}
 
     bool check_independence(const vertex_list& V) const noexcept {
-      return Graphs::is_independent(V, G);
+      return std::ranges::is_sorted(V) and Graphs::is_independent(V, G);
     }
 
     // Returning the empty list in case of error:
@@ -169,6 +170,63 @@ namespace GraphTools {
       BG(produce_BG(G,E)), RC(BG,seed,timeout,path) {}
 
     vertex_list operator()() const { return RC(); }
+  };
+
+
+  constexpr unsigned default_fastvc_seed = 0;
+  constexpr double default_fastvc_timeout = 10;
+  const std::string default_path_use_fastvc = "use_fastvc";
+
+
+  struct FastVC_call {
+    typedef Graphs::AdjVecUInt graph_type;
+    typedef Graphs::AdjVecUInt::list_t vertex_list;
+    typedef graph_type::id_t id_t;
+
+    const graph_type& G;
+
+    unsigned seed = default_fastvc_seed;
+    double timeout = default_fastvc_timeout;
+    std::string path_use_fastvc = default_path_use_fastvc;
+
+    std::string command() const {
+      std::stringstream out;
+      out << "timelimit=" << timeout << " " << "seed=" << seed
+          << " " << path_use_fastvc;
+      return out.str();
+    }
+
+    FastVC_call(const graph_type& G) noexcept : G(G) {}
+    FastVC_call(const graph_type& G,
+                const unsigned seed, const double timeout,
+                std::string path) noexcept :
+    G(G), seed(seed), timeout(timeout),
+    path_use_fastvc(path.empty()?default_path_use_fastvc:std::move(path)) {}
+
+    bool check_vertexcover(const vertex_list& V) const noexcept {
+      return std::ranges::is_sorted(V) and Graphs::is_vertexcover(V, G);
+    }
+
+    // Returning the empty list in case of error:
+    vertex_list operator()() const {
+      const std::string com = command();
+      SystemCalls::Popen po(com);
+      struct handle_format { // set and reset the graph-format
+        const Graphs::AdjVecUInt& G;
+        const Graphs::GrFo old;
+        handle_format(const Graphs::AdjVecUInt& G) noexcept
+        : G(G), old(G.format()) { G.format(Graphs::GrFo::dimacs); }
+        ~handle_format() noexcept { G.format(old); }
+      };
+      const handle_format H(G);
+      const auto res = po.etransfer(Graphs::AdjVecUIntref_put(G));
+      if (res.rv.error() or not res.err.empty()) return {};
+      vertex_list vc = FloatingPoint::to_vec_unsigned<id_t>(res.out, ' ');
+      for (id_t& v : vc)
+        if (v == 0 or v > G.n()) return {};
+        else --v;
+      return vc;
+    }
   };
 
 }

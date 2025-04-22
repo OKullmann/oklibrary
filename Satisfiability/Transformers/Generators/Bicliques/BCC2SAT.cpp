@@ -12,6 +12,8 @@ License, or any later version. */
 
 TODOS:
 
+0. Using FastVC.
+
 1. Provided variations specifically for the cover-representation:
   - Bicliques2SAT::PT should get new members, after cover=0, and
     before the partition-members.

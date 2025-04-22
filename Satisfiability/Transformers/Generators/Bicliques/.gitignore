@@ -73,5 +73,7 @@
 /GraphConversion_debug
 /MaxIndependentRedumis
 /MaxIndependentRedumis_debug
+/MinVertexCoverFastVC
+/MinVertexCoverFastVC_debug
 /*SplitViaOKsolver*
 /*.cnf

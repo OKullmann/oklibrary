@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -131,8 +131,11 @@ MaxIndependent2MaxSAT_debug : MaxIndependent2MaxSAT.cpp Graphs.hpp DimacsTools.h
 GraphConversion : GraphConversion.cpp Graphs.hpp
 GraphConversion_debug : GraphConversion.cpp Graphs.hpp
 
-MaxIndependentRedumis : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hpp
-MaxIndependentRedumis_debug : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hpp
+MaxIndependentRedumis : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
+MaxIndependentRedumis_debug : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
+
+MinVertexCoverFastVC : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
+MinVertexCoverFastVC_debug : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
 
 # -------------------------
 

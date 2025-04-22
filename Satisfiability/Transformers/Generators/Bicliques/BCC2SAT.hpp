@@ -71,6 +71,9 @@ namespace BCC2SAT {
     bad_log = 4,
     bad_stats = 5,
     too_many_parameters = 6,
+    bad_graph = 7,
+    bad_external_call = 8,
+    faulty_external_tool = 9,
     found_unsat = 20,
   };
 
