@@ -288,8 +288,11 @@ TODOS:
 
 0. Provide usage of cadical.
   - Basically should mimic the minisat-tools.
-  - But possibly using a wrapper for cadical (since its interface is ugly).
+  - DONE (use_cadical.bash)
+    But possibly using a wrapper for cadical (since its interface is ugly,
+    and there is no way to get only statistics-output).
   - Especially "cadical --unsat" and "cadical --sat".
+  - And whether with solution-output or not.
 
 1. In read_strict_Dimacs : remove the special handling of c==0.
 

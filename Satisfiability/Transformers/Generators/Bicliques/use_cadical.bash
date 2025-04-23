@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# EXAMPLES:
+
+# Version number of cadical by any argument (normal usage has no arguments):
+# Bicliques> ./use_cadical.bash X
+# 2.0.0
+
+# Reading from standard input, writing result to standard output
+# (but no satisfying assignments output):
+# Bicliques> echo -e "p cnf 2 2\n1 0\n -2 0" | ./use_cadical.bash
+# s SATISFIABLE
+# c time-data 0.00 0.00 0.00 4384
+# THe comment-line contains (as with the time-command)
+#   wall-clock-time user-time system-time max-residual-memory(kb)
+# Bicliques> echo -e "p cnf 2 2\n1 0\n -1 0" | ./use_cadical.bash
+# s UNSATISFIABLE
+# c time-data 0.00 0.00 0.00 4468
+
+# By default the input-source is standard input, but by setting
+# the variable inputsource, a file can be read instead.
+
+# By default no time-out, but by setting variable timeout to a
+# time-out in seconds (natural number) the computation will be
+# aborted if needed (0 means here no timeout).
+
+# To store the solution in a file, set variable solution to this
+# filename. This might be standard output, in which case we have
+# the solution-information first (as above, but now possible with
+# a v-line), followed by the comment-line as above:
+# Bicliques> echo -e "p cnf 2 2\n1 0\n -2 0" | solution=/dev/stdout ./use_cadical.bash
+# s SATISFIABLE
+# v 1 -2 0
+# c time-data 0.00 0.00 0.00 4492
+# Bicliques> echo -e "p cnf 2 2\n1 0\n -1 0" | solution=/dev/stdout ./use_cadical.bash
+# s UNSATISFIABLE
+# c time-data 0.00 0.00 0.00 4452
+
+# Remarks: As path to cadical just "cadical" is used.
+# If another path is needed, set the variable pathcadical.
+# A temporary file "use_cadical.bash_$$_basefilename" is created,
+# with basefilename=STDIN in case of input from standard input.
+
+
+set -o errexit
+set -o nounset
+
+script_name=$(basename "$0")
+version_number="0.1.3"
+
+pathcadical="${pathcadical-cadical}"
+
+if [ $# -eq 1 ]; then
+  $pathcadical --version
+  exit 0
+fi
+
+timeout="${timeout-0}" # "0" means no timeout
+inputsource="${inputsource--}" # "-" means standard input
+solution="${solution-0}" # "0" means no solution, otherwise the filename
+
+if [[ $inputsource == "-" ]]; then
+  basefilename="STDIN"
+else
+  basefilename="$(basename $inputsource)"
+fi
+tempfile="${script_name}_$$_${basefilename}"
+
+if [[ $solution == "0" ]]; then
+  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -n -t $timeout $inputsource || true
+else
+  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -w $solution -t $timeout $inputsource || true
+fi
+
+cat $tempfile
+rm $tempfile
