@@ -132,6 +132,7 @@ namespace BCC2SAT {
   }
 
   Bounds read_B(const std::string& s, const var_t upper_bound) {
+    assert(not s.empty());
     const DI d = DI::none;
     const Bounds::choose_l cl; // currently needed hack
     if (s.empty()) return Bounds(d, cl, {0,true});

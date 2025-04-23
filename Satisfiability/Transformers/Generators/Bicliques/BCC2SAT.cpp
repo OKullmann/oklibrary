@@ -21,24 +21,12 @@ TODOS:
     - Symmetry-breaking is then a separate issue.
     - Perhaps for this program, we abondon the arcance class Bounds, and
       start with a new approach.
-   - DONE Using redumis and fastvc should become the defaults.
-   - DONE
-     Additionally to arguments "+k" (from the lower bound) we need arguments
-     "-k" (from the upper bound).
-     - Perhaps the case "-k" is handled separately, by BCC2SAT itself,
-       and the computed bound is then passed as a simple "B"-case, to
-       the Bounds-object.
-   - DONE For the upper bound we also need options: currently "trivial"
-     (i.e. "n-1") and "fastvc".
-   - DONE This is a further algo-option.
    - We need a further argument "timeout2" for the fastvc-timeout.
    - Seeds are ignored for now.
     - Though we need also the application of rounds to redumis and fastvc.
     - Then need two rounds-parameters.
     - While we could use the generic seeds-input as master-seed for
       everything.
-
-1. DONE "+sbred" should become the new default.
 
 2. Provided variations specifically for the cover-representation:
   - Bicliques2SAT::PT should get new members, after cover=0, and
@@ -66,7 +54,6 @@ TODOS:
     true if any vertex is set (or only if no variable of say the
     left side is set)>
   - Maximise then the negative unit-clauses of these variables.
-
 
 4. Update examples below.
 
@@ -436,7 +423,7 @@ UNSATISFIABLE
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.5.0",
+        "1.5.1",
         "23.4.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -449,13 +436,16 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   const std::string comment = "c ";
 
+  const std::string default_B = "+0";
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options format-options sb-rounds seeds [timeout]\n\n"
-    " B              : " << "[+-]biclique-cover-size, default is \"+0\"\n"
+    " B              : " << "[+-]biclique-cover-size, default is \"" <<
+      default_B << "\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<SS>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
@@ -493,7 +483,8 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::faulty_parameters);
   }
 
-  const std::string B_str(argv[1]);
+  const std::string B_str(std::string(argv[1]).empty() ?
+                          default_B : argv[1]);
   const alg3_options_t algopt =
     Environment::translate<alg3_options_t>()(argv[2], sep);
   const auto [sbo, sso, ubo, pto] = algopt;
