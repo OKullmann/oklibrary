@@ -61,6 +61,7 @@ License, or any later version. */
     - scoped enums (all registered with RegistrationPolicies):
      - SB (primary symmetry-breaking forms)
      - SS (secondary symmetry-breaking)
+     - UB (upper-bound determination)
      - PT (problem-types)
      - DC (Dimacs-comments on/off)
      - DP (Dimacs-parameters on/off)
@@ -410,11 +411,12 @@ namespace Bicliques2SAT {
 
 
   // Symmetry-breaking by edge-placement:
-  enum class SB { basic=0,
+  enum class SB { redumis=0,
                   sorteda=1, sortedm=2, sortedi=3,
-                  redumis=4,
+                  basic=4,
                   none=5 }; // SB::none used in TestBicliques2SAT as loop-bound
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
+  enum class UB { fastvc=0, simple=1}; // upper-bound computation
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
   enum class DI { downwards=0, upwards=1, binary_search=2,
                   none=3 }; // search direction
@@ -432,9 +434,21 @@ namespace Bicliques2SAT {
   constexpr char sep = ',';
   typedef std::tuple<SB,SS,PT> alg_options_t;
   typedef std::tuple<SB,SS,PT,DI,SO> alg2_options_t;
+  typedef std::tuple<SB,SS,UB,PT> alg3_options_t;
+  typedef std::tuple<SB,SS,UB,PT,DI,SO> alg4_options_t;
   typedef std::tuple<DC,DP,CS> format_options_t;
   typedef std::tuple<DC,BC> format2_options_t;
-  typedef std::tuple<DC,BC> format1_options_t;
+  typedef std::tuple<DC,BC> format1_options_t; // XXX ???
+
+  template <class X>
+  alg_options_t extract_alg_options(const X& ao) noexcept {
+    return {std::get<SB>(ao), std::get<SS>(ao), std::get<PT>(ao)};
+  }
+  template <class X>
+  alg2_options_t extract_alg2_options(const X& ao) noexcept {
+    return {std::get<SB>(ao), std::get<SS>(ao), std::get<PT>(ao),
+        std::get<DI>(ao), std::get<SO>(ao)};
+  }
 
   constexpr id_t default_sb_rounds = 100;
 }
@@ -443,13 +457,19 @@ namespace Environment {
   struct RegistrationPolicies<Bicliques2SAT::SB> {
     static constexpr int size = int(Bicliques2SAT::SB::none)+1;
     static constexpr std::array<const char*, size> string
-    {"+sb", "+sba", "+sbm", "+sbi", "+sbred", "-sb"};
+    {"+sbred", "+sba", "+sbm", "+sbi", "+sb", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SS> {
     static constexpr int size = int(Bicliques2SAT::SS::without)+1;
     static constexpr std::array<const char*, size> string
     {"+ssb", "-ssb"};
+  };
+  template <>
+  struct RegistrationPolicies<Bicliques2SAT::UB> {
+    static constexpr int size = int(Bicliques2SAT::UB::simple)+1;
+    static constexpr std::array<const char*, size> string
+    {"+fastvc", "-fastvc"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::PT> {
@@ -497,11 +517,11 @@ namespace Environment {
 namespace Bicliques2SAT {
   std::ostream& operator <<(std::ostream& out, const SB s) {
     switch (s) {
-    case SB::basic : return out << "basic-sb";
+    case SB::redumis : return out << "redumis-sb";
     case SB::sorteda : return out << "sorted-sb-addition";
     case SB::sortedm : return out << "sorted-sb-multiplication";
     case SB::sortedi : return out << "greedy-sb";
-    case SB::redumis : return out << "redumis-sb";
+    case SB::basic : return out << "basic-sb";
     case SB::none : return out << "no-sb";
     default : return out << "SB::UNKNOWN";}
   }
@@ -510,6 +530,12 @@ namespace Bicliques2SAT {
     case SS::with : return out << "with-ssb";
     case SS::without : return out << "without-ssb";
     default : return out << "SS::UNKNOWN";}
+  }
+  std::ostream& operator <<(std::ostream& out, const UB u) {
+    switch (u) {
+    case UB::fastvc : return out << "fast-vc";
+    case UB::simple : return out << "trivial-vc";
+    default : return out << "UB::UNKNOWN";}
   }
   std::ostream& operator <<(std::ostream& out, const PT s) {
     switch (s) {
@@ -947,13 +973,13 @@ namespace Bicliques2SAT {
                                  const int seed_redumis = 0,
                                  const std::string path_redumis = "") const {
       switch (sb) {
-      case SB::none : return {};
-      case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
+      case SB::redumis : return max_bcincomp_redumis(seeds, ss,
+                                  timeout, seed_redumis, path_redumis);
       case SB::sorteda : [[fallthrough]];
       case SB::sortedm : return max_bcincomp_sort(rounds, seeds, ss, sb);
       case SB::sortedi : return max_bcincomp_greedy(rounds, seeds, ss);
-      case SB::redumis : return max_bcincomp_redumis(seeds, ss,
-                                  timeout, seed_redumis, path_redumis);
+      case SB::basic : return max_bcincomp_unstable(rounds, seeds, ss);
+      case SB::none : return {};
       default : assert(false); return {};}
     }
 
@@ -1363,6 +1389,7 @@ namespace Bicliques2SAT {
       bool solution = false;
       id_t B;
       ResultType rt;
+      id_t upper_bound = 0;
 
       const id_t init_B;
       const PT pt;
@@ -1383,6 +1410,7 @@ namespace Bicliques2SAT {
         if (out) {
           using Environment::DWW;
           *out << DWW{"sb-stats"} << sbs << "\n"
+               << DWW{"upper-bound"} << upper_bound << "\n"
                << DWW{"result-type"} << rt << "\n";
           *out << DWW{pt == PT::cover ? "bcc" : "bcp"};
           if (rt == ResultType::aborted)
@@ -1409,7 +1437,8 @@ namespace Bicliques2SAT {
         const id_t sb_rounds,
         const FloatingPoint::uint_t sec,
         const RandGen::vec_eseed_t& seeds,
-        const double timeout_redumis) {
+        const double timeout_redumis,
+        const id_t upper_bound = 0) {
       const PT pt = std::get<PT>(ao);
       if (enc_.E == 0) {
         result_t res(0, pt, {});
@@ -1423,12 +1452,16 @@ namespace Bicliques2SAT {
       const symmbreak_res_t sbr =
         max_bcincomp(sb_rounds, seeds, sb, ss, timeout_redumis);
       const auto optsbs = sbr.v.size();
-      if (log) {
+      if (log)
         *log << "Symmetry-breaking: index=" << sbr.i << ", stats= " << sbr.s
              << "; r-edges= " << sbr.sv.size() << std::endl;
-      }
 
       bounds.update_by_sb(optsbs);
+      if (upper_bound != 0 and upper_bound <= bounds.next()) {
+        bounds.update_if_sat(upper_bound);
+        if (log)
+          *log << "Upper-bound: " << upper_bound << std::endl;
+      }
       result_t res(bounds.ub(), pt, sbr.s);
       if (bounds.inconsistent()) {
         res.rt = ResultType::upper_unsat_sb;
@@ -1439,6 +1472,7 @@ namespace Bicliques2SAT {
         res.B = bounds.lb();
         return res;
       }
+      res.upper_bound = upper_bound;
 
       const std::string filename_head = SystemCalls::system_filename(
         "Bicliques2SAT_" + Environment::CurrentTime::timestamp_str())

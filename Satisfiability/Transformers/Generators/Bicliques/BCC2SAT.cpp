@@ -13,8 +13,34 @@ License, or any later version. */
 TODOS:
 
 0. Using FastVC.
+   - The class Bicliques2SAT::Bounds needs an overhaul.
+    - Perhaps having fixed members for the bccomp- and the vc-number.
+    - In this program, we should get explicit information on the "graph
+      analysis", stating n, m, and the bccomp- and the vc-number (and
+      how computed).
+    - Symmetry-breaking is then a separate issue.
+    - Perhaps for this program, we abondon the arcance class Bounds, and
+      start with a new approach.
+   - DONE Using redumis and fastvc should become the defaults.
+   - DONE
+     Additionally to arguments "+k" (from the lower bound) we need arguments
+     "-k" (from the upper bound).
+     - Perhaps the case "-k" is handled separately, by BCC2SAT itself,
+       and the computed bound is then passed as a simple "B"-case, to
+       the Bounds-object.
+   - DONE For the upper bound we also need options: currently "trivial"
+     (i.e. "n-1") and "fastvc".
+   - DONE This is a further algo-option.
+   - We need a further argument "timeout2" for the fastvc-timeout.
+   - Seeds are ignored for now.
+    - Though we need also the application of rounds to redumis and fastvc.
+    - Then need two rounds-parameters.
+    - While we could use the generic seeds-input as master-seed for
+      everything.
 
-1. Provided variations specifically for the cover-representation:
+1. DONE "+sbred" should become the new default.
+
+2. Provided variations specifically for the cover-representation:
   - Bicliques2SAT::PT should get new members, after cover=0, and
     before the partition-members.
   - coverMaxR introduces for every variable/vertex v on the right-hand side of
@@ -34,7 +60,7 @@ TODOS:
     variables on the right-hand-side are determined by the lhs.
   - Symmetry-breaking should be independent of all of this.
 
-2. Provide MaxSAT-translations
+3. Provide MaxSAT-translations
   - This should work for all possibilities in Bicliques2SAT::PT.
   - Adding biclique-indicator-variables for every biclique, being
     true if any vertex is set (or only if no variable of say the
@@ -42,7 +68,7 @@ TODOS:
   - Maximise then the negative unit-clauses of these variables.
 
 
-3. Update examples below.
+4. Update examples below.
 
 See plans/general.txt.
 
@@ -406,13 +432,12 @@ UNSATISFIABLE
 #include "Bicliques2SAT.hpp"
 
 #include "BCC2SAT.hpp"
-#include "GraphTools.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.4.1",
-        "18.4.2025",
+        "1.5.0",
+        "23.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",
@@ -430,7 +455,7 @@ namespace {
     std::cout <<
     "> " << proginfo.prg
          << " B algo-options format-options sb-rounds seeds [timeout]\n\n"
-    " B              : " << "[+]biclique-cover-size, default is \"+0\"\n"
+    " B              : " << "[+-]biclique-cover-size, default is \"+0\"\n"
     " algo-options   : " << Environment::WRP<SB>{} << "\n"
     "                : " << Environment::WRP<SS>{} << "\n"
     "                : " << Environment::WRP<PT>{} << "\n"
@@ -444,10 +469,11 @@ namespace {
     " reads a graph from standard input, and prints the SAT-translation"
     " to standard output:\n\n"
     "  - Arguments \"\" (the empty string) yield the default-values.\n"
-    "  - \"+\" for B means the increment from the symmetry-breaking result.\n"
+    "  - \"+\" for B means the increment from the lower bound,\n"
+    "    while \"-\" means the decrement from the upper bound.\n"
     "  - If sb-rounds=1, then seeds are taken as given, otherwise a round-index"
     " is appended.\n"
-    "    sb-rounds does not apply to redumis-symmetry-breaking.\n"
+    "  - sb-rounds does not currently apply to redumis-symmetry-breaking.\n"
     "  - Default-values for the options are the first possibilities given.\n\n"
 ;
     return true;
@@ -467,11 +493,13 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::faulty_parameters);
   }
 
-  const Bounds B = read_current(argv[1]);
-  const alg_options_t algopt =
-    Environment::translate<alg_options_t>()(argv[2], sep);
+  const std::string B_str(argv[1]);
+  const alg3_options_t algopt =
+    Environment::translate<alg3_options_t>()(argv[2], sep);
+  const auto [sbo, sso, ubo, pto] = algopt;
   const format_options_t formopt =
     Environment::translate<format_options_t>()(argv[3], sep);
+  const auto [dco, dpo, cso] = formopt;
   const var_t sb_rounds =
     read_var_t(argv[4], default_sb_rounds);
   const RandGen::vec_eseed_t seeds = RandGen::extract_seeds(argv[5]);
@@ -480,17 +508,21 @@ int main(const int argc, const char* const argv[]) {
   const double redumis_timeout = timeout_str.empty() ?
     GraphTools::default_redumis_timeout : std::stold(timeout_str);
 
-  if (std::get<SB>(algopt) != SB::none and
-      std::get<SB>(algopt) != SB::redumis and sb_rounds == 0) {
+  if (sbo != SB::none and sbo != SB::redumis and sb_rounds == 0) {
     std::cerr << error <<
       "Symmetry-breaking on, but number of rounds is zero.\n";
     return int(Error::bad_sb);
   }
-
   commandline_output(formopt, comment, std::cout, argc, argv);
+
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
-  BC2SAT T(G, Bounds(B));
-  T.sat_translate(std::cout, algopt, formopt, sb_rounds, seeds,
-                  redumis_timeout);
+  const var_t upper_bound = determine_ub(G, ubo, error);
+  if (dco != DC::without)
+    std::cout << Environment::DWW{"upper-bound"} << upper_bound << "\n";
+  const Bounds B = read_B(B_str, upper_bound);
+
+  BC2SAT T(G, B);
+  T.sat_translate(std::cout, extract_alg_options(algopt), formopt,
+                  sb_rounds, seeds, redumis_timeout);
 
 }

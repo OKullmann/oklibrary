@@ -22,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.1",
-        "19.4.2025",
+        "0.10.2",
+        "23.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -224,15 +224,15 @@ int main(const int argc, const char* const argv[]) {
    assert(trans.all_sbedges<std::ostream&>({0,1},ss) == 6);
 
    ss.str("");
-   assert(eqp(trans.sat_translate(ss, {{},SS::without,{}},
+   assert(eqp(trans.sat_translate(ss, {SB::basic,SS::without,{}},
      {DC::without, DP::without, CS::without}, 1, {}), {64, 272 + 2*3})); // 278
    assert(ss.str().empty());
    ss.str("");
-   assert(eqp(trans.sat_translate(ss,{{},SS::without,{}},
+   assert(eqp(trans.sat_translate(ss,{SB::basic,SS::without,{}},
      {DC::without,DP::without,CS::without},11,{}), {96, 409})); // {B * 32, B * 128 + 16 + 3*#units}
 
    ss.str("");
-   assert(eqp(trans.sat_translate(ss, {{},SS::without,{}},
+   assert(eqp(trans.sat_translate(ss, {SB::basic,SS::without,{}},
      {DC::without, DP::with, CS::without}, 6, {}), {96, 406}));
    assert(ss.str() == "p cnf 96 406\n");
    trans.update_B(1);
@@ -395,15 +395,16 @@ std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
     assert(os.str() ==
            "p cnf 10 2\n" "0\n" "4 -10 0\n");
    }
-   {const auto F = GR.solve_ntcc(0, nullptr, {{},SS::without,{},{},{}},
+   {const auto F = GR.solve_ntcc(0, nullptr, {SB::basic,SS::without,{},{},{}},
                                  100, 1, {});
     assert(eqp(F, {}));
    }
-   {const auto F = GR.solve_ntcc(1, nullptr, {{},SS::without,{},{},{}},
+   {const auto F = GR.solve_ntcc(1, nullptr, {SB::basic,SS::without,{},{},{}},
                                  100, 1, {});
     assert(eqp(F, {}));
    }
-   {const auto F = GR.solve(nullptr, {{},SS::without,{},{},{}}, 100, 1, {});
+   {const auto F = GR.solve(nullptr,
+                            {SB::basic,SS::without,{},{},{}}, 100, 1, {});
     assert(eqp(F, {{{7,5}, {{}, {Lit(-3)}, {Lit(3)}, {Lit(-7)}, {Lit(7)}}},
                    {Var(3),Var(7)}}));
    }
@@ -547,15 +548,18 @@ std::cerr << G.n() << " " << G.m() << " " << sb << " " << ss
      GR.E(os, it, 0);
      assert(os.str() ==
             "p cnf 6 3\n" "2 -4 0\n" "1 6 0\n" "-6 0\n");
-     {const auto F = GR.solve_ntcc(0, nullptr, {{},SS::without,{},{},{}},
+     {const auto F = GR.solve_ntcc(0, nullptr,
+                                   {SB::basic,SS::without,{},{},{}},
                                    100, 1, {});
       assert(eqp(F, {{1,3}, {{Lit(1)}, {Lit(-1)}, {Lit(1)}}}));
      }
-     {const auto F = GR.solve_ntcc(1, nullptr, {{},SS::without,{},{},{}},
+     {const auto F = GR.solve_ntcc(1, nullptr,
+                                   {SB::basic,SS::without,{},{},{}},
                                    100, 1, {});
       assert(eqp(F, {}));
      }
-     {const auto F = GR.solve(nullptr, {{},SS::without,{},{},{}}, 100, 1, {});
+     {const auto F = GR.solve(nullptr,
+                              {SB::basic,SS::without,{},{},{}}, 100, 1, {});
       assert(eqp(F,{{{7,6},
                     {{Lit(3)}, {Lit(-3)}, {}, {Lit(3)}, {Lit(7)}, {Lit(-7)}}},
                     {Var(3),Var(7)}}));

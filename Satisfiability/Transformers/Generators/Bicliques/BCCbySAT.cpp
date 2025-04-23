@@ -329,8 +329,8 @@ See plans/general.txt.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.12.0",
-        "15.4.2025",
+        "0.13.0",
+        "23.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
@@ -342,6 +342,8 @@ namespace {
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
   const std::string comment = "# ";
 
+  const std::string default_B = "+0,inf";
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
@@ -349,9 +351,11 @@ namespace {
     "> " << proginfo.prg
          << " B algo-options format-options"
             " sb-rounds timeout seeds stats log [redumis-timeout]\n\n"
-    " B                 : " << "[+]biclique-cover-size, default is \"+0\"\n"
+    " B                 : " << "[+]biclique-cover-size, default is \""
+                            << default_B << "\"\n"
     " algo-options      : " << Environment::WRP<SB>{} << "\n"
     "                   : " << Environment::WRP<SS>{} << "\n"
+    "                   : " << Environment::WRP<UB>{} << "\n"
     "                   : " << Environment::WRP<PT>{} << "\n"
     "                   : " << Environment::WRP<DI>{} << "\n"
     "                   : " << Environment::WRP<SO>{} << "\n"
@@ -389,14 +393,15 @@ int main(const int argc, const char* const argv[]) {
     return int(Error::missing_parameters);
   }
 
-  const auto bounds0 = read_vecvalorinc(argv[1]);
+  const auto bounds0 = read_vecvalorinc(std::string(argv[1]).empty() ?
+                                        default_B : argv[1]);
   if (bounds0.size() > 2) {
     std::cerr << error <<
       "Bounds-argument has " << bounds0.size() << " > 2 components.\n";
     return int(Error::faulty_parameters);
   }
-  const alg2_options_t algopt =
-    Environment::translate<alg2_options_t>()(argv[2], sep);
+  const alg4_options_t algopt =
+    Environment::translate<alg4_options_t>()(argv[2], sep);
   const DI di = std::get<DI>(algopt);
   const Bounds bounds = extract_bounds(di, bounds0);
   const format2_options_t formopt =
@@ -431,6 +436,7 @@ int main(const int argc, const char* const argv[]) {
       DWW{"B"} << bounds << "\n" <<
       DWW{"sb-options"} << std::get<SB>(algopt) << " " <<
                            std::get<SS>(algopt) << "\n" <<
+      DWW{"ub-options"} << std::get<UB>(algopt) << "\n" <<
       DWW{"pt-option"} << std::get<PT>(algopt) << "\n" <<
       DWW{"di-option"} << di << "\n" <<
       DWW{"so-option"} << std::get<SO>(algopt) << "\n" <<
@@ -460,8 +466,11 @@ int main(const int argc, const char* const argv[]) {
 
   const auto G = Graphs::make_AdjVecUInt(std::cin, Graphs::GT::und);
   BC2SAT T(G, bounds);
-  const auto res = T.sat_solve(log.pointer(), algopt, sb_rounds, sec, seeds,
-                               redumis_timeout);
+  const id_t upper_bound = std::get<UB>(algopt) != UB::fastvc ? 0 :
+    determine_ub(G, UB::fastvc, error);
+  const auto res = T.sat_solve(log.pointer(), extract_alg2_options(algopt),
+                               sb_rounds, sec, seeds, redumis_timeout,
+                               upper_bound);
   log.close();
 
   res.output(dc == DC::with ? &std::cout : nullptr, bc, G, stats.pointer());

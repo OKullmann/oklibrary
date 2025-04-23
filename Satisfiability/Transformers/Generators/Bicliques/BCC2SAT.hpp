@@ -24,7 +24,7 @@ License, or any later version. */
     - read_uint_t(string, uint_t) -> uint_t
     -   read_uint_with_plus(string) -> <uint_t, bool> (helper function)
 
-    - read_current(string) -> Bounds
+    - read_B(string) -> Bounds
     - read_bounds(string) -> optional<Bounds>
 
     - class Log for a pointer to an ofstream
@@ -58,6 +58,8 @@ TODOS:
 #include <ProgramOptions/Strings.hpp>
 
 #include "Bicliques2SAT.hpp"
+#include "Graphs.hpp"
+#include "GraphTools.hpp"
 
 namespace BCC2SAT {
 
@@ -94,7 +96,7 @@ namespace BCC2SAT {
   valoror_t read_valorinc(const std::string& s) {
     return s.starts_with('+') ?
       valoror_t{FloatingPoint::touint(s.substr(1)), true} :
-      valoror_t{FloatingPoint::touint(s), false};
+    valoror_t{FloatingPoint::touint(s), false}; // currently the "fixed" value
   }
   typedef std::vector<valoror_t> vec_valoror_t;
   vec_valoror_t read_vecvalorinc(const std::string& s) {
@@ -106,14 +108,41 @@ namespace BCC2SAT {
   }
 
   typedef Bicliques2SAT::Bounds Bounds;
-  Bounds read_current(const std::string& s) {
-    using namespace Bicliques2SAT;
-    const DI d = DI::none; const Bounds::choose_l cl;
+  typedef Bicliques2SAT::UB UB;
+  typedef Bicliques2SAT::DI DI;
+
+  var_t determine_ub(const Graphs::AdjVecUInt& G, const UB ub,
+                     const std::string& error) {
+    const var_t supb = Bounds::simple_upper_bound(G);
+    if (ub == UB::simple) return supb;
+    assert(ub == UB::fastvc);
+    const GraphTools::FastVC_call F(G);
+    const auto VC = F();
+    if (not F.check_vertexcover(VC)) {
+      std::cerr << error << "VERTEX COVER CHECK failed.\n";
+      std::exit(int(Error::bad_external_call));
+    }
+    const var_t upb = VC.size();
+    if (upb > supb) {
+      std::cerr << error << "Vertex-cover bound " << upb << "greater than "
+        "simple upper bound " << supb << ".\n";
+      std::exit(int(Error::bad_external_call));
+    }
+    return upb;
+  }
+
+  Bounds read_B(const std::string& s, const var_t upper_bound) {
+    const DI d = DI::none;
+    const Bounds::choose_l cl; // currently needed hack
     if (s.empty()) return Bounds(d, cl, {0,true});
+    else if (s.starts_with('-')) { // current hack for fixed value:
+      const auto diff = FloatingPoint::touint(s.substr(1));
+      if (diff > upper_bound) return {d, cl, {0,false}};
+      else return {d, cl, {upper_bound - diff, false}};
+    }
     else return Bounds(d, cl, read_valorinc(s));
   }
 
-  typedef Bicliques2SAT::DI DI;
   Bounds extract_bounds(const DI d, const vec_valoror_t& L) noexcept {
     const auto size = L.size();
     assert(size <= 2);
