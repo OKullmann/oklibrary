@@ -291,8 +291,8 @@ TODOS:
   - DONE (use_cadical.bash)
     But possibly using a wrapper for cadical (since its interface is ugly,
     and there is no way to get only statistics-output).
-  - Especially "cadical --unsat" and "cadical --sat".
-  - And whether with solution-output or not.
+  - DONE Especially "cadical --unsat" and "cadical --sat".
+  - DONE And whether with solution-output or not.
 
 1. In read_strict_Dimacs : remove the special handling of c==0.
 

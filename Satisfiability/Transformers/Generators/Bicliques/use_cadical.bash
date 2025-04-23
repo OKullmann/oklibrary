@@ -36,6 +36,12 @@
 # s UNSATISFIABLE
 # c time-data 0.00 0.00 0.00 4452
 
+# The variable "internaloptions" has four possible values:
+#  - 0 (default) means default cadical-options
+#  - 1 means SAT-cadical-options
+#  - 2 means UNSAT-cadical-options
+#  - 3 means disabling all internal cadical-options.
+
 # Remarks: As path to cadical just "cadical" is used.
 # If another path is needed, set the variable pathcadical.
 # A temporary file "use_cadical.bash_$$_basefilename" is created,
@@ -46,7 +52,7 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.1.3"
+version_number="0.2.0"
 
 pathcadical="${pathcadical-cadical}"
 
@@ -59,6 +65,20 @@ timeout="${timeout-0}" # "0" means no timeout
 inputsource="${inputsource--}" # "-" means standard input
 solution="${solution-0}" # "0" means no solution, otherwise the filename
 
+internaloptions=${internaloptions-0}
+if [[ $internaloptions = "0" ]]; then
+  optionstring=""
+elif [[ $internaloptions = "1" ]]; then
+  optionstring="--sat"
+elif [[ $internaloptions = "2" ]]; then
+  optionstring="--unsat"
+elif [[ $internaloptions = "3" ]]; then
+  optionstring="--plain"
+else
+  echo "ERROR[${script_name}]: wrong internaloptions = \"${internaloptions}\"."
+  exit 1
+fi
+
 if [[ $inputsource == "-" ]]; then
   basefilename="STDIN"
 else
@@ -67,9 +87,9 @@ fi
 tempfile="${script_name}_$$_${basefilename}"
 
 if [[ $solution == "0" ]]; then
-  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -n -t $timeout $inputsource || true
+  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -n -t $timeout $optionstring $inputsource || true
 else
-  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -w $solution -t $timeout $inputsource || true
+  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -w $solution -t $timeout $optionstring $inputsource || true
 fi
 
 cat $tempfile
