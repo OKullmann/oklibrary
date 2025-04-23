@@ -951,6 +951,7 @@ namespace DimacsTools {
     Calling SAT-solvers
   */
 
+  enum class Solvers {minisat=0, cadical=1};
 
   typedef std::function<bool(Lit)> Lit_filter;
   const Lit_filter triv_filter = [](Lit){return true;};
@@ -995,6 +996,7 @@ namespace DimacsTools {
 
 
   struct Minisat_measurements {
+    static constexpr Solvers solver=Solvers::minisat;
     typedef FloatingPoint::float80 float_t;
     const float_t
     num_var, num_cl, ptime, stime, elim_cl,
@@ -1038,6 +1040,7 @@ namespace DimacsTools {
   };
   // Without timing- or memory-results, and suppressing NaNs:
   struct Mm_nt {
+    static constexpr Solvers solver=Solvers::minisat;
     typedef FloatingPoint::float80 float_t;
     const float_t
     num_var, num_cl, elim_cl,
@@ -1065,6 +1068,34 @@ namespace DimacsTools {
 
     bool operator ==(const Mm_nt&) const noexcept = default;
   };
+
+  struct Cadical_measurements {
+    static constexpr Solvers solver=Solvers::cadical;
+    typedef FloatingPoint::float80 float_t;
+    const float_t etime, utime, systime, memory;
+    bool operator ==(const Cadical_measurements&) const noexcept = default;
+    typedef std::vector<std::string> header_t;
+    // Extending ExperimentSystem/SolverMonitoring/headers :
+    static header_t stats_header() noexcept {
+      const header_t res = {"etime", "t", "systime", "mem"};
+      assert(res.size() == num_stats);
+      return res;
+    }
+    static constexpr size_t num_stats = 4;
+    typedef std::array<float_t, num_stats> export_t;
+    export_t extract() const noexcept {
+      export_t res;
+      res[0]=etime,res[1]=utime,res[2]=systime,res[3]=memory;
+      return res;
+    }
+
+    friend std::ostream& operator <<(std::ostream& out,
+                                     const Cadical_measurements& m) {
+      Environment::out_line(out, m.extract());
+      return out;
+    }
+  };
+
 
   Minisat_measurements read_minisat_results(const std::string& output) {
     using f_t =  Minisat_measurements::float_t;
@@ -1227,22 +1258,60 @@ namespace DimacsTools {
         memory, ttime};
   }
 
+  Cadical_measurements read_cadical_results(const std::string& output) {
+    const auto split = Environment::split2_spaces(output, '\n');
+    if (split.size() != 2) {
+      std::stringstream ss;
+      ss << "DimacsTools::read_cadical_results: exactly 2 lines expected,"
+        " but provided " <<split.size() << " many lines";
+      throw std::runtime_error(ss.str());
+    }
 
-  struct Minisat_stats {
+    using FloatingPoint::to_UInt;
+    using FloatingPoint::to_float80;
+
+    const auto& time_line = split[1];
+    if (time_line.size() != 7 or time_line[2] != "time-data") {
+      std::stringstream ss;
+      ss << "DimacsTools::read_cadical_results: defective times-line:\n";
+      Environment::out_tokens(ss, time_line);
+      throw std::runtime_error(ss.str());
+    }
+    const Cadical_measurements::float_t et = to_float80(time_line[3]),
+      ut = to_float80(time_line[4]), st = to_float80(time_line[5]),
+      m = to_UInt(time_line[6]);
+
+    return {et, ut, st, m};
+  }
+
+  template <class M>
+  M read_solver_results(const std::string& output) {
+    if constexpr (M::solver == Solvers::minisat)
+      return read_minisat_results(output);
+    else
+      return read_cadical_results(output);
+  }
+
+
+  template <class M>
+  struct Solver_stats {
     SolverR sr;
-    Minisat_measurements m;
+    M m;
 
     typedef SystemCalls::EReturnValue ret_t;
-    Minisat_stats(const ret_t& rv, const bool with_measurement) :
+    Solver_stats(const ret_t& rv, const bool with_measurement) :
       sr(extract_ret(rv.rv)),
       m(with_measurement ?
-        read_minisat_results(rv.out) : Minisat_measurements{}) {}
+        read_solver_results<M>(rv.out) : M{}) {}
 
     friend std::ostream& operator <<(std::ostream& out,
-                                     const Minisat_stats& s) {
+                                     const Solver_stats& s) {
       return out << s.sr << "\n" << s.m << "\n";
     }
   };
+  using Minisat_stats = Solver_stats<Minisat_measurements>;
+  using Cadical_stats = Solver_stats<Cadical_measurements>;
+
 
   struct Minisat_return {
     typedef SystemCalls::EReturnValue ret_t;
