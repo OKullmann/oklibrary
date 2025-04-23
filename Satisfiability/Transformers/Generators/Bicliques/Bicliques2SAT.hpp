@@ -1406,7 +1406,7 @@ namespace Bicliques2SAT {
                   const BC bc,
                   const Graphs::AdjVecUInt& G,
                   std::ofstream* const stats) const {
-        assert(int(rt) >= 1 and int(rt) <= 6);
+        assert(int(rt) >= 1 and int(rt) <= 4);
         if (out) {
           using Environment::DWW;
           *out << DWW{"sb-stats"} << sbs << "\n"
@@ -1414,14 +1414,14 @@ namespace Bicliques2SAT {
                << DWW{"result-type"} << rt << "\n";
           *out << DWW{pt == PT::cover ? "bcc" : "bcp"};
           if (rt == ResultType::aborted)
-            *out << "?";
+            *out << "?? " << B;
           else if (rt == ResultType::exact)
             *out << "= " << B;
           else if (rt == ResultType::upper_unsat_sb)
             *out << "> " << B;
           else {
             assert(rt == ResultType::other_timeout);
-            *out << "<= " << B + 1;
+            *out << "? " << B;
           }
           *out << "\n";
         }

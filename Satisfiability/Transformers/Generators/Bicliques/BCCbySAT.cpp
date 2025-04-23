@@ -23,6 +23,9 @@ TODOS:
   - If we start with the bccomp-lower-bound L, and prove all L <= B <= L'
     unsat, while for L' we get a timeout, then the result should say
       "bcc >= L'".
+  - The current handling only reflects the down-direction.
+  - Perhaps the type Bicliques2SAT::result_t should also store the direction,
+    so that one can better analyse aborted runs?
 
 2. Better log-messages
   - No need to see the whole output, but one should get information about
