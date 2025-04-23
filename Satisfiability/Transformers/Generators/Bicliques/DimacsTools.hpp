@@ -286,6 +286,11 @@ License, or any later version. */
 
 TODOS:
 
+0. Provide usage of cadical.
+  - Basically should mimic the minisat-tools.
+  - But possibly using a wrapper for cadical (since its interface is ugly).
+  - Especially "cadical --unsat" and "cadical --sat".
+
 1. In read_strict_Dimacs : remove the special handling of c==0.
 
 2. See todos in TotalPermutation.cpp for a more generic handling
