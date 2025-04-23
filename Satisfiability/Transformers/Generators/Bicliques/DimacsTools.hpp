@@ -1288,13 +1288,16 @@ namespace DimacsTools {
   M read_solver_results(const std::string& output) {
     if constexpr (M::solver == Solvers::minisat)
       return read_minisat_results(output);
-    else
+    else {
+      static_assert(M::solver == Solvers::cadical);
       return read_cadical_results(output);
+    }
   }
 
 
   template <class M>
   struct Solver_stats {
+    typedef M measurement_type;
     SolverR sr;
     M m;
 
@@ -1313,15 +1316,18 @@ namespace DimacsTools {
   using Cadical_stats = Solver_stats<Cadical_measurements>;
 
 
-  struct Minisat_return {
+  template <class M>
+  struct Solver_return {
+    typedef M stats_type;
     typedef SystemCalls::EReturnValue ret_t;
     const ret_t rv;
-    const Minisat_stats stats;
+    const M stats;
+    static constexpr Solvers solver = M::measurement_type::solver;
     const Clause pa; // satisfyfing assignment, otherwise empty
 
-    Minisat_return(const ret_t rv, const Lit_filter& f,
-                   const std::filesystem::path& out,
-                   const bool with_measurement)
+    Solver_return(const ret_t rv, const Lit_filter& f,
+                  const std::filesystem::path& out,
+                  const bool with_measurement)
       : rv(rv), stats(rv, with_measurement),
         pa(extract_pa(stats.sr, f, out)) {}
 
@@ -1330,18 +1336,35 @@ namespace DimacsTools {
       if (sr != SolverR::sat) return {};
       auto lines = Environment::get_lines(out);
       if (lines.size() != 2)
-        throw std::runtime_error("DimacsTools::Minisat_return::extract_pa: "
+        throw std::runtime_error("DimacsTools::Solver_return::extract_pa: "
           "output-file has " + std::to_string(lines.size()) + " lines");
-      if (lines[0] != "SAT")
-        throw std::runtime_error("DimacsTools::Minisat_return::extract_pa: "
-          "first output-line is \"" + lines[0] + "\"");
+      if constexpr (solver == Solvers::minisat) {
+        if (lines[0] != "SAT")
+          throw std::runtime_error("DimacsTools::Minisat_return::extract_pa: "
+            "first output-line is \"" + lines[0] + "\"");
+      }
+      else {
+        static_assert(solver == Solvers::cadical);
+        if (lines[0] != "s SATISFIABLE")
+          throw std::runtime_error("DimacsTools::Cadical_return::extract_pa: "
+            "first output-line is \"" + lines[0] + "\"");
+      }
       std::istringstream s(std::move(lines[1]));
       Clause pa;
+      if constexpr (solver == Solvers::cadical) {
+        std::string first; s >> first;
+        if (first != "v")
+          throw std::runtime_error("DimacsTools::Cadical_return::extract_pa: "
+            "leading string is \"" + first + "\"");
+      }
       for (Lit x; (x=read_strict_literal(s)).v.v != 0;)
         if (f(x)) pa.push_back(x);
       return pa;
     }
   };
+  using Minisat_return = Solver_return<Minisat_stats>;
+  using Cadical_return = Solver_return<Cadical_stats>;
+
 
   struct TableMinisatStats {
     typedef std::vector<Minisat_stats> stats_vec_t;
