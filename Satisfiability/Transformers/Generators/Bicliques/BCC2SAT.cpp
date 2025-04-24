@@ -423,8 +423,8 @@ UNSATISFIABLE
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.5.1",
-        "23.4.2025",
+        "1.5.2",
+        "24.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCC2SAT.cpp",

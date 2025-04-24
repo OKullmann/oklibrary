@@ -336,8 +336,8 @@ the file SystemCalls_Popen_out_* can be inspected.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.0",
-        "23.4.2025",
+        "0.13.1",
+        "24.4.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/BCCbySAT.cpp",
