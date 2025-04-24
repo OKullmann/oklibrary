@@ -423,7 +423,7 @@ UNSATISFIABLE
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "1.5.2",
+        "1.5.3",
         "24.4.2025",
         __FILE__,
         "Oliver Kullmann",

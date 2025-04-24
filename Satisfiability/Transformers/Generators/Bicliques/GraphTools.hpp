@@ -82,7 +82,7 @@ namespace GraphTools {
 
   constexpr int default_redumis_seed = 0;
   constexpr double default_redumis_timeout = 10;
-  const std::string default_path_use_redumis = "use_redumis";
+  const std::string default_path_use_redumis = "use_redumis.bash";
 
 
   struct Redumis_call {
@@ -173,7 +173,7 @@ namespace GraphTools {
 
   constexpr unsigned default_fastvc_seed = 0;
   constexpr double default_fastvc_timeout = 10;
-  const std::string default_path_use_fastvc = "use_fastvc";
+  const std::string default_path_use_fastvc = "use_fastvc.bash";
 
 
   struct FastVC_call {
