@@ -336,7 +336,7 @@ the file SystemCalls_Popen_out_* can be inspected.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.2",
+        "0.13.3",
         "24.4.2025",
         __FILE__,
         "Oliver Kullmann",

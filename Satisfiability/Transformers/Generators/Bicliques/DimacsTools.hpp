@@ -949,6 +949,14 @@ namespace DimacsTools {
   */
 
   enum class Solvers {minisat=0, cadical=1};
+  std::string to_string(const Solvers s) noexcept {
+    switch (s) {
+    case Solvers::minisat : return "minisat";
+    case Solvers::cadical : return "cadical";
+    default : return "ERROR[DimacsTools::to_string(Solvers)]: " +
+        std::to_string(int(s));
+    }
+  }
 
   typedef std::function<bool(Lit)> Lit_filter;
   const Lit_filter triv_filter = [](Lit){return true;};
@@ -1421,21 +1429,32 @@ namespace DimacsTools {
   using TableCadicalStats = TableSolverStats<Cadical_stats>;
 
 
-  const std::string input_filename = "DimacsTools_minisatcall_in_";
-  const std::string output_filename = "DimacsTools_minisatcall_out_";
-  const std::string minisat_default_string = "stdbuf -oL minisat";
+  std::string input_filename(const Solvers s) noexcept {
+    return std::string("DimacsTools_") + to_string(s) + "call_in_";
+  }
+  std::string output_filename(const Solvers s) noexcept {
+    return std::string("DimacsTools_") + to_string(s) + "call_out_";
+  }
+  std::string solver_default_string(const Solvers s) noexcept {
+    switch (s) {
+    case Solvers::minisat : return "stdbuf -oL minisat";
+    default : return to_string(s);
+    }
+  }
 
   // Reading from file:
   Minisat_return minisat_call(const std::string& input,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
                               const bool with_measurement = true,
-                 const std::string& minisat_string = minisat_default_string) {
+                              const std::string& minisat_string =
+                              solver_default_string(Solvers::minisat)) {
     assert(not input.empty());
     const std::string timestamp =
       Environment::CurrentTime::timestamp_str();
     const std::string out =
-      SystemCalls::system_filename(output_filename + timestamp);
+      SystemCalls::system_filename(output_filename(Solvers::minisat)
+                                   + timestamp);
     const std::string command = minisat_string + " " + options + " "
       + input + " " + out;
     const std::filesystem::path pout(out);
@@ -1461,11 +1480,13 @@ namespace DimacsTools {
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
                               const bool with_measurement = true,
-                 const std::string& minisat_string = minisat_default_string) {
+                              const std::string& minisat_string =
+                              solver_default_string(Solvers::minisat)) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string in =
-      SystemCalls::system_filename(input_filename + timestamp);
+      SystemCalls::system_filename(input_filename(Solvers::minisat)
+                                   + timestamp);
     {std::ofstream fin(in);
      if (not fin)
        throw std::runtime_error(
@@ -1516,11 +1537,13 @@ namespace DimacsTools {
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
                               const bool with_measurement = true,
-                 const std::string& minisat_string = minisat_default_string) {
+                              const std::string& minisat_string =
+                              solver_default_string(Solvers::minisat)) {
     const std::string timestamp =
       std::to_string(Environment::CurrentTime::timestamp());
     const std::string out =
-      SystemCalls::system_filename(output_filename + timestamp);
+      SystemCalls::system_filename(output_filename(Solvers::minisat)
+                                   + timestamp);
     const std::string command = minisat_string + " " + options + " "
       + "/dev/stdin" + " " + out;
     const std::filesystem::path pout(out);
