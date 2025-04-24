@@ -1364,7 +1364,10 @@ namespace DimacsTools {
   using Cadical_return = Solver_return<Cadical_stats>;
 
 
-  struct TableMinisatStats {
+  template <class S>
+  struct TableSolverStats {
+    typedef S stats_type;
+    typedef typename S::measurement_type measurement_type;
     typedef std::vector<Minisat_stats> stats_vec_t;
 
     typedef FloatingPoint::float80 float_t;
@@ -1383,9 +1386,9 @@ namespace DimacsTools {
     params_vec_t paramsvec; // appended with sat-result
   public :
 
-    explicit TableMinisatStats(header_t hp, const var_t s = 1) :
+    explicit TableSolverStats(header_t hp, const var_t s = 1) :
       params_header(Algorithms::append_ranges(hp, header_t{"sat"})),
-      cols(params_header.size() + Minisat_measurements::num_stats),
+      cols(params_header.size() + measurement_type::num_stats),
       sep(s) {
       assert(not params_header.empty());
     }
@@ -1393,7 +1396,7 @@ namespace DimacsTools {
     const stats_vec_t& stats() const noexcept { return statsvec; }
     const params_vec_t& params() const noexcept { return paramsvec; }
 
-    void add(const Minisat_return& mr, params_t p) {
+    void add(const Solver_return<S>& mr, params_t p) {
       assert(p.size() == params_header.size()-1);
       statsvec.push_back(mr.stats);
       p.push_back(code(mr.stats.sr));
@@ -1401,7 +1404,7 @@ namespace DimacsTools {
     }
 
     friend std::ostream& operator <<(std::ostream& out,
-                                     const TableMinisatStats& T) {
+                                     const TableSolverStats& T) {
       assert(T.stats().size() == T.params().size());
       const auto rows = T.stats().size();
       params_vec_t M; M.reserve(rows);
@@ -1410,10 +1413,12 @@ namespace DimacsTools {
                                               T.stats()[i].m.extract()));
       Environment::print2dformat(out, M, T.sep,
         Algorithms::append_ranges(T.params_header,
-                                  Minisat_measurements::stats_header()));
+                                  measurement_type::stats_header()));
       return out;
     }
   };
+  using TableMinisatStats = TableSolverStats<Minisat_stats>;
+  using TableCadicalStats = TableSolverStats<Cadical_stats>;
 
 
   const std::string input_filename = "DimacsTools_minisatcall_in_";
