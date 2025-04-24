@@ -286,13 +286,10 @@ License, or any later version. */
 
 TODOS:
 
-0. Provide usage of cadical.
+0. Provide usage of cadical:
   - Basically should mimic the minisat-tools.
-  - DONE (use_cadical.bash)
-    But possibly using a wrapper for cadical (since its interface is ugly,
-    and there is no way to get only statistics-output).
-  - DONE Especially "cadical --unsat" and "cadical --sat".
-  - DONE And whether with solution-output or not.
+  - Fuer BCCbySAT: "defsolve" -> "minisat", "nopre" -> "minisatnopre".
+  - Plus "cadical", "cadicalsat", "cadicalunsat", "cadicalplain".
 
 1. In read_strict_Dimacs : remove the special handling of c==0.
 
@@ -1316,13 +1313,14 @@ namespace DimacsTools {
   using Cadical_stats = Solver_stats<Cadical_measurements>;
 
 
-  template <class M>
+  template <class S>
   struct Solver_return {
-    typedef M stats_type;
+    typedef S stats_type;
+    typedef typename S::measurement_type measurement_type;
     typedef SystemCalls::EReturnValue ret_t;
     const ret_t rv;
-    const M stats;
-    static constexpr Solvers solver = M::measurement_type::solver;
+    const S stats;
+    static constexpr Solvers solver = measurement_type::solver;
     const Clause pa; // satisfyfing assignment, otherwise empty
 
     Solver_return(const ret_t rv, const Lit_filter& f,
