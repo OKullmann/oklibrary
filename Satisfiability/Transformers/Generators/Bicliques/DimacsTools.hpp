@@ -288,7 +288,7 @@ TODOS:
 
 0. Provide usage of cadical:
   - Basically should mimic the minisat-tools.
-  - Fuer BCCbySAT: "defsolve" -> "minisat", "nopre" -> "minisatnopre".
+  - For BCCbySAT: "defsolve" -> "minisat", "nopre" -> "minisatnopre".
   - Plus "cadical", "cadicalsat", "cadicalunsat", "cadicalplain".
 
 1. In read_strict_Dimacs : remove the special handling of c==0.
@@ -1438,11 +1438,43 @@ namespace DimacsTools {
   std::string solver_default_string(const Solvers s) noexcept {
     switch (s) {
     case Solvers::minisat : return "stdbuf -oL minisat";
+    case Solvers::cadical : return "use_cadical.bash";
     default : return to_string(s);
     }
   }
 
   // Reading from file:
+  template <class SR>
+  SR solver_call(const std::string& input,
+                 const Lit_filter& f = triv_filter,
+                 const std::string& options = "",
+                 const bool with_measurement = true,
+                 const std::string& solver_string =
+                              solver_default_string(SR::solver)) {
+    assert(not input.empty());
+    const std::string timestamp =
+      Environment::CurrentTime::timestamp_str();
+    const std::string out =
+      SystemCalls::system_filename(output_filename(SR::solver)
+                                   + timestamp);
+    const std::string command = solver_string + " " + options + " "
+      + input + " " + out; // ???
+    const std::filesystem::path pout(out);
+    try {
+      const SR res(SystemCalls::esystem(command,""),f,pout,with_measurement);
+      if (not std::filesystem::remove(pout))
+        throw std::runtime_error(
+          "DimacsTools::solver_call(file): error when removing file " + out);
+      return res;
+    }
+    catch (const std::runtime_error& e) {
+      std::ostringstream o;
+      o << "DimacsTools::solver_call: Error when calling SAT-solver by\n"
+        "  \"" << command << "\"\n  Specific error message:\n" << e.what()
+        << "\n";
+      throw std::runtime_error(o.str());
+    }
+  }
   Minisat_return minisat_call(const std::string& input,
                               const Lit_filter& f = triv_filter,
                               const std::string& options = "",
