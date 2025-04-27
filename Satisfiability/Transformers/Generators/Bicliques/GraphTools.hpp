@@ -53,6 +53,12 @@ License, or any later version. */
 
 TODOS:
 
+0. For redumis and fastvc always supply the 4 statistics:
+  - Providing a standard structure Usrbintimestats.
+  - The return-value is then a pair of vertex_list and Usrbintimestats.
+  - To activate for the underlying use-tools, add "statistics=1".
+  - With redumis, it is the first line of output, with fastvc the second.
+
 1. Functor class BC_incomp_by_redumis:
   - Having the biclique-compatability-graph stored in BG can be useful for
     inspection, but we also need a version, which does not store this graph,

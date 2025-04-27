@@ -16,6 +16,17 @@ License, or any later version. */
 
 TODOS:
 
+-1. Provide timing-statistics:
+  (a) use_redumis
+  (b) use_fastvc
+  (c) sum of the sat-solver-times
+  (d) reading-of-input-times for this program, and sum-of-sat-solver-parsings
+  (e) own running-times.
+ - For (a),(b),(c),(d) perhaps just user-time.
+ - For (e) the three time-data for this executable, and the sums of all
+   user- and system-times.
+ - (d) not available for cadical? Perhaps we handle this special case?
+
 0. Enable cadical-use.
   - See DimacsTools.hpp.
 
