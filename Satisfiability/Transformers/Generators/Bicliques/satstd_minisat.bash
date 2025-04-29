@@ -8,6 +8,7 @@
 # and intopt in {0,1} (without/without preprocessing).
 # If satisfiable, then on a second line the satisfying assignment is
 # printed (in clause-format).
+# Setting timeout=0 means the maximal possible timeout.
 
 
 # EXAMPLES:
@@ -40,18 +41,15 @@
 #  - 1 means no preprocessing.
 
 # Examples with both variables set:
-# Bicliques> echo -e "p cnf 1 2\n1 0\n -1 0" | timeout=0 internaloptions=1 ./satstd_minisat.bash
-# 3 0.00 0.00 0.00 3920 1
-Bicliques> echo -e "p cnf 1 2\n1 0\n -1 0" | timeout=0 internaloptions=1 ./satstd_minisat.bash
-# 0 0.00 0.00 0.00 4940 1
-# One sees that a time-limit of "0s" is possible, but yields highly unstable results.
+# Bicliques> echo -e "p cnf 1 2\n1 0\n -1 0" | timeout=1 internaloptions=1 ./satstd_minisat.bash
+# 0 0.00 0.00 0.00 5124 1
 
 
 set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.2.2"
+version_number="0.2.3"
 
 pathminisat="${pathminisat-minisat}"
 
@@ -60,7 +58,11 @@ if [ $# -eq 1 ]; then
   exit 0
 fi
 
-timeout="${timeout-2147483647}"
+default_timeout=2147483647
+timeout="${timeout-${default_timeout}}"
+if [[ $timeout -eq 0 ]]; then
+  timeout=${default_timeout}
+fi
 inputsource="${inputsource-/dev/stdin}"
 
 internaloptions=${internaloptions-0}

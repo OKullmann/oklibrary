@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Runs cadical; interface the same as satstd_minisat.bash, except for
-#  - timeout=0 means no time-limit;
-#  - the variable "internaloptions" has four possible values:
+# the variable "internaloptions" has four possible values:
 #   - 0 (default) means default cadical-options
 #   - 1 means SAT-cadical-options
 #   - 2 means UNSAT-cadical-options
