@@ -52,7 +52,7 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.2.0"
+version_number="0.2.1"
 
 pathcadical="${pathcadical-cadical}"
 
@@ -79,18 +79,12 @@ else
   exit 1
 fi
 
-if [[ $inputsource == "-" ]]; then
-  basefilename="STDIN"
-else
-  basefilename="$(basename $inputsource)"
-fi
-tempfile="${script_name}_$$_${basefilename}"
+tfstring="c usrbintime %e %U %S %M"
 
 if [[ $solution == "0" ]]; then
-  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -n -t $timeout $optionstring $inputsource || true
+  /usr/bin/time -f "$tfstring" --output="/dev/stdout" --quiet cadical -q -n -t $timeout $optionstring $inputsource; satexit=$?
 else
-  /usr/bin/time -f "c time-data %e %U %S %M" --output="$tempfile" --quiet cadical -q -w $solution -t $timeout $optionstring $inputsource || true
+  /usr/bin/time -f "$tfstring" --output="/dev/stdout" --quiet cadical -q -w $solution -t $timeout $optionstring $inputsource; satexit=$?
 fi
 
-cat $tempfile
-rm $tempfile
+exit $satexit
