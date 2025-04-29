@@ -2,7 +2,7 @@
 
 # Runs minisat, outputs one line
 
-# SAT wall-time user-time system-time max-residual-mem intopt
+# SAT wall-time user-time system-time max-residual-mem
 
 # with SAT in {0,1,2,3} (unsat, sat, indeterminate, error),
 # and intopt in {0,1} (without/without preprocessing).
@@ -18,14 +18,14 @@
 # 2.2.0
 
 # Bicliques> echo -e "p cnf 2 2\n1 0\n -2 0" | ./satstd_minisat.bash
-# 1 0.00 0.00 0.00 5372 0
+# 1 0.00 0.00 0.00 5372
 # 1 -2 0
 # Bicliques> echo -e "p cnf 2 2\n1 0\n -1 0" | ./satstd_minisat.bash
 # WARNING! DIMACS header mismatch: wrong number of variables.
-# 0 0.00 0.00 0.00 4936 0
+# 0 0.00 0.00 0.00 4936
 # Remark: the warning is print on standard error.
 # Bicliques> echo -e "p cnf 1 2\n1 0\n -1 0" | ./satstd_minisat.bash
-# 0 0.00 0.00 0.00 4920 0
+# 0 0.00 0.00 0.00 4920
 
 
 # By default the input-source is standard input, but by setting
@@ -42,14 +42,14 @@
 
 # Examples with both variables set:
 # Bicliques> echo -e "p cnf 1 2\n1 0\n -1 0" | timeout=1 internaloptions=1 ./satstd_minisat.bash
-# 0 0.00 0.00 0.00 5124 1
+# 0 0.00 0.00 0.00 5124
 
 
 set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.2.4"
+version_number="0.3.0"
 
 pathminisat="${pathminisat-minisat}"
 
@@ -77,4 +77,4 @@ fi
 
 tfstring="ubt %e %U %S %M"
 
-{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet minisat -verb=0 -cpu-lim=$timeout "$optionstring" "$inputsource" /dev/stdout || true; } | awk -v intopt=$internaloptions 'BEGIN{status=3} /^WARNING/{skip} /^SAT/{status=1;skip} /^UNSAT/{status=0;skip} /^INDET/{status=2;skip} / 0$/{pass=$0} /^ubt /{wt=$2; ut=$3; st=$4; mem=$5} END{print status, wt, ut, st, mem, intopt; if (pass != "") print pass}'
+{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet minisat -verb=0 -cpu-lim=$timeout "$optionstring" "$inputsource" /dev/stdout || true; } | awk 'BEGIN{status=3} /^WARNING/{skip} /^SAT/{status=1;skip} /^UNSAT/{status=0;skip} /^INDET/{status=2;skip} / 0$/{pass=$0} /^ubt /{wt=$2; ut=$3; st=$4; mem=$5} END{print status, wt, ut, st, mem; if (pass != "") print pass}'
