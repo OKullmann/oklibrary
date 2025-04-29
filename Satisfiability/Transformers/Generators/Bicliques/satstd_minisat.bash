@@ -49,7 +49,7 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.2.3"
+version_number="0.2.4"
 
 pathminisat="${pathminisat-minisat}"
 
@@ -77,4 +77,4 @@ fi
 
 tfstring="ubt %e %U %S %M"
 
-{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet minisat -verb=0 -cpu-lim=$timeout $optionstring $inputsource /dev/stdout || true; } | awk -v intopt=$internaloptions 'BEGIN{status=3} /^WARNING/{skip} /^SAT/{status=1;skip} /^UNSAT/{status=0;skip} /^INDET/{status=2;skip} / 0$/{pass=$0} /^ubt /{wt=$2; ut=$3; st=$4; mem=$5} END{print status, wt, ut, st, mem, intopt; if (pass != "") print pass}'
+{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet minisat -verb=0 -cpu-lim=$timeout "$optionstring" "$inputsource" /dev/stdout || true; } | awk -v intopt=$internaloptions 'BEGIN{status=3} /^WARNING/{skip} /^SAT/{status=1;skip} /^UNSAT/{status=0;skip} /^INDET/{status=2;skip} / 0$/{pass=$0} /^ubt /{wt=$2; ut=$3; st=$4; mem=$5} END{print status, wt, ut, st, mem, intopt; if (pass != "") print pass}'

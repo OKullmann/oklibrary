@@ -14,7 +14,7 @@ set -o errexit
 set -o nounset
 
 script_name=$(basename "$0")
-version_number="0.2.3"
+version_number="0.2.4"
 
 pathcadical="${pathcadical-cadical}"
 
@@ -42,4 +42,4 @@ fi
 
 tfstring="ubt %e %U %S %M"
 
-{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet cadical -q -w /dev/stdout -t $timeout $optionstring $inputsource || true; } | awk -v intopt=$internaloptions 'BEGIN{status=3} /^s SAT/{status=1;skip} /^s UNSAT/{status=0;skip} /^c UNKNOWN/{status=2;skip} /^v /{pass=substr($0, index($0, $2))} /^ubt/{wt=$2; ut=$3; st=$4; mem=$5} END{print status, wt, ut, st, mem, intopt; if (pass != "") print pass}'
+{ /usr/bin/time -f "$tfstring" --output=/dev/stdout --quiet cadical -q -w /dev/stdout -t $timeout "$optionstring" "$inputsource" || true; } | awk -v intopt=$internaloptions 'BEGIN{status=3} /^s SAT/{status=1;skip} /^s UNSAT/{status=0;skip} /^c UNKNOWN/{status=2;skip} /^v /{pass=substr($0, index($0, $2));skip} /^ubt/{wt=$2; ut=$3; st=$4; mem=$5;skip} END{print status, wt, ut, st, mem, intopt; if (pass != "") print pass}'
