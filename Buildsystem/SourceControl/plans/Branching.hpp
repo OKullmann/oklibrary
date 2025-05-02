@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,7 +12,85 @@ License, or any later version. */
 
   \todo Purely local branches
   <ul>
-   <li> For a local branch (not to be exported) the standard model is as
+   <li> Branches allow changes and commits for different new features
+   to be separated into conceptually different copies of the repository,
+   each with their own branch name. </li>
+   <li> Each branch can then be pushed and pulled separately, and
+   pull requests can be made to the core developers for individual
+   branches when individual features are finished. </li>
+   <li> In this way, work is modularised and can be accepted and
+   rejected in a modular fashion. This speeds up the development
+   process and helps to prevent "code rot". </li>
+   <li> The OKlibrary is now available on GitHub and so the standard
+   development model is to:
+    <ol>
+     <li> Fork OK's OKlibrary github repository and clone
+     this to a local repository (see
+     "Collaborative work on github" in SourceControl/plans/Github.hpp)
+     </li>
+     <li> When a new feature is being developed, create a branch
+     "feature_name" and begin working on this feature in branch
+     "feature_name":
+     \verbatim
+OKlib> git checkout -b feature_name
+OKlib> git branch
+* feature_name
+  master
+# Do work and edit files as normal
+     \endverbatim
+     </li>
+     <li> Once work is finished, one uses the following procedure
+     to submit the changes to OK:
+      <ol>
+       <li> Checkout branch master. </li>
+       <li> Update branch master. </li>
+       <li> Checkout branch "feature_name". </li>
+       <li> Rebase branch master into branch "feature_name". </li>
+       <li> Check through history to ensure recent changes don't affect
+       your commits and rerun tests. </li>
+       <li> Push changes to own fork of OKlibrary on github. </li>
+       <li> Make a pull request on Github to the central OKlibrary repository
+       (see "Collaborative work on github" in SourceControl/plans/Github.hpp)
+       </li>
+      </ol>
+      That is:
+      \verbatim
+OKlib> git checkout master
+OKlib> git pull
+OKlib> git checkout feature_name
+OKlib> git rebase master
+# Check history and rerun tests
+OKlib> git push devgithub feature_name:feature_name
+# On the github website, make a pull request from branch "feature_name".
+# See https://help.github.com/articles/using-pull-requests
+      \endverbatim
+      Rebasing in this way helps to create a much cleaner history
+      in the central OKlibrary repository and makes the merge
+      procedure conceptually simpler for the core developers.
+     </li>
+     <li> If branch "feature_name" is ready for inclusion in the
+     central OKlibrary repository, then there is nothing more to do and
+     OK will merge the changes. </li>
+     <li> If the pull request is rejected and changes are requested then
+     the user should checkout branch "feature_name", do additional work,
+     push again, and make another pull request:
+     \verbatim
+OKlib> git checkout feature_name
+# Do more work
+OKlib> git push devgithub feature_name:feature_name
+# On the github website, make a pull request from branch "feature_name".
+# The original pull request may need to be closed first.
+# See https://help.github.com/articles/using-pull-requests
+     \endverbatim
+     However(!), after the *initial* pull request, DO NOT rebase branch
+     master into branch "feature_name" a second time. After the initial
+     pull request, the history of branch "feature_name" has meaning
+     to the core developers and might be referred to, and so should
+     (in general) not be tampered with. </li>
+    </ol>
+   </li>
+   <li> DONE (merging is no longer the standard model)
+   For a local branch (not to be exported) the standard model is as
    follows:
     <ol>
      <li> Create branch B by "git branch B" (while current branch being
@@ -24,7 +102,8 @@ License, or any later version. */
      <li> Removal of B then by "git branch -d B" (deleting B). </li>
     </ol>
    </li>
-   <li> If the branch really is never exported, then the following
+   <li> DONE (subsumed by standard model using rebase)
+   If the branch really is never exported, then the following
    model provides an alternative, where the history of the branch is
    linearised:
     <ol>
@@ -36,7 +115,8 @@ License, or any later version. */
      <li> When finally abonding B, it must still be merged as above. </li>
     </ol>
    </li>
-   <li> However, outside of this situation I don't see a use of "rebase":
+   <li> DONE (standard model using rebase is now given)
+   However, outside of this situation I don't see a use of "rebase":
     <ol>
      <li> The change of history doesn't seem to be a fundamental problem, since
      in case of conflict with some external repository, git automatically
