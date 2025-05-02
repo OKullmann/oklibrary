@@ -104,6 +104,17 @@ License, or any later version. */
      are not variables anymore, and renaming needs to happen. </li>
      <li> So this shouldn't be the main form, but for the main form we just
      use hypergraphs, where the hyperedges represent the monomials. </li>
+     <li> In this way we are dealing with the boolean algebra over some
+     variable set V where:
+      <ul>
+       <li> the elements of the algebra are hypergraphs over the variable set.
+       </li>
+       <li> the empty hypergraph is the empty summation (0); </li>
+       <li> the empty hyperedge is the empty product (1); </li>
+       <li> multiplication (conjunction) is union; </li>
+       <li> addition is symmetric difference. </li>
+      </ul>
+     </li>
      <li> Calling this "anf", while the sum of monomials in the Maxima-sense
      is called "manf". </li>
      <li> A function "anf2manf" performs the translation, where we need various
@@ -127,6 +138,35 @@ License, or any later version. */
      there are only 2^(2^n) different anf's, and each thus must represent a
      different boolean function (of which there are exactly 2^(2^n)). </li>
     </ol>
+   </li>
+   <li> Computing an ANF for a CNF via splitting:
+    <ul>
+     <li> To compute an ANF we can use the identity:
+     \verbatim
+     f(x_1,x_2,...,x_n) = f(0,x_2,...,x_n) + x_1(f(0,x_2,...,x_n) + f(1,x_2,...,x_n))
+     \endverbatim
+     where "+" is XOR and multiplication is conjunction. </li>
+     <li> So we have the following Maxima function:
+     \verbatim
+fcl2anf(FF) :=
+  if FF[2] = [] then {{}}
+  elseif member({},FF[2]) then {}
+  else block([x_eq_0,x_eq_1],
+    x_eq_0 : fcl2anf([rest(FF[1]),apply_pa_cl({-FF[1][1]},FF[2])]),
+    x_eq_1 : fcl2anf([rest(FF[1]),apply_pa_cl({FF[1][1]},FF[2])]),
+    symmdifference(x_eq_0,
+      map(lambda([E], cons(FF[1][1],E)), symmdifference(x_eq_0,x_eq_1))))$
+
+# Simple examples:
+fcl2anf([[],[{}]]);
+  0
+fcl2anf([[],[]]);
+  1
+fcl2anf([[1,2],[{-1},{2}]]);
+  anf(1)*anf(2)+anf(2)
+     \endverbatim
+     </li>
+    </ul>
    </li>
    <li> Alternative computation:
     <ol>
