@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.6.2019 (Swansea)
-/* Copyright 2019, 2020 Oliver Kullmann
+/* Copyright 2019, 2020, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -323,7 +323,7 @@ namespace RandGen {
   // variable-indices:
   rparam_v interprete(const rparam_v& vpar, const block_v& bpar) {
     rparam_v res; res.reserve(vpar.size());
-    for (const auto par : vpar) {
+    for (const auto& par : vpar) {
       const auto& cps{par.cps};
       clausepart_v cps_new; cps_new.reserve(cps.size());
       for (const auto& cp : cps) {
@@ -353,7 +353,7 @@ namespace RandGen {
     }
     assert(v.size() == second);
 
-    for (const auto p : par.vp) add_seeds(p,v);
+    for (const auto& p : par.vp) add_seeds(p,v);
     return v;
   }
 

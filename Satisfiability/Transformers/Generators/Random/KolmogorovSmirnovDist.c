@@ -649,9 +649,9 @@ static void mMultiply (double *A, double *B, double *C, int m);
 /* Matrix power */
 static void mPower (double *A, int eA, double *V, int *eV, int m, int n);
 
-
-static double DurbinMatrix (int n, double d)
-{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+static double DurbinMatrix (const int n, const double d) {
    int k, m, i, j, g, eH, eQ;
    double h, s, *H, *Q;
    /* OMIT NEXT TWO LINES IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL */
@@ -697,7 +697,7 @@ static double DurbinMatrix (int n, double d)
    free (Q);
    return s;
 }
-
+#pragma GCC diagnostic pop
 
 static void mMultiply (double *A, double *B, double *C, int m)
 {

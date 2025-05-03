@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.7.2019 (Swansea)
-/* Copyright 2019 Oliver Kullmann
+/* Copyright 2019, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,7 @@ namespace {
     return out << "(" << p.first << "," << p.second << ")";
   }
   [[maybe_unused]] std::ostream& operator <<(std::ostream& out, const dep_edges& depe) {
-    for (const auto e : depe) out << " " << e;
+    for (const auto& e : depe) out << " " << e;
     return out;
   }
 
