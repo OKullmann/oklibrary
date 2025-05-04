@@ -58,6 +58,28 @@ TODOS:
   - The return-value is then a pair of vertex_list and Usrbintimestats.
   - To activate for the underlying use-tools, add "statistics=1".
   - With redumis, it is the first line of output, with fastvc the second.
+  - Perhaps adding two fields, "result-status" and "option", both unsigned
+    integers, which for SAT have values {0,1,2,3} for the status, while for
+    these graph-solvers we could have
+     - 0 : ordinary partial computation (bound)
+     - 1 : exact value
+     - 2 : error.
+  - Perhaps then also data about the type of solver, so that better
+    output can be produced?
+  - For such a complete (minimal) result-object, also the version would
+    be good to have; likely best as string.
+  - The solver-description would have four entries:
+   - an enumerated value for the solver-type
+   - an integer-code for the solver (w.r.t. the underlying enumeration)
+   - an unsigned integer for the option
+   - a string for the version.
+  - For the optimising solvers, getting the result (unsigned integer) of
+    the optimisation possibly in this object would also be good?
+  - Or does this better belong to a larger object, containing the minimal
+    data plus the additional results (satisfying assignments, optimal value
+    etc.)?
+  - The value found could be used instead of the status, which then should
+    be unsigned 64-bits?
 
 1. Functor class BC_incomp_by_redumis:
   - Having the biclique-compatability-graph stored in BG can be useful for
