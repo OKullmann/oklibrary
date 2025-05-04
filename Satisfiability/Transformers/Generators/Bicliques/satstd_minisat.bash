@@ -4,11 +4,13 @@
 
 # SAT wall-time user-time system-time max-residual-mem
 
-# with SAT in {0,1,2,3} (unsat, sat, indeterminate, error),
-# and intopt in {0,1} (without/without preprocessing).
+# with SAT in {0,1,2,3} (unsat, sat, indeterminate, error).
 # If satisfiable, then on a second line the satisfying assignment is
 # printed (in clause-format).
-# Setting timeout=0 means the maximal possible timeout.
+
+# Setting variable timeout=0 means the maximal possible timeout.
+# The possible values of internaloptions are 0, 1, with 0 (the default)
+# meaning "-pre", and with 1 "-no-pre".
 
 
 # EXAMPLES:
