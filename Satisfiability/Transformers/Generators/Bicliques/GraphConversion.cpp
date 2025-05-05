@@ -19,8 +19,16 @@ The input-format is "liberal adjacency lists", that is,
  - empty lines are allowed.
 The output is "full-adjacency-lists" (with sorted lists).
 
+If the input is in Dimacs, then the sed-program
+  sed 's/^c/#/;s/^p/# p/;s/^e //'
+converts this to our format.
+This is available as Dimacs2FullAdjList.sed .
+
 
 TODOS:
+
+0. Add complement-option for first commandline-argument:
+    - A new enumeration-type: orig, comp, compwloops.
 
 1. A more comprehensive approach to graph-output is needed,
    incorporating at least the format-options of
