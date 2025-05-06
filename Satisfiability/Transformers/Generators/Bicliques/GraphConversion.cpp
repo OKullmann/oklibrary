@@ -6,29 +6,44 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Reading a graph (undirected, in the general library-format),
-  and outputting it in one of the AdjVecUInt-formats.
+  Reading a graph in the general library-format PSALF, and outputting it in
+  one of the AdjVecUInt-formats (possibly complemented).
 
-The input-format is "liberal adjacency lists", that is,
- - arbitrary strings are allowed as vertex-names
+The input-format is "partial string-adjacency list format", that is,
+ - arbitrary strings without space-symbols are allowed as vertex-names
  - comments can appear in every line, starting with "#"
  - the lines are adjacency-lists of their first vertex (but not necessarily
    complete -- the adjacencies of the first vertex are the union of all
    the adjacency-lines with that vertex as first vertex)
  - edges/arcs can be repeated
- - empty lines are allowed.
-The output is "full-adjacency-lists" (with sorted lists).
+ - empty lines are allowed, and space-symbols other than EOL ignored (except
+   for separation).
+The output has always alphanumerically-sorted lists.
 
 If the input is in Dimacs, then the sed-program
   sed 's/^c/#/;s/^p/# p/;s/^e //'
 converts this to our format.
-This is available as Dimacs2FullAdjList.sed .
+This is available as Dimacs2Psalf.sed .
+
+And if the input is in METIS, then the awk-program
+  /^%/ {printf "#%s\n", $0; next}
+  { if (li == 0) printf "# %s\n", $0;
+    else printf "%d %s\n", li, $0;
+    ++li
+  }
+available as Metis2Psalf.awk, converts this to our format.
 
 
 TODOS:
 
-0. Add complement-option for first commandline-argument:
-    - A new enumeration-type: orig, comp, compwloops.
+0. DONE A name for our graph-format is needed:
+    - full adjacency lists (FUADLI)
+    - general adjacency lists (GEADLI)
+    - most natural adjacency lists (MONADLI)
+    - Adjacency lists convenience (ADLICO)
+    - Best: Partial String-Adjacency List Format (PSALF); extension ".psalf".
+
+    The module should now always refer to PSALF if appropriate.
 
 1. A more comprehensive approach to graph-output is needed,
    incorporating at least the format-options of
@@ -37,9 +52,51 @@ TODOS:
     - Parameters can always be included or left out (+-dp).
 
 
+
 EXAMPLES:
 
-Consider the undirected path of length 3:
+Always using the same input "a b c\nc x\n", and showing the different
+forms of complementation:
+
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug und "" ""
+# 4 3 1
+a b c
+b a
+c a x
+x c
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug -und "" ""
+# 4 3 1
+a x
+b c x
+c b
+x a b
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug ~und "" ""
+# 4 7 1
+a a x
+b b c x
+c b c
+x a b x
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug dir "" ""
+# 4 3 0
+a b c
+b
+c x
+x
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug -dir "" ""
+# 4 9 0
+a x
+b a c x
+c a b
+x a b c
+Bicliques> echo -e "a b c\nc x" | ./GraphConversion_debug ~dir "" ""
+# 4 13 0
+a a x
+b a b c x
+c a b c
+x a b c x
+
+
+Now consider the undirected path of length 3:
 Bicliques> echo -en "a b\nb c\n" | ./GraphConversion und "" ""
 # 3 2 1
 a b
@@ -101,6 +158,7 @@ Note the (trailing) empty line here (vertex 3 has no outgoing arcs).
 */
 
 #include <iostream>
+#include <utility>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -109,8 +167,8 @@ Note the (trailing) empty line here (vertex 3 has no outgoing arcs).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "2.4.2025",
+        "0.1.1",
+        "6.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GraphConversion.cpp",
@@ -125,17 +183,36 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " graph-type format-option with-names\n\n"
+         << " [-|~]graph-type format-option with-names\n\n"
     " graph-type     : " << Environment::WRP<GT>{} << "\n"
     " format-option  : " << Environment::WRP<GrFo>{} << "\n"
     " with-names     : \"false\" or anything else (default \"true\")\n\n"
     " reads a graph from standard input, and outputs it to standard output:\n\n"
     " - Arguments \"\" (the empty string) yield the default-values.\n"
     " - Default-values for the options are the first possibilities given.\n"
+    " - \"-\" means complementation without loops, \"~\" with loops.\n"
     " - with-names is only relevant for graph-format " << GrFo::fulladjlist
       << ".\n\n"
 ;
     return true;
+  }
+
+  enum class GrCo { none, without_loops, with_loops };
+
+  std::pair<GT,GrCo> read_type_arg(std::string arg) noexcept {
+    GrCo gc{};
+    if (arg.starts_with("-")) {
+      gc = GrCo::without_loops; arg = arg.substr(1);
+    }
+    else if (arg.starts_with("~")) {
+      gc = GrCo::with_loops; arg = arg.substr(1);
+    }
+    const auto opt_type = Environment::read<GT>(arg);
+    if (not opt_type) {
+      std::cerr << error << "Faulty type-argument \"" << arg << "\".\n";
+      std::exit(1);
+    }
+    return {opt_type.value(), gc};
   }
 
 }
@@ -152,13 +229,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const auto opt_type = Environment::read<GT>(argv[1]);
-  if (not opt_type) {
-    std::cerr << error <<
-      "Faulty type-argument \"" << argv[1] << "\".\n";
-    return 1;
-  }
-  const GT type = opt_type.value();
+  const auto [type, complement] = read_type_arg(argv[1]);
 
   const auto opt_format = Environment::read<GrFo>(argv[2]);
   if (not opt_format) {
@@ -170,5 +241,10 @@ int main(const int argc, const char* const argv[]) {
 
   const bool with_names = std::string(argv[3]) != "false";
 
-  std::cout << make_AdjVecUInt(std::cin, type, format, with_names);
+  if (complement == GrCo::none)
+    std::cout << make_AdjVecUInt(std::cin, type, format, with_names);
+  else
+    std::cout << Graphs::complement(
+                   make_AdjVecUInt(std::cin, type, format, with_names),
+                   complement == GrCo::with_loops, with_names);
 }

@@ -123,8 +123,10 @@ License, or any later version. */
      - name(id_t) -> string
      - set_name(id, string) : sets the name of id resp. changes it
      - allnames() -> const namesvec_t&
+     - setallnames(namesvec_t)
      - index(string) -> id_t
      - allindices() -> const namesmap_t&
+     - set_allindices(namesmap_t)
      - output(ostream, list_t) (list of vertices)
      - output(ostream) (as <<, but without parameter-line)
 
@@ -175,7 +177,11 @@ License, or any later version. */
     - make_AdjVecUInt(std::istream, GT, GrFo, bool) -> AdjVecUInt
       (just reading an AdjMapStr and converting to AdjVecUInt)
 
+    - make_AdjVecUInt(GT, id_t, vecedges_t, bool) -> AdjVecUInt
+
     - make_complete_AdjVecUInt(GT, bool, id_t) ->AdjVecUInt
+
+    - complement(AdjVecUInt) -> AdjVecUInt
 
     - has_loops(AdjVecUInt) -> bool
     - is_complete(AdjVecUInt) -> bool
@@ -226,6 +232,9 @@ TODO vertexcover2MaxSAT(AdjVecUInt) -> MaxSATClauseList
 
 
 TODOS:
+
+0. Provide process_allnonedges:
+    - Use this to improve implementation of complement(AdjVecUInt).
 
 1. Provide derived form of AdjVecUInt with access to indexed edges.
     - This would come with alledges automatically, and would also allow
@@ -744,6 +753,9 @@ namespace Graphs {
     const namesvec_t& allnames() const noexcept {
       return namesvec;
     }
+    void set_allnames(namesvec_t names) noexcept {
+      namesvec = std::move(names);
+    }
     // Returns n_ for invalid names:
     id_t index(const std::string& s) const noexcept {
       assert(names_);
@@ -753,6 +765,9 @@ namespace Graphs {
     }
     const namesmap_t& allindices() const noexcept {
       return namesmap;
+    }
+    void set_allindices(namesmap_t map) noexcept {
+      namesmap = std::move(map);
     }
 
     typedef std::pair<id_t,id_t> edge_t; // sorted for undirected edges
@@ -839,7 +854,7 @@ namespace Graphs {
       }
     }
 
-    // The complement-edges:
+    // The complement-edges (in lexicographical order):
     vecedges_t allnonedges(const bool withloops = false) const noexcept {
       if (type_ == GT::dir) {
         if (withloops) {
@@ -859,6 +874,7 @@ namespace Graphs {
             }
           }
           assert(res.size() == size);
+          assert(std::ranges::is_sorted(res));
           return res;
         }
         else {
@@ -883,6 +899,7 @@ namespace Graphs {
             }
           }
           assert(res.size() == size);
+          assert(std::ranges::is_sorted(res));
           return res;
         }
       }
@@ -905,6 +922,7 @@ namespace Graphs {
             }
           }
           assert(res.size() == size);
+          assert(std::ranges::is_sorted(res));
           return res;
         }
         else {
@@ -924,6 +942,7 @@ namespace Graphs {
             }
           }
           assert(res.size() == size);
+          assert(std::ranges::is_sorted(res));
           return res;
         }
       }
@@ -1127,6 +1146,42 @@ namespace Graphs {
         if (with_loops or j != i) A[i].push_back(j);
     res.set(A);
     return res;
+  }
+
+
+  // Ignoring edges with invalid vertices; sorted=true means lexicographical
+  // sorting without duplicates:
+  AdjVecUInt make_AdjVecUInt(const GT t,
+                             const AdjVecUInt::id_t n,
+                             const AdjVecUInt::vecedges_t& E,
+                             const bool sorted = false) {
+    AdjVecUInt::adjlist_t A(n);
+    for (const auto& [v,w] : E) {
+      if (v >= n or w >= n) continue;
+      A[v].push_back(w);
+      if (t == GT::und and v != w) A[w].push_back(v);
+    }
+    if (not sorted) {
+      for (AdjVecUInt::id_t v = 0; v < n; ++v) {
+        auto& L = A[v];
+        std::ranges::sort(L);
+        const auto rest = std::ranges::unique(L);
+        L.erase(rest.begin(), rest.end());
+      }
+    }
+    return {t, A};
+  }
+
+
+  AdjVecUInt complement(const AdjVecUInt& G, const bool withloops = false,
+                        const bool withnames = true) {
+    auto H = make_AdjVecUInt(G.type(), G.n(), G.allnonedges(withloops), true);
+    H.format(G.format());
+    if (G.with_names() and withnames) {
+      H.set_names();
+      H.set_allnames(G.allnames()); H.set_allindices(G.allindices());
+    }
+    return H;
   }
 
 

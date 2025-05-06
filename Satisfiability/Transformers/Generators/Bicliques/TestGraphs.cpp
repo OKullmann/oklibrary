@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
-        "21.4.2025",
+        "0.5.2",
+        "5.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -93,6 +93,11 @@ namespace {
        G.process_alledges(pe2);
        assert(pe2.i == size);
      }
+    }
+    assert(G == make_AdjVecUInt(G.type(), G.n(), G.alledges(), true));
+    for (const bool b : {false, true}) {
+      const AdjVecUInt K = complement(G, b);
+      assert(K.alledges() == G.allnonedges(b));
     }
   }
 }
@@ -900,4 +905,24 @@ int main(const int argc, const char* const argv[]) {
      test_edgefunctions(AdjVecUInt(Generators::crown(n)));
   }
 
+  {for (const GT t : {GT::dir, GT::und})
+     for (size_t n = 0; n <= 3; ++n)
+       for (const bool sorted : {false, true})
+         assert(make_AdjVecUInt(t, n, {}, sorted) == AdjVecUInt(t,n));
+  }
+  {const AdjVecUInt G(Generators::cycle(3));
+   assert(G == make_AdjVecUInt(GT::und, 3, {{2,0},{1,0},{1,2}}));
+   assert(complement(G) == AdjVecUInt(GT::und, 3));
+   assert(complement(G,true) ==
+          make_AdjVecUInt(GT::und, 3, {{2,2},{1,1},{0,0}}));
+  }
+  {for (const GT t : {GT::dir, GT::und})
+     for (size_t n = 0; n <= 4; ++n)
+       for (const bool withloops : {false, true}) {
+         assert(complement(AdjVecUInt(t,n), withloops) ==
+                make_complete_AdjVecUInt(t, withloops, n));
+         assert(complement(make_complete_AdjVecUInt(t, withloops, n)) ==
+                AdjVecUInt(t,n));
+       }
+  }
 }
