@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022, 2023, 2024 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023, 2024, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,8 +44,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.9",
-        "28.3.2024",
+        "0.14.0",
+        "8.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -111,6 +111,15 @@ int main(const int argc, const char* const argv[]) {
    std::cout << Wrap(stau(t)) << std::endl;
   }
 */
+  {assert(float128(P264m1) + 2 > std::pow(float128(2), float128(64)));
+   assert(float128(P264m1) + 2 == std::pow(float128(2), float128(64)) + 1);
+   const float128 P = std::pow(float128(2), float128(96));
+   assert(P-1 < P and P < P+1);
+   assert(P == (float128(P264m1) + 1) * std::pow(2,32));
+   const auto PP = float128(P264m1)*P232m1;
+   assert(PP < P - P264m1 - P232m1);
+   assert(PP == P - P264m1 - P232m1 - 1);
+  }
   {assert(isnan(stold("NaN")));
    assert(stold("inf") == pinfinity);
    assert(stold("-inf") == minfinity);

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -89,13 +89,15 @@ License, or any later version. */
 TODOS:
 
 1. Provide float128 as std::float128_t
-  - Provided by <stdfloat> (C++23).
+  - DONE Provided by <stdfloat> (C++23).
     https://en.cppreference.com/w/cpp/header/stdfloat
-  - Apparently with gcc 13.2 this is available.
+  - DONE Apparently with gcc 13.2 this is available.
   - First duplicate all float80-functionality.
   - The assumption is that float128 uses the same memory as float80,
     and should be faster.
   - So that it should become our standard floating-point type.
+
+2. Check the macros CONSTEXPR and STATIC_ASSERT.
 
 */
 
@@ -105,6 +107,7 @@ TODOS:
 #include <limits>
 #include <type_traits>
 #include <variant>
+#include <stdfloat>
 
 #include <cstdint>
 #include <cmath>
@@ -127,13 +130,29 @@ namespace FloatingPoint {
 
   /* Basic concepts */
 
+  /* Intentionally drop-in replacements for standard floating-point types: */
   typedef long double float80;
+  static_assert(std::numeric_limits<long double>::is_iec559);
   typedef double float64;
+  static_assert(std::numeric_limits<double>::is_iec559);
   typedef float float32;
+  static_assert(std::numeric_limits<float>::is_iec559);
+
+  /* An extended floating-point type: */
+  typedef std::float128_t float128;
+
 
   using limitfloat = std::numeric_limits<float80>;
+  using limitfloat128 = std::numeric_limits<float128>;
   using limitfloat64 = std::numeric_limits<float64>;
   using limitfloat32 = std::numeric_limits<float32>;
+
+
+  static_assert(limitfloat128::is_iec559);
+  static_assert(limitfloat128::round_style == std::round_to_nearest);
+  static_assert(limitfloat128::digits == 113);
+  static_assert(limitfloat128::radix == 2);
+  static_assert(limitfloat128::digits10 == 33);
 
 
   // float80 fully includes 64-bit integer arithmetic:
@@ -266,6 +285,7 @@ namespace FloatingPoint {
   static_assert(P264m1 == UInt_t(1.8446744073709551615e19L));
   static_assert(P264m1 + 1 == 0);
   static_assert(UInt_t(float80(P264m1)) == P264m1);
+
 
   constexpr uint_t P232m1 = std::numeric_limits<uint_t>::max();
   static_assert(P232m1 + 1 == 0);
