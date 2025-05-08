@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2021 (Swansea)
-/* Copyright 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.3",
-        "28.6.2023",
+        "0.3.4",
+        "8.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestStatistics.cpp",
@@ -50,7 +50,7 @@ int main(const int argc, const char* const argv[]) {
    assert(bsr{} < b);
    std::ostringstream ss;
    ss << b;
-   assert(ss.str() == "1 : 2 3 4; 5");
+   assert(ss.str() == "1 : 2 3 4 ; 5");
    typedef StatsR<int> ebsr;
    assert(ebsr{} == ebsr({}, 0));
    ebsr eb(b, 77);
@@ -59,7 +59,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ebsr{} < eb);
    ss.str("");
    ss << eb;
-   assert(ss.str() == "1 : 2 3 4; 5 77");
+   assert(ss.str() == "1 : 2 3 4 ; 5 77");
   }
 
   {std::vector<double> Peters{1, 1e100, 1, -1e100};
@@ -251,13 +251,13 @@ int main(const int argc, const char* const argv[]) {
    assert((FS.extract2() == stats_t{{0,FP::UInt_t(-1),0,0,0},0}));
    std::ostringstream ss;
    ss << FS;
-   assert(ss.str() == "L1 0 : 1.84467e+19 0 0; 0 0\n");
+   assert(ss.str() == "L1 0 : 1.84467e+19 0 0 ; 0 0\n");
    assert(eqp(FS += 0, {1,1}));
    assert(eqp(FS.cmap(), {{0,1}}));
    assert((FS.extract1() == stats_t{{1,0,0,0,0},0}));
    assert((FS.extract2() == stats_t{{1,1,1,1,0},1}));
    ss.str(""); ss << FS;
-   assert(ss.str() == "L1 1 : 0 0 0; 0 0\n0:1\nL2 1 : 1 1 1; 0 1\n");
+   assert(ss.str() == "L1 1 : 0 0 0 ; 0 0\n0:1\nL2 1 : 1 1 1 ; 0 1\n");
    assert(eqp(FS += 0, {1,0}));
    assert(eqp(FS.cmap(), {{0,2}}));
    assert((FS.extract1() == stats_t{{2,0,0,0,0},0}));
