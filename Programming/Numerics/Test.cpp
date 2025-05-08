@@ -18,6 +18,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Bicliques/Algorithms.hpp>
+#include <Transformers/Generators/Random/FPDistributions.hpp>
 
 #include "NumTypes.hpp"
 #include "NumBasicFunctions.hpp"
@@ -44,7 +45,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.0",
+        "0.14.1",
         "8.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -568,7 +569,7 @@ int main(const int argc, const char* const argv[]) {
        else {
          const float80 res1 = to_float80(x), res2 = lambertW0_lb(fx);
          assert(accuracy(res1, res2) <= 2);
-         const std::string expected = "3.997135392339302463";
+         const std::string expected = "3.99713539233930246304";
          std::stringstream out;
          out << Wrap(res1);
          assert(out.str() == expected);
@@ -576,11 +577,11 @@ int main(const int argc, const char* const argv[]) {
          out << res1;
          assert(out.str() == "3.99714");
          assert(fullprec_float80(out) == 6);
-         assert(out.precision() == 20);
+         assert(out.precision() == 21);
          out.str("");
          out << res1;
          assert(out.str() == expected);
-         assert(fullprec_float64(out) == 20);
+         assert(fullprec_float64(out) == 21);
          assert(out.precision() == 17);
          out.str("");
          out << res1;
@@ -840,7 +841,7 @@ int main(const int argc, const char* const argv[]) {
     x = 0.001;
     s.str("");
     s << WrapE(x);
-    assert(s.str() == "1.00000005e-03");
+    assert(s.str() == "1.000000047e-03");
     x = 0.0;
     s.str("");
     s << WrapE(x);
@@ -1681,6 +1682,23 @@ int main(const int argc, const char* const argv[]) {
   {UInt_t seed = hash(0.0);
    hash_combine(seed, hash(0));
    assert(seed == hash(F80ai(0)));
+  }
+
+  {assert(std::to_string(float80(0)) == "0.000000");
+   assert(to_string(float80(0)) == "0");
+   RandGen::RandGen_t g;
+   {RandGen::Uniform80RangeI U(g,-1e12L,1e12L);
+    for (unsigned t = 0; t < 100000; ++t) {
+      const float80 x = U();
+      assert(x == to_float80(to_string(x)));
+    }
+   }
+   {RandGen::Uniform80RangeI U(g,-1e-12,1e-12L);
+    for (unsigned t = 0; t < 100000; ++t) {
+      const float80 x = U();
+      assert(x == to_float80(to_string(x)));
+    }
+   }
   }
 
 }

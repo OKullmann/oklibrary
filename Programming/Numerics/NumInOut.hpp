@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -65,9 +65,15 @@ License, or any later version. */
 
     - fullprec_float80(ostream&) sets the maximum precision
     - similarly fullprec_float64, fullprec_float32, fullprec_floatg<FLOAT>
+
+      out_precision_float80, out_precision_float64, out_precision_float32
+      are the needed decimal digits for the output to guarantee precise
+      re-reading. All our output-facilities provide this full precision.
+
     - Wrap, Wrap64, Wrap32 for output-streaming with full precision:
       Wrap(x) just wraps x, and output-streaming of such an object happens
       with maximal precision according to type (float80/64/32)
+
     - setting output-style and precision, returning old state:
        - fixed_width(ostream&, streamsize)
        - engineering_width(ostream&, streamsize)
@@ -76,8 +82,12 @@ License, or any later version. */
     - out_fixed_width(ostream&, streamsize, float80) packages the above
       two functions (i.e., output with fixed width, without changing the
       stream-state)
+
     - WrapE<Float>(x) is output-streamed with current precision in scientific
-      notation without trailing zeros.
+      notation without trailing zeros
+
+    - to_string(FLOAT) uses full precision (different from std::to_string,
+      which has a fixed precision of 6).
 
 */
 
@@ -457,19 +467,24 @@ namespace FloatingPoint {
 
   /* Output */
 
-
+  constexpr auto out_precision_float80 = limitfloat::max_digits10;
+  static_assert(out_precision_float80 == 21);
   auto fullprec_float80(std::ostream& out) noexcept {
-    return out.precision(limitfloat::digits10 + 2);
+    return out.precision(out_precision_float80);
   }
+  constexpr auto out_precision_float64 = limitfloat64::max_digits10;
+  static_assert(out_precision_float64 == 17);
   auto fullprec_float64(std::ostream& out) noexcept {
-    return out.precision(limitfloat64::digits10 + 2);
+    return out.precision(out_precision_float64);
   }
+  constexpr auto out_precision_float32 = limitfloat32::max_digits10;
+  static_assert(out_precision_float32 == 9);
   auto fullprec_float32(std::ostream& out) noexcept {
-    return out.precision(limitfloat32::digits10 + 2);
+    return out.precision(out_precision_float32);
   }
   template <typename FLOAT>
   std::streamsize fullprec_floatg(std::ostream& out) noexcept {
-    return out.precision(std::numeric_limits<FLOAT>::digits10 + 2);
+    return out.precision(std::numeric_limits<FLOAT>::max_digits10);
   }
 
   // Changing formatting and precision:
@@ -537,7 +552,7 @@ namespace FloatingPoint {
   }
 
 
- template <typename FLOAT>
+  template <typename FLOAT>
   std::ostream& operator <<(std::ostream& out, const WrapE<FLOAT> x) {
     if (x.deactivated) { return out << x.x; }
     if (x.x == 0) return out << "0";
@@ -561,8 +576,16 @@ namespace FloatingPoint {
       assert(not res.empty());
       return out << res + e;
     }
- }
+  }
 
+
+  template <typename FLOAT>
+  std::string to_string(const FLOAT x) noexcept {
+    std::ostringstream s;
+    fullprec_floatg<FLOAT>(s);
+    s << x;
+    return s.str();
+  }
 }
 
 #endif
