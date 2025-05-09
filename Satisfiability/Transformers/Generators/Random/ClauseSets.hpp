@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -465,12 +465,16 @@ namespace RandGen {
   vec_eseed_t seeds(const Param& par) {
     vec_eseed_t v; v.reserve(size_type_eseed);
 
+    // Organisational part:
     v.push_back(gen_uint_t(SeedOrganisation::Logic::block_uniform_cnf));
+
+    // Structure-parameters:
     v.push_back(gen_uint_t(int(par.gp)));
     v.push_back(par.vp.size());
     v.push_back(default_thread_index);
     assert(v.size() == size_type_eseed);
 
+    // Instance-specific values:
     for (const auto& p : par.vp) add_seeds(p,v);
     return v;
   }
