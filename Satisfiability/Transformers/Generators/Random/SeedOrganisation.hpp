@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.12.2020 (Swansea)
-/* Copyright 2020, 2021 Oliver Kullmann
+/* Copyright 2020, 2021, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -111,20 +111,20 @@ namespace SeedOrganisation {
     block_uniform_dqcnf_plantede1 = 4,
   };
   std::string default_filestem(const Logic t) {
-    // bug gcc 10.1.0 with "using enum"
+    using enum Logic;
     switch (t) {
-    case Logic::block_uniform_cnf : return "BlRaGe";
-    case Logic::block_uniform_qcnf : return "QuBlRaGe";
-    case Logic::block_uniform_dqcnf : return "DeQuBlRaGe";
+    case block_uniform_cnf : return "BlRaGe";
+    case block_uniform_qcnf : return "QuBlRaGe";
+    case block_uniform_dqcnf : return "DeQuBlRaGe";
     default : return "NOT_IMPLEMENTED";
     }
   }
   std::string default_filesuffix(const Logic t) {
-    // bug gcc 10.1.0 with "using enum"
+    using enum Logic;
     switch (t) {
-    case Logic::block_uniform_cnf : return ".dimacs";
-    case Logic::block_uniform_qcnf : return ".qdimacs";
-    case Logic::block_uniform_dqcnf : return ".dqdimacs";
+    case block_uniform_cnf : return ".dimacs";
+    case block_uniform_qcnf : return ".qdimacs";
+    case block_uniform_dqcnf : return ".dqdimacs";
     default : return "NOT_IMPLEMENTED";
     }
   }
@@ -133,7 +133,6 @@ namespace SeedOrganisation {
     latin_squares=0,
   };
   std::string default_filestem(const Combinatorics t) {
-    // bug gcc 10.1.0 with "using enum"
     switch (t) {
     case Combinatorics::latin_squares : return "LSRG";
     default : return "NOT_IMPLEMENTED";
@@ -170,6 +169,8 @@ namespace SeedOrganisation {
   constexpr eseed_t dqbrg_variant = 0;
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
+
+  constexpr eseed_t grrg_timestamp = 1746719382361957731L;
 
   constexpr eseed_t size_first_part = 5+1;
 
