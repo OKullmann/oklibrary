@@ -76,4 +76,6 @@
 /MinVertexCoverFastVC
 /MinVertexCoverFastVC_debug
 /*SplitViaOKsolver*
+/TestCombinatorics_debug
+/TestSolverBasics_debug
 /*.cnf

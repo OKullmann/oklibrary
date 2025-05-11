@@ -53,33 +53,67 @@ License, or any later version. */
 
 TODOS:
 
+-1. New general facility to employ the new standardised facilities
+  - Currently called
+      (vc|mi)std_(fastvc|redumis).bash
+  - Perhaps the "std" should be at the front, for easier searching?
+    Perhaps "callgraphsolver" ?
+  - Perhaps "vc" resp. "mi" should be an argument?
+    Should this have a default? "vc" for fastvc, "mi" for redumis?
+  - There needs to be some mechanism to associate the graph-format with
+    the solver.
+
 0. For redumis and fastvc always supply the 4 statistics:
+
+   UPDATE: we have now two additional numbers, "n" and "c", say --
+   number of vertices/variables, number of edges/clauses.
+   And the basic statistics are 5 numbers: result, 3xtimes, memory.
+   Perhaps all numbers are float80, with NaN indicating error,
+   and -inf indicating NA ? String-input/output would be ERR and NA.
+   For SAT-solvers the ordinary result has 0,1,2 (not 3 anymore) --
+   2 says computation was not succesful (different from -inf, which means
+   no computation took place).
+   This is the minimal statistics.
+   An extension then provides solver-information (as below).
+   All such types to new module SolverBasics.hpp.
+
   - Providing a standard structure Usrbintimestats.
+    UPDATE: perhaps MinSolverResult ?
   - The return-value is then a pair of vertex_list and Usrbintimestats.
   - To activate for the underlying use-tools, add "statistics=1".
+    UPDATE: the standardised underlying tools always provide minimal
+    statistics.
   - With redumis, it is the first line of output, with fastvc the second.
+    DONE with the new tools.
   - Perhaps adding two fields, "result-status" and "option", both unsigned
     integers, which for SAT have values {0,1,2,3} for the status, while for
     these graph-solvers we could have
      - 0 : ordinary partial computation (bound)
      - 1 : exact value
      - 2 : error.
+    UPDATE: Currently for an incomplete solver actually to output
+    a precise result (like "this vertex cover is optimal") can't be
+    expressed with the six values.
+    But this information should be part of the solver-information.
   - Perhaps then also data about the type of solver, so that better
     output can be produced?
   - For such a complete (minimal) result-object, also the version would
     be good to have; likely best as string.
   - The solver-description would have four entries:
-   - an enumerated value for the solver-type
+   - an enumerated value for the solver-type (SAT, MAXSAT, MVC, MIS)
    - an integer-code for the solver (w.r.t. the underlying enumeration)
    - an unsigned integer for the option
    - a string for the version.
+    UPDATE: perhaps also some entry about the exactness-mode.
   - For the optimising solvers, getting the result (unsigned integer) of
     the optimisation possibly in this object would also be good?
+    UPDATE: yes, the result is part of the minimal statistics.
   - Or does this better belong to a larger object, containing the minimal
     data plus the additional results (satisfying assignments, optimal value
     etc.)?
   - The value found could be used instead of the status, which then should
     be unsigned 64-bits?
+    UPDATE: float80 seems better.
 
 1. Functor class BC_incomp_by_redumis:
   - Having the biclique-compatability-graph stored in BG can be useful for
@@ -105,8 +139,13 @@ TODOS:
 
 #include "Graphs.hpp"
 #include "Bicliques.hpp"
+#include "SolverBasics.hpp"
 
 namespace GraphTools {
+
+  /*
+    Specialised tools for certain external solvers
+  */
 
   constexpr int default_redumis_seed = 0;
   constexpr double default_redumis_timeout = 10;

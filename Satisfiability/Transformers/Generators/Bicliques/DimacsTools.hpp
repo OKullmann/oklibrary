@@ -331,6 +331,7 @@ See plans/general.txt.
 #include <Numerics/NumInOut.hpp>
 
 #include "Algorithms.hpp"
+#include "SolverBasics.hpp"
 
 namespace DimacsTools {
 
