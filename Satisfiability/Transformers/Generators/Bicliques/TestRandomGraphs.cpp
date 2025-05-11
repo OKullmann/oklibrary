@@ -16,8 +16,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "13.4.2025",
+        "0.0.5",
+        "9.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestRandomGraphs.cpp",
@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(independent_edges(5, {1,2}, g).alledges(),
               {{0,1},{0,4},{1,3},{1,4},{2,3},{2,4}}));
    assert(eqp(independent_edges(5, {1,2}, g, false).alledges(),
-              {{0,0},{0,2},{0,4},{1,2},{1,3},{1,4},{2,2},{2,3},{3,4}}));
+              {{0,0},{0,2},{0,4},{1,2},{1,3},{1,4},{2,2},{2,3},{3,4},{4,4}}));
   }
 
 }

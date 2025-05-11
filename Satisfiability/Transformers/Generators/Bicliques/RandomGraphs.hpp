@@ -9,7 +9,7 @@ License, or any later version. */
   Functionality related to random graphs
 
    - independent_edges(n, p, RandGen::RandGen_t&) -> AdjVecUInt
-     (the Erdoes-Renyi model, with independently chosen edges)
+     (the Gilbert-model, with independently chosen edges)
 
 
 TODOS:
@@ -20,6 +20,9 @@ See plans/general.txt.
 
 #ifndef RANDOMGRAPHS_t6peLPimmH
 #define RANDOMGRAPHS_t6peLPimmH
+
+#include <exception>
+#include <sstream>
 
 #include <Transformers/Generators/Random/Distributions.hpp>
 
@@ -32,23 +35,36 @@ namespace RandomGraphs {
   typedef AdjVecUInt::size_t size_t;
 
 
-  // Creating an undirected graph:
+  constexpr FloatingPoint::float80 max_number_edges = FloatingPoint::pow(2,63);
+
+  // Creating an undirected graph (a "binomial random graph", or in other
+  // words, using the "Gilbert-model G(n,p)"):
   AdjVecUInt independent_edges(const size_t n, const RandGen::Prob64 p,
                                RandGen::RandGen_t& g,
                                const bool no_loops = true) {
     const auto type = Graphs::GT::und;
     if (n <= 1) return AdjVecUInt(type);
     if (p.zero()) return AdjVecUInt(type, n);
-    if (p.one()) return Graphs::make_complete_AdjVecUInt(type, false, n);
+    const FloatingPoint::float80 expected_E = no_loops ?
+      FloatingPoint::float80(p) * n * (n-1) / 2 :
+      FloatingPoint::float80(p) * n * (n+1) / 2;
+    if (expected_E >= max_number_edges) {
+      std::ostringstream m;
+      m << "ERROR[RandomGraphs::independent_edges]: for n=" << n << " and "
+        << "p=" << p << " the expected number of edges " << expected_E
+        << " is at least " << max_number_edges << ".";
+      throw std::overflow_error(m.str());
+    }
+    if (p.one()) return Graphs::make_complete_AdjVecUInt(type,
+                                                         not no_loops, n);
     AdjVecUInt::adjlist_t A(n);
     RandGen::Bernoulli B(g, p);
-    for (size_t v = 0; v < n-1; ++v) {
+    for (size_t v = 0; v < n - no_loops; ++v) {
       auto& L = A[v];
       for (size_t w = v + no_loops; w < n; ++w)
         if (B()) {
           L.push_back(w);
-          if (no_loops or v != w)
-            A[w].push_back(v);
+          if (no_loops or v != w) A[w].push_back(v);
         }
     }
     return {type, std::move(A)};
