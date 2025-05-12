@@ -18,7 +18,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "12.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -74,4 +74,26 @@ int main(const int argc, const char* const argv[]) {
           {{0,1},{0,2},{0,3},{1,2},{0,4},{1,3},{0,5},{1,4},{2,3},{0,6},{1,5},{2,4},{0,7},{1,6},{2,5},{3,4},{0,8},{1,7},{2,6},{3,5},{0,9}}));
   }
 
+  {static_assert(eqp(makelist([](auto i){return CoLexicographic{PaTy::sorted}.secondc(i);}, 0, 30),
+          {0,1,1,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,7,7,7}));
+   static_assert(eqp(makelist([](auto i){return CoLexicographic{PaTy::sortedneq}.secondc(i);}, 0, 30),
+          {1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,8,8,8}));
+  }
+  {using enum PaTy;
+   for (const PaTy pt : {sorted, sortedneq}) {
+     const CoLexicographic C{pt};
+     for (UInt_t n = 0; n <= 100; ++n) {
+       const UInt_t min = C.mintriv(n);
+       assert(min == C.min(n));
+       const UInt_t v = C.secondc(n);
+       assert(C.secondc(min) == v);
+       if (min > 0) assert(C.secondc(min-1) < v);
+     }
+   }
+  }
+  {static_assert(eqp(makelist([](auto i){return CoLexicographic{PaTy::sorted}(i);}, 0, 20),
+          {{0,0},{0,1},{1,1},{0,2},{1,2},{2,2},{0,3},{1,3},{2,3},{3,3},{0,4},{1,4},{2,4},{3,4},{4,4},{0,5},{1,5},{2,5},{3,5},{4,5},{5,5}}));
+   static_assert(eqp(makelist([](auto i){return CoLexicographic{PaTy::sortedneq}(i);}, 0, 20),
+          {{0,1},{0,2},{1,2},{0,3},{1,3},{2,3},{0,4},{1,4},{2,4},{3,4},{0,5},{1,5},{2,5},{3,5},{4,5},{0,6},{1,6},{2,6},{3,6},{4,6},{5,6}}));
+  }
 }
