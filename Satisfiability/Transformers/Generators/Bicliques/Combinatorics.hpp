@@ -66,7 +66,7 @@ namespace Combinatorics {
     }
 
     // The antidiagonal of i (that is, u+v for the pair corresponding to i):
-    constexpr UInt_t sum(const UInt_t i) const noexcept {
+    constexpr UInt_t antid(const UInt_t i) const noexcept {
       using enum PaTy;
       switch (pt) {
       case full : return (FloatingPoint::sqrt(float80(i)*8 + 1) - 1) / 2;
@@ -80,15 +80,15 @@ namespace Combinatorics {
       default : assert(false); return 0; }
     }
 
-    // The first i such that sum(i) >= n, first trivially computed: */
+    // The first i such that antid(i) >= n, first trivially computed: */
     constexpr UInt_t mintriv(const UInt_t n) const noexcept {
       UInt_t summation = 0;
-      for (UInt_t s = 0; s < sum(n); ++s) summation += length(s);
+      for (UInt_t s = 0; s < antid(n); ++s) summation += length(s);
       return summation;
     }
     constexpr UInt_t min(const UInt_t n) const noexcept {
       using enum PaTy;
-      const UInt_t s = sum(n);
+      const UInt_t s = antid(n);
       switch (pt) {
       case full : return s%2==0 ? (s/2) * (s+1) : ((s+1)/2) * s;
       case fullneq : return 0; // ???
@@ -99,23 +99,23 @@ namespace Combinatorics {
     }
 
     constexpr pair_t operator()(const UInt_t i) const noexcept {
-      const UInt_t s = sum(i), m = min(i);
+      const UInt_t s = antid(i), m = min(i);
       return {i - m, (s+m) - i};
     }
   };
 
-  static_assert(AntiDiagonal{PaTy::full}.sum(0) == 0);
-  static_assert(AntiDiagonal{PaTy::full}.sum(65535) == 361);
-  static_assert(AntiDiagonal{PaTy::full}.sum(-1) == 6074000999UL);
-  static_assert(AntiDiagonal{PaTy::fullneq}.sum(0) == 1);
-  static_assert(AntiDiagonal{PaTy::fullneq}.sum(65535) == 362);
-  static_assert(AntiDiagonal{PaTy::fullneq}.sum(-1) == 6074000999UL);
-  static_assert(AntiDiagonal{PaTy::sorted}.sum(0) == 0);
-  static_assert(AntiDiagonal{PaTy::sorted}.sum(65535) == 510);
-  static_assert(AntiDiagonal{PaTy::sorted}.sum(-1) == 8589934590UL);
-  static_assert(AntiDiagonal{PaTy::sortedneq}.sum(0) == 1);
-  static_assert(AntiDiagonal{PaTy::sortedneq}.sum(65535) == 511);
-  static_assert(AntiDiagonal{PaTy::sortedneq}.sum(-1) == 8589934591UL);
+  static_assert(AntiDiagonal{PaTy::full}.antid(0) == 0);
+  static_assert(AntiDiagonal{PaTy::full}.antid(65535) == 361);
+  static_assert(AntiDiagonal{PaTy::full}.antid(-1) == 6074000999UL);
+  static_assert(AntiDiagonal{PaTy::fullneq}.antid(0) == 1);
+  static_assert(AntiDiagonal{PaTy::fullneq}.antid(65535) == 362);
+  static_assert(AntiDiagonal{PaTy::fullneq}.antid(-1) == 6074000999UL);
+  static_assert(AntiDiagonal{PaTy::sorted}.antid(0) == 0);
+  static_assert(AntiDiagonal{PaTy::sorted}.antid(65535) == 510);
+  static_assert(AntiDiagonal{PaTy::sorted}.antid(-1) == 8589934590UL);
+  static_assert(AntiDiagonal{PaTy::sortedneq}.antid(0) == 1);
+  static_assert(AntiDiagonal{PaTy::sortedneq}.antid(65535) == 511);
+  static_assert(AntiDiagonal{PaTy::sortedneq}.antid(-1) == 8589934591UL);
 
   static_assert(AntiDiagonal{PaTy::sortedneq}.min(-1) == 18446744069414584320UL);
 

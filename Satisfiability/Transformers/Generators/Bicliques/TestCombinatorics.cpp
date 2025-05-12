@@ -18,8 +18,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
-        "11.5.2025",
+        "0.0.6",
+        "12.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestCombinatorics.cpp",
@@ -43,13 +43,13 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
 
-  {static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::full}.sum(i);}, 0, 30),
+  {static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::full}.antid(i);}, 0, 30),
           {0,1,1,2,2,2,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,7,7,7}));
-   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::fullneq}.sum(i);}, 0, 30),
+   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::fullneq}.antid(i);}, 0, 30),
           {1,1,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7}));
-   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::sorted}.sum(i);}, 0, 30),
+   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::sorted}.antid(i);}, 0, 30),
           {0,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10}));
-   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::sortedneq}.sum(i);}, 0, 30),
+   static_assert(eqp(makelist([](auto i){return AntiDiagonal{PaTy::sortedneq}.antid(i);}, 0, 30),
           {1,2,3,3,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11}));
   }
   {using enum PaTy;
@@ -58,9 +58,9 @@ int main(const int argc, const char* const argv[]) {
      for (UInt_t n = 0; n <= 100; ++n) {
        const UInt_t min = A.mintriv(n);
        assert(min == A.min(n));
-       const UInt_t S = A.sum(n);
-       assert(A.sum(min) == S);
-       if (min > 0) assert(A.sum(min-1) < S);
+       const UInt_t S = A.antid(n);
+       assert(A.antid(min) == S);
+       if (min > 0) assert(A.antid(min-1) < S);
      }
    }
   }
