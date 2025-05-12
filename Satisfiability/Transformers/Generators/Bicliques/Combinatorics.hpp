@@ -86,12 +86,19 @@ namespace Combinatorics {
       for (UInt_t s = 0; s < antid(n); ++s) summation += length(s);
       return summation;
     }
+    /* Underlying summation-formulas for sum_{s=0}^m length(s) :
+        - full      : (m+1) * (m+2) / 2
+        - fullneq   : floor((m+1)^2/2)
+        - sorted    : ???
+        - sortedneq : ceil(n * (n+2) / 4).
+       These formulas are applied with m = antid(n) - 1.
+    */
     constexpr UInt_t min(const UInt_t n) const noexcept {
       using enum PaTy;
       const UInt_t s = antid(n);
       switch (pt) {
       case full : return s%2==0 ? (s/2) * (s+1) : ((s+1)/2) * s;
-      case fullneq : return 0; // ???
+      case fullneq : return s%2==0 ? (s/2) * s : ((s-1)/2) * (s+1);
       case sorted : return 0; // ???
       case sortedneq : { const float80 h = s;
           return FloatingPoint::ceil((h/4) * h - float80(1)/4); }
@@ -100,7 +107,9 @@ namespace Combinatorics {
 
     constexpr pair_t operator()(const UInt_t i) const noexcept {
       const UInt_t s = antid(i), m = min(i);
-      return {i - m, (s+m) - i};
+      if (pt != PaTy::fullneq or s%2==1 or i - m < (s+m) - i)
+        return {i - m, (s+m) - i};
+      else return {i - m + 1, (s+m) - i - 1};
     }
   };
 
@@ -117,11 +126,15 @@ namespace Combinatorics {
   static_assert(AntiDiagonal{PaTy::sortedneq}.antid(65535) == 511);
   static_assert(AntiDiagonal{PaTy::sortedneq}.antid(-1) == 8589934591UL);
 
+  static_assert(AntiDiagonal{PaTy::fullneq}.min(-1) == 18446744067926499000UL);
   static_assert(AntiDiagonal{PaTy::sortedneq}.min(-1) == 18446744069414584320UL);
 
   static_assert(AntiDiagonal{PaTy::full}(0) == pair_t{0,0});
   static_assert(AntiDiagonal{PaTy::full}(65535) == pair_t{194,167});
   static_assert(AntiDiagonal{PaTy::full}(-1) == pair_t{2746052115UL,3327948884UL});
+  static_assert(AntiDiagonal{PaTy::fullneq}(0) == pair_t{0,1});
+  static_assert(AntiDiagonal{PaTy::fullneq}(65535) == pair_t{13,349});
+  static_assert(AntiDiagonal{PaTy::fullneq}(-1) == pair_t{5783052615UL,290948384UL});
 
   static_assert(AntiDiagonal{PaTy::sortedneq}(0) == pair_t{0,1});
   static_assert(AntiDiagonal{PaTy::sortedneq}(65535) == pair_t{255,256});
