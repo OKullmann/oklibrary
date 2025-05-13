@@ -183,7 +183,9 @@ namespace Combinatorics {
       using enum PaTy;
       switch (pt) {
       case sorted : return v+1;
-      case sortedneq : return v; }
+      case sortedneq : return v;
+      case full : [[fallthrough]];
+      case fullneq : ; }
       assert(false); return 0;
     }
 
@@ -195,7 +197,8 @@ namespace Combinatorics {
         // https://oeis.org/A003056
       case sortedneq : return FloatingPoint::sqrt(float80(i)*2 + 2) + 0.5;
         // https://oeis.org/A002024, but there starting with i=1
-      }
+      case full : [[fallthrough]];
+      case fullneq : ; }
       assert(false); return 0;
     }
 
@@ -215,7 +218,9 @@ namespace Combinatorics {
       const UInt_t v = secondc(n);
       switch (pt) {
       case sorted : return v%2==0 ? (v/2) * (v+1) : ((v+1)/2) * v;
-      case sortedneq : return v%2==0 ? (v/2) * (v-1) : ((v-1)/2) * v; }
+      case sortedneq : return v%2==0 ? (v/2) * (v-1) : ((v-1)/2) * v;
+      case full : [[fallthrough]];
+      case fullneq : ; }
       assert(false); return 0;
     }
 
