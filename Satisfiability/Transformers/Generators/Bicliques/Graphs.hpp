@@ -15,6 +15,11 @@ License, or any later version. */
    - scoped enum GrFo ("libadjlist", "dimacs", "metis")
    - valid(GT)
 
+   - class Sizes: static member functions
+    - allops(n) -> true (checks whether n < 2^32)
+    - max_m(n, GT, bool with_loops) -> float80 resp. std::uint64_t
+      depending on type of n.
+
 
    - class AdjMapStr: a simple string-based class for creating graphs
 
@@ -269,6 +274,7 @@ TODOS:
 #include <ProgramOptions/Strings.hpp>
 #include <Numerics/Statistics.hpp>
 #include <Transformers/Generators/Random/Distributions.hpp>
+#include <Numerics/NumTypes.hpp>
 
 #include "Algorithms.hpp"
 #include "DimacsTools.hpp"
@@ -332,6 +338,67 @@ namespace Graphs {
     default : return out << "GrFo::UNKNOWN";}
   }
 
+
+  /*
+    Size management
+  */
+  struct Sizes {
+    typedef std::uint64_t uint64_t;
+    typedef std::uint32_t uint32_t;
+    typedef FloatingPoint::float80 float80;
+
+    // The maximal number of vertices such that all operations are
+    // allowed (in principal):
+    static constexpr uint64_t max_n_allops = FloatingPoint::P232m1;
+    static constexpr bool allops(const uint64_t n) noexcept {
+      return n <= max_n_allops;
+    }
+
+    static constexpr float80 max_m(const uint64_t n, const GT gt,
+                                   const bool with_loops) noexcept {
+      if (n == 0) return 0;
+      switch (gt) {
+      case GT::dir : {const float80 nf = n;
+        if (with_loops) return nf*nf;
+        else return nf * (nf-1);
+      }
+      case GT::und :
+        if (n % 2 == 0)
+          if (with_loops) return float80(n/2) * (n+1);
+          else return float80(n/2) * (n-1);
+        else
+          if (with_loops) return float80(n+1)/2 * n;
+          else return float80(n-1)/2 * n;
+      }
+      assert(false); return FloatingPoint::NaN;
+    }
+    static constexpr uint64_t max_m(const uint32_t n, const GT gt,
+                                    const bool with_loops) noexcept {
+      if (n == 0) return 0;
+      const uint64_t ne = n;
+      switch (gt) {
+      case GT::dir :
+        if (with_loops) return ne*ne;
+        else return ne * (ne-1);
+      case GT::und :
+        if (n % 2 == 0)
+          if (with_loops) return (ne/2) * (ne+1);
+          else return (ne/2) * (ne-1);
+        else
+          if (with_loops) return (ne+1)/2 * ne;
+          else return (ne-1)/2 * n;
+      }
+      assert(false); return 0;
+    }
+  };
+  static_assert(Sizes::max_m(std::uint32_t(4294967295UL),GT::dir,true) == 18446744065119617025UL);
+  static_assert(Sizes::max_m(std::uint32_t(4294967295UL),GT::dir,false) == 18446744060824649730UL);
+  static_assert(Sizes::max_m(std::uint32_t(4294967295UL),GT::und,true) == 9223372034707292160UL);
+  static_assert(Sizes::max_m(std::uint32_t(4294967295UL),GT::und,false) == 9223372030412324865UL);
+  static_assert(Sizes::max_m(4294967296UL,GT::dir,true) == FloatingPoint::P264);
+  static_assert(Sizes::max_m(4294967296UL,GT::dir,false) == 18446744069414584320UL);
+  static_assert(Sizes::max_m(4294967296UL,GT::und,true) == 9223372039002259456UL);
+  static_assert(Sizes::max_m(4294967296UL,GT::und,false) == 9223372034707292160UL);
 
   // ********************************************************************
 
@@ -856,6 +923,7 @@ namespace Graphs {
 
     // The complement-edges (in lexicographical order):
     vecedges_t allnonedges(const bool withloops = false) const noexcept {
+      assert(Sizes::allops(n_));
       if (type_ == GT::dir) {
         if (withloops) {
           const id_t size = n_ * n_ - m_;
@@ -1137,6 +1205,7 @@ namespace Graphs {
   }
   AdjVecUInt make_complete_AdjVecUInt(const GT t, const bool with_loops,
                                       const AdjVecUInt::id_t n) {
+    assert(Sizes::allops(n));
     AdjVecUInt res(t, n);
     if (n == 0) return res;
     AdjVecUInt::adjlist_t A(n);
@@ -1175,6 +1244,7 @@ namespace Graphs {
 
   AdjVecUInt complement(const AdjVecUInt& G, const bool withloops = false,
                         const bool withnames = true) {
+    assert(Sizes::allops(G.n()));
     auto H = make_AdjVecUInt(G.type(), G.n(), G.allnonedges(withloops), true);
     H.format(G.format());
     if (G.with_names() and withnames) {
