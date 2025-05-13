@@ -8,8 +8,11 @@ License, or any later version. */
 /*
   Functionality related to random graphs
 
-   - independent_edges(n, p, RandGen::RandGen_t&) -> AdjVecUInt
-     (the Gilbert-model, with independently chosen edges)
+   - binomial_rgr(n, p, RandGen::RandGen_t&) -> AdjVecUInt
+     (the Gilbert-model G(n,p), with independently chosen edges)
+
+   - uniform_rgr(n, m, RandGen::RandGen_t&) -> AdjVecUInt
+     (the Erdoes-Renyi-model G(n,m), with m edges chosen uniformly random)
 
 
 TODOS:
@@ -27,6 +30,7 @@ See plans/general.txt.
 #include <Transformers/Generators/Random/Distributions.hpp>
 
 #include "Graphs.hpp"
+#include "Combinatorics.hpp"
 
 namespace RandomGraphs {
 
@@ -34,12 +38,12 @@ namespace RandomGraphs {
 
   typedef AdjVecUInt::size_t size_t;
 
-
   constexpr FloatingPoint::float80 max_number_edges = FloatingPoint::pow(2,63);
 
-  // Creating an undirected graph (a "binomial random graph", or in other
-  // words, using the "Gilbert-model G(n,p)"):
-  AdjVecUInt independent_edges(const size_t n, const RandGen::Prob64 p,
+
+  // Creating a "binomial random graph" (undirected), or in other
+  // words, using the "Gilbert-model G(n,p)":
+  AdjVecUInt binomial_rgr(const size_t n, const RandGen::Prob64 p,
                                RandGen::RandGen_t& g,
                                const bool no_loops = true) {
     const auto type = Graphs::GT::und;
@@ -50,7 +54,7 @@ namespace RandomGraphs {
       FloatingPoint::float80(p) * n * (n+1) / 2;
     if (expected_E >= max_number_edges) {
       std::ostringstream m;
-      m << "ERROR[RandomGraphs::independent_edges]: for n=" << n << " and "
+      m << "ERROR[RandomGraphs::binomial_rgr]: for n=" << n << " and "
         << "p=" << p << " the expected number of edges " << expected_E
         << " is at least " << max_number_edges << ".";
       throw std::overflow_error(m.str());
@@ -68,6 +72,15 @@ namespace RandomGraphs {
         }
     }
     return {type, std::move(A)};
+  }
+
+
+  // Creating a "uniform random graph" (undirected), or in other
+  // words, using the "Erdoes-Renyi-model G(n,m)"):
+  AdjVecUInt uniform_rgr(const size_t n, const size_t m,
+                         RandGen::RandGen_t& g,
+                         const bool no_loops = true) {
+    
   }
 
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.2.2022 (Swansea)
-/* Copyright 2022, 2023 2025 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
-        "5.5.2025",
+        "0.5.3",
+        "12.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -828,7 +828,7 @@ int main(const int argc, const char* const argv[]) {
 
   {RandGen::RandGen_t g;
    for (RandGen::gen_uint_t n = 0; n < 100; ++n) {
-     const auto G = RandomGraphs::independent_edges(n, {1,2}, g);
+     const auto G = RandomGraphs::binomial_rgr(n, {1,2}, g);
      struct FUN {
        AdjVecUInt::vecedges_t res;
        void operator()(const AdjVecUInt::edge_t& e) noexcept {
@@ -884,9 +884,9 @@ int main(const int argc, const char* const argv[]) {
    {RandGen::RandGen_t g;
     for (size_t n = 0; n < 51; ++n)
       for (const size_t d : {2,5,10}) {
-        auto G = RandomGraphs::independent_edges(n, {1,d}, g, true);
+        auto G = RandomGraphs::binomial_rgr(n, {1,d}, g, true);
         test_edgefunctions(G);
-        G = RandomGraphs::independent_edges(n, {1,d}, g, false);
+        G = RandomGraphs::binomial_rgr(n, {1,d}, g, false);
         test_edgefunctions(G);
       }
    }
