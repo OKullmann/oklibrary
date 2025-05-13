@@ -21,7 +21,9 @@ License, or any later version. */
 
    - Functor-class AntiDiagonal:
     - AntiDiagonal{PaTy}(UInt_t i) computes the pair corresponding to
-      index i in the "anti-diagonal" enumeration of NN_0^2.
+      index i in the "anti-diagonal" enumeration of NN_0^2 (unranking)
+    - AntiDiagonal{PaTy}(pair_t)
+      computes the inverse (ranking).
 
    - Functor-class CoLexicographic:
     - CoLexicographic(PaTy pt)(UInt_t i) computes the pair corresponding to
@@ -110,25 +112,37 @@ namespace Combinatorics {
         - sorted    : floor((m+2)^2/4)
         - sortedneq : ceil(m * (m+2) / 4).
        These formulas are applied with m = antid(n) - 1.
+       The sums for indices < m:
     */
-    constexpr UInt_t min(const UInt_t n) const noexcept {
+    constexpr UInt_t sum_m1(const UInt_t m) const noexcept {
       using enum PaTy;
-      const UInt_t s = antid(n);
       switch (pt) {
-      case full : return s%2==0 ? (s/2) * (s+1) : ((s+1)/2) * s;
-      case fullneq : return s%2==0 ? (s/2) * s : ((s-1)/2) * (s+1);
-      case sorted : { const float80 h = float80(s) + 1;
+      case full : return m%2==0 ? (m/2) * (m+1) : ((m+1)/2) * m;
+      case fullneq : return m%2==0 ? (m/2) * m : ((m-1)/2) * (m+1);
+      case sorted : { const float80 h = float80(m) + 1;
           return (h/4) * h; }
-      case sortedneq : { const float80 h = s;
+      case sortedneq : { const float80 h = m;
           return FloatingPoint::ceil((h/4) * h - float80(1)/4); } }
       assert(false); return 0;
     }
+    constexpr UInt_t min(const UInt_t n) const noexcept {
+      return sum_m1(antid(n));
+    }
 
+    // Unranking:
     constexpr pair_t operator()(const UInt_t i) const noexcept {
       const UInt_t s = antid(i), m = min(i);
       if (pt != PaTy::fullneq or s%2==1 or i - m < (s+m) - i)
         return {i - m, (s+m) - i};
       else return {i - m + 1, (s+m) - i - 1};
+    }
+    // Ranking:
+    constexpr UInt_t operator()(const pair_t& p) const noexcept {
+      const UInt_t s = p.first + p.second;
+      if (pt != PaTy::fullneq or s%2==1 or p.first < p.second)
+        return sum_m1(s) + p.first;
+      else
+        return sum_m1(s) + p.first - 1;
     }
   };
 
@@ -151,17 +165,29 @@ namespace Combinatorics {
   static_assert(AntiDiagonal{PaTy::sortedneq}.min(-1) == 18446744069414584320UL);
 
   static_assert(AntiDiagonal{PaTy::full}(0) == pair_t{0,0});
+  static_assert(AntiDiagonal{PaTy::full}(pair_t{0,0}) == 0);
   static_assert(AntiDiagonal{PaTy::full}(65535) == pair_t{194,167});
+  static_assert(AntiDiagonal{PaTy::full}(pair_t{194,167}) == 65535);
   static_assert(AntiDiagonal{PaTy::full}(-1) == pair_t{2746052115UL,3327948884UL});
+  static_assert(AntiDiagonal{PaTy::full}(pair_t{2746052115UL,3327948884UL}) == UInt_t(-1));
   static_assert(AntiDiagonal{PaTy::fullneq}(0) == pair_t{0,1});
+  static_assert(AntiDiagonal{PaTy::fullneq}(pair_t{0,1}) == 0);
   static_assert(AntiDiagonal{PaTy::fullneq}(65535) == pair_t{13,349});
+  static_assert(AntiDiagonal{PaTy::fullneq}(pair_t{13,349}) == 65535);
   static_assert(AntiDiagonal{PaTy::fullneq}(-1) == pair_t{5783052615UL,290948384UL});
+  static_assert(AntiDiagonal{PaTy::fullneq}(pair_t{5783052615UL,290948384UL}) == UInt_t(-1));
   static_assert(AntiDiagonal{PaTy::sorted}(0) == pair_t{0,0});
+  static_assert(AntiDiagonal{PaTy::sorted}(pair_t{0,0}) == 0);
   static_assert(AntiDiagonal{PaTy::sorted}(65535) == pair_t{255,255});
+  static_assert(AntiDiagonal{PaTy::sorted}(pair_t{255,255}) == 65535);
   static_assert(AntiDiagonal{PaTy::sorted}(-1) == pair_t{4294967295UL,4294967295UL});
+  static_assert(AntiDiagonal{PaTy::sorted}(pair_t{4294967295UL,4294967295UL}) == UInt_t(-1));
   static_assert(AntiDiagonal{PaTy::sortedneq}(0) == pair_t{0,1});
+  static_assert(AntiDiagonal{PaTy::sortedneq}(pair_t{0,1}) == 0);
   static_assert(AntiDiagonal{PaTy::sortedneq}(65535) == pair_t{255,256});
+  static_assert(AntiDiagonal{PaTy::sortedneq}(pair_t{255,256}) == 65535);
   static_assert(AntiDiagonal{PaTy::sortedneq}(-1) == pair_t{4294967295UL,4294967296UL});
+  static_assert(AntiDiagonal{PaTy::sortedneq}(pair_t{4294967295UL,4294967296UL}) == UInt_t(-1));
 
 
   /* *********************************************************
@@ -212,21 +238,30 @@ namespace Combinatorics {
         - sorted    : (m+1) * (m+2) / 2
         - sortedneq : m * (m+1) /2.
        These formulas are applied with m = secondc(n) - 1.
+       The sums for indices < m:
     */
-    constexpr UInt_t min(const UInt_t n) const noexcept {
+    constexpr UInt_t sum_m1(const UInt_t m) const noexcept {
       using enum PaTy;
-      const UInt_t v = secondc(n);
       switch (pt) {
-      case sorted : return v%2==0 ? (v/2) * (v+1) : ((v+1)/2) * v;
-      case sortedneq : return v%2==0 ? (v/2) * (v-1) : ((v-1)/2) * v;
+      case sorted : return m%2==0 ? (m/2) * (m+1) : ((m+1)/2) * m;
+      case sortedneq : return m%2==0 ? (m/2) * (m-1) : ((m-1)/2) * m;
       case full : [[fallthrough]];
       case fullneq : ; }
       assert(false); return 0;
     }
+    constexpr UInt_t min(const UInt_t n) const noexcept {
+      return sum_m1(secondc(n));
+    }
 
+    // Unranking:
     constexpr pair_t operator()(const UInt_t i) const noexcept {
       const UInt_t v = secondc(i), m = min(i);
       return {i - m, v};
+    }
+    // Ranking:
+    constexpr UInt_t operator()(const pair_t& p) const noexcept {
+      const UInt_t s = p.second;
+      return sum_m1(s) + p.first;
     }
   };
 
@@ -241,11 +276,17 @@ namespace Combinatorics {
   static_assert(CoLexicographic{PaTy::sortedneq}.min(-1) == 18446744070963499500UL);
 
   static_assert(CoLexicographic{PaTy::sorted}(0) == pair_t{0,0});
+  static_assert(CoLexicographic{PaTy::sorted}(pair_t{0,0}) == 0);
   static_assert(CoLexicographic{PaTy::sorted}(65535) == pair_t{194,361});
+  static_assert(CoLexicographic{PaTy::sorted}(pair_t{194,361}) == 65535);
   static_assert(CoLexicographic{PaTy::sorted}(-1) == pair_t{2746052115UL,6074000999UL});
+  static_assert(CoLexicographic{PaTy::sorted}(pair_t{2746052115UL,6074000999UL}) == UInt_t(-1));
   static_assert(CoLexicographic{PaTy::sortedneq}(0) == pair_t{0,1});
+  static_assert(CoLexicographic{PaTy::sortedneq}(pair_t{0,1}) == 0);
   static_assert(CoLexicographic{PaTy::sortedneq}(65535) == pair_t{194,362});
+  static_assert(CoLexicographic{PaTy::sortedneq}(pair_t{194,362}) == 65535);
   static_assert(CoLexicographic{PaTy::sortedneq}(-1) == pair_t{2746052115UL,6074001000UL});
+  static_assert(CoLexicographic{PaTy::sortedneq}(pair_t{2746052115UL,6074001000UL}) == UInt_t(-1));
 }
 
 #endif
