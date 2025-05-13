@@ -78,8 +78,8 @@ namespace Combinatorics {
       case full : return s + 1;
       case fullneq : return s + 1 - (s % 2 == 0);
       case sorted : return s/2 + 1;
-      case sortedneq : return s%2==0 ? s/2 : (s+1)/2;
-      default : assert(false); return 0; }
+      case sortedneq : return s%2==0 ? s/2 : (s+1)/2; }
+      assert(false); return 0;
     }
 
     // The antidiagonal of i (that is, u+v for the pair corresponding to i):
@@ -94,7 +94,8 @@ namespace Combinatorics {
         // https://oeis.org/A055086
       case sortedneq : return FloatingPoint::sqrt(float80(i)*4 + 1);
         // https://oeis.org/A000267
-      default : assert(false); return 0; }
+      }
+      assert(false); return 0;
     }
 
     // The first i such that antid(i) >= n, first trivially computed: */
@@ -119,8 +120,8 @@ namespace Combinatorics {
       case sorted : { const float80 h = float80(s) + 1;
           return (h/4) * h; }
       case sortedneq : { const float80 h = s;
-          return FloatingPoint::ceil((h/4) * h - float80(1)/4); }
-      default : assert(false); return 0; }
+          return FloatingPoint::ceil((h/4) * h - float80(1)/4); } }
+      assert(false); return 0;
     }
 
     constexpr pair_t operator()(const UInt_t i) const noexcept {
@@ -182,8 +183,8 @@ namespace Combinatorics {
       using enum PaTy;
       switch (pt) {
       case sorted : return v+1;
-      case sortedneq : return v;
-      default : assert(false); return 0; }
+      case sortedneq : return v; }
+      assert(false); return 0;
     }
 
     // The second component of i (that is, v for the pair corresponding to i):
@@ -194,7 +195,8 @@ namespace Combinatorics {
         // https://oeis.org/A003056
       case sortedneq : return FloatingPoint::sqrt(float80(i)*2 + 2) + 0.5;
         // https://oeis.org/A002024, but there starting with i=1
-      default : assert(false); return 0; }
+      }
+      assert(false); return 0;
     }
 
     // The first i such that secondc(i) >= n, first trivially computed: */
@@ -213,8 +215,8 @@ namespace Combinatorics {
       const UInt_t v = secondc(n);
       switch (pt) {
       case sorted : return v%2==0 ? (v/2) * (v+1) : ((v+1)/2) * v;
-      case sortedneq : return v%2==0 ? (v/2) * (v-1) : ((v-1)/2) * v;
-      default : assert(false); return 0; }
+      case sortedneq : return v%2==0 ? (v/2) * (v-1) : ((v-1)/2) * v; }
+      assert(false); return 0;
     }
 
     constexpr pair_t operator()(const UInt_t i) const noexcept {
