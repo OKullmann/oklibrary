@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC GRRG
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -136,6 +136,9 @@ MaxIndependentRedumis_debug : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hp
 
 MinVertexCoverFastVC : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
 MinVertexCoverFastVC_debug : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
+
+GRRG : GRRG.cpp RandomGraphs.hpp
+GRRG_debug : GRRG.cpp RandomGraphs.hpp
 
 # -------------------------
 
