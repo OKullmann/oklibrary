@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.11.2020 (Swansea)
-/* Copyright 2020, 2023 Oliver Kullmann
+/* Copyright 2020, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "27.8.2023",
+        "0.1.4",
+        "14.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestSequences.cpp",
@@ -105,7 +105,7 @@ int main(const int argc, const char* const argv[]) {
    using namespace FloatingPoint;
    fullprec_float80(ss);
    Environment::out_line_T(ss, S, ExpSeq::translate<float80>);
-   assert(ss.str().size() == 29036);
+   assert(ss.str().size() == 30226);
    const auto values1 = to_vec_float80(ss.str(), ' ');
    assert(values1.size() == size);
    std::vector<float80> values2; values2.reserve(size);
