@@ -11,19 +11,27 @@ License, or any later version. */
 
 DESIGN RATIONAL:
 
-1. Using a high-quality pseudo-random engine, the 64-bit Mersenne Twister.
+1. Using a high-quality pseudo-random engine, the 64-bit Mersenne Twister
+   (from the C++ standard library).
 
-2. Allows arbitrarily long user-seeds (which can be given, or timestamps,
-   or truly random values). Not just the usual 32-bit or maximally 64-bit
-   seeds.
+2. Allows arbitrarily long sequences of user-seeds (unsigned 64 bits, which
+   can be given, or created as timestamps or truly random values). Not just
+   the usual 32-bit or maximally 64-bit seeds.
 
 3. Seed-management makes automatically sure that every change of essential
    parameters results in a different random sequence (guaranteeing diversity).
+   This is done by incorporating these parameters into the initial library-
+   given part of the seed-sequence.
    With every other generator all over the world again and again the same
    underlying random sequences are used.
 
 4. Well-defined generation, fully reproducible on any machine and compiler,
-   for now and the future.
+   for now and the future. No floating-point operations are used, and every
+   aspect of random generation not fully defined by the C++ standard is
+   fixed. For the G(n,p) model, the probability p is given
+   as a pair of two unsigned 64-bit integers, while n and m (for G(n,m) model)
+   are unsigned 64-bit integers (though for G(n,m) n is restricted in fact
+   to 32 bits).
 
 5. 64-bit generation possibilities (fully w.r.t. the number of edges).
 
@@ -31,10 +39,48 @@ DESIGN RATIONAL:
 
 7. Supports different output-formats.
 
+DISCUSSION of existing libraries which allow to generate these graphs:
+
+1. NetworkX
+
+https://networkx.org/documentation/stable/reference/generated/networkx.generators.random_graphs.gnp_random_graph.html
+gnp_random_graph
+
+https://networkx.org/documentation/stable/reference/generated/networkx.generators.random_graphs.gnm_random_graph.html#networkx.generators.random_graphs.gnm_random_graph
+gnm_random_graph
+
+All just based on int (and unspecified).
+
+
+2. igraph
+
+https://igraph.org/c/doc/igraph-Random.html
+allows different random generators; likely from the C++ standard library,
+and thus the usage of these engines is unspecified.
+
+https://igraph.org/c/doc/igraph-Generators.html#igraph_erdos_renyi_game_gnp
+igraph_erdos_renyi_game_gnp
+
+https://igraph.org/c/doc/igraph-Generators.html#igraph_erdos_renyi_game_gnm
+igraph_erdos_renyi_game_gnm
+
+Numbers depend on the machine.
+
+
+The above seem the only libraries explicitly providing these two random graphs.
+
+https://www.boost.org/doc/libs/1_85_0/libs/graph/doc/random.html
+has some tools, and generate_random_graph provides G(n,m)-graphs, but no
+details given.
+
+graph-tool has many network-models, but does not seem to provide
+the two basic models (G(n,p), G(n,m)).
+
 
 TODOS:
 
 1. Connect to LSRG.cpp and BRG.cpp.
+  - LSRG.cpp is newer (together with LSRG.hpp); we also do here GRRG.hpp.
 
 OLD:
 
@@ -45,13 +91,14 @@ UPDATE: Started with RandomGraphs.hpp.
    - Arguments:
          type  offset  V  P/E
     - type: undirected/directed, without/with loops;
-    - offset (unsigned integer, default 0)
+    - DONE (not used -- the different formats are enough)
+      offset (unsigned integer, default 0)
     - V number of vertices
     - E is the number of (different) edges, P (as quotient) is the
       probability of an edge.
-   - For E choose_kn is used for the total number of edges, using
+   - DONE For E choose_kn is used for the total number of edges, using
      an encoding.
-   - For P one runs through all potential edges.
+   - DONE For P one runs through all potential edges.
    - Output with comments first, then the adjacency-lists (not duplicated
      for undirected). Alphabetically sorted (by using an appropriate
      encoding this can be done without storage).
