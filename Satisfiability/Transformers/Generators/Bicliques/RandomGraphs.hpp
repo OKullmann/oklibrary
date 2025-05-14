@@ -17,6 +17,17 @@ License, or any later version. */
 
 TODOS:
 
+1. Also supply the directed cases.
+  - Now called "D(n,p)" resp. "D(n,m)" (and still "binomial" resp. "uniform").
+  - Perhaps a further argument of type GT, with default GT::und.
+  - In the binomial model, one needs additionally to consider the
+    "back edges".
+  - In the uniform model, just the scope of "all edges" is extended.
+
+2. Use views to avoid in uniform_rgr the double-storage of the edges.
+
+
+
 See plans/general.txt.
 
 */
@@ -26,8 +37,10 @@ See plans/general.txt.
 
 #include <exception>
 #include <sstream>
+#include <utility>
 
 #include <Transformers/Generators/Random/Distributions.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 
 #include "Graphs.hpp"
 #include "Combinatorics.hpp"
@@ -47,7 +60,7 @@ namespace RandomGraphs {
                                RandGen::RandGen_t& g,
                                const bool no_loops = true) {
     const auto type = Graphs::GT::und;
-    if (n <= 1) return AdjVecUInt(type);
+    if (n <= 0) return AdjVecUInt(type);
     if (p.zero()) return AdjVecUInt(type, n);
     const FloatingPoint::float80 expected_E = no_loops ?
       FloatingPoint::float80(p) * n * (n-1) / 2 :
@@ -77,10 +90,20 @@ namespace RandomGraphs {
 
   // Creating a "uniform random graph" (undirected), or in other
   // words, using the "Erdoes-Renyi-model G(n,m)"):
-  AdjVecUInt uniform_rgr(const size_t n, const size_t m,
+  AdjVecUInt uniform_rgr(const Graphs::Sizes::uint32_t n0, const size_t m,
                          RandGen::RandGen_t& g,
                          const bool no_loops = true) {
-    
+    const size_t max_m =
+      Graphs::Sizes::max_m(n0, Graphs::GT::und, not no_loops);
+    assert(m <= max_m);
+    const size_t n = n0;
+    assert(Graphs::Sizes::allops(n)); // holds automatically due to type of n0
+    const auto edge_indices = RandGen::choose_kn(m, max_m, g);
+    AdjVecUInt::vecedges_t E; E.reserve(m);
+    const Combinatorics::CoLexicographic CL(no_loops ?
+      Combinatorics::PaTy::sortedneq : Combinatorics::PaTy::sorted);
+    for (const size_t i : edge_indices) E.push_back(CL(i));
+    return Graphs::make_AdjVecUInt(Graphs::GT::und, n, E);
   }
 
 }
