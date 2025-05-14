@@ -23,14 +23,15 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
-        "12.5.2025",
+        "0.5.4",
+        "14.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
         "GPL v3"};
 
   using namespace Graphs;
+  namespace FP = FloatingPoint;
 
   template <class X>
   constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
@@ -734,7 +735,7 @@ int main(const int argc, const char* const argv[]) {
    }
   }
   {const  AdjVecUInt G(Generators::clique(10));
-   GenStats::FreqStats<unsigned, FloatingPoint::float80> S;
+   GenStats::FreqStats<unsigned, FP::float80> S;
    for (unsigned i = 0; i < 1000; ++i) {
      const auto res = maximal_independent_greedy_simplest(G, {i});
      assert(res.size() == 1);
@@ -924,5 +925,53 @@ int main(const int argc, const char* const argv[]) {
          assert(complement(make_complete_AdjVecUInt(t, withloops, n)) ==
                 AdjVecUInt(t,n));
        }
+  }
+
+  {assert(eqp(boolvec_colexicographic(AdjVecUInt(GT::und)), {}));
+   assert(colex_index(AdjVecUInt(GT::und)) == 0);
+   assert(eqp(boolvec_colexicographic(AdjVecUInt(GT::und),1), {}));
+   assert(colex_index(AdjVecUInt(GT::und,2)) == 0);
+   for (size_t n = 0; n <= 5; ++n)
+     for (const bool with_loops : {false,true}) {
+       const AdjVecUInt G = make_complete_AdjVecUInt(GT::und, with_loops, n);
+       const auto B = boolvec_colexicographic(G, with_loops);
+       const auto max_m = Sizes::max_m(n, GT::und, with_loops);
+       assert(B.size() == max_m);
+       for (const bool v : B) assert(v);
+       assert(colex_index(G, with_loops) == FP::pow(2, max_m)-1);
+     }
+   {const auto G = make_AdjVecUInt(GT::und, 4, {{0,2},{1,3}});
+    assert(eqp(boolvec_colexicographic(G), {false,true,false,false,true}));
+    assert(eqp(boolvec_colexicographic(G,true), {false,false,false,true,false,false,false,true}));
+   }
+   {for (size_t n = 2; n <= 10; ++n) {
+      auto G = make_AdjVecUInt(GT::und, n, {{0,1}});
+      assert(eqp(boolvec_colexicographic(G), {true}));
+      assert(colex_index(G) == 1);
+      assert(eqp(boolvec_colexicographic(G,true), {false,true}));
+      assert(colex_index(G,true) == 2);
+      G = make_AdjVecUInt(GT::und, n, {{n-2,n-1}});
+      {const auto m = Sizes::max_m(n,G.type(),false);
+       std::vector<bool> B(m);
+       B.back() = true;
+       assert(boolvec_colexicographic(G) == B);
+       assert(colex_index(G) == FP::pow(2, m-1));}
+      {const auto m = Sizes::max_m(n,G.type(),true);
+       std::vector<bool> B(m-1);
+       B.back() = true;
+       assert(boolvec_colexicographic(G,true) == B);
+       assert(colex_index(G,true) == FP::pow(2, m-2));}
+    }
+   }
+   {const auto G = make_AdjVecUInt(GT::und, 12, {{8,11}});
+    {std::vector<bool> B(64); B.back() = true;
+     assert(boolvec_colexicographic(G) == B);}
+    assert(colex_index(G) == FP::pow(2,63));
+   }
+   {const auto G = make_AdjVecUInt(GT::und, 12, {{9,11}});
+    {std::vector<bool> B(65); B.back() = true;
+     assert(boolvec_colexicographic(G) == B);}
+    assert(colex_index(G) == 0);
+   }
   }
 }

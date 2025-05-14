@@ -196,9 +196,21 @@ License, or any later version. */
     - degree_statistics(AdjVecUInt) -> degree_statistics_t (=
       FreqStats<size_t, float80>)
 
-    - sort_edge(edge_t) -> edge_t
-    - edge_index(vecedges_t, edge_t) -> id_t
-    - edge_index(vecedges_t, vecedges_t) -> list_t
+    - sort_edge(edge_t) -> edge_t (the resulting edge (u,v) has u <= v)
+    - edge_index(vecedges_t E, edge_t) -> id_t (index in the sorted edge-list)
+    - edge_index(vecedges_t E, vecedges_t ev) -> list_t (ev itselfs and its
+      elements are assumed to be sorted, and returned is the list of indices)
+
+    - max_colex_index(AdjVecUInt G, bool with_loops) -> id_t
+      (considering colexicographic order of edges of G (undirected),
+       compute for the last edge of G its unranking in the colexicographical
+       order of pairs of natural numbers)
+    - boolvec_colexicographic(AdjVecUInt G, with_loops) -> std::vector<bool>
+      computes the colexicographical "fingerprint" of G (undirected) as
+      bit-vector, but only up to the last bit 1
+    - colex_index(AdjVecUInt, with_loops) -> id_t
+      interpretes the vector as binary number (exactly precise for graphs with
+      max_colex_index <= 63)
 
     - output_matrix(AdjVecUInt, ostream)
 
@@ -278,6 +290,7 @@ TODOS:
 
 #include "Algorithms.hpp"
 #include "DimacsTools.hpp"
+#include "Combinatorics.hpp"
 
 namespace Graphs {
 
@@ -288,6 +301,27 @@ namespace Graphs {
   }
   static_assert(valid(GT::und));
   static_assert(valid(GT::dir));
+
+
+  // Returns (graph-type, with-loops):
+  constexpr std::pair<GT, bool> as_graph(const Combinatorics::PaTy pt) noexcept {
+    using enum Combinatorics::PaTy;
+    switch (pt) {
+    case full : return {GT::dir, true};
+    case fullneq : return {GT::dir, false};
+    case sorted : return {GT::und, true};
+    case sortedneq : return {GT::und, false}; }
+    assert(false); return {};
+  }
+  constexpr Combinatorics::PaTy as_graph(const std::pair<GT, bool>& p) noexcept {
+    using enum Graphs::GT;
+    using enum Combinatorics::PaTy;
+    assert(p.first == dir or p.first == und);
+    return p.first == dir ?
+      (p.second ? full : fullneq) :
+      (p.second ? sorted : sortedneq);
+  }
+
 
   // Graph-formats:
   enum class GrFo {
@@ -1332,6 +1366,53 @@ namespace Graphs {
       res.push_back(it - begin);
       ++it;
     }
+    return res;
+  }
+
+
+  // The maximal colexicographical index of an edge in G:
+  AdjVecUInt::id_t max_colex_index(const AdjVecUInt& G,
+                                   const bool with_loops = false) noexcept {
+    assert(G.type() == GT::und);
+    assert(G.m() != 0);
+    using id_t = AdjVecUInt::id_t;
+    id_t first = 0, second = 0;
+    const auto& A = G.graph();
+    for (id_t v = 0; v < G.n(); ++v) {
+      const auto& L = A[v];
+      if (L.empty()) continue;
+      const id_t last = L.back();
+      if (last < second) continue;
+      if (last > second) { second = last; first = v; continue; }
+      if (v > first) first = v;
+    }
+    return Combinatorics::CoLexicographic{as_graph({GT::und, with_loops})}
+      ({first,second});
+  }
+  std::vector<bool> boolvec_colexicographic(const AdjVecUInt& G,
+                                            const bool with_loops = false) {
+    assert(G.type() == GT::und);
+    std::vector<bool> res;
+    if (G.m() == 0) return res;
+    res.resize(max_colex_index(G, with_loops) + 1);
+    struct Enter {
+      std::vector<bool>& res;
+      const Combinatorics::CoLexicographic C;
+      void operator()(const AdjVecUInt::edge_t& e) noexcept {
+        res[C(e)] = true;
+      }
+    };
+    Enter E{res, as_graph({GT::und, with_loops})};
+    G.process_alledges(E);
+    return res;
+  }
+  AdjVecUInt::id_t colex_index(const AdjVecUInt& G,
+                               const bool with_loops = false) {
+    assert(G.type() == GT::und);
+    const auto V = boolvec_colexicographic(G, with_loops);
+    using id_t = AdjVecUInt::id_t;
+    id_t res = 0;
+    for (id_t e = 1; const bool b : V) { res += b * e; e *= 2; }
     return res;
   }
 
