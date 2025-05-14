@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.1.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,7 +20,7 @@ License, or any later version. */
 
     - erf, erfc
 
-    - sq, cb, qa (own functions)
+    - recip (1/x), sq (x^2), cb (x^3), qa (x^4) (own functions)
     - sqrt, cbrt, qart (own function)
     - hypot
 
@@ -219,6 +219,14 @@ namespace FloatingPoint {
   STATIC_ASSERT(std::cos(pi) == -1);
   STATIC_ASSERT(abs(std::sin(pi)) < epsilon);
 
+
+  inline constexpr float80 recip(const float80 x) noexcept { return 1/x; }
+  static_assert(recip(1) == 1);
+  static_assert(recip(0.5) == 2);
+  static_assert(recip(2) == 0.5);
+  static_assert(isnan(recip(NaN)));
+  static_assert(recip(pinfinity) == 0);
+  static_assert(recip(minfinity) == 0);
 
   inline constexpr float80 sq(const float80 x) noexcept {
     return x*x;

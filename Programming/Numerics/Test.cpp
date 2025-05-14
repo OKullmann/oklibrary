@@ -45,8 +45,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.1",
-        "8.5.2025",
+        "0.14.2",
+        "14.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1699,6 +1699,11 @@ int main(const int argc, const char* const argv[]) {
       assert(x == to_float80(to_string(x)));
     }
    }
+  }
+
+  {assert(recip(0.0) == pinfinity);
+   assert(recip(-0.0) == minfinity);
+   assert(signbit(recip(minfinity)));
   }
 
 }
