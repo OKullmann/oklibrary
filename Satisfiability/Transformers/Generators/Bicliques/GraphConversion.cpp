@@ -36,15 +36,6 @@ available as Metis2Psalf.awk, converts this to our format.
 
 TODOS:
 
-0. DONE A name for our graph-format is needed:
-    - full adjacency lists (FUADLI)
-    - general adjacency lists (GEADLI)
-    - most natural adjacency lists (MONADLI)
-    - Adjacency lists convenience (ADLICO)
-    - Best: Partial String-Adjacency List Format (PSALF); extension ".psalf".
-
-    The module should now always refer to PSALF if appropriate.
-
 1. A more comprehensive approach to graph-output is needed,
    incorporating at least the format-options of
    BCC2SAT:
@@ -123,7 +114,7 @@ p edge 3 2
 e 1 2
 e 2 3
 
-Finally the Metis-format is similar to our fulladjlist-format, but 1-based,
+Finally the Metis-format is similar to our psalf-format, but 1-based,
 the first line (with number of vertices and edges/arcs) is necessary,
 and the following lines (the adjacency list) lack the source-vertex:
 Bicliques> echo -en "a b\nb c\n" | ./GraphConversion und metis ""
@@ -167,8 +158,8 @@ Note the (trailing) empty line here (vertex 3 has no outgoing arcs).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "6.5.2025",
+        "0.1.2",
+        "15.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GraphConversion.cpp",
@@ -191,7 +182,7 @@ namespace {
     " - Arguments \"\" (the empty string) yield the default-values.\n"
     " - Default-values for the options are the first possibilities given.\n"
     " - \"-\" means complementation without loops, \"~\" with loops.\n"
-    " - with-names is only relevant for graph-format " << GrFo::fulladjlist
+    " - with-names is only relevant for graph-format " << GrFo::psalf
       << ".\n\n"
 ;
     return true;

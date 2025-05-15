@@ -162,7 +162,7 @@ License, or any later version. */
      - << : output in the format as given by the format-member, with
        a header specifying (at least) number of vertices and edges/arcs,
        and the body given the adjacency-information.
-       The native (default) format GrFo::fulladjlist has:
+       The native (default) format GrFo::psalf has:
       - comment-line (started with "# ") with n, m, type
       - all adjacency-lists (space-separated, first the source; either
         via indices, or, if names activated, then via names_.
@@ -325,19 +325,19 @@ namespace Graphs {
 
   // Graph-formats:
   enum class GrFo {
-    fulladjlist = 0, // "full adjency lists"
+    psalf = 0, // "Partial String-Adjacency List Format"
     dimacs = 1,
     metis = 2
   };
   constexpr bool valid(const GrFo f) noexcept {
-    return f==GrFo::fulladjlist or f==GrFo::dimacs or f==GrFo::metis;
+    return f==GrFo::psalf or f==GrFo::dimacs or f==GrFo::metis;
   }
-  static_assert(valid(GrFo::fulladjlist));
+  static_assert(valid(GrFo::psalf));
   static_assert(valid(GrFo::dimacs));
   static_assert(valid(GrFo::metis));
   constexpr char comment_symbol(const GrFo f) noexcept {
     switch (f) {
-    case GrFo::fulladjlist : return '#';
+    case GrFo::psalf : return '#';
     case GrFo::dimacs : return 'c';
     case GrFo::metis : return '%';
     default : return 0; }
@@ -354,7 +354,7 @@ namespace Environment {
   struct RegistrationPolicies<Graphs::GrFo> {
     static constexpr int size = int(Graphs::GrFo::metis)+1;
     static constexpr std::array<const char*, size> string
-    {"fulladjlist", "dimacs", "metis"};
+    {"psalf", "dimacs", "metis"};
   };
 }
 namespace Graphs {
@@ -366,7 +366,7 @@ namespace Graphs {
   }
   std::ostream& operator <<(std::ostream& out, const GrFo f) {
     switch (f) {
-    case GrFo::fulladjlist : return out << "full-adjacency-list";
+    case GrFo::psalf : return out << "partial-string-adjacency";
     case GrFo::dimacs : return out << "Dimacs";
     case GrFo::metis : return out << "METIS";
     default : return out << "GrFo::UNKNOWN";}
@@ -712,7 +712,7 @@ namespace Graphs {
     adjlist_t A;
     // invariants for A: A.size() = n_, all A[i] are sorted
 
-    mutable GrFo format_ = GrFo::fulladjlist;
+    mutable GrFo format_ = GrFo::psalf;
 
     bool names_ = true;
     namesvec_t namesvec;
@@ -727,7 +727,7 @@ namespace Graphs {
       A(std::move(A0)), names_(false) {
       assert(valid(A)); m_ = num_edges(); }
     explicit AdjVecUInt(const AdjMapStr& G,
-                        const GrFo f = GrFo::fulladjlist,
+                        const GrFo f = GrFo::psalf,
                         const bool with_names = true) noexcept
       : type_(G.type()), n_(G.n()), m_(G.m()), A(n_),
         format_(f), names_(with_names), namesvec(n_) {
@@ -1094,7 +1094,7 @@ namespace Graphs {
 
     void output_header(std::ostream& out) const {
       switch (format_) {
-      case GrFo::fulladjlist : {
+      case GrFo::psalf : {
         out << "# " << n_ << " " << m_ << " " << int(type_) << "\n";
         break;
       }
@@ -1111,7 +1111,7 @@ namespace Graphs {
     }
     void output_header(std::FILE* const fp) const {
       switch (format_) {
-      case GrFo::fulladjlist : {
+      case GrFo::psalf : {
         std::fprintf(fp, "# %" PRIu64 " %" PRIu64 " %d\n", n_,m_,int(type_));
         break;
       }
@@ -1131,7 +1131,7 @@ namespace Graphs {
     // Output of (only) the adjacency-information:
     void output_body(std::ostream& out) const {
       switch (format_) {
-      case GrFo::fulladjlist : {
+      case GrFo::psalf : {
         for (id_t v = 0; v < n_; ++v) {
           if (names_) out << namesvec[v]; else out << v;
           for (const id_t w : A[v]) {
@@ -1165,7 +1165,7 @@ namespace Graphs {
     }
     void output_body(std::FILE* const fp) const {
       switch (format_) {
-      case GrFo::fulladjlist : {
+      case GrFo::psalf : {
         if (names_)
           for (id_t v = 0; v < n_; ++v) {
             std::fprintf(fp, "%s", namesvec[v].c_str());
@@ -1233,7 +1233,7 @@ namespace Graphs {
     return G;
   }
   AdjVecUInt make_AdjVecUInt(std::istream& in, const GT t,
-                             const GrFo f = GrFo::fulladjlist,
+                             const GrFo f = GrFo::psalf,
                              const bool with_names = true) {
     return AdjVecUInt(make_AdjMapStr(in, t), f, with_names);
   }
