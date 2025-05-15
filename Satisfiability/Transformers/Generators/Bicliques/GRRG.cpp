@@ -121,7 +121,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "15.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -145,7 +145,7 @@ namespace {
     " graph-type : " << Environment::WRP<GR::GT>{} << "; \"+\" means"
     " with loops\n"
     " n          : number of vertices (<= 4294967295 for G(n,m)) \n"
-    " m|p        : number m of clauses or probability p = \"num,denom\"\n"
+    " m|p        : number m of clauses or probability p = \"num/denom\"\n"
     " seeds      : "; RG::explanation_seeds(std::cout, 12);
     std::cout <<
     " format     : " << Environment::WRP<GR::GrFo>{} << " XXX \n"
@@ -176,6 +176,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto [type, with_loops] = read_type_arg(argv[1], error);
-  const size_t n{FloatingPoint::toUInt(argv[2])};
+  const UInt_t n{FloatingPoint::toUInt(argv[2])};
+  const auto [m, p, uniform_model] = read_mp_arg(argv[3], error);
 
 }
