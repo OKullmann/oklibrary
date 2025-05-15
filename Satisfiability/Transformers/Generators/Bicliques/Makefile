@@ -137,8 +137,8 @@ MaxIndependentRedumis_debug : MaxIndependentRedumis.cpp Graphs.hpp GraphTools.hp
 MinVertexCoverFastVC : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
 MinVertexCoverFastVC_debug : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp Bicliques2SAT.hpp BCC2SAT.hpp
 
-GRRG : GRRG.cpp RandomGraphs.hpp
-GRRG_debug : GRRG.cpp RandomGraphs.hpp
+GRRG : GRRG.cpp GRRG.hpp RandomGraphs.hpp
+GRRG_debug : GRRG.cpp GRRG.hpp RandomGraphs.hpp
 
 # -------------------------
 

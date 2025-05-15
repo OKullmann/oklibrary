@@ -131,13 +131,13 @@ UPDATE: Started with RandomGraphs.hpp.
 
 #include <ProgramOptions/Environment.hpp>
 
-#include "RandomGraphs.hpp"
+#include "GRRG.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.4",
-        "14.5.2025",
+        "0.0.5",
+        "15.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GRGG.cpp",
