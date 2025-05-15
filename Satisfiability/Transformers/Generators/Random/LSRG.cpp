@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.12.2020 (Swansea)
-/* Copyright 2020, 2021 Oliver Kullmann
+/* Copyright 2020, 2021, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -148,8 +148,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.13.0",
-        "8.5.2021",
+        "0.13.1",
+        "15.5.2025",
         __FILE__,
         "Oliver Kullmann and Oleg Zaikin",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/LSRG.cpp",
@@ -186,7 +186,7 @@ namespace {
     "  - Trailing arguments can be left out, then using their default-values.\n"
     "  - Arguments \"\" (the empty string) yield also the default-values,\n"
     "    except for the output, where it yields the default output-filename.\n"
-    "  - The optional \"-\" for the default-filename means \"don't print filename\" (done otherwise).\n"
+    "  - The optional \"-\" for the default-filename means \"don't print filename\" (done otherwise).\n\n"
 ;
     return true;
   }
