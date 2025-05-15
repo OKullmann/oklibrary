@@ -121,7 +121,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.1.0",
         "16.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -176,9 +176,25 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const auto [type, with_loops] = read_type_arg(argv[1], error);
+  if (type == GR::GT::dir) {
+    std::cerr << error << "Directed graphs not yet handled.\n";
+    return 1;
+  }
   const UInt_t n{FloatingPoint::toUInt(argv[2])};
   const auto [m, p, uniform_model] = read_mp_arg(argv[3], error);
   const auto [seeds, basic_size] =
     all_seeds(type, with_loops, n, m, p, uniform_model, argv[4]);
 
+  if (uniform_model) {
+    // check n XXX
+    RandGen::RandGen_t g(seeds);
+    const auto G = uniform_rgr(n, m, g, not with_loops);
+    std::cout << G;
+  }
+  else {
+    // check m XXX
+    RandGen::RandGen_t g(seeds);
+    const auto G = binomial_rgr(n, p, g, not with_loops);
+    std::cout << G;
+  }
 }
