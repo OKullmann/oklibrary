@@ -151,6 +151,8 @@ Note the (trailing) empty line here (vertex 3 has no outgoing arcs).
 #include <iostream>
 #include <utility>
 
+#include <cstdlib>
+
 #include <ProgramOptions/Environment.hpp>
 
 #include "Graphs.hpp"
