@@ -121,7 +121,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
+        "0.1.1",
         "16.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -186,13 +186,21 @@ int main(const int argc, const char* const argv[]) {
     all_seeds(type, with_loops, n, m, p, uniform_model, argv[4]);
 
   if (uniform_model) {
-    // check n XXX
+    if (not GR::Sizes::allops(n)) {
+      std::cerr << error << "n=" << n << " > " << GR::Sizes::max_n_allops
+                << "\n";
+      return 1;
+    }
+    if (m > GR::Sizes::max_m(n, type, with_loops)) {
+      std::cerr << error << "m=" << m << " asks for more edges than"
+        " the graph possibly can have.\n";
+      return 1;
+    }
     RandGen::RandGen_t g(seeds);
     const auto G = uniform_rgr(n, m, g, not with_loops);
     std::cout << G;
   }
   else {
-    // check m XXX
     RandGen::RandGen_t g(seeds);
     const auto G = binomial_rgr(n, p, g, not with_loops);
     std::cout << G;
