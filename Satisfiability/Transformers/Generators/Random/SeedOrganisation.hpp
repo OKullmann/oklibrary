@@ -100,8 +100,9 @@ namespace SeedOrganisation {
   enum class Area : eseed_t {
     logic=0,
     combinatorics=1,
+    graphtheory=2,
   };
-  // Possible extensions: graph_theory=2, mathematics=3, physics=4.
+  // Possible extensions: mathematics=3, physics=4.
 
   enum class Logic : eseed_t {
     block_uniform_cnf = 0,
@@ -139,6 +140,16 @@ namespace SeedOrganisation {
     }
   }
 
+  enum class GraphTheory : eseed_t {
+    uniformbinom=0,
+  };
+  std::string default_filestem(const GraphTheory t) {
+    switch (t) {
+    case GraphTheory::uniformbinom : return "GRRG";
+    default : return "NOT_IMPLEMENTED";
+    }
+  }
+
   // The number of generic parameters (in the second block, without the final
   // size of the third block):
   template<typename Area> struct NumGenParams;
@@ -155,6 +166,13 @@ namespace SeedOrganisation {
       switch(c) {
       case Combinatorics::latin_squares : return 2; break;
       default : return 2;}
+    }
+  };
+  template <> struct NumGenParams<GraphTheory> {
+    constexpr eseed_t operator()(const GraphTheory g) noexcept {
+      switch(g) {
+      case GraphTheory::uniformbinom : return 2; break; // graph-type + loops
+      default : return 1;}
     }
   };
 
@@ -176,15 +194,20 @@ namespace SeedOrganisation {
 
 
   template <typename Area, typename Type>
-  RandGen::vec_eseed_t initial_seeding(const eseed_t org, const Area area, const Type type, const eseed_t program, const eseed_t variant) noexcept {
-    return {org, eseed_t(area), eseed_t(type), program, variant, NumGenParams<Type>()(type)+1};
+  RandGen::vec_eseed_t initial_seeding(const eseed_t org, const Area area,
+                                       const Type type, const eseed_t program,
+                                       const eseed_t variant) noexcept {
+    return {org, eseed_t(area), eseed_t(type), program, variant,
+        NumGenParams<Type>()(type)+1};
   }
 
 
   /* The second part, for the generic parameters */
 
   // Add to v the generic parameters in add, plus the size of the third block:
-  void add_generic_parameters(RandGen::vec_eseed_t& v, const RandGen::vec_eseed_t& add, const eseed_t size_next) {
+  void add_generic_parameters(RandGen::vec_eseed_t& v,
+                              const RandGen::vec_eseed_t& add,
+                              const eseed_t size_next) {
     assert(v.size() == size_first_part);
     assert(add.size()+1 == v.back());
     v.reserve(size_first_part + add.size());
