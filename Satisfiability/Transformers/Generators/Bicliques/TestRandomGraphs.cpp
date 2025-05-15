@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "14.5.2025",
+        "0.1.1",
+        "15.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestRandomGraphs.cpp",
@@ -34,25 +34,25 @@ namespace {
 
 
   // Counting frequency of edges, antilexicographically:
-  std::vector<size_t> edge_freqs(const size_t n, const RandGen::Prob64 p,
-                                 const bool no_loops, const size_t T) {
-    const size_t m = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
+  std::vector<UInt_t> edge_freqs(const UInt_t n, const RandGen::Prob64 p,
+                                 const bool no_loops, const UInt_t T) {
+    const UInt_t m = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
     Combinatorics::CoLexicographic C{Graphs::as_graph({Graphs::GT::und, not no_loops})};
     RandGen::RandGen_t g;
-    std::vector<size_t> res(m);
-    for (size_t t=0; t < T; ++t) {
+    std::vector<UInt_t> res(m);
+    for (UInt_t t=0; t < T; ++t) {
       const auto E = binomial_rgr(n, p, g, no_loops).alledges();
       for (const auto& e : E) ++res[C(e)];
     }
     return res;
   }
-  std::vector<size_t> edge_freqs(const size_t n, const size_t m,
-                                 const bool no_loops, const size_t T) {
-    const size_t mm = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
+  std::vector<UInt_t> edge_freqs(const UInt_t n, const UInt_t m,
+                                 const bool no_loops, const UInt_t T) {
+    const UInt_t mm = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
     Combinatorics::CoLexicographic C{Graphs::as_graph({Graphs::GT::und, not no_loops})};
     RandGen::RandGen_t g;
-    std::vector<size_t> res(mm);
-    for (size_t t=0; t < T; ++t) {
+    std::vector<UInt_t> res(mm);
+    for (UInt_t t=0; t < T; ++t) {
       const auto E = uniform_rgr(n, m, g, no_loops).alledges();
       assert(E.size() == m);
       for (const auto& e : E) ++res[C(e)];
@@ -61,15 +61,15 @@ namespace {
   }
 
   // Counting graphs, via colex_index, so that on average ave are expected:
-  std::vector<size_t> graph_freqs(const size_t n,
-                                 const bool no_loops, const size_t ave) {
-    const size_t mm = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
-    const size_t num_graphs = std::pow(size_t(2), mm);
+  std::vector<UInt_t> graph_freqs(const UInt_t n,
+                                 const bool no_loops, const UInt_t ave) {
+    const UInt_t mm = Graphs::Sizes::max_m(n, Graphs::GT::und, not no_loops);
+    const UInt_t num_graphs = std::pow(UInt_t(2), mm);
     RandGen::RandGen_t g;
-    std::vector<size_t> res(num_graphs);
-    for (size_t m = 0; m <= mm; ++m) {
-      const size_t mul = FP::binomial_coeff(mm, m);
-      for (size_t t = 0; t < mul * ave; ++t) {
+    std::vector<UInt_t> res(num_graphs);
+    for (UInt_t m = 0; m <= mm; ++m) {
+      const UInt_t mul = FP::binomial_coeff(mm, m);
+      for (UInt_t t = 0; t < mul * ave; ++t) {
         const AdjVecUInt G = uniform_rgr(n,m,g, no_loops);
         ++res[colex_index(G, not no_loops)];
       }

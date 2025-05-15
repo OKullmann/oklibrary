@@ -49,14 +49,14 @@ namespace RandomGraphs {
 
   typedef Graphs::AdjVecUInt AdjVecUInt;
 
-  typedef AdjVecUInt::size_t size_t;
+  typedef FloatingPoint::UInt_t UInt_t;
 
   constexpr FloatingPoint::float80 max_number_edges = FloatingPoint::pow(2,63);
 
 
   // Creating a "binomial random graph" (undirected), or in other
   // words, using the "Gilbert-model G(n,p)":
-  AdjVecUInt binomial_rgr(const size_t n, const RandGen::Prob64 p,
+  AdjVecUInt binomial_rgr(const UInt_t n, const RandGen::Prob64 p,
                                RandGen::RandGen_t& g,
                                const bool no_loops = true) {
     const auto type = Graphs::GT::und;
@@ -76,9 +76,9 @@ namespace RandomGraphs {
                                                          not no_loops, n);
     AdjVecUInt::adjlist_t A(n);
     RandGen::Bernoulli B(g, p);
-    for (size_t v = 0; v < n - no_loops; ++v) {
+    for (UInt_t v = 0; v < n - no_loops; ++v) {
       auto& L = A[v];
-      for (size_t w = v + no_loops; w < n; ++w)
+      for (UInt_t w = v + no_loops; w < n; ++w)
         if (B()) {
           L.push_back(w);
           if (no_loops or v != w) A[w].push_back(v);
@@ -90,19 +90,19 @@ namespace RandomGraphs {
 
   // Creating a "uniform random graph" (undirected), or in other
   // words, using the "Erdoes-Renyi-model G(n,m)"):
-  AdjVecUInt uniform_rgr(const Graphs::Sizes::uint32_t n0, const size_t m,
+  AdjVecUInt uniform_rgr(const Graphs::Sizes::uint32_t n0, const UInt_t m,
                          RandGen::RandGen_t& g,
                          const bool no_loops = true) {
-    const size_t max_m =
+    const UInt_t max_m =
       Graphs::Sizes::max_m(n0, Graphs::GT::und, not no_loops);
     assert(m <= max_m);
-    const size_t n = n0;
+    const UInt_t n = n0;
     assert(Graphs::Sizes::allops(n)); // holds automatically due to type of n0
     const auto edge_indices = RandGen::choose_kn(m, max_m, g);
     AdjVecUInt::vecedges_t E; E.reserve(m);
     const Combinatorics::CoLexicographic CL(no_loops ?
       Combinatorics::PaTy::sortedneq : Combinatorics::PaTy::sorted);
-    for (const size_t i : edge_indices) E.push_back(CL(i));
+    for (const UInt_t i : edge_indices) E.push_back(CL(i));
     return Graphs::make_AdjVecUInt(Graphs::GT::und, n, E);
   }
 
