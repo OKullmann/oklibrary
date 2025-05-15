@@ -113,6 +113,7 @@ TODOS:
 #include <iostream>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
 
 #include "GRRG.hpp"
@@ -128,6 +129,7 @@ namespace {
         "GPL v3"};
 
   using namespace RandomGraphs;
+  using namespace GRRG;
 
   namespace RG = RandGen;
   namespace GR = Graphs;
@@ -165,5 +167,15 @@ int main(const int argc, const char* const argv[]) {
 
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
+
+  if (argc != 6 and argc != 7) {
+    std::cerr << error <<
+      "Five or six arguments (type, n, m|p, seeds, format[, output])"
+      " needed, but " << argc-1 << " provided.\n";
+    return 1;
+  }
+
+  const auto [type, with_loops] = read_type_arg(argv[1], error);
+  const size_t n{FloatingPoint::toUInt(argv[2])};
 
 }
