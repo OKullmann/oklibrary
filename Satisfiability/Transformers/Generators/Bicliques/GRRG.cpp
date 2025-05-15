@@ -121,8 +121,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.7",
-        "15.5.2025",
+        "0.0.8",
+        "16.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GRGG.cpp",
@@ -178,5 +178,7 @@ int main(const int argc, const char* const argv[]) {
   const auto [type, with_loops] = read_type_arg(argv[1], error);
   const UInt_t n{FloatingPoint::toUInt(argv[2])};
   const auto [m, p, uniform_model] = read_mp_arg(argv[3], error);
+  const auto [seeds, basic_size] =
+    all_seeds(type, with_loops, n, m, p, uniform_model, argv[4]);
 
 }

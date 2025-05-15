@@ -70,6 +70,42 @@ namespace GRRG {
     return res;
   }
 
+  RandGen::vec_eseed_t
+  basic_seeds(const GR::GT gt, const bool with_loops,
+              const UInt_t n,
+              const UInt_t m, const RandGen::Prob64 p, const bool uniform) noexcept {
+    // The variant of the initial seed is the boolean "uniform":
+    namespace SO = SeedOrganisation;
+    using SO::eseed_t;
+    RandGen::vec_eseed_t res = SO::initial_seeding(
+        SO::OKlibrary_timestamp,
+        SO::Area::graphtheory,
+        SO::GraphTheory::uniformbinom,
+        SO::grrg_timestamp,
+        eseed_t(uniform));
+    const eseed_t size_spec_params = 3;
+    SO::add_generic_parameters(res,
+                               {eseed_t(int(gt)), eseed_t(with_loops)},
+                               size_spec_params);
+    if (uniform)
+      SO::add_specific_parameters(res, {n, m, 0});
+    else
+      SO::add_specific_parameters(res, {n, p.nom(), p.den()});
+    return res;
+  }
+
+  typedef std::pair<RandGen::vec_eseed_t, UInt_t> seed_info_t;
+  seed_info_t all_seeds(
+      const GR::GT gt, const bool with_loops,
+      const UInt_t n,
+      const UInt_t m, const RandGen::Prob64 p, const bool uniform,
+      const std::string& us) noexcept {
+    seed_info_t res;
+    res.first = basic_seeds(gt, with_loops, n, m, p, uniform);
+    res.second = res.first.size();
+    SO::add_user_seeds(res.first, us);
+    return res;
+  }
 }
 
 #endif
