@@ -9,20 +9,171 @@ License, or any later version. */
   Pseudo-random generation of graphs
 
 
+EXAMPLES:
+
+Output in PSALF-format of G(5,6):
+Bicliques> GRRG und 5 6 "" ""
+# 1609092523835210350 2 0 1746719382361957731 1 3 1 0 3 5 6 0
+# 5 6 1
+0 2 3 4
+1 3
+2 0 4
+3 0 1 4
+4 0 2 3
+
+The first comments-line provides the seeds, the second line
+shows n, m, and 1 for "undirected" ("0" would be for directed).
+The last three seeds give n,m resp. n,p (see below).
+
+In METIS-format:
+Bicliques> GRRG und 5 6 "" metis
+% 1609092523835210350 2 0 1746719382361957731 1 3 1 0 3 5 6 0
+5 6
+3 4 5
+4
+1 5
+1 2 5
+1 3 4
+
+In Dimacs-format:
+Bicliques> GRRG und 5 6 "" dimacs
+c 1609092523835210350 2 0 1746719382361957731 1 3 1 0 3 5 6 0
+p edge 5 6
+e 1 3
+e 1 4
+e 1 5
+e 2 4
+e 3 5
+e 4 5
+
+Note that this is always the same graph (the format-argument is not
+automatically integrated into the seed-sequence).
+
+The above are uniform random graphs ("Erdoes-Renyi model"), while the
+binomial model ("Gilbert model") with probability p = 6 / (5*4/2) = 6/10
+(so that the average number of edges is also 6):
+
+Bicliques> GRRG und 5 6/10 "" ""
+# 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5
+# 5 8 1
+0 1 2 3
+1 0 2 4
+2 0 1 3 4
+3 0 2 4
+4 1 2 3
+Bicliques> GRRG und 5 6/10 "" metis
+% 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5
+5 8
+2 3 4
+1 3 5
+1 2 4 5
+1 3 5
+2 3 4
+Bicliques> GRRG und 5 6/10 "" dimacs
+c 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5
+p edge 5 8
+e 1 2
+e 1 3
+e 1 4
+e 2 3
+e 2 5
+e 3 4
+e 3 5
+e 4 5
+
+
+Example for a small probability (all numbers can be given as 80-bit
+floating-point numbers, using rounding to the nearest unsigned 64-bit
+integer (for nominator and denominator separately):
+Bicliques> time GRRG und 1e5 2/1e10 "" dimacs
+c 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 100000 1 5000000000
+p edge 100000 1
+e 19858 26511
+real	0m17.649s
+user	0m17.647s
+sys	0m0.000s
+Bicliques> GRRG und 1e5 2.49/1e10 "" dimacs
+c 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 100000 1 5000000000
+p edge 100000 1
+e 19858 26511
+
+
+An example for a user-provided seed-sequence, with a first seed US for the
+user-site (to be stored and used in the future), the second seed ES for
+this experiment (also to be stored and re-used for this experiment),
+and third a running index (taken to be 77):
+Bicliques> GRRG und 5 6/10 r,t,77 ""
+# 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5 13057751223614336272 1747411664800262830 77
+# 5 5 1
+0 3 4
+1 2
+2 1 3
+3 0 2 4
+4 0 3
+
+The values obtained by "r" and "t" are (of course) special for each
+invocation.
+
+Thus (here)
+  US = 13057751223614336272
+  ES = 1747411664800262830
+  index = 77
+
+Here US is to differentiate the user-site "from all others", while ES
+differentiates the experimentes at the user-site -- "differentiation" here
+means that re-using the same underlying pseudo-random-sequence is to be
+avoided.
+
+For the next graph in this experiment one would use
+Bicliques> GRRG und 5 6/10 13057751223614336272,1747411664800262830,78 ""
+# 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5 13057751223614336272 1747411664800262830 78
+# 5 5 1
+0 2 3 4
+1 3
+2 0 4
+3 0 1
+4 0 2
+
+For the starting-graph in another experiment (with index 0) one would keep
+US, but change ES:
+Bicliques> GRRG und 5 6/10 13057751223614336272,t,0 ""
+# 1609092523835210350 2 0 1746719382361957731 0 3 1 0 3 5 3 5 13057751223614336272 1747411888756909473 0
+# 5 3 1
+0 2
+1 3
+2 0 3
+3 1 2
+4
+
+Then the next graph in this sequence (using now the new ES):
+Bicliques> GRRG und 5 6/10 13057751223614336272,1747411888756909473,1 ""
+# 5 3 1
+0 3 4
+1 3
+2
+3 0 1
+4 0
+
+
 DESIGN RATIONAL:
 
 1. Using a high-quality pseudo-random engine, the 64-bit Mersenne Twister
    (from the C++ standard library).
 
-2. Allows arbitrarily long sequences of user-seeds (unsigned 64 bits, which
+2. Allowing arbitrarily long sequences of user-seeds (unsigned 64 bits, which
    can be given, or created as timestamps or truly random values). Not just
    the usual 32-bit or maximally 64-bit seeds.
+   These seeds can be given by the user, or can be demanded as timestamps
+   (nanoseconds) or truly random values.
+   In these way there can be generated general "master-"seeds for the whole
+   user-site, and "experiment-"seeds for one experimental setting, and indices
+   for the running formulas.
 
 3. Seed-management makes automatically sure that every change of essential
    parameters results in a different random sequence (guaranteeing diversity).
    This is done by incorporating these parameters into the initial library-
    given part of the seed-sequence.
-   With every other generator all over the world again and again the same
+   With every other generator, all over the world again and again the same
    underlying random sequences are used.
 
 4. Well-defined generation, fully reproducible on any machine and compiler,
@@ -37,7 +188,8 @@ DESIGN RATIONAL:
 
 6. Supports binomial and uniform random graphs.
 
-7. Supports different output-formats.
+7. Supports output-formats PSALF (native), Dimacs, MEIIS.
+
 
 DISCUSSION of existing libraries which allow to generate these graphs:
 
@@ -67,11 +219,12 @@ igraph_erdos_renyi_game_gnm
 Numbers depend on the machine.
 
 
-The above seem the only libraries explicitly providing these two random graphs.
+The above seem the only libraries explicitly providing these two models of
+random graphs.
 
 https://www.boost.org/doc/libs/1_85_0/libs/graph/doc/random.html
 has some tools, and generate_random_graph provides G(n,m)-graphs, but no
-details given.
+details are given.
 
 graph-tool has many network-models, but does not seem to provide
 the two basic models (G(n,p), G(n,m)).
@@ -79,7 +232,7 @@ the two basic models (G(n,p), G(n,m)).
 
 TODOS:
 
-1. Provide output-stream-handling (as in LSRG.cpp).
+-1. Provide output-stream-handling (as in LSRG.cpp).
 
 0. Provide comment-output-handling.
   - Expand on current comment-output by the usual standard.
@@ -92,21 +245,7 @@ TODOS:
 2. Connect to LSRG.cpp and BRG.cpp.
   - LSRG.cpp is newer (together with LSRG.hpp); we also do here GRRG.hpp.
 
-3.
-   - DONE Arguments:
-         type n m/p seeds format [output]
-    - DONE type: undirected/directed, without/with loops;
-      that is: allowing "+" in front of Graphs::GT (for "with-loops").
-    - DONE n: number of vertices
-    - DONE m/p: either m (number of edges) or p (as quotient, with ","), the
-      probability of an edge.
-    - DONE format: 2 enumerations: graph-output, +-com and com-only
-    - DONE output: "-cout" (standard output) or ""[-]"" (default filename) or
-      "FILENAME"
-   - DONE
-     Seed-management shall be synchronised with BRG/LSRG; so the parameters
-     become automatically part of the seed.
-   - For our applications we are especially interested in connected graphs.
+3. For our applications we are especially interested in connected graphs.
     - We could just consider general random graphs, and split them into
       components, handling each component (and adding up the effort).
     - Seems good enough here; perhaps the generator should then create
@@ -130,7 +269,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.2.0",
         "16.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -164,6 +303,8 @@ namespace {
     " - Arguments \"\" (the empty string) yield the default-values,\n"
     "    except for the output, where it yields the default output-filename.\n"
     " - Default-values for the options are the first possibilities given.\n"
+    " - Numbers are unsigned 64-bit integers, however the input allows to\n"
+    "   give them as 80-floating-point values (which will be rounded).\n"
     " - The optional \"-\" for the default-filename means \"don't print"
     " filename\" (done otherwise).\n\n"
 ;
