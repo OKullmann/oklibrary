@@ -88,7 +88,7 @@ License, or any later version. */
     - the vertices are exactly the natural numbers 0, ..., n()-1
     - const-access to A via graph()
     - type (GT) and n  (id_t) is constant from construction
-    - format-members (not concisdered by ==):
+    - format-members (not considered by ==):
      - format (GrFo); mutable
      - names (bool) can be set or unset.
 
@@ -249,6 +249,9 @@ TODO vertexcover2MaxSAT(AdjVecUInt) -> MaxSATClauseList
 
 
 TODOS:
+
+-1. Provide AdjVecUInt with comment-handling:
+    - See GraphConversion.cpp and GRRG.cpp.
 
 0. Provide process_allnonedges:
     - Use this to improve implementation of complement(AdjVecUInt).

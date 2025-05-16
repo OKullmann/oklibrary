@@ -39,7 +39,10 @@ TODOS:
 1. A more comprehensive approach to graph-output is needed,
    incorporating at least the format-options of
    BCC2SAT:
-    - We need a handling of comments (+-com).
+    - We need a handling of comments: +-com, and only-comments.
+      Currently only AdjMapStr has comments, but not AdjVecUInt.
+      The comments which come from AdjMapStr in the construction, should
+      just be passed.
     - Parameters can always be included or left out (+-dp).
 
 

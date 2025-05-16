@@ -79,21 +79,32 @@ the two basic models (G(n,p), G(n,m)).
 
 TODOS:
 
-1. Connect to LSRG.cpp and BRG.cpp.
+1. Provide output-stream-handling (as in LSRG.cpp).
+
+0. Provide comment-output-handling.
+  - Expand on current comment-output by the usual standard.
+  - See TOOOS in GraphConversion.cpp and Graphs.hpp.
+  - Possibilities: disabling comments, and comments-only.
+
+1. Provide handling of directed graphs.
+  - See TODOS in RandomGraphs.hpp.
+
+2. Connect to LSRG.cpp and BRG.cpp.
   - LSRG.cpp is newer (together with LSRG.hpp); we also do here GRRG.hpp.
 
-2.
-   - Arguments:
+3.
+   - DONE Arguments:
          type n m/p seeds format [output]
     - DONE type: undirected/directed, without/with loops;
       that is: allowing "+" in front of Graphs::GT (for "with-loops").
     - DONE n: number of vertices
     - DONE m/p: either m (number of edges) or p (as quotient, with ","), the
       probability of an edge.
-    - format: 2 enumerations: graph-output, +-com and com-only
+    - DONE format: 2 enumerations: graph-output, +-com and com-only
     - DONE output: "-cout" (standard output) or ""[-]"" (default filename) or
       "FILENAME"
-   - Seed-management shall be synchronised with BRG/LSRG; so the parameters
+   - DONE
+     Seed-management shall be synchronised with BRG/LSRG; so the parameters
      become automatically part of the seed.
    - For our applications we are especially interested in connected graphs.
     - We could just consider general random graphs, and split them into
@@ -103,8 +114,6 @@ TODOS:
     - BCCbySAT should handle components (see below), however it would be
       handy if the generator would already create the components (in a
       directory) as an option.
-
----
 
 */
 
@@ -121,7 +130,7 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
+        "0.1.2",
         "16.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -144,11 +153,11 @@ namespace {
          << " [+]graph-type n m|p seeds format [output]\n\n"
     " graph-type : " << Environment::WRP<GR::GT>{} << "; \"+\" means"
     " with loops\n"
-    " n          : number of vertices (<= 4294967295 for G(n,m)) \n"
+    " n          : number of vertices (<= 4294967295 for G(n,m))\n"
     " m|p        : number m of clauses or probability p = \"num/denom\"\n"
     " seeds      : "; RG::explanation_seeds(std::cout, 12);
     std::cout <<
-    " format     : " << Environment::WRP<GR::GrFo>{} << " XXX \n"
+    " format     : " << Environment::WRP<GR::GrFo>{} << "\n"
     " output    : \"-cout\" (standard output) or \"\"[-]\"\""
     " (default filename) or \"FILENAME\"\n\n"
     " prints a pseudo-random graph G(n,m) resp. G(n,p) to standard output:\n\n"
@@ -184,6 +193,9 @@ int main(const int argc, const char* const argv[]) {
   const auto [m, p, uniform_model] = read_mp_arg(argv[3], error);
   const auto [seeds, basic_size] =
     all_seeds(type, with_loops, n, m, p, uniform_model, argv[4]);
+  const GR::GrFo format = read_format_arg(argv[5], error);
+
+  output_seeds(std::cout, format, seeds);
 
   if (uniform_model) {
     if (not GR::Sizes::allops(n)) {
@@ -198,11 +210,13 @@ int main(const int argc, const char* const argv[]) {
     }
     RandGen::RandGen_t g(seeds);
     const auto G = uniform_rgr(n, m, g, not with_loops);
+    G.format(format);
     std::cout << G;
   }
   else {
     RandGen::RandGen_t g(seeds);
     const auto G = binomial_rgr(n, p, g, not with_loops);
+    G.format(format);
     std::cout << G;
   }
 }

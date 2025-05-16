@@ -16,6 +16,7 @@ License, or any later version. */
 
 #include <utility>
 #include <tuple>
+#include <ostream>
 
 #include <cstdlib>
 
@@ -106,6 +107,24 @@ namespace GRRG {
     SO::add_user_seeds(res.first, us);
     return res;
   }
+
+  GR::GrFo read_format_arg(const std::string& arg,
+                           const std::string& error) noexcept {
+    const auto opt_format = Environment::read<GR::GrFo>(arg);
+    if (not opt_format) {
+      std::cerr << error << "Faulty format-argument \"" << arg << "\".\n";
+      std::exit(1);
+    }
+    return opt_format.value();
+  }
+
+  void output_seeds(std::ostream& out, const GR::GrFo format,
+                    const RandGen::vec_eseed_t& seeds) {
+    out << GR::comment_symbol(format) << " ";
+    Environment::out_line(out, seeds);
+    out << std::endl;
+  }
+
 }
 
 #endif
