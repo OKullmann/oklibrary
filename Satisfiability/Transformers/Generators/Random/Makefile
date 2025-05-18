@@ -1,5 +1,5 @@
 # Oliver Kullman, 6.4.2019 (Swansea
-# Copyright 2019, 2020, 2021, 2022 Oliver Kullmann
+# Copyright 2019, 2020, 2021, 2022, 2025 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -13,8 +13,8 @@ oklibloc = ../../../..
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2 LSRG
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG
-debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug TestVarLit_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG WrongRandomPermutation WrongRandomPermutationFixed
+debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug TestVarLit_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug WrongRandomPermutation_debug WrongRandomPermutationFixed_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -87,6 +87,13 @@ DQBRG_debug : DQBRG.cpp DQClauseSets.hpp QClauseSets.hpp ClauseSets.hpp VarLit.h
 
 LSRG : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
 LSRG_debug : LSRG.cpp LSRG.hpp Numbers.hpp LatinSquares.hpp Distributions.hpp ClauseSets.hpp VarLit.hpp SeedOrganisation.hpp $(programmingloc)/ProgramOptions/Environment.hpp
+
+WrongRandomPermutation : WrongRandomPermutation.cpp
+WrongRandomPermutation_debug : WrongRandomPermutation.cpp
+WrongRandomPermutationFixed : WrongRandomPermutationFixed.cpp
+WrongRandomPermutationFixed_debug : WrongRandomPermutationFixed.cpp
+
+
 
 TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp

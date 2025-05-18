@@ -44,6 +44,10 @@
 /DQBRG_*
 /LSRG
 /LSRG_*
+/WrongRandomPermutation
+/WrongRandomPermutation_debug
+/WrongRandomPermutationFixed
+WrongRandomPermutationFixed_debug
 
 /data/exp_files/
 
