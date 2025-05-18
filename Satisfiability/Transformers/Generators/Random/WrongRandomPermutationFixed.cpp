@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "18.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -37,8 +37,8 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << " N\n\n"
-    " prints the NxN matrix of counts.\n\n"
+         << "\n\n"
+    " prints the NxN matrix of counts for the hardcoded N.\n\n"
 ;
     return true;
   }
