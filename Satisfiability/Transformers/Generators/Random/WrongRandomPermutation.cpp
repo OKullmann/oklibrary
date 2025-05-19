@@ -24,7 +24,8 @@ License, or any later version. */
   of values to the places of the permutation.
 
 See docus/WrongRandomPermutation for output, and see
-WrongRandomPermutationFixed.cpp for a faster implementation, with hard-coded
+  WrongRandomPermutationFixed.cpp
+for a faster implementation, with hard-coded
 N.
 
 EXAMPLES:
