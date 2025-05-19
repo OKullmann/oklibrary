@@ -6,7 +6,20 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  See WrongRandomPermutation.cpp for the description.
+  See WrongRandomPermutation.cpp for the general description.
+
+  Must be compiled with the value for N (size of the permutation)
+  defined via macro NVALUE, that is, using the flag (here for N=11)
+    -DNVALUE=11
+  With the given Makefile, that can be done via CXXFLAGS :
+
+Random> CXXFLAGS="-DNVALUE=11" make -B WrongRandomPermutationFixed
+
+  Note the forced compilation via "-B" (just setting a different NVALUE
+  will not be noticed via the Makefile).
+  Also note that above not the debug-version was compiled.
+
+
 */
 
 #include <iostream>
@@ -21,8 +34,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
-        "18.5.2025",
+        "0.2.0",
+        "19.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/WrongRandomPermutationFixed.cpp",
@@ -32,19 +45,23 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
+  typedef std::uint_fast16_t base_t;
+#ifndef NVALUE
+#  define NVALUE 10
+#endif
+  constexpr base_t N = NVALUE;
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg
          << "\n\n"
-    " prints the NxN matrix of counts for the hardcoded N.\n\n"
+    " prints the NxN matrix of counts for the hardcoded N=" << N << ".\n\n"
 ;
     return true;
   }
 
-  typedef std::uint_fast16_t base_t;
-  const base_t N = 11;
   using FP::UInt_t;
 
   template <base_t N>
