@@ -1778,8 +1778,7 @@ namespace Bicliques2SAT {
       return res;
     }
 
-    // bool operator ==(const GlobRepl& rhs) const noexcept = default;
-    // GCC 10.3 compiler error CERR
+    bool operator ==(const GlobRepl& rhs) const noexcept = default;
 
   };
 
