@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.1.2021 (Swansea)
-/* Copyright 2021, 2022 Oliver Kullmann
+/* Copyright 2021, 2022, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -120,38 +120,43 @@ namespace Environment {
 }
 namespace LatinSquares {
   std::ostream& operator <<(std::ostream& out, const StRLS s) {
+    using enum StRLS;
     switch (s) {
-    case StRLS::none : return out << "no-std";
-    case StRLS::row : return out << "row-std";
-    case StRLS::column : return out << "col-std";
+    case none : return out << "no-std";
+    case row : return out << "row-std";
+    case column : return out << "col-std";
     default : return out << "rc-std";}
   }
 }
 namespace LSRG {
   std::ostream& operator <<(std::ostream& out, const GenO g) {
+    using enum GenO;
     switch (g) {
-    case GenO::majm : return out << "ma+jm";
-    case GenO::jm : return out << "jm-only";
+    case majm : return out << "ma+jm";
+    case jm : return out << "jm-only";
     default : return out << "ma-only";}
   }
   std::ostream& operator <<(std::ostream& out, const EncO e) {
+    using enum EncO;
     switch (e) {
-    case EncO::ls : return out << "as-square";
+    case ls : return out << "as-square";
     default : return out << "Dimacs-assignment";}
   }
   std::ostream& operator <<(std::ostream& out, const ForO f) {
+    using enum ForO;
     switch (f) {
-    case ForO::wc : return out << "with-comments";
-    case ForO::nco : return out << "no-comments";
+    case wc : return out << "with-comments";
+    case nco : return out << "no-comments";
     default : return out << "seeds-only";}
   }
 
 
   enum class lsrg_variant : SO::eseed_t { basic=0, with_k=1 };
   std::ostream& operator <<(std::ostream& out, const lsrg_variant v) {
+    using enum lsrg_variant;
     switch (v) {
-    case lsrg_variant::basic : return out << "single_ls";
-    case lsrg_variant::with_k : return out << "multiple_ls";
+    case basic : return out << "single_ls";
+    case with_k : return out << "multiple_ls";
     default : return out << "LSRG::lsrg_variant: " << SO::eseed_t(v);
     }
   }
@@ -336,16 +341,17 @@ namespace LSRG {
   LS::ls_t random_ls(const LS::ls_dim_t N, const LS::Selection& sel,
                      const GenO go, const LS::StRLS so,
                      RG::RandGen_t& g) {
+    using enum GenO;
     switch (go) {
-    case GenO::majm :
+    case majm :
       return LS::select(LS::standardise(
         LS::lsip2ls(LS::jm(LS::full_shuffle(
           LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g), g),
           g)), so), sel, g);
-    case GenO::jm :
+    case jm :
       return LS::select(LS::standardise(
         LS::lsip2ls(LS::jm(N, g)), so), sel, g);
-    case GenO::ma :
+    case ma :
       return LS::select(LS::standardise(
         LS::random_ma_ls(N, LS::CrRLS::with_initial_phase, g), so), sel, g);
     default : return LS::empty_ls(N);
@@ -506,10 +512,10 @@ namespace LSRG {
   }
 
   std::string default_filesuffix(const EncO enc) {
-    // bug gcc 10.1.0 with "using enum"
+    using enum EncO;
     switch (enc) {
-    case EncO::ls : return ".ls";
-    case EncO::dim : return ".dimacs";
+    case ls : return ".ls";
+    case dim : return ".dimacs";
     default : return "NOT_IMPLEMENTED";
     }
   }
