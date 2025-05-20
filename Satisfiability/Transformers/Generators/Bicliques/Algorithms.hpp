@@ -9,6 +9,23 @@ License, or any later version. */
 
   General algorithms (tools)
 
+   Iterators and ranges:
+
+   - uint_iterator_type<UINT> is a random access iterator wrapping an
+     element of UINT
+   - make_uint_iterator_range<UINT>(UINT a, UINT b) creates a range of
+     elements from a to b (which for b < a "wrappes around" !).
+
+     Could also be used for signed integral types, but here we would need to
+     have a <= b to make sense and avoid overflow.
+
+     Remark: For signed integral types, std::views::iota(a,b) works well,
+     but not for unsigned integral types, and thus the iterator and range
+     are needed (since the difference-type of the range produced by
+     std::views::iota for unsigned a, b is, as for C++23, unsigned, and thus
+     fails the test even for an input-iterator).
+
+
    Set operations:
 
      for sorted ranges r1, r2:
@@ -124,12 +141,76 @@ TODOS:
 #include <set>
 #include <functional>
 #include <type_traits>
+#include <ranges>
 
 #include <cassert>
+#include <cstddef>
 
 #include <Numerics/NumTypes.hpp>
 
 namespace Algorithms {
+
+  template <typename UINT>
+  struct uint_iterator_t {
+    UINT current;
+
+    using iterator_category = std::random_access_iterator_tag;
+    using value_type = UINT;
+    using difference_type = std::ptrdiff_t;
+    using pointer = const UINT*;
+    using reference = UINT;
+
+    constexpr uint_iterator_t() noexcept : current(0) {}
+    explicit constexpr uint_iterator_t(const UINT x) noexcept : current(x) {}
+    constexpr uint_iterator_t(const uint_iterator_t& other) noexcept = default;
+
+    uint_iterator_t& operator ++() noexcept { ++current; return *this; }
+    uint_iterator_t& operator --() noexcept { --current; return *this; }
+    uint_iterator_t operator ++(int) noexcept {
+      const auto t = *this; ++current; return t;
+    }
+    uint_iterator_t operator --(int) noexcept {
+      const auto t = *this; --current; return t;
+    }
+    uint_iterator_t& operator +=(const difference_type d) noexcept {
+      current += d; return *this;
+    }
+    uint_iterator_t& operator -=(const difference_type d) noexcept {
+      current -= d; return *this;
+    }
+    reference operator [](const difference_type d) const noexcept {
+      return current + d;
+    }
+    reference operator *() const noexcept { return current; }
+    bool operator ==(const uint_iterator_t&) const noexcept = default;
+    auto operator <=>(const uint_iterator_t&) const noexcept = default;
+
+    friend uint_iterator_t operator +(uint_iterator_t it,
+                                      const difference_type d) noexcept {
+      return it += d;
+    }
+    friend uint_iterator_t operator +(const difference_type d,
+                                      uint_iterator_t it) noexcept {
+      return it += d;
+    }
+    friend uint_iterator_t operator -(uint_iterator_t it,
+                                      const difference_type d) noexcept {
+      return it -= d;
+    }
+    friend difference_type operator -(const uint_iterator_t& lhs,
+                                      const uint_iterator_t& rhs) noexcept {
+      return lhs.current - rhs.current;
+    }
+  };
+  template <typename UINT>
+  using uint_range_t = std::ranges::subrange<uint_iterator_t<UINT>>;
+  template <typename UINT>
+  uint_range_t<UINT> make_uint_iterator_range(const UINT a,
+                                              const UINT b) noexcept {
+    // a <= b is not necessary -- unsigned types can wrap around
+    return std::ranges::subrange(uint_iterator_t(a), uint_iterator_t(b));
+  }
+
 
   // For sorted ranges decide whether their intersection is empty:
   template <class RAN1, class RAN2>

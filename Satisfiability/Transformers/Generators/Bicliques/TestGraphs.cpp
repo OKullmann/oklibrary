@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
-        "14.5.2025",
+        "0.5.5",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
@@ -673,14 +673,8 @@ int main(const int argc, const char* const argv[]) {
      if (n == 0) continue;
      for (unsigned i = 0; i < n-1; ++i)
        assert(not is_independent(std::ranges::iota_view(i, i+2), G));
-     /* GCC 11.4 ERROR: The natural approach
-          using Set = std::set<AdjVecUInt::id_t>;
-          const Set V0(G.vertex_range.begin(), G.vertex_range.end());
-        yields a compilation-error, so this workaround:
-     */
      using Set = std::set<unsigned>;
-     const auto R = std::views::iota(0u, n);
-     const Set V0(R.begin(), R.end());
+     const Set V0 = G.vcon<Set>();
      assert(is_vertexcover(V0, G));
      for (unsigned i = 0; i < n; ++i) {
        const Set V([&V0,i]{Set V(V0); V.erase(i); return V;}());
@@ -699,8 +693,7 @@ int main(const int argc, const char* const argv[]) {
      // see GCC 11.4 ERROR above:
      {
        using Set = std::set<unsigned>;
-       const auto R = std::views::iota(0u, n);
-       const Set V0(R.begin(), R.end());
+       const Set V0 = G.vcon<Set>();
        assert(is_vertexcover(V0, G));
        for (unsigned i = 0; i < n; ++i) {
          const Set V([&V0,i]{Set V(V0); V.erase(i); return V;}());
@@ -973,5 +966,19 @@ int main(const int argc, const char* const argv[]) {
      assert(boolvec_colexicographic(G) == B);}
     assert(colex_index(G) == 0);
    }
+  }
+
+  {const AdjVecUInt G(GT::dir);
+   assert(G.vertex_range.empty());
+  }
+  {typedef std::vector<int> VT;
+   const AdjVecUInt G(GT::und, 5);
+   assert(G.vertex_range.size() == G.n());
+   assert(std::ranges::equal(G.vertex_range, std::views::iota(0,5)));
+   assert(eqp(G.vcon<VT>(), {0,1,2,3,4}));
+  }
+  {typedef std::set<unsigned> ST;
+   const AdjVecUInt G(GT::und, 5);
+   assert(eqp(G.vcon<ST>(), {0,1,2,3,4}));
   }
 }

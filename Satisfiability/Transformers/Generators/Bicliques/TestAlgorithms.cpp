@@ -24,8 +24,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.2",
-        "17.9.2023",
+        "0.3.3",
+        "20.9.2023",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -305,6 +305,35 @@ int main(const int argc, const char* const argv[]) {
    assert((orderly_max_independent(v_t{0,0,1}, pred) == v_t{1,0}));
    assert((orderly_max_independent(v_t{0,0,1,1}, pred) == v_t{1,0}));
    assert((orderly_max_independent(v_t{1,0,2,1}, pred) == v_t{1,2,0}));
+  }
+
+  {using uit = uint_iterator_t<unsigned>;
+   static_assert(uit().current == 0);
+   static_assert(uit(77).current == 77);
+   static_assert(uit{77}.current == 77);
+   static_assert(uit(uit(88)).current == 88);
+   uit u;
+   ++u; assert(u.current == 1);
+   --u; assert(u.current == 0);
+   assert(u++.current == 0); assert(u.current == 1);
+   assert(u--.current == 1); assert(u.current == 0);
+   assert((u += 7).current == 7); assert(u.current == 7);
+   assert((u += -2).current == 5); assert(u.current == 5);
+   assert((u -= 3).current == 2); assert(u.current == 2);
+   assert((u -= -8).current == 10); assert(u.current == 10);
+   assert(u[0] == 10); assert(u[1] == 11); assert(u[-1] == 9);
+   assert(u.current == 10); assert(*u == 10);
+   assert(u == uit(10)); assert(u != uit());
+   assert(u < uit(11)); assert(u > uit(9));
+   assert(u+5 == uit(15)); assert(u-2 == uit(8));
+   assert(7+u == uit(17)); assert(-7 + u == uit(3));
+   assert(u - 10 == uit()); assert(u - -2 == uit(12));
+   assert(u - uit(5) == 5); assert(u - uit(10) == 0);
+   assert(u - (u + 1) == unsigned(-1));
+  }
+  {assert(make_uint_iterator_range(unsigned(-1), unsigned(1)).size() == 2);
+   assert(make_uint_iterator_range(0,0).empty());
+   assert(make_uint_iterator_range(unsigned(1), unsigned(0)).size() == unsigned(-1));
   }
 
 }

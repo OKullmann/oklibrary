@@ -101,6 +101,8 @@ License, or any later version. */
      - size_t = id_t
      - edge_t (std::pair of id_t)
      - vecedges_t (vector of edge_t)
+     - id_iterator_t (iterators over id_t)
+     - id_range_t (ranges via these id-iterators)
 
     - constructors:
      - AdjVecUInt(GT) : empty graph (explicit)
@@ -117,8 +119,10 @@ License, or any later version. */
      - format() -> GrFo
        format(GrFo) sets the format (and is constant)
      - const vertex_range : range over all vertices 0, ..., n()-1
-       (TODO: In TestGraphs.cpp we have a problem using this range,
-        which should be a GCC 11.4 issue.)
+       this range can be used to construct containers containing all
+       vertices, but for convenience
+         vcon<C>() -> C
+       creates a container of type C with all vertices.
 
     - name-handling:
      - with_names() -> bool : whether names are active
@@ -771,8 +775,12 @@ namespace Graphs {
     bool with_names() const noexcept { return names_; }
     size_t n() const noexcept { return n_; }
 
-    typedef std::ranges::iota_view<id_t, id_t> iota_view;
-    const iota_view vertex_range{0, n_};
+    typedef Algorithms::uint_iterator_t<id_t> id_iterator_t;
+    typedef Algorithms::uint_range_t<id_t> id_range_t;
+    const id_range_t vertex_range =
+      Algorithms::make_uint_iterator_range(id_t(0), n_);
+    template <class C>
+    C vcon() const { return std::ranges::to<C>(vertex_range); }
 
     size_t m() const noexcept { return m_; }
     size_t loops() const noexcept {
