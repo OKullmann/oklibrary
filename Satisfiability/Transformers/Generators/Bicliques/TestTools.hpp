@@ -7,12 +7,17 @@ License, or any later version. */
 
 /*
 
+  - eqp<X>(X lhs, X rhs) -> bool
+
+  - makelist<F,UINT>(F f, UINT a, UINT b) -> std::vector
+
 */
 
 #ifndef TESTTOOLS_wcuguWCYfm
 #define TESTTOOLS_wcuguWCYfm
 
 #include <ranges>
+#include <vector>
 
 #include <cstdint>
 
@@ -23,8 +28,8 @@ namespace TestTools {
     return lhs == rhs;
   }
 
-  template<typename F, typename UInt_t = std::uint64_t>
-  constexpr auto makelist(const F f, const UInt_t start, const UInt_t end) {
+  template<typename F, typename UINT = std::uint64_t>
+  constexpr auto makelist(const F f, const UINT start, const UINT end) {
     return std::views::iota(start, end + 1) |
       std::views::transform(f) | std::ranges::to<std::vector>();
   }
