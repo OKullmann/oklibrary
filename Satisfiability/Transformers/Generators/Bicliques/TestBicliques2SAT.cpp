@@ -14,6 +14,7 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "TestTools.hpp"
 #include "Bicliques2SAT.hpp"
 #include "Graphs.hpp"
 #include "Generators.hpp"
@@ -22,22 +23,19 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.2",
-        "23.4.2025",
+        "0.10.3",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace Bicliques2SAT;
   using namespace Graphs;
   using namespace Generators;
   using namespace Bicliques;
 
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
 }
 
 int main(const int argc, const char* const argv[]) {

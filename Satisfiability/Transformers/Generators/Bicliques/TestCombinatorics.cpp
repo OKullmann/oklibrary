@@ -13,30 +13,22 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "TestTools.hpp"
 #include "Combinatorics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
-        "13.5.2025",
+        "0.1.3",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestCombinatorics.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace Combinatorics;
 
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
-
-  template<typename F>
-  constexpr auto makelist(const F f, const UInt_t start, const UInt_t end) {
-    return std::views::iota(start, end + 1) |
-      std::views::transform(f) | std::ranges::to<std::vector>();
-  }
 }
 
 int main(const int argc, const char* const argv[]) {

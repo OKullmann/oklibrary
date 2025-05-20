@@ -12,25 +12,22 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/Statistics.hpp>
 
+#include "TestTools.hpp"
 #include "RandomGraphs.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "15.5.2025",
+        "0.1.2",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestRandomGraphs.cpp",
         "GPL v3"};
 
   using namespace RandomGraphs;
+  using namespace TestTools;
   namespace FP = FloatingPoint;
-
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
 
 
   // Counting frequency of edges, antilexicographically:

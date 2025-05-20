@@ -11,24 +11,22 @@ License, or any later version. */
 
 #include <ProgramOptions/Environment.hpp>
 
+#include "TestTools.hpp"
 #include "SolverBasics.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.1",
-        "11.5.2025",
+        "0.0.2",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestSolverBasics.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace SolverBasics;
 
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
 }
 
 int main(const int argc, const char* const argv[]) {

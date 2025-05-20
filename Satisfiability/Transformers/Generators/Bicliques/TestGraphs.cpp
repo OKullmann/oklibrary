@@ -15,6 +15,7 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/Statistics.hpp>
 
+#include "TestTools.hpp"
 #include "Graphs.hpp"
 #include "Generators.hpp"
 #include "RandomGraphs.hpp"
@@ -30,13 +31,9 @@ namespace {
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestGraphs.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace Graphs;
   namespace FP = FloatingPoint;
-
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
 
   void test_edgefunctions(const AdjVecUInt& G) {
     assert(G.valid(G.graph()));

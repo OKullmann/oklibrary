@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.2.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ License, or any later version. */
 
 #include "DimacsTools.hpp"
 
+#include "TestTools.hpp"
 #include "ConflictGraphs.hpp"
 #include "Generators.hpp"
 #include "Bicliques2SAT.hpp"
@@ -28,21 +29,18 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
-        "21.8.2023",
+        "0.4.1",
+        "20.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace ConflictGraphs;
   using namespace DimacsTools;
   using namespace Algorithms;
 
-  template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
-    return lhs == rhs;
-  }
 }
 
 int main(const int argc, const char* const argv[]) {
