@@ -54,6 +54,13 @@ namespace GenLit {
   static_assert(to_varval(RandGen::Lit(5)) == VarVal{5,1});
   static_assert(to_varval(RandGen::Var(7)) == to_varval(RandGen::Lit(7)));
 
+  constexpr bool clash(const VarVal& x, const VarVal& y) noexcept {
+    return x.v == y.v and x.e != y.e;
+  }
+  static_assert(clash(VarVal{0,0}, VarVal{0,1}));
+  static_assert(not clash(VarVal{}, VarVal{}));
+  static_assert(not clash(VarVal{2,0}, VarVal{3,1}));
+
 }
 
 #endif

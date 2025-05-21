@@ -234,6 +234,14 @@ namespace RandGen {
   static_assert(-Lit{1,1} == Lit{1,-1});
   static_assert(-Lit{1,-1} == Lit{1,1});
 
+  inline constexpr bool clash(const Lit x, const Lit y) noexcept {
+    return x == -y;
+  }
+  static_assert(clash(Lit(0,0), Lit(0,1)));
+  static_assert(clash(Lit(1,-1), Lit(1,1)));
+  static_assert(not clash(Lit(2,1), Lit(2,2)));
+  static_assert(not clash(Lit(2,-1), Lit(3,1)));
+
 }
 
 #endif
