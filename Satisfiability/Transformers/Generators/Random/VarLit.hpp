@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.3.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,7 +40,7 @@ License, or any later version. */
    - operator <<
    - operator -(Lit)
 
-
+  See GenLit.hpp for the generalisation to finitely many values.
   See also Bicliques/DimacsTools.hpp.
 
 TODOS:
@@ -81,6 +81,7 @@ namespace RandGen {
     friend constexpr auto operator <=>(Var, Var) noexcept = default;
   };
   static_assert(Var() == Var(0));
+  static_assert(Var(0) != Var(1));
   static_assert(Var{0} < Var{1});
   static_assert(Var(max_var-1) < Var(max_var));
 
