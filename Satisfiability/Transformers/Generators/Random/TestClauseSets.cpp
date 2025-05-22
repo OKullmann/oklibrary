@@ -20,13 +20,14 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.0",
+        "0.4.1",
         "22.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
         "GPL v3"};
 
+  using namespace TestTools;
   using namespace RandGen;
   using namespace GenClauseSets;
 
@@ -311,6 +312,29 @@ int main(const int argc, const char* const argv[]) {
    assert(not valid(DimacsClauseList{{0,1},{}}));
    assert(valid(DimacsClauseList{{5,2},{{},{}}}));
    assert(not valid(DimacsClauseList{{5,2},{{},{{6,1}}}}));
+  }
+
+  {assert(GClause().empty());
+   assert(eqp(GClause{{},{}}, {{},{}}));
+   GClause C(2, {1,3}); assert(C.size() == 2);
+   assert(eqp(C.front(), {1,3}));
+   assert(eqp(C.back(), {1,3}));
+   C[1] = {3,7};
+   assert(eqp(C.C, {{1,3},{3,7}}));
+   C = GClause(3);
+   assert((C == GClause{{},{},{}}));
+   C.pop_back(); assert(C == GClause(2));
+   C.front() = {4,6}; C.back() = {11,2};
+   {std::ostringstream ss; ss << C;
+    assert(eqp(ss.str(), "4:6 11:2 0"));
+   }
+   {std::istringstream ss(" 3:2 4:0 0");
+    ss >> C; assert(all_read(ss));
+   }
+   assert(eqp(C, {{4,6},{11,2},{3,2},{4,0}}));
+   assert(C.size() == 4);
+   const auto D(C);
+   assert(D == C);
   }
 
 }
