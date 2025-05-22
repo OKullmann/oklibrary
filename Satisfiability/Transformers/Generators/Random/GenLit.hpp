@@ -14,10 +14,20 @@ License, or any later version. */
 #define GENLIT_Um2YuEsJQA
 
 #include <ostream>
+#include <istream>
+#include <string>
+#include <optional>
+#include <exception>
+
+#include <Numerics/NumInOut.hpp>
 
 #include "VarLit.hpp"
 
 namespace GenLit {
+
+  /*
+    VarVal and singularity, validity
+  */
 
   using var_t = RandGen::var_t;
   using val_t = var_t;
@@ -73,11 +83,19 @@ namespace GenLit {
   static_assert(not valid_for_D(VarVal{}, 0));
 
 
+  /*
+    Extractions
+  */
+
   constexpr var_t var(const VarVal v) noexcept { return v.v; }
   constexpr val_t val(const VarVal v) noexcept { return v.e; }
   static_assert(var(VarVal{5,7}) == 5);
   static_assert(val(VarVal{5,7}) == 7);
 
+
+  /*
+    Conversions
+  */
 
   constexpr VarVal to_varval(const RandGen::Var v) noexcept {
     return VarVal{v.v,1};
@@ -92,12 +110,58 @@ namespace GenLit {
   static_assert(to_varval(RandGen::Var(7)) == to_varval(RandGen::Lit(7)));
 
 
+  /*
+    Properties
+  */
+
   constexpr bool clash(const VarVal& x, const VarVal& y) noexcept {
     return x.v == y.v and x.e != y.e;
   }
   static_assert(clash(VarVal{0,0}, VarVal{0,1}));
   static_assert(not clash(VarVal{}, VarVal{}));
   static_assert(not clash(VarVal{2,0}, VarVal{3,1}));
+
+
+  /*
+    Reading
+  */
+
+  struct LiteralReadError : std::runtime_error {
+    static std::string add(const std::string& m) noexcept {
+      return std::string("GenLit::LiteralReadError: ") + m;
+    }
+    LiteralReadError(const std::string& m) noexcept :
+    std::runtime_error(add(m)) {}
+  };
+
+  VarVal to_varval(const std::string& L) {
+    const auto seppos = L.find_first_of(valsep);
+    if (seppos ==  std::string::npos)
+      throw LiteralReadError(std::string(std::string("Missing separator \"")
+                                         + valsep + "\""));
+    using FloatingPoint::to_UInt;
+    VarVal res;
+    try {
+      res = {to_UInt(L.substr(0,seppos)), to_UInt(L.substr(seppos+1))};
+    }
+    catch(const std::exception& e) {
+      throw LiteralReadError(e.what());
+    }
+    return res;
+  }
+
+  std::istream& operator >>(std::istream& in, VarVal& v) {
+    std::string s; in >> s; v = to_varval(s);
+    return in;
+  }
+  typedef std::optional<VarVal> optVarVal;
+  // Returns empty optional-object iff reading "0":
+  std::istream& operator >>(std::istream& in, optVarVal& ov) {
+    std::string s; in >> s;
+    if (s == "0") ov = {};
+    else ov = to_varval(s);
+    return in;
+  }
 
 }
 

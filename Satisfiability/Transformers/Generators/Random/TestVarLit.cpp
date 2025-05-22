@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.2",
+        "0.1.3",
         "22.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -31,6 +31,26 @@ namespace {
   using namespace RandGen;
   using namespace GenLit;
 
+  std::vector<VarVal> read_genlits(const std::string& s) {
+    std::istringstream ss(s);
+    std::vector<VarVal> res;
+    while (not ss.eof()) {
+      VarVal v; ss >> v; res.push_back(v);
+    }
+    assert(all_read(ss));
+    return res;
+  }
+  std::vector<VarVal> read_optgenlits(const std::string& s) {
+    std::istringstream ss(s);
+    std::vector<VarVal> res;
+    while (true) {
+      optVarVal ov; ss >> ov;
+      if (ov) res.push_back(ov.value());
+      else break;
+    }
+    assert(all_read(ss));
+    return res;
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -65,4 +85,8 @@ int main(const int argc, const char* const argv[]) {
   {const std::vector<VarVal> V(5);
    assert(eqp(V, {{},{},{},{},{}}));
   }
+
+  assert(eqp(read_genlits("0:0 5:77 -1:-1"), {{}, {5,77}, totsingvv}));
+  assert(eqp(read_optgenlits(" 0:3 \n 3:66  -2:-2 0"), {{0,3}, {3,66}, {singvar-1,singval-1}}));
+
 }
