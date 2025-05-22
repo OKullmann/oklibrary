@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.1",
-        "21.5.2025",
+        "0.1.2",
+        "22.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestVarLit.cpp",
@@ -51,7 +51,7 @@ int main(const int argc, const char* const argv[]) {
 
   {std::ostringstream ss;
    ss << VarVal{} << " " << VarVal{7,11};
-   assert(ss.str() == "0,0 7,11");
+   assert(ss.str() == "0:0 7:11");
   }
   {VarVal v; // left uninitialised
    assert(v != VarVal{}); // holds "mostly"

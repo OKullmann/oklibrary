@@ -22,6 +22,8 @@ namespace GenLit {
   using var_t = RandGen::var_t;
   using val_t = var_t;
 
+  constexpr char valsep = ':';
+
   // Concrete datatype (all values are valid):
   struct VarVal {
     var_t v;
@@ -29,7 +31,7 @@ namespace GenLit {
 
     constexpr auto operator <=>(const VarVal&) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const VarVal& v) {
-      return out << v.v << "," << v.e;
+      return out << v.v << valsep << v.e;
     }
   };
   static_assert(VarVal{} == VarVal{0,0});
