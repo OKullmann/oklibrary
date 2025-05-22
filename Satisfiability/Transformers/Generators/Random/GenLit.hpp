@@ -22,6 +22,9 @@ namespace GenLit {
   using var_t = RandGen::var_t;
   using val_t = var_t;
 
+  constexpr var_t singvar = -1;
+  constexpr val_t singval = -1;
+
   constexpr char valsep = ':';
 
   // Concrete datatype (all values are valid):
@@ -39,10 +42,42 @@ namespace GenLit {
   static_assert(VarVal{0,1} < VarVal{0,2});
   static_assert(VarVal{0,2} < VarVal{1,0});
 
+  constexpr VarVal totsingvv{singvar, singval};
+
+  constexpr bool varsing(const VarVal& v) noexcept { return v.v == singvar; }
+  static_assert(varsing(VarVal{singvar}));
+  constexpr bool valsing(const VarVal& v) noexcept { return v.e == singval; }
+  static_assert(valsing(VarVal{0,singval}));
+  constexpr bool totsing(const VarVal& v) noexcept {
+    return varsing(v) and valsing(v);
+  }
+  static_assert(totsing(totsingvv));
+  constexpr VarVal var2sing(const var_t v) noexcept {
+    return {v,singval};
+  }
+  static_assert(valsing(var2sing(0)));
+  constexpr VarVal val2sing(const val_t e) noexcept {
+    return {singvar,e};
+  }
+  static_assert(varsing(val2sing(0)));
+
+  constexpr bool valid_for_n(const VarVal& v, const var_t n) noexcept {
+    return v.v < n;
+  }
+  static_assert(valid_for_n(var2sing(0), 1));
+  static_assert(not valid_for_n(VarVal{}, 0));
+  constexpr bool valid_for_D(const VarVal& v, const val_t D) noexcept {
+    return v.e < D;
+  }
+  static_assert(valid_for_D(val2sing(0), 1));
+  static_assert(not valid_for_D(VarVal{}, 0));
+
+
   constexpr var_t var(const VarVal v) noexcept { return v.v; }
   constexpr val_t val(const VarVal v) noexcept { return v.e; }
   static_assert(var(VarVal{5,7}) == 5);
   static_assert(val(VarVal{5,7}) == 7);
+
 
   constexpr VarVal to_varval(const RandGen::Var v) noexcept {
     return VarVal{v.v,1};
@@ -55,6 +90,7 @@ namespace GenLit {
   static_assert(to_varval(RandGen::Lit(-5)) == VarVal{5});
   static_assert(to_varval(RandGen::Lit(5)) == VarVal{5,1});
   static_assert(to_varval(RandGen::Var(7)) == to_varval(RandGen::Lit(7)));
+
 
   constexpr bool clash(const VarVal& x, const VarVal& y) noexcept {
     return x.v == y.v and x.e != y.e;
