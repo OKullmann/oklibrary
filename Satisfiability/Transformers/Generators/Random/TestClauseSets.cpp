@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2019 (Swansea)
-/* Copyright 2019, 2020, 2022 Oliver Kullmann
+/* Copyright 2019, 2020, 2022, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,21 +11,24 @@ License, or any later version. */
 
 #include <cassert>
 
+#include <Transformers/Generators/Bicliques/TestTools.hpp>
 #include <ProgramOptions/Environment.hpp>
 
 #include "ClauseSets.hpp"
+#include "GenClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.1",
-        "13.3.2022",
+        "0.4.0",
+        "22.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
         "GPL v3"};
 
   using namespace RandGen;
+  using namespace GenClauseSets;
 
 }
 
