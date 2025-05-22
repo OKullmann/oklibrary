@@ -11,6 +11,8 @@ License, or any later version. */
 
   - makelist<F,UINT>(F f, UINT a, UINT b) -> std::vector
 
+  - all_read(istream) -> bool
+
 */
 
 #ifndef TESTTOOLS_wcuguWCYfm
@@ -18,6 +20,7 @@ License, or any later version. */
 
 #include <ranges>
 #include <vector>
+#include <istream>
 
 #include <cstdint>
 
@@ -34,6 +37,12 @@ namespace TestTools {
       std::views::transform(f) | std::ranges::to<std::vector>();
   }
 
+
+  // Everthing has been read (by "overreading"), but no error:
+  bool all_read(std::istream& s) noexcept {
+    return not s.fail() and s.eof() and
+      s.peek() == std::char_traits<char>::eof();
+  }
 
 }
 
