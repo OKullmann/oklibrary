@@ -21,13 +21,15 @@ License, or any later version. */
 #include <ranges>
 #include <vector>
 #include <istream>
+#include <type_traits>
 
 #include <cstdint>
 
 namespace TestTools {
 
   template <class X>
-  constexpr bool eqp(const X& lhs, const X& rhs) noexcept {
+  constexpr bool eqp(const X& lhs,
+                     const std::type_identity_t<X>& rhs) noexcept {
     return lhs == rhs;
   }
 
