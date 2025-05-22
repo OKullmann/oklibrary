@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.3",
+        "0.1.4",
         "22.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -34,20 +34,14 @@ namespace {
   std::vector<VarVal> read_genlits(const std::string& s) {
     std::istringstream ss(s);
     std::vector<VarVal> res;
-    while (not ss.eof()) {
-      VarVal v; ss >> v; res.push_back(v);
-    }
+    for (VarVal v; not ss.eof(); ss >> v, res.push_back(v));
     assert(all_read(ss));
     return res;
   }
   std::vector<VarVal> read_optgenlits(const std::string& s) {
     std::istringstream ss(s);
     std::vector<VarVal> res;
-    while (true) {
-      optVarVal ov; ss >> ov;
-      if (ov) res.push_back(ov.value());
-      else break;
-    }
+    for (optVarVal ov; ss >> ov, ov; res.push_back(ov.value()));
     assert(all_read(ss));
     return res;
   }
