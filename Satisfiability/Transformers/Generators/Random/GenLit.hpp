@@ -82,6 +82,14 @@ namespace GenLit {
   static_assert(valid_for_D(val2sing(0), 1));
   static_assert(not valid_for_D(VarVal{}, 0));
 
+  struct var_pars {
+    val_t D; var_t n;
+  };
+  constexpr bool valid(const VarVal& v, const var_pars& P) noexcept {
+    return valid_for_D(v, P.D) and valid_for_n(v, P.n);
+  }
+  static_assert(valid({}, {1,1}));
+
 
   /*
     Extractions
