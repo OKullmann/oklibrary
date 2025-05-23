@@ -39,10 +39,12 @@ namespace GenClauseSets {
     typedef gclause_t::pointer pointer;
     typedef gclause_t::const_pointer const_pointer;
 
-    GClause() noexcept = default;
+    constexpr GClause() noexcept = default;
     explicit GClause(const size_type count) : C(count) {}
-    GClause(const size_type count, const GL::VarVal& x) : C(count,x) {}
-    GClause(const std::initializer_list<GL::VarVal> init) : C(init) {}
+    GClause(const size_type count, const GL::VarVal& x)
+      : C(count,x) {}
+    GClause(const std::initializer_list<GL::VarVal> init)
+      : C(init) {}
 
     iterator begin() noexcept { return C.begin(); }
     const_iterator begin() const noexcept { return C.begin(); }
@@ -51,8 +53,8 @@ namespace GenClauseSets {
     const_iterator end() const noexcept { return C.end(); }
     const_iterator cend() const noexcept { return C.cend(); }
 
-    bool empty() const noexcept { return C.empty(); }
-    size_type size() const noexcept { return C.size(); }
+    constexpr bool empty() const noexcept { return C.empty(); }
+    constexpr size_type size() const noexcept { return C.size(); }
 
     reference front() noexcept { return C.front(); }
     const_reference front() const noexcept { return C.front(); }
@@ -67,9 +69,11 @@ namespace GenClauseSets {
     void push_back(const GL::VarVal& x) { C.push_back(x); }
     void pop_back() { C.pop_back(); }
 
-    bool is_sorted() const noexcept { return std::ranges::is_sorted(C); }
+    constexpr bool is_sorted() const noexcept {
+      return std::ranges::is_sorted(C);
+    }
     void sort() noexcept { std::ranges::sort(C); }
-    bool has_consecutive_duplicates() const noexcept {
+    constexpr bool has_consecutive_duplicates() const noexcept {
       return std::ranges::adjacent_find(C) != C.end();
     }
     void remove_consecutive_duplicates() noexcept {
@@ -77,7 +81,7 @@ namespace GenClauseSets {
       C.erase(left_over.begin(), left_over.end());
     }
 
-    constexpr auto operator <=>(const GClause&) const noexcept = default;
+    auto operator <=>(const GClause&) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const GClause& C) {
       for (const auto& x : C) out << x << " ";
       return out << "0";
@@ -92,7 +96,7 @@ namespace GenClauseSets {
   static_assert(std::ranges::sized_range<GClause>);
   static_assert(std::ranges::contiguous_range<GClause>);
 
-  constexpr bool valid(const GClause& C, const GL::var_pars& P) noexcept {
+  bool valid(const GClause& C, const GL::var_pars& P) noexcept {
     return std::ranges::all_of(C, [&P](const auto& x) noexcept {
                                    return valid(x, P);});
   }

@@ -20,7 +20,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "23.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -355,4 +355,28 @@ int main(const int argc, const char* const argv[]) {
    assert(tautological_sorted(C));
   }
 
+  {constexpr GClause C;
+   static_assert(C.empty());
+   static_assert(C.size() == 0);
+   static_assert(C.is_sorted());
+   static_assert(not C.has_consecutive_duplicates());
+   assert(not tautological_sorted(C));
+   assert(not tautological(C));
+  }
+  {const GClause C(1);
+   assert(not C.empty());
+   assert(C.size() == 1);
+   assert(C.is_sorted());
+   assert(not C.has_consecutive_duplicates());
+   assert(not tautological_sorted(C));
+   assert(not tautological(C));
+  }
+  {const GClause C(2);
+   assert(not C.empty());
+   assert(C.size() == 2);
+   assert(C.is_sorted());
+   assert(C.has_consecutive_duplicates());
+   assert(not tautological_sorted(C));
+   assert(not tautological(C));
+  }
 }
