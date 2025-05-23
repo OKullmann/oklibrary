@@ -67,6 +67,16 @@ namespace GenClauseSets {
     void push_back(const GL::VarVal& x) { C.push_back(x); }
     void pop_back() { C.pop_back(); }
 
+    bool is_sorted() const noexcept { return std::ranges::is_sorted(C); }
+    void sort() noexcept { std::ranges::sort(C); }
+    bool has_consecutive_duplicates() const noexcept {
+      return std::ranges::adjacent_find(C) != C.end();
+    }
+    void remove_consecutive_duplicates() noexcept {
+      const auto left_over = std::ranges::unique(C);
+      C.erase(left_over.begin(), left_over.end());
+    }
+
     constexpr auto operator <=>(const GClause&) const noexcept = default;
     friend std::ostream& operator <<(std::ostream& out, const GClause& C) {
       for (const auto& x : C) out << x << " ";
@@ -86,6 +96,16 @@ namespace GenClauseSets {
     return std::ranges::all_of(C, [&P](const auto& x) noexcept {
                                    return valid(x, P);});
   }
+
+  // Checks if adjacent literals are clashing:
+  bool tautological_sorted(const GClause& C) noexcept {
+    return std::ranges::adjacent_find(C, GL::clash) != C.end();
+  }
+  bool tautological(const GClause& C) {
+    auto D(C); D.sort();
+    return tautological_sorted(D);
+  }
+
 
 }
 
