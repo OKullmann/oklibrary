@@ -328,7 +328,7 @@ int main(const int argc, const char* const argv[]) {
    C.pop_back(); assert(C == GClause(2));
    C.front() = {4,6}; C.back() = {11,2};
    {std::ostringstream ss; ss << C;
-    assert(eqp(ss.str(), "4:6 11:2 0"));
+    assert(eqp(ss.str(), "4:6 11:2 0\n"));
    }
    {std::istringstream ss(" 3:2 4:0 0");
     ss >> C; assert(all_read(ss));
