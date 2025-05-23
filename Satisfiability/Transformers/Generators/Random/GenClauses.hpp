@@ -10,8 +10,8 @@ License, or any later version. */
 
 */
 
-#ifndef GENCLAUSESETS_iVsas4Zamq
-#define GENCLAUSESETS_iVsas4Zamq
+#ifndef GENCLAUSES_iVsas4Zamq
+#define GENCLAUSES_iVsas4Zamq
 
 #include <vector>
 #include <algorithm>
@@ -21,7 +21,7 @@ License, or any later version. */
 
 #include "GenLit.hpp"
 
-namespace GenClauseSets {
+namespace GenClauses {
 
   namespace GL = GenLit;
 

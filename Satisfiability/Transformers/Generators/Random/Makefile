@@ -99,7 +99,7 @@ TestNumbers_debug : TestNumbers.cpp Numbers.hpp
 TestDistributions_debug : TestDistributions.cpp Numbers.hpp Distributions.hpp
 TestFPDistributions_debug : TestFPDistributions.cpp Numbers.hpp FPDistributions.hpp
 TestAlgorithms_debug : TestAlgorithms.cpp Numbers.hpp Distributions.hpp Algorithms.hpp
-TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp VarLit.hpp $(programmingloc)/ProgramOptions/Environment.hpp GenClauses.hpp
+TestClauseSets_debug : TestClauseSets.cpp ClauseSets.hpp VarLit.hpp Numbers.hpp Distributions.hpp VarLit.hpp $(programmingloc)/ProgramOptions/Environment.hpp GenClauses.hpp GenClauseSets.hpp
 TestVarLit_debug : TestVarLit.cpp VarLit.hpp GenLit.hpp
 TestQClauseSets_debug : TestQClauseSets.cpp QClauseSets.hpp
 TestDQClauseSets_debug : TestDQClauseSets.cpp DQClauseSets.hpp

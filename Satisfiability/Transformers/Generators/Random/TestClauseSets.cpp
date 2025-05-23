@@ -16,11 +16,12 @@ License, or any later version. */
 
 #include "ClauseSets.hpp"
 #include "GenClauses.hpp"
+#include "GenClauseSets.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
+        "0.4.5",
         "23.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -29,6 +30,7 @@ namespace {
 
   using namespace TestTools;
   using namespace RandGen;
+  using namespace GenClauses;
   using namespace GenClauseSets;
 
 }
