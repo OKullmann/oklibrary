@@ -15,13 +15,13 @@ License, or any later version. */
 #include <ProgramOptions/Environment.hpp>
 
 #include "ClauseSets.hpp"
-#include "GenClauseSets.hpp"
+#include "GenClauses.hpp"
 
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "22.5.2025",
+        "0.4.2",
+        "23.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
