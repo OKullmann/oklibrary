@@ -82,6 +82,7 @@ namespace GenClauses {
     }
 
     auto operator <=>(const GClause&) const noexcept = default;
+
     friend std::ostream& operator <<(std::ostream& out, const GClause& C) {
       for (const auto& x : C) out << x << " ";
       return out << "0\n";
@@ -96,10 +97,14 @@ namespace GenClauses {
   static_assert(std::ranges::sized_range<GClause>);
   static_assert(std::ranges::contiguous_range<GClause>);
 
+  bool nonsingular(const GClause& C) noexcept {
+    return not std::ranges::any_of(C, GL::sing);
+  }
   bool valid(const GClause& C, const GL::var_pars& P) noexcept {
     return std::ranges::all_of(C, [&P](const auto& x) noexcept {
                                    return valid(x, P);});
   }
+  // Remark: If valid(C, P) for any P, then nonsingular(C).
 
   // Checks if adjacent literals are clashing:
   bool tautological_sorted(const GClause& C) noexcept {
