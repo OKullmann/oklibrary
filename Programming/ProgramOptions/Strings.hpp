@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021, 2022, 2023, 2024 Oliver Kullmann
+/* Copyright 2021, 2022, 2023, 2024, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -77,7 +77,9 @@ License, or any later version. */
     - str2scorename(string) -> string
         for this "strict" form only letters and digits are not translated)
 
-    File access:
+    File/stream access:
+
+    - see the split-facilities above;
 
     - nextchar_eof(std::istream) -> bool (whether eof has been effectively
        reached)
