@@ -84,7 +84,7 @@ namespace GenClauses {
       return res;
     }
 
-    auto operator <=>(const GClause&) const noexcept = default;
+    constexpr auto operator <=>(const GClause&) const noexcept = default;
 
     friend std::ostream& operator <<(std::ostream& out, const GClause& C) {
       for (const auto& x : C) out << x << " ";

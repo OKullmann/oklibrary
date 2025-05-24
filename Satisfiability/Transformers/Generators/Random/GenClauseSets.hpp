@@ -101,15 +101,15 @@ namespace GenClauseSets {
     gclauseset_t F;
     domsizes_t dom;
 
-    GClauseList() noexcept = default;
+    constexpr GClauseList() noexcept = default;
     GClauseList(gclauseset_t F0) : F(std::move(F0)), dom(dom_sizes(F)) {}
     GClauseList(gclauseset_t F0, domsizes_t dom0) noexcept :
     F(std::move(F0)), dom(std::move(dom0)) {}
 
-    var_t n() const noexcept { return dom.size(); }
-    count_t c() const noexcept { return F.size(); }
+    constexpr var_t n() const noexcept { return dom.size(); }
+    constexpr count_t c() const noexcept { return F.size(); }
 
-    bool valid() const noexcept {
+    constexpr bool valid() const noexcept {
       for (const auto& C : F)
         for (const auto& x : C)
           if (x.v >= dom.size() or x.e >= dom[x.v]) return false;

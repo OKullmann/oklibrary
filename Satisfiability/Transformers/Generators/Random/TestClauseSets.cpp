@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.2",
+        "0.5.3",
         "24.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -363,6 +363,7 @@ int main(const int argc, const char* const argv[]) {
    static_assert(C.size() == 0);
    static_assert(C.is_sorted());
    static_assert(not C.has_consecutive_duplicates());
+   static_assert(C == C);
    assert(not tautological_sorted(C));
    assert(not tautological(C));
   }
@@ -414,4 +415,14 @@ int main(const int argc, const char* const argv[]) {
    catch(const LiteralReadError& e) { caught = true; }
    assert(caught);
   }
+
+  {constexpr GClauseList F;
+   static_assert(F.F.empty());
+   static_assert(F.dom.empty());
+   static_assert(F.n() == 0);
+   static_assert(F.c() == 0);
+   static_assert(F.valid());
+   static_assert(F == F);
+  }
+
 }
