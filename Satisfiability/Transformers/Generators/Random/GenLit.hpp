@@ -61,6 +61,10 @@ namespace GenLit {
   constexpr bool totsing(const VarVal& v) noexcept {
     return varsing(v) and valsing(v);
   }
+  constexpr bool sing(const VarVal& v) noexcept {
+    return varsing(v) or valsing(v);
+  }
+
   static_assert(totsing(totsingvv));
   constexpr VarVal var2sing(const var_t v) noexcept {
     return {v,singval};
@@ -145,8 +149,8 @@ namespace GenLit {
   VarVal to_varval(const std::string& L) {
     const auto seppos = L.find_first_of(valsep);
     if (seppos ==  std::string::npos)
-      throw LiteralReadError(std::string(std::string("Missing separator \"")
-                                         + valsep + "\""));
+      throw LiteralReadError(std::string("Missing separator \"")
+                             + valsep + "\"");
     using FloatingPoint::to_UInt;
     VarVal res;
     try {
