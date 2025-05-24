@@ -101,9 +101,10 @@ namespace GenClauseSets {
     gclauseset_t F;
     domsizes_t dom;
 
-    constexpr GClauseList() noexcept = default;
-    GClauseList(gclauseset_t F0) : F(std::move(F0)), dom(dom_sizes(F)) {}
-    GClauseList(gclauseset_t F0, domsizes_t dom0) noexcept :
+    explicit constexpr GClauseList() noexcept = default;
+    explicit GClauseList(gclauseset_t F0)
+      : F(std::move(F0)), dom(dom_sizes(F)) {}
+    explicit GClauseList(gclauseset_t F0, domsizes_t dom0) noexcept :
     F(std::move(F0)), dom(std::move(dom0)) {}
 
     constexpr var_t n() const noexcept { return dom.size(); }
@@ -135,7 +136,7 @@ namespace GenClauseSets {
       const std::string
         error("In operator >>(std::istream, GClauseList), line=");
       using std::to_string;
-      const auto mes = [line_counter, &error]
+      const auto mes = [&line_counter, &error]
         {return error + to_string(line_counter) + " : ";};
 
       for (std::string line; std::getline(in, line);) {
@@ -149,11 +150,15 @@ namespace GenClauseSets {
           if (item != expected)
             throw ClauseListReadError(mes() + "expected \"" + expected + "\", "
                                       "but found \"" + item + "\"");
-          sline >> item;
+          item.clear(); sline >> item;
           if (item.empty()) n_set = false;
           else {
             n_set = true;
-            current_n = FloatingPoint::to_UInt(item);
+            try { current_n = FloatingPoint::to_UInt(item); }
+            catch(const std::exception& e) {
+              throw ClauseListReadError(mes() + "reading n-value yields:\n" +
+                                        e.what());
+            }
             maxn = std::max(maxn, current_n);
           }
         }
@@ -161,7 +166,7 @@ namespace GenClauseSets {
           if (c_set) {
             const count_t clauses_read = F.c() - last_c;
             if (current_c != clauses_read)
-              throw ClauseListReadError(mes() + "found " +
+              throw ClauseListReadError(mes() + "read " +
                 to_string(clauses_read) + " # c=" + to_string(current_c));
           }
           std::string item; sline >> item;
@@ -169,12 +174,16 @@ namespace GenClauseSets {
           if (item != expected)
             throw ClauseListReadError(mes() + "expected \"" + expected + "\", "
                                       "but found \"" + item + "\"");
-          sline >> item;
+          item.clear(); sline >> item;
           if (item.empty()) c_set = false;
           else {
             c_set = true;
             last_c = F.c();
-            current_c = FloatingPoint::to_UInt(item);
+            try { current_c = FloatingPoint::to_UInt(item); }
+            catch(const std::exception& e) {
+              throw ClauseListReadError(mes() + "reading c-value yields:\n" +
+                                        e.what());
+            }
           }
         }
         else {
@@ -198,7 +207,7 @@ namespace GenClauseSets {
       if (c_set) {
         const count_t clauses_read = final_c - last_c;
         if (current_c != clauses_read)
-          throw ClauseListReadError(mes() + "found " +
+          throw ClauseListReadError(mes() + "read " +
             to_string(clauses_read) + " # c=" + to_string(current_c));
       }
       F.dom.resize(maxn);

@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.3",
+        "0.5.4",
         "24.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -423,6 +423,77 @@ int main(const int argc, const char* const argv[]) {
    static_assert(F.c() == 0);
    static_assert(F.valid());
    static_assert(F == F);
+   static_assert(F == GClauseList{});
+   assert(F == GClauseList({}));
+   assert(F == GClauseList{{}});
+   assert(F == GClauseList({},{}));
+   assert((F == GClauseList{{},{}}));
+  }
+
+  {constexpr GClauseList F0;
+   const GClauseList F1({{}});
+   const GClauseList F2({{},{}});
+   assert(F0.valid() and F1.valid() and F2.valid());
+   assert(F0.n() == 0 and F1.n() == 0 and F2.n() == 0);
+   assert(F0.c() == 0 and F1.c() == 1 and F2.c() == 2);
+   assert(F0 < F1 and F1 < F2 and F0 < F2);
+   assert(F0.F < F1.F and F1.F < F2.F and F0.F < F2.F);
+   assert(F0.dom.empty() and F1.dom.empty() and F2.dom.empty());
+   {std::ostringstream os; os << F0;
+    assert(eqp(os.str(), "n 0\nc 0\n")); }
+   {std::ostringstream os; os << F1;
+    assert(eqp(os.str(), "n 0\nc 1\n0\n")); }
+   {std::ostringstream os; os << F2;
+    assert(eqp(os.str(), "n 0\nc 2\n0\n0\n")); }
+
+   {auto F0c(F0);
+    {std::istringstream is;
+     is >> F0c;
+     assert(all_read_beyond(is)); }
+    assert(F0c == F0);
+    {std::istringstream is("0\n");
+     is >> F0c;
+     assert(all_read_beyond(is)); }
+    assert(F0c == F1);
+    {std::istringstream is("0\n");
+     is >> F0c;
+     assert(all_read_beyond(is)); }
+    assert(F0c == F2);
+    GClauseList Fnew;
+    {std::istringstream is("n 0\nc 2\n0\n0\n");
+     is >> Fnew;
+     assert(all_read_beyond(is)); }
+    assert(Fnew == F2);
+    {std::istringstream is("n 1\n");
+     is >> Fnew;
+     assert(all_read_beyond(is)); }
+    assert(Fnew.valid());
+    assert(Fnew.n() == 1);
+    assert(Fnew.c() == 2);
+    assert(Fnew.F == F2.F);
+    assert(eqp(Fnew.dom, {0}));
+    {auto Fnewc(Fnew);
+     {std::istringstream is("n 1\n");
+      is >> Fnewc;
+      assert(all_read_beyond(is)); }
+     assert(Fnewc == Fnew);
+    }
+    {auto Fnewc(Fnew);
+     {std::istringstream is("CX\nn 1 Y\nc 0 Z\nC HH\nc 0 K\nC jj");
+      is >> Fnewc;
+      assert(all_read_beyond(is)); }
+     assert(Fnewc == Fnew);
+    }
+    {std::istringstream is("n 1\nc  1\n 0 \nC uu\nn  3\nc 2\n0\n0\nn 1\nc\n0\n");
+     is >> Fnew;
+     assert(all_read_beyond(is)); }
+    assert(Fnew.valid());
+    assert(Fnew.n() == 3);
+    assert(Fnew.c() == 6);
+    assert(eqp(Fnew.F, gclauseset_t(6)));
+    assert(eqp(Fnew.dom, {0,0,0}));
+   }
+   
   }
 
 }
