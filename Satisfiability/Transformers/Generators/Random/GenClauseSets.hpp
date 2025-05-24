@@ -32,6 +32,8 @@ TODOS:
 #include <ostream>
 #include <utility>
 #include <exception>
+#include <array>
+#include <algorithm>
 
 #include <ProgramOptions/Strings.hpp>
 
@@ -96,7 +98,6 @@ namespace GenClauseSets {
   };
 
 
-
   struct GClauseList {
     gclauseset_t F;
     domsizes_t dom;
@@ -116,6 +117,37 @@ namespace GenClauseSets {
           if (x.v >= dom.size() or x.e >= dom[x.v]) return false;
       return true;
     }
+
+
+    void sort_clauses() noexcept { for (auto& C : F) C.sort(); }
+    // Returns total number of eliminated literal-occurrences:
+    count_t remove_consecutive_duplicates() noexcept {
+      count_t res = 0;
+      for (auto& C : F) res += C.remove_consecutive_duplicates();
+      return res;
+    }
+    // Returns number of eliminated clauses and their total literal-count;
+    // assumes all clauses are sorted:
+    std::array<count_t, 2> remove_tautological_sorted() noexcept {
+      const auto to_be_removed =
+        std::ranges::remove_if(F, GC::tautological_sorted);
+      std::array<count_t, 2> res{to_be_removed.size(), 0};
+      for (const auto& C : to_be_removed) res[1] += C.size();
+      F.erase(to_be_removed.begin(), to_be_removed.end());
+      return res;
+    }
+
+    void sort_clauselist() noexcept { std::ranges::sort(F); }
+
+    std::array<count_t, 2> fully_standardise() noexcept {
+      sort_clauses();
+      const count_t ed = remove_consecutive_duplicates();
+      std::array<count_t, 2> res = remove_tautological_sorted();
+      res[1] += ed;
+      sort_clauselist();
+      return res;
+    }
+
 
     auto operator <=>(const GClauseList&) const noexcept = default;
 
@@ -144,6 +176,7 @@ namespace GenClauseSets {
         if (line.empty()) continue;
         else if (line.front() == comchar) continue;
         std::istringstream sline(line);
+
         if (line.front() == numvarchar) {
           std::string item; sline >> item;
           const std::string expected(1,numvarchar);
@@ -162,6 +195,7 @@ namespace GenClauseSets {
             maxn = std::max(maxn, current_n);
           }
         }
+
         else if (line.front() == numclchar) {
           if (c_set) {
             const count_t clauses_read = F.c() - last_c;
@@ -186,9 +220,14 @@ namespace GenClauseSets {
             }
           }
         }
+
         else {
           GC::GClause C;
-          sline >> C;
+          try { sline >> C; }
+          catch(const std::exception& e) {
+            throw ClauseListReadError(mes() + "reading clause yields:\n" +
+                                      e.what());
+          }
           for (const auto& x : C) {
             if (GL::sing(x))
               throw GL::LiteralReadError(mes() + "singular literal " +

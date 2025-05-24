@@ -64,7 +64,15 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
+  const bool standardise = argc > 1;
+
   GClauseList F;
   std::cin >> F;
+  if (standardise) {
+    const auto stats = F.fully_standardise();
+    std::cout << comchar << " ";
+    Environment::out_line(std::cout, stats);
+    std::cout << "\n";
+  }
   std::cout << F;
 }

@@ -155,7 +155,7 @@ namespace GenLit {
     const auto seppos = L.find_first_of(valsep);
     if (seppos ==  std::string::npos)
       throw LiteralReadError(std::string("Missing separator \"")
-                             + valsep + "\"");
+                             + valsep + "\" in literal \"" + L + "\"");
     using FloatingPoint::to_UInt;
     VarVal res;
     try {
