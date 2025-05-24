@@ -28,8 +28,11 @@ namespace GenClauseSets {
   namespace GL = GenLit;
   namespace GC = GenClauses;
 
+  // Three typedefs for std::uint64_t :
   using var_t = GL::var_t;
   using val_t = GL::val_t;
+  using count_t = GL::var_t;
+
   using VarVal = GL::VarVal;
 
 
@@ -89,7 +92,7 @@ namespace GenClauseSets {
     F(std::move(F0)), dom(std::move(dom0)) {}
 
     var_t n() const noexcept { return dom.size(); }
-    var_t c() const noexcept { return F.size(); }
+    count_t c() const noexcept { return F.size(); }
 
     bool valid() const noexcept {
       for (const auto& C : F)
@@ -107,12 +110,13 @@ namespace GenClauseSets {
       return out;
     }
     friend std::istream& operator >>(std::istream& in, GClauseList& F) {
-      const var_t start_n = F.n(), start_c = F.c();
+      const var_t start_n = F.n();
       var_t maxn = start_n, current_n;
-      var_t last_c = start_c, current_c;
+      const count_t start_c = F.c();
+      count_t last_c = start_c, current_c;
       bool n_set = false, c_set = false;
 
-      var_t line_counter = 0;
+      count_t line_counter = 0;
       const std::string
         error("In operator >>(std::istream, GClauseList), line=");
       using std::to_string;
@@ -140,7 +144,7 @@ namespace GenClauseSets {
         }
         else if (line.front() == numclchar) {
           if (c_set) {
-            const var_t clauses_read = F.c() - last_c;
+            const count_t clauses_read = F.c() - last_c;
             if (current_c != clauses_read)
               throw ClauseListReadError(mes() + "found " +
                 to_string(clauses_read) + " # c=" + to_string(current_c));
@@ -175,15 +179,15 @@ namespace GenClauseSets {
           F.F.push_back(std::move(C));
         }
       }
-      const var_t final_c = F.c();
+      const count_t final_c = F.c();
       if (c_set) {
-        const var_t clauses_read = final_c - last_c;
+        const count_t clauses_read = final_c - last_c;
         if (current_c != clauses_read)
           throw ClauseListReadError(mes() + "found " +
             to_string(clauses_read) + " # c=" + to_string(current_c));
       }
       F.dom.resize(maxn);
-      for (var_t i = start_c; i < final_c; ++i) {
+      for (count_t i = start_c; i < final_c; ++i) {
         const auto& C = F.F[i];
         for (const auto& x : C) {
           val_t& dom = F.dom[x.v];
