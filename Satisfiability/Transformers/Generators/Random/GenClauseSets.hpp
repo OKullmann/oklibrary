@@ -8,6 +8,21 @@ License, or any later version. */
 /*
   Components for generalised clause-sets
 
+
+TODOS:
+
+0. Write (above) a short summary of the components (also in the
+   other files).
+
+1. Naming of the file format
+  - NOBOCONF ("non-boolean conjunctive normal forms") seems reasonable.
+
+2. Document the basics of NOBOCONF
+
+3. Document the details of NOBOCONF
+  - Where are "spaces" allowed (and what are these?)?
+  - What is allowed for the "numbers" ?
+
 */
 
 #ifndef GENCLAUSESETS_w1SoFOhS1G
