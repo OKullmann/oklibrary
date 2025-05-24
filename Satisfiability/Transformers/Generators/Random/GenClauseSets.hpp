@@ -44,13 +44,16 @@ namespace GenClauseSets {
   // The maximal variable-index + 1 (and checking that variables and values
   // are not singular):
   var_t num_var(const gclauseset_t& F) {
+    const std::string error = "GenClauseSets::num_var: ";
     var_t res = 0;
     for (const auto& C : F)
       for (const auto& x : C)
         if (x.v == GL::singvar)
-          throw GL::LiteralReadError("singular variable");
+          throw GL::LiteralReadError(error + "singular variable in " +
+                                     to_string(x));
         else if (x.e == GL::singval)
-          throw GL::LiteralReadError("singular value");
+          throw GL::LiteralReadError(error + "singular value in " +
+                                     to_string(x));
         else if (x.v >= res) res = x.v+1;
     return res;
   }
@@ -160,7 +163,8 @@ namespace GenClauseSets {
           sline >> C;
           for (const auto& x : C) {
             if (GL::sing(x))
-              throw GL::LiteralReadError(mes() + "singular literal");
+              throw GL::LiteralReadError(mes() + "singular literal " +
+                                         to_string(x));
             if (n_set) {
               if (x.v >= current_n)
                 throw ClauseListReadError(mes() + "variable=" +
