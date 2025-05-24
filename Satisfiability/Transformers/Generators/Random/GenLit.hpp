@@ -52,6 +52,11 @@ namespace GenLit {
   static_assert(VarVal{0,1} < VarVal{0,2});
   static_assert(VarVal{0,2} < VarVal{1,0});
 
+  std::string to_string(const VarVal& x) noexcept {
+    return std::to_string(x.v) + std::string(1,valsep) +
+      std::to_string(x.e);
+  }
+
   constexpr VarVal totsingvv{singvar, singval};
 
   constexpr bool varsing(const VarVal& v) noexcept { return v.v == singvar; }
