@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "24.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -406,4 +406,12 @@ int main(const int argc, const char* const argv[]) {
    assert(caught);
   }
 
+  {assert(eqp(dom_sizes({}), {}));
+   assert(eqp(dom_sizes({{},{}}), {}));
+   assert(eqp(dom_sizes({{{0,1},{3,4}},{{0,2},{3,3}}}), {3,0,0,5}));
+   bool caught = false;
+   try {dom_sizes({{totsingvv}}); }
+   catch(const LiteralReadError& e) { caught = true; }
+   assert(caught);
+  }
 }
