@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
-        "23.5.2025",
+        "0.5.0",
+        "24.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -30,6 +30,7 @@ namespace {
 
   using namespace TestTools;
   using namespace RandGen;
+  using namespace GenLit;
   using namespace GenClauses;
   using namespace GenClauseSets;
 
@@ -380,5 +381,28 @@ int main(const int argc, const char* const argv[]) {
    assert(C.has_consecutive_duplicates());
    assert(not tautological_sorted(C));
    assert(not tautological(C));
+  }
+
+  {assert(num_var({}) == 0);
+   assert(num_var({{},{}}) == 0);
+   assert(num_var({{{0,44},{5,33}},{{1,66},{2,77}}}) == 6);
+   bool caught = false;
+   try {num_var({{var2sing(66)}}); }
+   catch(const LiteralReadError& e) {
+     caught = true;
+     const std::string w = e.what();
+     assert(w.contains("singular value"));
+     assert(w.contains("66:18446744073709551615"));
+   }
+   assert(caught);
+   caught = false;
+   try { num_var({{val2sing(77)}}); }
+   catch(const LiteralReadError& e) {
+     caught = true;
+     const std::string w = e.what();
+     assert(w.contains("singular variable"));
+     assert(w.contains("18446744073709551615:77"));
+   }
+   assert(caught);
   }
 }
