@@ -47,7 +47,9 @@
 /WrongRandomPermutation
 /WrongRandomPermutation_debug
 /WrongRandomPermutationFixed
-WrongRandomPermutationFixed_debug
+/WrongRandomPermutationFixed_debug
+/NBCNFConversion
+/NBCNFConversion_debug
 
 /data/exp_files/
 

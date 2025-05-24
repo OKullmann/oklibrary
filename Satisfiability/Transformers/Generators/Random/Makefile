@@ -13,8 +13,8 @@ oklibloc = ../../../..
 timing_stems = Discard Generation Bernoulli12 Bernoulli2 Bernoulli UniformRange Choose Kolmogorov Initialisation ilogp2 LSRG
 timing_progs = $(addprefix Timing, $(timing_stems))
 
-opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG WrongRandomPermutation WrongRandomPermutationFixed
-debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug TestVarLit_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug WrongRandomPermutation_debug WrongRandomPermutationFixed_debug # $(addsuffix _debug, $(timing_stems))
+opt_progs = $(timing_progs) Kval KSTval MetaBernoulli MetaDevice BRG QBRG DQBRG LSRG WrongRandomPermutation WrongRandomPermutationFixed NBCNFConversion
+debug_progs = TestNumbers_debug TestDistributions_debug TestFPDistributions_debug TestAlgorithms_debug TestClauseSets_debug TestQClauseSets_debug TestDQClauseSets_debug TestTests_debug TestSequences_debug TestLatinSquares_debug TestLSRG_debug TestVarLit_debug  TimingBernoulli12_debug TimingBernoulli2_debug TimingBernoulli_debug TimingUniformRange_debug TimingChoose_debug TimingKolmogorov_debug TimingLSRG_debug MetaBernoulli_debug MetaDevice_debug  BRG_debug QBRG_debug DQBRG_debug LSRG_debug WrongRandomPermutation_debug WrongRandomPermutationFixed_debug NBCNFConversion_debug # $(addsuffix _debug, $(timing_stems))
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -92,6 +92,9 @@ WrongRandomPermutation : WrongRandomPermutation.cpp
 WrongRandomPermutation_debug : WrongRandomPermutation.cpp
 WrongRandomPermutationFixed : WrongRandomPermutationFixed.cpp
 WrongRandomPermutationFixed_debug : WrongRandomPermutationFixed.cpp
+
+NBCNFConversion : NBCNFConversion.cpp GenLit.hpp GenClauses.hpp GenClauseSets.hpp
+NBCNFConversion_debug : NBCNFConversion.cpp GenLit.hpp GenClauses.hpp GenClauseSets.hpp
 
 
 
