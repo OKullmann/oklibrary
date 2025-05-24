@@ -42,7 +42,12 @@ namespace TestTools {
 
   // Everthing has been read (by "overreading"), but no error:
   bool all_read(std::istream& s) noexcept {
-    return not s.fail() and s.eof() and
+    return not s.good() and not s.bad() and not s.fail() and s.eof() and
+      s.peek() == std::char_traits<char>::eof();
+  }
+  // Now by "reading beyond":
+  bool all_read_beyond(std::istream& s) noexcept {
+    return not s.good() and not s.bad() and s.fail() and s.eof() and
       s.peek() == std::char_traits<char>::eof();
   }
 
