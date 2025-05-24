@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
+        "0.5.1",
         "24.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -352,7 +352,7 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(C, {{1,2},{2,1},{2,2},{3,4},{3,4},{5,3}}));
    assert(C.has_consecutive_duplicates());
    assert(tautological_sorted(C));
-   C.remove_consecutive_duplicates();
+   assert(C.remove_consecutive_duplicates() == 1);
    assert(not C.has_consecutive_duplicates());
    assert(eqp(C, {{1,2},{2,1},{2,2},{3,4},{5,3}}));
    assert(tautological_sorted(C));
@@ -405,4 +405,5 @@ int main(const int argc, const char* const argv[]) {
    }
    assert(caught);
   }
+
 }

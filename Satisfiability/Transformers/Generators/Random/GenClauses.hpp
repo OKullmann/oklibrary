@@ -76,9 +76,12 @@ namespace GenClauses {
     constexpr bool has_consecutive_duplicates() const noexcept {
       return std::ranges::adjacent_find(C) != C.end();
     }
-    void remove_consecutive_duplicates() noexcept {
+    // Returns the number of eliminated literals (the difference in size):
+    size_type remove_consecutive_duplicates() noexcept {
       const auto left_over = std::ranges::unique(C);
+      const size_type res = left_over.size();
       C.erase(left_over.begin(), left_over.end());
+      return res;
     }
 
     auto operator <=>(const GClause&) const noexcept = default;
