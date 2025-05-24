@@ -16,6 +16,9 @@ License, or any later version. */
 #include <vector>
 #include <ostream>
 #include <utility>
+#include <exception>
+
+#include <ProgramOptions/Strings.hpp>
 
 #include "GenLit.hpp"
 #include "GenClauses.hpp"
@@ -63,6 +66,16 @@ namespace GenClauseSets {
   }
 
 
+  struct ClauseListReadError : std::runtime_error {
+    static std::string add(const std::string& m) noexcept {
+      return std::string("GenClauseSets::ClauseListReadError: ") + m;
+    }
+    ClauseListReadError(const std::string& m) noexcept :
+    std::runtime_error(add(m)) {}
+  };
+
+
+
   struct GClauseList {
     gclauseset_t F;
     domsizes_t dom;
@@ -89,6 +102,91 @@ namespace GenClauseSets {
           << numclchar << " " << F.c() << "\n";
       for (const auto& C : F.F) out << C;
       return out;
+    }
+    friend std::istream& operator >>(std::istream& in, GClauseList& F) {
+      const var_t start_n = F.n(), start_c = F.c();
+      var_t maxn = start_n, current_n;
+      var_t last_c = start_c, current_c;
+      bool n_set = false, c_set = false;
+
+      var_t line_counter = 0;
+      const std::string
+        error("In operator >>(std::istream, GClauseList), line=");
+      using std::to_string;
+      const auto mes = [line_counter, &error]
+        {return error + to_string(line_counter) + " : ";};
+
+      for (std::string line; std::getline(in, line);) {
+        ++line_counter;
+        if (line.empty()) continue;
+        else if (line.front() == comchar) continue;
+        std::istringstream sline(line);
+        if (line.front() == numvarchar) {
+          std::string item; sline >> item;
+          const std::string expected(1,numvarchar);
+          if (item != expected)
+            throw ClauseListReadError(mes() + "expected \"" + expected + "\", "
+                                      "but found \"" + item + "\"");
+          sline >> item;
+          if (item.empty()) n_set = false;
+          else {
+            n_set = true;
+            current_n = FloatingPoint::to_UInt(item);
+            maxn = std::max(maxn, current_n);
+          }
+        }
+        else if (line.front() == numclchar) {
+          if (c_set) {
+            const var_t clauses_read = F.c() - last_c;
+            if (current_c != clauses_read)
+              throw ClauseListReadError(mes() + "found " +
+                to_string(clauses_read) + " # c=" + to_string(current_c));
+          }
+          std::string item; sline >> item;
+          const std::string expected(1,numclchar);
+          if (item != expected)
+            throw ClauseListReadError(mes() + "expected \"" + expected + "\", "
+                                      "but found \"" + item + "\"");
+          sline >> item;
+          if (item.empty()) c_set = false;
+          else {
+            c_set = true;
+            last_c = F.c();
+            current_c = FloatingPoint::to_UInt(item);
+          }
+        }
+        else {
+          GC::GClause C;
+          sline >> C;
+          for (const auto& x : C) {
+            if (GL::sing(x))
+              throw GL::LiteralReadError(mes() + "singular literal");
+            if (n_set) {
+              if (x.v >= current_n)
+                throw ClauseListReadError(mes() + "variable=" +
+                  to_string(x.v) + " >= n=" + to_string(current_n));
+            }
+            else maxn = std::max(maxn, x.v + 1);
+          }
+          F.F.push_back(std::move(C));
+        }
+      }
+      const var_t final_c = F.c();
+      if (c_set) {
+        const var_t clauses_read = final_c - last_c;
+        if (current_c != clauses_read)
+          throw ClauseListReadError(mes() + "found " +
+            to_string(clauses_read) + " # c=" + to_string(current_c));
+      }
+      F.dom.resize(maxn);
+      for (var_t i = start_c; i < final_c; ++i) {
+        const auto& C = F.F[i];
+        for (const auto& x : C) {
+          val_t& dom = F.dom[x.v];
+          if (x.e >= dom) dom = x.e+1;
+        }
+      }
+      return in;
     }
 
   };
