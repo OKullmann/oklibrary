@@ -8,6 +8,50 @@ License, or any later version. */
 /*
   Components for generalised literals
 
+  Typedefs for std::uint64_t :
+    - var_t, val_t
+
+  Constants:
+    - singvar : var_t
+    - singval : val_t
+    (in both cases the maximum values)
+    - valsep : char (separating the value from the variable)
+
+  Main structure:
+    - VarVal (concrete data type, aggregate of v : var_t and e : val_t
+    - operators <=> and <<
+    - to_string(VarVal) -> string (see below for reverse)
+    - var(VarVal), val(VarVal) extract v resp. e
+
+  Handling of singularity:
+    - varsing(VarVal) -> bool
+    - valsing(VarVal) -> bool
+    - totsing(VarVal) -> bool (both variable- and value-singular)
+    - sing(VarVar) -> bool (needs only one of them)
+
+    - var2sing(var_t) -> VarVal
+    - val2sing(val_t) -> VarVal
+
+  Validity (that is, "normality"):
+    - valid_for_n(VarVal, var_t) -> bool
+    - valid_for_D(VarVal, val_t) -> bool
+    - struct var_pars, wrapper for D : val_t and n : var_t
+    - valid(VarVal, var_pars)
+
+  Conversions from boolean variables and literals:
+    - to_varval(RandGen::Var) -> VarVal (setting value to 1)
+    - to_varval(RandGen::Lit) -> VarVal (taking the boolean as value).
+
+  Properties:
+    - clash(VarVal, VarVal) -> bool
+
+  Reading:
+    - LiteralReadError derived from std::runtime_error
+    - to_varval(string) -> VarVal
+    - in-streaming for VarVal and std::optional<VarVal>
+      (the latter returns the empty object in case "0" was found, the
+      marker for the end-of-clause).
+
 */
 
 #ifndef GENLIT_Um2YuEsJQA
@@ -37,6 +81,7 @@ namespace GenLit {
 
   constexpr char valsep = ':';
 
+
   // Concrete datatype (all values are valid):
   struct VarVal {
     var_t v;
@@ -57,6 +102,7 @@ namespace GenLit {
       std::to_string(x.e);
   }
 
+
   constexpr VarVal totsingvv{singvar, singval};
 
   constexpr bool varsing(const VarVal& v) noexcept { return v.v == singvar; }
@@ -66,11 +112,12 @@ namespace GenLit {
   constexpr bool totsing(const VarVal& v) noexcept {
     return varsing(v) and valsing(v);
   }
+  static_assert(totsing(totsingvv));
   constexpr bool sing(const VarVal& v) noexcept {
     return varsing(v) or valsing(v);
   }
+  static_assert(sing({0,singval}) and sing({singvar,0}));
 
-  static_assert(totsing(totsingvv));
   constexpr VarVal var2sing(const var_t v) noexcept {
     return {v,singval};
   }
@@ -79,6 +126,7 @@ namespace GenLit {
     return {singvar,e};
   }
   static_assert(varsing(val2sing(0)));
+
 
   constexpr bool valid_for_n(const VarVal& v, const var_t n) noexcept {
     return v.v < n;
