@@ -78,8 +78,10 @@ We see that n and c include the tautological clauses (even if they get removed).
 #include <exception>
 
 #include <cassert>
+#include <cstdlib>
 
 #include <ProgramOptions/Environment.hpp>
+#include <Numerics/NumInOut.hpp>
 
 #include "GenLit.hpp"
 #include "GenClauses.hpp"
@@ -88,7 +90,7 @@ We see that n and c include the tautological clauses (even if they get removed).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.1.1",
+    "0.1.2",
     "25.5.2025",
     __FILE__,
     "Oliver Kullmann",
@@ -122,12 +124,18 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const unsigned std_level = argc == 1 ? 0 : std::stoul(argv[1]);
+  const unsigned std_level = argc == 1 ? 0 : [&]{
+    try { return FloatingPoint::to_unsigned<unsigned>(argv[1]); }
+    catch (const std::exception& e) {
+      std::cerr << error << "SYNTAX ERROR with level-argument:\n"
+                << e.what() << "\n";
+      std::exit(1); }}();
 
   GClauseList F;
   try { std::cin >> F; }
   catch (std::exception& e) {
-    std::cerr << error << "SYNTAX ERROR:\n" << e.what() << "\n";
+    std::cerr << error << "SYNTAX ERROR with clause-list:\n"
+              << e.what() << "\n";
     return 1;
   }
   assert(F.valid());
