@@ -11,6 +11,8 @@ License, or any later version. */
 
 TODOS:
 
+-1. DONE (yes) Shouldn't the clause-order by anti-lexicographic ?
+
 0. Write (above) a short summary of the components (also in the
    other files).
 

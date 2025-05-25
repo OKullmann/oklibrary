@@ -84,7 +84,11 @@ namespace GenClauses {
       return res;
     }
 
-    constexpr auto operator <=>(const GClause&) const noexcept = default;
+    constexpr auto operator <=>(const GClause& D) const noexcept {
+      return std::lexicographical_compare_three_way(
+        C.rbegin(), C.rend(), D.C.rbegin(), D.C.rend());
+    }
+    constexpr bool operator ==(const GClause& D) const noexcept = default;
 
     friend std::ostream& operator <<(std::ostream& out, const GClause& C) {
       for (const auto& x : C) out << x << " ";

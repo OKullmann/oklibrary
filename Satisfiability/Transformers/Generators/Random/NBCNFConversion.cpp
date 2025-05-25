@@ -19,9 +19,24 @@ c 2
 4:2 0:1 0
 
 
+Full standardisation (removal of tautological clauses and repeated literals,
+sorting of clauses (lexicographically) and of the clause-list (antilexico-
+graphically)), and showing application of n-lines:
+
+Random> echo -e "C here is starts\n1:2 2:4 1:2 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n5:1 5:17 0 tautology\nn 10 with formal variables" | ./NBCNFConversion l
+C 1 3
+n 10
+c 2
+1:2 2:4 0
+0:1 4:2 0
+
+The first comment shows the number of eliminated clauses and the total number
+of eliminated literal-occurrences.
+
 */
 
 #include <iostream>
+#include <exception>
 
 #include <ProgramOptions/Environment.hpp>
 
@@ -32,8 +47,8 @@ c 2
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.0.5",
-    "24.5.2025",
+    "0.0.6",
+    "25.5.2025",
     __FILE__,
     "Oliver Kullmann",
     "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/NBCNFConversion.cpp",
@@ -50,7 +65,9 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << "\n\n"
+         << "[X] \n\n"
+    " X          : any argument means full standardisation\n"
+
     " reads a NB-CNF from standard-input, and prints it to"
     " standard output.\n\n"
 ;
@@ -67,7 +84,11 @@ int main(const int argc, const char* const argv[]) {
   const bool standardise = argc > 1;
 
   GClauseList F;
-  std::cin >> F;
+  try { std::cin >> F; }
+  catch (std::exception& e) {
+    std::cerr << error << "SYNTAX ERROR:\n" << e.what() << "\n";
+    return 1;
+  }
   if (standardise) {
     const auto stats = F.fully_standardise();
     std::cout << comchar << " ";

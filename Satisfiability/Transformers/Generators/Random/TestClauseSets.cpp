@@ -21,8 +21,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.4",
-        "24.5.2025",
+        "0.5.5",
+        "25.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -382,6 +382,8 @@ int main(const int argc, const char* const argv[]) {
    assert(C.has_consecutive_duplicates());
    assert(not tautological_sorted(C));
    assert(not tautological(C));
+  }
+  {assert((GClause{{10,1},{5,99}} < GClause{{0,0},{6,0}}));
   }
 
   {assert(num_var({}) == 0);
