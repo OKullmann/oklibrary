@@ -22,6 +22,7 @@ License, or any later version. */
 
 #include "TestTools.hpp"
 #include "ConflictGraphs.hpp"
+#include "GenConflictGraphs.hpp"
 #include "Generators.hpp"
 #include "Bicliques2SAT.hpp"
 #include "Algorithms.hpp"
@@ -29,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.1",
-        "20.5.2025",
+        "0.4.2",
+        "25.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
