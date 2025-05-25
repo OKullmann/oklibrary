@@ -13,21 +13,24 @@ License, or any later version. */
 EXAMPLES:
 
 Random> echo -e "C here is starts\n1:2 2:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion
+C 0
 C 0110
 n 5
 c 2
 1:2 2:4 0
 4:2 0:1 0
 
-The first comment shows (0 means false):
+The first comment shows the standardisation-level, the second comment shows
+(where "0" means "false"):
  - sorted clauses?
  - no (consecutive) duplicated literals in clauses?
  - no (consecutive) clashes in clauses?
  - sorted clause-list?
-This is refers to the original input.
+This refers to the original input.
 
-If clauses are sorted, then duplicated or clashing literals must occur
-consecutively, if they occur.
+Duplicated or clashing literals are only recognised where occurring
+consecutively (if they occur at all); for sorted clauses that catches
+everything.
 
 Same as standardisation-level 0:
 Random> echo -e "C here is starts\n1:2 2:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 0
@@ -40,6 +43,7 @@ The three standardisation-levels are:
 
 Thus level 1 standardises all clauses, but does not sort the whole clause-list:
 Random> echo -e "C here is starts\n2:4 1:2 5:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 1
+C 1
 C 0110
 C 0 0
 n 6
@@ -47,11 +51,12 @@ c 2
 1:2 2:4 5:4 0
 0:1 4:2 0
 
-The second comment shows the number of eliminated clauses and the total number
+The third comment shows the number of eliminated clauses and the total number
 of eliminated literal-occurrences.
 
 Showing the application of n-lines:
 Random> echo -e "C here is starts\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n5:1 5:17 0 tautology\nn 10 with formal variables" | ./NBCNFConversion 1
+C 1
 C 0100
 C 1 3
 n 10
@@ -59,9 +64,10 @@ c 2
 1:2 2:4 5:4 0
 0:1 4:2 0
 
-Now full standardisation, and the application of c-lines:
+Now full standardisation, and the application of c-lines just for checking):
 
 Random> echo -e "C here is starts\nc 4\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n20:0 20:1 0 tautology\n2:3 0 unit\nn 10 with formal variables (no effect here)" | ./NBCNFConversion 2
+C 2
 C 0100
 C 1 1
 n 21
@@ -76,6 +82,7 @@ We see that n and c include the tautological clauses (even if they get removed).
 
 #include <iostream>
 #include <exception>
+#include <algorithm>
 
 #include <cassert>
 #include <cstdlib>
@@ -90,7 +97,7 @@ We see that n and c include the tautological clauses (even if they get removed).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.1.2",
+    "0.1.3",
     "25.5.2025",
     __FILE__,
     "Oliver Kullmann",
@@ -124,12 +131,13 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const unsigned std_level = argc == 1 ? 0 : [&]{
+  const unsigned std_level = argc == 1 ? 0 : std::min(unsigned(2), [&]{
     try { return FloatingPoint::to_unsigned<unsigned>(argv[1]); }
     catch (const std::exception& e) {
       std::cerr << error << "SYNTAX ERROR with level-argument:\n"
                 << e.what() << "\n";
-      std::exit(1); }}();
+      std::exit(1); }}());
+  std::cout << comchar << " " << std_level << std::endl;
 
   GClauseList F;
   try { std::cin >> F; }
