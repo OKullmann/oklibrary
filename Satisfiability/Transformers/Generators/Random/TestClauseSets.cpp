@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.6",
+        "0.5.7",
         "25.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -318,16 +318,25 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {assert(GClause().empty());
-   assert(eqp(GClause{{},{}}, {{},{}}));
+   assert(eqp(GClause{{},{}}, {{0,0},{0,0}}));
    GClause C(2, {1,3}); assert(C.size() == 2);
    assert(eqp(C.front(), {1,3}));
    assert(eqp(C.back(), {1,3}));
+   assert(C.val(0) == singval);
+   assert(C.val(1) == 3);
+   assert(C.val(2) == singval);
    C[1] = {3,7};
    assert(eqp(C.C, {{1,3},{3,7}}));
+   assert(C.val(3) == 7);
+   assert(C.val(4) == singval);
    C = GClause(3);
    assert((C == GClause{{},{},{}}));
+   assert(C.val(0) == 0);
    C.pop_back(); assert(C == GClause(2));
    C.front() = {4,6}; C.back() = {11,2};
+   assert(C.val(4) == 6);
+   assert(C.val(5) == singval);
+   assert(C.val(11) == 2);
    {std::ostringstream ss; ss << C;
     assert(eqp(ss.str(), "4:6 11:2 0\n"));
    }

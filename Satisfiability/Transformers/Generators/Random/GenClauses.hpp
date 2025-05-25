@@ -85,6 +85,17 @@ namespace GenClauses {
       return res;
     }
 
+    // Returns the smallest value of a literal in C with variable v,
+    // or singval is there is no such literal:
+    GL::val_t val(const GL::var_t v) const noexcept {
+      assert(is_sorted());
+      const auto it = std::ranges::lower_bound(C, v, {}, GL::var);
+      if (it == C.end()) return GL::singval;
+      const auto x = *it;
+      if (GL::var(x) == v) return GL::val(x);
+      else return GL::singval;
+    }
+
     constexpr auto operator <=>(const GClause& D) const noexcept {
       return std::lexicographical_compare_three_way(
         C.rbegin(), C.rend(), D.C.rbegin(), D.C.rend());
