@@ -7,11 +7,13 @@ License, or any later version. */
 
 /*
 
-  - eqp<X>(X lhs, X rhs) -> bool
+  - eqp<X>(X lhs, (X) rhs) -> bool
+    implicit conversions to X are applied to rhs
 
   - makelist<F,UINT>(F f, UINT a, UINT b) -> std::vector
 
   - all_read(istream) -> bool
+  - all_read_beyond(istream) -> bool
 
 */
 
