@@ -21,7 +21,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.5",
+        "0.5.6",
         "25.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -346,16 +346,16 @@ int main(const int argc, const char* const argv[]) {
   {GClause C{{3,4},{1,2},{5,3},{2,1},{3,4},{2,2}};
    assert(not C.is_sorted());
    assert(not C.has_consecutive_duplicates());
-   assert(not tautological_sorted(C));
+   assert(not has_consecutive_clashes(C));
    C.sort();
    assert(C.is_sorted());
    assert(eqp(C, {{1,2},{2,1},{2,2},{3,4},{3,4},{5,3}}));
    assert(C.has_consecutive_duplicates());
-   assert(tautological_sorted(C));
+   assert(has_consecutive_clashes(C));
    assert(C.remove_consecutive_duplicates() == 1);
    assert(not C.has_consecutive_duplicates());
    assert(eqp(C, {{1,2},{2,1},{2,2},{3,4},{5,3}}));
-   assert(tautological_sorted(C));
+   assert(has_consecutive_clashes(C));
   }
 
   {constexpr GClause C;
@@ -364,7 +364,7 @@ int main(const int argc, const char* const argv[]) {
    static_assert(C.is_sorted());
    static_assert(not C.has_consecutive_duplicates());
    static_assert(C == C);
-   assert(not tautological_sorted(C));
+   assert(not has_consecutive_clashes(C));
    assert(not tautological(C));
   }
   {const GClause C(1);
@@ -372,7 +372,7 @@ int main(const int argc, const char* const argv[]) {
    assert(C.size() == 1);
    assert(C.is_sorted());
    assert(not C.has_consecutive_duplicates());
-   assert(not tautological_sorted(C));
+   assert(not has_consecutive_clashes(C));
    assert(not tautological(C));
   }
   {const GClause C(2);
@@ -380,7 +380,7 @@ int main(const int argc, const char* const argv[]) {
    assert(C.size() == 2);
    assert(C.is_sorted());
    assert(C.has_consecutive_duplicates());
-   assert(not tautological_sorted(C));
+   assert(not has_consecutive_clashes(C));
    assert(not tautological(C));
   }
   {assert((GClause{{10,1},{5,99}} < GClause{{0,0},{6,0}}));

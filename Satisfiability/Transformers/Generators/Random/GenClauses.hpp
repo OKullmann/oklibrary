@@ -73,6 +73,7 @@ namespace GenClauses {
       return std::ranges::is_sorted(C);
     }
     void sort() noexcept { std::ranges::sort(C); }
+
     constexpr bool has_consecutive_duplicates() const noexcept {
       return std::ranges::adjacent_find(C) != C.end();
     }
@@ -114,12 +115,12 @@ namespace GenClauses {
   // Remark: If valid(C, P) for any P, then nonsingular(C).
 
   // Checks if adjacent literals are clashing:
-  bool tautological_sorted(const GClause& C) noexcept {
+  bool has_consecutive_clashes(const GClause& C) noexcept {
     return std::ranges::adjacent_find(C, GL::clash) != C.end();
   }
   bool tautological(const GClause& C) {
     auto D(C); D.sort();
-    return tautological_sorted(D);
+    return has_consecutive_clashes(D);
   }
 
 

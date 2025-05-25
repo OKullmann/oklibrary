@@ -119,31 +119,65 @@ namespace GenClauseSets {
     }
 
 
+    constexpr bool clauses_sorted() const noexcept {
+      return std::ranges::all_of(F, [](const GC::GClause& C)noexcept{
+                                   return C.is_sorted();});
+    }
     void sort_clauses() noexcept { for (auto& C : F) C.sort(); }
+
+    constexpr bool has_consecutive_duplicates() const noexcept {
+      return std::ranges::any_of(F, [](const GC::GClause& C)noexcept{
+                                     return C.has_consecutive_duplicates();});
+    }
     // Returns total number of eliminated literal-occurrences:
     count_t remove_consecutive_duplicates() noexcept {
       count_t res = 0;
       for (auto& C : F) res += C.remove_consecutive_duplicates();
       return res;
     }
+
+    bool no_consecutive_clashes() const noexcept {
+      return not std::ranges::any_of(F, GC::has_consecutive_clashes);
+    }
+    typedef std::array<count_t, 2> elim_cl_t;
     // Returns number of eliminated clauses and their total literal-count;
-    // assumes all clauses are sorted:
-    std::array<count_t, 2> remove_tautological_sorted() noexcept {
+    // assumes all clauses are sorted, more precisely, finds only consecutive
+    // clashing literals:
+    elim_cl_t remove_with_consecutive_clashes() noexcept {
       const auto to_be_removed =
-        std::ranges::remove_if(F, GC::tautological_sorted);
-      std::array<count_t, 2> res{to_be_removed.size(), 0};
+        std::ranges::remove_if(F, GC::has_consecutive_clashes);
+      elim_cl_t res{to_be_removed.size(), 0};
       for (const auto& C : to_be_removed) res[1] += C.size();
       F.erase(to_be_removed.begin(), to_be_removed.end());
       return res;
     }
 
+    constexpr bool clauselist_sorted() const noexcept {
+      return std::ranges::is_sorted(F);
+    }
     void sort_clauselist() noexcept { std::ranges::sort(F); }
 
-    std::array<count_t, 2> fully_standardise() noexcept {
+    bool is_standardised() const noexcept {
+      if (not clauses_sorted()) return false;
+      if (has_consecutive_duplicates()) return false;
+      if (not no_consecutive_clashes()) return false;
+      return true;
+    }
+    elim_cl_t standardise() noexcept {
       sort_clauses();
       const count_t ed = remove_consecutive_duplicates();
-      std::array<count_t, 2> res = remove_tautological_sorted();
+      elim_cl_t res = remove_with_consecutive_clashes();
       res[1] += ed;
+      return res;
+    }
+
+    bool is_fully_standardised() const noexcept {
+      if (not is_standardised()) return false;
+      if (not clauselist_sorted()) return false;
+      return true;
+    }
+    elim_cl_t fully_standardise() noexcept {
+      const elim_cl_t res = standardise();
       sort_clauselist();
       return res;
     }
