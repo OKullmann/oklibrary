@@ -13,8 +13,8 @@ License, or any later version. */
 EXAMPLES:
 
 Random> echo -e "C here is starts\n1:2 2:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion
-C 0
-C 0110
+Clevel		0
+Cflags		0110
 n 5
 c 2
 1:2 2:4 0
@@ -43,40 +43,67 @@ The three standardisation-levels are:
 
 Thus level 1 standardises all clauses, but does not sort the whole clause-list:
 Random> echo -e "C here is starts\n2:4 1:2 5:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 1
-C 1
-C 0110
-C 0 0
+Clevel		1
+Cflags		0110
+Cred-cl-lito	0 0
 n 6
 c 2
 1:2 2:4 5:4 0
 0:1 4:2 0
 
-The third comment shows the number of eliminated clauses and the total number
-of eliminated literal-occurrences.
+The third comment shows the number of eliminated clauses and the number
+of eliminated duplicated literal-occurrences (here nothing was reduced, and
+thus the numbers are zero).
 
 Showing the application of n-lines:
 Random> echo -e "C here is starts\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n5:1 5:17 0 tautology\nn 10 with formal variables" | ./NBCNFConversion 1
-C 1
-C 0100
-C 1 3
+Clevel		1
+Cflags		0100
+Cred-cl-lito	1 1
 n 10
 c 2
 1:2 2:4 5:4 0
 0:1 4:2 0
 
-Now full standardisation, and the application of c-lines just for checking):
+Now full standardisation, and the application of c-lines (just for checking):
 
 Random> echo -e "C here is starts\nc 4\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n20:0 20:1 0 tautology\n2:3 0 unit\nn 10 with formal variables (no effect here)" | ./NBCNFConversion 2
-C 2
-C 0100
-C 1 1
+Clevel		2
+Cflags		0100
+Cred-cl-lito	1 1
 n 21
 c 3
 2:3 0
 0:1 4:2 0
 1:2 2:4 5:4 0
 
-We see that n and c include the tautological clauses (even if they get removed).
+We see that n and c include the tautological clauses (even if they get
+removed).
+And the variable 20, which occurred only in the tautological (thus removed)
+clause still has the variable-degree 2 (all variables get the smallest
+degree consistent with the given data).
+Any second argument triggers the output of the variable-statistics (for
+levels >= 1):
+Random> echo -e "c 4\n1:2 2:4 1:2 5:4 0\n 4:2  0:1 0\n10:0 10:1 0\n2:3 0" | ./NBCNFConversion 2 x
+Clevel		2
+Cflags		0100
+Cred-cl-lito	1 1
+n 11
+c 3
+2:3 0
+0:1 4:2 0
+1:2 2:4 5:4 0
+Cv 0	: 2 1 0010000
+Cv 1	: 3 1 0010000
+Cv 2	: 5 2 0010000
+Cv 3	: 0 0 1000000
+Cv 4	: 3 1 0010000
+Cv 5	: 5 1 0010000
+Cv 6	: 0 0 1000000
+Cv 7	: 0 0 1000000
+Cv 8	: 0 0 1000000
+Cv 9	: 0 0 1000000
+Cv 10	: 2 0 0100000
 
 */
 
@@ -98,7 +125,7 @@ We see that n and c include the tautological clauses (even if they get removed).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.2.0",
+    "0.2.1",
     "26.5.2025",
     __FILE__,
     "Oliver Kullmann",
@@ -116,9 +143,10 @@ namespace {
       return false;
     std::cout <<
     "> " << proginfo.prg
-         << "[L] \n\n"
+         << " [L] [x]\n\n"
     " L          : standardisation-level 0, 1, 2\n"
-
+    " x          : any second argument triggers variables-statistics"
+    " for levels >= 1\n\n"
     " reads a NB-CNF from standard-input, and prints it to"
     " standard output.\n\n"
 ;
@@ -165,7 +193,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (with_var_stats and std_level > 0) {
     for (var_t v = 0; v < F.n(); ++v) {
-      std::cout << comchar << "v " << v << " : " << F.dom[v] << " ";
+      std::cout << comchar << "v " << v << "\t: " << F.dom[v] << " ";
       const auto o = GenConflictGraphs::GOccVar(F, v);
       std::cout
         << o.deg() << " "

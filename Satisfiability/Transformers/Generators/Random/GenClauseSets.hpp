@@ -37,6 +37,7 @@ TODOS:
 
 #include <ProgramOptions/Strings.hpp>
 
+// Guaranteed to be included:
 #include "GenLit.hpp"
 #include "GenClauses.hpp"
 
@@ -139,15 +140,12 @@ namespace GenClauseSets {
     bool no_consecutive_clashes() const noexcept {
       return not std::ranges::any_of(F, GC::has_consecutive_clashes);
     }
-    typedef std::array<count_t, 2> elim_cl_t;
-    // Returns number of eliminated clauses and their total literal-count;
-    // assumes all clauses are sorted, more precisely, finds only consecutive
-    // clashing literals:
-    elim_cl_t remove_with_consecutive_clashes() noexcept {
+    // Returns number of eliminated clauses; assumes all clauses are sorted,
+    // more precisely, finds only consecutive clashing literals:
+    count_t remove_with_consecutive_clashes() noexcept {
       const auto to_be_removed =
         std::ranges::remove_if(F, GC::has_consecutive_clashes);
-      elim_cl_t res{to_be_removed.size(), 0};
-      for (const auto& C : to_be_removed) res[1] += C.size();
+      const count_t res = to_be_removed.size();
       F.erase(to_be_removed.begin(), to_be_removed.end());
       return res;
     }
@@ -163,12 +161,14 @@ namespace GenClauseSets {
       if (not no_consecutive_clashes()) return false;
       return true;
     }
+    // The number of eliminated clauses and eliminated duplicated literal-
+    // occurrences:
+    typedef std::array<count_t, 2> elim_cl_t;
     elim_cl_t standardise() noexcept {
       sort_clauses();
       const count_t ed = remove_consecutive_duplicates();
-      elim_cl_t res = remove_with_consecutive_clashes();
-      res[1] += ed;
-      return res;
+      const count_t et = remove_with_consecutive_clashes();
+      return {et, ed};
     }
 
     bool is_fully_standardised() const noexcept {
