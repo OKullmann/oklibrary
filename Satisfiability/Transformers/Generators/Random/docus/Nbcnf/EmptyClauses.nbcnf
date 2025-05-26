@@ -1,0 +1,10 @@
+C Comment-line can be verywhere.
+CAlso the space directly after the C can be used,
+C  though it is recommended to use this to mark special comments.
+0 here we have the first empty clause
+  0   another one
+0
+C that was also one.
+
+C Empty lines (which might contain space-symbols) are not a problem.
+

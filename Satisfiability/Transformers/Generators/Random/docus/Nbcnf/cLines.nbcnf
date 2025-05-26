@@ -1,0 +1,16 @@
+c 2 Two clauses to follow:
+1:2 2:4 0
+0:1 3:0 0
+c
+C Now (after the above closing) we can have an arbitrary number of clauses to follow:
+C ... clauses here ... say we have just one
+1:1 0
+C Now we start counting again, just a single clause:
+c 1
+0
+c 1 and another one
+4:4 0
+c
+C The previous final "closing-line" is not needed, however
+C with its help one can just append an arbitrary NOBOCONF-file at
+C the end.

@@ -105,6 +105,22 @@ Cv 8	: 0 0 1000000
 Cv 9	: 0 0 1000000
 Cv 10	: 2 0 0100000
 
+The statistics of variable v are:
+ - domain-size of v
+ - degree (number of occurrences of v)
+ - 7 flags ("0" being "false", "1" being "true):
+  - formal (domain-size 0)
+  - trivial (domain-size >= 1, but not occurring)
+  - pure (neither formal nor trivial, but with one value
+    not occurring (which then must be strictly less than the
+    maximum-value occurring)
+  - 1-singular (not trivial, and all values occurring exactly once)
+  - singular (all-but-one values occurring exactly once, the remaing
+    value occurring at least once)
+  - non-1-singular (singular, but not 1-singular)
+  - non-singular (all values occurring at least once, and at least
+    two values occurring at least twice).
+
 */
 
 #include <iostream>
