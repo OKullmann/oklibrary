@@ -89,6 +89,7 @@ We see that n and c include the tautological clauses (even if they get removed).
 
 #include <ProgramOptions/Environment.hpp>
 #include <Numerics/NumInOut.hpp>
+#include <Transformers/Generators/Bicliques/GenConflictGraphs.hpp>
 
 #include "GenLit.hpp"
 #include "GenClauses.hpp"
@@ -97,8 +98,8 @@ We see that n and c include the tautological clauses (even if they get removed).
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.1.3",
-    "25.5.2025",
+    "0.2.0",
+    "26.5.2025",
     __FILE__,
     "Oliver Kullmann",
     "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/NBCNFConversion.cpp",
@@ -137,7 +138,9 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << error << "SYNTAX ERROR with level-argument:\n"
                 << e.what() << "\n";
       std::exit(1); }}());
-  std::cout << comchar << " " << std_level << std::endl;
+  std::cout << comchar << "level\t\t" << std_level << std::endl;
+
+  const bool with_var_stats = argc > 2;
 
   GClauseList F;
   try { std::cin >> F; }
@@ -147,15 +150,28 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   assert(F.valid());
-  std::cout << comchar << " " << F.clauses_sorted()
+  std::cout << comchar << "flags\t\t" << F.clauses_sorted()
             << not F.has_consecutive_duplicates() << F.no_consecutive_clashes()
             << F. clauselist_sorted() << std::endl;
 
   if (std_level > 0) {
-    const auto stats = std_level == 1 ? F.standardise() : F.fully_standardise();
-    std::cout << comchar << " ";
+    const auto stats = std_level == 1 ? F.standardise() :
+      F.fully_standardise();
+    std::cout << comchar << "red-cl-lito\t";
     Environment::out_line(std::cout, stats);
-    std::cout << "\n";
+    std::cout << std::endl;
   }
   std::cout << F;
+
+  if (with_var_stats and std_level > 0) {
+    for (var_t v = 0; v < F.n(); ++v) {
+      std::cout << comchar << "v " << v << " : " << F.dom[v] << " ";
+      const auto o = GenConflictGraphs::GOccVar(F, v);
+      std::cout
+        << o.deg() << " "
+        << o.formal() << o.trivial() << o.pure()
+        << o.osingular() << o.singular() << o.nonosingular() << o.nonsingular()
+        << std::endl;
+    }
+  }
 }
