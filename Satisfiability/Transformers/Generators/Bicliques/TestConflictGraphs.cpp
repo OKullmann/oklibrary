@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.3",
+        "0.4.4",
         "28.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -41,6 +41,7 @@ namespace {
 
   using namespace TestTools;
   using namespace ConflictGraphs;
+  using namespace GenResolution;
   using namespace DimacsTools;
   using namespace Algorithms;
 
@@ -323,6 +324,18 @@ int main(const int argc, const char* const argv[]) {
    };
    assert(conflictgraph_degree_stats(F0) ==
           conflictgraph_degree_stats(F0.expand()));
+  }
+
+  {typedef std::vector<GC::GClause> r_t;
+    assert(resolvent(r_t{}, 0).empty());
+    assert(resolvent(r_t{{}}, 0).empty());
+    assert(resolvent(r_t{{},{}}, 0).empty());
+    assert(resolvent(r_t{{{0,0}}}, 0).empty());
+    assert(eqp(resolvent(r_t{{{0,1}}}, 0), {{0,1}}));
+    assert(eqp(resolvent(r_t{{{0,0},{0,0},{0,1},{1,2},{1,2}}}, 0), {{0,0},{0,1},{1,2},{1,2}}));
+    assert(eqp(resolvent(r_t{{{0,0}},{{0,1}},{{0,2}}}, 0), {}));
+    assert(eqp(resolvent(r_t{{{0,0},{1,1},{1,1}},{{0,1},{1,2}},{{0,2},{1,1},{1,1},{1,1}}}, 0),
+               {{1,1},{1,1},{1,1},{1,2}}));
   }
 
 }
