@@ -78,7 +78,8 @@ namespace GenResolution {
   std::vector<GC::GClause> all_resolution_combinations(
       const GCG::GOccVar::var_occ_t& O,
       const GL::var_t v,
-      const std::vector<GC::GClause>& F) {
+      const std::vector<GC::GClause>& F,
+      const bool nt = true) {
     const auto D = O.size();
     const auto c = F.size();
     const auto cresult = Algorithms::prod_sizes(O);
@@ -92,17 +93,23 @@ namespace GenResolution {
                                       for (const auto& v : O) res.push_back(v.end());
                                       return res;}();
     block_iterator current = begin;
-    std::vector<GC::GClause> res; res.reserve(cresult);
+    std::vector<GC::GClause> res; if (not nt) res.reserve(cresult);
     do {
-      const std::vector<GC::GClause> F =
+      const std::vector<GC::GClause> R =
         [c, &current, &F]{std::vector<GC::GClause> res;
                           res.reserve(current.size());
                           for (const auto& it : current) {assert(*it<c); res.push_back(F[*it]);}
                           return res;}();
-      res.push_back(resolvent(F, v));
+      if (nt) res.push_back(ntresolvent(R, v));
+      else res.push_back(resolvent(R, v));
     }
     while (Sampling::next_combination(current, begin, end));
     return res;
+  }
+  std::vector<GC::GClause> all_resolution_combinations(
+      const GL::var_t v, const GCS::GClauseList& F,  const bool nt = true) {
+    const GCG::GOccVar O(F,v);
+    return all_resolution_combinations(O.O, v, F.F, nt);
   }
 
 }

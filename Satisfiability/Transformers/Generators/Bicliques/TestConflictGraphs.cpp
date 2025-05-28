@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.5",
+        "0.4.6",
         "28.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -340,6 +340,18 @@ int main(const int argc, const char* const argv[]) {
     assert(totsing(ntresolvent(r_t{{{0,0},{1,1},{1,1}},{{0,1},{1,2}},{{0,2},{1,1},{1,1},{1,1}}}, 0)));
     assert(eqp(ntresolvent(r_t{{{0,0},{1,1},{1,1}}, {{0,1},{2,7}}, {{0,2},{1,1},{1,1},{1,1}}}, 0),
                {{1,1},{1,1},{1,1},{2,7}}));
+  }
+
+  {assert(eqp(all_resolution_combinations({},0,{}), {}));
+   assert(eqp(all_resolution_combinations({{2},{1},{0}}, 0,
+                                          {{{0,2},{1,1}}, {{0,1},{2,2}}, {{0,0},{3,3}}}),
+              {{{1,1},{2,2},{3,3}}}));
+   assert(eqp(all_resolution_combinations({{2},{1},{0}}, 0,
+                                          {{{0,2},{1,1}}, {{0,1},{1,2}}, {{0,0},{3,3}}}, false),
+              {{{1,1},{1,2},{3,3}}}));
+   assert(eqp(all_resolution_combinations({{2},{1},{0}}, 0,
+                                          {{{0,2},{1,1}}, {{0,1},{1,2}}, {{0,0},{3,3}}}),
+              {{GL::totsingvv}}));
   }
 
 }
