@@ -27,6 +27,7 @@ License, or any later version. */
     - varsing(VarVal) -> bool
     - valsing(VarVal) -> bool
     - totsing(VarVal) -> bool (both variable- and value-singular)
+    - constant totsingvv
     - sing(VarVar) -> bool (needs only one of them)
 
     - var2sing(var_t) -> VarVal

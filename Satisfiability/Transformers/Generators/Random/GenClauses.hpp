@@ -151,6 +151,12 @@ namespace GenClauses {
   static_assert(std::ranges::sized_range<GClause>);
   static_assert(std::ranges::contiguous_range<GClause>);
 
+  bool totsing(const GClause& C) noexcept {
+    return C == GClause{{GL::totsingvv}};
+  }
+  GClause totsingcl() noexcept { return GClause{{GL::totsingvv}}; }
+
+
   bool nonsingular(const GClause& C) noexcept {
     return not std::ranges::any_of(C, GL::sing);
   }
