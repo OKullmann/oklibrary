@@ -72,7 +72,9 @@ License, or any later version. */
 
 #include <cmath>
 
+// Guaranteed to be included:
 #include "NumTypes.hpp"
+
 #include "Conversions.hpp"
 
 namespace FloatingPoint {
