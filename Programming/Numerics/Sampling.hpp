@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.1.2022 (Swansea)
-/* Copyright 2022, 2023 Oliver Kullmann
+/* Copyright 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -71,16 +71,6 @@ License, or any later version. */
          sequences in a group except of the first are randomly permuted
          (the first's thus stay in sorted order).
 
-    - next_combination allows to run through all combinations, via considering
-      a range given by a vector of iterators, which are iterated through
-      anti-lexicographically
-    - get_vit_range(std::vector<ITER> begin, const vector<ITER> end) ->
-        std::vector<std::vector<ITER>>
-      shows how to use next_combination (by creating explicitly the
-      range of iterator-vectors)
-    here "iterator" just means == and ++ (so for example numbers can be
-    ITER).
-
     - struct Lockstep<CON, ELEM> provides a wrapper Lockstep::It, which
       creates an iterator, which increments a vector of iterators (e.g., those
       combined in a latin-hypercube-sampling); at construction a "delivery"-
@@ -151,15 +141,6 @@ License, or any later version. */
 
 TODOS:
 
-0. Proper ranges for lexicographical order:
-    - next_combination likely should evolve into a proper
-      range-generator.
-    - So that the users (get_vit_range for a start) just employ the usual
-      range-operations.
-    - Same for Lockstep (this performs bundling of iterators).
-    - So that the users (get_vcon_range for a start) again just employ the
-      usual range-operations.
-
 1. Accuracy of sampling_points(l,r,M)
 
    For example
@@ -215,6 +196,7 @@ Is the current computation the best we can do?
 #include "NumBasicFunctions.hpp"
 #include "NumPrecise.hpp"
 
+#include "Algorithms.hpp"
 #include "OptTypes.hpp"
 
 namespace Sampling {
@@ -366,45 +348,6 @@ namespace Sampling {
       }
     }
     assert(res.size() == N);
-    return res;
-  }
-
-
-  // The range is given by begin, end (assumed to be fixed), as a vector
-  // of iterators (just need ++ and end()), and this range is iterated through
-  // in antilexicographical order, with current within this range; returns
-  // false iff at the end, and always advances current:
-  template <class ITER>
-  bool next_combination(
-    std::vector<ITER>& current,
-    const std::vector<ITER>& begin, const std::vector<ITER>& end) noexcept {
-    const auto N = current.size();
-    assert(begin.size() == N);
-    assert(end.size() == N);
-    for (OS::index_t i = 0; i < N; ++i) {
-      assert(current[i] != end[i]);
-      ++current[i];
-      if (current[i] != end[i]) {
-        for (OS::index_t j = 0; j < i; ++j) current[j] = begin[j];
-        return true;
-      }
-    }
-    return false;
-  }
-  // Demonstration of how to run through such a "range":
-  template <class ITER>
-  std::vector<std::vector<ITER>>
-  get_vit_range(const std::vector<ITER>& begin,
-               const std::vector<ITER>& end) {
-    const auto size = begin.size();
-    assert(size == end.size());
-    std::vector<std::vector<ITER>> res;
-    if (begin == end) return res;
-    assert(Algorithms::allnotequal(begin, end));
-    std::vector<ITER> current = begin;
-    do res.push_back(current);
-    while (next_combination(current, begin, end));
-    assert(current == end);
     return res;
   }
 

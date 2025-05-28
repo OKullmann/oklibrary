@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.3.2019 (Swansea)
-# Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
+# Copyright 2019, 2020, 2021, 2022, 2023, 2025 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -39,15 +39,15 @@ Boost_dec_test_debug : Boost_dec_test.cpp
 
 BBOpt : LDFLAGS += -pthread
 BBOpt : Optimisation_plus = -fwhole-program
-BBOpt : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBOpt : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp Algorithms.hpp
 BBOpt_debug : LDFLAGS += -pthread
-BBOpt_debug : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBOpt_debug : BBOpt.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp Algorithms.hpp
 
 BBSample : LDFLAGS += -pthread
 BBSample : Optimisation_plus = -fwhole-program
-BBSample : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBSample : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp Algorithms.hpp
 BBSample_debug : LDFLAGS += -pthread
-BBSample_debug : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp
+BBSample_debug : BBSample.cpp OptTypes.hpp Sampling.hpp Optimisation.hpp Algorithms.hpp
 
 # -------------------------
 
