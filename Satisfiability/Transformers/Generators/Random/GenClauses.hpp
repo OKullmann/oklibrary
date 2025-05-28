@@ -43,6 +43,7 @@ namespace GenClauses {
     explicit GClause(const size_type count) : C(count) {}
     GClause(const size_type count, const GL::VarVal& x)
       : C(count,x) {}
+    GClause(gclause_t C) noexcept : C(std::move(C)) {}
     GClause(const std::initializer_list<GL::VarVal> init)
       : C(init) {}
 
@@ -96,6 +97,39 @@ namespace GenClauses {
       else return GL::singval;
     }
 
+     iterator search(const GL::VarVal& x) noexcept {
+       assert(is_sorted());
+       const auto it = std::ranges::lower_bound(C, x);
+       if (it == C.end() or *it != x) return C.end();
+       else return it;
+    }
+    const_iterator search(const GL::VarVal& x) const noexcept {
+       assert(is_sorted());
+       const auto it = std::ranges::lower_bound(C, x);
+       if (it == C.end() or *it != x) return C.end();
+       else return it;
+    }
+    GL::var_t isearch(const GL::VarVal& x) const noexcept {
+      assert(is_sorted());
+      const GL::var_t dif = search(x) - C.begin();
+      if (dif == C.size()) return GL::singvar;
+      else return dif;
+    }
+
+    // The following three find-variations don't asume C being sorted, but
+    // use linear search (finding the first occurrence of x if present):
+    const_iterator find(const GL::VarVal& x) const noexcept {
+      return std::ranges::find(C, x);
+    }
+    iterator find(const GL::VarVal& x) noexcept {
+      return std::ranges::find(C, x);
+    }
+    GL::var_t ifind(const GL::VarVal& x) const noexcept {
+      const GL::var_t dif = find(x) - C.begin();
+      if (dif == C.size()) return GL::singvar;
+      else return dif;
+    }
+
     constexpr auto operator <=>(const GClause& D) const noexcept {
       return std::lexicographical_compare_three_way(
         C.rbegin(), C.rend(), D.C.rbegin(), D.C.rend());
@@ -113,6 +147,7 @@ namespace GenClauses {
 
   };
 
+  static_assert(std::ranges::random_access_range<GClause>);
   static_assert(std::ranges::sized_range<GClause>);
   static_assert(std::ranges::contiguous_range<GClause>);
 
