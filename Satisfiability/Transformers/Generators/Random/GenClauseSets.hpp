@@ -155,6 +155,16 @@ namespace GenClauseSets {
     }
     void sort_clauselist() noexcept { std::ranges::sort(F); }
 
+    constexpr bool has_consecutive_duplicated_clauses() const noexcept {
+      return std::ranges::adjacent_find(F) != F.end();
+    }
+    count_t remove_consecutive_duplicated_clauses() noexcept {
+      const auto left_over = std::ranges::unique(F);
+      const count_t res = left_over.size();
+      F.erase(left_over.begin(), left_over.end());
+      return res;
+    }
+
     bool is_standardised() const noexcept {
       if (not clauses_sorted()) return false;
       if (has_consecutive_duplicates()) return false;
@@ -182,6 +192,19 @@ namespace GenClauseSets {
       return res;
     }
 
+    bool is_clauseset() const noexcept {
+      if (not is_fully_standardised()) return false;
+      if (has_consecutive_duplicated_clauses()) return false;
+      return true;
+    }
+    // Number of eliminated tautological clauses, duplicated clauses,
+    // duplicated literal-occurrences;
+    typedef std::array<count_t, 3> elim_ccl_t;
+    elim_ccl_t make_clauseset() noexcept {
+      const elim_cl_t cl = fully_standardise();
+      const count_t d = remove_consecutive_duplicated_clauses();
+      return {cl[0], d, cl[1]};
+    }
 
     auto operator <=>(const GClauseList&) const noexcept = default;
 

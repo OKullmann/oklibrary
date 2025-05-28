@@ -20,8 +20,22 @@ c 2
 1:2 2:4 0
 4:2 0:1 0
 
+With domain-sizes:
+Random> echo -e "C here is starts\n1:2 2:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 0 x
+Clevel		0
+Cflags		0110
+n 5
+c 2
+1:2 2:4 0
+4:2 0:1 0
+Cv 0	: 2
+Cv 1	: 3
+Cv 2	: 5
+Cv 3	: 0
+Cv 4	: 3
+
 The first comment shows the standardisation-level, the second comment shows
-(where "0" means "false"):
+basic properties (where "0" means "false"):
  - sorted clauses?
  - no (consecutive) duplicated literals in clauses?
  - no (consecutive) clashes in clauses?
@@ -35,17 +49,18 @@ everything.
 Same as standardisation-level 0:
 Random> echo -e "C here is starts\n1:2 2:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 0
 
-The three standardisation-levels are:
+The found standardisation-levels are:
   level 0 : as is
   level 1 : removal of tautological clauses and repeated literals, and
             sorting of clauses, lexicographically
-  level 2: additionally sorting of the clause-list, antilexicographically.
+  level 2 : additionally sorting of the clause-list, antilexicographically
+  level 3 : additionally removing duplicated clauses (thus realising "clause-sets").
 
 Thus level 1 standardises all clauses, but does not sort the whole clause-list:
 Random> echo -e "C here is starts\n2:4 1:2 5:4 0 first clause\n 4:2  0:1 0 second clause\nC comments everywhere" | ./NBCNFConversion 1
 Clevel		1
 Cflags		0110
-Cred-cl-lito	0 0
+Cred-cl		0 0
 n 6
 c 2
 1:2 2:4 5:4 0
@@ -59,7 +74,7 @@ Showing the application of n-lines:
 Random> echo -e "C here is starts\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n5:1 5:17 0 tautology\nn 10 with formal variables" | ./NBCNFConversion 1
 Clevel		1
 Cflags		0100
-Cred-cl-lito	1 1
+Cred-cl		1 1
 n 10
 c 2
 1:2 2:4 5:4 0
@@ -70,7 +85,7 @@ Now full standardisation, and the application of c-lines (just for checking):
 Random> echo -e "C here is starts\nc 4\n1:2 2:4 1:2 5:4 0 first clause, with repetitions\n 4:2  0:1 0 second clause\nC comments everywhere\n20:0 20:1 0 tautology\n2:3 0 unit\nn 10 with formal variables (no effect here)" | ./NBCNFConversion 2
 Clevel		2
 Cflags		0100
-Cred-cl-lito	1 1
+Cred-cl		1 1
 n 21
 c 3
 2:3 0
@@ -87,7 +102,7 @@ levels >= 1):
 Random> echo -e "c 4\n1:2 2:4 1:2 5:4 0\n 4:2  0:1 0\n10:0 10:1 0\n2:3 0" | ./NBCNFConversion 2 x
 Clevel		2
 Cflags		0100
-Cred-cl-lito	1 1
+Cred-cl		1 1
 n 11
 c 3
 2:3 0
@@ -121,6 +136,26 @@ The statistics of variable v are:
   - non-singular (all values occurring at least once, and at least
     two values occurring at least twice).
 
+Finally, std-level 3 realises "clause-sets", by also removing duplicated
+clauses:
+Random> echo -e "3:4 2:3 1:2 2:3 0\n0:1 0:2 0\n1:2 3:4 2:3 0\n" | ./NBCNFConversion 3 x
+Clevel		3
+Cflags		0100
+Cred-ccl	1 1 1
+n 4
+c 1
+1:2 2:3 3:4 0
+Cv 0	: 3 0 0100000
+Cv 1	: 3 1 0010000
+Cv 2	: 4 1 0010000
+Cv 3	: 5 1 0010000
+
+Here the reduction-information is: removed tautological clauses, removed
+duplicated clauses, removed duplicated literal-occurrences.
+
+Remark: The output uses tab-symbols, which above are displayed differently than
+in the terminal window.
+
 */
 
 #include <iostream>
@@ -141,8 +176,8 @@ The statistics of variable v are:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.2.1",
-    "26.5.2025",
+    "0.3.0",
+    "29.5.2025",
     __FILE__,
     "Oliver Kullmann",
     "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/NBCNFConversion.cpp",
@@ -154,13 +189,15 @@ namespace {
 
   const std::string error = "ERROR[" + proginfo.prg + "]: ";
 
+  constexpr unsigned max_std_level = 3;
+
   bool show_usage(const int argc, const char* const argv[]) {
     if (not Environment::help_header(std::cout, argc, argv, proginfo))
       return false;
     std::cout <<
     "> " << proginfo.prg
          << " [L] [x]\n\n"
-    " L          : standardisation-level 0, 1, 2\n"
+    " L          : standardisation-level 0, 1, ... " << max_std_level << "\n"
     " x          : any second argument triggers variables-statistics"
     " for levels >= 1\n\n"
     " reads a NB-CNF from standard-input, and prints it to"
@@ -176,7 +213,7 @@ int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv)) return 0;
   if (show_usage(argc, argv)) return 0;
 
-  const unsigned std_level = argc == 1 ? 0 : std::min(unsigned(2), [&]{
+  const unsigned std_level = argc == 1 ? 0 : std::min(max_std_level, [&]{
     try { return FloatingPoint::to_unsigned<unsigned>(argv[1]); }
     catch (const std::exception& e) {
       std::cerr << error << "SYNTAX ERROR with level-argument:\n"
@@ -198,24 +235,37 @@ int main(const int argc, const char* const argv[]) {
             << not F.has_consecutive_duplicates() << F.no_consecutive_clashes()
             << F. clauselist_sorted() << std::endl;
 
-  if (std_level > 0) {
-    const auto stats = std_level == 1 ? F.standardise() :
-      F.fully_standardise();
-    std::cout << comchar << "red-cl-lito\t";
-    Environment::out_line(std::cout, stats);
-    std::cout << std::endl;
+  if (std_level >= 1) {
+    if (std_level <= 2) {
+      const auto stats = std_level == 1 ? F.standardise() : F.fully_standardise();
+      std::cout << comchar << "red-cl\t\t";
+      Environment::out_line(std::cout, stats);
+      std::cout << std::endl;
+    }
+    else {
+      const auto stats = F.make_clauseset();
+      std::cout << comchar << "red-ccl\t";
+      Environment::out_line(std::cout, stats);
+      std::cout << std::endl;
+    }
   }
   std::cout << F;
 
-  if (with_var_stats and std_level > 0) {
-    for (var_t v = 0; v < F.n(); ++v) {
-      std::cout << comchar << "v " << v << "\t: " << F.dom[v] << " ";
-      const auto o = GenConflictGraphs::GOccVar(F, v);
-      std::cout
-        << o.deg() << " "
-        << o.formal() << o.trivial() << o.pure()
-        << o.osingular() << o.singular() << o.nonosingular() << o.nonsingular()
-        << std::endl;
+  if (with_var_stats) {
+    if (std_level == 0) {
+      for (var_t v = 0; v < F.n(); ++v)
+        std::cout << comchar << "v " << v << "\t: " << F.dom[v] << "\n";
+    }
+    else {
+      for (var_t v = 0; v < F.n(); ++v) {
+        std::cout << comchar << "v " << v << "\t: " << F.dom[v] << " ";
+        const auto o = GenConflictGraphs::GOccVar(F, v);
+        std::cout
+          << o.deg() << " "
+          << o.formal() << o.trivial() << o.pure()
+          << o.osingular() << o.singular() << o.nonosingular() << o.nonsingular()
+          << std::endl;
+      }
     }
   }
 }
