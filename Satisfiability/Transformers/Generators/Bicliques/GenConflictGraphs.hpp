@@ -9,6 +9,8 @@ License, or any later version. */
   Conflict graphs of nonbolean clause-sets etc.
   (generalising ConflictGraphs.hpp)
 
+  Tested in TestConflictGraphs.cpp.
+
 */
 
 #ifndef GENCONFLICTGRAPHS_BZP7YhQAWS
