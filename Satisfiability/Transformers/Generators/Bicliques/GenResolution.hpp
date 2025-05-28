@@ -52,6 +52,15 @@ namespace GenResolution {
     return res;
   }
 
+  // Returns the totally-singular clause in case of a tautology:
+  template <std::ranges::random_access_range RAN>
+    requires std::ranges::sized_range<RAN>
+  GC::GClause ntresolvent(const RAN& F, const GL::var_t v) {
+    const GC::GClause res = resolvent(F, v);
+    if (GC::tautological(res)) return GC::totsingcl();
+    else return res;
+  }
+
 }
 
 #endif

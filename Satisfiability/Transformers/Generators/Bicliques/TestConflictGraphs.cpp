@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.4",
+        "0.4.5",
         "28.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -334,8 +334,12 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(resolvent(r_t{{{0,1}}}, 0), {{0,1}}));
     assert(eqp(resolvent(r_t{{{0,0},{0,0},{0,1},{1,2},{1,2}}}, 0), {{0,0},{0,1},{1,2},{1,2}}));
     assert(eqp(resolvent(r_t{{{0,0}},{{0,1}},{{0,2}}}, 0), {}));
-    assert(eqp(resolvent(r_t{{{0,0},{1,1},{1,1}},{{0,1},{1,2}},{{0,2},{1,1},{1,1},{1,1}}}, 0),
+    assert(eqp(resolvent(r_t{{{0,0},{1,1},{1,1}}, {{0,1},{1,2}}, {{0,2},{1,1},{1,1},{1,1}}}, 0),
                {{1,1},{1,1},{1,1},{1,2}}));
+
+    assert(totsing(ntresolvent(r_t{{{0,0},{1,1},{1,1}},{{0,1},{1,2}},{{0,2},{1,1},{1,1},{1,1}}}, 0)));
+    assert(eqp(ntresolvent(r_t{{{0,0},{1,1},{1,1}}, {{0,1},{2,7}}, {{0,2},{1,1},{1,1},{1,1}}}, 0),
+               {{1,1},{1,1},{1,1},{2,7}}));
   }
 
 }
