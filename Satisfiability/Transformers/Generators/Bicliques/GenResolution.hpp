@@ -10,14 +10,23 @@ License, or any later version. */
 
   Tested in TestConflictGraphs.cpp.
 
+TODOS:
+
+1. Require for resolvent and ntresolvent that we have
+    ranges of clauses.
+
 */
 
 #ifndef GENRESOLUTION_QQznh3AQdm
 #define GENRESOLUTION_QQznh3AQdm
 
 #include <vector>
+#include <algorithm>
+
+#include <cassert>
 
 #include <Transformers/Generators/Random/GenClauseSets.hpp>
+#include <Numerics/Algorithms.hpp>
 
 #include "Algorithms.hpp"
 #include "GenConflictGraphs.hpp"
@@ -27,6 +36,7 @@ namespace GenResolution {
   namespace GL = GenLit;
   namespace GC = GenClauses;
   namespace GCS = GenClauseSets;
+  namespace GCG = GenConflictGraphs;
 
 
   // Remove from each F[i] the literal (v,i), and return the union;
@@ -59,6 +69,40 @@ namespace GenResolution {
     const GC::GClause res = resolvent(F, v);
     if (GC::tautological(res)) return GC::totsingcl();
     else return res;
+  }
+
+
+  // Compute all resolution-combinations over resolution-variable v
+  // with the clause-indices (into F) given by O (O.size() is assumed the
+  // domain-size of v), in anti-lexicographical order:
+  std::vector<GC::GClause> all_resolution_combinations(
+      const GCG::GOccVar::var_occ_t& O,
+      const GL::var_t v,
+      const std::vector<GC::GClause>& F) {
+    const auto D = O.size();
+    const auto c = F.size();
+    const auto cresult = Algorithms::prod_sizes(O);
+    if (D == 0 or c == 0 or cresult == 0) return {};
+    typedef GCG::GOccVar::lit_occ_t::const_iterator iterator;
+    typedef std::vector<iterator> block_iterator;
+    const block_iterator begin = [D,&O]{block_iterator res; res.reserve(D);
+                                        for (const auto& v : O) res.push_back(v.begin());
+                                        return res;}();
+    const block_iterator end = [D,&O]{block_iterator res; res.reserve(D);
+                                      for (const auto& v : O) res.push_back(v.end());
+                                      return res;}();
+    block_iterator current = begin;
+    std::vector<GC::GClause> res; res.reserve(cresult);
+    do {
+      const std::vector<GC::GClause> F =
+        [c, &current, &F]{std::vector<GC::GClause> res;
+                          res.reserve(current.size());
+                          for (const auto& it : current) {assert(*it<c); res.push_back(F[*it]);}
+                          return res;}();
+      res.push_back(resolvent(F, v));
+    }
+    while (Sampling::next_combination(current, begin, end));
+    return res;
   }
 
 }

@@ -65,6 +65,7 @@ License, or any later version. */
      not keeping the order of vec
 
    - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
+   - prod_sizes(RAN) -> FloatingPoint::UInt_t : multiplication of member.size()
 
    Finding equal elements:
 
@@ -468,6 +469,16 @@ namespace Algorithms {
     };
     using std::begin; using std::end;
     return std::accumulate(begin(r), end(r), ui(0), op);
+  }
+  template <class RANGE>
+  constexpr FloatingPoint::UInt_t prod_sizes(const RANGE& r) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    using std::size;
+    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
+      return acc * size(x);
+    };
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(1), op);
   }
 
 
