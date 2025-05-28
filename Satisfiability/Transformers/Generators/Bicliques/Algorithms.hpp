@@ -25,6 +25,9 @@ License, or any later version. */
      std::views::iota for unsigned a, b is, as for C++23, unsigned, and thus
      fails the test even for an input-iterator).
 
+   - pointed_view<RAN>(r, size_t i) produces a view, which is the range r minus
+     the element at index i (if in the range -- otherwise nothing is removed).
+
 
    Set operations:
 
@@ -209,6 +212,19 @@ namespace Algorithms {
                                               const UINT b) noexcept {
     // a <= b is not necessary -- unsigned types can wrap around
     return std::ranges::subrange(uint_iterator_t(a), uint_iterator_t(b));
+  }
+
+
+  // Creates a view of range r without the element at indiex ;
+  template <std::ranges::random_access_range RAN>
+    requires std::ranges::sized_range<RAN>
+  constexpr auto pointed_view(const RAN& r,
+                              const typename RAN::size_type i) noexcept {
+    using size_t = typename RAN::size_type;
+    return std::views::iota(size_t{0}, r.size()) |
+      std::ranges::views::filter([i, size = r.size()](const size_t j) noexcept {
+                 return j >= size or j != i; }) |
+      std::ranges::views::transform([&r](const size_t j) noexcept { return r[j]; });
   }
 
 

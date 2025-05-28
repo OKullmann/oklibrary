@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.4",
-        "20.5.2025",
+        "0.3.5",
+        "28.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -40,6 +40,23 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   if (Environment::version_output(std::cout, proginfo, argc, argv))
   return 0;
+
+  {typedef std::vector<int> v_t;
+   assert(pointed_view(v_t{}, 0).empty());
+   assert(std::ranges::equal(pointed_view(v_t{}, 0), v_t{}));
+   assert(pointed_view(v_t{0}, 0).empty());
+   assert(std::ranges::equal(pointed_view(v_t{0}, 0), v_t{}));
+   assert(std::ranges::equal(pointed_view(v_t{1,0}, 0), v_t{0}));
+   assert(std::ranges::equal(pointed_view(v_t{1,0}, 1), v_t{1}));
+   assert(std::ranges::equal(pointed_view(v_t{2,1,0}, 1), v_t{2,0}));
+  }
+  {typedef std::array<unsigned, 3> a3_t;
+   typedef std::array<unsigned, 2> a2_t;
+   static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 0), a2_t{3,2}));
+   static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 1), a2_t{0,2}));
+   static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 2), a2_t{0,3}));
+   static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 3), a3_t{0,3,2}));
+  }
 
   {typedef std::vector<int> v_t;
    assert(empty_intersection(v_t{}, v_t{}));
