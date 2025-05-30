@@ -43,6 +43,8 @@ namespace GenConflictGraphs {
     var_t v = GL::singvar;
     var_occ_t O;
 
+    // If a clause contains several literals with variable v, then only the
+    // first occurrence is considered (by C.val(v)):
     static var_occ_t transfer(const GCS::GClauseList& F, const var_t v) {
       const var_t n = F.n();
       if (v >= n) return {};
@@ -72,6 +74,8 @@ namespace GenConflictGraphs {
     lit_occ_t& operator[](const val_t e) noexcept { return O[e]; }
     const lit_occ_t& operator[](const val_t e) const noexcept { return O[e]; }
 
+    lit_occ_t all_occurrences() const { return Algorithms::rmerge(O); }
+
     // Frequencies of domain-sizes 0, 1, >= 2:
     typedef std::array<val_t, 3> frequencies_t;
     constexpr static frequencies_t freqs(const var_occ_t& o) noexcept {
@@ -89,38 +93,36 @@ namespace GenConflictGraphs {
       return O.empty();
     }
     // freqs == {>=1, 0, 0} :
-    bool trivial() const noexcept {
+    constexpr bool trivial() const noexcept {
       return not formal() and
         std::ranges::all_of(O, [](const auto& L)noexcept{return L.empty();});
     }
     // freqs[0] >= 1 and freqs[1]+freqs[2] >= 1 :
-    bool pure() const noexcept {
+    constexpr bool pure() const noexcept {
       return not trivial() and
         std::ranges::any_of(O, [](const auto& L)noexcept{return L.empty();});
     }
     // freqs[0] + freqs[2] == 0 and freqs[1] >= 1 :
-    bool osingular() const noexcept {
+    constexpr bool osingular() const noexcept {
       return not formal() and
         std::ranges::all_of(O, [](const auto& L)noexcept{return L.size()==1;});
     }
     // Remark: osingular() implies not pure().
-    bool singular() const noexcept {
+    constexpr bool singular() const noexcept {
       if (formal()) return false;
       const frequencies_t f = freqs(O);
       return f[0] == 0 and f[2] <= 1;
     }
     // Remark: osingular() implies singular().
-    bool nonosingular() const noexcept {
+    constexpr bool nonosingular() const noexcept {
       return singular() and not osingular();
     }
-    bool nonsingular() const noexcept {
+    constexpr bool nonsingular() const noexcept {
       return not formal() and not trivial() and not pure() and not singular();
     }
 
     constexpr count_t deg() const noexcept {
-      count_t res = 0;
-      for (const auto& o : O) res += o.size();
-      return res;
+      return Algorithms::sum_sizes(O);
     }
 
     constexpr auto operator <=>(const GOccVar&) const noexcept = default;

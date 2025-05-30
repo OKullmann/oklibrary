@@ -32,7 +32,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.6",
+        "0.4.7",
         "28.5.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -41,6 +41,7 @@ namespace {
 
   using namespace TestTools;
   using namespace ConflictGraphs;
+  using namespace GenConflictGraphs;
   using namespace GenResolution;
   using namespace DimacsTools;
   using namespace Algorithms;
@@ -324,6 +325,55 @@ int main(const int argc, const char* const argv[]) {
    };
    assert(conflictgraph_degree_stats(F0) ==
           conflictgraph_degree_stats(F0.expand()));
+  }
+
+  {constexpr GOccVar O;
+   static_assert(O.v == GL::singvar);
+   static_assert(O.O.empty());
+   static_assert(O.var() == GL::singvar);
+   static_assert(O.dom() == 0);
+   // static_assert(O.deg() == 0); compilation error with GCC 14.2
+   assert(O.deg() == 0);
+   static_assert(O.formal());
+   static_assert(not O.trivial());
+   static_assert(not O.pure());
+   static_assert(not O.osingular());
+   static_assert(not O.singular());
+   static_assert(not O.nonosingular());
+   static_assert(not O.nonsingular());
+   static_assert(O == O);
+   assert(O.all_occurrences().empty());
+  }
+  {const GOccVar O(1);
+   assert(O.v == 1);
+   assert(O.var() == 1);
+   assert(O.dom() == 0);
+   assert(O.O.empty());
+   assert(O.deg() == 0);
+   assert(GOccVar() > O);
+   assert(O.formal());
+   assert(O.all_occurrences().empty());
+  }
+  {using GenClauseSets::GClauseList;
+    {const GOccVar O(GClauseList{{}}, 0);
+     assert(O == GOccVar(0));
+    }
+    {const GOccVar O(GClauseList({{{1,2},{2,3}},{},{{2,4},{2,5}}}), 0);
+     assert(O == GOccVar(0));
+    }
+    {const GOccVar O(GClauseList({{{1,2},{2,3}},{},{{2,4},{2,5}}}), 1);
+     assert(O == GOccVar(1, {{},{},{0}}));
+     assert(eqp(O.all_occurrences(), {0}));
+    }
+    {const GOccVar O(GClauseList({{{1,2},{2,3}}, {}, {{2,4},{2,5}}}), 2);
+     assert(O.v == 2);
+     assert(O.var() == 2);
+     assert(O.dom() == 6);
+     assert(O.deg() == 2);
+     assert(O.pure());
+     assert(O == GOccVar(2, {{},{},{},{0},{2},{}}));
+     assert(eqp(O.all_occurrences(), {0,2}));
+    }
   }
 
   {typedef std::vector<GC::GClause> r_t;
