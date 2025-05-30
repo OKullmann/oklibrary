@@ -149,6 +149,7 @@ TODOS:
 #include <functional>
 #include <type_traits>
 #include <ranges>
+#include <queue>
 
 #include <cassert>
 #include <cstddef>
@@ -245,6 +246,56 @@ namespace Algorithms {
       res.first.push_back(x.begin());
       res.second.push_back(x.end());
     }
+    return res;
+  }
+
+
+  template <class RANGE>
+  constexpr FloatingPoint::UInt_t sum_sizes(const RANGE& r) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    using std::size;
+    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
+      return acc + size(x);
+    };
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(0), op);
+  }
+  template <class RANGE>
+  constexpr FloatingPoint::UInt_t prod_sizes(const RANGE& r) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    using std::size;
+    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
+      return acc * size(x);
+    };
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(1), op);
+  }
+
+
+  // Merge a range of ranges into a vector; if the element-ranges are ascendingly
+  // sorted, so is the resulting range:
+  template <class RAN>
+  std::vector<typename RAN::value_type::value_type> rmerge(const RAN& r) {
+    typedef typename RAN::value_type::value_type value_type;
+    const auto size = sum_sizes(r);
+    std::vector<value_type> res; res.reserve(size);
+    typedef typename RAN::const_iterator iterator1;
+    typedef typename RAN::value_type::const_iterator iterator2;
+    typedef std::pair<iterator1, iterator2> queue_element_t;
+    struct comp {
+      bool operator()(const queue_element_t& p1,
+                      queue_element_t& p2) const noexcept {
+        return *p2.second < *p1.second; }
+    };
+    std::priority_queue<queue_element_t, std::vector<queue_element_t>,comp> P;
+    for (iterator1 it = r.begin(); it != r.end(); ++it)
+      if (not it->empty()) P.push({it, it->begin()});
+    while (not P.empty()) {
+      auto [it1, it2] = P.top(); P.pop();
+      res.push_back(*it2); ++it2;
+      if (it2 != it1->end()) P.push({it1, it2});
+    }
+    assert(res.size() == size);
     return res;
   }
 
@@ -477,28 +528,6 @@ namespace Algorithms {
     const auto r = std::distance(itb, end);
     v.erase(itb, end);
     return r;
-  }
-
-
-  template <class RANGE>
-  constexpr FloatingPoint::UInt_t sum_sizes(const RANGE& r) noexcept {
-    using ui = FloatingPoint::UInt_t;
-    using std::size;
-    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
-      return acc + size(x);
-    };
-    using std::begin; using std::end;
-    return std::accumulate(begin(r), end(r), ui(0), op);
-  }
-  template <class RANGE>
-  constexpr FloatingPoint::UInt_t prod_sizes(const RANGE& r) noexcept {
-    using ui = FloatingPoint::UInt_t;
-    using std::size;
-    constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
-      return acc * size(x);
-    };
-    using std::begin; using std::end;
-    return std::accumulate(begin(r), end(r), ui(1), op);
   }
 
 

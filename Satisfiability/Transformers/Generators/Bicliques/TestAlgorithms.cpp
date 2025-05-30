@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.5",
-        "28.5.2025",
+        "0.3.6",
+        "30.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -56,6 +56,15 @@ int main(const int argc, const char* const argv[]) {
    static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 1), a2_t{0,2}));
    static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 2), a2_t{0,3}));
    static_assert(std::ranges::equal(pointed_view(a3_t{0,3,2}, 3), a3_t{0,3,2}));
+  }
+
+  {using r_t = std::vector<std::vector<int>>;
+   assert(rmerge(r_t{}).empty());
+   assert(rmerge(r_t{{},{},{}}).empty());
+   assert(eqp(rmerge(r_t{{2,3,1}}), {2,3,1}));
+   assert(eqp(rmerge(r_t{{2,3,1},{}}), {2,3,1}));
+   assert(eqp(rmerge(r_t{{},{2,3,1}}), {2,3,1}));
+   assert(eqp(rmerge(r_t{{1,5,7},{-1},{},{2,3,7,8},{-1,10}}), {-1,-1,1,2,3,5,7,7,8,10}));
   }
 
   {typedef std::vector<int> v_t;
