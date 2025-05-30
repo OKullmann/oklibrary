@@ -25,8 +25,11 @@ License, or any later version. */
      std::views::iota for unsigned a, b is, as for C++23, unsigned, and thus
      fails the test even for an input-iterator).
 
-   - pointed_view<RAN>(r, size_t i) produces a view, which is the range r minus
+   - pointed_view(RAN r, size_t i) produces a view, which is the range r minus
      the element at index i (if in the range -- otherwise nothing is removed).
+
+   - extract_beginend(RAN r) : produces a pair of vectors, containing
+     x.begin() resp. x.end() for x in r.
 
 
    Set operations:
@@ -226,6 +229,23 @@ namespace Algorithms {
       std::ranges::views::filter([i, size = r.size()](const size_t j) noexcept {
                  return j >= size or j != i; }) |
       std::ranges::views::transform([&r](const size_t j) noexcept { return r[j]; });
+  }
+
+
+  template <class RAN>
+  std::pair<std::vector<typename RAN::value_type::const_iterator>,
+            std::vector<typename RAN::value_type::const_iterator>>
+  extract_beginend(const RAN& r) {
+    typedef typename RAN::value_type::const_iterator iterator;
+    typedef std::vector<iterator> vec_t;
+    std::pair<vec_t, vec_t> res;
+    const auto size = r.size();
+    res.first.reserve(size); res.second.reserve(size);
+    for (const auto& x : r) {
+      res.first.push_back(x.begin());
+      res.second.push_back(x.end());
+    }
+    return res;
   }
 
 
