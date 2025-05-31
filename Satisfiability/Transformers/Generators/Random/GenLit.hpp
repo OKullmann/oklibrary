@@ -89,9 +89,6 @@ namespace GenLit {
     val_t e;
 
     constexpr auto operator <=>(const VarVal&) const noexcept = default;
-    friend std::ostream& operator <<(std::ostream& out, const VarVal& v) {
-      return out << v.v << valsep << v.e;
-    }
   };
   static_assert(VarVal{} == VarVal{0,0});
   static_assert(VarVal{} != VarVal{0,1});
@@ -103,8 +100,13 @@ namespace GenLit {
       std::to_string(x.e);
   }
 
-
   constexpr VarVal totsingvv{singvar, singval};
+  const std::string totsingstr = "SINGULAR";
+
+  std::ostream& operator <<(std::ostream& out, const VarVal& v) {
+    if (v == totsingvv) return out << totsingstr;
+    else return out << v.v << valsep << v.e;
+  }
 
   constexpr bool varsing(const VarVal& v) noexcept { return v.v == singvar; }
   static_assert(varsing(VarVal{singvar}));
