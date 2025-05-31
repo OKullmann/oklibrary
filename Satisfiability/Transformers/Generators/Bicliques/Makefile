@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC GRRG
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC GRRG NBDPreduction
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -139,6 +139,11 @@ MinVertexCoverFastVC_debug : MinVertexCoverFastVC.cpp Graphs.hpp GraphTools.hpp 
 
 GRRG : GRRG.cpp GRRG.hpp RandomGraphs.hpp
 GRRG_debug : GRRG.cpp GRRG.hpp RandomGraphs.hpp
+
+NBDPreduction : include_options+=-I $(oklibloc)/..
+NBDPreduction : NBDPreduction.cpp GenResolution.hpp
+NBDPreduction_debug : include_options+=-I $(oklibloc)/..
+NBDPreduction_debug : NBDPreduction.cpp GenResolution.hpp
 
 # -------------------------
 

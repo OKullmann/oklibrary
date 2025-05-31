@@ -80,4 +80,6 @@
 /TestSolverBasics_debug
 /GRRG
 /GRRG_debug
+/NBDPreduction
+/NBDPreduction_debug
 /*.cnf
