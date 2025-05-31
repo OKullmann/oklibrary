@@ -114,8 +114,9 @@ namespace GenResolution {
   }
 
 
+  typedef std::vector<GL::var_t> varlist_t;
   std::array<GCS::count_t, 3> DP_reduction(GCS::GClauseList& F,
-                                           const std::vector<GL::var_t>& V,
+                                           const varlist_t& V,
                                            const bool clauseset = false,
                                            const bool subsumption_elimination = false) {
     assert(F.is_fully_standardised());
