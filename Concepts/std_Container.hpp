@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.7.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,10 @@ License, or any later version. */
   Basic concepts according to ISO/IEC 14882: 2003 (referred to as the "Standard"),
   Section 23.1 PLUS const-correctness:
    - Concepts::Container
+
+TODOS:
+
+1. Likely this is all completely outdated by now (C++23).
 
   \todo Write the other concepts from the standard.
 */
@@ -156,6 +160,7 @@ namespace OKlib {
           operator bool() { return bool(); }
         };
       public:
+        iterator(const iterator&) {};
         typedef std::input_iterator_tag iterator_category;
         struct value_type {
           value_type(const Container_Archetype::value_type&) {}
@@ -190,6 +195,7 @@ namespace OKlib {
         };
       public:
         const_iterator(const iterator&) {}
+        const_iterator(const const_iterator&) {}
         typedef std::input_iterator_tag iterator_category;
         struct value_type {
           value_type(const Container_Archetype::value_type&) {}
