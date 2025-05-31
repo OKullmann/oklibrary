@@ -12,6 +12,10 @@ License, or any later version. */
 
 TODOS:
 
+0. Structures/Sets/SetAlgorithms/Subsumption.hpp :
+  - Remove usage of boost/iterator/reverse_iterator and boost/mpl/if there
+    (assuming that this should be easy for C++23).
+
 1. Require for resolvent and ntresolvent that we have
     ranges of clauses.
 
@@ -27,6 +31,8 @@ TODOS:
 
 #include <Transformers/Generators/Random/GenClauseSets.hpp>
 #include <Numerics/Algorithms.hpp>
+
+#include <Structures/Sets/SetAlgorithms/Subsumption.hpp>
 
 #include "Algorithms.hpp"
 #include "GenConflictGraphs.hpp"
@@ -86,12 +92,7 @@ namespace GenResolution {
     if (D == 0 or c == 0 or cresult == 0) return {};
     typedef GCG::GOccVar::lit_occ_t::const_iterator iterator;
     typedef std::vector<iterator> block_iterator;
-    const block_iterator begin = [D,&O]{block_iterator res; res.reserve(D);
-                                        for (const auto& v : O) res.push_back(v.begin());
-                                        return res;}();
-    const block_iterator end = [D,&O]{block_iterator res; res.reserve(D);
-                                      for (const auto& v : O) res.push_back(v.end());
-                                      return res;}();
+    const auto [begin, end] = Algorithms::extract_beginend(O);
     block_iterator current = begin;
     std::vector<GC::GClause> res; if (not nt) res.reserve(cresult);
     do {
@@ -110,6 +111,38 @@ namespace GenResolution {
       const GL::var_t v, const GCS::GClauseList& F,  const bool nt = true) {
     const GCG::GOccVar O(F,v);
     return all_resolution_combinations(O.O, v, F.F, nt);
+  }
+
+
+  std::array<GCS::count_t, 3> DP_reduction(GCS::GClauseList& F,
+                                           const std::vector<GL::var_t>& V,
+                                           const bool clauseset = false,
+                                           const bool subsumption_elimination = false) {
+    assert(F.is_fully_standardised());
+    const auto n = F.n();
+    GCS::count_t total_resolvents = 0, total_degrees = 0, total_duplicates = 0;
+    for (const GL::var_t v : V) {
+      if (v >= n) continue;
+      const GCG::GOccVar O(F,v);
+      if (O.dom() == 0) continue;
+      total_degrees += O.deg();
+      auto resolvents = all_resolution_combinations(O.O, v, F.F);
+      total_resolvents += resolvents.size();
+      Algorithms::erase_indices(F.F, O.all_occurrences());
+      // F.F.append_range(resolvents | std::views::as_rvalue); ERROR with GCC 14.2 :
+      F.F.insert(F.F.end(), std::make_move_iterator(resolvents.begin()),
+                 std::make_move_iterator(resolvents.end()));
+      F.sort_clauselist();
+      if (clauseset) total_duplicates += F.remove_consecutive_duplicates();
+      F.dom[v] = 0;
+    }
+    if (subsumption_elimination)
+      if (clauseset)
+        OKlib::SetAlgorithms::Subsumption_elimination<GCS::gclauseset_t,
+          OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_are_unique>()(F.F);
+      else
+        OKlib::SetAlgorithms::Subsumption_elimination<GCS::gclauseset_t>()(F.F);
+    return {total_resolvents, total_degrees, total_duplicates};
   }
 
 }
