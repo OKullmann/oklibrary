@@ -24,6 +24,8 @@ License, or any later version. */
 
 #include <Transformers/Generators/Random/GenClauseSets.hpp>
 
+#include "Algorithms.hpp"
+
 namespace GenConflictGraphs {
 
   namespace GL = GenLit;
