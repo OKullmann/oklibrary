@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
-/* Copyright 2005 - 2007, 2010, 2011 Oliver Kullmann
+/* Copyright 2005 - 2007, 2010, 2011, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,6 @@ License, or any later version. */
 #include <cassert>
 #include <set>
 
-#include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
 
@@ -58,7 +57,7 @@ namespace OKlib {
       typedef Iterator iterator;
       typedef boost::reverse_iterator<Iterator> reverse_iterator;
       Iterator operator() (const reverse_iterator& i) const {
-        return boost::prior(i.base());
+        return std::prev(i.base());
       }
     };
     template <typename Iterator>
@@ -66,7 +65,7 @@ namespace OKlib {
       typedef Iterator iterator;
       typedef std::reverse_iterator<Iterator> reverse_iterator;
       Iterator operator() (const reverse_iterator& i) const {
-        return boost::prior(i.base());
+        return std::prev(i.base());
       }
     };
 
@@ -168,7 +167,7 @@ namespace OKlib {
       template <typename Iterator>
       void upward(ContainerSets& C, Iterator begin, const Iterator end, SubsumptionsTags::do_not_use_size_of_hyperedges) const {
         for (; begin != end; ++begin)
-          for (Iterator j(boost::next(begin)); j != end;)
+          for (Iterator j(std::next(begin)); j != end;)
             if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
               j = Iterator(Erase<ContainerSets>()(C, Get_underlying_iterator<Iterator>()(j)));
             else
@@ -179,7 +178,7 @@ namespace OKlib {
         for (; begin != end; ++begin) {
           typedef typename std::iterator_traits<Iterator>::value_type::size_type size_type;
           const size_type& size(begin -> size());
-          for (Iterator j(boost::next(begin)); j != end;)
+          for (Iterator j(std::next(begin)); j != end;)
             if (cheque_unnecessary(j, size, order_tag(), uniqueness_tag()))
               ++j;
             else if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
