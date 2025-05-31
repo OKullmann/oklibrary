@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.6",
-        "30.5.2025",
+        "0.3.7",
+        "31.5.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -229,6 +229,36 @@ int main(const int argc, const char* const argv[]) {
   }
 
   {typedef std::vector<unsigned> v_t;
+    v_t v;
+   erase_indices(v, v_t{});
+   assert(v.empty());
+   v = {77};
+   erase_indices(v, v_t{});
+   assert(eqp(v, {77}));
+   erase_indices(v, v_t{0});
+   assert(v.empty());
+   v = {77,88,99};
+   erase_indices(v, v_t{0});
+   assert(eqp(v, {88,99}));
+   erase_indices(v, v_t{1});
+   assert(eqp(v, {88}));
+   v = {77,88,99};
+   erase_indices(v, v_t{0,1,2});
+   assert(v.empty());
+   // v.assign_range(make_uint_iterator_range(0,10)); ERROR GCC 14.2
+   v = std::ranges::to<v_t>(make_uint_iterator_range(0,10));
+   erase_indices(v, v_t{1,3,5});
+   assert(eqp(v, {0,2,4,6,7,8,9}));
+   erase_indices(v, v_t{0,1});
+   assert(eqp(v, {4,6,7,8,9}));
+   erase_indices(v, v_t{2,4});
+   assert(eqp(v, {4,6,8}));
+   v = std::ranges::to<v_t>(make_uint_iterator_range(0,11));
+   erase_indices(v, v_t{0,2,4,7,9});
+   assert(eqp(v, {1,3,5,6,8,10}));
+  }
+
+  {typedef std::vector<unsigned> v_t;
    assert(eqp(complement_uint(v_t{}, 0), {}));
    assert(eqp(complement_uint(v_t{}, 1), {0}));
    assert(eqp(complement_uint(v_t{}, 2), {0,1}));
@@ -258,9 +288,21 @@ int main(const int argc, const char* const argv[]) {
   {using vt = std::vector<std::vector<int>>;
    assert(sum_sizes(vt{}) == 0);
    assert(sum_sizes(vt{{},{1,2},{5,6,7}}) == 5);
+   assert(prod_sizes(vt{{},{1,2},{5,6,7}}) == 0);
   }
   {using vt = std::array<int [5], 2>;
    assert(sum_sizes(vt{}) == 10);
+   assert(prod_sizes(vt{}) == 25);
+  }
+
+  {typedef std::vector<int> v_t;
+   assert(is_strictly_ascending(v_t{}));
+   assert(is_strictly_ascending(v_t{-1}));
+   assert(is_strictly_ascending(v_t{-1,0}));
+   assert(not is_strictly_ascending(v_t{0,0}));
+   assert(is_strictly_ascending(v_t{-1,0,1}));
+   assert(not is_strictly_ascending(v_t{0,0,1}));
+   assert(not is_strictly_ascending(v_t{-1,0,0}));
   }
 
   {typedef std::vector<int> v_t;

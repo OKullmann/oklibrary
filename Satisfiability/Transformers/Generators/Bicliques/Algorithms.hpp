@@ -28,6 +28,11 @@ License, or any later version. */
    - pointed_view(RAN r, size_t i) produces a view, which is the range r minus
      the element at index i (if in the range -- otherwise nothing is removed).
 
+   - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
+   - prod_sizes(RAN) -> FloatingPoint::UInt_t : multiplication of member.size()
+
+   - is_strictly_ascending(RAN) -> bool
+
    - extract_beginend(RAN r) : produces a pair of vectors, containing
      x.begin() resp. x.end() for x in r.
 
@@ -48,6 +53,7 @@ License, or any later version. */
    - complement_subsequence(RAN1 a, RAN2 b) -> vector<RAN2::value_type>
      assumes a is a subsequence of b, and returns "b - a"
 
+
    Sequence operations:
 
    - allnotequal(VEC v1, VEC v2) -> bool
@@ -56,6 +62,8 @@ License, or any later version. */
      (false iff there is i with v1[i].size() != v2[i].size())
 
    - generate_vector(RAN r, FUN f) -> vector of f(x) for x : r
+
+   - rmerge(RAN r) -> vector of elements of the elements of r
 
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends r2
      elementwise to it, using conversions if applicable)
@@ -67,8 +75,8 @@ License, or any later version. */
    - erase_if_unstable(vec, pred) : possibly faster than std::erase_if due to
      not keeping the order of vec
 
-   - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
-   - prod_sizes(RAN) -> FloatingPoint::UInt_t : multiplication of member.size()
+   - erase_indices(vec, range-of-indices) -> vec (removing the given indices)
+
 
    Finding equal elements:
 
@@ -272,8 +280,19 @@ namespace Algorithms {
   }
 
 
+  template <class RAN>
+  bool is_strictly_ascending(const RAN& r) noexcept {
+    const auto end = r.end();
+    auto prev = r.begin();
+    if (prev == end) return true;
+    for (auto next = prev; ++next != end; prev=next)
+      if (not (*prev < *next)) return false;
+    return true;
+  }
+
+
   // Merge a range of ranges into a vector; if the element-ranges are ascendingly
-  // sorted, so is the resulting range:
+  // sorted, so is the resulting range (order of equivalent element is not stable):
   template <class RAN>
   std::vector<typename RAN::value_type::value_type> rmerge(const RAN& r) {
     typedef typename RAN::value_type::value_type value_type;
@@ -413,6 +432,10 @@ namespace Algorithms {
     }
     return res;
   }
+  // We have
+  // complement_uint(r, N) == erase_indices(make_uint_iterator_range(UINT(0),N), r)
+  // where here we must assume that for all elements x of r holds x < N, and
+  // that there is no repetition in r.
 
   // Copying the elements of b to the output (in the given order),
   // skipping the elements of a (in the given order); for efficiency,
@@ -511,7 +534,8 @@ namespace Algorithms {
   }
 
 
-  // As std::erase_if, but not preserving the order;
+  // As std::erase_if, but not preserving the order (not shifting, but just swapping
+  // elements from the back into the open positions);
   // if no element was erased, then the vector is unchanged:
   template <class T, class Alloc, class Pred>
   constexpr typename std::vector<T,Alloc>::size_type
@@ -528,6 +552,30 @@ namespace Algorithms {
     const auto r = std::distance(itb, end);
     v.erase(itb, end);
     return r;
+  }
+
+  // Now keeping the order of the elements of v, thus shifting
+  template <class T, class Alloc, class RAN>
+  void erase_indices(std::vector<T,Alloc>& v, const RAN& I) noexcept {
+    assert(is_strictly_ascending(I));
+    typedef typename std::vector<T,Alloc>::size_type size_t;
+    const size_t size = v.size();
+    if (size == 0) return;
+    typedef typename RAN::const_iterator iterator;
+    const iterator begin = I.begin(), end = I.end();
+    if (begin == end) return;
+    /* Assuming I = i_0, ..., i_m, adding i_{-1} := -1, i_{m+1} := size :
+       Move element v[i] with i_{j-1} < i < i_j exactly j steps to the left. */
+    size_t current = *begin + 1, dist = 1; assert(current <= size);
+    for (iterator to_delete = ++iterator(begin); to_delete != end; ++to_delete, ++dist) {
+      const size_t next = *to_delete; assert(next < size);
+      for (; current != next; ++current)
+        v[current - dist] = std::move(v[current]);
+      current = next + 1;
+    }
+    for (; current != size; ++current)
+      v[current - dist] = std::move(v[current]);
+    v.erase(v.end() - dist, v.end());
   }
 
 
