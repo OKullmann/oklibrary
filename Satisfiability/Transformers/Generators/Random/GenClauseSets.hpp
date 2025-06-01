@@ -341,12 +341,13 @@ namespace GenClauseSets {
   // Excluding final-end-of-line:
   template <class RANGE>
   void out_datacomment(std::ostream& out, const std::string& name,
-                       const count_t width, const RANGE& r) {
+                       const count_t width, const RANGE& r,
+                       const std::string& sep = " ", const std::streamsize w = 0) {
     const std::string header = std::string(1,comchar) + name;
     const count_t nwidth = std::max(width, header.size());
     const auto flags = out.flags();
     out.width(nwidth); out << std::left;
-    out << header; Environment::out_line(std::cout, r);
+    out << header; Environment::out_line(std::cout, r, sep, w);
     out.flags(flags);
   }
 
