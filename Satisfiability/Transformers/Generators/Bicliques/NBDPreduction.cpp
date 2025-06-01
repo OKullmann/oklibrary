@@ -13,6 +13,9 @@ TODOS:
 
 1. In the multi-clause-set-case, performing doting (and final un-doting) when
    running subsumption.
+    - The doting-variables perhaps are not registered with dom.
+    - Perhaps doting-variables have variable indices say >= 2^48, and use
+      the singular variable (so produce singular literals).
 
 
 EXAMPLES:
@@ -24,18 +27,25 @@ Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 3,5,13,
 real	1m35.524s user	1m35.491s sys	0m0.032s
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 101,20,13,5,3 1 1 > OUT2.cnf
 real	2m50.112s user	2m49.958s sys	0m0.092s
+
+Differences only in the reduction-details:
 Bicliques> diff OUT1.cnf OUT2.cnf
 1c1
 < Cred-aeds 264904 2210 78613 101121
 ---
 > Cred-aeds 325323 2030 105381 134952
-Bicliques> head OUT1.cnf -n 4
-Cred-aeds 264904 2210 78613 101121
+
+Bicliques> head OUT1.cnf -n 6
+Cnc		201 3000
+Cred-ccl	0 0 0
+Cred-aeds	264904 2210 78613 101121
 n 201
 c 85960
 2:0 25:1 42:1 43:0 45:0 0
-Bicliques> head OUT2.cnf -n 4
-Cred-aeds 325323 2030 105381 134952
+Bicliques> head OUT2.cnf -n 6
+Cnc		201 3000
+Cred-ccl	0 0 0
+Cred-aeds	325323 2030 105381 134952
 n 201
 c 85960
 2:0 25:1 42:1 43:0 45:0 0
@@ -60,7 +70,7 @@ increase in clauses created by DP-reduction.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.0.9",
+    "0.0.10",
     "1.6.2025",
     __FILE__,
     "Oliver Kullmann",
@@ -114,13 +124,33 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   assert(F.valid());
-  if (clauseset) F.make_clauseset();
-  else F.fully_standardise();
+  std::cout << GenClauseSets::comchar << "nc\t\t" << F.n() << " " << F.c() << std::endl;
+
+  if (clauseset) {
+    const auto stats = F.make_clauseset();
+    std::cout << GenClauseSets::comchar << "red-ccl\t";
+    Environment::out_line(std::cout, stats);
+    std::cout << std::endl;
+  }
+  else {
+    const auto stats = F.fully_standardise();
+    std::cout << GenClauseSets::comchar << "red-cl\t\t";
+    Environment::out_line(std::cout, stats);
+    std::cout << std::endl;
+  }
+
+  if (subsumption and not clauseset)
+    F.spiking();
 
   const auto stats = DP_reduction(F, V, clauseset, subsumption);
-  std::cout << GenClauseSets::comchar << "red-aeds ";
+  std::cout << GenClauseSets::comchar << "red-aeds\t";
   Environment::out_line(std::cout, stats);
   std::cout << std::endl;
+
+  if (subsumption and not clauseset) {
+    const auto count = F.unspiking();
+    std::cout << GenClauseSets::comchar << "red-us\t\t" << count << std::endl;
+  }
 
   std::cout << F;
 }
