@@ -40,12 +40,17 @@ License, or any later version. */
    Set operations:
 
      for sorted ranges r1, r2:
-   - empty_intersection(RAN1 r1, RAN2 r2) (uses < and ==)
+   - empty_intersection(RAN1 r1, RAN2 r2) -> bool (uses < and ==)
    - intersection(RAN1 r1, RAN2 r2) -> std::vector<RAN1::value_type>
      (uses only <; convenience-wrapper for std::intersection)
    - split(RAN1 r0, RAN2 r1) -> std::array<std::vector<RAN1::value_type>, 3>
      splits the sorted sequence r1, r2 into res[0,1,2], with res[2] the
      intersection (uses < and ==)
+
+   - forward_strictsubsumption_by_erase(vec& r) removes elements r[j] such that
+     there is i < j with r[i] a strict subset of r[j] (all r[k] are sorted ranges); uses
+   - strict_subsumption_test_sized(RAN r1, RAN r2) -> bool for checking whether
+     r1 is a (strict) subset of r2 (assuming RAN has standard size-function)
 
    - complement_uint(RAN r, UINT N) -> vector<UINT> :
      returns the sorted vector of elements of {0, ..., N-1} not in r
@@ -63,7 +68,9 @@ License, or any later version. */
 
    - generate_vector(RAN r, FUN f) -> vector of f(x) for x : r
 
-   - rmerge(RAN r) -> vector of elements of the elements of r
+   - rmerge(RAN r) -> vector of elements of the elements of r; for the elements of
+     r are sorted, so is the merge (unstable, that is, the order of equivalent elements
+     is unspecified)
 
    - append_ranges(RAN1 r1, RAN2 r2) -> RAN1 (copies r1, and appends r2
      elementwise to it, using conversions if applicable)
@@ -72,10 +79,11 @@ License, or any later version. */
      (considered r1, r2 as ragged matrices, and appends their rows; as above,
      value_type is from RAN1)
 
-   - erase_if_unstable(vec, pred) : possibly faster than std::erase_if due to
-     not keeping the order of vec
+   - erase_if_unstable(vec&, pred) : faster than std::erase_if due to
+     not keeping the order of vec (just moving elements from the end
+     to the erased slots)
 
-   - erase_indices(vec, range-of-indices) -> vec (removing the given indices)
+   - erase_indices(vec&, range-of-indices) (removing the given indices)
 
 
    Finding equal elements:
@@ -140,6 +148,9 @@ TODOS:
     - General/Algorithms.hpp
     - Structures/Sets/SetAlgorithms/BasicSetOperations.hpp
     - Random/Algorithms.hpp
+
+   Especially forward_strictsubsumption_by_erase is a variation on the trivial
+   algorithm as in Structures/Sets/SetAlgorithms/Subsumption.hpp.
 
 */
 
@@ -404,6 +415,33 @@ namespace Algorithms {
         if (*i1 == v0) {res[2].push_back(v0); ++i0; ++i1;}
         else {res[0].push_back(v0); ++i0; goto skipped;}
       }
+    }
+  }
+
+
+  // Assuming T is a container-form with normal size-function, and the elements
+  // themselves are sorted:
+  template <class RAN>
+  bool strict_subsumption_test_sized(const RAN& r1, const RAN& r2) noexcept {
+    if (r1.size() >= r2.size()) return false;
+    assert(std::ranges::is_sorted(r1)); assert(std::ranges::is_sorted(r2));
+    return std::ranges::includes(r2, r1);
+  }
+  // Eliminates all strict-forward-subsumptions (i.e., strict-subset-relations):
+  template <class T, class Alloc>
+  void forward_strictsubsumption_by_erase(std::vector<T,Alloc>& v) noexcept {
+    typedef typename std::vector<T,Alloc>::size_type size_t;
+    size_t size = v.size();
+    if (size <= 1) return;
+    typedef typename std::vector<T,Alloc>::value_type seq_t;
+    for (size_t i = 0; i < size-1; ++i) {
+      const seq_t& e1 = v[i];
+      const auto pred = [&e1](const seq_t& e2)noexcept{
+        return strict_subsumption_test_sized(e1, e2);};
+      const auto end = v.end();
+      const auto nend = std::remove_if(v.begin()+(i+1), end, pred);
+      v.erase(nend, end);
+      if ((size = v.size()) <= 1) return;
     }
   }
 

@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.7",
-        "31.5.2025",
+        "0.3.8",
+        "1.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -400,6 +400,27 @@ int main(const int argc, const char* const argv[]) {
   {assert(make_uint_iterator_range(unsigned(-1), unsigned(1)).size() == 2);
    assert(make_uint_iterator_range(0,0).empty());
    assert(make_uint_iterator_range(unsigned(1), unsigned(0)).size() == unsigned(-1));
+  }
+
+  {typedef std::vector<unsigned> v_t;
+   assert(not strict_subsumption_test_sized<v_t>({}, {}));
+   assert(strict_subsumption_test_sized<v_t>({}, {0}));
+   assert(not strict_subsumption_test_sized<v_t>({0}, {}));
+  }
+  {typedef std::vector<unsigned> v_t;
+   typedef std::vector<v_t> r_t;
+   r_t R;
+   forward_strictsubsumption_by_erase(R);
+   assert(R.empty());
+   R = {{1,2},{2}};
+   forward_strictsubsumption_by_erase(R);
+   assert(eqp(R, {{1,2},{2}}));
+   R = {{1,2},{1,2}};
+   forward_strictsubsumption_by_erase(R);
+   assert(eqp(R, {{1,2},{1,2}}));
+   R = {{1,2},{1,2,3}};
+   forward_strictsubsumption_by_erase(R);
+   assert(eqp(R, {{1,2}}));
   }
 
 }
