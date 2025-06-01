@@ -1,0 +1,119 @@
+1) Just subsumption-elimination (with empty variable-sequence)
+
+Creating 10 "raw" clauses (that is, "u=unsorted") by BRG, translating into NOBOCONF,
+and supressing the comments:
+
+Bicliques> BRG "5*3,3;5*3,2" "u" "" | Dimacs2NOBOCONF.awk | awk '/^C/{next}{print}'
+n  4
+c  10
+1:0 2:0 3:0 0
+1:0 2:0 3:0 0
+1:1 2:1 3:0 0
+1:0 2:1 3:1 0
+1:1 2:1 3:1 0
+1:0 3:1 0
+1:0 3:0 0
+2:1 3:1 0
+2:0 3:1 0
+2:1 3:0 0
+
+Since the clauses are
+ - not tautological
+ - do not contain duplicated literals
+ - are sorted
+(all this by construction), running NBDPreduction in most basic mode is just
+sorting the clauses:
+
+Bicliques> BRG "5*3,3;5*3,2" "u" "" | Dimacs2NOBOCONF.awk | NBDPreduction "" 0 0
+Cnc            4 10
+Cred-cl        0 0
+Cred-aeds      0 0 0 0
+n 4
+c 10
+1:0 3:0 0
+1:0 2:0 3:0 0
+1:0 2:0 3:0 0
+2:1 3:0 0
+1:1 2:1 3:0 0
+1:0 3:1 0
+2:0 3:1 0
+2:1 3:1 0
+1:0 2:1 3:1 0
+1:1 2:1 3:1 0
+
+The comment-lines yield:
+ - nc : number of variables and clauses in original input
+ - red-cl : number of tautological clauses and duplicated literals removed
+ - red-aeds : DP-reduction (in total):
+  a - added clauses (resolvents)
+  e - eliminated clauses (clauses containing the DP-variable)
+  d - duplicated clauses removed
+  s - subsumed clauses removed.
+
+The basic mode ("0" in the second argument) means "multi-clause-set", that is,
+clause-multiplicities are considered.
+Going to clause-set-mode removes the duplications:
+
+Bicliques> BRG "5*3,3;5*3,2" "u" "" | Dimacs2NOBOCONF.awk | NBDPreduction "" 1 0
+Cnc            4 10
+Cred-ccl       0 1 0
+Cred-aeds      0 0 0 0
+n 4
+c 9
+1:0 3:0 0
+1:0 2:0 3:0 0
+2:1 3:0 0
+1:1 2:1 3:0 0
+1:0 3:1 0
+2:0 3:1 0
+2:1 3:1 0
+1:0 2:1 3:1 0
+1:1 2:1 3:1 0
+
+We see that one duplicated clause was removed.
+Adding subsumption-elimination:
+
+Bicliques> BRG "5*3,3;5*3,2" "u" "" | Dimacs2NOBOCONF.awk | NBDPreduction "" 1 1
+Cnc            4 10
+Cred-ccl       0 1 0
+Cred-aeds      0 0 0 4
+n 4
+c 5
+1:0 3:0 0
+2:1 3:0 0
+1:0 3:1 0
+2:0 3:1 0
+2:1 3:1 0
+
+Now 4 more clauses were removed.
+
+A special case is using subsumption-elimination for multi-clause-mode:
+Since subsumption-elimination contains elimination of duplicates, in order to make
+this case relevant, now the idea is that subsumption-elimination only does eliminate
+subsumption "introduced by the DP-reduction". This is achieved by making each original
+clause unique by a spiking-literal with new variable, run usual clause-set DP-reduction
+and subsumption-elimination, and at the end remove the spiking-literals again (without
+contraction of clauses).
+
+In this case, since no DP-reduction, this yields the same as "0 ":
+Bicliques> BRG "5*3,3;5*3,2" "u" "" | Dimacs2NOBOCONF.awk | NBDPreduction "" 0 1
+Cnc            4 10
+Cred-cl        0 0
+Cred-aeds      0 0 0 0
+Cred-us        10
+n 4
+c 10
+1:0 3:0 0
+1:0 2:0 3:0 0
+1:0 2:0 3:0 0
+2:1 3:0 0
+1:1 2:1 3:0 0
+1:0 3:1 0
+2:0 3:1 0
+2:1 3:1 0
+1:0 2:1 3:1 0
+1:1 2:1 3:1 0
+
+Here "red-us" means the number of literal-occurrences deleted by "unspiking".
+
+Thus for the empty variable-sequence we have three useful modes: "0 0", "1 0", "1 1".

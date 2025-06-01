@@ -53,6 +53,61 @@ c 85960
 Remark: Using 4000 clauses here (instead of 3000) in the input yields a large
 increase in clauses created by DP-reduction.
 
+The input does not have duplications or subsumptions, but switching to
+multi-clause-sets (still with subsumption-elimination) yields additional
+clauses, which are resolvents subsumed (only) by original clauses:
+
+Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 3,5,13,20,101 0 1 > OUT3.cnf
+real	1m37.242s user	1m37.164s sys	0m0.056s
+Bicliques> head OUT3.cnf -n 6
+Cnc            201 3000
+Cred-cl        0 0
+Cred-aeds      264904 2210 78613 100967
+Cred-us        361683
+n 201
+c 86114
+
+Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 101,20,13,5,3 0 1 > OUT4.cnf
+real	2m49.407s user	2m49.385s sys	0m0.024s
+Bicliques> head OUT4.cnf -n 6
+Cnc            201 3000
+Cred-cl        0 0
+Cred-aeds      325323 2030 105381 134798
+Cred-us        361683
+n 201
+c 86114
+
+Bicliques> diff OUT3.cnf OUT4.cnf
+3c3
+< Cred-aeds      264904 2210 78613 100967
+---
+> Cred-aeds      325323 2030 105381 134798
+
+Bicliques> time cat OUT3.cnf | NBDPreduction "" 1 1 > OUT3s.cnf
+real	0m31.131s user	0m31.116s sys	0m0.021s
+Bicliques> diff OUT1.cnf OUT3s.cnf
+1c1
+< Cnc            201 3000
+---
+> Cnc            201 86114
+3c3
+< Cred-aeds      264904 2210 78613 101121
+---
+> Cred-aeds      0 0 0 154
+
+Bicliques> time cat OUT4.cnf | NBDPreduction "" 1 1 > OUT4s.cnf
+real	0m30.669s user	0m30.659s sys	0m0.021s
+Bicliques> diff OUT2.cnf OUT4s.cnf
+1c1
+< Cnc            201 3000
+---
+> Cnc            201 86114
+3c3
+< Cred-aeds      325323 2030 105381 134952
+---
+> Cred-aeds      0 0 0 154
+
+
 */
 
 #include <iostream>
@@ -125,7 +180,8 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   assert(F.valid());
-  GenClauseSets::out_datacomment(std::cout, "nc", initial_width, varlist_t{F.n(), F.c()});
+  GenClauseSets::out_datacomment(std::cout, "nc", initial_width,
+                                 varlist_t{F.n(), F.c()});
   std::cout << std::endl;
 
   if (clauseset) {
@@ -142,7 +198,7 @@ int main(const int argc, const char* const argv[]) {
   if (subsumption and not clauseset)
     F.spiking();
 
-  const auto stats = DP_reduction(F, V, clauseset, subsumption);
+  const auto stats = DP_reduction(F, V, clauseset or subsumption, subsumption);
   GenClauseSets::out_datacomment(std::cout, "red-aeds", initial_width, stats);
   std::cout << std::endl;
 
