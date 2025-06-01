@@ -70,7 +70,7 @@ increase in clauses created by DP-reduction.
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.0.10",
+    "0.1.0",
     "1.6.2025",
     __FILE__,
     "Oliver Kullmann",
@@ -96,6 +96,7 @@ namespace {
     return true;
   }
 
+  const unsigned initial_width = 15;
   bool to_bool(const std::string& s) noexcept { return s != "0"; }
 
 }
@@ -124,18 +125,17 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   assert(F.valid());
-  std::cout << GenClauseSets::comchar << "nc\t\t" << F.n() << " " << F.c() << std::endl;
+  GenClauseSets::out_datacomment(std::cout, "nc", initial_width, varlist_t{F.n(), F.c()});
+  std::cout << std::endl;
 
   if (clauseset) {
     const auto stats = F.make_clauseset();
-    std::cout << GenClauseSets::comchar << "red-ccl\t";
-    Environment::out_line(std::cout, stats);
+    GenClauseSets::out_datacomment(std::cout, "red-ccl", initial_width, stats);
     std::cout << std::endl;
   }
   else {
     const auto stats = F.fully_standardise();
-    std::cout << GenClauseSets::comchar << "red-cl\t\t";
-    Environment::out_line(std::cout, stats);
+    GenClauseSets::out_datacomment(std::cout, "red-cl", initial_width, stats);
     std::cout << std::endl;
   }
 
@@ -143,13 +143,13 @@ int main(const int argc, const char* const argv[]) {
     F.spiking();
 
   const auto stats = DP_reduction(F, V, clauseset, subsumption);
-  std::cout << GenClauseSets::comchar << "red-aeds\t";
-  Environment::out_line(std::cout, stats);
+  GenClauseSets::out_datacomment(std::cout, "red-aeds", initial_width, stats);
   std::cout << std::endl;
 
   if (subsumption and not clauseset) {
     const auto count = F.unspiking();
-    std::cout << GenClauseSets::comchar << "red-us\t\t" << count << std::endl;
+    GenClauseSets::out_datacomment(std::cout, "red-us", initial_width, varlist_t{count});
+    std::cout << std::endl;
   }
 
   std::cout << F;
