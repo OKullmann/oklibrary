@@ -206,7 +206,25 @@ namespace GenClauseSets {
       return {cl[0], d, cl[1]};
     }
 
+
+    void spiking(const var_t offset = 0) {
+      const count_t numcl = F.size();
+      for (var_t i = 0; i < numcl; ++i)
+        F[i].push_back(GL::spiking_lit(offset+i));
+    }
+    count_t unspiking() {
+      count_t sum = 0;
+      for (GC::GClause& C : F) {
+        const auto left_over = std::ranges::remove_if(C, GL::is_spiking_lit);
+        sum += left_over.size();
+        C.C.erase(left_over.begin(), left_over.end());
+      }
+      sort_clauselist();
+      return sum;
+    }
+
     auto operator <=>(const GClauseList&) const noexcept = default;
+
 
     friend std::ostream& operator <<(std::ostream& out, const GClauseList& F) {
       out << numvarchar << " " << F.n() << "\n"
@@ -318,6 +336,19 @@ namespace GenClauseSets {
     }
 
   };
+
+
+  // Excluding final-end-of-line:
+  template <class RANGE>
+  void out_datacomment(std::ostream& out, const std::string& name,
+                       const count_t width, const RANGE& r) {
+    const std::string header = std::string(1,comchar) + name;
+    const count_t nwidth = std::max(width, header.size());
+    const auto flags = out.flags();
+    out.width(nwidth); out << std::left;
+    out << header; Environment::out_line(std::cout, r);
+    out.flags(flags);
+  }
 
 }
 

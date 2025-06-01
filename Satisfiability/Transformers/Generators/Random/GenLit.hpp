@@ -64,6 +64,7 @@ License, or any later version. */
 #include <optional>
 #include <exception>
 
+#include <Numerics/NumBasicFunctions.hpp>
 #include <Numerics/NumInOut.hpp>
 
 #include "VarLit.hpp"
@@ -79,6 +80,8 @@ namespace GenLit {
 
   constexpr var_t singvar = -1;
   constexpr val_t singval = -1;
+  static_assert(singvar == singval);
+  static_assert(singvar == FloatingPoint::P264m1);
 
   constexpr char valsep = ':';
 
@@ -230,6 +233,29 @@ namespace GenLit {
     else ov = to_varval(s);
     return in;
   }
+
+
+  /*
+    Spiking
+  */
+
+  constexpr var_t first_spiking = FloatingPoint::exp2(48);
+  constexpr var_t max_spiking_index = var_t(-1) - first_spiking;
+  constexpr var_t spiking_var_index(const var_t v) noexcept {
+    assert(v <= max_spiking_index);
+    return first_spiking + v;
+  }
+  static_assert(spiking_var_index(0) == first_spiking);
+  static_assert(spiking_var_index(max_spiking_index) == var_t(-1));
+  constexpr VarVal spiking_lit(const var_t v) noexcept {
+    return var2sing(spiking_var_index(v));
+  }
+  static_assert(spiking_lit(max_spiking_index) == totsingvv);
+  constexpr bool is_spiking_lit(const VarVal& x) noexcept {
+    return var(x) >= first_spiking and valsing(x);
+  }
+  static_assert(is_spiking_lit(spiking_lit(0)));
+  static_assert(not is_spiking_lit(var2sing(first_spiking-1)));
 
 }
 
