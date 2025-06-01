@@ -32,8 +32,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.7",
-        "28.5.2025",
+        "0.4.8",
+        "1.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -401,7 +401,7 @@ int main(const int argc, const char* const argv[]) {
               {{{1,1},{1,2},{3,3}}}));
    assert(eqp(all_resolution_combinations({{2},{1},{0}}, 0,
                                           {{{0,2},{1,1}}, {{0,1},{1,2}}, {{0,0},{3,3}}}),
-              {{GL::totsingvv}}));
+              {}));
   }
 
 }

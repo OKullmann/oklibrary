@@ -141,9 +141,9 @@ GRRG : GRRG.cpp GRRG.hpp RandomGraphs.hpp
 GRRG_debug : GRRG.cpp GRRG.hpp RandomGraphs.hpp
 
 NBDPreduction : include_options+=-I $(oklibloc)/..
-NBDPreduction : NBDPreduction.cpp GenResolution.hpp
+NBDPreduction : NBDPreduction.cpp GenResolution.hpp Algorithms.hpp
 NBDPreduction_debug : include_options+=-I $(oklibloc)/..
-NBDPreduction_debug : NBDPreduction.cpp GenResolution.hpp
+NBDPreduction_debug : NBDPreduction.cpp GenResolution.hpp Algorithms.hpp
 
 # -------------------------
 
