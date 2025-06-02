@@ -156,3 +156,11 @@ Cnc 1 27 Cred-cl 0 0 Cred-aeds 729 27 0 0 Cred-us 2187 n 1 c 729
 Cnc 1 30 Cred-cl 0 0 Cred-aeds 1000 30 0 0 Cred-us 3000 n 1 c 1000
 
 Each final resolvent contains 3 spiking-literals (since combining exactly 3 input-clauses).
+
+-----------------------------------------------------------------------------------
+
+3) Checking commutativity modulo subsumption for boolean clause-sets
+
+See Fuzzing_NBDPreduction_1.bash .
+docus> time ./Fuzzing_NBDPreduction_1.bash
+XXX
