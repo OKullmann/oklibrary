@@ -117,3 +117,42 @@ c 10
 Here "red-us" means the number of literal-occurrences deleted by "unspiking".
 
 Thus for the empty variable-sequence we have three useful modes: "0 0", "1 0", "1 1".
+
+-----------------------------------------------------------------------------------
+
+2) Reducing a single variable
+
+a) The multi-clause-set
+  k * {(0,0)}
+  k * {(0,1)}
+  k * {(0,2)}
+
+yields 3k input-clauses and k^3 resolvents:
+
+Bicliques> echo -e "0:0 0\n0:1 0\n0:2 0" > TEST.cnf
+Bicliques> echo > TEMP; for (( k=1; k<=10; ++k )); do cat TEST.cnf >> TEMP; cat TEMP | ./NBDPreduction_debug 0 0 0 | head -n 5 | tr -s "\n" " "; echo; done; rm TEMP
+Cnc 1 3 Cred-cl 0 0 Cred-aeds 1 3 0 0 n 1 c 1
+Cnc 1 6 Cred-cl 0 0 Cred-aeds 8 6 0 0 n 1 c 8
+Cnc 1 9 Cred-cl 0 0 Cred-aeds 27 9 0 0 n 1 c 27
+Cnc 1 12 Cred-cl 0 0 Cred-aeds 64 12 0 0 n 1 c 64
+Cnc 1 15 Cred-cl 0 0 Cred-aeds 125 15 0 0 n 1 c 125
+Cnc 1 18 Cred-cl 0 0 Cred-aeds 216 18 0 0 n 1 c 216
+Cnc 1 21 Cred-cl 0 0 Cred-aeds 343 21 0 0 n 1 c 343
+Cnc 1 24 Cred-cl 0 0 Cred-aeds 512 24 0 0 n 1 c 512
+Cnc 1 27 Cred-cl 0 0 Cred-aeds 729 27 0 0 n 1 c 729
+Cnc 1 30 Cred-cl 0 0 Cred-aeds 1000 30 0 0 n 1 c 1000
+
+Same with ("external") subsumption:
+Bicliques> echo > TEMP; for (( k=1; k<=10; ++k )); do cat TEST.cnf >> TEMP; cat TEMP | ./NBDPreduction_debug 0 0 1 | head -n 6 | tr -s "\n" " "; echo; done; rm TEMP
+Cnc 1 3 Cred-cl 0 0 Cred-aeds 1 3 0 0 Cred-us 3 n 1 c 1
+Cnc 1 6 Cred-cl 0 0 Cred-aeds 8 6 0 0 Cred-us 24 n 1 c 8
+Cnc 1 9 Cred-cl 0 0 Cred-aeds 27 9 0 0 Cred-us 81 n 1 c 27
+Cnc 1 12 Cred-cl 0 0 Cred-aeds 64 12 0 0 Cred-us 192 n 1 c 64
+Cnc 1 15 Cred-cl 0 0 Cred-aeds 125 15 0 0 Cred-us 375 n 1 c 125
+Cnc 1 18 Cred-cl 0 0 Cred-aeds 216 18 0 0 Cred-us 648 n 1 c 216
+Cnc 1 21 Cred-cl 0 0 Cred-aeds 343 21 0 0 Cred-us 1029 n 1 c 343
+Cnc 1 24 Cred-cl 0 0 Cred-aeds 512 24 0 0 Cred-us 1536 n 1 c 512
+Cnc 1 27 Cred-cl 0 0 Cred-aeds 729 27 0 0 Cred-us 2187 n 1 c 729
+Cnc 1 30 Cred-cl 0 0 Cred-aeds 1000 30 0 0 Cred-us 3000 n 1 c 1000
+
+Each final resolvent contains 3 spiking-literals (since combining exactly 3 input-clauses).
