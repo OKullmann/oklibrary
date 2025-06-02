@@ -142,7 +142,7 @@ Cnc 1 24 Cred-cl 0 0 Cred-aeds 512 24 0 0 n 1 c 512
 Cnc 1 27 Cred-cl 0 0 Cred-aeds 729 27 0 0 n 1 c 729
 Cnc 1 30 Cred-cl 0 0 Cred-aeds 1000 30 0 0 n 1 c 1000
 
-Same with ("external") subsumption:
+Same with ("only internal") subsumption-elimination:
 Bicliques> echo > TEMP; for (( k=1; k<=10; ++k )); do cat TEST.cnf >> TEMP; cat TEMP | ./NBDPreduction_debug 0 0 1 | head -n 6 | tr -s "\n" " "; echo; done; rm TEMP
 Cnc 1 3 Cred-cl 0 0 Cred-aeds 1 3 0 0 Cred-us 3 n 1 c 1
 Cnc 1 6 Cred-cl 0 0 Cred-aeds 8 6 0 0 Cred-us 24 n 1 c 8
