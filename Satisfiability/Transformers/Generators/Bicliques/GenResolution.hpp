@@ -117,15 +117,25 @@ namespace GenResolution {
   }
 
 
+  // If subsumption_elimination, then always performs it (also for the case no DP-reduction
+  // would be performed:
   typedef std::vector<GL::var_t> varlist_t;
   std::array<GCS::count_t, 4> DP_reduction(GCS::GClauseList& F,
                                            const varlist_t& V,
                                            const bool clauseset = false,
                                            const bool subsumption_elimination = false) {
-    assert(F.is_fully_standardised());
+    assert(clauseset or F.is_fully_standardised());
+    assert(not clauseset or F.is_clauseset());
     const auto n = F.n();
     GCS::count_t total_resolvents = 0, total_degrees = 0, total_duplicates = 0,
       subsumed = 0;
+    if (subsumption_elimination) {
+      if (not clauseset) total_duplicates += F.remove_consecutive_duplicated_clauses();
+      const GCS::count_t old_size = F.c();
+      Algorithms::forward_strictsubsumption_by_erase(F.F);
+      // Remark: Since F.F is sorted, only forward-subsumption needed.
+      subsumed += old_size - F.c();
+    }
     for (const GL::var_t v : V) {
       if (v >= n) continue;
       const GCG::GOccVar O(F,v);
@@ -137,18 +147,19 @@ namespace GenResolution {
       // F.F.append_range(resolvents | std::views::as_rvalue); ERROR with GCC 14.2 :
       F.F.insert(F.F.end(), std::make_move_iterator(resolvents.begin()),
                  std::make_move_iterator(resolvents.end()));
-      F.sort_clauselist(); // ?? here "eager"; in case of subsumption_elimination one could also run subsumption_elimination here
-      if (clauseset) total_duplicates += F.remove_consecutive_duplicated_clauses();
+      if (clauseset or subsumption_elimination) {
+        F.sort_clauselist();
+        total_duplicates += F.remove_consecutive_duplicated_clauses();
+      }
+      if (subsumption_elimination) {
+        const GCS::count_t old_size = F.c();
+        Algorithms::forward_strictsubsumption_by_erase(F.F);
+        // Remark: Since F.F is sorted, only forward-subsumption needed.
+        subsumed += old_size - F.c();
+      }
       F.dom[v] = 0;
     }
-    if (subsumption_elimination) {
-      if (not clauseset)
-        total_duplicates += F.remove_consecutive_duplicated_clauses();
-      const GCS::count_t old_size = F.c();
-      Algorithms::forward_strictsubsumption_by_erase(F.F);
-      // Remark: Since F.F is sorted, only forward-subsumption needed.
-      subsumed = old_size - F.c();
-    }
+    if (not clauseset and not subsumption_elimination and not V.empty()) F.sort_clauselist();
     return {total_resolvents, total_degrees, total_duplicates, subsumed};
   }
 

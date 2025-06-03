@@ -24,28 +24,28 @@ A larger example, testing commutativity-modulo-subsumption in the
 boolean case:
 
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 3,5,13,20,101 1 1 > OUT1.cnf
-real	1m35.524s user	1m35.491s sys	0m0.032s
+real	1m23.291s user	1m23.267s sys	0m0.029s
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 101,20,13,5,3 1 1 > OUT2.cnf
-real	2m50.112s user	2m49.958s sys	0m0.092s
+real	1m16.390s user	1m16.380s sys	0m0.016s
 
 Differences only in the reduction-details:
 Bicliques> diff OUT1.cnf OUT2.cnf
-1c1
-< Cred-aeds 264904 2210 78613 101121
+3c3
+< Cred-aeds      236584 2019 61088 90517
 ---
-> Cred-aeds 325323 2030 105381 134952
+> Cred-aeds      179525 1613 29734 65218
 
 Bicliques> head OUT1.cnf -n 6
-Cnc		201 3000
-Cred-ccl	0 0 0
-Cred-aeds	264904 2210 78613 101121
+Cnc            201 3000
+Cred-ccl       0 0 0
+Cred-aeds      236584 2019 61088 90517
 n 201
 c 85960
 2:0 25:1 42:1 43:0 45:0 0
 Bicliques> head OUT2.cnf -n 6
-Cnc		201 3000
-Cred-ccl	0 0 0
-Cred-aeds	325323 2030 105381 134952
+Cnc            201 3000
+Cred-ccl       0 0 0
+Cred-aeds      179525 1613 29734 65218
 n 201
 c 85960
 2:0 25:1 42:1 43:0 45:0 0
@@ -53,57 +53,57 @@ c 85960
 Remark: Using 4000 clauses here (instead of 3000) in the input yields a large
 increase in clauses created by DP-reduction.
 
-The input does not have duplications or subsumptions, but switching to
+The above instance does not have duplications or subsumptions, but switching to
 multi-clause-sets (still with subsumption-elimination) yields additional
 clauses, which are resolvents subsumed (only) by original clauses:
 
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 3,5,13,20,101 0 1 > OUT3.cnf
-real	1m37.242s user	1m37.164s sys	0m0.056s
+real	1m38.970s
+user	1m38.884s
+sys	0m0.070s
 Bicliques> head OUT3.cnf -n 6
 Cnc            201 3000
 Cred-cl        0 0
-Cred-aeds      264904 2210 78613 100967
+Cred-aeds      236584 2019 61088 90363
 Cred-us        361683
 n 201
 c 86114
 
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 101,20,13,5,3 0 1 > OUT4.cnf
-real	2m49.407s user	2m49.385s sys	0m0.024s
+real	1m18.090s user	1m18.047s sys	0m0.048s
 Bicliques> head OUT4.cnf -n 6
-Cnc            201 3000
 Cred-cl        0 0
-Cred-aeds      325323 2030 105381 134798
+Cred-aeds      179525 1613 29734 65064
 Cred-us        361683
 n 201
 c 86114
 
 Bicliques> diff OUT3.cnf OUT4.cnf
 3c3
-< Cred-aeds      264904 2210 78613 100967
+< Cred-aeds      236584 2019 61088 90363
 ---
-> Cred-aeds      325323 2030 105381 134798
+> Cred-aeds      179525 1613 29734 65064
 
 Bicliques> time cat OUT3.cnf | NBDPreduction "" 1 1 > OUT3s.cnf
-real	0m31.131s user	0m31.116s sys	0m0.021s
+real	0m31.996s user	0m31.973s sys	0m0.033s
 Bicliques> diff OUT1.cnf OUT3s.cnf
-1c1
 < Cnc            201 3000
 ---
 > Cnc            201 86114
 3c3
-< Cred-aeds      264904 2210 78613 101121
+< Cred-aeds      236584 2019 61088 90517
 ---
 > Cred-aeds      0 0 0 154
 
 Bicliques> time cat OUT4.cnf | NBDPreduction "" 1 1 > OUT4s.cnf
-real	0m30.669s user	0m30.659s sys	0m0.021s
+real	0m32.355s user	0m32.343s sys	0m0.024s
 Bicliques> diff OUT2.cnf OUT4s.cnf
 1c1
 < Cnc            201 3000
 ---
 > Cnc            201 86114
 3c3
-< Cred-aeds      325323 2030 105381 134952
+< Cred-aeds      179525 1613 29734 65218
 ---
 > Cred-aeds      0 0 0 154
 
@@ -125,8 +125,8 @@ Bicliques> diff OUT2.cnf OUT4s.cnf
 namespace {
 
   const Environment::ProgramInfo proginfo{
-    "0.1.0",
-    "1.6.2025",
+    "0.2.0",
+    "3.6.2025",
     __FILE__,
     "Oliver Kullmann",
     "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/NBDPreduction.cpp",
