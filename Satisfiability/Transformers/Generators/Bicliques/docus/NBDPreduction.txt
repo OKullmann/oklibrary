@@ -217,4 +217,4 @@ Investigating where most clauses were added (compared to E from 3)):
 
 Similar to above, but higher n-value:
 docus> program=NBDPreduction clauseset=0 nval=700 time ./Fuzzing_NBDPreduction_1.bash | tee -a OUT3
-XXX
+interrupted; without error until 238.
