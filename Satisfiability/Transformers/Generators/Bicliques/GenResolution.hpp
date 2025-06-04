@@ -32,8 +32,6 @@ TODOS:
 #include <Transformers/Generators/Random/GenClauseSets.hpp>
 #include <Numerics/Algorithms.hpp>
 
-#include <Structures/Sets/SetAlgorithms/Subsumption.hpp>
-
 #include "Algorithms.hpp"
 #include "GenConflictGraphs.hpp"
 
