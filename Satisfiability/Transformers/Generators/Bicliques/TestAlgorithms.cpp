@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.8",
-        "1.6.2025",
+        "0.3.9",
+        "5.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -287,8 +287,11 @@ int main(const int argc, const char* const argv[]) {
 
   {using vt = std::vector<std::vector<int>>;
    assert(sum_sizes(vt{}) == 0);
+   assert(sum_proj(vt{}, [](auto){return 1;}) == 0);
    assert(sum_sizes(vt{{},{1,2},{5,6,7}}) == 5);
+   assert(sum_proj(vt{{},{1,2},{5,6,7}}, [](auto){return 1;}) == 3);
    assert(prod_sizes(vt{{},{1,2},{5,6,7}}) == 0);
+   assert(prod_proj(vt{{},{1,2},{5,6,7}}, [](auto){return 2;}) == 8);
   }
   {using vt = std::array<int [5], 2>;
    assert(sum_sizes(vt{}) == 10);

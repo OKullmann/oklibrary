@@ -29,7 +29,9 @@ License, or any later version. */
      the element at index i (if in the range -- otherwise nothing is removed).
 
    - sum_sizes(RAN) -> FloatingPoint::UInt_t : summation of member.size()
+   - sum_proj(RAN, PROJ) -> FloatingPoint::UInt_t (sum the projections)
    - prod_sizes(RAN) -> FloatingPoint::UInt_t : multiplication of member.size()
+   - prod_proj(RAN, PROJ) -> FloatingPoint::UInt_t (multiply the projections)
 
    - is_strictly_ascending(RAN) -> bool
 
@@ -279,12 +281,31 @@ namespace Algorithms {
     using std::begin; using std::end;
     return std::accumulate(begin(r), end(r), ui(0), op);
   }
+  // More generally, applying projection proj:
+  template <class RANGE, class PROJ>
+  constexpr FloatingPoint::UInt_t sum_proj(const RANGE& r, const PROJ& proj) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    const auto op = [&proj](const ui acc, const auto& x) noexcept -> ui {
+      return acc + proj(x);
+    };
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(0), op);
+  }
   template <class RANGE>
   constexpr FloatingPoint::UInt_t prod_sizes(const RANGE& r) noexcept {
     using ui = FloatingPoint::UInt_t;
     using std::size;
     constexpr auto op = [](const ui acc, const auto& x) noexcept -> ui {
       return acc * size(x);
+    };
+    using std::begin; using std::end;
+    return std::accumulate(begin(r), end(r), ui(1), op);
+  }
+  template <class RANGE, class PROJ>
+  constexpr FloatingPoint::UInt_t prod_proj(const RANGE& r, const PROJ& proj) noexcept {
+    using ui = FloatingPoint::UInt_t;
+    const auto op = [&proj](const ui acc, const auto& x) noexcept -> ui {
+      return acc * proj(x);
     };
     using std::begin; using std::end;
     return std::accumulate(begin(r), end(r), ui(1), op);
