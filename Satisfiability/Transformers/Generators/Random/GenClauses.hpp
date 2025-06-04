@@ -175,6 +175,18 @@ namespace GenClauses {
     return has_consecutive_clashes(D);
   }
 
+  bool is_standardised(const GClause& C) noexcept {
+    return C.is_sorted() and not has_consecutive_clashes(C) and not tautological(C);
+  }
+
+
+  bool varequal(const GClause& C, const GClause& D) noexcept {
+    return std::ranges::equal(C, D, {}, GL::var, GL::var);
+  }
+  bool varequal_valleq(const GClause& C, const GClause& D) noexcept {
+    return std::ranges::equal(C, D, [](const GL::VarVal& x, const GL::VarVal& y)noexcept{
+                                return x.v==y.v and x.e <= y.e;});
+  }
 
 }
 
