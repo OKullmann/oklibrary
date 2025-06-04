@@ -91,6 +91,8 @@ namespace GenLit {
     var_t v;
     val_t e;
 
+    VarVal& operator ++() noexcept { ++e; return *this; }
+
     constexpr auto operator <=>(const VarVal&) const noexcept = default;
   };
   static_assert(VarVal{} == VarVal{0,0});
@@ -191,6 +193,68 @@ namespace GenLit {
   static_assert(clash(VarVal{0,0}, VarVal{0,1}));
   static_assert(not clash(VarVal{}, VarVal{}));
   static_assert(not clash(VarVal{2,0}, VarVal{3,1}));
+
+
+  /*
+    VarVal is iterator
+  */
+
+  struct VarVal_it {
+    VarVal current;
+
+    using iterator_category = std::random_access_iterator_tag;
+    using value_type = VarVal;
+    using difference_type = std::ptrdiff_t;
+    using pointer = const VarVal*;
+    using reference = VarVal;
+
+    constexpr VarVal_it() noexcept : current(val2sing(0)) {}
+    explicit constexpr VarVal_it(const VarVal& x) noexcept : current(x) {}
+    constexpr VarVal_it(const VarVal_it& other) noexcept = default;
+
+    VarVal_it& operator ++() noexcept { ++current.e; return *this; }
+    VarVal_it& operator --() noexcept { --current.e; return *this; }
+    VarVal_it operator ++(int) noexcept {
+      const auto t = *this; ++current.e; return t;
+    }
+    VarVal_it operator --(int) noexcept {
+      const auto t = *this; --current.e; return t;
+    }
+    VarVal_it& operator +=(const difference_type d) noexcept {
+      current.e += d; return *this;
+    }
+    VarVal_it& operator -=(const difference_type d) noexcept {
+      current.e -= d; return *this;
+    }
+    reference operator [](const difference_type d) const noexcept {
+      return {current.v, current.e + d};
+    }
+    reference operator *() const noexcept { return current; }
+    bool operator ==(const VarVal_it&) const noexcept = default;
+    auto operator <=>(const VarVal_it&) const noexcept = default;
+
+    friend VarVal_it operator +(VarVal_it it,
+                                const difference_type d) noexcept {
+      return it += d;
+    }
+    friend VarVal_it operator +(const difference_type d,
+                                VarVal_it it) noexcept {
+      return it += d;
+    }
+    friend VarVal_it operator -(VarVal_it it,
+                                const difference_type d) noexcept {
+      return it -= d;
+    }
+    friend difference_type operator -(const VarVal_it& lhs,
+                                      const VarVal_it& rhs) noexcept {
+      return lhs.current.e - rhs.current.e;
+    }
+  };
+  using VarVal_range = std::ranges::subrange<VarVal_it>;
+  VarVal_range make_VarVal_range(const var_t v, const val_t a, const val_t b) noexcept {
+    // a <= b is not necessary -- unsigned types can wrap around
+    return std::ranges::subrange(VarVal_it({v,a}), VarVal_it({v,b}));
+  }
 
 
   /*
