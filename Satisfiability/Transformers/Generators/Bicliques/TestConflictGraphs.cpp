@@ -24,6 +24,7 @@ License, or any later version. */
 #include "ConflictGraphs.hpp"
 #include "GenConflictGraphs.hpp"
 #include "GenResolution.hpp"
+#include "NBgenerators.hpp"
 
 #include "Generators.hpp"
 #include "Bicliques2SAT.hpp"
@@ -32,8 +33,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.4.8",
-        "1.6.2025",
+        "0.5.0",
+        "4.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -43,6 +44,8 @@ namespace {
   using namespace ConflictGraphs;
   using namespace GenConflictGraphs;
   using namespace GenResolution;
+  using namespace NBgenerators;
+
   using namespace DimacsTools;
   using namespace Algorithms;
 
@@ -402,6 +405,16 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(all_resolution_combinations({{2},{1},{0}}, 0,
                                           {{{0,2},{1,1}}, {{0,1},{1,2}}, {{0,0},{3,3}}}),
               {}));
+  }
+
+  {using GenClauseSets::GClauseList;
+   assert(full_nbcls(0,0) == GClauseList({{}}));
+   assert(full_nbcls(1,0) == GClauseList({}));
+   assert(full_nbcls(0,1) == GClauseList({{}}));
+   assert(full_nbcls(1,1) == GClauseList({{{0,0}}}));
+   assert(full_nbcls(1,2) == GClauseList({{{0,0}},{{0,1}}}));
+   assert(full_nbcls(2,1) == GClauseList({{{0,0},{1,0}}}));
+   assert(full_nbcls(2,2) == GClauseList({{{0,0},{1,0}},{{0,1},{1,0}},{{0,0},{1,1}},{{0,1},{1,1}}}));
   }
 
 }
