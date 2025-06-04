@@ -170,9 +170,51 @@ docus> program=NBDPreduction time ./Fuzzing_NBDPreduction_1.bash | tee -a OUT
 2067.96user 10.43system 34:25.98elapsed 100%CPU (0avgtext+0avgdata 337292maxresident)k
 72inputs+1403264outputs (0major+5349276minor)pagefaults 0swaps
 
+Investigating a bit the distribution of c:
+
 docus> awk 'BEGIN{print "i c"} {for (i=1; i<= NF; ++i) {split($i, A, ":"); print A[1], A[2]}}' OUT > OUT.R
 docus> R
 > E=read.table("OUT.R", header=TRUE)
 > summary(E$c)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
     867    2373    3668    5209    6174   32789
+> library(summarytools)
+> descr(E)
+# shows heavy tail
+> qqplot(rexp(1000), E$c, main = "QQ-Plot vs Exponential")
+# good linearity
+
+-----------------------------------------------------------------------------------
+
+4) Checking commutativity modulo subsumption for boolean multi-clause-sets
+
+First the same instances as above:
+
+docus> clauseset=0 time ./Fuzzing_NBDPreduction_1.bash
+0:2829 1:5112 2:5215 3:8190 4:867 5:1468 6:4342 7:4281 8:1995 9:15911 10:9008 11:4048 12:4751 13:9458 14:16557 15:2632 16:4555 17:^CCommand terminated by signal 2
+26667.68user 0.70system 7:24:29elapsed 99%CPU (0avgtext+0avgdata 142140maxresident)k
+4896inputs+28048outputs (16major+170803minor)pagefaults 0swaps
+
+docus> program=NBDPreduction clauseset=0 time ./Fuzzing_NBDPreduction_1.bash | tee -a OUT2
+2106.78user 11.18system 35:05.04elapsed 100%CPU (0avgtext+0avgdata 433348maxresident)k
+0inputs+1412800outputs (0major+6077432minor)pagefaults 0swaps
+
+docus> awk 'BEGIN{print "i c"} {for (i=1; i<= NF; ++i) {split($i, A, ":"); print A[1], A[2]}}' OUT2 > OUT2.R
+
+Investigating where most clauses were added (compared to E from 3)):
+> E2=read.table("OUT2.R", header=TRUE)
+> summary(E2$c - E$c)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.00    1.00    5.00   27.55   20.00 1414.00
+      i     c
+# maximum difference:
+> E[443,]
+443 442 27196
+> E2[443,]
+      i     c
+443 442 28610
+
+
+Similar to above, but higher n-value:
+docus> program=NBDPreduction clauseset=0 nval=700 time ./Fuzzing_NBDPreduction_1.bash | tee -a OUT3
+XXX
