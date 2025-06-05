@@ -319,11 +319,10 @@ namespace Generators {
       const size_t N{FloatingPoint::toUInt(argv[2])};
       const size_t M{FloatingPoint::toUInt(argv[3])};
       return grid(N,M);
-    }
-    default : assert(0);
-      throw std::range_error("Generators::create: UNKNOWN t="
-                                  + std::to_string(int(t)));
-    }
+    }}
+    assert(0);
+    throw std::range_error("Generators::create: UNKNOWN t="
+                           + std::to_string(int(t)));
   }
 
 }
