@@ -33,7 +33,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.1",
+        "0.5.2",
         "5.6.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -409,7 +409,7 @@ int main(const int argc, const char* const argv[]) {
 
   {using GenClauseSets::GClauseList;
    assert(full_nbcls(0,0) == GClauseList({{}}));
-   assert(full_nbcls(1,0) == GClauseList({}));
+   assert(full_nbcls(1,0) == GClauseList({}, {0}));
    assert(full_nbcls(0,1) == GClauseList({{}}));
    assert(full_nbcls(1,1) == GClauseList({{{0,0}}}));
    assert(full_nbcls(1,2) == GClauseList({{{0,0}},{{0,1}}}));
@@ -419,6 +419,7 @@ int main(const int argc, const char* const argv[]) {
   {auto F = full_nbcls(5,3);
    assert(F.n() == 5);
    assert(F.c() == std::pow(3,5));
+   assert(F.c() == numcl_full_nbcls(5,3,1));
    assert(F.dom[1] == 3);
    assert(F.is_clauseset());
    using GL::var_t;
@@ -426,6 +427,7 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(stats, {var_t(std::pow(3,4)), var_t(std::pow(3,5)), 0,0}));}
    assert(F.n() == 5);
    assert(F.c() == std::pow(3,4));
+   assert(F.c() == numcl_full_nbcls(4,3,1));
    assert(F.dom[1] == 0);
    assert(F.is_clauseset());
    {const GC::GClause C{{0,0},{2,0},{3,0},{4,0}}, D{{0,3},{2,3},{3,3},{4,3}};
@@ -434,6 +436,7 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(stats, {var_t(std::pow(3,3)), var_t(std::pow(3,4)), 0,0}));}
    assert(F.n() == 5);
    assert(F.c() == std::pow(3,3));
+   assert(F.c() == numcl_full_nbcls(3,3,1));
    assert(F.dom[3] == 0);
    assert(F.is_clauseset());
    {const GC::GClause C{{0,0},{2,0},{4,0}}, D{{0,3},{2,3},{4,3}};
@@ -443,10 +446,39 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(stats, {var_t(std::pow(3,2)+std::pow(3,1)), var_t(std::pow(3,3)+std::pow(3,2)), 0,0}));}
    assert(F.n() == 5);
    assert(F.c() == std::pow(3,1));
+   assert(F.c() == numcl_full_nbcls(1,3,1));
    assert(eqp(F.dom, {0,0,3,0,0}));
    assert(F.is_clauseset());
    {const GC::GClause C{{2,0}}, D{{2,3}};
     assert(F.F == full_range(C,D));}
+  }
+  {using GL::var_t;
+   const var_t n = 4, dom = 3, mult0 = 2;
+   const auto dpmult = [&dom](const var_t base_mult){
+     return FloatingPoint::pow(base_mult, dom);};
+   auto F = full_nbcls(n,dom,mult0);
+   assert(F.n() == n);
+   assert(F.c() == numcl_full_nbcls(n,dom,mult0));
+   const var_t mult1 = dpmult(mult0);
+   {[[maybe_unused]] const auto stats = DP_reduction(F, {1});
+    assert(eqp(stats,
+               {var_t(std::pow(dom,n-1))*mult1,
+                var_t(std::pow(dom,n))*mult0, 0,0}));}
+   assert(F.n() == n);
+   assert(F.c() == numcl_full_nbcls(n-1,dom,mult1));
+   {const GC::GClause C{{0,0},{2,0},{3,0}},
+      D{{0,dom},{2,dom},{3,dom}};
+    assert(F.F == full_range(C,D,mult1));}
+   const var_t mult2 = dpmult(mult1);
+   {[[maybe_unused]] const auto stats = DP_reduction(F, {2});
+    assert(eqp(stats,
+               {var_t(std::pow(dom,n-2))*mult2,
+                var_t(std::pow(dom,n-1))*mult1, 0,0}));}
+   assert(F.n() == n);
+   assert(F.c() == numcl_full_nbcls(n-2,dom,mult2));
+   {const GC::GClause C{{0,0},{3,0}},
+      D{{0,dom},{3,dom}};
+    assert(F.F == full_range(C,D,mult2));}
   }
 
 }
