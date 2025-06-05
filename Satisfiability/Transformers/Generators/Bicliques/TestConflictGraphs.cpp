@@ -33,8 +33,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.0",
-        "4.6.2025",
+        "0.5.1",
+        "5.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestConflictGraphs.cpp",
@@ -415,6 +415,38 @@ int main(const int argc, const char* const argv[]) {
    assert(full_nbcls(1,2) == GClauseList({{{0,0}},{{0,1}}}));
    assert(full_nbcls(2,1) == GClauseList({{{0,0},{1,0}}}));
    assert(full_nbcls(2,2) == GClauseList({{{0,0},{1,0}},{{0,1},{1,0}},{{0,0},{1,1}},{{0,1},{1,1}}}));
+  }
+  {auto F = full_nbcls(5,3);
+   assert(F.n() == 5);
+   assert(F.c() == std::pow(3,5));
+   assert(F.dom[1] == 3);
+   assert(F.is_clauseset());
+   using GL::var_t;
+   {[[maybe_unused]] const auto stats = DP_reduction(F, {1});
+    assert(eqp(stats, {var_t(std::pow(3,4)), var_t(std::pow(3,5)), 0,0}));}
+   assert(F.n() == 5);
+   assert(F.c() == std::pow(3,4));
+   assert(F.dom[1] == 0);
+   assert(F.is_clauseset());
+   {const GC::GClause C{{0,0},{2,0},{3,0},{4,0}}, D{{0,3},{2,3},{3,3},{4,3}};
+    assert(F.F == full_range(C,D));}
+   {[[maybe_unused]] const auto stats = DP_reduction(F, {3});
+    assert(eqp(stats, {var_t(std::pow(3,3)), var_t(std::pow(3,4)), 0,0}));}
+   assert(F.n() == 5);
+   assert(F.c() == std::pow(3,3));
+   assert(F.dom[3] == 0);
+   assert(F.is_clauseset());
+   {const GC::GClause C{{0,0},{2,0},{4,0}}, D{{0,3},{2,3},{4,3}};
+    assert(F.F == full_range(C,D));}
+   {[[maybe_unused]] const auto stats =
+       DP_reduction(F, {0,4}, false, true);
+    assert(eqp(stats, {var_t(std::pow(3,2)+std::pow(3,1)), var_t(std::pow(3,3)+std::pow(3,2)), 0,0}));}
+   assert(F.n() == 5);
+   assert(F.c() == std::pow(3,1));
+   assert(eqp(F.dom, {0,0,3,0,0}));
+   assert(F.is_clauseset());
+   {const GC::GClause C{{2,0}}, D{{2,3}};
+    assert(F.F == full_range(C,D));}
   }
 
 }
