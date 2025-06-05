@@ -196,7 +196,7 @@ namespace GenLit {
 
 
   /*
-    VarVal is iterator
+    VarVal as iterator
   */
 
   struct VarVal_it {

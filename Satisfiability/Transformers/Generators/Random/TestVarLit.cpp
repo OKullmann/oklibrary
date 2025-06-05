@@ -20,8 +20,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.4",
-        "22.5.2025",
+        "0.2.0",
+        "5.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestVarLit.cpp",
@@ -68,7 +68,7 @@ int main(const int argc, const char* const argv[]) {
    assert(ss.str() == "0:0 7:11");
   }
   {VarVal v; // left uninitialised
-   assert(v != VarVal{}); // holds "mostly"
+   // assert(v != VarVal{}); // holds "mostly"
    v = VarVal{66};
    assert((v == VarVal{66,0}));
    const VarVal w(v);
@@ -82,5 +82,13 @@ int main(const int argc, const char* const argv[]) {
 
   assert(eqp(read_genlits("0:0 5:77 -1:-1"), {{}, {5,77}, totsingvv}));
   assert(eqp(read_optgenlits(" 0:3 \n 3:66  -2:-2 0"), {{0,3}, {3,66}, {singvar-1,singval-1}}));
+
+  {assert(eqp(std::ranges::to<std::vector<VarVal>>(
+                  make_VarVal_range(3,4,6)),
+              {{3,4},{3,5}}));
+   assert(std::is_sorted(VarVal_it({0,3}), VarVal_it({0,10})));
+   const std::vector<VarVal> C(VarVal_it({2,4}), VarVal_it({2,7}));
+   assert(eqp(C, {{2,4},{2,5},{2,6}}));
+  }
 
 }
