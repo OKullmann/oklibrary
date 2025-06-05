@@ -44,6 +44,11 @@ namespace GenClauses {
     GClause(const size_type count, const GL::VarVal& x)
       : C(count,x) {}
     GClause(gclause_t C) noexcept : C(std::move(C)) {}
+    template <class RAN>
+    // GCC 14.3 ERROR: constructor using std::from_range not implemented:
+    // GClause(std::from_range_t, RAN&& r) : C(std::from_range, r) {}
+    GClause(std::from_range_t, RAN&& r) :
+      C(std::ranges::to<gclause_t>(std::forward<RAN>(r))) {}
     GClause(const std::initializer_list<GL::VarVal> init)
       : C(init) {}
 
@@ -150,6 +155,7 @@ namespace GenClauses {
   static_assert(std::ranges::random_access_range<GClause>);
   static_assert(std::ranges::sized_range<GClause>);
   static_assert(std::ranges::contiguous_range<GClause>);
+
 
   bool totsing(const GClause& C) noexcept {
     return C == GClause{{GL::totsingvv}};

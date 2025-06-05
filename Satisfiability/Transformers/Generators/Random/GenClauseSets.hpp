@@ -103,11 +103,19 @@ namespace GenClauseSets {
     gclauseset_t F;
     domsizes_t dom;
 
-    explicit constexpr GClauseList() noexcept = default;
+    constexpr GClauseList() noexcept = default;
     explicit GClauseList(gclauseset_t F0)
       : F(std::move(F0)), dom(dom_sizes(F)) {}
-    explicit GClauseList(gclauseset_t F0, domsizes_t dom0) noexcept :
-    F(std::move(F0)), dom(std::move(dom0)) {}
+    GClauseList(gclauseset_t F0, domsizes_t dom0) noexcept
+      : F(std::move(F0)), dom(std::move(dom0)) {}
+    template <class RAN>
+    // GCC 14.3 ERROR: constructor using std::from_range not implemented:
+    // GClauseList(std::from_range_t, RAN&& r) : F(std::from_range, r), dom(dom_sizes(F)) {}
+    GClauseList(std::from_range_t, RAN&& r)
+      : F(std::ranges::to<gclauseset_t>(std::forward<RAN>(r))),
+        dom(dom_sizes(F)) {}
+    GClauseList(const std::initializer_list<GC::GClause> init)
+      : F(init), dom(dom_sizes(F)) {}
 
     constexpr var_t n() const noexcept { return dom.size(); }
     constexpr count_t c() const noexcept { return F.size(); }

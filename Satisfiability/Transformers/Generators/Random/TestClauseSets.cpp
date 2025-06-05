@@ -8,6 +8,7 @@ License, or any later version. */
 #include <iostream>
 #include <string_view>
 #include <sstream>
+#include <set>
 
 #include <cassert>
 
@@ -21,8 +22,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.7",
-        "25.5.2025",
+        "0.5.8",
+        "5.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Random/TestClauseSets.cpp",
@@ -348,6 +349,10 @@ int main(const int argc, const char* const argv[]) {
    const auto D(C);
    assert(D == C);
   }
+  {typedef std::set<VarVal> lset;
+   assert(GClause(std::from_range, lset{}) == GClause{});
+   assert((GClause(std::from_range, lset{{2,2},{1,1}}) == GClause{{1,1},{2,2}}));
+  }
 
   {assert((GClause{{0,1},{1,1},{1,2},{2,3}}.is_sorted()));
    assert((not GClause{{0,1},{1,1},{1,0},{2,3}}.is_sorted()));
@@ -436,9 +441,14 @@ int main(const int argc, const char* const argv[]) {
    static_assert(F == F);
    static_assert(F == GClauseList{});
    assert(F == GClauseList({}));
-   assert(F == GClauseList{{}});
+   assert(F == GClauseList{});
    assert(F == GClauseList({},{}));
-   assert((F == GClauseList{{},{}}));
+  }
+
+  {typedef std::set<GClause> cls;
+   assert(eqp(GClauseList(std::from_range, cls{}), {}));
+   assert(eqp(GClauseList(std::from_range, cls{{{1,2},{3,4}}, {{0,0},{1,1}}}),
+              {{{0,0},{1,1}}, {{1,2},{3,4}}}));
   }
 
   {constexpr GClauseList F0;
