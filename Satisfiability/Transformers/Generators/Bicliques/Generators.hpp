@@ -282,47 +282,41 @@ namespace Generators {
     if (not opt)
       throw std::invalid_argument(std::string("Generators::create: option=")
                                   + argv[1]);
-
+    using FloatingPoint::toUInt; using std::to_string;
+    const std::string err = "Generators::create:";
     const Types t = opt.value();
     switch (t) {
     case Types::clique : {
       if (argc < 3)
-        throw std::invalid_argument("Generators::create:clique: argc=2");
-      const size_t N{FloatingPoint::toUInt(argv[2])};
+        throw std::invalid_argument(err + "clique: argc=2");
+      const size_t N{toUInt(argv[2])};
       return clique(N);
     }
     case Types::biclique : {
       if (argc < 4)
-        throw std::invalid_argument("Generators::create:biclique: argc=" +
-                                    std::to_string(argc));
-      const size_t N{FloatingPoint::toUInt(argv[2])};
-      const size_t M{FloatingPoint::toUInt(argv[3])};
+        throw std::invalid_argument(err + "biclique: argc=" + to_string(argc));
+      const size_t N{toUInt(argv[2])}, M{toUInt(argv[3])};
       return biclique(N,M);
     }
     case Types::cycle : {
       if (argc < 3)
-        throw std::invalid_argument("Generators::create:cycle: argc=" +
-                                    std::to_string(argc));
-      const size_t N{FloatingPoint::toUInt(argv[2])};
+        throw std::invalid_argument(err + "cycle: argc=" + to_string(argc));
+      const size_t N{toUInt(argv[2])};
       return cycle(N);
     }
     case Types::crown : {
       if (argc < 3)
-        throw std::invalid_argument("Generators::create:crown: argc=2");
+        throw std::invalid_argument(err + "crown: argc=2");
       const size_t N{FloatingPoint::toUInt(argv[2])};
       return crown(N);
     }
     case Types::grid : {
       if (argc < 4)
-        throw std::invalid_argument("Generators::create:grid: argc=" +
-                                    std::to_string(argc));
-      const size_t N{FloatingPoint::toUInt(argv[2])};
-      const size_t M{FloatingPoint::toUInt(argv[3])};
+        throw std::invalid_argument(err + "grid: argc=" + to_string(argc));
+      const size_t N{toUInt(argv[2])}, M{toUInt(argv[3])};
       return grid(N,M);
     }}
-    assert(0);
-    throw std::range_error("Generators::create: UNKNOWN t="
-                           + std::to_string(int(t)));
+    throw std::range_error(err + " UNKNOWN t=" + to_string(int(t)));
   }
 
 }
