@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- Copyright 2012 Oliver Kullmann -->
+<!-- This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+
+  <head>
+    <title> "Good" SAT representations </title>
+    <meta name="author" content="Oliver Kullmann" />
+    <meta name="description" content="Good SAT representations" />
+    <meta name="robot" content="all" />
+    <meta http-equiv="content-type" content="text/html" />
+    <meta http-equiv="charset" content="utf-8" />
+  </head>
+
+  <body>
+
+    <h1> "Good" SAT representations </h1>
+
+
+   <ul>
+      <li> This page gives an overview of investigations into "good"
+        <a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">
+          SAT
+        </a>
+        representations:</a>
+      </li>
+      <li> Relevant modules within the OKlibrary:
+        <ul>
+          <li> In module
+            <em>Experimentation/Investigations/BooleanFunctions</em>
+            we document our investigations into representations
+            of boolean functions.
+          </li>
+          <li> Good representations for cryptographic ciphers:
+            <ul>
+              <li> In module
+                <em>Experimentation/Investigations/Cryptography</em>
+                we document our investigations into translations of
+                cryptographic ciphers such as AES and DES.
+              </li>
+              <li> In module
+                <em>ComputerAlgebra/Cryptology </em>
+                we provide functions at Maxima-level related to cryptographic ciphers. </li>
+              </li>
+            </ul>
+          </li>
+          <li> In module
+            <em>Satisfiability/Reductions</em>
+            we provide tools for computing reductions such as
+            (generalised-)unit-clause-propagation.
+          </li>
+          <li> There are also various C++ implementations of tools and generators. </li>
+        </ul>
+      </li>
+    </ul>
+
+
+    <h2> Hardness and boolean function representations </h2>
+
+    <ul>
+      <li> The notion of hardness for unsatisfiable clause-sets was originally introduced in
+        <a href="http://cs.swan.ac.uk/~csoliver/papers.html#GenH1999">
+          Investigating a general hierarchy of polynomially decidable classes of CNF's based on short tree-like resolution proofs
+        </a>
+        and generalised in
+        <a href="http://cs.swan.ac.uk/~csoliver/papers.html#UpLoB2004">
+           Upper and lower bounds on the complexity of generalized resolution and generalized constraint satisfaction problems
+        </a>.
+      </li>
+      <li> See
+        <a href="http://cs.swan.ac.uk/~csoliver/papers.html#SLUR2012Leicester"> slides </a>
+        for a talk OK gave in the
+        <a href="http://www2.le.ac.uk/departments/computer-science/news/researchevents/external/towards-a-theory-of-good-sat-representations">
+          Computer Science Seminar (Leicester)
+        </a>
+        May 2012 on initiating a theory of "good SAT representations", as a kind of "knowledge representation for SAT solvers" with the notion of hardness as a theoretical tool.
+      </li>
+      <li> The associated technical report is
+        <a href="http://arxiv.org/abs/1204.6529">
+          Generalising unit-refutation completeness and SLUR via nested input resolution
+        </a>.
+      </li>
+    </ul>
+
+
+    <h2> Good representations in cryptography </h2>
+
+    <ul>
+      <li> The
+        <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">
+          Advanced Encryption Standard
+        </a>
+        and
+        <a href="http://en.wikipedia.org/wiki/Data_Encryption_Standard">
+          Data Encryption Standard
+        </a>
+        are popular encryption ciphers. </li>
+      <li> We try to find good translations of AES and DES by translating the components of the ciphers using representations with low hardness (see above). </li>
+      <li> Initial investigations were conducted in
+        <a href="http://cs.swan.ac.uk/~csmg/Hardness/2011_CPPerugia.pdf">
+          Towards a better understanding of hardness
+        </a>
+        (<a href="http://people.cs.kuleuven.be/~guido.tack/dp2011/">CP 2011 Doctoral Program</a>) and
+        <a href="http://cs.swan.ac.uk/~csmg/Hardness/2011_UnderstandingSATTranslations.pdf">
+          Towards a better understanding of SAT translations
+        </a>
+        (<a href="http://www.cs.swansea.ac.uk/lcc2011/">LCC 2011</a>) into the effect of using "soft" (low hardness) representations for components of the AES and DES ciphers on the performance of SAT solvers on cryptographic key discovery problems.
+      </li>
+      <li> Several instances for the
+        <a href="m4_SHELL(rel_sat2011competition_okl)">
+          SAT 2011 competition
+        </a>.
+      </li>
+    </ul>
+
+    <hr />
+      <address>
+        <a href="http://www.cs.swan.ac.uk/~csoliver/">Oliver Kullmann</a>
+      </address>
+      <p>
+        <!-- Created: Fri May 18 10:00:34 BST 2010 -->
+        <!-- hhmts start -->
+Last modified: Mon June 12 11:41:10 GMT 2012
+<!-- hhmts end -->
+      </p>
+
+  </body>
+</html>
