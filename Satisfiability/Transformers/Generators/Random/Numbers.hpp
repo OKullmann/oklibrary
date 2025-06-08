@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
-/* Copyright 2018, 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2018, 2019, 2020, 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -92,9 +92,12 @@ License, or any later version. */
 
     - Prob64 is a simple type for precise probabilities, based on fractions of
       unsigned 64-bit integers:
+     - output-streaming using "/"
      - toProb64(string_view) creates std::optional(Prob64)
      - pair64 is convertible to and from Prob64 (the latter explicitly; there
-       is a non-implicit conversion to FloatingPoint80).
+       is a non-implicit conversion to FloatingPoint80)
+     - comp(Prob64 x) -> Prob64 returns 1 - x.
+
 
 TODOS:
 
@@ -590,14 +593,23 @@ namespace RandGen {
   static_assert(Prob64(1,1).constant());
   static_assert(not Prob64(1,2).constant());
   static_assert(Prob64(4,8) == Prob64(1,2));
+  static_assert(Prob64(0,1) == Prob64(0,2));
+  static_assert(Prob64(1,1) == Prob64(3,3));
+  static_assert(Prob64(0,1) != Prob64(1,1));
 
   inline std::ostream& operator <<(std::ostream& out, const Prob64 p) {
     return out << p.nom() << "/" << p.den();
   }
 
-  static_assert(Prob64(0,1) == Prob64(0,2));
-  static_assert(Prob64(1,1) == Prob64(3,3));
-  static_assert(Prob64(0,1) != Prob64(1,1));
+  // Return 1-p :
+  constexpr Prob64 comp(const Prob64 p) noexcept {
+    return {p.den() - p.nom(), p.den()};
+  }
+  static_assert(comp({0,1}) == Prob64{1,1});
+  static_assert(comp({1,1}) == Prob64{0,1});
+  static_assert(comp({1,2}) == Prob64{1,2});
+  static_assert(comp({1,3}) == Prob64{2,3});
+
 
   /* Constructing a Prob64 p from a string-view s:
       - s must be of the form "nom/den";
