@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.3.2019 (Swansea)
-/* Copyright 2019, 2021, 2023 Oliver Kullmann
+/* Copyright 2019, 2021, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,68 +8,33 @@ License, or any later version. */
 /* Algorithms based on random numbers
 
     - shuffle for shuffling a sequence:
-        shuffle(RAI begin, RAI end, randgen_t&(&) g)
-        shuffle(RAI begin, RAI end, RandGen_t&(&) g)
-        shuffle_seed(RAI begin, RAI end, const vec_eseed_t& seeds)
+        - shuffle(RAI begin, RAI end, randgen_t&(&) g)
+        - shuffle(RAI begin, RAI end, RandGen_t&(&) g)
+        - shuffle_seed(RAI begin, RAI end, const vec_eseed_t& seeds)
+
     - random_permutation for creating a random permutation of size N:
-        random_permutation(gen_uint_t N, RandGen_t& g) -> VEC
-        random_permutation(gen_uint_t N, const vec_eseed_t& seeds) -> VEC
+        - random_permutation(gen_uint_t N, RandGen_t& g) -> VEC
+        - random_permutation(gen_uint_t N, const vec_eseed_t& seeds) -> VEC
+
     - Algorithm choose_kn for choosing k random numbers from 0, ..., n-1:
-        choose_kn(gen_uint_t k, gen_uint_t n, RandGen_t&(&) g, bool sorted)
-        -> vec_eseed_t
+        - choose_kn(gen_uint_t k, gen_uint_t n, RandGen_t&(&) g, bool sorted)
+          -> vec_eseed_t
+          (see Bicliques::Algorithms::erase_krandom for removing k
+          random elements from a vector)
+        - choose_kn_inclusion(k,n,g) : this helper-function always makes k
+          calls to g, while the above form makes n-k calls to g if that
+          number is smaller.
 
 TODOS:
 
-1. Implement "choose k from n": choose_kn(k, n, g)
-
-UPDATE the following (transfer to documentation)
-Plus implement special case k=3.
-
-  - Just giving n, this means "from 1,...,n". DONE (CHANGED)
-  - Alternatively a vector v (length at least k) is given, from
-    which to choose. Though this could be handled by just choosing
-    the indices. DONE (NO)
-  - So perhaps just starting with parameter n, which means {0, ..., n-1}. DONE
-  - DONE The output is most naturally a vector; perhaps we just fix gen_uint_t
-    as the index-type (of n). The output is sorted.
-  - DONE There is a choice of including versus including: choosing 3 from 1000
-    the obvious choice is including, while choosing 997 from 1000 the
-    obvious choice is excluding. The splitting point in this example is
-    500 from 1000, where here the choice doesn't matter.
-
-    The point is here that the number of random choices is to be minimised.
-  - It seems natural to provide a RandGen_t via reference, for using the
-    service once. DONE
-  - But there are also natural applications where k, n are fixed, and
-    where a stream of choices is to be done.
-  - The main loop is a choice of k numbers s_1,...,s_k obtaind from
-    UniformRange, for n, n-1, ..., n-k+1 (either for inclusion or exclusion).
-  - Then a helper-function transforms this vector into the result-vector.
-  - In the inclusion-case, the first number obtained is s_1, the second is
-    s_2 applied to {0,...,n-1} - {s_1}, and so on.
-
-    So for each s_i, one makes a binary search with the s_1, ..., s_{i-1},
-    and according to the position found one substracts from s_i.
-  - For a given vector from which to chose, one can just doing it as in
-    shuffle, just considering k steps. But in general n is much larger
-    than k, and so creating the vector would be too costly.
-
-    However one needs actually to store only the changed elements, which
-    could be done in a std::map. That is, the algorithm to transform
-    s_1, ..., s_k is as follows: the first number is s_1, and implicitly
-    s_1 is replaced by n-1. If s_2 != s1, then s_2 is the next number,
-    and we implicitly replace s_2 by n-2; otherwise the next number is n-1.
-    and s_1 is implicitly replaced by n-2. "Implicitly replaced" can just
-    mean using std::map m: Initially m is empty. The algorithm for s_i
-    determines whether s_i is in m: if no, then the chosen number is s_i,
-    otherwise it is m[s_i]. In both cases, then update m[s_i] = n-i.
-
-    One could use a round-counter and a static array for m, which would
-    guarantee constant-time lookup. (This doesn't yield the chosen elements
-    in sorted order.) However std::map should be sufficient.
-  - In the exclusion-case, one could select n-k elements, and then leave
-    them out in the result vector. This can be done by first override the
-    values at the chosen index with n, and then remove those elements = n. DONE
+1. Improve choose_kn(k, n, g):
+  - Implement special case k=3; first creating test-cases to make
+    sure that the current semantics are maintained.
+  - For k very large one could implement M as the index-vector of length n,
+    with value 0 meaning "not in domain" (no update will assign this value).
+    - One needed computational experiments to check whether this yields
+      improvements (and for what k).
+  - Possibly more attractive is to use a hash-map for M.
 
 */
 
@@ -146,66 +111,80 @@ namespace RandGen {
   /* Helper function, choosing k from {0,...,n-1} by inclusion,
      without sorting; for k = n thus a permutation of 0,...,n-1 is returned,
      and in general a uniform random permutation of the uniform random
-     subset is returned:
+     subset is returned.
+
+     The algorithms maintains the bijective map P_i with
+     domain id_{0,...,n-i-1}, for i = 0, ..., k-1, where range(P_i) is the set
+     of the remaining elements from {0,...,n-1} to be chosen. In each round a
+     random element choice from the domain is chosen, using P_i(choice) for the
+     result, and P_i is updated in case choice is not the last element, mapping
+     it now to that last element.
+     P_0 is the identity, and the implementation actually only mantains the
+     changes from the identity in map M_i (so M_0 is the empty map).
   */
   vec_eseed_t choose_kn_inclusion(const gen_uint_t k, const gen_uint_t n,
                                   RandGen_t& g) {
     if (k > n or k == 0) return {};
     using U = UniformRange<RandGen_t>;
     if (k == 1) return n == 1 ? vec_eseed_t{0} : vec_eseed_t{U(g, n)()};
-    if (k == 2) {
+    else if (k == 2) {
       const gen_uint_t a = U(g, n)(), b0 = U(g, n-1)(), b = b0==a ? n-1 : b0;
       return {a, b};
     }
-    vec_eseed_t res;
-    res.reserve(k);
-    std::map<gen_uint_t, gen_uint_t> M;
-    {const auto first = U(g, n)();
-     res.push_back(first);
-     if (first != n-1) M.insert({first, n-1});
-    }
-    for (gen_uint_t i = 1; i < k; ++i) {
-      const auto end = M.end();
-      const auto it_current = M.find(n-i-1);
-      const auto current = it_current == end ? n-i-1 : it_current->second;
-      const auto choice = U(g, n-i)();
-      const auto it_choice = M.find(choice);
-      if (it_choice == end) {
-        res.push_back(choice);
-        if (choice != n-i-1) M.insert({choice, current});
+    else {
+      vec_eseed_t res;
+      res.reserve(k);
+      std::map<gen_uint_t, gen_uint_t> M; // the changes to the identity
+      {const auto first_choice = U(g, n)();
+        res.push_back(first_choice);
+        if (first_choice != n-1) M.insert({first_choice, n-1});
       }
-      else {
-        res.push_back(it_choice -> second);
-        if (choice != n-i-1) it_choice -> second = current;
+      for (gen_uint_t i = 1; i < k; ++i) {
+        const auto end = M.end();
+        const auto it_current = M.find(n-i-1);
+        // "current" is the value of at the current end of the domain of P_i
+        const auto current = it_current == end ? n-i-1 : it_current->second;
+        const auto choice = U(g, n-i)();
+        const auto it_choice = M.find(choice);
+        if (it_choice == end) { // no previous selection of "choice"
+          res.push_back(choice);
+          if (choice != n-i-1) M.insert({choice, current});
+        }
+        else { // "choice" previously selected, and the mapping is used, and
+          // updated if needed:
+          res.push_back(it_choice -> second);
+          if (choice != n-i-1) it_choice -> second = current;
+        }
       }
+      return res;
     }
-    return res;
   }
-  // Now choosing inclusion or exclusion, depending on k; always sorted
-  // in the latter case, in the former case only if parameter set;
-  // so different from the inclusion-form, here "sorted=false" only
-  // means roughly "unspecified order" ("don't spend time on sorting"):
+  // Now choosing inclusion or exclusion, depending on k.
+  // If sorted is true, then the result is sorted (in ascending order),
+  // otherwise the order is unspecified:
   vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
                         RandGen_t& g, const bool sorted = false) {
     if (k > n or k == 0) return {};
-    if (k == 1) return choose_kn_inclusion(1, n, g);
-    if (k > n/2) { // the exclusion-case
+    else if (k == 1) return choose_kn_inclusion(1, n, g);
+    else if (k > n/2) { // the exclusion-case
       vec_eseed_t res(n); std::iota(res.begin(), res.end(), 0);
       if (k == n) return res;
       for (const auto i : choose_kn_inclusion(n-k, n, g)) res[i] = n;
       res.erase(std::remove(res.begin(), res.end(), n), res.end());
       return res;
     }
-    if (k == 2) {
+    else if (k == 2) {
       using U = UniformRange<RandGen_t>;
       const gen_uint_t a = U(g, n)(), b0 = U(g, n-1)();
       return b0 == a ? vec_eseed_t{a, n-1} :
         (sorted and b0 < a ? vec_eseed_t{b0, a} : vec_eseed_t{a, b0});
     }
-    if (not sorted) return choose_kn_inclusion(k, n, g);
-    auto res = choose_kn_inclusion(k, n, g);
-    std::ranges::sort(res);
-    return res;
+    else { // 3 <= k <= n/2 :
+      if (not sorted) return choose_kn_inclusion(k, n, g);
+      auto res = choose_kn_inclusion(k, n, g);
+      std::ranges::sort(res);
+      return res;
+    }
   }
   vec_eseed_t choose_kn(const gen_uint_t k, const gen_uint_t n,
                         RandGen_t&& g, const bool sorted = false) {
