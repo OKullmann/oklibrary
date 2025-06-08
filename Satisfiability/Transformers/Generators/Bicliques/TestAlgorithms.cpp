@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.9",
-        "5.6.2025",
+        "0.3.10",
+        "7.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -256,6 +256,27 @@ int main(const int argc, const char* const argv[]) {
    v = std::ranges::to<v_t>(make_uint_iterator_range(0,11));
    erase_indices(v, v_t{0,2,4,7,9});
    assert(eqp(v, {1,3,5,6,8,10}));
+  }
+
+  {RandGen::RandGen_t g;
+   typedef std::vector<unsigned> v_t;
+   v_t V;
+   erase_krandom(V, 0, g); erase_krandom(V,1,g);
+   assert(g == RandGen::RandGen_t{});
+   V = {0};
+   erase_krandom(V,1,g);
+   assert(V.empty());
+   assert(g == RandGen::RandGen_t{});
+   V.resize(10);
+   std::ranges::iota(V,0);
+   erase_krandom(V, 4, g);
+   assert(eqp(V, {3,4,5,6,8,9}));
+   erase_krandom(V, 3, g);
+   assert(eqp(V, {3,4,6}));
+   erase_krandom(V, 2, g);
+   assert(eqp(V, {6}));
+   erase_krandom(V,1,g);
+   assert(V.empty());
   }
 
   {typedef std::vector<unsigned> v_t;

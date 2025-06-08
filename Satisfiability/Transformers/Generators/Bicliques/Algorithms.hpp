@@ -176,6 +176,7 @@ TODOS:
 #include <cstddef>
 
 #include <Numerics/NumTypes.hpp>
+#include <Transformers/Generators/Random/Algorithms.hpp>
 
 namespace Algorithms {
 
@@ -635,6 +636,16 @@ namespace Algorithms {
     for (; current != size; ++current)
       v[current - dist] = std::move(v[current]);
     v.erase(v.end() - dist, v.end());
+  }
+
+  template <class T, class Alloc>
+  void erase_krandom(std::vector<T,Alloc>& v,
+                     const typename std::vector<T,Alloc>::size_type k,
+                     RandGen::RandGen_t& g) {
+    if (const auto size = v.size(); k >= size)
+      v.clear();
+    else
+      erase_indices(v, RandGen::choose_kn(k,size,g,true));
   }
 
 
