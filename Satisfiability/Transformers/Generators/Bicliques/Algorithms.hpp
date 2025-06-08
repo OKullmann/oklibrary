@@ -11,7 +11,7 @@ License, or any later version. */
 
    Iterators and ranges:
 
-   - uint_iterator_type<UINT> is a random access iterator wrapping an
+   - uint_iterator_t<UINT> is a random access iterator wrapping an
      element of UINT
    - make_uint_iterator_range<UINT>(UINT a, UINT b) creates a range of
      elements from a to b (which for b < a "wrappes around" !).
@@ -86,6 +86,11 @@ License, or any later version. */
      to the erased slots)
 
    - erase_indices(vec&, range-of-indices) (removing the given indices)
+
+   - erase_krandom(vec&, k, RandGen_t&) (removing k elements at random)
+   - erase_prandom(vec&, Prob64 p, RandGen_t&) (removing with probability p)
+   - keep_krandom(vec&, k, RandGen_t&) (now keeping k elements at random)
+   - keep_prandom(vec&, Prob64 p, RandGen_t&) (keeping with probability p)
 
 
    Finding equal elements:
@@ -638,6 +643,7 @@ namespace Algorithms {
     v.erase(v.end() - dist, v.end());
   }
 
+  // Erases k random elements:
   template <class T, class Alloc>
   void erase_krandom(std::vector<T,Alloc>& v,
                      const typename std::vector<T,Alloc>::size_type k,
@@ -647,7 +653,34 @@ namespace Algorithms {
     else
       erase_indices(v, RandGen::choose_kn(k,size,g,true));
   }
-
+  // Keeps k random elements:
+  template <class T, class Alloc>
+  void keep_krandom(std::vector<T,Alloc>& v,
+                    const typename std::vector<T,Alloc>::size_type k,
+                    RandGen::RandGen_t& g) {
+    if (const auto size = v.size(); k >= size)
+      return;
+    else if (k == 0)
+      v.clear();
+    else
+      erase_krandom(v, size - k, g);
+  }
+  // Erases elements with probability p:
+  template <class T, class Alloc>
+  void erase_prandom(std::vector<T,Alloc>& v,
+                     const RandGen::Prob64 p,
+                     RandGen::RandGen_t& g) {
+    RandGen::Bernoulli B(g,p);
+    const auto pred = [&B](const auto&){return B();};
+    std::erase_if(v, pred);
+  }
+  // Keeps elements with probability p:
+  template <class T, class Alloc>
+  void keep_prandom(std::vector<T,Alloc>& v,
+                     const RandGen::Prob64 p,
+                     RandGen::RandGen_t& g) {
+    erase_prandom(v, comp(p), g);
+  }
 
   // Using only ==:
   typedef std::vector<std::vector<FloatingPoint::UInt_t>> vec_equivs_t;

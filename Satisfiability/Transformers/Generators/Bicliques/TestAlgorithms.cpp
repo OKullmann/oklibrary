@@ -25,8 +25,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.3.10",
-        "7.6.2025",
+        "0.4.0",
+        "8.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestAlgorithms.cpp",
@@ -277,6 +277,61 @@ int main(const int argc, const char* const argv[]) {
    assert(eqp(V, {6}));
    erase_krandom(V,1,g);
    assert(V.empty());
+   V.resize(10);
+   std::ranges::iota(V,0);
+   keep_krandom(V,100,g);
+   assert(V == std::ranges::to<v_t>(make_uint_iterator_range<unsigned>(0,10)));
+   keep_krandom(V,0,g);
+   assert(V.empty());
+   V.resize(10);
+   std::ranges::iota(V,0);
+   keep_krandom(V,4,g);
+   assert(eqp(V, {4,5,6,7}));
+   keep_krandom(V,3,g);
+   assert(eqp(V, {4,5,7}));
+   keep_krandom(V,1,g);
+   assert(eqp(V, {4}));
+  }
+  {RandGen::RandGen_t g{123,987};
+   typedef std::vector<unsigned> v_t;
+   v_t V;
+   erase_prandom(V, {0,1}, g);
+   assert(V.empty());
+   assert((g == RandGen::RandGen_t{123,987}));
+   V.resize(10);
+   std::ranges::iota(V,0);
+   erase_prandom(V, {1,2}, g);
+   assert(eqp(V, {1,3,4,6,7}));
+   constexpr unsigned size = 20;
+   const v_t V0(uint_iterator_t<unsigned>(1234),
+                uint_iterator_t<unsigned>(1234+size));
+   assert(V0.size() == size);
+   v_t count(size+1);
+   const auto experiment = [&g, &V0, &count]
+     (const RandGen::Prob64 p, const unsigned N = 1000,
+      const bool erase = true) noexcept {
+     std::ranges::fill(count, 0);
+     for (const auto _ : std::views::repeat(0, N)) {
+       v_t V(V0);
+       if (erase) erase_prandom(V, p, g);
+       else keep_prandom(V, p, g);
+       ++count[V.size()];
+     }};
+   experiment({3,4});
+   assert(eqp(count,
+          {1,23,61,133,199,228,162,91,59,32,9,2,0,0,0,0,0,0,0,0,0}));
+   experiment({1,4});
+   assert(eqp(count,
+        {0,0,0,0,0,0,0,0,1,4,10,35,56,114,163,190,218,120,72,14,3}));
+   experiment({1,4}, 10000);
+   assert(eqp(count,
+     {0,0,0,0,0,0,0,1,8,27,81,284,714,1153,1642,2000,1884,1277,685,205,39}));
+   experiment({3,4}, 1000, false);
+   assert(eqp(count,
+        {0,0,0,0,0,0,0,0,0,2,11,25,65,129,173,191,188,132,58,25,1}));
+   experiment({1,4}, 1000, false);
+   assert(eqp(count,
+          {7,19,69,135,193,193,153,118,64,26,16,6,0,1,0,0,0,0,0,0,0}));
   }
 
   {typedef std::vector<unsigned> v_t;
