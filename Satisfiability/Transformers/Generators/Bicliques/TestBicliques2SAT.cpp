@@ -23,8 +23,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.10.3",
-        "20.5.2025",
+        "0.10.4",
+        "10.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestBicliques2SAT.cpp",
@@ -245,7 +245,7 @@ int main(const int argc, const char* const argv[]) {
 
   const auto test_downwards = [](const BC2SAT::graph_t& G, const size_t bcc,
                                  PT pt = PT::cover) {
-    for (int sb0 = 0; sb0 <= int(SB::none); ++sb0) {
+    for (int sb0 = 0; sb0 < size(SB{}); ++sb0) {
       const SB sb = SB(sb0);
       for (int ss0 = 0; ss0 <= int(SS::without); ++ ss0) {
         const SS ss = SS(ss0);

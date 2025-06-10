@@ -414,17 +414,27 @@ namespace Bicliques2SAT {
   enum class SB { redumis=0,
                   sorteda=1, sortedm=2, sortedi=3,
                   basic=4,
-                  none=5 }; // SB::none used in TestBicliques2SAT as loop-bound
+                  none=5 };
+  constexpr int size(SB) noexcept { return int(SB::none) + 1; }
   enum class SS { with=0, without=1 }; // symmetry-breaking by edge-restriction
+  constexpr int size(SS) noexcept { return int(SS::without) + 1; }
   enum class UB { fastvc=0, simple=1}; // upper-bound computation
+  constexpr int size(UB) noexcept { return int(UB::simple) + 1; }
   enum class PT { cover=0, partition1=1, partition2=2 }; // problem type
+  constexpr int size(PT) noexcept { return int(PT::partition2) + 1; }
   enum class DI { downwards=0, upwards=1, binary_search=2,
                   none=3 }; // search direction
+  constexpr int size(DI) noexcept { return int(DI::none) + 1; }
   enum class SO { none=0, nopre=1 }; // solver options
+  constexpr int size(SO) noexcept { return int(SO::nopre) + 1; }
   enum class DC { with=0, without=1 }; // Dimacs-comments (or other comments)
+  constexpr int size(DC) noexcept { return int(DC::without) + 1; }
   enum class DP { with=0, without=1 }; // Dimacs-parameters
+  constexpr int size(DP) noexcept { return int(DP::without) + 1; }
   enum class CS { with=0, without=1 }; // clause-set
+  constexpr int size(CS) noexcept { return int(CS::without) + 1; }
   enum class BC { with=0, without=1 }; // biclique-list (or other results)
+  constexpr int size(BC) noexcept { return int(BC::without) + 1; }
 
   std::string solver_option(const SO so) {
     if (so == SO::nopre) return " -no-pre";
@@ -455,61 +465,61 @@ namespace Bicliques2SAT {
 namespace Environment {
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SB> {
-    static constexpr int size = int(Bicliques2SAT::SB::none)+1;
+    static constexpr int size = size(Bicliques2SAT::SB{});
     static constexpr std::array<const char*, size> string
     {"+sbred", "+sba", "+sbm", "+sbi", "+sb", "-sb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SS> {
-    static constexpr int size = int(Bicliques2SAT::SS::without)+1;
+    static constexpr int size = size(Bicliques2SAT::SS{});
     static constexpr std::array<const char*, size> string
     {"+ssb", "-ssb"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::UB> {
-    static constexpr int size = int(Bicliques2SAT::UB::simple)+1;
+    static constexpr int size = size(Bicliques2SAT::UB{});
     static constexpr std::array<const char*, size> string
     {"+fastvc", "-fastvc"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::PT> {
-    static constexpr int size = int(Bicliques2SAT::PT::partition2)+1;
+    static constexpr int size = size(Bicliques2SAT::PT{});
     static constexpr std::array<const char*, size> string
     {"cover", "partition1", "partition2"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DC> {
-    static constexpr int size = int(Bicliques2SAT::DC::without)+1;
+    static constexpr int size = size(Bicliques2SAT::DC{});
     static constexpr std::array<const char*, size> string
     {"+com", "-com"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DP> {
-    static constexpr int size = int(Bicliques2SAT::DP::without)+1;
+    static constexpr int size = size(Bicliques2SAT::DP{});
     static constexpr std::array<const char*, size> string
     {"+dp", "-dp"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::CS> {
-    static constexpr int size = int(Bicliques2SAT::CS::without)+1;
+    static constexpr int size = size(Bicliques2SAT::CS{});
     static constexpr std::array<const char*, size> string
     {"+trans", "-trans"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::BC> {
-    static constexpr int size = int(Bicliques2SAT::BC::without)+1;
+    static constexpr int size = size(Bicliques2SAT::BC{});
     static constexpr std::array<const char*, size> string
     {"+sol", "-sol"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::DI> {
-    static constexpr int size = int(Bicliques2SAT::DI::none)+1;
+    static constexpr int size = size(Bicliques2SAT::DI{});
     static constexpr std::array<const char*, size> string
     {"down", "up", "binsearch", "stationary"};
   };
   template <>
   struct RegistrationPolicies<Bicliques2SAT::SO> {
-    static constexpr int size = int(Bicliques2SAT::SO::nopre)+1;
+    static constexpr int size = size(Bicliques2SAT::SO{});
     static constexpr std::array<const char*, size> string
     {"defsolve", "nopre"};
   };
@@ -522,65 +532,65 @@ namespace Bicliques2SAT {
     case SB::sortedm : return out << "sorted-sb-multiplication";
     case SB::sortedi : return out << "greedy-sb";
     case SB::basic : return out << "basic-sb";
-    case SB::none : return out << "no-sb";
-    default : return out << "SB::UNKNOWN";}
+    case SB::none : return out << "no-sb";}
+    return out << "SB::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const SS s) {
     switch (s) {
     case SS::with : return out << "with-ssb";
-    case SS::without : return out << "without-ssb";
-    default : return out << "SS::UNKNOWN";}
+    case SS::without : return out << "without-ssb";}
+    return out << "SS::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const UB u) {
     switch (u) {
     case UB::fastvc : return out << "fast-vc";
-    case UB::simple : return out << "trivial-vc";
-    default : return out << "UB::UNKNOWN";}
+    case UB::simple : return out << "trivial-vc";}
+    return out << "UB::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const PT s) {
     switch (s) {
     case PT::cover : return out << "cover";
     case PT::partition1 : return out << "partition-linear";
-    case PT::partition2 : return out << "partition-quadratic";
-    default : return out << "PT::UNKNOWN";}
+    case PT::partition2 : return out << "partition-quadratic";}
+    return out << "PT::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const DC s) {
     switch (s) {
     case DC::with : return out << "with-comments";
-    case DC::without : return out << "without-comments";
-    default : return out << "DC::UNKNOWN";}
+    case DC::without : return out << "without-comments";}
+    return out << "DC::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const DP s) {
     switch (s) {
     case DP::with : return out << "with-parameters";
-    case DP::without : return out << "without-parameters";
-    default : return out << "DP::UNKNOWN";}
+    case DP::without : return out << "without-parameters";}
+    return out << "DP::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const CS s) {
     switch (s) {
     case CS::with : return out << "with-translation";
-    case CS::without : return out << "without-translation";
-    default : return out << "CS::UNKNOWN";}
+    case CS::without : return out << "without-translation";}
+    return out << "CS::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const BC b) {
     switch (b) {
     case BC::with : return out << "with-solution";
-    case BC::without : return out << "without-solution";
-    default : return out << "BC::UNKNOWN";}
+    case BC::without : return out << "without-solution";}
+    return out << "BC::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const DI d) {
     switch (d) {
     case DI::downwards : return out << "downwards";
     case DI::upwards : return out << "upwards";
     case DI::binary_search : return out << "binsearch";
-    case DI::none : return out << "stationary";
-    default : return out << "DI::UNKNOWN";}
+    case DI::none : return out << "stationary";}
+    return out << "DI::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const SO s) {
     switch (s) {
     case SO::none : return out << "default-solver";
-    case SO::nopre : return out << "-no-pre";
-    default : return out << "SO::UNKNOWN";}
+    case SO::nopre : return out << "-no-pre";}
+    return out << "SO::UNKNOWN";
   }
 
 

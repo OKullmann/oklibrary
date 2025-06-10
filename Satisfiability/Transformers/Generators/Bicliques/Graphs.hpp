@@ -303,6 +303,7 @@ namespace Graphs {
 
   // Graph-types:
   enum class GT { dir = 0, und = 1 };
+  constexpr int size(GT) noexcept { return int(GT::und) + 1; }
   constexpr bool valid(const GT t) noexcept {
     return t==GT::und or t==GT::dir;
   }
@@ -336,6 +337,7 @@ namespace Graphs {
     dimacs = 1,
     metis = 2
   };
+  constexpr int size(GrFo) noexcept { return int(GrFo::metis) + 1; }
   constexpr bool valid(const GrFo f) noexcept {
     return f==GrFo::psalf or f==GrFo::dimacs or f==GrFo::metis;
   }
@@ -353,13 +355,13 @@ namespace Graphs {
 namespace Environment {
   template <>
   struct RegistrationPolicies<Graphs::GT> {
-    static constexpr int size = int(Graphs::GT::und)+1;
+    static constexpr int size = size(Graphs::GT{});
     static constexpr std::array<const char*, size> string
     {"dir", "und"};
   };
   template <>
   struct RegistrationPolicies<Graphs::GrFo> {
-    static constexpr int size = int(Graphs::GrFo::metis)+1;
+    static constexpr int size = size(Graphs::GrFo{});
     static constexpr std::array<const char*, size> string
     {"psalf", "dimacs", "metis"};
   };
@@ -368,15 +370,15 @@ namespace Graphs {
   std::ostream& operator <<(std::ostream& out, const GT t) {
     switch (t) {
     case GT::dir : return out << "directed";
-    case GT::und : return out << "undirected";
-    default : return out << "GT::UNKNOWN";}
+    case GT::und : return out << "undirected";}
+    return out << "GT::UNKNOWN";
   }
   std::ostream& operator <<(std::ostream& out, const GrFo f) {
     switch (f) {
     case GrFo::psalf : return out << "partial-string-adjacency";
     case GrFo::dimacs : return out << "Dimacs";
-    case GrFo::metis : return out << "METIS";
-    default : return out << "GrFo::UNKNOWN";}
+    case GrFo::metis : return out << "METIS";}
+    return out << "GrFo::UNKNOWN";
   }
 
 

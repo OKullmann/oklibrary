@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2019 (Swansea)
-/* Copyright 2019, 2020, 2021, 2022, 2023 Oliver Kullmann
+/* Copyright 2019, 2020, 2021, 2022, 2023, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,8 @@ License, or any later version. */
         class RegistrationPolicies
       that is, providing a partial specialisation, which includes
       strings for recognition in short and long form, and optionally
-      names for the whole policy (short and long form)
+      names for the whole policy (short and long form).
+      See Satisfiability/Transformers/Generators/Bicliques for examples.
 
      - class RegistrationPolicies (registration of size and strings)
      - function-template code(Policy) to return the underlying integral-value.
@@ -232,6 +233,9 @@ namespace Environment {
 
      So if P is a (scoped) enum, then the indices must be consecutively 0, ...,
      and they must be the indices used for the static "string".
+     Directly after the definition of P, the function size(P) should be
+     provided, returning the number of members of P (which is the int-index
+     of the largest element + 1).
   */
   // The "registration of policies", to be specialised:
   template <typename Policy> struct RegistrationPolicies;

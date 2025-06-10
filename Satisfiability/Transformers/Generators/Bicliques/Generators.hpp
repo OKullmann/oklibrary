@@ -65,11 +65,12 @@ namespace Generators {
 
 
   enum class Types { clique=0, biclique=1, cycle=2, crown=3, grid=4 };
+  constexpr int size(Types) noexcept { return int(Types::grid) + 1; }
 }
 namespace Environment {
   template <>
   struct RegistrationPolicies<Generators::Types> {
-    static constexpr int size = int(Generators::Types::grid)+1;
+    static constexpr int size = size(Generators::Types{});
     static constexpr std::array<const char*, size> string
     {"clique", "biclique", "cycle", "crown", "grid"};
   };
@@ -81,9 +82,8 @@ namespace Generators {
     case Types::biclique : return out << "biclique";
     case Types::cycle : return out << "cycle";
     case Types::crown : return out << "crown";
-    case Types::grid : return out << "grid";
-    default : return out << "Types::UNKNOWN";
-    }
+    case Types::grid : return out << "grid";}
+    return out << "Types::UNKNOWN";
   }
 
 
@@ -276,14 +276,13 @@ namespace Generators {
 
 
   AdjMapStr create(const int argc, const char* const argv[]) {
+    const std::string err = "Generators::create: ";
     if (argc < 2)
-      throw std::invalid_argument("Generators::create: no arguments");
+      throw std::invalid_argument(err + "no arguments");
     const auto opt = Environment::read<Types>(argv[1]);
     if (not opt)
-      throw std::invalid_argument(std::string("Generators::create: option=")
-                                  + argv[1]);
+      throw std::invalid_argument(err + "type=" + argv[1]);
     using FloatingPoint::toUInt; using std::to_string;
-    const std::string err = "Generators::create:";
     const Types t = opt.value();
     switch (t) {
     case Types::clique : {
