@@ -82,4 +82,6 @@
 /GRRG_debug
 /NBDPreduction
 /NBDPreduction_debug
+/NBGen
+/NBGen_debug
 /*.cnf
