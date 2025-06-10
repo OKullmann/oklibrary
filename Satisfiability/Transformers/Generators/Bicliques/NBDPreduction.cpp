@@ -13,14 +13,61 @@ TODOS:
 
 1. In the multi-clause-set-case, performing doting (and final un-doting) when
    running subsumption.
-    - The doting-variables perhaps are not registered with dom.
-    - Perhaps doting-variables have variable indices say >= 2^48, and use
+    - DONE (called spiking)
+      The doting-variables perhaps are not registered with dom.
+    - DONE Perhaps doting-variables have variable indices say >= 2^48, and use
       the singular variable (so produce singular literals).
 
 
 EXAMPLES:
 
-A larger example, testing commutativity-modulo-subsumption in the
+I Complete NB-CNFs
+
+First clause-sets:
+
+Bicliques> NBGen complete 4 3 1 | head -n 4
+n 4
+c 81
+0:0 1:0 2:0 3:0 0
+0:1 1:0 2:0 3:0 0
+Bicliques> NBGen complete 4 3 1 | NBDPreduction 2,3 0 0 > OUT
+Bicliques> NBGen complete 2 3 1 > OUT2
+Bicliques> diff OUT OUT2
+1,4c1
+< Cnc            4 81
+< Cred-cl        0 0
+< Cred-aeds      36 108 0 0
+< n 4
+---
+> n 2
+
+Now with multiplicity = 2:
+
+Bicliques> NBGen complete 4 3 2 | head -n 4
+n 4
+c 162
+0:0 1:0 2:0 3:0 0
+0:0 1:0 2:0 3:0 0
+Bicliques> NBGen complete 4 3 2 | NBDPreduction 2,3 0 0 > OUT
+Bicliques> NBGen complete 2 3 512 > OUT2
+Bicliques> diff OUT OUT2
+1,4c1
+< Cnc            4 162
+< Cred-cl        0 0
+< Cred-aeds      4824 378 0 0
+< n 4
+---
+> n 2
+
+Remark: 512 = 2^9 = (2^3)^3
+
+Bicliques> NBGen complete 4 3 2 | NBDPreduction 2,3 0 1 > OUTS
+Bicliques> diff OUT OUTS
+3a4
+> Cred-us        41472
+
+
+II A larger example, testing commutativity-modulo-subsumption in the
 boolean case:
 
 Bicliques> time BRG "3000*200,5" | Dimacs2NOBOCONF.awk | ./NBDPreduction 3,5,13,20,101 1 1 > OUT1.cnf

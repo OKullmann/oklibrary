@@ -6,11 +6,27 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*
-  Generating the NB-CNFs as given in NBgenerators.hpp
+  Generating the NB-CNFs as given in NBgenerators.hpp, in
+  NOBOCONF format.
 
 
 EXAMPLES:
 
+> NBGen complete n D m
+ - n : number of variables
+ - D : uniform domain-size
+ - m : clause-multiplicity
+> NBGen complete 2 2 2
+n 2
+c 8
+0:0 1:0 0
+0:0 1:0 0
+0:1 1:0 0
+0:1 1:0 0
+0:0 1:1 0
+0:0 1:1 0
+0:1 1:1 0
+0:1 1:1 0
 
 
 */
