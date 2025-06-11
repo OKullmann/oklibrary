@@ -12,6 +12,9 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <vector>
+
+#include <cassert>
 
 #include <ProgramOptions/Environment.hpp>
 #include <Transformers/Generators/Random/Numbers.hpp>
@@ -23,7 +26,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.8",
+        "0.1.0",
         "11.6.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -57,6 +60,8 @@ namespace {
     return true;
   }
 
+  const unsigned initial_width = 4;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -75,4 +80,26 @@ int main(const int argc, const char* const argv[]) {
   std::cout << "\n" << GCS::comchar << " seeds: ";
   Environment::out_line(std::cout, seeds);
   std::cout << std::endl;
+
+  GenClauseSets::GClauseList F;
+  try { std::cin >> F; }
+  catch (std::exception& e) {
+    std::cerr << error << "SYNTAX ERROR with clause-list:\n"
+              << e.what() << "\n";
+    return 1;
+  }
+  assert(F.valid());
+  GenClauseSets::out_datacomment(std::cout, "nc", initial_width,
+                                 std::vector<GCS::var_t>{F.n(), F.c()});
+  std::cout << std::endl;
+
+  RandGen::RandGen_t g(seeds);
+  if (uniform)
+    if (inclusion) Algorithms::keep_krandom(F.F, k, g);
+    else Algorithms::erase_krandom(F.F, k, g);
+  else
+    if (inclusion) Algorithms::keep_prandom(F.F, p, g);
+    else Algorithms::erase_prandom(F.F, p, g);
+
+  std::cout << F;
 }
