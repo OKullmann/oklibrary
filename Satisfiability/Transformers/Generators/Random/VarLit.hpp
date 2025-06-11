@@ -57,6 +57,8 @@ TODOS:
 #include <cassert>
 #include <cstdint>
 
+#include <Numerics/NumBasicFunctions.hpp>
+
 namespace RandGen {
 
   typedef std::uint64_t var_t;
@@ -241,6 +243,13 @@ namespace RandGen {
   static_assert(clash(Lit(1,-1), Lit(1,1)));
   static_assert(not clash(Lit(2,1), Lit(2,2)));
   static_assert(not clash(Lit(2,-1), Lit(3,1)));
+
+  constexpr var_t hash(const Lit x) noexcept {
+    return FloatingPoint::hash_Int(x.convert());
+  }
+  static_assert(hash(Lit{}) == 0);
+  static_assert(hash(Lit(1,1)) == 6238072747940578789ULL);
+  static_assert(hash(Lit(1,-1)) == 13029008266876403067ULL);
 
 }
 
