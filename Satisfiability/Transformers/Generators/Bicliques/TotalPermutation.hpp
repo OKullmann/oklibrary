@@ -44,14 +44,10 @@ namespace TotalPermutation {
     res.push_back(F.first.n); res.push_back(F.first.c);
     namespace FP = FloatingPoint;
     res.push_back(FP::hash_UInt_range().apply(F.second,
-        [](const auto& C)noexcept{return FP::hash(C.size());}));
+        [](const auto& C)noexcept{return FP::hash_UInt(C.size());}));
     {FP::UInt_t seed = FP::hash_UInt_range()(res);
-     for (const auto& C : F.second) {
-       const auto cseed = FP::hash_UInt_range().apply(C,
-         [](const DimacsTools::Lit& x)noexcept{
-              return FP::hash_Int(x.convert());});
-       FP::hash_combine(seed, cseed);
-     }
+     for (const auto& C : F.second)
+       FP::hash_combine(seed, FP::hash_UInt_range()(C));
      res.push_back(seed);
     }
     return res;

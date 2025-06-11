@@ -354,6 +354,9 @@ namespace FloatingPoint {
   }
   static_assert(hash(uint_t(0)) == 0);
   static_assert(hash(uint_t(1)) == 824515495);
+  constexpr uint_t hash_uint(const uint_t x) noexcept {
+    return hash(x);
+  }
 
   inline constexpr UInt_t hash(UInt_t x) noexcept {
     x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
@@ -364,6 +367,9 @@ namespace FloatingPoint {
   static_assert(hash(UInt_t(0)) == 0);
   static_assert(hash(UInt_t(1)) == 6238072747940578789ULL);
   static_assert(hash(UInt_t(-1)) == 13029008266876403067ULL);
+  constexpr UInt_t hash_UInt(const UInt_t x) noexcept {
+    return hash(x);
+  }
 
 
   inline constexpr UInt_t hash_Int(const Int_t x) noexcept {
@@ -385,8 +391,14 @@ namespace FloatingPoint {
   inline void hash_combine(uint_t& seed, uint_t other) noexcept {
     seed ^= other + golden_ratio_u32 + (seed<<6) + (seed>>2);
   }
+  void hash_combine_uint(uint_t& seed, const uint_t other) noexcept {
+    return hash_combine(seed, other);
+  }
   inline void hash_combine(UInt_t& seed, UInt_t other) noexcept {
     seed ^= other + golden_ratio_u64 + (seed<<12) + (seed>>4);
+  }
+  void hash_combine_UInt(UInt_t& seed, const UInt_t other) noexcept {
+    return hash_combine(seed, other);
   }
 
 
@@ -394,9 +406,9 @@ namespace FloatingPoint {
   inline UInt_t hash(const float80 x) noexcept {
     const RepFloat80 r(x);
     UInt_t seed = 5;
-    hash_combine(seed, hash(r.m));
-    hash_combine(seed, hash(r.be));
-    hash_combine(seed, hash(1*r.neg + 2*r.nan + 4*r.inf));
+    hash_combine_UInt(seed, hash(r.m));
+    hash_combine_UInt(seed, hash(r.be));
+    hash_combine_UInt(seed, hash(1*r.neg + 2*r.nan + 4*r.inf));
     return seed;
   }
   inline UInt_t hash(const float64 x) noexcept {
@@ -406,7 +418,7 @@ namespace FloatingPoint {
   // needs constexpr with C++23:
   inline UInt_t hash(const F80ai x) noexcept {
     UInt_t seed = hash(x.x);
-    hash_combine(seed, hash(1*x.isint + 2*x.hasplus + 4*x.hase0));
+    hash_combine_UInt(seed, hash(1*x.isint + 2*x.hasplus + 4*x.hase0));
     return seed;
   }
 
@@ -421,27 +433,27 @@ namespace FloatingPoint {
     template <class RAN>
     constexpr UInt_t operator ()(const RAN& r) const noexcept {
       UInt_t seed = r.size();
-      for (const auto& x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine_UInt(seed, hash(x));
       return seed;
     }
     template <class RAN, class FUN>
     constexpr UInt_t apply(const RAN& r, const FUN& hash) const noexcept {
       UInt_t seed = r.size();
-      for (const auto& x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine_UInt(seed, hash(x));
       return seed;
     }
     template <typename T>
     constexpr UInt_t operator ()(const std::initializer_list<T>& r)
       const noexcept {
       UInt_t seed = r.size();
-      for (const auto& x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine_UInt(seed, hash(x));
       return seed;
     }
     template <typename T, class FUN>
     constexpr UInt_t apply(const std::initializer_list<T>& r,
                  const FUN& hash) const noexcept {
       UInt_t seed = r.size();
-      for (const auto& x : r) hash_combine(seed, hash(x));
+      for (const auto& x : r) hash_combine_UInt(seed, hash(x));
       return seed;
     }
   };
