@@ -75,6 +75,10 @@ License, or any later version. */
       the apply-member-template takes the hash-function explicitly
       as argument
 
+    - convenience-wrappers of hash_UInt_range, for ranges of ranges:
+     - hash_sizes(RAN r) -> UInt_t
+     - hash_ranges(RAN r, UInt_t seed) -> UInt_t
+
     See ProgramOptions/Strings.hpp for a hash-function for strings,
     and Random/VarLit.hpp for a hash-function for Lit.
 
@@ -85,6 +89,7 @@ License, or any later version. */
 
 #include <numbers>
 #include <numeric>
+#include <array>
 
 #include <cmath>
 
@@ -481,7 +486,33 @@ namespace FloatingPoint {
   };
   static_assert(hash_UInt_range()(std::initializer_list<int>{}) == 0);
   static_assert(hash_UInt_range()({0,1,2}) == 7962449136380669187ULL);
+  static_assert(hash_UInt_range()({UInt_t(2),UInt_t(2),UInt_t(2)}) ==
+                9938619543513371241ULL);
   static_assert(hash_UInt_range()({0.0,1.0,2.0}) == 17664979641484437695ULL);
+  static_assert(hash_UInt_range()({UInt_t(5),UInt_t(2),
+                      UInt_t(17115513403910344103ULL)})
+                == 5758276966762890889ULL);
+
+  // For a range of ranges, hashing the sizes:
+  template <class RAN>
+  constexpr UInt_t hash_sizes(const RAN& r) noexcept {
+    return hash_UInt_range().apply(r,
+        [](const auto& x)noexcept{return hash_UInt(x.size());});
+  }
+  static_assert(hash_sizes(std::array<std::array<int,2>,3>{}) ==
+                9938619543513371241ULL);
+
+  // For a range of ranges, start with seed, and apply hash_UInt_range:
+  template <class RAN>
+  constexpr UInt_t hash_ranges(const RAN& r, UInt_t seed) noexcept {
+    for (const auto& x : r)
+      hash_combine_UInt(seed, hash_UInt_range()(x));
+    return seed;
+  }
+  static_assert(hash_ranges(
+      std::initializer_list<std::initializer_list<int>>{{1,-2},{3}},
+      5758276966762890889ULL)
+                == 11180425951301671036ULL);
 
 }
 
