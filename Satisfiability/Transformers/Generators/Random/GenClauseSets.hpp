@@ -350,7 +350,8 @@ namespace GenClauseSets {
   template <class RANGE>
   void out_datacomment(std::ostream& out, const std::string& name,
                        const count_t width, const RANGE& r,
-                       const std::string& sep = " ", const std::streamsize w = 0) {
+                       const std::string& sep = " ",
+                       const std::streamsize w = 0) {
     const std::string header = std::string(1,comchar) + name;
     const count_t nwidth = std::max(width, header.size());
     const auto flags = out.flags();
