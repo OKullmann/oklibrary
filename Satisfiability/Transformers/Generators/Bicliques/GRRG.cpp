@@ -269,8 +269,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.2.0",
-        "16.5.2025",
+        "0.2.1",
+        "10.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/GRGG.cpp",
@@ -293,7 +293,7 @@ namespace {
     " graph-type : " << Environment::WRP<GR::GT>{} << "; \"+\" means"
     " with loops\n"
     " n          : number of vertices (<= 4294967295 for G(n,m))\n"
-    " m|p        : number m of clauses or probability p = \"num/denom\"\n"
+    " m|p        : number m of edges or probability p = \"num/denom\"\n"
     " seeds      : "; RG::explanation_seeds(std::cout, 12);
     std::cout <<
     " format     : " << Environment::WRP<GR::GrFo>{} << "\n"
