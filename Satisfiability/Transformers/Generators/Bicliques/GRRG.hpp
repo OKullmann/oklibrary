@@ -55,7 +55,7 @@ namespace GRRG {
   // m resp. (nom,den) and is_uniform:
   typedef std::tuple<UInt_t, RandGen::Prob64, bool> edges_info_t;
 
-  edges_info_t read_mp_arg(std::string arg,
+  edges_info_t read_mp_arg(const std::string& arg,
                            const std::string& error) noexcept {
     edges_info_t res{0,{0,1},true};
     if (arg.contains('/')) {
