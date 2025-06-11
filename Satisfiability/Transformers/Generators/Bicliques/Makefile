@@ -8,7 +8,7 @@
 oklibloc = ../../../..
 
 
-opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC GRRG NBDPreduction NBGen
+opt_progs = BCC2SAT BCCbySAT GraphGen CNF2cg CNF2statscg 2QCNF2aCNF CNFBCC QCNF2gCNF GCGeq Disassemble GSM CNFstats Graph2BCcompGraph MaxIndependentGreedy DirStatistics Graph2Matrix QDimacsSyntax CNFbsb DirEqual DirExtract DirStdCNF Bipart2SAT DirBipart DirCopy DirCNF2MCNF DirEcg2 DirEbccom2 TotalPermutation TotalPermutation2 RemoveVarGaps MaxIndependent2MaxSAT GraphConversion MaxIndependentRedumis MinVertexCoverFastVC GRRG NBDPreduction NBGen NBsel
 
 popt_progs = $(addprefix p-, $(opt_progs))
 
@@ -145,6 +145,9 @@ NBDPreduction_debug : NBDPreduction.cpp GenResolution.hpp Algorithms.hpp
 
 NBGen : NBGen.cpp NBgenerators.hpp
 NBGen_debug : NBGen.cpp NBgenerators.hpp
+
+NBsel : NBsel.cpp NBsel.hpp GRRG.hpp
+NBsel_debug : NBsel.cpp NBsel.hpp GRRG.hpp
 
 # -------------------------
 

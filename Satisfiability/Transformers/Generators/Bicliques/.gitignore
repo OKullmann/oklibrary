@@ -84,4 +84,6 @@
 /NBDPreduction_debug
 /NBGen
 /NBGen_debug
+/NBsel
+/NBsel_debug
 /*.cnf
