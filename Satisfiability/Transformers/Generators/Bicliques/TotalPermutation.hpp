@@ -24,6 +24,20 @@ namespace TotalPermutation {
     else return "";
   }
 
+  /*
+    The seed of a CLS F is an eseed-vector of length 4:
+     1. n
+     2. c
+     3. h0 : Combining the hashes of C.size() for C in F, seeded with c.
+     4. h1 : Seeding with FP::hash_UInt_range()({n,c,h0,0}), combining the
+        hashes of the literals of F (as int's, in the given order).
+
+    Concept for F:
+      - as DimacsClauseList, has F.first and F.second
+      - F.first has .n and .c
+      - F.second is a range of ranges CL, where CL is a range
+        of DimacsTools::Lit.
+  */
   template <class CLS>
   RandGen::vec_eseed_t seeds(const CLS& F) noexcept {
     RandGen::vec_eseed_t res;
