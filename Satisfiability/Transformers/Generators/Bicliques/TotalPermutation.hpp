@@ -29,7 +29,7 @@ namespace TotalPermutation {
      1. n
      2. c
      3. h0 : Combining the hashes of C.size() for C in F, seeded with c.
-     4. h1 : Seeding with FP::hash_UInt_range()({n,c,h0,0}), combining the
+     4. h1 : Seeding with FP::hash_UInt_range()({n,c,h0}), combining the
         hashes of the literals of F (as int's, in the given order).
 
     Concept for F:
@@ -43,13 +43,8 @@ namespace TotalPermutation {
     RandGen::vec_eseed_t res;
     res.push_back(F.first.n); res.push_back(F.first.c);
     namespace FP = FloatingPoint;
-    res.push_back(FP::hash_UInt_range().apply(F.second,
-        [](const auto& C)noexcept{return FP::hash_UInt(C.size());}));
-    {FP::UInt_t seed = FP::hash_UInt_range()(res);
-     for (const auto& C : F.second)
-       FP::hash_combine(seed, FP::hash_UInt_range()(C));
-     res.push_back(seed);
-    }
+    res.push_back(FP::hash_sizes(F.second));
+    res.push_back(FP::hash_ranges(F.second, FP::hash_UInt_range()(res)));
     return res;
   }
 
