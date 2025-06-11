@@ -44,11 +44,18 @@ License, or any later version. */
 
   Hashing:
 
-    - hash(UInt_t)  -> UInt_t
-    - hash(uint_t)  -> uint_t
-    - hash_Int(Int_t) -> UInt_t
-    - hash(int)     -> UInt_t
+    - hash(UInt_t) -> UInt_t
+      hash_UInt
+    - hash(uint_t) -> uint_t (different from UInt_t)
+      hash_uint
+    - hash(Int_t) -> UInt_t (reduces to UInt_t)
+      hash_Int
+    - hash(int) -> UInt_t (special case of Int_t)
+      hash_int
+
     - hash(float80) -> UInt_t
+    - hash(float64) -> UInt_t (special case of float80)
+    - hash(F80ai) -> UInt_t
 
     For user-defined types X a function
       hash(X) -> UInt_t
@@ -57,16 +64,19 @@ License, or any later version. */
     Tools for combining hash-values:
 
     - hash_combine(UInt_t& seed, UInt_t other)
+      hash_combine_UInt
     - hash_combine(uint_t& seed, uint_t other)
+      hash_combine_UInt
 
     - functor hash_UInt_range with member-operator (), taking
-      a range of values x, assuming hash(x) is defined) as argument,
+      a range of values x (assuming hash(x) is defined) as argument,
       and producing a UInt_t hash-value (also a brace-enclosed
       initialiser-list is possible);
       the apply-member-template takes the hash-function explicitly
       as argument
 
-    (see ProgramOptions/Strings.hpp for a hash-function for strings).
+    See ProgramOptions/Strings.hpp for a hash-function for strings,
+    and Random/VarLit.hpp for a hash-function for Lit.
 
 */
 
@@ -86,7 +96,7 @@ License, or any later version. */
 namespace FloatingPoint {
 
   inline CONSTEXPR float80 abs(const float80 x) noexcept {
-    return std::fabs(x); // ERROR with gcc 10.1: std::fabsl not available
+    return std::fabsl(x);
   }
   STATIC_ASSERT(abs(0) == 0);
   STATIC_ASSERT(abs(1) == 1);
@@ -101,7 +111,7 @@ namespace FloatingPoint {
 
 
   inline CONSTEXPR float80 log(const float80 x) noexcept {
-    return std::log(x); // ERROR with gcc 10.2: std::logl not available
+    return std::logl(x);
   }
   STATIC_ASSERT(log(1) == 0);
   STATIC_ASSERT(log(4) == 2*log(2));
@@ -120,7 +130,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(log1p(1e-1000L) == 1e-1000L);
 
   inline CONSTEXPR float80 log10(const float80 x) noexcept {
-    return std::log10(x); // ERROR with gcc 10.2: std::log10l not available
+    return std::log10l(x);
   }
   STATIC_ASSERT(log10(10) == 1);
 
@@ -143,7 +153,7 @@ namespace FloatingPoint {
 
 
   inline CONSTEXPR float80 exp(const float80 x) noexcept {
-    return std::exp(x); // ERROR with gcc 10.2: std::expl not available
+    return std::expl(x);
   }
   STATIC_ASSERT(exp(0) == 1);
   STATIC_ASSERT(exp(2) == exp(1)*exp(1));
@@ -162,7 +172,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(expm1(1) == eulerm1);
 
   inline CONSTEXPR float80 pow(const float80 x, const float80 y) noexcept {
-    return std::pow(x,y); // ERROR with gcc 10.2: std::powl not available
+    return std::powl(x,y);
   }
   STATIC_ASSERT(pow(0,0) == 1);
   STATIC_ASSERT(pow(2,-1) == 0.5);
@@ -182,7 +192,7 @@ namespace FloatingPoint {
 
   // x * 2^x:
   inline CONSTEXPR float80 ldexp(const float80 x, const int exp) noexcept {
-    return std::ldexp(x, exp); // ERROR with gcc 10.3: std::ldexpl not available
+    return std::ldexpl(x, exp);
   }
   STATIC_ASSERT(ldexp(1,-1000) == pow(2,-1000));
   STATIC_ASSERT(ldexp(ldexp(P264m1,10000),-10000) == P264m1);
@@ -190,31 +200,31 @@ namespace FloatingPoint {
 
 
   inline CONSTEXPR float80 sin(const float80 x) noexcept {
-    return std::sin(x); // ERROR with gcc 10.2: std::sinl not available
+    return std::sinl(x);
   }
   STATIC_ASSERT(sin(0) == 0);
   inline CONSTEXPR float80 cos(const float80 x) noexcept {
-    return std::cos(x); // ERROR with gcc 10.2: std::cosl not available
+    return std::cosl(x);
   }
   STATIC_ASSERT(cos(0) == 1);
   inline CONSTEXPR float80 tan(const float80 x) noexcept {
-    return std::tan(x); // ERROR with gcc 10.2: std::tanl not available
+    return std::tanl(x);
   }
   STATIC_ASSERT(tan(0) == 0);
   inline CONSTEXPR float80 asin(const float80 x) noexcept {
-    return std::asin(x); // ERROR with gcc 10.2: std::asinl not available
+    return std::asinl(x);
   }
   STATIC_ASSERT(asin(0) == 0);
   inline CONSTEXPR float80 acos(const float80 x) noexcept {
-    return std::acos(x); // ERROR with gcc 10.2: std::acosl not available
+    return std::acosl(x);
   }
   STATIC_ASSERT(acos(1) == 0);
   inline CONSTEXPR float80 atan(const float80 x) noexcept {
-    return std::atan(x); // ERROR with gcc 10.2: std::acosl not available
+    return std::atanl(x);
   }
   STATIC_ASSERT(atan(0) == 0);
   inline CONSTEXPR float80 atan2(const float80 x, const float80 y) noexcept {
-    return std::atan2(x,y); // ERROR with gcc 10.2: std::atan2l not available
+    return std::atan2l(x,y);
   }
   STATIC_ASSERT(atan2(0,0) == 0);
   STATIC_ASSERT(atan2(-1,0) == -acos(0));
@@ -245,7 +255,7 @@ namespace FloatingPoint {
   static_assert(sq(-1) == 1);
 
   inline CONSTEXPR float80 sqrt(const float80 x) noexcept {
-    return std::sqrt(x); // ERROR with gcc 10.2: std::sqrtl not available
+    return std::sqrtl(x);
   }
   STATIC_ASSERT(sqrt(0) == 0);
   STATIC_ASSERT(sqrt(1) == 1);
@@ -346,64 +356,69 @@ namespace FloatingPoint {
     Hashing
   */
 
-  inline constexpr uint_t hash(uint_t x) noexcept {
+  inline constexpr uint_t hash_uint(uint_t x) noexcept {
     x = ((x >> 16) ^ x) * 0x45d9f3bU;
     x = ((x >> 16) ^ x) * 0x45d9f3bU;
     x = (x >> 16) ^ x;
     return x;
   }
+  constexpr uint_t hash(const uint_t x) noexcept {
+    return hash_uint(x);
+  }
   static_assert(hash(uint_t(0)) == 0);
   static_assert(hash(uint_t(1)) == 824515495);
-  constexpr uint_t hash_uint(const uint_t x) noexcept {
-    return hash(x);
-  }
 
-  inline constexpr UInt_t hash(UInt_t x) noexcept {
+  inline constexpr UInt_t hash_UInt(UInt_t x) noexcept {
     x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
     x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
     x = x ^ (x >> 31);
     return x;
   }
+  constexpr UInt_t hash(const UInt_t x) noexcept {
+    return hash_UInt(x);
+  }
   static_assert(hash(UInt_t(0)) == 0);
   static_assert(hash(UInt_t(1)) == 6238072747940578789ULL);
   static_assert(hash(UInt_t(-1)) == 13029008266876403067ULL);
-  constexpr UInt_t hash_UInt(const UInt_t x) noexcept {
-    return hash(x);
-  }
 
 
   inline constexpr UInt_t hash_Int(const Int_t x) noexcept {
     return hash(UInt_t(x));
   }
-  static_assert(hash_Int(0) == 0);
-  static_assert(hash_Int(1) == 6238072747940578789ULL);
-  static_assert(hash_Int(-1) == 13029008266876403067ULL);
+  constexpr UInt_t hash(const Int_t x) noexcept {
+    return hash_Int(x);
+  }
+  static_assert(hash(Int_t(0)) == 0);
+  static_assert(hash(Int_t(1)) == 6238072747940578789ULL);
+  static_assert(hash(Int_t(-1)) == 13029008266876403067ULL);
 
-  inline constexpr UInt_t hash(const int x) noexcept {
+  inline constexpr UInt_t hash_int(const int x) noexcept {
     static_assert(std::numeric_limits<int>::digits <= 63);
     return hash(UInt_t(x));
+  }
+  constexpr UInt_t hash(const int x) noexcept {
+    return hash_int(x);
   }
   static_assert(hash(0) == 0);
   static_assert(hash(1) == 6238072747940578789ULL);
   static_assert(hash(-1) == 13029008266876403067ULL);
 
 
-  inline void hash_combine(uint_t& seed, uint_t other) noexcept {
+  constexpr void hash_combine_uint(uint_t& seed, uint_t other) noexcept {
     seed ^= other + golden_ratio_u32 + (seed<<6) + (seed>>2);
   }
-  void hash_combine_uint(uint_t& seed, const uint_t other) noexcept {
-    return hash_combine(seed, other);
+  constexpr void hash_combine(uint_t& seed, const uint_t other) noexcept {
+    return hash_combine_uint(seed, other);
   }
-  inline void hash_combine(UInt_t& seed, UInt_t other) noexcept {
+  constexpr void hash_combine_UInt(UInt_t& seed, UInt_t other) noexcept {
     seed ^= other + golden_ratio_u64 + (seed<<12) + (seed>>4);
   }
-  void hash_combine_UInt(UInt_t& seed, const UInt_t other) noexcept {
-    return hash_combine(seed, other);
+  constexpr void hash_combine(UInt_t& seed, const UInt_t other) noexcept {
+    return hash_combine_UInt(seed, other);
   }
 
 
-  // needs constexpr with C++23:
-  inline UInt_t hash(const float80 x) noexcept {
+  constexpr UInt_t hash(const float80 x) noexcept {
     const RepFloat80 r(x);
     UInt_t seed = 5;
     hash_combine_UInt(seed, hash(r.m));
@@ -411,16 +426,23 @@ namespace FloatingPoint {
     hash_combine_UInt(seed, hash(1*r.neg + 2*r.nan + 4*r.inf));
     return seed;
   }
-  inline UInt_t hash(const float64 x) noexcept {
+  static_assert(hash(float80(0)) == 4962778281351967142ULL);
+  static_assert(hash(float80(-0.0)) == 11128757977616285571ULL);
+  static_assert(hash(NaN) == 2355714540944813352ULL);
+  static_assert(hash(pinfinity) == 18195357615279250098ULL);
+  static_assert(hash(minfinity) == 18275595512282103802ULL);
+  constexpr UInt_t hash(const float64 x) noexcept {
     return hash(float80(x));
   }
+  static_assert(hash(0.0) == 4962778281351967142ULL);
+  static_assert(hash(-0.0) == 11128757977616285571ULL);
 
-  // needs constexpr with C++23:
-  inline UInt_t hash(const F80ai x) noexcept {
+  constexpr UInt_t hash(const F80ai x) noexcept {
     UInt_t seed = hash(x.x);
     hash_combine_UInt(seed, hash(1*x.isint + 2*x.hasplus + 4*x.hase0));
     return seed;
   }
+  static_assert(hash(F80ai(0)) == 15208958856954972822ULL);
 
 
   /*
@@ -458,6 +480,8 @@ namespace FloatingPoint {
     }
   };
   static_assert(hash_UInt_range()(std::initializer_list<int>{}) == 0);
+  static_assert(hash_UInt_range()({0,1,2}) == 7962449136380669187ULL);
+  static_assert(hash_UInt_range()({0.0,1.0,2.0}) == 17664979641484437695ULL);
 
 }
 

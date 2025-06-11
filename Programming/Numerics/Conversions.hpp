@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.12.2021 (Swansea)
-/* Copyright 2021 Oliver Kullmann
+/* Copyright 2021, 2025 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -51,7 +51,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(round(P264m1) == P264m1);
 
   inline CONSTEXPR float80 floor(const float80 x) noexcept {
-    return std::floor(x); // ERROR with gcc 10.2: std::floorl not available
+    return std::floorl(x);
   }
   STATIC_ASSERT(floor(0.0) == 0);
   STATIC_ASSERT(floor(0.1) == 0);
@@ -72,7 +72,7 @@ namespace FloatingPoint {
   STATIC_ASSERT(trunc(-1) == -1);
 
   inline CONSTEXPR float80 ceil(const float80 x) noexcept {
-    return std::ceil(x); // ERROR with gcc 10.2: std::ceill not available
+    return std::ceill(x);
   }
   STATIC_ASSERT(ceil(0.0) == 0);
   STATIC_ASSERT(ceil(0.1) == 1);
@@ -143,11 +143,10 @@ namespace FloatingPoint {
     bool neg = false, nan = false, inf=false;
 
     constexpr RepFloat80() noexcept = default;
-    // needs constexpr with C++23:
-    RepFloat80(const float80 x) noexcept :
+    constexpr RepFloat80(const float80 x) noexcept :
     neg(std::signbit(x)), nan(isnan(x)), inf(isinf(x)) {
       if (not nan and not inf and x != 0) {
-        m = std::ldexp(std::frexp(std::abs(x), &be), 64);
+        m = std::ldexpl(std::frexpl(std::fabsl(x), &be), 64);
         be -= 64;
       }
       assert(fulleq(x, operator float80()));
@@ -171,7 +170,7 @@ namespace FloatingPoint {
     }
 
     constexpr int negf() const noexcept { return neg ? -1 : +1; }
-    explicit operator float80() const noexcept {
+    explicit constexpr operator float80() const noexcept {
       if (nan) return neg ? -NaN : NaN;
       else if (inf) return neg ? minfinity : pinfinity;
       else if (m == 0) return neg ? -0.0L : 0;
