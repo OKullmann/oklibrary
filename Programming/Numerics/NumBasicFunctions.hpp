@@ -50,11 +50,17 @@ License, or any later version. */
     - hash(int)     -> UInt_t
     - hash(float80) -> UInt_t
 
+    For user-defined types X a function
+      hash(X) -> UInt_t
+    can be provided in the namespace of X.
+
+    Tools for combining hash-values:
+
     - hash_combine(UInt_t& seed, UInt_t other)
     - hash_combine(uint_t& seed, uint_t other)
 
     - functor hash_UInt_range with member-operator (), taking
-      a range of values (with above-provided hash-functions) as argument,
+      a range of values x, assuming hash(x) is defined) as argument,
       and producing a UInt_t hash-value (also a brace-enclosed
       initialiser-list is possible);
       the apply-member-template takes the hash-function explicitly
@@ -405,34 +411,41 @@ namespace FloatingPoint {
   }
 
 
+  /*
+    The empty range has always hash 0.
+    Equal ranges (according to std::ranges::equal) have equal hash-values,
+    given that the underlying ==-relation respects hash-values.
+  */
   struct hash_UInt_range {
     typedef UInt_t return_type;
     template <class RAN>
-    UInt_t operator ()(const RAN& r) const noexcept {
+    constexpr UInt_t operator ()(const RAN& r) const noexcept {
       UInt_t seed = r.size();
       for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <class RAN, class FUN>
-    UInt_t apply(const RAN& r, const FUN& hash) const noexcept {
+    constexpr UInt_t apply(const RAN& r, const FUN& hash) const noexcept {
       UInt_t seed = r.size();
       for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <typename T>
-    UInt_t operator ()(const std::initializer_list<T>& r) noexcept {
+    constexpr UInt_t operator ()(const std::initializer_list<T>& r)
+      const noexcept {
       UInt_t seed = r.size();
       for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
     template <typename T, class FUN>
-    UInt_t apply(const std::initializer_list<T>& r,
-                 const FUN& hash) noexcept {
+    constexpr UInt_t apply(const std::initializer_list<T>& r,
+                 const FUN& hash) const noexcept {
       UInt_t seed = r.size();
       for (const auto& x : r) hash_combine(seed, hash(x));
       return seed;
     }
   };
+  static_assert(hash_UInt_range()(std::initializer_list<int>{}) == 0);
 
 }
 

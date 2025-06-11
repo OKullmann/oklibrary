@@ -45,8 +45,8 @@ TODOS:
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.14.2",
-        "14.5.2025",
+        "0.14.3",
+        "11.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Programming/Numerics/Test.cpp",
@@ -1546,6 +1546,16 @@ int main(const int argc, const char* const argv[]) {
    assert(hash_UInt_range()(v_t{0}) == 11400714819323202583ULL);
    assert(hash_UInt_range()(v_t{1}) == 17638787567263781370ULL);
    assert(hash_UInt_range()(v_t{0,0}) == 9332004819663780291ULL);
+   assert(hash_UInt_range()(v_t{0,44,22,789}) == 77888561583915561ULL);
+   assert(hash_UInt_range()(v_t{P264m1}) == 5982979012490054032ULL);
+   assert(hash_UInt_range()(v_t{P264m1,0,P264m1-1,77}) ==
+          95846405864963175ULL);
+  }
+  {assert(hash_UInt_range()({0}) == 11400714819323202583ULL);
+   assert(hash_UInt_range()({1}) == 17638787567263781370ULL);
+   assert(hash_UInt_range()({0,44,22,789}) == 77888561583915561ULL);
+   assert(hash_UInt_range()({-1,0,-2,77}) ==
+          95846405864963175ULL);
   }
 
   {using tt = Environment::tokens_t;
