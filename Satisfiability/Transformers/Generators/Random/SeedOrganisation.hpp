@@ -83,6 +83,7 @@ License, or any later version. */
 
 #include <string>
 #include <algorithm>
+#include <exception>
 
 // Guaranteed to be included:
 #include "Numbers.hpp"
@@ -110,6 +111,8 @@ namespace SeedOrganisation {
     block_uniform_dqcnf = 2,
     block_uniform_dqcnf_planteda1 = 3,
     block_uniform_dqcnf_plantede1 = 4,
+    block_noboconf = 5,
+    select_noboconf = 6,
   };
   std::string default_filestem(const Logic t) {
     using enum Logic;
@@ -117,8 +120,12 @@ namespace SeedOrganisation {
     case block_uniform_cnf : return "BlRaGe";
     case block_uniform_qcnf : return "QuBlRaGe";
     case block_uniform_dqcnf : return "DeQuBlRaGe";
-    default : return "NOT_IMPLEMENTED";
-    }
+    case block_noboconf : return "BlNBRaGe";
+    case select_noboconf : return "SelNBRa";
+    case block_uniform_dqcnf_planteda1 : [[fallthrough]];
+    case block_uniform_dqcnf_plantede1 : return "NOT_IMPLEMENTED";}
+    throw std::domain_error(std::string("RandGen::default_filestem(Logic): "
+      "not valid t=") + std::to_string(int(t)));
   }
   std::string default_filesuffix(const Logic t) {
     using enum Logic;
@@ -126,8 +133,12 @@ namespace SeedOrganisation {
     case block_uniform_cnf : return ".dimacs";
     case block_uniform_qcnf : return ".qdimacs";
     case block_uniform_dqcnf : return ".dqdimacs";
-    default : return "NOT_IMPLEMENTED";
-    }
+    case block_noboconf : return ".nbcnf";
+    case select_noboconf : return ".nbcnf";
+    case block_uniform_dqcnf_planteda1 : [[fallthrough]];
+    case block_uniform_dqcnf_plantede1 : return "NOT_IMPLEMENTED";}
+    throw std::domain_error(std::string("RandGen::default_filesuffix(Logic): "
+      "not valid t=") + std::to_string(int(t)));
   }
 
   enum class Combinatorics : eseed_t {
@@ -135,9 +146,10 @@ namespace SeedOrganisation {
   };
   std::string default_filestem(const Combinatorics t) {
     switch (t) {
-    case Combinatorics::latin_squares : return "LSRG";
-    default : return "NOT_IMPLEMENTED";
-    }
+    case Combinatorics::latin_squares : return "LSRG";}
+    throw std::domain_error(
+      std::string("RandGen::default_filestem(Combinatorics): "
+      "not valid t=") + std::to_string(int(t)));
   }
 
   enum class GraphTheory : eseed_t {
@@ -145,9 +157,10 @@ namespace SeedOrganisation {
   };
   std::string default_filestem(const GraphTheory t) {
     switch (t) {
-    case GraphTheory::uniformbinom : return "GRRG";
-    default : return "NOT_IMPLEMENTED";
-    }
+    case GraphTheory::uniformbinom : return "GRRG";}
+    throw std::domain_error(
+      std::string("RandGen::default_filestem(GraphTheory)): "
+      "not valid t=") + std::to_string(int(t)));
   }
 
   // The number of generic parameters (in the second block, without the final
@@ -156,22 +169,24 @@ namespace SeedOrganisation {
 
   template <> struct NumGenParams<Logic> {
     constexpr eseed_t operator()(const Logic l) noexcept {
+      using enum Logic;
       switch(l) {
-      case Logic::block_uniform_cnf : return 3; break;
+      case block_uniform_cnf : return 3;
+      case select_noboconf : return 1; // inclusion/exclusion
       default : return 3;}
     }
   };
   template <> struct NumGenParams<Combinatorics> {
     constexpr eseed_t operator()(const Combinatorics c) noexcept {
       switch(c) {
-      case Combinatorics::latin_squares : return 2; break;
+      case Combinatorics::latin_squares : return 2;
       default : return 2;}
     }
   };
   template <> struct NumGenParams<GraphTheory> {
     constexpr eseed_t operator()(const GraphTheory g) noexcept {
       switch(g) {
-      case GraphTheory::uniformbinom : return 2; break; // graph-type + loops
+      case GraphTheory::uniformbinom : return 2; // graph-type + loops
       default : return 1;}
     }
   };
@@ -185,6 +200,8 @@ namespace SeedOrganisation {
 
   constexpr eseed_t dqbrg_timestamp = 1609092751610097777L;
   constexpr eseed_t dqbrg_variant = 0;
+
+  constexpr eseed_t nbsel_timestamp = 1749600226408680268L;
 
   constexpr eseed_t lsrg_timestamp = 1609092786237186306L;
 
