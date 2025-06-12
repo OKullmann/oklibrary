@@ -81,8 +81,12 @@ License, or any later version. */
      - hash_sizes(RAN r) -> UInt_t
      - hash_ranges(RAN r, UInt_t seed) -> UInt_t
 
-    See ProgramOptions/Strings.hpp for a hash-function for strings,
-    and Random/VarLit.hpp for a hash-function for Lit.
+    Hashfunctions for other types:
+     - ProgramOptions/Strings.hpp for strings
+     - Random/VarLit.hpp for Lit
+     - Bicliques/TotalPermutation.hpp for hash(CLS F), where CLS
+       covers DimacsClauseList and variations (which are all
+       typedefs).
 
 */
 

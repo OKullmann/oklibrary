@@ -17,8 +17,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.5",
-        "11.6.2025",
+        "0.0.6",
+        "12.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/TestTotalPermutation.cpp",
@@ -39,10 +39,12 @@ int main(const int argc, const char* const argv[]) {
               {0,0,0,4962778143753605888LLU}));
    assert(eqp(seeds(DimacsClauseList{{5,0},{}}),
               {5,0,0,17253265039582258950LLU}));
-   assert(eqp(seeds((DimacsClauseList{{5,1},{{}}})),
+   assert(eqp(seeds(DimacsClauseList{{5,1},{{}}}),
               {5,1,11400714819323202583ULL,3816381400296288825ULL}));
-   assert(eqp(seeds((DimacsClauseList{{5,2},{{Lit(1,1),Lit(2,-1)},{Lit(3,1)}}})),
+   assert(eqp(seeds(DimacsClauseList{{5,2},{{Lit(1,1),Lit(2,-1)},{Lit(3,1)}}}),
               {5,2,17115513403910344103ULL,11180425951301671036ULL}));
+   assert(hash(DimacsClauseList{{5,2},{{Lit(1,1),Lit(2,-1)},{Lit(3,1)}}})
+          == 11180425951301671036ULL);
   }
 
 }

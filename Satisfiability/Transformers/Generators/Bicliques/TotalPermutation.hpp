@@ -47,6 +47,10 @@ namespace TotalPermutation {
     res.push_back(FP::hash_ranges(F.second, FP::hash_UInt_range()(res)));
     return res;
   }
+  template <class CLS>
+  RandGen::gen_uint_t hash(const CLS& F) noexcept {
+    return seeds(F).back();
+  }
 
   typedef std::vector<RandGen::gen_uint_t> varvec_t;
   varvec_t random_variables(RandGen::RandGen_t& g,
