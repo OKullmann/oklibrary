@@ -9,6 +9,10 @@ License, or any later version. */
   Selection of a ramdom sub-CNF of input in NOBOCONF format,
   according to the uniform or binomial model
 
+  Similar to GRRG XXX
+
+  Similar to TotalPermutation XXX
+
 */
 
 #include <iostream>
@@ -26,8 +30,8 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.1.0",
-        "11.6.2025",
+        "0.1.1",
+        "12.6.2025",
         __FILE__,
         "Oliver Kullmann",
         "https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Bicliques/NBsel.cpp",
@@ -60,8 +64,6 @@ namespace {
     return true;
   }
 
-  const unsigned initial_width = 4;
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -89,11 +91,16 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
   assert(F.valid());
-  GenClauseSets::out_datacomment(std::cout, "nc", initial_width,
-                                 std::vector<GCS::var_t>{F.n(), F.c()});
-  std::cout << std::endl;
 
-  RandGen::RandGen_t g(seeds);
+  const auto add_seeds = hash_seq(F);
+  std::cout << GCS::comchar << " additional-seeds: ";
+  Environment::out_line(std::cout, add_seeds);
+  std::cout << std::endl;
+  const auto full_seeds = [&seeds, &add_seeds]{auto res = seeds;
+    res.insert(res.end(), add_seeds.begin(), add_seeds.end());
+                                               return res;}();
+  RandGen::RandGen_t g(full_seeds);
+
   if (uniform)
     if (inclusion) Algorithms::keep_krandom(F.F, k, g);
     else Algorithms::erase_krandom(F.F, k, g);
