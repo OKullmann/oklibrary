@@ -36,6 +36,7 @@ TODOS:
 #include <algorithm>
 
 #include <ProgramOptions/Strings.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
 
 // Guaranteed to be included:
 #include "GenLit.hpp"
@@ -344,6 +345,19 @@ namespace GenClauseSets {
     }
 
   };
+
+
+  std::vector<var_t> seeds(const GClauseList& F) noexcept {
+    std::vector<var_t> res;
+    res.push_back(F.n()); res.push_back(F.c());
+    namespace FP = FloatingPoint;
+    res.push_back(FP::hash_sizes(F.F));
+    res.push_back(FP::hash_ranges(F.F, FP::hash_UInt_range()(res)));
+    return res;
+  }
+  var_t hash(const GClauseList& F) noexcept {
+    return seeds(F).back();
+  }
 
 
   // Excluding final-end-of-line:

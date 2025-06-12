@@ -19,6 +19,9 @@ License, or any later version. */
 #include <ostream>
 #include <ranges>
 
+#include <Numerics/NumInOut.hpp>
+#include <Numerics/NumBasicFunctions.hpp>
+
 #include "GenLit.hpp"
 
 namespace GenClauses {
@@ -184,6 +187,12 @@ namespace GenClauses {
   bool is_standardised(const GClause& C) noexcept {
     return C.is_sorted() and not has_consecutive_clashes(C) and not tautological(C);
   }
+
+
+  constexpr GL::var_t hash(const GClause& C) noexcept {
+    return FloatingPoint::hash_UInt_range()(C.C);
+  }
+  static_assert(hash(GClause{}) == 0);
 
 
   bool varequal(const GClause& C, const GClause& D) noexcept {

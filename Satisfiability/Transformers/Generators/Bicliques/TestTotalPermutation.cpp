@@ -17,7 +17,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.0.6",
+        "0.0.7",
         "12.6.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -37,6 +37,8 @@ int main(const int argc, const char* const argv[]) {
    using DimacsTools::Lit;
    assert(eqp(seeds(DimacsClauseList{}),
               {0,0,0,4962778143753605888LLU}));
+   assert(eqp(seeds(DimacsClauseList{{0,1},{{}}}),
+              {0,1,11400714819323202583ULL,11530889576060306731ULL}));
    assert(eqp(seeds(DimacsClauseList{{5,0},{}}),
               {5,0,0,17253265039582258950LLU}));
    assert(eqp(seeds(DimacsClauseList{{5,1},{{}}}),

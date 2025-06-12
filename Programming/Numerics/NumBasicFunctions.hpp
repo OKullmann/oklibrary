@@ -86,7 +86,10 @@ License, or any later version. */
      - Random/VarLit.hpp for Lit
      - Bicliques/TotalPermutation.hpp for hash(CLS F), where CLS
        covers DimacsClauseList and variations (which are all
-       typedefs).
+       typedefs)
+     - Random/GenLit.hpp for VarVal
+     - Random/GClauses.hpp for GClause
+     - Random/GClauseSets.hpp for GClauseList.
 
 */
 

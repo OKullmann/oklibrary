@@ -195,6 +195,15 @@ namespace GenLit {
   static_assert(not clash(VarVal{2,0}, VarVal{3,1}));
 
 
+  constexpr var_t hash(const VarVal x) noexcept {
+    using namespace FloatingPoint;
+    var_t res = hash_UInt(x.v);
+    hash_combine_UInt(res, hash_UInt(x.e));
+    return res;
+  }
+  static_assert(hash(VarVal{}) == 11400714819323198486ULL);
+
+
   /*
     VarVal as iterator
   */
