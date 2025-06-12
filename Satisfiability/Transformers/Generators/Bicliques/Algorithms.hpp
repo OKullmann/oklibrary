@@ -722,7 +722,7 @@ namespace Algorithms {
             class HASH = trivial_hash<VEC>,
             class COMP= std::equal_to<typename VEC::value_type>>
   vec_equivs_t nt_eqel_byhash(const VEC& v,
-                              const HASH& hash = HASH(),
+                              HASH hash = HASH(),
                               const COMP& comp = COMP()) {
     using UInt_t = FloatingPoint::UInt_t;
     const UInt_t size = v.size();
