@@ -22,7 +22,7 @@ License, or any later version. */
 namespace {
 
   const Environment::ProgramInfo proginfo{
-        "0.5.9",
+        "0.5.10",
         "12.6.2025",
         __FILE__,
         "Oliver Kullmann",
@@ -517,22 +517,22 @@ int main(const int argc, const char* const argv[]) {
     assert(eqp(Fnew.dom, {0,0,0}));
    }
   }
-  {assert(eqp(seeds(GClauseList{}),
+  {assert(eqp(hash_seq(GClauseList{}),
               {0,0,0,4962778143753605888LLU}));
    assert(hash(GClauseList{}) == 4962778143753605888ULL);
-   assert(eqp(seeds(GClauseList({{}})),
+   assert(eqp(hash_seq(GClauseList({{}})),
               {0,1,11400714819323202583ULL,11530889576060306731ULL}));
    assert(hash(GClauseList({{}})) == 11530889576060306731ULL);
    {GClauseList F; F.dom.resize(5);
-    assert(eqp(seeds(F), {5,0,0,17253265039582258950LLU}));
+    assert(eqp(hash_seq(F), {5,0,0,17253265039582258950LLU}));
     assert(hash(F) == 17253265039582258950LLU);
     F.F.push_back({});
-    assert(eqp(seeds(F),
+    assert(eqp(hash_seq(F),
                {5,1,11400714819323202583ULL,3816381400296288825ULL}));
     assert(hash(F) == 3816381400296288825ULL);
     F.dom.resize(1);
     F.F.back().push_back({0,0});
-    assert(eqp(seeds(F),
+    assert(eqp(hash_seq(F),
                {1,1,17638787567263781370ULL,5623715064258893897ULL}));
     assert(hash(F) == 5623715064258893897ULL);
    }

@@ -82,7 +82,7 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string assignmentfile = assignment_file(argc, argv);
   kDimacsClauseList<2> F = read_strict_kDimacs<2>(std::cin);
-  const auto s = seeds(F);
+  const auto s = hash_seq(F);
   RandGen::RandGen_t g(s);
   RandGen::shuffle(F.second.begin(), F.second.end(), g);
 

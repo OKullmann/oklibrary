@@ -347,7 +347,7 @@ namespace GenClauseSets {
   };
 
 
-  std::vector<var_t> seeds(const GClauseList& F) noexcept {
+  std::vector<var_t> hash_seq(const GClauseList& F) noexcept {
     std::vector<var_t> res;
     res.push_back(F.n()); res.push_back(F.c());
     namespace FP = FloatingPoint;
@@ -356,7 +356,7 @@ namespace GenClauseSets {
     return res;
   }
   var_t hash(const GClauseList& F) noexcept {
-    return seeds(F).back();
+    return hash_seq(F).back();
   }
 
 

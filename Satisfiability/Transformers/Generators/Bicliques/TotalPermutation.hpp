@@ -39,7 +39,7 @@ namespace TotalPermutation {
         of DimacsTools::Lit.
   */
   template <class CLS>
-  RandGen::vec_eseed_t seeds(const CLS& F) noexcept {
+  RandGen::vec_eseed_t hash_seq(const CLS& F) noexcept {
     RandGen::vec_eseed_t res;
     res.push_back(F.first.n); res.push_back(F.first.c);
     namespace FP = FloatingPoint;
@@ -49,7 +49,7 @@ namespace TotalPermutation {
   }
   template <class CLS>
   RandGen::gen_uint_t hash(const CLS& F) noexcept {
-    return seeds(F).back();
+    return hash_seq(F).back();
   }
 
   typedef std::vector<RandGen::gen_uint_t> varvec_t;
