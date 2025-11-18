@@ -1,5 +1,5 @@
 // Matthew Gwynne, 7.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -103,6 +103,9 @@ maxima> hardness_wpi_cs(setify(ev_hm(ss_field_cnfs,[8,3])[2]),Mul3_F_primes[2]);
 
   \todo r_1-bases : mincl_r1 <= 80
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> Computing three r_1-bases:
    \verbatim
 > seed=1; RandomShuffleDimacs-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
