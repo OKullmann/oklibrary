@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -42,6 +42,7 @@ documentation_index : clean_up $(local_html_dir)
 	$(preprocessing_call) $(history_page_template) > $(history_page_output)
 	$(preprocessing_call) $(tenchallenges_page_template) > $(tenchallenges_page_output)
 	$(preprocessing_call) $(ramseytheory_page_template) > $(ramseytheory_page_output)
+	$(preprocessing_call) $(hardness_page_template) > $(hardness_page_output)
 	$(preprocessing_call) $(packagehistory_page_template) > $(packagehistory_page_output)
 	$(preprocessing_call) $(licence_page_template) > $(licence_page_output)
 	$(preprocessing_call) $(tutorial_page_template) > $(tutorial_page_output)
